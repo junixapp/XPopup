@@ -8,5 +8,8 @@ import android.view.View;
  */
 public interface PopupInterface {
     View getView();
-    View getAnimationDuration();
+    View getBackgroundView();
+    int getAnimationDuration();
+    void startAnimation();
+    void endAnimation();
 }

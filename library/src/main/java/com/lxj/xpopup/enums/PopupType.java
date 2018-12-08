@@ -7,5 +7,5 @@ package com.lxj.xpopup.enums;
 public enum PopupType {
     Center, // 中间显示类型
     Bottom, // 底部弹出的类型
-    Custom  // 自定义位置
+    Custom  // 自定义位置的类型，比如PopupMenu
 }
