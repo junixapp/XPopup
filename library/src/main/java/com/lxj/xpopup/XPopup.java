@@ -1,5 +1,6 @@
 package com.lxj.xpopup;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.os.Handler;
@@ -45,26 +46,25 @@ public class XPopup implements LifecycleObserver {
         if (context == null) {
             throw new IllegalArgumentException("context can not be null!");
         }
-        if (!(context instanceof FragmentActivity)) {
-            throw new IllegalArgumentException("context must be an instance of FragmentActivity");
+        if (!(context instanceof Activity)) {
+            throw new IllegalArgumentException("context must be an instance of Activity");
         }
-        FragmentActivity activity = (FragmentActivity) context;
+        Activity activity = (Activity) context;
         activityView = (ViewGroup) activity.getWindow().getDecorView();
-        Log.e("tag", activityView.getClass().getSimpleName());
 
         //1. 根据PopupInfo生成PopupView
         popupInterface = genPopupImpl();
-        if (popupInterface.getView() == null) {
-            throw new RuntimeException("PopupInterface getView() method can not return null!");
+        if (popupInterface.getPopupView() == null) {
+            throw new RuntimeException("PopupInterface getPopupView() method can not return null!");
         }
-        activityView.addView(popupInterface.getView(), new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+        activityView.addView(popupInterface.getPopupView(), new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        activityView.bringChildToFront(popupInterface.getView());
+        activityView.bringChildToFront(popupInterface.getPopupView());
 
         // 监听KeyEvent
-        popupInterface.getView().setFocusableInTouchMode(true);
-        popupInterface.getView().requestFocus();
-        popupInterface.getView().setOnKeyListener(new View.OnKeyListener() {
+        popupInterface.getPopupView().setFocusableInTouchMode(true);
+        popupInterface.getPopupView().requestFocus();
+        popupInterface.getPopupView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -83,11 +83,11 @@ public class XPopup implements LifecycleObserver {
         });
 
         //2. 执行开始动画
-        popupInterface.getView().post(new Runnable() {
+        popupInterface.getPopupView().post(new Runnable() {
             @Override
             public void run() {
                 popupStatus = PopupStatus.Showing;
-                popupInterface.startAnimation();
+                popupInterface.doShowAnimation();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -130,15 +130,15 @@ public class XPopup implements LifecycleObserver {
         if(popupStatus!=PopupStatus.Show)return;
         //1. 执行结束动画
         popupStatus = PopupStatus.Dismissing;
-        popupInterface.endAnimation();
+        popupInterface.doDismissAnimation();
 
         //2. 将PopupView从window中移除
         handler.removeCallbacks(null);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(popupInterface.getView().isAttachedToWindow() && activityView!=null){
-                    activityView.removeView(popupInterface.getView());
+                if(activityView!=null){
+                    activityView.removeView(popupInterface.getPopupView());
                     activityView = null;
                     popupStatus = PopupStatus.Dismiss;
                 }

@@ -1,5 +1,6 @@
 package com.lxj.xpopup.impl;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,15 +46,36 @@ public class CenterPopupView extends BasePopupView {
                 Toast.makeText(getContext(), "aa", Toast.LENGTH_LONG).show();
             }
         });
+
+        getPopupContentView().setScaleX(0f);
+        getPopupContentView().setScaleY(0f);
     }
 
     @Override
-    public void startAnimation() {
-        super.startAnimation();
+    protected void doShowPopupContentAnimation() {
+        ValueAnimator scaleAnimator = ValueAnimator.ofFloat(0, 1);
+        scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float scale = (float) animation.getAnimatedValue();
+                getPopupContentView().setScaleX(scale);
+                getPopupContentView().setScaleY(scale);
+            }
+        });
+        scaleAnimator.setDuration(getAnimationDuration()).start();
     }
 
     @Override
-    public void endAnimation() {
-        super.endAnimation();
+    protected void doDismissPopupContentAnimation() {
+        ValueAnimator scaleAnimator = ValueAnimator.ofFloat(1, 0);
+        scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float scale = (float) animation.getAnimatedValue();
+                getPopupContentView().setScaleX(scale);
+                getPopupContentView().setScaleY(scale);
+            }
+        });
+        scaleAnimator.setDuration(getAnimationDuration()).start();
     }
 }

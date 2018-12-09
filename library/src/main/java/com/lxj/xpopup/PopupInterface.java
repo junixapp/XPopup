@@ -7,9 +7,10 @@ import android.view.View;
  * Create by lxj, at 2018/12/7
  */
 public interface PopupInterface {
-    View getView();
+    View getPopupView();
+    View getPopupContentView();
     View getBackgroundView();
     int getAnimationDuration();
-    void startAnimation();
-    void endAnimation();
+    void doShowAnimation();
+    void doDismissAnimation();
 }
