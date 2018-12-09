@@ -47,35 +47,7 @@ public class CenterPopupView extends BasePopupView {
             }
         });
 
-        getPopupContentView().setScaleX(0f);
-        getPopupContentView().setScaleY(0f);
+
     }
 
-    @Override
-    protected void doShowPopupContentAnimation() {
-        ValueAnimator scaleAnimator = ValueAnimator.ofFloat(0, 1);
-        scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float scale = (float) animation.getAnimatedValue();
-                getPopupContentView().setScaleX(scale);
-                getPopupContentView().setScaleY(scale);
-            }
-        });
-        scaleAnimator.setDuration(getAnimationDuration()).start();
-    }
-
-    @Override
-    protected void doDismissPopupContentAnimation() {
-        ValueAnimator scaleAnimator = ValueAnimator.ofFloat(1, 0);
-        scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float scale = (float) animation.getAnimatedValue();
-                getPopupContentView().setScaleX(scale);
-                getPopupContentView().setScaleY(scale);
-            }
-        });
-        scaleAnimator.setDuration(getAnimationDuration()).start();
-    }
 }
