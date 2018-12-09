@@ -42,6 +42,7 @@ public class PopupInfo {
         }
         return popupAnimation;
     }
+
     @Override
     public String toString() {
         return "PopupInfo{" +
@@ -50,8 +51,7 @@ public class PopupInfo {
                 ", isDismissOnTouchOutside=" + isDismissOnTouchOutside +
                 ", hasShadowBg=" + hasShadowBg +
                 ", atView=" + atView +
+                ", popupAnimation=" + popupAnimation +
                 '}';
     }
-
-
 }

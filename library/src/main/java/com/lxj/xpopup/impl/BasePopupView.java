@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.PopupInfo;
@@ -17,6 +18,7 @@ import com.lxj.xpopup.PopupInterface;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
+import com.lxj.xpopup.util.Utils;
 import com.lxj.xpopup.widget.ClickConsumeView;
 
 /**
@@ -37,7 +39,12 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         shadowBgAnimator = new ShadowBgAnimator(bgView, getAnimationDuration());
 
         // 2. 添加Popup窗体内容View
-        addView(LayoutInflater.from(context).inflate(getPopupLayoutId() , this,false));
+        View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
+//        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) contentView.getLayoutParams();
+//        params.topMargin = Utils.getStatusBarHeight();
+//        params.bottomMargin = Utils.getNavBarHeight();
+//        contentView.setLayoutParams(params);
+        addView(contentView);
     }
 
     public BasePopupView( @NonNull Context context,  @Nullable AttributeSet attrs) {
@@ -126,6 +133,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     @Override
     public int getAnimationDuration() {
-        return 1000;
+        return 500;
     }
 }
