@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:text="此页面演示"
+        android:id="@+id/temp"
+        android:padding="20dp"
+        android:background="#f2f2f2"
+        android:textColor="@android:color/black"
+        android:text="此页面演示Center类型，一般用作在屏幕中间显示的对话框，Loading加载框之类"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+
+    <TextView
+        android:text="选择动画类型："
+        android:textColor="@android:color/black"
+        android:layout_margin="15dp"
+        android:layout_below="@+id/temp"
+        android:id="@+id/temp2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_toRightOf="@id/temp2"
+        android:layout_below="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

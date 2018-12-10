@@ -1,8 +1,10 @@
 package com.lxj.xpopup.animator;
 
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
-
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -10,10 +12,8 @@ import com.lxj.xpopup.enums.PopupAnimation;
  * Create by dance, at 2018/12/9
  */
 public class ScaleAlphaAnimator extends PopupAnimator {
-    private PopupAnimation popupAnimation;
     public ScaleAlphaAnimator(View target, int duration, PopupAnimation popupAnimation) {
-        super(target, duration);
-        this.popupAnimation = popupAnimation;
+        super(target, duration, popupAnimation);
     }
 
     @Override
@@ -22,8 +22,15 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         targetView.setScaleY(0f);
         targetView.setAlpha(0);
 
-        // 设置动画参考点
-        applyPivot();
+        // 确保能获取到View最新的宽高
+        targetView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // 设置动画参考点
+                applyPivot();
+            }
+        });
+
     }
 
     /**
@@ -32,24 +39,24 @@ public class ScaleAlphaAnimator extends PopupAnimator {
     private void applyPivot(){
         switch (popupAnimation){
             case ScaleAlphaFromCenter:
-                targetView.setPivotX(.5f);
-                targetView.setPivotY(.5f);
+                targetView.setPivotX(targetView.getMeasuredWidth()/2);
+                targetView.setPivotY(targetView.getMeasuredHeight()/2);
                 break;
             case ScaleAlphaFromLeftTop:
-                targetView.setPivotX(0f);
-                targetView.setPivotY(0f);
+                targetView.setPivotX(0);
+                targetView.setPivotY(0);
                 break;
             case ScaleAlphaFromRightTop:
-                targetView.setPivotX(1f);
+                targetView.setPivotX(targetView.getMeasuredWidth());
                 targetView.setPivotY(0f);
                 break;
             case ScaleAlphaFromLeftBottom:
                 targetView.setPivotX(0f);
-                targetView.setPivotY(1f);
+                targetView.setPivotY(targetView.getMeasuredHeight());
                 break;
             case ScaleAlphaFromRightBottom:
-                targetView.setPivotX(1f);
-                targetView.setPivotY(1f);
+                targetView.setPivotX(targetView.getMeasuredWidth());
+                targetView.setPivotY(targetView.getMeasuredHeight());
                 break;
         }
 
@@ -66,7 +73,8 @@ public class ScaleAlphaAnimator extends PopupAnimator {
 
     @Override
     public void animateDismiss() {
-        targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(animateDuration).start();
+        targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(animateDuration)
+                .setInterpolator(new FastOutSlowInInterpolator()).start();
     }
 
 
