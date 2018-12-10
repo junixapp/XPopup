@@ -1,24 +1,19 @@
 package com.lxj.xpopup.impl;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.PopupInfo;
 import com.lxj.xpopup.PopupInterface;
 import com.lxj.xpopup.animator.PopupAnimator;
-import com.lxj.xpopup.animator.ScaleAlphaAnimator;
+import com.lxj.xpopup.animator.ScaleAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
-import com.lxj.xpopup.util.Utils;
+import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.widget.ClickConsumeView;
 
 /**
@@ -30,6 +25,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     protected PopupAnimator popupContentAnimator;
     protected PopupAnimator shadowBgAnimator;
+
     public BasePopupView(@NonNull Context context) {
         this(context, null);
 
@@ -47,38 +43,65 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         addView(contentView);
     }
 
-    public BasePopupView( @NonNull Context context,  @Nullable AttributeSet attrs) {
+    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
-    public BasePopupView( @NonNull Context context,  @Nullable AttributeSet attrs, int defStyleAttr) {
+
+    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setPopupInfo(PopupInfo popupInfo){
+    public void setPopupInfo(PopupInfo popupInfo) {
         this.popupInfo = popupInfo;
 
         // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器
         popupContentAnimator = genPopupContentAnimator();
+        // 初始化动画
+        shadowBgAnimator.initAnimator();
+        if(!useCustomAnimator()){
+            popupContentAnimator.initAnimator();
+        }
 
         initPopup();
-        shadowBgAnimator.initAnimator();
-        popupContentAnimator.initAnimator();
     }
 
     /**
      * 根据PopupInfo的popupAnimation字段来生成对应的动画执行器
      */
     protected PopupAnimator genPopupContentAnimator() {
-        switch (popupInfo.getPopupAnimation()){
-            case ScaleAlphaFromCenter:
-                return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
+        switch (popupInfo.getPopupAnimation()) {
+            case ScaleFromCenter:
+            case ScaleFromLeftTop:
+            case ScaleFromRightTop:
+            case ScaleFromLeftBottom:
+            case ScaleFromRightBottom:
+                return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
+
+            case TranslateFromLeft:
+            case TranslateFromTop:
+            case TranslateFromRight:
+            case TranslateFromBottom:
+                return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
+
             default:
-                return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
+//                return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
+                return null;
         }
     }
 
     protected abstract int getPopupLayoutId();
-    protected abstract void initPopup();
+
+    protected boolean useCustomAnimator(){
+        return false;
+    }
+
+    // 执行初始化
+    protected void initPopup() {
+        //1. 设置宽高
+        applyWidthAndHeight();
+    }
+
+    protected abstract void applyWidthAndHeight();
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
@@ -86,7 +109,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      */
     @Override
     public void doShowAnimation() {
-        if(popupInfo.hasShadowBg){
+        if (popupInfo.hasShadowBg) {
             shadowBgAnimator.animateShow();
         }
         popupContentAnimator.animateShow();
@@ -98,7 +121,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      */
     @Override
     public void doDismissAnimation() {
-        if(popupInfo.hasShadowBg){
+        if (popupInfo.hasShadowBg) {
             shadowBgAnimator.animateDismiss();
         }
         popupContentAnimator.animateDismiss();
@@ -106,6 +129,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     /**
      * 整个PopupView容器，由背景View和内容View组成
+     *
      * @return
      */
     @Override
@@ -115,6 +139,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     /**
      * 获取背景View
+     *
      * @return
      */
     @Override
@@ -124,6 +149,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     /**
      * 获取内容View，本质上PopupView显示的内容都在这个View内部。而且我们对PopupView执行的动画，也是对它执行的动画
+     *
      * @return
      */
     @Override
@@ -133,6 +159,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     @Override
     public int getAnimationDuration() {
-        return 500;
+        return 400;
     }
 }

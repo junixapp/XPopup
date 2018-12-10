@@ -33,7 +33,7 @@ public class PopupInfo {
         if(popupAnimation==null){
             switch (popupType){
                 case Center:
-                    popupAnimation = PopupAnimation.ScaleAlphaFromCenter;
+                    popupAnimation = PopupAnimation.ScaleFromCenter;
                     break;
                 case Bottom:
                     popupAnimation = PopupAnimation.TranslateFromBottom;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class CenterPopupView extends BasePopupView {
 
     @Override
     protected void initPopup() {
-        limitWidthHeight();
+        super.initPopup();
 
         text = findViewById(R.id.text);
         text.setText("床前明月光，\n疑是地上霜；\n举头望明月，\n低头思故乡。");
@@ -57,7 +58,8 @@ public class CenterPopupView extends BasePopupView {
     /**
      * 限制内容的宽高，Center类型的弹窗宽高都有限制，宽高最大为window的90%
      */
-    private void limitWidthHeight() {
+    @Override
+    protected void applyWidthAndHeight() {
         post(new Runnable() {
             @Override
             public void run() {

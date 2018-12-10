@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.BasePopupView;
@@ -83,10 +85,12 @@ public class XPopup implements LifecycleObserver {
         });
 
         //2. 执行开始动画
-        popupInterface.getPopupView().post(new Runnable() {
+        popupInterface.getPopupView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
-            public void run() {
+            public boolean onPreDraw() {
+                popupInterface.getPopupView().getViewTreeObserver().removeOnPreDrawListener(this);
                 popupStatus = PopupStatus.Showing;
+
                 popupInterface.doShowAnimation();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -94,6 +98,13 @@ public class XPopup implements LifecycleObserver {
                         popupStatus = PopupStatus.Show;
                     }
                 }, popupInterface.getAnimationDuration()+10);
+                return false;
+            }
+        });
+        popupInterface.getPopupView().post(new Runnable() {
+            @Override
+            public void run() {
+
             }
         });
 
@@ -106,7 +117,7 @@ public class XPopup implements LifecycleObserver {
      */
     private PopupInterface genPopupImpl() {
         checkPopupInfo();
-        Log.e("XPopup", popupInfo.toString());
+        Log.d("XPopup", popupInfo.toString());
         BasePopupView popupView = null;
         switch (popupInfo.popupType) {
             case Center:
@@ -149,6 +160,12 @@ public class XPopup implements LifecycleObserver {
     public XPopup position(PopupType popupType) {
         checkPopupInfo();
         popupInfo.popupType = popupType;
+        return this;
+    }
+
+    public XPopup popupAnimation(PopupAnimation animation){
+        checkPopupInfo();
+        popupInfo.setPopupAnimation(animation);
         return this;
     }
 
