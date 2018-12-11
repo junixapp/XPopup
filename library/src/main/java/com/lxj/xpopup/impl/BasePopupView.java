@@ -11,12 +11,14 @@ import android.widget.FrameLayout;
 import com.lxj.xpopup.PopupInfo;
 import com.lxj.xpopup.PopupInterface;
 import com.lxj.xpopup.animator.PopupAnimator;
-import com.lxj.xpopup.animator.ScaleAnimator;
+import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
+import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.widget.ClickConsumeView;
 
-import static com.lxj.xpopup.enums.PopupAnimation.ScaleFromCenter;
+import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
+import static com.lxj.xpopup.enums.PopupAnimation.TranslateAlphaFromBottom;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
 
 /**
@@ -86,18 +88,25 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     protected PopupAnimator genPopupContentAnimator() {
         if(popupInfo.popupAnimation==null)return null;
         switch (popupInfo.popupAnimation) {
-            case ScaleFromCenter:
-            case ScaleFromLeftTop:
-            case ScaleFromRightTop:
-            case ScaleFromLeftBottom:
-            case ScaleFromRightBottom:
-                return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
+            case ScaleAlphaFromCenter:
+            case ScaleAlphaFromLeftTop:
+            case ScaleAlphaFromRightTop:
+            case ScaleAlphaFromLeftBottom:
+            case ScaleAlphaFromRightBottom:
+                return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
+
+            case TranslateAlphaFromLeft:
+            case TranslateAlphaFromTop:
+            case TranslateAlphaFromRight:
+            case TranslateAlphaFromBottom:
+                return new TranslateAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
 
             case TranslateFromLeft:
             case TranslateFromTop:
             case TranslateFromRight:
             case TranslateFromBottom:
                 return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
+
         }
         return null;
     }
@@ -120,10 +129,11 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      */
     protected PopupAnimator getPopupAnimator(){
         switch (popupInfo.popupType){
-            case Center: return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), ScaleFromCenter);
+            case Center: return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
             case Bottom: return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
+            case AttachView: return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
         }
-        return null;
+        return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
     }
 
     // 执行初始化
@@ -132,7 +142,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         applyWidthAndHeight();
     }
 
-    protected abstract void applyWidthAndHeight();
+    protected void applyWidthAndHeight(){}
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；

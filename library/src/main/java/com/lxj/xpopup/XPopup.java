@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
+import com.lxj.xpopup.impl.AttachPopupView;
 import com.lxj.xpopup.impl.BasePopupView;
 import com.lxj.xpopup.impl.BottomPopupView;
 import com.lxj.xpopup.impl.CenterPopupView;
@@ -60,6 +61,7 @@ public class XPopup implements LifecycleObserver {
         if (popupInterface.getPopupView() == null) {
             throw new RuntimeException("PopupInterface getPopupView() method can not return null!");
         }
+        Log.e("tag", "activityView child: "+ activityView.getChildCount());
         activityView.addView(popupInterface.getPopupView(), new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
         activityView.bringChildToFront(popupInterface.getPopupView());
@@ -99,15 +101,10 @@ public class XPopup implements LifecycleObserver {
                         popupStatus = PopupStatus.Show;
                     }
                 }, popupInterface.getAnimationDuration()+10);
-                return false;
+                return true;
             }
         });
-        popupInterface.getPopupView().post(new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        });
 
     }
 
@@ -127,8 +124,8 @@ public class XPopup implements LifecycleObserver {
             case Bottom:
                 popupView = new BottomPopupView(context);
                 break;
-            case Custom:
-
+            case AttachView:
+                popupView = new AttachPopupView(context);
                 break;
         }
         popupView.setPopupInfo(popupInfo);

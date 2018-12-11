@@ -11,8 +11,8 @@ import com.lxj.xpopup.enums.PopupAnimation;
  * Description:
  * Create by dance, at 2018/12/9
  */
-public class ScaleAnimator extends PopupAnimator {
-    public ScaleAnimator(View target, int duration, PopupAnimation popupAnimation) {
+public class ScaleAlphaAnimator extends PopupAnimator {
+    public ScaleAlphaAnimator(View target, int duration, PopupAnimation popupAnimation) {
         super(target, duration, popupAnimation);
     }
 
@@ -38,23 +38,23 @@ public class ScaleAnimator extends PopupAnimator {
      */
     private void applyPivot(){
         switch (popupAnimation){
-            case ScaleFromCenter:
+            case ScaleAlphaFromCenter:
                 targetView.setPivotX(targetView.getMeasuredWidth()/2);
                 targetView.setPivotY(targetView.getMeasuredHeight()/2);
                 break;
-            case ScaleFromLeftTop:
+            case ScaleAlphaFromLeftTop:
                 targetView.setPivotX(0);
                 targetView.setPivotY(0);
                 break;
-            case ScaleFromRightTop:
+            case ScaleAlphaFromRightTop:
                 targetView.setPivotX(targetView.getMeasuredWidth());
                 targetView.setPivotY(0f);
                 break;
-            case ScaleFromLeftBottom:
+            case ScaleAlphaFromLeftBottom:
                 targetView.setPivotX(0f);
                 targetView.setPivotY(targetView.getMeasuredHeight());
                 break;
-            case ScaleFromRightBottom:
+            case ScaleAlphaFromRightBottom:
                 targetView.setPivotX(targetView.getMeasuredWidth());
                 targetView.setPivotY(targetView.getMeasuredHeight());
                 break;

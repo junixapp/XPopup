@@ -9,7 +9,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.util.Utils;
 
 /**
- * Description:
+ * Description: 在底部显示的Popup
  * Create by lxj, at 2018/12/11
  */
 public class BottomPopupView extends BasePopupView {

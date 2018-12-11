@@ -23,7 +23,7 @@ public class PopupInfo {
     }
     public void setAtView(View atView) {
         this.atView = atView;
-        this.popupType = PopupType.Custom;
+        this.popupType = PopupType.AttachView;
     }
 
     @Override
