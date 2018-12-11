@@ -1,28 +1,20 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopupdemo.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Description:
  * Create by dance, at 2018/12/9
  */
-public class CenterPopupDemo extends BaseFragment {
+public class BottomPopupDemo extends BaseFragment {
     Spinner spinner;
     @Override
     protected int getLayoutId() {
@@ -43,6 +35,7 @@ public class CenterPopupDemo extends BaseFragment {
                     @Override
                     public void run() {
                         XPopup.get(getContext())
+                                .position(PopupType.Bottom)
                                 .popupAnimation(datas[position])
                                 .show();
                     }
