@@ -167,7 +167,7 @@ public class XPopup implements LifecycleObserver {
 
     public XPopup popupAnimation(PopupAnimation animation){
         checkPopupInfo();
-        popupInfo.setPopupAnimation(animation);
+        popupInfo.popupAnimation = animation;
         return this;
     }
 

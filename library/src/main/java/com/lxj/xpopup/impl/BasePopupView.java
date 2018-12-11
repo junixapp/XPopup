@@ -16,6 +16,9 @@ import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.widget.ClickConsumeView;
 
+import static com.lxj.xpopup.enums.PopupAnimation.ScaleFromCenter;
+import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
+
 /**
  * Description:
  * Create by lxj, at 2018/12/7
@@ -54,13 +57,25 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     public void setPopupInfo(PopupInfo popupInfo) {
         this.popupInfo = popupInfo;
 
-        // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器
-        popupContentAnimator = genPopupContentAnimator();
-        // 初始化动画
-        shadowBgAnimator.initAnimator();
-        if(!useCustomAnimator()){
-            popupContentAnimator.initAnimator();
+        
+        //1. 收集动画执行器
+        
+        
+        // 如果是想使用自定义的动画，则需要实现 getPopupAnimator()
+        if(useCustomAnimator()){
+            popupContentAnimator = getPopupAnimator();
+        }else {
+            // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
+            popupContentAnimator = genPopupContentAnimator();
+            if(popupContentAnimator==null){
+                // 使用默认的animator
+                popupContentAnimator = getPopupAnimator();
+            }
         }
+
+        //2. 初始化动画执行器
+        shadowBgAnimator.initAnimator();
+        popupContentAnimator.initAnimator();
 
         initPopup();
     }
@@ -69,30 +84,46 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 根据PopupInfo的popupAnimation字段来生成对应的动画执行器
      */
     protected PopupAnimator genPopupContentAnimator() {
-        switch (popupInfo.getPopupAnimation()) {
+        if(popupInfo.popupAnimation==null)return null;
+        switch (popupInfo.popupAnimation) {
             case ScaleFromCenter:
             case ScaleFromLeftTop:
             case ScaleFromRightTop:
             case ScaleFromLeftBottom:
             case ScaleFromRightBottom:
-                return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
+                return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
 
             case TranslateFromLeft:
             case TranslateFromTop:
             case TranslateFromRight:
             case TranslateFromBottom:
-                return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
-
-            default:
-//                return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.getPopupAnimation());
-                return null;
+                return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
         }
+        return null;
     }
 
     protected abstract int getPopupLayoutId();
 
+    /**
+     * 是否使用自定义的动画器，如果返回true，则必须实现getPopupAnimator()
+     * @return
+     */
     protected boolean useCustomAnimator(){
         return false;
+    }
+
+    /**
+     * 获取自己的PopupAnimator，每种类型的PopupView可以选择返回一个动画器，
+     * 也可以配合 useCustomAnimator()，来实现自定义动画器。
+     * 父类默认实现是根据popupType字段返回一个默认合适的动画器
+     * @return
+     */
+    protected PopupAnimator getPopupAnimator(){
+        switch (popupInfo.popupType){
+            case Center: return new ScaleAnimator(getPopupContentView(), getAnimationDuration(), ScaleFromCenter);
+            case Bottom: return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
+        }
+        return null;
     }
 
     // 执行初始化

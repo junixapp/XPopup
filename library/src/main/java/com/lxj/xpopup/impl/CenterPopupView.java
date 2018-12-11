@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.ScaleAnimator;
 import com.lxj.xpopup.util.Utils;
 
 /**

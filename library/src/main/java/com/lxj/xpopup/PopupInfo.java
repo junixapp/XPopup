@@ -16,7 +16,7 @@ public class PopupInfo {
     public Boolean hasShadowBg = true; // 是否有半透明的背景
     private View atView = null; // 依附于那个View显示
     // 动画执行器，如果用户不指定，则会根据窗体类型popupType字段生成默认合适的动画执行器
-    private PopupAnimation popupAnimation = null;
+    public PopupAnimation popupAnimation = null;
 
     public View getAtView() {
         return atView;
@@ -24,23 +24,6 @@ public class PopupInfo {
     public void setAtView(View atView) {
         this.atView = atView;
         this.popupType = PopupType.Custom;
-    }
-    public void setPopupAnimation(PopupAnimation popupAnimation) {
-        this.popupAnimation = popupAnimation;
-    }
-    public PopupAnimation getPopupAnimation() {
-        // 如果用户没有设置，则设置一个合适的默认动画执行器
-        if(popupAnimation==null){
-            switch (popupType){
-                case Center:
-                    popupAnimation = PopupAnimation.ScaleFromCenter;
-                    break;
-                case Bottom:
-                    popupAnimation = PopupAnimation.TranslateFromBottom;
-                    break;
-            }
-        }
-        return popupAnimation;
     }
 
     @Override
