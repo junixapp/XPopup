@@ -1,6 +1,5 @@
 package com.lxj.xpopup.impl;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -52,7 +51,7 @@ public class CenterPopupView extends BasePopupView {
             }
         });
 
-
+        Log.e("tag", "init Popiup");
     }
 
     /**

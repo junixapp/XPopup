@@ -56,7 +56,7 @@ public class TranslateAnimator extends PopupAnimator {
     @Override
     public void animateShow() {
         targetView.animate().translationX(0).translationY(0).alpha(1f)
-                .setInterpolator(new OvershootInterpolator(1.5f))
+                .setInterpolator(new FastOutSlowInInterpolator())
                 .setDuration(animateDuration).start();
     }
 

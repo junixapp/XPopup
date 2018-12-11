@@ -16,6 +16,7 @@ import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.BasePopupView;
+import com.lxj.xpopup.impl.BottomPopupView;
 import com.lxj.xpopup.impl.CenterPopupView;
 
 /**
@@ -124,7 +125,7 @@ public class XPopup implements LifecycleObserver {
                 popupView = new CenterPopupView(context);
                 break;
             case Bottom:
-
+                popupView = new BottomPopupView(context);
                 break;
             case Custom:
 
@@ -151,6 +152,7 @@ public class XPopup implements LifecycleObserver {
                 if(activityView!=null){
                     activityView.removeView(popupInterface.getPopupView());
                     activityView = null;
+                    popupInfo = null;
                     popupStatus = PopupStatus.Dismiss;
                 }
             }
