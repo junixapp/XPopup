@@ -1,4 +1,4 @@
-package com.lxj.xpopup;
+package com.lxj.xpopup.core;
 
 import android.view.View;
 

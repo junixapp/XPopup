@@ -1,4 +1,4 @@
-package com.lxj.xpopup;
+package com.lxj.xpopup.core;
 
 import android.view.View;
 
@@ -13,4 +13,5 @@ public interface PopupInterface {
     int getAnimationDuration();
     void doShowAnimation();
     void doDismissAnimation();
+    void init(final Runnable afterAnimationStarted);
 }

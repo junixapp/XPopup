@@ -6,12 +6,20 @@
     <TextView
         android:layout_margin="19dp"
         android:id="@+id/text1"
+        android:text="点我"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#fff"
         android:background="#cc0a1f"
         android:layout_width="200dp"
         android:layout_height="50dp" />
 
     <TextView
         android:id="@+id/text2"
+        android:text="点我"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#fff"
         android:layout_margin="10dp"
         android:layout_gravity="right"
         android:background="#ec51e7"
@@ -20,6 +28,10 @@
 
     <TextView
         android:id="@+id/text3"
+        android:text="点我"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#fff"
         android:layout_gravity="center"
         android:background="#122858"
         android:layout_width="90dp"
@@ -27,6 +39,10 @@
 
     <TextView
         android:id="@+id/text4"
+        android:text="点我"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#fff"
         android:layout_margin="20dp"
         android:layout_gravity="bottom"
         android:background="#7aede4"
@@ -35,6 +51,10 @@
 
     <TextView
         android:id="@+id/text5"
+        android:text="点我"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#fff"
         android:layout_margin="40dp"
         android:layout_gravity="right|bottom"
         android:background="#ecc918"

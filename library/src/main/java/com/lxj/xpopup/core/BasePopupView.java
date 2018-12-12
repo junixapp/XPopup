@@ -1,4 +1,4 @@
-package com.lxj.xpopup.impl;
+package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,10 +6,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
-import com.lxj.xpopup.PopupInfo;
-import com.lxj.xpopup.PopupInterface;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
@@ -19,6 +18,7 @@ import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.widget.ClickConsumeView;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
+import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
 
 /**
@@ -58,35 +58,49 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     public void setPopupInfo(PopupInfo popupInfo) {
         this.popupInfo = popupInfo;
+    }
 
-        
-        //1. 收集动画执行器
-        
-        
-        // 如果是想使用自定义的动画，则需要实现 getPopupAnimator()
-        if(useCustomAnimator()){
-            popupContentAnimator = getPopupAnimator();
-        }else {
-            // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
-            popupContentAnimator = genPopupContentAnimator();
-            if(popupContentAnimator==null){
-                // 使用默认的animator
-                popupContentAnimator = getPopupAnimator();
+    /**
+     * 执行初始化
+     * @param afterAnimationStarted
+     */
+    public void init(final Runnable afterAnimationStarted){
+        getPopupContentView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                getPopupContentView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                //1. 初始化Popup
+                initPopupContent();
+
+                //2. 收集动画执行器
+                // 如果是想使用自定义的动画，则需要实现 getPopupAnimator()
+                if (useCustomAnimator()) {
+                    popupContentAnimator = getPopupAnimator();
+                } else {
+                    // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
+                    popupContentAnimator = genPopupContentAnimator();
+                    if (popupContentAnimator == null) {
+                        // 使用默认的animator
+                        popupContentAnimator = getPopupAnimator();
+                    }
+                }
+
+                //3. 初始化动画执行器
+                shadowBgAnimator.initAnimator();
+                popupContentAnimator.initAnimator();
+
+                //4. 执行动画
+                doShowAnimation();
+                postDelayed(afterAnimationStarted, getAnimationDuration()+20);
             }
-        }
-
-        //2. 初始化动画执行器
-        shadowBgAnimator.initAnimator();
-        popupContentAnimator.initAnimator();
-
-        initPopup();
+        });
     }
 
     /**
      * 根据PopupInfo的popupAnimation字段来生成对应的动画执行器
      */
     protected PopupAnimator genPopupContentAnimator() {
-        if(popupInfo.popupAnimation==null)return null;
+        if (popupInfo.popupAnimation == null) return null;
         switch (popupInfo.popupAnimation) {
             case ScaleAlphaFromCenter:
             case ScaleAlphaFromLeftTop:
@@ -115,9 +129,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     /**
      * 是否使用自定义的动画器，如果返回true，则必须实现getPopupAnimator()
+     *
      * @return
      */
-    protected boolean useCustomAnimator(){
+    protected boolean useCustomAnimator() {
         return false;
     }
 
@@ -125,24 +140,23 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 获取自己的PopupAnimator，每种类型的PopupView可以选择返回一个动画器，
      * 也可以配合 useCustomAnimator()，来实现自定义动画器。
      * 父类默认实现是根据popupType字段返回一个默认合适的动画器
+     *
      * @return
      */
-    protected PopupAnimator getPopupAnimator(){
-        switch (popupInfo.popupType){
-            case Center: return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
-            case Bottom: return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
-            case AttachView: return new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
+    protected PopupAnimator getPopupAnimator() {
+        switch (popupInfo.popupType) {
+            case Center:
+                return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
+            case Bottom:
+                return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
+            case AttachView:
+                return new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), ScrollAlphaFromLeftTop);
         }
-        return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
+        return null;
     }
 
-    // 执行初始化
-    protected void initPopup() {
-        //1. 设置宽高
-        applyWidthAndHeight();
-    }
-
-    protected void applyWidthAndHeight(){}
+    // 执行初始化Popup的content
+    protected void initPopupContent() {}
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；

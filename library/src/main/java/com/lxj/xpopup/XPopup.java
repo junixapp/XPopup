@@ -4,21 +4,21 @@ import android.app.Activity;
 import android.arch.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
+import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
-import com.lxj.xpopup.impl.AttachPopupView;
-import com.lxj.xpopup.impl.BasePopupView;
-import com.lxj.xpopup.impl.BottomPopupView;
-import com.lxj.xpopup.impl.CenterPopupView;
+import com.lxj.xpopup.core.AttachPopupView;
+import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.core.PopupInterface;
 
 /**
  * PopupView的控制类，控制生命周期：显示，隐藏，添加，删除。
@@ -66,6 +66,8 @@ public class XPopup implements LifecycleObserver {
                 FrameLayout.LayoutParams.MATCH_PARENT));
         activityView.bringChildToFront(popupInterface.getPopupView());
 
+        popupStatus = PopupStatus.Showing;
+
         // 监听KeyEvent
         popupInterface.getPopupView().setFocusableInTouchMode(true);
         popupInterface.getPopupView().requestFocus();
@@ -87,25 +89,13 @@ public class XPopup implements LifecycleObserver {
             }
         });
 
-        //2. 执行开始动画
-        popupInterface.getPopupView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        //2. 执行初始化
+        popupInterface.init(new Runnable() {
             @Override
-            public boolean onPreDraw() {
-                popupInterface.getPopupView().getViewTreeObserver().removeOnPreDrawListener(this);
-                popupStatus = PopupStatus.Showing;
-
-                popupInterface.doShowAnimation();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        popupStatus = PopupStatus.Show;
-                    }
-                }, popupInterface.getAnimationDuration()+10);
-                return true;
+            public void run() {
+                popupStatus = PopupStatus.Show;
             }
         });
-
-
     }
 
     /**

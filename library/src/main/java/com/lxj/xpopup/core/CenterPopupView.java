@@ -1,4 +1,4 @@
-package com.lxj.xpopup.impl;
+package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -37,8 +37,7 @@ public class CenterPopupView extends BasePopupView {
     TextView text;
 
     @Override
-    protected void initPopup() {
-        super.initPopup();
+    protected void initPopupContent() {
 
         text = findViewById(R.id.text);
         text.setText("床前明月光，\n疑是地上霜；\n举头望明月，\n低头思故乡。");
@@ -52,19 +51,16 @@ public class CenterPopupView extends BasePopupView {
 
     }
 
-    /**
-     * 限制内容的宽高，Center类型的弹窗宽高都有限制，宽高最大为window的90%
-     */
     @Override
-    protected void applyWidthAndHeight() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                int maxHeight = (int) (Utils.getWindowHeight(getContext()) * 0.85f);
-                int maxWidth = (int) (Utils.getWindowWidth(getContext()) * 0.8f);
-                Utils.limitWidthAndHeight(getPopupContentView(), maxWidth, maxHeight);
-            }
-        });
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // 限制宽高
+        int maxHeight = (int) (Utils.getWindowHeight(getContext()) * 0.85f);
+        int maxWidth = (int) (Utils.getWindowWidth(getContext()) * 0.8f);
+        int widthSize = getPopupContentView().getMeasuredWidth();
+        int heightSize = getPopupContentView().getMeasuredHeight();
+        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(Math.min(maxWidth, widthSize), MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.lxj.xpopup.impl;
+package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -31,18 +31,14 @@ public class BottomPopupView extends BasePopupView {
     }
 
     @Override
-    protected void applyWidthAndHeight() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                int maxHeight = (int) (Utils.getWindowHeight(getContext()) * 0.85f);
-                Utils.limitWidthAndHeight(getPopupContentView(), getPopupContentView().getMeasuredWidth(), maxHeight);
-            }
-        });
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // 限制宽高
+        int maxHeight = (int) (Utils.getWindowHeight(getContext()) * 0.85f);
+        int heightSize = getPopupContentView().getMeasuredHeight();
+        getPopupContentView().measure(widthMeasureSpec,
+                MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
     }
 
-    @Override
-    protected void initPopup() {
-        super.initPopup();
-    }
+
 }

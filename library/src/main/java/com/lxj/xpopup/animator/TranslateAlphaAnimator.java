@@ -23,15 +23,10 @@ public class TranslateAlphaAnimator extends PopupAnimator {
     @Override
     public void initAnimator() {
         targetView.setAlpha(0);
-        targetView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // 设置移动坐标
-                applyTranslation();
-                startTranslationX = targetView.getTranslationX();
-                startTranslationY = targetView.getTranslationY();
-            }
-        });
+        // 设置移动坐标
+        applyTranslation();
+        startTranslationX = targetView.getTranslationX();
+        startTranslationY = targetView.getTranslationY();
     }
 
     private void applyTranslation() {

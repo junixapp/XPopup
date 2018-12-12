@@ -22,15 +22,8 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         targetView.setScaleY(0f);
         targetView.setAlpha(0);
 
-        // 确保能获取到View最新的宽高
-        targetView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // 设置动画参考点
-                applyPivot();
-            }
-        });
-
+        // 设置动画参考点
+        applyPivot();
     }
 
     /**
@@ -66,7 +59,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
     public void animateShow() {
         targetView.animate().scaleX(1f).scaleY(1f).alpha(1f)
                 .setDuration(animateDuration)
-                .setInterpolator(new OvershootInterpolator(1.5f))
+                .setInterpolator(new OvershootInterpolator(1f))
                 .start();
 
     }

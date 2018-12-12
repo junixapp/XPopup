@@ -23,4 +23,14 @@ public enum PopupAnimation {
     TranslateFromRight, // 从右平移进入
     TranslateFromTop,   // 从上方平移进入
     TranslateFromBottom, // 从下方平移进入
+
+    // 滑动 + 透明渐变
+    ScrollAlphaFromLeft,
+    ScrollAlphaFromLeftTop,
+    ScrollAlphaFromTop,
+    ScrollAlphaFromRightTop,
+    ScrollAlphaFromRight,
+    ScrollAlphaFromRightBottom,
+    ScrollAlphaFromBottom,
+    ScrollAlphaFromLeftBottom,
 }
