@@ -8,7 +8,7 @@ import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.util.Utils;
 
 /**
- * Description: 平移动画
+ * Description: 平移动画，不带渐变
  * Create by dance, at 2018/12/9
  */
 public class TranslateAnimator extends PopupAnimator {

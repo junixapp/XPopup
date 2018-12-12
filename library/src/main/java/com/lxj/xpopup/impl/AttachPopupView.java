@@ -4,8 +4,13 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
+import android.transition.ChangeBounds;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.util.Utils;
@@ -53,20 +58,21 @@ public class AttachPopupView extends BasePopupView {
                 // 弹窗显示的位置不能超越状态栏和导航栏，隐藏需要减去2个高度
                 int minY = Utils.getStatusBarHeight();
                 int maxY = Utils.getWindowHeight(getContext()) - Utils.getNavBarHeight();
-                int maxX = Utils.getWindowWidth(getContext())- getPopupContentView().getMeasuredWidth();
+//                int maxX = Utils.getWindowWidth(getContext())- getPopupContentView().getMeasuredWidth();
+                int maxX = rect.right - getPopupContentView().getMeasuredWidth() ;
                 Log.e("tag", "rect: "+ rect.toString() + " minY: "+ minY + " maxY: "+maxY
                 );
                 if( (rect.top - minY) > (maxY - rect.bottom) ){
-                    //说明上面的空间比较大，应显示在上方
+                    //说明上面的空间比较大，应显示在atView上方
                     getPopupContentView().setTranslationX(Math.min(rect.left, maxX));
                     getPopupContentView().setTranslationY(rect.top - getPopupContentView().getMeasuredHeight() - defaultOffsetY);
-                    Log.e("tag", "up h: "+getPopupContentView().getMeasuredHeight());
                 }else {
+                    // 应该显示在atView下方
                     getPopupContentView().setTranslationX(Math.min(rect.left, maxX));
                     getPopupContentView().setTranslationY(rect.bottom + defaultOffsetY);
-                    // 应该显示在下方
-                    Log.e("tag", "down");
+
                 }
+
             }
         });
 

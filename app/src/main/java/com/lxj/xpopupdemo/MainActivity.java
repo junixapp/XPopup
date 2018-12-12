@@ -14,10 +14,12 @@ import com.lxj.xpopupdemo.fragment.AttachPopupDemo;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.BottomPopupDemo;
 import com.lxj.xpopupdemo.fragment.CenterPopupDemo;
+import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 
 public class MainActivity extends AppCompatActivity {
 
     PageInfo[] pageInfos = new PageInfo[]{
+      new PageInfo("快速开始", new QuickStartDemo()),
       new PageInfo("Center类型", new CenterPopupDemo()),
       new PageInfo("Bottom类型", new BottomPopupDemo()),
       new PageInfo("依附某View", new AttachPopupDemo()),

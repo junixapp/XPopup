@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import com.lxj.xpopup.PopupInfo;
 import com.lxj.xpopup.PopupInterface;
 import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
@@ -18,7 +19,6 @@ import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.widget.ClickConsumeView;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
-import static com.lxj.xpopup.enums.PopupAnimation.TranslateAlphaFromBottom;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
 
 /**
@@ -131,7 +131,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         switch (popupInfo.popupType){
             case Center: return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
             case Bottom: return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
-            case AttachView: return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
+            case AttachView: return new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
         }
         return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
     }
