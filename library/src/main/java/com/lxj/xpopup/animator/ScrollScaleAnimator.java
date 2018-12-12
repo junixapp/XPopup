@@ -34,7 +34,6 @@ public class ScrollScaleAnimator extends PopupAnimator{
         applyPivot();
 
         targetView.scrollTo( startScrollX, startScrollY);
-
     }
 
     private void applyPivot(){

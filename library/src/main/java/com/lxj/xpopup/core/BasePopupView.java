@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -45,6 +46,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 //        params.topMargin = Utils.getStatusBarHeight();
 //        params.bottomMargin = Utils.getNavBarHeight();
 //        contentView.setLayoutParams(params);
+        // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
+        contentView.setAlpha(0);
         addView(contentView);
     }
 
@@ -65,12 +68,14 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * @param afterAnimationStarted
      */
     public void init(final Runnable afterAnimationStarted){
-        getPopupContentView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        //1. 初始化Popup
+        initPopupContent();
+
+        post(new Runnable() {
             @Override
-            public void onGlobalLayout() {
-                getPopupContentView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                //1. 初始化Popup
-                initPopupContent();
+            public void run() {
+//                Log.e("tag", "22222222222222   BasePopupView w: "+ getPopupContentView().getMeasuredWidth());
+                getPopupContentView().setAlpha(1f);
 
                 //2. 收集动画执行器
                 // 如果是想使用自定义的动画，则需要实现 getPopupAnimator()
@@ -91,9 +96,9 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
                 //4. 执行动画
                 doShowAnimation();
-                postDelayed(afterAnimationStarted, getAnimationDuration()+20);
             }
         });
+        postDelayed(afterAnimationStarted, getAnimationDuration()+20);
     }
 
     /**

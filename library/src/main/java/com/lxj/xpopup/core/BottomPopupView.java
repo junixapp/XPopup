@@ -27,7 +27,7 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     protected int getPopupLayoutId() {
-        return R.layout.xpopup_bottom_popup_view;
+        return R.layout._xpopup_bottom_popup_view;
     }
 
     @Override

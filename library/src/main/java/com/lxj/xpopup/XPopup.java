@@ -19,6 +19,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.PopupInterface;
+import com.lxj.xpopup.impl.ListPopupView;
 
 /**
  * PopupView的控制类，控制生命周期：显示，隐藏，添加，删除。
@@ -115,7 +116,7 @@ public class XPopup implements LifecycleObserver {
                 popupView = new BottomPopupView(context);
                 break;
             case AttachView:
-                popupView = new AttachPopupView(context);
+                popupView = new ListPopupView(context);
                 break;
         }
         popupView.setPopupInfo(popupInfo);

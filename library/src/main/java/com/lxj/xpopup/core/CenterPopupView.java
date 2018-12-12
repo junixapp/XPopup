@@ -30,7 +30,7 @@ public class CenterPopupView extends BasePopupView {
 
     @Override
     protected int getPopupLayoutId() {
-        return R.layout.xpopup_center_popup_view;
+        return R.layout._xpopup_center_popup_view;
     }
 
 
