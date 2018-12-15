@@ -4,6 +4,7 @@ import android.animation.FloatEvaluator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -33,7 +34,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
         // 设置参考点
         applyPivot();
 
-        targetView.scrollTo( startScrollX, startScrollY);
+        targetView.scrollTo(startScrollX, startScrollY);
     }
 
     private void applyPivot(){
@@ -41,7 +42,10 @@ public class ScrollScaleAnimator extends PopupAnimator{
             case ScrollAlphaFromLeft:
                 targetView.setPivotX(0f);
                 targetView.setPivotY(targetView.getMeasuredHeight()/2);
-                startScrollX =  targetView.getMeasuredWidth();
+
+                startScrollX = targetView.getMeasuredWidth();
+                startScrollY = 0;
+                break;
             case ScrollAlphaFromLeftTop:
                 targetView.setPivotX(0f);
                 targetView.setPivotY(0f);

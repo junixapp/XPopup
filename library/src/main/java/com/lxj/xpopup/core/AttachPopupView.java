@@ -78,7 +78,6 @@ public class AttachPopupView extends BasePopupView {
                     // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
                     getPopupContentView().setTranslationX(isShowLeft? rect.left : maxX);
                     getPopupContentView().setTranslationY(rect.top - getPopupContentView().getMeasuredHeight() - defaultOffsetY);
-
                 } else {
                     // 应该显示在atView下方
                     getPopupContentView().setTranslationX(isShowLeft? rect.left : maxX);

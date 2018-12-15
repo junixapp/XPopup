@@ -62,7 +62,7 @@ public class XPopup implements LifecycleObserver {
         if (popupInterface.getPopupView() == null) {
             throw new RuntimeException("PopupInterface getPopupView() method can not return null!");
         }
-        Log.e("tag", "activityView child: "+ activityView.getChildCount());
+
         activityView.addView(popupInterface.getPopupView(), new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
         activityView.bringChildToFront(popupInterface.getPopupView());

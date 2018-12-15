@@ -14,34 +14,32 @@ import com.lxj.xpopup.util.Utils;
 public class TranslateAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
+    private float activityView;
+
     public TranslateAnimator(View target, int duration, PopupAnimation popupAnimation) {
         super(target, duration, popupAnimation);
     }
 
     @Override
     public void initAnimator() {
-
         // 设置移动坐标
         applyTranslation();
         startTranslationX = targetView.getTranslationX();
-        startTranslationY = targetView.getTranslationY();
+        activityView = targetView.getTranslationY();
     }
 
-    private void applyTranslation() {
-        int halfWidthOffset = Utils.getWindowWidth(targetView.getContext())/2 - targetView.getMeasuredWidth()/2;
-        int halfHeightOffset = Utils.getWindowHeight(targetView.getContext())/2 - targetView.getMeasuredHeight()/2;
-        switch (popupAnimation){
+    private void applyTranslation() {switch (popupAnimation){
             case TranslateFromLeft:
-                targetView.setTranslationX(-(targetView.getMeasuredWidth()/* + halfWidthOffset*/));
+                targetView.setTranslationX(- targetView.getRight());
                 break;
             case TranslateFromTop:
-                targetView.setTranslationY(-(targetView.getMeasuredHeight() /*+ halfHeightOffset*/));
+                targetView.setTranslationY(- targetView.getBottom());
                 break;
             case TranslateFromRight:
-                targetView.setTranslationX(targetView.getMeasuredWidth() /*+ halfWidthOffset*/);
+                targetView.setTranslationX( ((View)targetView.getParent()).getMeasuredWidth() - targetView.getLeft());
                 break;
             case TranslateFromBottom:
-                targetView.setTranslationY(targetView.getMeasuredHeight() /*+ halfHeightOffset*/);
+                targetView.setTranslationY(((View)targetView.getParent()).getMeasuredHeight() - targetView.getTop());
                 break;
         }
     }
