@@ -8,7 +8,7 @@ import android.view.animation.OvershootInterpolator;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
- * Description:
+ * Description: 缩放透明
  * Create by dance, at 2018/12/9
  */
 public class ScaleAlphaAnimator extends PopupAnimator {
@@ -61,7 +61,6 @@ public class ScaleAlphaAnimator extends PopupAnimator {
                 .setDuration(animateDuration)
                 .setInterpolator(new OvershootInterpolator(1f))
                 .start();
-
     }
 
     @Override
@@ -69,7 +68,5 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(animateDuration)
                 .setInterpolator(new FastOutSlowInInterpolator()).start();
     }
-
-
 
 }

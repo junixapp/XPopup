@@ -32,13 +32,11 @@ public class XPopup implements LifecycleObserver {
     private Handler handler = new Handler();
     private ViewGroup activityView = null;
     private PopupStatus popupStatus = PopupStatus.Dismiss;
-    private XPopup(Context context) {
-        this.context = context;
-    }
+    private XPopup() {}
 
-    public static XPopup get(Context context) {
+    public static XPopup get() {
         if (instance == null) {
-            instance = new XPopup(context);
+            instance = new XPopup();
         }
         return instance;
     }
@@ -46,7 +44,8 @@ public class XPopup implements LifecycleObserver {
     /**
      * 显示，本质是就将View添加到Window上，并执行动画
      */
-    public void show() {
+    public void show(Context context) {
+        this.context = context;
         if(popupStatus!=PopupStatus.Dismiss)return;
         if (context == null) {
             throw new IllegalArgumentException("context can not be null!");

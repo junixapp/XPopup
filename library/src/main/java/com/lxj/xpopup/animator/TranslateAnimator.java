@@ -14,7 +14,6 @@ import com.lxj.xpopup.util.Utils;
 public class TranslateAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
-    private float activityView;
 
     public TranslateAnimator(View target, int duration, PopupAnimation popupAnimation) {
         super(target, duration, popupAnimation);
@@ -25,7 +24,7 @@ public class TranslateAnimator extends PopupAnimator {
         // 设置移动坐标
         applyTranslation();
         startTranslationX = targetView.getTranslationX();
-        activityView = targetView.getTranslationY();
+        startTranslationY = targetView.getTranslationY();
     }
 
     private void applyTranslation() {switch (popupAnimation){

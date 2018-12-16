@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
             }
         },300);
 
-
-        PopupMenu popupMenu;
     }
 
     private void callFragmentInit(int i){
