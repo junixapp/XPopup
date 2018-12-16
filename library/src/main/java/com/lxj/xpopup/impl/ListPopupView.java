@@ -42,7 +42,7 @@ public class ListPopupView extends AttachPopupView {
 
     @Override
     protected void initPopupContent() {
-
+        super.initPopupContent();
 
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -58,6 +58,5 @@ public class ListPopupView extends AttachPopupView {
             }
         };
         recyclerView.setAdapter(adapter);
-        super.initPopupContent();
     }
 }

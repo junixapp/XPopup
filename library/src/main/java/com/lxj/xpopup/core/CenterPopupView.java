@@ -32,24 +32,8 @@ public class CenterPopupView extends BasePopupView {
     protected int getPopupLayoutId() {
         return R.layout._xpopup_center_popup_view;
     }
-
-
-    TextView text;
-
     @Override
-    protected void initPopupContent() {
-
-        text = findViewById(R.id.text);
-        text.setText("床前明月光，\n疑是地上霜；\n举头望明月，\n低头思故乡。");
-
-        text.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "aa", Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
+    protected void initPopupContent() {}
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -63,4 +47,11 @@ public class CenterPopupView extends BasePopupView {
                 MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
     }
 
+    /**
+     * 具体实现的类的布局
+     * @return
+     */
+    protected int getImplLayoutId(){
+        return 0;
+    }
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="_xpopup_list_divider">#999999</color>
+    <color name="_xpopup_list_divider">#cccccc</color>
+    <color name="_xpopup_title_color">#222222</color>
 </resources>
