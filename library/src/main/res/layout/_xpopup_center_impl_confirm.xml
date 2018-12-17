@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:orientation="vertical">
+
     <TextView
-        android:text="我是标题"
+        android:id="@+id/tv_title"
         style="@style/XPopupTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="" />
+
     <TextView
-        android:text="我是内容。。。"
+        android:id="@+id/tv_content"
+        android:textColor="@color/_xpopup_content_color"
+        android:layout_marginTop="22dp"
+        android:layout_marginBottom="18dp"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/tv_input"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:textColor="@color/_xpopup_content_color"
+        android:layout_marginBottom="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:textSize="16sp"
+            android:text="取消"
+            android:background="?selectableItemBackground"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/tv_confirm"
+            android:text="确定"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="?selectableItemBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

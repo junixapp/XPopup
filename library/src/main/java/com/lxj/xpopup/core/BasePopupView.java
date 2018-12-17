@@ -31,7 +31,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     protected PopupAnimator shadowBgAnimator;
 
     public BasePopupView(@NonNull Context context) {
-        this(context, null);
+        super(context);
 
         // 1.添加背景View，用来拦截所有内容之外的点击
         ClickConsumeView bgView = new ClickConsumeView(context);
@@ -50,7 +50,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -72,7 +72,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         post(new Runnable() {
             @Override
             public void run() {
-//                Log.e("tag", "22222222222222   BasePopupView w: "+ getPopupContentView().getMeasuredWidth());
                 getPopupContentView().setAlpha(1f);
 
                 //2. 收集动画执行器
@@ -86,6 +85,9 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                         // 使用默认的animator
                         popupContentAnimator = getPopupAnimator();
                     }
+                }
+                if(popupContentAnimator==null){
+                    throw new IllegalArgumentException("No PopupAnimator impl!");
                 }
 
                 //3. 初始化动画执行器
@@ -103,7 +105,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 根据PopupInfo的popupAnimation字段来生成对应的动画执行器
      */
     protected PopupAnimator genPopupContentAnimator() {
-        if (popupInfo.popupAnimation == null) return null;
+        if (popupInfo==null || popupInfo.popupAnimation == null) return null;
         switch (popupInfo.popupAnimation) {
             case ScaleAlphaFromCenter:
             case ScaleAlphaFromLeftTop:
@@ -156,6 +158,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * @return
      */
     protected PopupAnimator getPopupAnimator() {
+        if(popupInfo==null)return null;
         switch (popupInfo.popupType) {
             case Center:
                 return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
@@ -227,5 +230,20 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     @Override
     public int getAnimationDuration() {
         return 400;
+    }
+
+    /**
+     * 消失
+     */
+    public void dismiss(){
+        if(proxy!=null)proxy.dismiss();
+    }
+
+    private DismissProxy proxy;
+    public void setDismissProxy(DismissProxy proxy){
+        this.proxy = proxy;
+    }
+    public interface DismissProxy{
+        void dismiss();
     }
 }

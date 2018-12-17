@@ -16,12 +16,16 @@ import com.lxj.xpopup.util.Utils;
 public class TranslateAlphaAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
+    private float defTranslationX, defTranslationY;
     public TranslateAlphaAnimator(View target, int duration, PopupAnimation popupAnimation) {
         super(target, duration, popupAnimation);
     }
 
     @Override
     public void initAnimator() {
+        defTranslationX = targetView.getTranslationX();
+        defTranslationY = targetView.getTranslationY();
+
         targetView.setAlpha(0);
         // 设置移动坐标
         applyTranslation();
@@ -50,7 +54,7 @@ public class TranslateAlphaAnimator extends PopupAnimator {
 
     @Override
     public void animateShow() {
-        targetView.animate().translationX(0).translationY(0).alpha(1f)
+        targetView.animate().translationX(defTranslationX).translationY(defTranslationY).alpha(1f)
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .setDuration(animateDuration).start();
     }

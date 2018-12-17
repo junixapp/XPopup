@@ -37,11 +37,11 @@ public class AttachPopupDemo extends BaseFragment {
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            XPopup.get()
+            XPopup.get(getContext())
 //                    .popupAnimation(datas[position])
                     .hasShadowBg(false)
                     .atView(v)
-                    .show(getContext());
+                    .show();
         }
     };
 }

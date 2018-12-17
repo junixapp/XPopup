@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="XPopupTitle">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/_xpopup_title_color</item>
-        <item name="android:maxLength">1</item>
+        <item name="android:lines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
 </resources>

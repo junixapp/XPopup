@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * Description:
@@ -21,4 +22,8 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getLayoutId();
     public abstract void init(View view);
+
+    public void toast(String msg){
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 }

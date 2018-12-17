@@ -21,11 +21,13 @@ import com.lxj.xpopup.util.Utils;
  * Create by dance, at 2018/12/11
  */
 public class AttachPopupView extends BasePopupView {
-    int defaultOffsetY = 6;
+    protected int defaultOffsetY = 6;
+    protected int defaultOffsetX = 0;
     CardView attachPopupContainer;
     public AttachPopupView(@NonNull Context context) {
         super(context);
         defaultOffsetY = Utils.dp2px(context, defaultOffsetY);
+        defaultOffsetX = Utils.dp2px(context, defaultOffsetX);
         attachPopupContainer = findViewById(R.id.attachPopupContainer);
 
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), attachPopupContainer, false);
@@ -76,11 +78,11 @@ public class AttachPopupView extends BasePopupView {
                 if (isShowUp) {
                     //说明上面的空间比较大，应显示在atView上方
                     // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
-                    getPopupContentView().setTranslationX(isShowLeft? rect.left : maxX);
+                    getPopupContentView().setTranslationX((isShowLeft? rect.left : maxX) + defaultOffsetX);
                     getPopupContentView().setTranslationY(rect.top - getPopupContentView().getMeasuredHeight() - defaultOffsetY);
                 } else {
                     // 应该显示在atView下方
-                    getPopupContentView().setTranslationX(isShowLeft? rect.left : maxX);
+                    getPopupContentView().setTranslationX((isShowLeft? rect.left : maxX) + defaultOffsetX);
                     getPopupContentView().setTranslationY(rect.bottom + defaultOffsetY);
                 }
             }

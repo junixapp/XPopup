@@ -34,10 +34,10 @@ public class BottomPopupDemo extends BaseFragment {
                 spinner.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        XPopup.get()
+                        XPopup.get(getContext())
                                 .position(PopupType.Bottom)
                                 .popupAnimation(datas[position])
-                                .show(getContext());
+                                .show();
                     }
                 },200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰
 
