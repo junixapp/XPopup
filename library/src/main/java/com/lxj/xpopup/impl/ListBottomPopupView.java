@@ -13,10 +13,8 @@ import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopupConfig;
+import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.interfaces.OnCancelListener;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 
 import java.util.Arrays;
@@ -25,18 +23,18 @@ import java.util.Arrays;
  * Description: 在中间的列表对话框
  * Create by dance, at 2018/12/16
  */
-public class ListCenterPopupView extends CenterPopupView{
+public class ListBottomPopupView extends BottomPopupView {
     RecyclerView recyclerView;
     TextView tv_title;
-    public ListCenterPopupView(@NonNull Context context) {
+    public ListBottomPopupView(@NonNull Context context) {
         super(context);
     }
 
-    public ListCenterPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ListBottomPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ListCenterPopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ListBottomPopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -96,8 +94,5 @@ public class ListCenterPopupView extends CenterPopupView{
         this.selectListener = selectListener;
     }
 
-    @Override
-    protected int getMaxWidth() {
-        return (int) (super.getMaxWidth()*.8f);
-    }
+
 }

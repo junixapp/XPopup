@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/bottomPopupContainer"
+    android:background="@android:color/white"
     android:layout_gravity="bottom"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:padding="20dp"
-        android:background="#f1f1f1"
-        android:textColor="@android:color/black"
-        android:text="我是Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 
-    <TextView
-        android:background="#ccc"
-        android:padding="20dp"
-        android:textColor="#666"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="床前明月光，\n 疑是地上霜；\n 举头望明月，\n 低头思故乡。"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+</FrameLayout>

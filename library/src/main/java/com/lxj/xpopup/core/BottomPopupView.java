@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.util.Utils;
@@ -13,8 +16,12 @@ import com.lxj.xpopup.util.Utils;
  * Create by lxj, at 2018/12/11
  */
 public class BottomPopupView extends BasePopupView {
+    FrameLayout bottomPopupContainer;
     public BottomPopupView(@NonNull Context context) {
         super(context);
+        bottomPopupContainer = findViewById(R.id.bottomPopupContainer);
+        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), bottomPopupContainer, false);
+        bottomPopupContainer.addView(contentView);
     }
 
     public BottomPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -40,5 +47,11 @@ public class BottomPopupView extends BasePopupView {
                 MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
     }
 
-
+    /**
+     * 具体实现的类的布局
+     * @return
+     */
+    protected int getImplLayoutId(){
+        return 0;
+    }
 }

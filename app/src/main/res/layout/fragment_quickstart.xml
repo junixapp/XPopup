@@ -21,6 +21,13 @@
         android:text="显示ListCenterPopupView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:textAllCaps="false"
+        android:id="@+id/btnShowBottomList"
+        android:text="显示ListBottomPopupView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:textAllCaps="false"
         android:id="@+id/btnShowAttachList"

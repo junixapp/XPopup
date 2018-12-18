@@ -25,6 +25,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
+        view.findViewById(R.id.btnShowBottomList).setOnClickListener(this);
         view.findViewById(R.id.btnShowAttachList).setOnClickListener(this);
     }
 
@@ -52,7 +53,17 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowCenterList:
-                XPopup.get(getActivity()).asCenterList(new String[]{"条目1", "条目2", "条目3", "条目3"},
+                XPopup.get(getActivity()).asCenterList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4"},
+                        new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                toast("click "+text);
+                            }
+                        })
+                        .show();
+                break;
+            case R.id.btnShowBottomList:
+                XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
@@ -62,7 +73,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowAttachList:
-                XPopup.get(getActivity()).asAttachList(new String[]{"分享", "编辑", "删除"},
+                XPopup.get(getActivity()).asAttachList(new String[]{"分享", "编辑", "不带icon"},
                         new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
                         -100, 0,
                         new OnSelectListener() {

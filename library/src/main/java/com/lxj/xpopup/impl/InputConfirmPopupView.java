@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.XPopupConfig;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
@@ -53,6 +55,17 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
                 if(tv_input==v && hasFocus){
                     getPopupContentView().animate().translationY(-getPopupContentView().getMeasuredHeight()/2)
                             .setDuration(300).start();
+
+                    // 设置返回按下监听
+                    tv_input.setOnKeyListener(new View.OnKeyListener() {
+                        @Override
+                        public boolean onKey(View v, int keyCode, KeyEvent event) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                dismiss();
+                            }
+                            return true;
+                        }
+                    });
                 }
             }
         });

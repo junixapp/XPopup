@@ -19,6 +19,7 @@ import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.ConfirmPopupView;
 import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.ListAttachPopupView;
+import com.lxj.xpopup.impl.ListBottomPopupView;
 import com.lxj.xpopup.impl.ListCenterPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -81,6 +82,7 @@ public class XPopup implements BasePopupView.DismissProxy {
         // 监听KeyEvent
         popupView.setFocusableInTouchMode(true);
         popupView.requestFocus();
+        // 此处焦点可能被内容的EditText抢走，此时需要给EditText也设置返回按下监听
         popupView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -233,23 +235,47 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     /**
      * 显示在中间的列表Popup
+     * @param title 标题，可以不传，不传则不显示
      * @param datas 显示的文本数据
      * @param iconIds 图标的id数组，可以没有
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asCenterList(String[] datas, int[] iconIds,  OnSelectListener selectListener){
+    public XPopup asCenterList(String title,String[] datas, int[] iconIds,  OnSelectListener selectListener){
         position(PopupType.Center);
 
         ListCenterPopupView listPopupView = new ListCenterPopupView(contextRef.get());
-        listPopupView.setStringData(datas, iconIds);
+        listPopupView.setStringData(title, datas, iconIds);
         listPopupView.setOnSelectListener(selectListener);
         this.popupView = listPopupView;
         return this;
     }
-    public XPopup asCenterList(String[] datas,  OnSelectListener selectListener){
-        return asCenterList(datas, null, selectListener);
+    public XPopup asCenterList(String title,String[] datas,  OnSelectListener selectListener){
+        return asCenterList(title,datas, null, selectListener);
     }
+
+
+    /**
+     * 显示在底部的列表Popup
+     * @param title 标题，可以不传，不传则不显示
+     * @param datas 显示的文本数据
+     * @param iconIds 图标的id数组，可以没有
+     * @param selectListener 选中条目的监听器
+     * @return
+     */
+    public XPopup asBottomList(String title,String[] datas, int[] iconIds,  OnSelectListener selectListener){
+        position(PopupType.Bottom);
+
+        ListBottomPopupView listPopupView = new ListBottomPopupView(contextRef.get());
+        listPopupView.setStringData(title, datas, iconIds);
+        listPopupView.setOnSelectListener(selectListener);
+        this.popupView = listPopupView;
+        return this;
+    }
+    public XPopup asBottomList(String title,String[] datas,  OnSelectListener selectListener){
+        return asBottomList(title,datas, null, selectListener);
+    }
+
 
     /**
      * 显示依附于某View的列表，必须调用atView()方法，指定依附的View
@@ -270,7 +296,9 @@ public class XPopup implements BasePopupView.DismissProxy {
         this.popupView = listPopupView;
         return this;
     }
+
     public XPopup asAttachList(String[] datas, int[] iconIds, OnSelectListener selectListener){
         return asAttachList(datas, iconIds, 0, 0, selectListener);
     }
+
 }
