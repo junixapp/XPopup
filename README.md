@@ -1,5 +1,5 @@
 ## XPopup
-强大的，并且漂亮的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet等组件，自带十几种效果良好的动画，
+强大，简洁且漂亮的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！
 
 编写本库的初衷有以下几点：

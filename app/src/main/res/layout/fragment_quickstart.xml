@@ -34,4 +34,9 @@
         android:text="显示依附于某View的列表"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <com.lxj.xpopupdemo.LoadingView
+        android:background="#f2f2f1"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
 </LinearLayout>
