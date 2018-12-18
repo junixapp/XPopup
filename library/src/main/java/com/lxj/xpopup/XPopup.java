@@ -19,6 +19,7 @@ import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.ConfirmPopupView;
 import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.ListAttachPopupView;
+import com.lxj.xpopup.impl.ListCenterPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
@@ -230,6 +231,25 @@ public class XPopup implements BasePopupView.DismissProxy {
         return asInputConfirm(title, content, confirmListener, null);
     }
 
+    /**
+     * 显示在中间的列表Popup
+     * @param datas 显示的文本数据
+     * @param iconIds 图标的id数组，可以没有
+     * @param selectListener 选中条目的监听器
+     * @return
+     */
+    public XPopup asCenterList(String[] datas, int[] iconIds,  OnSelectListener selectListener){
+        position(PopupType.Center);
+
+        ListCenterPopupView listPopupView = new ListCenterPopupView(contextRef.get());
+        listPopupView.setStringData(datas, iconIds);
+        listPopupView.setOnSelectListener(selectListener);
+        this.popupView = listPopupView;
+        return this;
+    }
+    public XPopup asCenterList(String[] datas,  OnSelectListener selectListener){
+        return asCenterList(datas, null, selectListener);
+    }
 
     /**
      * 显示依附于某View的列表，必须调用atView()方法，指定依附的View

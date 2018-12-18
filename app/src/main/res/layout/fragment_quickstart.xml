@@ -17,6 +17,12 @@
         android:layout_height="wrap_content" />
     <Button
         android:textAllCaps="false"
+        android:id="@+id/btnShowCenterList"
+        android:text="显示ListCenterPopupView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:textAllCaps="false"
         android:id="@+id/btnShowAttachList"
         android:text="显示依附于某View的列表"
         android:layout_width="match_parent"

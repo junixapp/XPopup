@@ -24,6 +24,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     public void init(View view) {
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
+        view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
         view.findViewById(R.id.btnShowAttachList).setOnClickListener(this);
     }
 
@@ -46,6 +47,16 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             @Override
                             public void onConfirm(String text) {
                                 toast("input text: " + text);
+                            }
+                        })
+                        .show();
+                break;
+            case R.id.btnShowCenterList:
+                XPopup.get(getActivity()).asCenterList(new String[]{"条目1", "条目2", "条目3", "条目3"},
+                        new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                toast("click "+text);
                             }
                         })
                         .show();

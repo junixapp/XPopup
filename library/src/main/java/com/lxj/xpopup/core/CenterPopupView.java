@@ -50,12 +50,10 @@ public class CenterPopupView extends BasePopupView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // 限制宽高
-        int maxHeight = (int) (Utils.getWindowHeight(getContext()) * 0.85f);
-        int maxWidth = (int) (Utils.getWindowWidth(getContext()) * 0.86f);
         int widthSize = getPopupContentView().getMeasuredWidth();
         int heightSize = getPopupContentView().getMeasuredHeight();
-        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(Math.min(maxWidth, widthSize), MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
+        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(Math.min(getMaxWidth(), widthSize), MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), heightSize), MeasureSpec.EXACTLY));
     }
 
     /**
@@ -64,6 +62,14 @@ public class CenterPopupView extends BasePopupView {
      */
     protected int getImplLayoutId(){
         return 0;
+    }
+
+    protected int getMaxWidth(){
+        return (int) (Utils.getWindowWidth(getContext()) * 0.86f);
+    }
+
+    protected int getMaxHeight(){
+        return (int) (Utils.getWindowHeight(getContext()) * 0.85f);
     }
 
 }
