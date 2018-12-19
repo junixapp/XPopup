@@ -20,10 +20,10 @@ import com.lxj.xpopup.util.Utils;
  */
 public class LoadingView extends View {
     private Paint paint;
-    private int radius;
-    private int radiusOffset;
+    private float radius;
+    private float radiusOffset;
     // 不是固定不变的，当width为30dp时，它为2dp，当宽度变大，这个也会相应的变大
-    private int stokeWidth = 2;
+    private float stokeWidth = 2f;
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private int startColor = Color.parseColor("#EFEFEF");
     private int endColor = Color.parseColor("#010101");
@@ -52,7 +52,7 @@ public class LoadingView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         radius = getMeasuredWidth() / 2;
-        radiusOffset = radius / 3;
+        radiusOffset = radius / 3f;
 
         centerX = getMeasuredWidth() / 2;
         centerY = getMeasuredHeight() / 2;
@@ -74,7 +74,11 @@ public class LoadingView extends View {
             paint.setColor(color);
 
             float startX = centerX + radiusOffset;
-            canvas.drawLine(startX, centerY, startX + radius / 2.5f, centerY, paint);
+            float endX = startX + radius / 3f;
+            canvas.drawLine(startX, centerY, endX, centerY, paint);
+            // 线的两端画个点，看着圆滑
+            canvas.drawCircle(startX, centerY,stokeWidth/2, paint);
+            canvas.drawCircle(endX, centerY,stokeWidth/2, paint);
             canvas.rotate(avgAngle, centerX, centerY);
         }
         postDelayed(increaseTask, 100);
