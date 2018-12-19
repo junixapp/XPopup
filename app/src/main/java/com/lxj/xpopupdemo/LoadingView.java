@@ -27,7 +27,10 @@ public class LoadingView extends View {
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private int startColor = Color.parseColor("#EFEFEF");
     private int endColor = Color.parseColor("#010101");
-
+    int lineCount = 12; // 共12条线
+    float avgAngle = 360f / lineCount;
+    int time = 0; // 重复次数
+    float centerX, centerY; // 中心x，y
     public LoadingView(Context context) {
         this(context, null);
     }
@@ -42,11 +45,6 @@ public class LoadingView extends View {
         stokeWidth = Utils.dp2px(context, stokeWidth);
         paint.setStrokeWidth(stokeWidth);
     }
-
-    int lineCount = 12;
-    float avgAngle = 360f / lineCount;
-    int time = 0;
-    float centerX, centerY;
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
