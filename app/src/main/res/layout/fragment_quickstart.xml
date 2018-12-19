@@ -36,7 +36,6 @@
         android:layout_height="wrap_content" />
 
     <com.lxj.xpopupdemo.LoadingView
-        android:background="#f2f2f1"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 </LinearLayout>
