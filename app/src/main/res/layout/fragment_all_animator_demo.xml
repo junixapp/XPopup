@@ -6,15 +6,17 @@
     <TextView
         android:id="@+id/temp"
         android:padding="20dp"
-        android:background="#f2f2f2"
+        android:background="#f0f0f0"
+        android:textSize="16sp"
         android:textColor="@android:color/black"
-        android:text="此页面演示Center类型，一般用作在屏幕中间显示的对话框，Loading加载框之类"
+        android:text="此页面以Center类型的Confirm弹窗为例，演示为其设置不同的动画方案所带来的效果。对于类库已经提供的弹窗实现，都默认设置了最佳的动画效果，但仍然允许你选择喜欢的动画方案；如果仍不满意，完全可以自定义动画，这已经被设计得非常简单。"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
     <TextView
-        android:text="选择动画类型："
+        android:text="选择动画："
+        android:textSize="14sp"
         android:textColor="@android:color/black"
         android:layout_margin="15dp"
         android:layout_below="@+id/temp"

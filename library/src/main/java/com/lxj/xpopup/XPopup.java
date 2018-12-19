@@ -11,7 +11,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
@@ -148,15 +152,31 @@ public class XPopup implements BasePopupView.DismissProxy {
         }, popupView.getAnimationDuration() + 10);
     }
 
-    public XPopup position(PopupType popupType) {
+    private XPopup position(PopupType popupType) {
         checkPopupInfo();
         popupInfo.popupType = popupType;
         return this;
     }
 
+    /**
+     * 设置某个内置的动画类型
+     * @param animation
+     * @return
+     */
     public XPopup popupAnimation(PopupAnimation animation){
         checkPopupInfo();
         popupInfo.popupAnimation = animation;
+        return this;
+    }
+
+    /**
+     * 设置自定义的动画器
+     * @param animator
+     * @return
+     */
+    public XPopup customAnimator(PopupAnimator animator){
+        checkPopupInfo();
+        popupInfo.customAnimator = animator;
         return this;
     }
 
@@ -315,4 +335,20 @@ public class XPopup implements BasePopupView.DismissProxy {
         return asAttachList(datas, iconIds, 0, 0, selectListener);
     }
 
+
+    /** 自定义弹窗 **/
+    public XPopup asCustom(BasePopupView popupView){
+        if(popupView instanceof CenterPopupView){
+            position(PopupType.Center);
+        }else if(popupView instanceof BottomPopupView){
+            position(PopupType.Bottom);
+        }else if(popupView instanceof AttachPopupView){
+            position(PopupType.AttachView);
+        }else {
+            throw new IllegalArgumentException("自定义的弹窗必须要继承[ CenterPopupView | BottomPopupView | AttachPopupView ]三者之一");
+        }
+
+        this.popupView = popupView;
+        return this;
+    }
 }

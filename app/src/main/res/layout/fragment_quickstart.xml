@@ -10,18 +10,38 @@
         android:text="显示ConfirmPopupView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv1"
+        android:text="点我看看"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:background="@color/colorPrimary"
+        android:layout_width="100dp"
+        android:layout_height="40dp" />
+
     <Button
         android:textAllCaps="false"
         android:id="@+id/btnShowInputConfirm"
         android:text="显示InputConfirmPopupView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <Button
         android:textAllCaps="false"
         android:id="@+id/btnShowCenterList"
         android:text="显示ListCenterPopupView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv2"
+        android:text="点我看看"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
+        android:layout_width="80dp"
+        android:layout_height="40dp" />
 
     <Button
         android:textAllCaps="false"
@@ -36,12 +56,15 @@
         android:text="显示ListBottomPopupView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btnShowAttachList"
-        android:text="显示依附于某View的列表"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/tv3"
+        android:text="点我看看"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:layout_gravity="right"
+        android:background="@color/colorPrimary"
+        android:layout_width="70dp"
+        android:layout_height="40dp" />
 
 </LinearLayout>

@@ -1,11 +1,15 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopupdemo.R;
@@ -14,16 +18,19 @@ import com.lxj.xpopupdemo.R;
  * Description:
  * Create by dance, at 2018/12/9
  */
-public class BottomPopupDemo extends BaseFragment {
+public class CustomPopupDemo extends BaseFragment {
     Spinner spinner;
+    TextView temp;
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_popup_demo;
+        return R.layout.fragment_all_animator_demo;
     }
     PopupAnimation[] datas;
     @Override
     public void init(View view) {
         spinner = view.findViewById(R.id.spinner);
+        temp = view.findViewById(R.id.temp);
+        temp.setText("演示如何自定义弹窗：");
 
         datas = PopupAnimation.values();
         spinner.setAdapter(new ArrayAdapter<PopupAnimation>(getContext(), android.R.layout.simple_list_item_1, datas));
@@ -35,8 +42,8 @@ public class BottomPopupDemo extends BaseFragment {
                     @Override
                     public void run() {
                         XPopup.get(getContext())
-                                .position(PopupType.Bottom)
                                 .popupAnimation(datas[position])
+                                .asCustom(new CustomPopup(getContext()))
                                 .show();
                     }
                 },200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰
@@ -50,4 +57,25 @@ public class BottomPopupDemo extends BaseFragment {
     }
 
 
+    static class CustomPopup extends CenterPopupView{
+        public CustomPopup(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.custom_popup;
+        }
+
+        @Override
+        protected void initPopupContent() {
+            super.initPopupContent();
+            findViewById(R.id.tv_close).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
+    }
 }

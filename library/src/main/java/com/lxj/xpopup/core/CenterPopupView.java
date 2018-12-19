@@ -47,10 +47,6 @@ public class CenterPopupView extends BasePopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-    }
-
-    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);

@@ -1,32 +1,23 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopupdemo.R;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Description:
  * Create by dance, at 2018/12/9
  */
-public class CenterPopupDemo extends BaseFragment {
+public class AllAnimatorDemo extends BaseFragment {
     Spinner spinner;
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_popup_demo;
+        return R.layout.fragment_all_animator_demo;
     }
     PopupAnimation[] datas;
     @Override
@@ -44,7 +35,7 @@ public class CenterPopupDemo extends BaseFragment {
                     public void run() {
                         XPopup.get(getContext())
                                 .popupAnimation(datas[position])
-                                .asConfirm("演示动画", "你可以为弹窗选择任意一种动画，但并不必要，因为我已经默认给每种弹窗设定了最佳动画！", null)
+                                .asConfirm("演示应用不同的动画", "你可以为弹窗选择任意一种动画，但这并不必要，因为我已经默认给每种弹窗设定了最佳动画！对于你自定义的弹窗，可以随心选择心仪的动画方案。", null)
                                 .show();
                     }
                 },200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰

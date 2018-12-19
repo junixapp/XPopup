@@ -40,14 +40,6 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         super(context);
     }
 
-    public InputConfirmPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public InputConfirmPopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
     @Override
     protected int getImplLayoutId() {
         return R.layout._xpopup_center_impl_confirm;

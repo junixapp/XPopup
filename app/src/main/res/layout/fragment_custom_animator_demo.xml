@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/temp"
+        android:padding="20dp"
+        android:background="#f0f0f0"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:text="此页面以Center类型的Confirm弹窗为例，为其设置一个自定义动画。"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:id="@+id/btn_show"
+        android:textAllCaps="false"
+        android:text="show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

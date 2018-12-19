@@ -8,22 +8,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 
 import com.lxj.xpopup.XPopupConfig;
-import com.lxj.xpopupdemo.fragment.AttachPopupDemo;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
-import com.lxj.xpopupdemo.fragment.BottomPopupDemo;
-import com.lxj.xpopupdemo.fragment.CenterPopupDemo;
+import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
+import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
+import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 
 public class MainActivity extends AppCompatActivity {
 
     PageInfo[] pageInfos = new PageInfo[]{
       new PageInfo("快速开始", new QuickStartDemo()),
-      new PageInfo("Center类型", new CenterPopupDemo()),
-      new PageInfo("Bottom类型", new BottomPopupDemo()),
-      new PageInfo("依附某View", new AttachPopupDemo()),
+      new PageInfo("尝试不同动画", new AllAnimatorDemo()),
+      new PageInfo("自定义弹窗", new CustomPopupDemo()),
+//      new PageInfo("自定义动画", new CustomAnimatorDemo())
     };
 
     TabLayout tabLayout;

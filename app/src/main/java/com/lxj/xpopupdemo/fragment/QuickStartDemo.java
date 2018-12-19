@@ -27,7 +27,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
         view.findViewById(R.id.btnShowLoading).setOnClickListener(this);
         view.findViewById(R.id.btnShowBottomList).setOnClickListener(this);
-        view.findViewById(R.id.btnShowAttachList).setOnClickListener(this);
+        view.findViewById(R.id.tv1).setOnClickListener(this);
+        view.findViewById(R.id.tv2).setOnClickListener(this);
+        view.findViewById(R.id.tv3).setOnClickListener(this);
     }
 
     @Override
@@ -76,17 +78,18 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
-            case R.id.btnShowAttachList:
+            case R.id.tv1:
+            case R.id.tv2:
+            case R.id.tv3:
                 XPopup.get(getActivity()).asAttachList(new String[]{"分享", "编辑", "不带icon"},
                         new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-                        -100, 0,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
                                 toast("click "+text);
                             }
                         })
-                        .atView(getView().findViewById(R.id.btnShowAttachList))
+                        .atView(v)  // 依附于所点击的View
                         .show();
                 break;
         }

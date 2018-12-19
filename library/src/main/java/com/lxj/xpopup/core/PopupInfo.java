@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.view.View;
 
+import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupType;
 
@@ -17,6 +18,7 @@ public class PopupInfo {
     private View atView = null; // 依附于那个View显示
     // 动画执行器，如果用户不指定，则会根据窗体类型popupType字段生成默认合适的动画执行器
     public PopupAnimation popupAnimation = null;
+    public PopupAnimator customAnimator = null;
 
     public View getAtView() {
         return atView;

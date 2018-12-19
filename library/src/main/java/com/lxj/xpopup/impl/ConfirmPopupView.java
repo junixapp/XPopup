@@ -27,14 +27,6 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         super(context);
     }
 
-    public ConfirmPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public ConfirmPopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
     @Override
     protected int getImplLayoutId() {
         return R.layout._xpopup_center_impl_confirm;

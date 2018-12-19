@@ -14,6 +14,7 @@ import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
+import com.lxj.xpopup.util.Utils;
 import com.lxj.xpopup.widget.ClickConsumeView;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
@@ -171,7 +172,9 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     // 执行初始化Popup的content
-    protected void initPopupContent() {}
+    protected void initPopupContent() {
+        setPadding(0,0,0,Utils.getNavBarHeight());
+    }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
