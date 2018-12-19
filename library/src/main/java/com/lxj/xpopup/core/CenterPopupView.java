@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -22,7 +23,8 @@ import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
  * Create by dance, at 2018/12/8
  */
 public class CenterPopupView extends BasePopupView {
-    FrameLayout centerPopupContainer;
+    protected FrameLayout centerPopupContainer;
+
     public CenterPopupView(@NonNull Context context) {
         super(context);
 
@@ -43,32 +45,43 @@ public class CenterPopupView extends BasePopupView {
     protected int getPopupLayoutId() {
         return R.layout._xpopup_center_popup_view;
     }
+
     @Override
-    protected void initPopupContent() {}
+    protected void initPopupContent() {
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // 限制宽高
-        int widthSize = getPopupContentView().getMeasuredWidth();
-        int heightSize = getPopupContentView().getMeasuredHeight();
-        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(Math.min(getMaxWidth(), widthSize), MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), heightSize), MeasureSpec.EXACTLY));
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            // popupContent限制宽高
+            if (child == getPopupContentView()) {
+                measureChild(child, MeasureSpec.makeMeasureSpec(Math.min(getMaxWidth(), width), MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), height), MeasureSpec.EXACTLY));
+            } else {
+                measureChild(child, widthMeasureSpec, heightMeasureSpec);
+            }
+        }
+        setMeasuredDimension(width, height);
     }
 
     /**
      * 具体实现的类的布局
+     *
      * @return
      */
-    protected int getImplLayoutId(){
+    protected int getImplLayoutId() {
         return 0;
     }
 
-    protected int getMaxWidth(){
+    protected int getMaxWidth() {
         return (int) (Utils.getWindowWidth(getContext()) * 0.86f);
     }
 
-    protected int getMaxHeight(){
+    protected int getMaxHeight() {
         return (int) (Utils.getWindowHeight(getContext()) * 0.85f);
     }
 

@@ -44,6 +44,7 @@ public class CenterPopupDemo extends BaseFragment {
                     public void run() {
                         XPopup.get(getContext())
                                 .popupAnimation(datas[position])
+                                .asConfirm("演示动画", "你可以为弹窗选择任意一种动画，但并不必要，因为我已经默认给每种弹窗设定了最佳动画！", null)
                                 .show();
                     }
                 },200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰

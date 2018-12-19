@@ -21,6 +21,7 @@ import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.ListAttachPopupView;
 import com.lxj.xpopup.impl.ListBottomPopupView;
 import com.lxj.xpopup.impl.ListCenterPopupView;
+import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
@@ -252,6 +253,19 @@ public class XPopup implements BasePopupView.DismissProxy {
     }
     public XPopup asCenterList(String title,String[] datas,  OnSelectListener selectListener){
         return asCenterList(title,datas, null, selectListener);
+    }
+
+
+    /**
+     * 显示在中间加载的弹窗
+     * @return
+     */
+    public XPopup asLoading(){
+        position(PopupType.Center);
+
+        LoadingPopupView loadingPopupView = new LoadingPopupView(contextRef.get());
+        this.popupView = loadingPopupView;
+        return this;
     }
 
 

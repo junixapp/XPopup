@@ -3,6 +3,7 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,8 +54,12 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
-        tv_title.setText(title);
-        tv_content.setText(content);
+        if(!TextUtils.isEmpty(title)){
+            tv_title.setText(title);
+        }
+        if(!TextUtils.isEmpty(content)){
+            tv_content.setText(content);
+        }
     }
 
     protected void applyPrimaryColor(){

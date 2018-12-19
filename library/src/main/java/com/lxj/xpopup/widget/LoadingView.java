@@ -1,4 +1,4 @@
-package com.lxj.xpopupdemo;
+package com.lxj.xpopup.widget;
 
 import android.animation.ArgbEvaluator;
 import android.animation.FloatEvaluator;
@@ -15,7 +15,7 @@ import android.view.View;
 import com.lxj.xpopup.util.Utils;
 
 /**
- * Description:
+ * Description: 加载View
  * Create by dance, at 2018/12/18
  */
 public class LoadingView extends View {
@@ -25,8 +25,8 @@ public class LoadingView extends View {
     // 不是固定不变的，当width为30dp时，它为2dp，当宽度变大，这个也会相应的变大
     private float stokeWidth = 2f;
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private int startColor = Color.parseColor("#EFEFEF");
-    private int endColor = Color.parseColor("#010101");
+    private int startColor = Color.parseColor("#999999");
+    private int endColor = Color.parseColor("#FFFFFF");
     int lineCount = 12; // 共12条线
     float avgAngle = 360f / lineCount;
     int time = 0; // 重复次数
@@ -50,7 +50,7 @@ public class LoadingView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         radius = getMeasuredWidth() / 2;
-        radiusOffset = radius / 3f;
+        radiusOffset = radius / 2.5f;
 
         centerX = getMeasuredWidth() / 2;
         centerY = getMeasuredHeight() / 2;
@@ -79,7 +79,7 @@ public class LoadingView extends View {
             canvas.drawCircle(endX, centerY,stokeWidth/2, paint);
             canvas.rotate(avgAngle, centerX, centerY);
         }
-        postDelayed(increaseTask, 100);
+        postDelayed(increaseTask, 80);
     }
 
     private Runnable increaseTask = new Runnable() {

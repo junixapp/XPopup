@@ -25,6 +25,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
+        view.findViewById(R.id.btnShowLoading).setOnClickListener(this);
         view.findViewById(R.id.btnShowBottomList).setOnClickListener(this);
         view.findViewById(R.id.btnShowAttachList).setOnClickListener(this);
     }
@@ -61,6 +62,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             }
                         })
                         .show();
+                break;
+            case R.id.btnShowLoading:
+                XPopup.get(getActivity()).asLoading().show();
                 break;
             case R.id.btnShowBottomList:
                 XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},

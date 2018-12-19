@@ -1,11 +1,22 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +28,7 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
+import com.lxj.xpopup.util.Utils;
 
 /**
  * Description: 带输入框，确定和取消的对话框
@@ -44,9 +56,9 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     AppCompatEditText tv_input;
     @Override
     protected void initPopupContent() {
-        super.initPopupContent();
         tv_input = findViewById(R.id.tv_input);
         tv_input.setVisibility(VISIBLE);
+        super.initPopupContent();
 
         tv_input.setOnClickListener(this);
         tv_input.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -73,6 +85,16 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
 
     protected void applyPrimaryColor(){
         super.applyPrimaryColor();
+        Utils.setCursorDrawableColor(tv_input, XPopupConfig.primaryColor);
+        tv_input.post(new Runnable() {
+            @Override
+            public void run() {
+                BitmapDrawable defaultDrawable = Utils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), Color.parseColor("#888888"));
+                BitmapDrawable focusDrawable = Utils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), XPopupConfig.primaryColor);
+                tv_input.setBackgroundDrawable(Utils.createSelector(defaultDrawable, focusDrawable));
+            }
+        });
+
     }
 
     OnCancelListener cancelListener;

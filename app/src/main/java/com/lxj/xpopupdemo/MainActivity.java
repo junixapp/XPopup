@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 
+import com.lxj.xpopup.XPopupConfig;
 import com.lxj.xpopupdemo.fragment.AttachPopupDemo;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.BottomPopupDemo;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         },300);
 
+        XPopupConfig.init(getResources().getColor(R.color.colorPrimary));
     }
 
     private void callFragmentInit(int i){

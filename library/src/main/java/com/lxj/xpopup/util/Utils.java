@@ -3,14 +3,28 @@ package com.lxj.xpopup.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.lxj.xpopup.XPopupConfig;
+
+import java.lang.reflect.Field;
 
 /**
  * Description:
@@ -77,5 +91,49 @@ public class Utils {
         params.width = Math.min(target.getMeasuredWidth(), maxWidth);
         params.height = Math.min(target.getMeasuredHeight(), maxHeight);
         target.setLayoutParams(params);
+    }
+
+    public static void setCursorDrawableColor(EditText editText, int color) {
+        try {
+            Field fCursorDrawableRes =
+                    TextView.class.getDeclaredField("mCursorDrawableRes");
+            fCursorDrawableRes.setAccessible(true);
+            int mCursorDrawableRes = fCursorDrawableRes.getInt(editText);
+            Field fEditor = TextView.class.getDeclaredField("mEditor");
+            fEditor.setAccessible(true);
+            Object editor = fEditor.get(editText);
+            Class<?> clazz = editor.getClass();
+            Field fCursorDrawable = clazz.getDeclaredField("mCursorDrawable");
+            fCursorDrawable.setAccessible(true);
+
+            Drawable[] drawables = new Drawable[2];
+            Resources res = editText.getContext().getResources();
+            drawables[0] = res.getDrawable(mCursorDrawableRes);
+            drawables[1] = res.getDrawable(mCursorDrawableRes);
+            drawables[0].setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            drawables[1].setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            fCursorDrawable.set(editor, drawables);
+        } catch (final Throwable ignored) {
+        }
+    }
+
+    public static BitmapDrawable createBitmapDrawable(Resources resources,int width, int color){
+        Bitmap bitmap = Bitmap.createBitmap(width, 20, Bitmap.Config.ARGB_4444);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setColor(color);
+        canvas.drawRect(0,0, bitmap.getWidth(), 4, paint);
+        paint.setColor(Color.TRANSPARENT);
+        canvas.drawRect(0,4, bitmap.getWidth(), 20, paint);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(resources,bitmap);
+        bitmapDrawable.setGravity(Gravity.BOTTOM);
+        return bitmapDrawable;
+    }
+
+    public static StateListDrawable createSelector(Drawable defaultDrawable, Drawable focusDrawable){
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(new int[]{android.R.attr.state_focused}, focusDrawable);
+        stateListDrawable.addState(new int[]{}, defaultDrawable);
+        return stateListDrawable;
     }
 }
