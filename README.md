@@ -107,3 +107,4 @@ implementation 'com.lxj:xpopup:latest release'
 - [ ] Bottom类型的弹出支持手势拖拽，就像知乎的评论弹窗那样
 - [ ] 手指长按弹出弹窗，就像微信的列表长按效果
 - [ ] 局部阴影覆盖的弹窗，就像淘宝的商品列表筛选框那样
+- [ ] DrawerLayout效果，就像从左边或右边打开的DrawerLayout那样
