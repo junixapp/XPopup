@@ -72,10 +72,10 @@ public class AttachPopupView extends BasePopupView {
                 int maxY = Utils.getWindowHeight(getContext()) - Utils.getNavBarHeight();
                 int maxX = Math.max(rect.right - getPopupContentView().getMeasuredWidth(), 0);
                 int centerX = (rect.left + rect.right) / 2;
-                isShowUp = (rect.top - minY) > (maxY - rect.bottom);
+
+                // 尽量优先放在下方，当不够的时候在显示在上方
+                isShowUp = (rect.bottom + getPopupContentView().getMeasuredHeight()) > ( maxY - 20); // 不能正好贴着底边
                 isShowLeft = centerX < Utils.getWindowWidth(getContext()) / 2;
-//                Log.e("tag", "rect: " + rect.toString() + " minY: " + minY + " maxY: " + maxY
-//                        + " maxX: " + maxX + " w: " + getPopupContentView().getMeasuredWidth());
                 if (isShowUp) {
                     //说明上面的空间比较大，应显示在atView上方
                     // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
