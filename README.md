@@ -10,10 +10,10 @@
 综合常见的弹窗场景，我将其分为几类：
 1. Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
 2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表
-3. Attach类型，就是弹窗的位置需要依附于某个View，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差
+3. Attach类型，就是弹窗的位置需要依附于某个View或者某个触摸点，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差
 4. DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
 
-尽管我已经内置了几种常见弹窗的实现，但不可能满足所有的需求，你很可能需要自定义；你自定义的弹窗类型应该属于这3种之一。
+尽管我已经内置了几种常见弹窗的实现，但不可能满足所有的需求，你很可能需要自定义；你自定义的弹窗类型应该属于这几种之一。
 
 **动画设计**：
 为了增加交互的趣味性，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化。具体可以从Demo中感受。
@@ -21,11 +21,11 @@
 
 ## ScreenShot
 
-![](screenshot/preview1.gif) ![](screenshot/preview_drawer.gif)
+![](screenshot/preview.gif) ![](screenshot/preview_attach.gif)
 
-![](screenshot/preview2.gif) ![](screenshot/preview3.gif)
+![](screenshot/preview_drawer.gif) ![](screenshot/preview2.gif)
 
-![](screenshot/preview4.gif)
+![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
 
 ## 使用
@@ -83,7 +83,7 @@ implementation 'com.lxj:xpopup:latest release'
                             })
                             .show();
     ```
-6. 显示依附于某个View的弹窗
+6. 显示依附于某个View或者某个点的弹窗
     ```java
     XPopup.get(getActivity()).asAttachList(new String[]{"分享", "编辑", "不带icon"},
                             new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
@@ -93,9 +93,30 @@ implementation 'com.lxj:xpopup:latest release'
                                     toast("click "+text);
                                 }
                             })
-                            .atView(v)  // 依附于所点击的View，必须设置
+                            .atView(v)  // 如果是要依附某个View，必须设置
                             .show();
     ```
+    如果是想依附于某个View的触摸点，则需要先`watch`该View，然后当单击或长按触发的时候去显示：
+    ```java
+    // 必须在事件发生前，调用这个方法来监视View的触摸
+    XPopup.get(getActivity()).watch(view);
+    view.setOnLongClickListener(new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            XPopup.get(getActivity()).asAttachList(new String[]{"置顶", "复制", "删除"},null,
+                    new OnSelectListener() {
+                        @Override
+                        public void onSelect(int position, String text) {
+                            toast("click "+text);
+                        }
+                    })
+                    // 注意：已经监视了View的触摸点，无需调用atView()方法
+                    .show();
+            return false;
+        }
+    });
+    ```
+
 7. 关闭弹窗
     ```java
     XPopup.get(getContext()).dismiss();
@@ -240,5 +261,4 @@ implementation 'com.lxj:xpopup:latest release'
 
 ## 待办
 - [ ] Bottom类型的弹出支持手势拖拽，就像知乎的评论弹窗那样
-- [ ] 手指长按弹出弹窗，就像微信的列表长按效果
 - [ ] 局部阴影覆盖的弹窗，就像淘宝的商品列表筛选框那样

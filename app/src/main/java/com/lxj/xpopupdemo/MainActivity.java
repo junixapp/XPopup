@@ -9,13 +9,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.blankj.utilcode.util.BarUtils;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
-import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         XPopup.get(this).setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 
-//        BarUtils.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), 100);
     }
 
     private void callFragmentInit(int i){

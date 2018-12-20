@@ -1,13 +1,8 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Toast;
 
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.DrawerPopupView;
-import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -25,7 +20,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     }
 
     @Override
-    public void init(View view) {
+    public void init(final View view) {
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
@@ -36,6 +31,24 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv1).setOnClickListener(this);
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
+
+        // 必须在事件发生前，调用这个方法来监视View的触摸
+
+        XPopup.get(getActivity()).watch(view.findViewById(R.id.btnShowAttactPoint));
+        view.findViewById(R.id.btnShowAttactPoint).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                XPopup.get(getActivity()).asAttachList(new String[]{"置顶", "复制", "删除"},null,
+                        new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                toast("click "+text);
+                            }
+                        })
+                        .show();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -103,6 +116,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowDrawerLeft:
                 XPopup.get(getActivity())
                         .asCustom(new CustomDrawerPopupView(getContext()))
+                        // 由于已经调用了watch方法来监视目标View的触摸，无需再调用atView方法
                         .show();
                 break;
             case R.id.btnShowDrawerRight:

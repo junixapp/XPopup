@@ -1,90 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="20dp"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btnShowConfirm"
-        android:text="显示ConfirmPopupView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tv1"
-        android:text="点我看看"
-        android:gravity="center"
-        android:textColor="#fff"
-        android:background="@color/colorPrimary"
-        android:layout_width="100dp"
-        android:layout_height="40dp" />
-
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btnShowInputConfirm"
-        android:text="显示InputConfirmPopupView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btnShowCenterList"
-        android:text="显示ListCenterPopupView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tv2"
-        android:text="点我看看"
-        android:textColor="#fff"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorPrimary"
-        android:layout_width="80dp"
-        android:layout_height="40dp" />
-
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btnShowLoading"
-        android:text="显示LoadingPopupView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/btnShowBottomList"
-        android:text="显示ListBottomPopupView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tv3"
-        android:text="点我看看"
-        android:gravity="center"
-        android:textColor="#fff"
-        android:layout_gravity="right"
-        android:background="@color/colorPrimary"
-        android:layout_width="70dp"
-        android:layout_height="40dp" />
-
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
         <Button
-            android:textAllCaps="false"
-            android:id="@+id/btnShowDrawerLeft"
-            android:text="显示左边DrawerPopupView"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginRight="20dp"
-            android:layout_height="wrap_content" />
+            android:id="@+id/btnShowConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示ConfirmPopupView"
+            android:textAllCaps="false" />
+
+
         <Button
+            android:id="@+id/btnShowInputConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示InputConfirmPopupView"
+            android:textAllCaps="false" />
+
+
+        <Button
+            android:id="@+id/btnShowCenterList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示ListCenterPopupView"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnShowLoading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示LoadingPopupView"
+            android:textAllCaps="false" />
+
+
+        <Button
+            android:id="@+id/btnShowBottomList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示ListBottomPopupView"
+            android:textAllCaps="false" />
+
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="点我看看"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="点我看看"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="点我看看"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/btnShowAttactPoint"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:background="#852986"
+            android:gravity="center"
+            android:text="在我上面任意地方长按"
             android:textAllCaps="false"
-            android:id="@+id/btnShowDrawerRight"
-            android:text="显示右边DrawerPopupView"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:textColor="#fff"
+            android:textSize="22sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="200dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnShowDrawerLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:text="显示左边DrawerPopupView"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnShowDrawerRight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="显示右边DrawerPopupView"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+
     </LinearLayout>
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
