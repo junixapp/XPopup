@@ -68,7 +68,6 @@ public class AttachPopupView extends BasePopupView {
             @Override
             public void run() {
                 // 弹窗显示的位置不能超越状态栏和导航栏，隐藏需要减去2个高度
-                int minY = Utils.getStatusBarHeight();
                 int maxY = Utils.getWindowHeight(getContext()) - Utils.getNavBarHeight();
                 int maxX = Math.max(rect.right - getPopupContentView().getMeasuredWidth(), 0);
                 int centerX = (rect.left + rect.right) / 2;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,13 +44,13 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
         // 2. 添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
-//        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) contentView.getLayoutParams();
-//        params.topMargin = Utils.getStatusBarHeight();
-//        params.bottomMargin = Utils.getNavBarHeight();
-//        contentView.setLayoutParams(params);
         // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
         contentView.setAlpha(0);
         addView(contentView);
+        // 如果有导航栏，则不能覆盖导航栏
+        if(Utils.isNavBarVisible((Activity) getContext())){
+            setPadding(0,0,0, Utils.getNavBarHeight());
+        }
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -166,14 +167,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     // 执行初始化Popup的content
-    protected void initPopupContent() {
-        // 限制显示的Rect不包括导航栏
-        if(Utils.isNavBarVisible((Activity) getContext())){
-            ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
-            params.bottomMargin = Utils.getNavBarHeight();
-            getPopupContentView().setLayoutParams(params);
-        }
-    }
+    protected void initPopupContent() {}
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
@@ -184,7 +178,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.animateShow();
         }
-        popupContentAnimator.animateShow();
+        if(popupContentAnimator!=null)
+            popupContentAnimator.animateShow();
     }
 
     /**
@@ -196,7 +191,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.animateDismiss();
         }
-        popupContentAnimator.animateDismiss();
+        if(popupContentAnimator!=null)
+            popupContentAnimator.animateDismiss();
     }
 
     /**
@@ -221,9 +217,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     @Override
     public int getAnimationDuration() {
-        return popupContentAnimator.animateDuration;
+        return popupContentAnimator==null? 400 : popupContentAnimator.animateDuration;
     }
-
 
     protected int getMaxWidth() {
         return 0;

@@ -1,6 +1,4 @@
 ## XPopup
-![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg)  ![](https://img.shields.io/hexpm/l/plug.svg)
-
 功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！
 
