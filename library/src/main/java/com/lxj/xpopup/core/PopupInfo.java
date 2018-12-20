@@ -11,7 +11,7 @@ import com.lxj.xpopup.enums.PopupType;
  * Create by dance, at 2018/12/8
  */
 public class PopupInfo {
-    public PopupType popupType = PopupType.Center; //窗体的类型
+    public PopupType popupType = null; //窗体的类型
     public Boolean isDismissOnBackPressed = true;  //按返回键是否消失
     public Boolean isDismissOnTouchOutside = true; //点击外部消失
     public Boolean hasShadowBg = true; // 是否有半透明的背景

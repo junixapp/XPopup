@@ -14,13 +14,13 @@ import android.view.animation.LinearInterpolator;
  */
 public class ShadowBgAnimator extends PopupAnimator {
 
-    private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private int startColor = Color.TRANSPARENT;
-    private int endBgColor = Color.parseColor("#88000000");
+    public ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    public int startColor = Color.TRANSPARENT;
+    public int endBgColor = Color.parseColor("#88000000");
     public ShadowBgAnimator(View target) {
         super(target);
     }
-
+    public ShadowBgAnimator() {}
     @Override
     public void initAnimator() {
         targetView.setBackgroundColor(startColor);
@@ -50,5 +50,8 @@ public class ShadowBgAnimator extends PopupAnimator {
         animator.setDuration(animateDuration).start();
     }
 
+    public int calculateBgColor(float fraction){
+        return (int) argbEvaluator.evaluate(fraction, startColor, endBgColor);
+    }
 
 }

@@ -8,5 +8,4 @@ public enum PopupType {
     Center, // 中间显示类型
     Bottom, // 底部弹出的类型
     AttachView,  // 依附于指定View的类型，比如PopupMenu
-    Drawer // DrawerLayout类型
 }

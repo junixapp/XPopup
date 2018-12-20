@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -85,32 +82,7 @@ public class XPopup implements BasePopupView.DismissProxy {
 
         activityView.addView(popupView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        activityView.bringChildToFront(popupView);
-
         popupStatus = PopupStatus.Showing;
-
-        // 监听KeyEvent
-        popupView.setFocusableInTouchMode(true);
-        popupView.requestFocus();
-        // 此处焦点可能被内容的EditText抢走，此时需要给EditText也设置返回按下监听
-        popupView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && popupInfo.isDismissOnBackPressed) {
-                    dismiss();
-                }
-                return true;
-            }
-        });
-
-        // 监听点击
-        popupView.getBackgroundView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popupInfo.isDismissOnTouchOutside)
-                    dismiss();
-            }
-        });
 
         //2. 执行初始化
         popupView.init(new Runnable() {
@@ -376,8 +348,8 @@ public class XPopup implements BasePopupView.DismissProxy {
             position(PopupType.Bottom);
         } else if (popupView instanceof AttachPopupView) {
             position(PopupType.AttachView);
-        } else {
-            throw new IllegalArgumentException("自定义的弹窗必须要继承[ CenterPopupView | BottomPopupView | AttachPopupView ]三者之一");
+        }else {
+            checkPopupInfo();
         }
 
         this.popupView = popupView;
