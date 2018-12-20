@@ -1,5 +1,6 @@
 package com.lxj.xpopup.core;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,7 +38,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         // 1.添加背景View，用来拦截所有内容之外的点击
         ClickConsumeView bgView = new ClickConsumeView(context);
         addView(bgView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        shadowBgAnimator = new ShadowBgAnimator(bgView, getAnimationDuration());
+        shadowBgAnimator = new ShadowBgAnimator(bgView);
 
         // 2. 添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
@@ -76,12 +77,13 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 getPopupContentView().setAlpha(1f);
 
                 //2. 收集动画执行器
-                // 如果是想使用自定义的动画，则需要实现 getPopupAnimator()
-                if (useCustomAnimator()) {
-                    popupContentAnimator = getPopupAnimator();
+                // 优先使用自定义的动画器
+                if (popupInfo.customAnimator!=null) {
+                    popupContentAnimator = popupInfo.customAnimator;
+                    popupContentAnimator.targetView = getPopupContentView();
                 } else {
                     // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
-                    popupContentAnimator = genPopupContentAnimator();
+                    popupContentAnimator = genAnimatorByPopupType();
                     if (popupContentAnimator == null) {
                         // 使用默认的animator
                         popupContentAnimator = getPopupAnimator();
@@ -97,15 +99,18 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
                 //4. 执行动画
                 doShowAnimation();
+
+                // call xpopup init.
+                postDelayed(afterAnimationStarted, 20);
             }
         });
-        postDelayed(afterAnimationStarted, getAnimationDuration()+20);
+
     }
 
     /**
-     * 根据PopupInfo的popupAnimation字段来生成对应的动画执行器
+     * 根据PopupInfo的popupAnimation字段来生成对应的内置的动画执行器
      */
-    protected PopupAnimator genPopupContentAnimator() {
+    protected PopupAnimator genAnimatorByPopupType() {
         if (popupInfo==null || popupInfo.popupAnimation == null) return null;
         switch (popupInfo.popupAnimation) {
             case ScaleAlphaFromCenter:
@@ -113,19 +118,19 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             case ScaleAlphaFromRightTop:
             case ScaleAlphaFromLeftBottom:
             case ScaleAlphaFromRightBottom:
-                return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
+                return new ScaleAlphaAnimator(getPopupContentView(), popupInfo.popupAnimation);
 
             case TranslateAlphaFromLeft:
             case TranslateAlphaFromTop:
             case TranslateAlphaFromRight:
             case TranslateAlphaFromBottom:
-                return new TranslateAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
+                return new TranslateAlphaAnimator(getPopupContentView(), popupInfo.popupAnimation);
 
             case TranslateFromLeft:
             case TranslateFromTop:
             case TranslateFromRight:
             case TranslateFromBottom:
-                return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
+                return new TranslateAnimator(getPopupContentView(), popupInfo.popupAnimation);
 
             case ScrollAlphaFromLeft:
             case ScrollAlphaFromLeftTop:
@@ -135,7 +140,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             case ScrollAlphaFromRightBottom:
             case ScrollAlphaFromBottom:
             case ScrollAlphaFromLeftBottom:
-                return new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
+                return new ScrollScaleAnimator(getPopupContentView(), popupInfo.popupAnimation);
         }
         return null;
     }
@@ -143,18 +148,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     protected abstract int getPopupLayoutId();
 
     /**
-     * 是否使用自定义的动画器，如果返回true，则必须实现getPopupAnimator()
-     *
-     * @return
-     */
-    protected boolean useCustomAnimator() {
-        return false;
-    }
-
-    /**
-     * 获取自己的PopupAnimator，每种类型的PopupView可以选择返回一个动画器，
-     * 也可以配合 useCustomAnimator()，来实现自定义动画器。
-     * 父类默认实现是根据popupType字段返回一个默认合适的动画器
+     * 获取PopupAnimator，每种类型的PopupView可以选择返回一个动画器，
+     * 父类默认实现是根据popupType字段返回一个默认最佳的动画器
      *
      * @return
      */
@@ -162,18 +157,23 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         if(popupInfo==null)return null;
         switch (popupInfo.popupType) {
             case Center:
-                return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
+                return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
             case Bottom:
-                return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), TranslateFromBottom);
+                return new TranslateAnimator(getPopupContentView(), TranslateFromBottom);
             case AttachView:
-                return new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), ScrollAlphaFromLeftTop);
+                return new ScrollScaleAnimator(getPopupContentView(), ScrollAlphaFromLeftTop);
         }
         return null;
     }
 
     // 执行初始化Popup的content
     protected void initPopupContent() {
-        setPadding(0,0,0,Utils.getNavBarHeight());
+        // 限制显示的Rect不包括导航栏
+//        if(Utils.isNavBarVisible((Activity) getContext())){
+//            ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
+//            params.bottomMargin = Utils.getNavBarHeight();
+//            getPopupContentView().setLayoutParams(params);
+//        }
     }
 
     /**
@@ -201,16 +201,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     /**
-     * 整个PopupView容器，由背景View和内容View组成
-     *
-     * @return
-     */
-    @Override
-    public View getPopupView() {
-        return this;
-    }
-
-    /**
      * 获取背景View
      *
      * @return
@@ -232,7 +222,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     @Override
     public int getAnimationDuration() {
-        return 400;
+        return popupContentAnimator.animateDuration;
     }
 
     /**

@@ -17,7 +17,7 @@ import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.util.Utils;
 
 /**
- * Description:
+ * Description: 依附于某个View的弹窗
  * Create by dance, at 2018/12/11
  */
 public class AttachPopupView extends BasePopupView {
@@ -53,6 +53,7 @@ public class AttachPopupView extends BasePopupView {
 
     @Override
     protected void initPopupContent() {
+        super.initPopupContent();
         if (popupInfo.getAtView() == null)
             throw new IllegalArgumentException("atView must not be null for AttachView type！");
 
@@ -96,16 +97,16 @@ public class AttachPopupView extends BasePopupView {
         if (isShowUp) {
             // 在上方展示
             if (isShowLeft) {
-                animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromLeftBottom);
+                animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromLeftBottom);
             } else {
-                animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromRightBottom);
+                animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromRightBottom);
             }
         } else {
             // 在下方展示
             if (isShowLeft) {
-                animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromLeftTop);
+                animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromLeftTop);
             } else {
-                animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromRightTop);
+                animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromRightTop);
             }
         }
         return animator;

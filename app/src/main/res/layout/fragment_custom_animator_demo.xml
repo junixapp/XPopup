@@ -9,7 +9,7 @@
         android:background="#f0f0f0"
         android:textSize="16sp"
         android:textColor="@android:color/black"
-        android:text="此页面以Center类型的Confirm弹窗为例，为其设置一个自定义动画。"
+        android:text="此页面以Center类型的Confirm弹窗为例，为其设置一个自定义动画。你当然也可以将自定义的动画设置给自定义的弹窗，弹窗和动画是分离的，完全可以互相组合。自定义动画极其简单，通常使用10行左右的代码就足以实现一个漂亮的弹窗了！"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -18,7 +18,7 @@
         android:layout_marginTop="30dp"
         android:id="@+id/btn_show"
         android:textAllCaps="false"
-        android:text="show"
+        android:text="显示旋转动画"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
       new PageInfo("快速开始", new QuickStartDemo()),
       new PageInfo("尝试不同动画", new AllAnimatorDemo()),
       new PageInfo("自定义弹窗", new CustomPopupDemo()),
-//      new PageInfo("自定义动画", new CustomAnimatorDemo())
+      new PageInfo("自定义动画", new CustomAnimatorDemo())
     };
 
     TabLayout tabLayout;

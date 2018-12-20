@@ -15,8 +15,8 @@ public class TranslateAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
 
-    public TranslateAnimator(View target, int duration, PopupAnimation popupAnimation) {
-        super(target, duration, popupAnimation);
+    public TranslateAnimator(View target, PopupAnimation popupAnimation) {
+        super(target, popupAnimation);
     }
 
     @Override

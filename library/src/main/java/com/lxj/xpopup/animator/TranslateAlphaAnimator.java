@@ -17,8 +17,8 @@ public class TranslateAlphaAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
     private float defTranslationX, defTranslationY;
-    public TranslateAlphaAnimator(View target, int duration, PopupAnimation popupAnimation) {
-        super(target, duration, popupAnimation);
+    public TranslateAlphaAnimator(View target, PopupAnimation popupAnimation) {
+        super(target, popupAnimation);
     }
 
     @Override

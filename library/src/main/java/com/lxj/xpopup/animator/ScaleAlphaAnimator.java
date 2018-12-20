@@ -12,8 +12,8 @@ import com.lxj.xpopup.enums.PopupAnimation;
  * Create by dance, at 2018/12/9
  */
 public class ScaleAlphaAnimator extends PopupAnimator {
-    public ScaleAlphaAnimator(View target, int duration, PopupAnimation popupAnimation) {
-        super(target, duration, popupAnimation);
+    public ScaleAlphaAnimator(View target, PopupAnimation popupAnimation) {
+        super(target, popupAnimation);
     }
 
     @Override

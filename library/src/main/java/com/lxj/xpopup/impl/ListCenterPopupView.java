@@ -2,10 +2,8 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,10 +11,7 @@ import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopupConfig;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.interfaces.OnCancelListener;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 
 import java.util.Arrays;

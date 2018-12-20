@@ -4,19 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.animator.PopupAnimator;
-import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.util.Utils;
-
-import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 
 /**
  * Description: 在中间显示的Popup

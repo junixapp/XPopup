@@ -47,10 +47,6 @@ public class BottomPopupView extends BasePopupView {
                 MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
     }
 
-    @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
-    }
 
     /**
      * 具体实现的类的布局

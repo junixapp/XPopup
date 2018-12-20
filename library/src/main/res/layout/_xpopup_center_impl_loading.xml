@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.lxj.xpopup.widget.LoadingView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/loadingView"
-
-    android:layout_margin="20dp"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:layout_gravity="center" />
-
-
-<!--<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--android:id="@+id/loadingView"-->
-    <!--android:layout_margin="20dp"-->
-<!--android:layout_width="60dp"-->
-<!--android:layout_height="60dp"-->
-<!--android:layout_gravity="center" />-->
+    android:layout_gravity="center"
+    android:layout_margin="15dp"
+    android:layout_width="50dp"
+    android:layout_height="50dp" />

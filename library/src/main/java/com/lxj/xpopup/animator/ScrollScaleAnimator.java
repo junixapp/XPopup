@@ -21,8 +21,8 @@ public class ScrollScaleAnimator extends PopupAnimator{
     int startScrollX, startScrollY;
     float startAlpha = .2f;
     float startScale = 0f;
-    public ScrollScaleAnimator(View target, int duration, PopupAnimation popupAnimation) {
-        super(target, duration, popupAnimation);
+    public ScrollScaleAnimator(View target, PopupAnimation popupAnimation) {
+        super(target, popupAnimation);
     }
 
     @Override

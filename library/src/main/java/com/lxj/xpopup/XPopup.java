@@ -45,7 +45,9 @@ public class XPopup implements BasePopupView.DismissProxy {
     private ViewGroup activityView = null;
     private PopupStatus popupStatus = PopupStatus.Dismiss;
     private BasePopupView popupView;
-    private XPopup() {}
+
+    private XPopup() {
+    }
 
     public static XPopup get(Context ctx) {
         if (instance == null) {
@@ -59,7 +61,7 @@ public class XPopup implements BasePopupView.DismissProxy {
      * 显示，本质是就将View添加到Window上，并执行动画
      */
     public void show() {
-        if(popupStatus!=PopupStatus.Dismiss)return;
+        if (popupStatus != PopupStatus.Dismiss) return;
         if (contextRef.get() == null) {
             throw new IllegalArgumentException("context can not be null!");
         }
@@ -91,7 +93,7 @@ public class XPopup implements BasePopupView.DismissProxy {
         popupView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && popupInfo.isDismissOnBackPressed) {
                     dismiss();
                 }
                 return true;
@@ -102,7 +104,8 @@ public class XPopup implements BasePopupView.DismissProxy {
         popupView.getBackgroundView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                if (popupInfo.isDismissOnTouchOutside)
+                    dismiss();
             }
         });
 
@@ -117,7 +120,7 @@ public class XPopup implements BasePopupView.DismissProxy {
         KeyboardUtils.registerSoftInputChangedListener(activity, new KeyboardUtils.OnSoftInputChangedListener() {
             @Override
             public void onSoftInputChanged(int height) {
-                if(height==0){ // 说明对话框隐藏
+                if (height == 0) { // 说明对话框隐藏
                     popupView.getPopupContentView().animate().translationY(0)
                             .setDuration(300).start();
                 }
@@ -130,7 +133,7 @@ public class XPopup implements BasePopupView.DismissProxy {
      * 消失
      */
     public void dismiss() {
-        if(popupStatus!=PopupStatus.Show)return;
+        if (popupStatus != PopupStatus.Show) return;
         //1. 执行结束动画
         popupStatus = PopupStatus.Dismissing;
         popupView.doDismissAnimation();
@@ -140,7 +143,7 @@ public class XPopup implements BasePopupView.DismissProxy {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(activityView!=null){
+                if (activityView != null) {
                     activityView.removeView(popupView);
                     activityView = null;
                     popupInfo = null;
@@ -160,10 +163,11 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     /**
      * 设置某个内置的动画类型
+     *
      * @param animation
      * @return
      */
-    public XPopup popupAnimation(PopupAnimation animation){
+    public XPopup popupAnimation(PopupAnimation animation) {
         checkPopupInfo();
         popupInfo.popupAnimation = animation;
         return this;
@@ -171,10 +175,11 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     /**
      * 设置自定义的动画器
+     *
      * @param animator
      * @return
      */
-    public XPopup customAnimator(PopupAnimator animator){
+    public XPopup customAnimator(PopupAnimator animator) {
         checkPopupInfo();
         popupInfo.customAnimator = animator;
         return this;
@@ -214,55 +219,60 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     /**
      * 显示确认和取消对话框
-     * @param title 对话框标题
-     * @param content 对话框内容
+     *
+     * @param title           对话框标题
+     * @param content         对话框内容
      * @param confirmListener 点击确认的监听器
-     * @param cancelListener 点击取消的监听器
+     * @param cancelListener  点击取消的监听器
      * @return
      */
-    public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener){
+    public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
         position(PopupType.Center);
 
         ConfirmPopupView popupView = new ConfirmPopupView(contextRef.get());
         popupView.setTitleContent(title, content);
-        popupView.setListener(confirmListener,cancelListener);
+        popupView.setListener(confirmListener, cancelListener);
         this.popupView = popupView;
         return this;
     }
-    public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener){
+
+    public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener) {
         return asConfirm(title, content, confirmListener, null);
     }
 
     /**
      * 显示带有输入框，确认和取消对话框
-     * @param title 对话框标题
-     * @param content 对话框内容
+     *
+     * @param title           对话框标题
+     * @param content         对话框内容
      * @param confirmListener 点击确认的监听器
-     * @param cancelListener 点击取消的监听器
+     * @param cancelListener  点击取消的监听器
      * @return
      */
-    public XPopup asInputConfirm(String title, String content, OnInputConfirmListener confirmListener, OnCancelListener cancelListener){
+    public XPopup asInputConfirm(String title, String content, OnInputConfirmListener confirmListener, OnCancelListener cancelListener) {
         position(PopupType.Center);
 
         InputConfirmPopupView popupView = new InputConfirmPopupView(contextRef.get());
         popupView.setTitleContent(title, content);
-        popupView.setListener(confirmListener,cancelListener);
+        popupView.setListener(confirmListener, cancelListener);
         this.popupView = popupView;
         return this;
     }
-    public XPopup asInputConfirm(String title, String content, OnInputConfirmListener confirmListener){
+
+    public XPopup asInputConfirm(String title, String content, OnInputConfirmListener confirmListener) {
         return asInputConfirm(title, content, confirmListener, null);
     }
 
     /**
      * 显示在中间的列表Popup
-     * @param title 标题，可以不传，不传则不显示
-     * @param datas 显示的文本数据
-     * @param iconIds 图标的id数组，可以没有
+     *
+     * @param title          标题，可以不传，不传则不显示
+     * @param datas          显示的文本数据
+     * @param iconIds        图标的id数组，可以没有
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asCenterList(String title,String[] datas, int[] iconIds,  OnSelectListener selectListener){
+    public XPopup asCenterList(String title, String[] datas, int[] iconIds, OnSelectListener selectListener) {
         position(PopupType.Center);
 
         ListCenterPopupView listPopupView = new ListCenterPopupView(contextRef.get());
@@ -271,16 +281,18 @@ public class XPopup implements BasePopupView.DismissProxy {
         this.popupView = listPopupView;
         return this;
     }
-    public XPopup asCenterList(String title,String[] datas,  OnSelectListener selectListener){
-        return asCenterList(title,datas, null, selectListener);
+
+    public XPopup asCenterList(String title, String[] datas, OnSelectListener selectListener) {
+        return asCenterList(title, datas, null, selectListener);
     }
 
 
     /**
      * 显示在中间加载的弹窗
+     *
      * @return
      */
-    public XPopup asLoading(){
+    public XPopup asLoading() {
         position(PopupType.Center);
 
         LoadingPopupView loadingPopupView = new LoadingPopupView(contextRef.get());
@@ -291,13 +303,14 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     /**
      * 显示在底部的列表Popup
-     * @param title 标题，可以不传，不传则不显示
-     * @param datas 显示的文本数据
-     * @param iconIds 图标的id数组，可以没有
+     *
+     * @param title          标题，可以不传，不传则不显示
+     * @param datas          显示的文本数据
+     * @param iconIds        图标的id数组，可以没有
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asBottomList(String title,String[] datas, int[] iconIds,  OnSelectListener selectListener){
+    public XPopup asBottomList(String title, String[] datas, int[] iconIds, OnSelectListener selectListener) {
         position(PopupType.Bottom);
 
         ListBottomPopupView listPopupView = new ListBottomPopupView(contextRef.get());
@@ -306,21 +319,23 @@ public class XPopup implements BasePopupView.DismissProxy {
         this.popupView = listPopupView;
         return this;
     }
-    public XPopup asBottomList(String title,String[] datas,  OnSelectListener selectListener){
-        return asBottomList(title,datas, null, selectListener);
+
+    public XPopup asBottomList(String title, String[] datas, OnSelectListener selectListener) {
+        return asBottomList(title, datas, null, selectListener);
     }
 
 
     /**
      * 显示依附于某View的列表，必须调用atView()方法，指定依附的View
-     * @param datas 显示的文本数据
-     * @param iconIds 图标的id数组，可以没有
-     * @param offsetX x方向便宜量
-     * @param offsetY y方向偏移量
+     *
+     * @param datas          显示的文本数据
+     * @param iconIds        图标的id数组，可以没有
+     * @param offsetX        x方向便宜量
+     * @param offsetY        y方向偏移量
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asAttachList(String[] datas, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener){
+    public XPopup asAttachList(String[] datas, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener) {
         position(PopupType.AttachView);
 
         ListAttachPopupView listPopupView = new ListAttachPopupView(contextRef.get());
@@ -331,20 +346,22 @@ public class XPopup implements BasePopupView.DismissProxy {
         return this;
     }
 
-    public XPopup asAttachList(String[] datas, int[] iconIds, OnSelectListener selectListener){
+    public XPopup asAttachList(String[] datas, int[] iconIds, OnSelectListener selectListener) {
         return asAttachList(datas, iconIds, 0, 0, selectListener);
     }
 
 
-    /** 自定义弹窗 **/
-    public XPopup asCustom(BasePopupView popupView){
-        if(popupView instanceof CenterPopupView){
+    /**
+     * 自定义弹窗
+     **/
+    public XPopup asCustom(BasePopupView popupView) {
+        if (popupView instanceof CenterPopupView) {
             position(PopupType.Center);
-        }else if(popupView instanceof BottomPopupView){
+        } else if (popupView instanceof BottomPopupView) {
             position(PopupType.Bottom);
-        }else if(popupView instanceof AttachPopupView){
+        } else if (popupView instanceof AttachPopupView) {
             position(PopupType.AttachView);
-        }else {
+        } else {
             throw new IllegalArgumentException("自定义的弹窗必须要继承[ CenterPopupView | BottomPopupView | AttachPopupView ]三者之一");
         }
 

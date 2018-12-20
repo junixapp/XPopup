@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -30,7 +29,7 @@ public class CustomPopupDemo extends BaseFragment {
     public void init(View view) {
         spinner = view.findViewById(R.id.spinner);
         temp = view.findViewById(R.id.temp);
-        temp.setText("演示如何自定义弹窗：");
+        temp.setText("演示如何自定义弹窗，并给自定义的弹窗应用不同的内置动画方案；你也可以为自己的弹窗编写自定义的动画。");
 
         datas = PopupAnimation.values();
         spinner.setAdapter(new ArrayAdapter<PopupAnimation>(getContext(), android.R.layout.simple_list_item_1, datas));
@@ -61,12 +60,10 @@ public class CustomPopupDemo extends BaseFragment {
         public CustomPopup(@NonNull Context context) {
             super(context);
         }
-
         @Override
         protected int getImplLayoutId() {
             return R.layout.custom_popup;
         }
-
         @Override
         protected void initPopupContent() {
             super.initPopupContent();

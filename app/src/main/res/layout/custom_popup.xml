@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/tv_name"
             android:layout_toRightOf="@+id/iv_image"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textColor="#222"
             android:text="齐天大圣"
             android:layout_width="match_parent"
@@ -24,7 +24,8 @@
         <TextView
             android:layout_below="@id/tv_name"
             android:layout_toRightOf="@+id/iv_image"
-            android:text="吃俺老孙一棒"
+            android:text="玉帝小儿，吃俺老孙一棒!"
+            android:gravity="center_vertical"
             android:textColor="#666"
             android:textSize="14sp"
             android:layout_width="match_parent"
