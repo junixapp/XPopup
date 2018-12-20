@@ -30,6 +30,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv1).setOnClickListener(this);
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
+
+        XPopup.get(getContext()).dismiss();
     }
 
     @Override

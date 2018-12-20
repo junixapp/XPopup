@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -169,11 +170,11 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     // 执行初始化Popup的content
     protected void initPopupContent() {
         // 限制显示的Rect不包括导航栏
-//        if(Utils.isNavBarVisible((Activity) getContext())){
-//            ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
-//            params.bottomMargin = Utils.getNavBarHeight();
-//            getPopupContentView().setLayoutParams(params);
-//        }
+        if(Utils.isNavBarVisible((Activity) getContext())){
+            ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
+            params.bottomMargin = Utils.getNavBarHeight();
+            getPopupContentView().setLayoutParams(params);
+        }
     }
 
     /**
