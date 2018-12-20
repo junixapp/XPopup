@@ -35,7 +35,7 @@ public class ListAttachPopupView extends AttachPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        final CommonAdapter<String> adapter = new CommonAdapter<String>(R.layout._xpopup_adapter_text, Arrays.asList(datas)) {
+        final CommonAdapter<String> adapter = new CommonAdapter<String>(R.layout._xpopup_adapter_text, Arrays.asList(data)) {
             @Override
             protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
@@ -59,11 +59,11 @@ public class ListAttachPopupView extends AttachPopupView {
         recyclerView.setAdapter(adapter);
     }
 
-    String[] datas;
+    String[] data;
     int[] iconIds;
 
-    public void setStringData(String[] datas, int[] iconIds) {
-        this.datas = datas;
+    public void setStringData(String[] data, int[] iconIds) {
+        this.data = data;
         this.iconIds = iconIds;
     }
 

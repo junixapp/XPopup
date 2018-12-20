@@ -3,7 +3,10 @@ package com.lxj.xpopup;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.os.Handler;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -75,8 +78,12 @@ public class XPopup implements BasePopupView.DismissProxy {
 
         //1. set popupView
         if (popupView == null) {
-            throw new RuntimeException("popupView can not return null!");
+            throw new RuntimeException("popupView can not be null!");
         }
+        if (popupInfo == null) {
+            throw new RuntimeException("popupInfo can not be null!");
+        }
+
         popupView.setPopupInfo(popupInfo);
         popupView.setDismissProxy(this);
 
@@ -200,6 +207,26 @@ public class XPopup implements BasePopupView.DismissProxy {
         if (popupInfo == null) {
             popupInfo = new PopupInfo();
         }
+    }
+
+    /**
+     * 收集某个View的按下坐标，用于Attach类型的弹窗显示。如果调用这个方法，弹窗就有了
+     * 参考点，无需再调用atView方法了
+     * @param view
+     * @return
+     */
+    public XPopup watch(View view){
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_DOWN){
+                    checkPopupInfo();
+                    popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
+                }
+                return false;
+            }
+        });
+        return this;
     }
 
     /************** 便捷方法 ************/

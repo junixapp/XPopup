@@ -1,5 +1,7 @@
 package com.lxj.xpopup.core;
 
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.view.View;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -19,6 +21,7 @@ public class PopupInfo {
     // 动画执行器，如果用户不指定，则会根据窗体类型popupType字段生成默认合适的动画执行器
     public PopupAnimation popupAnimation = null;
     public PopupAnimator customAnimator = null;
+    public PointF touchPoint = null; // 触摸的点
 
     public View getAtView() {
         return atView;

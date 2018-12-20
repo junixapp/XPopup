@@ -39,7 +39,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         // 1.添加背景View，用来拦截所有内容之外的点击
         ClickConsumeView bgView = new ClickConsumeView(context);
         addView(bgView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
+        shadowBgAnimator = new ShadowBgAnimator(getBackgroundView());
 
         // 2. 添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
@@ -100,7 +100,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 });
 
                 //2. 收集动画执行器
-                shadowBgAnimator = new ShadowBgAnimator(getBackgroundView());
                 // 优先使用自定义的动画器
                 if (popupInfo.customAnimator!=null) {
                     popupContentAnimator = popupInfo.customAnimator;
