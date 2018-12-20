@@ -8,14 +8,15 @@
 1. 项目有这样常见需求：中间和底部弹出甚至可拖拽的对话框，指定位置的PopupMenu或者PopupWindow，指定区域阴影的弹出层效果
 2. 市面上已有的类库要么功能不足够，要么交互效果不完美，有着普遍的缺点，就像BottomSheet存在的问题一样。比如：窗体消失的动画和背景渐变动画不一致，窗体消失后半透明背景仍然停留一会儿
 
-设计思路：
+**设计思路**：
 
 综合常见的弹窗场景，我将其分为3类：
 1. Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
 2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表
-3. Attach类型，就是弹窗的位置需要依附于某个View，就像系统的PopupMenu效果一样，但自定义性很强
+3. Attach类型，就是弹窗的位置需要依附于某个View，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差
+尽管我已经内置了几种常见弹窗的实现，但不可能满足所有的需求，你很可能需要自定义；你自定义的弹窗类型应该属于这3种之一。
 
-动画设计：
+**动画设计**：
 
 为了增加交互的趣味性，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化。具体可以从Demo中感受。
 
@@ -101,7 +102,86 @@ implementation 'com.lxj:xpopup:latest release'
     XPopup.get(getContext()).dismiss();
     ```
 
+8. 自定义弹窗
+当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`或者`AttachPopupView`三者之一。假设需要自定义Center类型的弹窗：
+    ```java
+class CustomPopup extends CenterPopupView{
+        public CustomPopup(@NonNull Context context) {
+            super(context);
+        }
+        // 返回自定义弹窗的布局
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.custom_popup;
+        }
+        // 执行初始化操作，比如：findView，设置点击，或者任何你弹窗内的业务逻辑
+        @Override
+        protected void initPopupContent() {
+            super.initPopupContent();
+            findViewById(R.id.tv_close).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss(); // 关闭弹窗
+                }
+            });
+        }
+        // 设置最大宽度，看需要而定
+        @Override
+        protected int getMaxWidth() {
+            return super.getMaxWidth();
+        }
+        // 设置最大高度，看需要而定
+        @Override
+        protected int getMaxHeight() {
+            return super.getMaxHeight();
+        }
+        // 设置自定义动画器，看需要而定
+        @Override
+        protected PopupAnimator getPopupAnimator() {
+            return super.getPopupAnimator();
+        }
+    }
+    ```
+    使用自定义弹窗：
+    ```java
+XPopup.get(getContext())
+        .asCustom(new CustomPopup(getContext()))
+        .show();
+    ```
 
+9. 自定义动画
+自定义动画已经被设计得非常简单，动画和弹窗是无关的；这意味着你可以将动画设置给内置弹窗或者自定义弹窗。你需要继承`PopupAnimator`，实现3个方法：
+    - 初始化动画
+    - 动画如何开始
+    - 动画如何结束
+
+    比如：自定义一个旋转的动画：
+    ```java
+class RotateAnimator extends PopupAnimator{
+        @Override
+        public void initAnimator() {
+            targetView.setScaleX(0);
+            targetView.setScaleY(0);
+            targetView.setAlpha(0);
+            targetView.setRotation(360);
+        }
+        @Override
+        public void animateShow() {
+            targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
+        }
+        @Override
+        public void animateDismiss() {
+            targetView.animate().rotation(360).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
+        }
+    }
+    ```
+    使用自定义动画：
+    ```java
+XPopup.get(getContext())
+        .asConfirm(...)
+        .customAnimator(new RotateAnimator())
+        .show();
+    ```
 
 ## 待办
 - [ ] Bottom类型的弹出支持手势拖拽，就像知乎的评论弹窗那样

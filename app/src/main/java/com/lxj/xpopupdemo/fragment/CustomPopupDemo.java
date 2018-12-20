@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopupdemo.R;
@@ -74,5 +75,6 @@ public class CustomPopupDemo extends BaseFragment {
                 }
             });
         }
+
     }
 }
