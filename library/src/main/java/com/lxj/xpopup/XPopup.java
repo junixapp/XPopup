@@ -2,6 +2,7 @@ package com.lxj.xpopup;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -45,6 +46,8 @@ public class XPopup implements BasePopupView.DismissProxy {
     private ViewGroup activityView = null;
     private PopupStatus popupStatus = PopupStatus.Dismiss;
     private BasePopupView popupView;
+
+    private int primaryColor = Color.parseColor("#121212");
 
     private XPopup() {
     }
@@ -153,6 +156,18 @@ public class XPopup implements BasePopupView.DismissProxy {
                 }
             }
         }, popupView.getAnimationDuration() + 10);
+    }
+
+    /**
+     * 设置主色调
+     * @param color
+     */
+    public void setPrimaryColor(int color){
+        this.primaryColor = color;
+    }
+
+    public int getPrimaryColor(){
+        return primaryColor;
     }
 
     private XPopup position(PopupType popupType) {

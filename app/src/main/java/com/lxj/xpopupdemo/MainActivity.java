@@ -9,7 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.lxj.xpopup.XPopupConfig;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         },300);
 
-        XPopupConfig.init(getResources().getColor(R.color.colorPrimary));
+        XPopup.get(this).setPrimaryColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void callFragmentInit(int i){

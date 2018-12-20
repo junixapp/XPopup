@@ -90,13 +90,11 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                         popupContentAnimator = getPopupAnimator();
                     }
                 }
-                if(popupContentAnimator==null){
-                    throw new IllegalArgumentException("No PopupAnimator impl!");
-                }
 
                 //3. 初始化动画执行器
                 shadowBgAnimator.initAnimator();
-                popupContentAnimator.initAnimator();
+                if(popupContentAnimator!=null)
+                    popupContentAnimator.initAnimator();
 
                 //4. 执行动画
                 doShowAnimation();
@@ -224,6 +222,15 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     @Override
     public int getAnimationDuration() {
         return popupContentAnimator.animateDuration;
+    }
+
+
+    protected int getMaxWidth() {
+        return 0;
+    }
+
+    protected int getMaxHeight() {
+        return 0;
     }
 
     /**

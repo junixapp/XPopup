@@ -102,7 +102,8 @@ implementation 'com.lxj:xpopup:latest release'
     ```
 
 8. 自定义弹窗
-当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`或者`AttachPopupView`三者之一。假设需要自定义Center类型的弹窗：
+
+    当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`或者`AttachPopupView`三者之一。假设需要自定义Center类型的弹窗：
     ```java
     class CustomPopup extends CenterPopupView{
             public CustomPopup(@NonNull Context context) {
@@ -149,8 +150,9 @@ implementation 'com.lxj:xpopup:latest release'
     ```
 
 9. 自定义动画
-自定义动画已经被设计得非常简单，动画和弹窗是无关的；这意味着你可以将动画设置给内置弹窗或者自定义弹窗。你需要继承`PopupAnimator`，实现3个方法：
-    - 初始化动画
+
+    自定义动画已经被设计得非常简单，动画和弹窗是无关的；这意味着你可以将动画设置给内置弹窗或者自定义弹窗。继承`PopupAnimator`，实现3个方法：
+    - 如何初始化动画
     - 动画如何开始
     - 动画如何结束
 
@@ -181,6 +183,25 @@ implementation 'com.lxj:xpopup:latest release'
             .customAnimator(new RotateAnimator())
             .show();
     ```
+
+10. 其他
+- 设置主色调
+
+    默认情况下，XPopup的主色为灰色，这体现在Button和EditText的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
+  ```java
+  XPopup.get(this).setPrimaryColor(getResources().getColor(R.color.colorPrimary));
+  ```
+
+- 其他设置
+  ```java
+  XPopup.get(this)
+      .hasShadowBg(true) // 是否有半透明的背景，默认为true
+      .dismissOnBackPressed(true) // 按返回键是否关闭弹窗，默认为true
+      .dismissOnTouchOutside(true) // 点击外部是否关闭弹窗，默认为true
+      .popupAnimation(PopupAnimation.ScaleAlphaFromCenter) // 设置内置的动画
+      .customAnimator(null) // 设置自定义的动画器
+  ```
+
 
 ## 待办
 - [ ] Bottom类型的弹出支持手势拖拽，就像知乎的评论弹窗那样

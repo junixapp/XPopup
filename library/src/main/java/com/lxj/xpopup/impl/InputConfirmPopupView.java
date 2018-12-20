@@ -9,7 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopupConfig;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.util.Utils;
@@ -61,12 +61,12 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
 
     protected void applyPrimaryColor(){
         super.applyPrimaryColor();
-        Utils.setCursorDrawableColor(tv_input, XPopupConfig.primaryColor);
+        Utils.setCursorDrawableColor(tv_input, XPopup.get(getContext()).getPrimaryColor());
         tv_input.post(new Runnable() {
             @Override
             public void run() {
                 BitmapDrawable defaultDrawable = Utils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), Color.parseColor("#888888"));
-                BitmapDrawable focusDrawable = Utils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), XPopupConfig.primaryColor);
+                BitmapDrawable focusDrawable = Utils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), XPopup.get(getContext()).getPrimaryColor());
                 tv_input.setBackgroundDrawable(Utils.createSelector(defaultDrawable, focusDrawable));
             }
         });

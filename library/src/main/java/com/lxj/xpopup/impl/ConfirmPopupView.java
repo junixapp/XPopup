@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopupConfig;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -50,8 +50,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     }
 
     protected void applyPrimaryColor(){
-        tv_cancel.setTextColor(XPopupConfig.primaryColor);
-        tv_confirm.setTextColor(XPopupConfig.primaryColor);
+        tv_cancel.setTextColor(XPopup.get(getContext()).getPrimaryColor());
+        tv_confirm.setTextColor(XPopup.get(getContext()).getPrimaryColor());
     }
 
     OnCancelListener cancelListener;
