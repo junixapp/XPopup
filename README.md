@@ -9,15 +9,14 @@
 2. 市面上已有的类库要么功能不足够，要么交互效果不完美，有着普遍的缺点，就像BottomSheet存在的问题一样。比如：窗体消失的动画和背景渐变动画不一致，窗体消失后半透明背景仍然停留一会儿
 
 **设计思路**：
-
 综合常见的弹窗场景，我将其分为3类：
 1. Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
 2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表
 3. Attach类型，就是弹窗的位置需要依附于某个View，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差
+
 尽管我已经内置了几种常见弹窗的实现，但不可能满足所有的需求，你很可能需要自定义；你自定义的弹窗类型应该属于这3种之一。
 
 **动画设计**：
-
 为了增加交互的趣味性，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化。具体可以从Demo中感受。
 
 
@@ -105,48 +104,48 @@ implementation 'com.lxj:xpopup:latest release'
 8. 自定义弹窗
 当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`或者`AttachPopupView`三者之一。假设需要自定义Center类型的弹窗：
     ```java
-class CustomPopup extends CenterPopupView{
-        public CustomPopup(@NonNull Context context) {
-            super(context);
+    class CustomPopup extends CenterPopupView{
+            public CustomPopup(@NonNull Context context) {
+                super(context);
+            }
+            // 返回自定义弹窗的布局
+            @Override
+            protected int getImplLayoutId() {
+                return R.layout.custom_popup;
+            }
+            // 执行初始化操作，比如：findView，设置点击，或者任何你弹窗内的业务逻辑
+            @Override
+            protected void initPopupContent() {
+                super.initPopupContent();
+                findViewById(R.id.tv_close).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismiss(); // 关闭弹窗
+                    }
+                });
+            }
+            // 设置最大宽度，看需要而定
+            @Override
+            protected int getMaxWidth() {
+                return super.getMaxWidth();
+            }
+            // 设置最大高度，看需要而定
+            @Override
+            protected int getMaxHeight() {
+                return super.getMaxHeight();
+            }
+            // 设置自定义动画器，看需要而定
+            @Override
+            protected PopupAnimator getPopupAnimator() {
+                return super.getPopupAnimator();
+            }
         }
-        // 返回自定义弹窗的布局
-        @Override
-        protected int getImplLayoutId() {
-            return R.layout.custom_popup;
-        }
-        // 执行初始化操作，比如：findView，设置点击，或者任何你弹窗内的业务逻辑
-        @Override
-        protected void initPopupContent() {
-            super.initPopupContent();
-            findViewById(R.id.tv_close).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismiss(); // 关闭弹窗
-                }
-            });
-        }
-        // 设置最大宽度，看需要而定
-        @Override
-        protected int getMaxWidth() {
-            return super.getMaxWidth();
-        }
-        // 设置最大高度，看需要而定
-        @Override
-        protected int getMaxHeight() {
-            return super.getMaxHeight();
-        }
-        // 设置自定义动画器，看需要而定
-        @Override
-        protected PopupAnimator getPopupAnimator() {
-            return super.getPopupAnimator();
-        }
-    }
     ```
     使用自定义弹窗：
     ```java
-XPopup.get(getContext())
-        .asCustom(new CustomPopup(getContext()))
-        .show();
+    XPopup.get(getContext())
+            .asCustom(new CustomPopup(getContext()))
+            .show();
     ```
 
 9. 自定义动画
@@ -157,30 +156,30 @@ XPopup.get(getContext())
 
     比如：自定义一个旋转的动画：
     ```java
-class RotateAnimator extends PopupAnimator{
-        @Override
-        public void initAnimator() {
-            targetView.setScaleX(0);
-            targetView.setScaleY(0);
-            targetView.setAlpha(0);
-            targetView.setRotation(360);
+    class RotateAnimator extends PopupAnimator{
+            @Override
+            public void initAnimator() {
+                targetView.setScaleX(0);
+                targetView.setScaleY(0);
+                targetView.setAlpha(0);
+                targetView.setRotation(360);
+            }
+            @Override
+            public void animateShow() {
+                targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
+            }
+            @Override
+            public void animateDismiss() {
+                targetView.animate().rotation(360).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
+            }
         }
-        @Override
-        public void animateShow() {
-            targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
-        }
-        @Override
-        public void animateDismiss() {
-            targetView.animate().rotation(360).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
-        }
-    }
     ```
     使用自定义动画：
     ```java
-XPopup.get(getContext())
-        .asConfirm(...)
-        .customAnimator(new RotateAnimator())
-        .show();
+    XPopup.get(getContext())
+            .asConfirm(...)
+            .customAnimator(new RotateAnimator())
+            .show();
     ```
 
 ## 待办
