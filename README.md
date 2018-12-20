@@ -1,5 +1,5 @@
 ## XPopup
-功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet等组件，自带十几种效果良好的动画，
+功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout效果等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！
 
 编写本库的初衷有以下几点：
@@ -7,10 +7,11 @@
 2. 市面上已有的类库要么功能不足够，要么交互效果不完美，有着普遍的缺点，就像BottomSheet存在的问题一样。比如：窗体消失的动画和背景渐变动画不一致，窗体消失后半透明背景仍然停留一会儿
 
 **设计思路**：
-综合常见的弹窗场景，我将其分为3类：
+综合常见的弹窗场景，我将其分为几类：
 1. Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
 2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表
 3. Attach类型，就是弹窗的位置需要依附于某个View，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差
+4. DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
 
 尽管我已经内置了几种常见弹窗的实现，但不可能满足所有的需求，你很可能需要自定义；你自定义的弹窗类型应该属于这3种之一。
 
@@ -18,20 +19,21 @@
 为了增加交互的趣味性，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化。具体可以从Demo中感受。
 
 
-## Gradle
+## ScreenShot
+
+![](screenshot/preview1.gif) ![](screenshot/preview_drawer.gif)
+
+![](screenshot/preview2.gif) ![](screenshot/preview3.gif)
+
+![](screenshot/preview4.gif)
+
+
+## 使用
+首先需要添加Gradle依赖：
 ```groovy
 implementation 'com.lxj:xpopup:latest release'
 ```
 
-
-## ScreenShot
-
-![](screenshot/preview1.gif) ![](screenshot/preview2.gif)
-
-![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
-
-
-## 使用
 为了方便使用，已经内置了几种常见弹窗的实现：
 1. 显示确认和取消对话框
     ```java
@@ -182,7 +184,42 @@ implementation 'com.lxj:xpopup:latest release'
             .show();
     ```
 
-10. 其他
+10. 显示DrawerLayout类型弹窗
+
+    对于DrawerLayout类型的弹窗，我只能帮你做好弹窗效果和手势交互。里面的UI和逻辑是无法帮你完成的，所以需要自定义一个弹窗，继承`DrawerPopupView`。代码非常简单，如下：
+    ```java
+    public class CustomDrawerPopupView extends DrawerPopupView {
+        public CustomDrawerPopupView(@NonNull Context context) {
+            super(context);
+        }
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.custom_drawer_popup;
+        }
+        @Override
+        protected void initPopupContent() {
+            super.initPopupContent();
+            findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "nothing!!!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+    ```
+    使用自定义的DrawerLayout弹窗：
+    ```java
+    XPopup.get(getActivity())
+            .asCustom(
+                    new CustomDrawerPopupView(getContext())
+                    //.setDrawerPosition(PopupDrawerLayout.Position.Right)
+            )
+            .show();
+    ```
+
+
+11. 其他
 - 设置主色调
 
     默认情况下，XPopup的主色为灰色，这体现在Button和EditText的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
@@ -205,4 +242,3 @@ implementation 'com.lxj:xpopup:latest release'
 - [ ] Bottom类型的弹出支持手势拖拽，就像知乎的评论弹窗那样
 - [ ] 手指长按弹出弹窗，就像微信的列表长按效果
 - [ ] 局部阴影覆盖的弹窗，就像淘宝的商品列表筛选框那样
-- [ ] DrawerLayout效果，就像从左边或右边打开的DrawerLayout那样

@@ -1,13 +1,17 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Toast;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -27,11 +31,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
         view.findViewById(R.id.btnShowLoading).setOnClickListener(this);
         view.findViewById(R.id.btnShowBottomList).setOnClickListener(this);
+        view.findViewById(R.id.btnShowDrawerLeft).setOnClickListener(this);
+        view.findViewById(R.id.btnShowDrawerRight).setOnClickListener(this);
         view.findViewById(R.id.tv1).setOnClickListener(this);
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
-
-        XPopup.get(getContext()).dismiss();
     }
 
     @Override
@@ -96,6 +100,21 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .atView(v)  // 依附于所点击的View
                         .show();
                 break;
+            case R.id.btnShowDrawerLeft:
+                XPopup.get(getActivity())
+                        .asCustom(new CustomDrawerPopupView(getContext()))
+                        .show();
+                break;
+            case R.id.btnShowDrawerRight:
+                XPopup.get(getActivity())
+                        .asCustom(
+                                new CustomDrawerPopupView(getContext())
+                                .setDrawerPosition(PopupDrawerLayout.Position.Right)
+                        )
+                        .show();
+                break;
         }
     }
+
+
 }
