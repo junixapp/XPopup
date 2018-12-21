@@ -360,26 +360,25 @@ public class XPopup implements BasePopupView.DismissProxy {
     /**
      * 显示依附于某View的列表，必须调用atView()方法，指定依附的View
      *
-     * @param datas          显示的文本数据
-     * @param iconIds        图标的id数组，可以没有
-     * @param offsetX        x方向便宜量
+     * @param data          显示的文本数据
+     * @param iconIds        图标的id数组，可以为null
+     * @param offsetX        x方向偏移量
      * @param offsetY        y方向偏移量
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asAttachList(String[] datas, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener) {
+    public XPopup asAttachList(String[] data, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener) {
         position(PopupType.AttachView);
 
-        ListAttachPopupView listPopupView = new ListAttachPopupView(contextRef.get());
-        listPopupView.setStringData(datas, iconIds);
-        listPopupView.setOffsetXAndY(offsetX, offsetY);
-        listPopupView.setOnSelectListener(selectListener);
-        this.popupView = listPopupView;
+        this.popupView = new ListAttachPopupView(contextRef.get())
+                .setStringData(data, iconIds)
+                .setOffsetXAndY(offsetX, offsetY)
+                .setOnSelectListener(selectListener);
         return this;
     }
 
-    public XPopup asAttachList(String[] datas, int[] iconIds, OnSelectListener selectListener) {
-        return asAttachList(datas, iconIds, 0, 0, selectListener);
+    public XPopup asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
+        return asAttachList(data, iconIds, 0, 0, selectListener);
     }
 
 

@@ -61,20 +61,22 @@ public class ListAttachPopupView extends AttachPopupView {
 
     String[] data;
     int[] iconIds;
-
-    public void setStringData(String[] data, int[] iconIds) {
+    public ListAttachPopupView setStringData(String[] data, int[] iconIds) {
         this.data = data;
         this.iconIds = iconIds;
+        return this;
     }
 
-    public void setOffsetXAndY(int offsetX, int offsetY) {
+    public ListAttachPopupView setOffsetXAndY(int offsetX, int offsetY) {
         this.defaultOffsetX += offsetX;
         this.defaultOffsetY += offsetY;
+        return this;
     }
 
     private OnSelectListener selectListener;
 
-    public void setOnSelectListener(OnSelectListener selectListener) {
+    public ListAttachPopupView setOnSelectListener(OnSelectListener selectListener) {
         this.selectListener = selectListener;
+        return this;
     }
 }

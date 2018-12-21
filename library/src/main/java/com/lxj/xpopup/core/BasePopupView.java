@@ -23,7 +23,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
 
 /**
- * Description:
+ * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
 public abstract class BasePopupView extends FrameLayout implements PopupInterface {
