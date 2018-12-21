@@ -136,6 +136,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .asCustom(
                                 new CustomDrawerPopupView(getContext())
                                 .setDrawerPosition(PopupDrawerLayout.Position.Right)
+                                .hasStatusBarShadow(true)   // 添加状态栏Shadow
                         )
                         .show();
                 break;

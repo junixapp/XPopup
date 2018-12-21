@@ -238,6 +238,9 @@ implementation 'com.lxj:xpopup:latest release'
             .asCustom(
                     new CustomDrawerPopupView(getContext())
                     //.setDrawerPosition(PopupDrawerLayout.Position.Right)
+                    // 添加状态栏Shadow，默认是false；如果你的Drawer背景是白色，会导致状态栏的白色文字看不清，
+                    // 此时建议设置该标志为true；
+                    //.hasStatusBarShadow(true)
             )
             .show();
     ```

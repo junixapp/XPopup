@@ -23,7 +23,7 @@
 
     <!--处理状态栏字体被淹没的问题-->
     <View
+        android:id="@+id/view_statusbar_shadow"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:background="#88666666" />
+        android:layout_height="24dp" />
 </FrameLayout>

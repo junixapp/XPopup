@@ -110,6 +110,9 @@ public class PopupDrawerLayout extends FrameLayout {
                     listener.onClose();
             }
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
+            if(listener!=null){
+                listener.onDismissing(fraction);
+            }
         }
 
         @Override
@@ -177,5 +180,11 @@ public class PopupDrawerLayout extends FrameLayout {
     }
     public interface OnCloseListener{
         void onClose();
+
+        /**
+         * 关闭过程中执行
+         * @param fraction 关闭的百分比
+         */
+        void onDismissing(float fraction);
     }
 }
