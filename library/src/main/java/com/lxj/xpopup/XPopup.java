@@ -194,6 +194,7 @@ public class XPopup implements BasePopupView.DismissProxy {
     public XPopup atView(View view) {
         checkPopupInfo();
         popupInfo.setAtView(view);
+        popupInfo.touchPoint = null;
         return this;
     }
 
