@@ -1,26 +1,27 @@
 package com.lxj.xpopup.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.support.annotation.NonNull;
+import android.os.Build;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Description:
@@ -61,26 +62,42 @@ public class Utils {
     }
 
     /**
-     * Return whether the navigation bar visible.
-     *
-     * @param activity The activity.
-     * @return {@code true}: yes<br>{@code false}: no
+     * 全网唯一能兼容所有手机（包括全面屏）判断是否有导航栏的方法
+     * @param context
+     * @return
      */
-    public static boolean isNavBarVisible(@NonNull final Activity activity) {
-        return isNavBarVisible(activity.getWindow());
+    public static boolean hasNavigationBar(Context context) {
+        Point appUsableSize = getAppUsableScreenSize(context);
+        Point realScreenSize = getRealScreenSize(context);
+        return appUsableSize.y + Utils.getStatusBarHeight() < realScreenSize.y;
     }
 
-    /**
-     * Return whether the navigation bar visible.
-     *
-     * @param window The window.
-     * @return {@code true}: yes<br>{@code false}: no
-     */
-    public static boolean isNavBarVisible(@NonNull final Window window) {
-        View decorView = window.getDecorView();
-        int visibility = decorView.getSystemUiVisibility();
-        return (visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0;
+    public static Point getAppUsableScreenSize(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
     }
+
+    public static Point getRealScreenSize(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            display.getRealSize(size);
+        } else if (Build.VERSION.SDK_INT >= 14) {
+            try {
+                size.x = (Integer) Display.class.getMethod("getRawWidth").invoke(display);
+                size.y = (Integer) Display.class.getMethod("getRawHeight").invoke(display);
+            } catch (IllegalAccessException e) {} catch (InvocationTargetException e) {} catch (NoSuchMethodException e) {}
+        }
+
+        return size;
+    }
+
+
 
     public static void limitWidthAndHeight(View target, int maxWidth, int maxHeight){
         ViewGroup.LayoutParams params = target.getLayoutParams();

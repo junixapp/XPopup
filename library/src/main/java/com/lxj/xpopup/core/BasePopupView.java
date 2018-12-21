@@ -1,6 +1,5 @@
 package com.lxj.xpopup.core;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,7 +46,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         contentView.setAlpha(0);
         addView(contentView);
         // 如果有导航栏，则不能覆盖导航栏
-        if(Utils.isNavBarVisible((Activity) getContext())){
+        if(Utils.hasNavigationBar(getContext())){
             setPadding(0,0,0, Utils.getNavBarHeight());
         }
     }
