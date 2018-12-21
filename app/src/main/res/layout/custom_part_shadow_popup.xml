@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/container"
+    android:clickable="true"
+    android:background="#f1f1f1"
+    android:layout_height="wrap_content">
+    <TextView
+        android:gravity="center"
+        android:text="我只能帮你到这了，这里的UI和逻辑每个应用都不一一样，只能你自己来实现了，实现起来非常简单！"
+        android:textSize="22sp"
+        android:textColor="#111"
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnClose"
+        android:text="关闭"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

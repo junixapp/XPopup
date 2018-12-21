@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,9 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.ConfirmPopupView;
 import com.lxj.xpopup.impl.InputConfirmPopupView;
-import com.lxj.xpopup.impl.ListAttachPopupView;
-import com.lxj.xpopup.impl.ListBottomPopupView;
-import com.lxj.xpopup.impl.ListCenterPopupView;
+import com.lxj.xpopup.impl.AttachListPopupView;
+import com.lxj.xpopup.impl.BottomListPopupView;
+import com.lxj.xpopup.impl.CenterListPopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -304,7 +303,7 @@ public class XPopup implements BasePopupView.DismissProxy {
      */
     public XPopup asCenterList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
         position(PopupType.Center);
-        this.popupView = new ListCenterPopupView(contextRef.get())
+        this.popupView = new CenterListPopupView(contextRef.get())
                 .setStringData(title, data, iconIds)
                 .setCheckedPosition(checkedPosition)
                 .setOnSelectListener(selectListener);
@@ -342,7 +341,7 @@ public class XPopup implements BasePopupView.DismissProxy {
      */
     public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
         position(PopupType.Bottom);
-        this.popupView = new ListBottomPopupView(contextRef.get())
+        this.popupView = new BottomListPopupView(contextRef.get())
                 .setStringData(title, data, iconIds)
                 .setCheckedPosition(checkedPosition)
                 .setOnSelectListener(selectListener);
@@ -370,7 +369,7 @@ public class XPopup implements BasePopupView.DismissProxy {
     public XPopup asAttachList(String[] data, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener) {
         position(PopupType.AttachView);
 
-        this.popupView = new ListAttachPopupView(contextRef.get())
+        this.popupView = new AttachListPopupView(contextRef.get())
                 .setStringData(data, iconIds)
                 .setOffsetXAndY(offsetX, offsetY)
                 .setOnSelectListener(selectListener);

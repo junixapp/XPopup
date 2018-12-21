@@ -15,6 +15,7 @@ import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
+import com.lxj.xpopup.interfaces.PopupInterface;
 import com.lxj.xpopup.util.Utils;
 import com.lxj.xpopup.widget.ClickConsumeView;
 

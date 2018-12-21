@@ -26,9 +26,11 @@
 
 ![](screenshot/preview.gif) ![](screenshot/preview_attach.gif)
 
-![](screenshot/preview_drawer.gif) ![](screenshot/preview2.gif)
+![](screenshot/preview_drawer.gif) ![](screenshot/preview_part.gif)
 
-![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
+![](screenshot/preview2.gif) ![](screenshot/preview3.gif)
+
+![](screenshot/preview4.gif)
 
 
 ## 使用
@@ -131,7 +133,7 @@ implementation 'com.lxj:xpopup:latest release'
 
 8. **自定义弹窗**
 
-    当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`或者`AttachPopupView`三者之一。假设需要自定义Center类型的弹窗：
+    当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`，`AttachPopupView`，`DrawerPopupView`，`PartShadowPopupView`其中之一。假设需要自定义Center类型的弹窗：
     ```java
     class CustomPopup extends CenterPopupView{
             public CustomPopup(@NonNull Context context) {
@@ -250,7 +252,35 @@ implementation 'com.lxj:xpopup:latest release'
     ```
 
 
-11. **其他**
+11. **自定义局部阴影弹窗**
+
+    这种效果从分类上看仍然是Attach类型，因为要依附于某个View，在其上方或者下方显示。常见于列表条件筛选弹窗，比如京东或者淘宝的商品列表筛选。同样我只能帮你把复杂的交互效果做了，弹窗里面的UI和逻辑需要你自己继承`PartShadowPopupView`来做，这当然非常简单。
+    最简单的示例如下：
+    ```java
+    public class CustomPartShadowPopupView extends PartShadowPopupView {
+        public CustomPartShadowPopupView(@NonNull Context context) {
+            super(context);
+        }
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.custom_part_shadow_popup; // 编写你自己的布局
+        }
+        @Override
+        protected void initPopupContent() {
+            super.initPopupContent();
+            // 实现一些UI的初始和逻辑处理
+        }
+    }
+    ```
+    显示的时候仍然需要指定atView显示，内部会智能判断应该如何展示以及使用最佳的动画器：
+    ```java
+    XPopup.get(getActivity())
+        .asCustom(new CustomPartShadowPopupView(getContext()))
+        .atView(ll_container)
+        .show();
+    ```
+
+12. **其他**
 - 设置主色调
 
     默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
@@ -281,4 +311,3 @@ implementation 'com.lxj:xpopup:latest release'
 
 ## 待办
 - [ ] Bottom类型的弹出支持手势拖拽，就像知乎的评论弹窗那样
-- [ ] 局部阴影覆盖的弹窗，就像淘宝的商品列表筛选框那样

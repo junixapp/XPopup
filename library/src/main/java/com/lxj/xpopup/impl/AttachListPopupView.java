@@ -18,10 +18,10 @@ import java.util.Arrays;
  * Description:
  * Create by dance, at 2018/12/12
  */
-public class ListAttachPopupView extends AttachPopupView {
+public class AttachListPopupView extends AttachPopupView {
     RecyclerView recyclerView;
 
-    public ListAttachPopupView(@NonNull Context context) {
+    public AttachListPopupView(@NonNull Context context) {
         super(context);
     }
 
@@ -61,13 +61,13 @@ public class ListAttachPopupView extends AttachPopupView {
 
     String[] data;
     int[] iconIds;
-    public ListAttachPopupView setStringData(String[] data, int[] iconIds) {
+    public AttachListPopupView setStringData(String[] data, int[] iconIds) {
         this.data = data;
         this.iconIds = iconIds;
         return this;
     }
 
-    public ListAttachPopupView setOffsetXAndY(int offsetX, int offsetY) {
+    public AttachListPopupView setOffsetXAndY(int offsetX, int offsetY) {
         this.defaultOffsetX += offsetX;
         this.defaultOffsetY += offsetY;
         return this;
@@ -75,7 +75,7 @@ public class ListAttachPopupView extends AttachPopupView {
 
     private OnSelectListener selectListener;
 
-    public ListAttachPopupView setOnSelectListener(OnSelectListener selectListener) {
+    public AttachListPopupView setOnSelectListener(OnSelectListener selectListener) {
         this.selectListener = selectListener;
         return this;
     }

@@ -1,6 +1,5 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
@@ -9,9 +8,10 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
-import com.lxj.xpopup.widget.CheckView;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.custompopup.CustomDrawerPopupView;
+import com.lxj.xpopupdemo.custompopup.CustomPartShadowPopupView;
 
 /**
  * Description:
@@ -156,7 +156,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowDrawerLeft:
                 XPopup.get(getActivity())
                         .asCustom(new CustomDrawerPopupView(getContext()))
-                        // 由于已经调用了watch方法来监视目标View的触摸，无需再调用atView方法
                         .show();
                 break;
             case R.id.btnShowDrawerRight:

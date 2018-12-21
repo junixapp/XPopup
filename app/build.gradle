@@ -34,6 +34,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
+    implementation 'com.lxj:easyadapter:0.0.8'
     implementation project(':library')
 //    implementation 'com.lxj:xpopup:0.0.5'
 

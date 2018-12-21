@@ -14,12 +14,14 @@ import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
+import com.lxj.xpopupdemo.fragment.PartShadowDemo;
 import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 
 public class MainActivity extends AppCompatActivity {
 
     PageInfo[] pageInfos = new PageInfo[]{
       new PageInfo("快速开始", new QuickStartDemo()),
+      new PageInfo("局部阴影", new PartShadowDemo()),
       new PageInfo("尝试不同动画", new AllAnimatorDemo()),
       new PageInfo("自定义弹窗", new CustomPopupDemo()),
       new PageInfo("自定义动画", new CustomAnimatorDemo())

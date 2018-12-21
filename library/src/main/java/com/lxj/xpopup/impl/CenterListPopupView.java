@@ -22,11 +22,11 @@ import java.util.Arrays;
  * Description: 在中间的列表对话框
  * Create by dance, at 2018/12/16
  */
-public class ListCenterPopupView extends CenterPopupView {
+public class CenterListPopupView extends CenterPopupView {
     RecyclerView recyclerView;
     TextView tv_title;
 
-    public ListCenterPopupView(@NonNull Context context) {
+    public CenterListPopupView(@NonNull Context context) {
         super(context);
     }
 
@@ -86,7 +86,7 @@ public class ListCenterPopupView extends CenterPopupView {
     String title;
     String[] data;
     int[] iconIds;
-    public ListCenterPopupView setStringData(String title, String[] data, int[] iconIds) {
+    public CenterListPopupView setStringData(String title, String[] data, int[] iconIds) {
         this.title = title;
         this.data = data;
         this.iconIds = iconIds;
@@ -95,7 +95,7 @@ public class ListCenterPopupView extends CenterPopupView {
 
     private OnSelectListener selectListener;
 
-    public ListCenterPopupView setOnSelectListener(OnSelectListener selectListener) {
+    public CenterListPopupView setOnSelectListener(OnSelectListener selectListener) {
         this.selectListener = selectListener;
         return this;
     }
@@ -107,7 +107,7 @@ public class ListCenterPopupView extends CenterPopupView {
      * @param position
      * @return
      */
-    public ListCenterPopupView setCheckedPosition(int position) {
+    public CenterListPopupView setCheckedPosition(int position) {
         this.checkedPosition = position;
         return this;
     }

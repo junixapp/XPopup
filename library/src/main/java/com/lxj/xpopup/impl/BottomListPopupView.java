@@ -22,10 +22,10 @@ import java.util.Arrays;
  * Description: 在中间的列表对话框
  * Create by dance, at 2018/12/16
  */
-public class ListBottomPopupView extends BottomPopupView {
+public class BottomListPopupView extends BottomPopupView {
     RecyclerView recyclerView;
     TextView tv_title;
-    public ListBottomPopupView(@NonNull Context context) {
+    public BottomListPopupView(@NonNull Context context) {
         super(context);
     }
 
@@ -85,7 +85,7 @@ public class ListBottomPopupView extends BottomPopupView {
     String title;
     String[] data;
     int[] iconIds;
-    public ListBottomPopupView setStringData(String title, String[] data, int[] iconIds) {
+    public BottomListPopupView setStringData(String title, String[] data, int[] iconIds) {
         this.title = title;
         this.data = data;
         this.iconIds = iconIds;
@@ -93,7 +93,7 @@ public class ListBottomPopupView extends BottomPopupView {
     }
 
     private OnSelectListener selectListener;
-    public ListBottomPopupView setOnSelectListener(OnSelectListener selectListener) {
+    public BottomListPopupView setOnSelectListener(OnSelectListener selectListener) {
         this.selectListener = selectListener;
         return this;
     }
@@ -105,7 +105,7 @@ public class ListBottomPopupView extends BottomPopupView {
      * @param position
      * @return
      */
-    public ListBottomPopupView setCheckedPosition(int position) {
+    public BottomListPopupView setCheckedPosition(int position) {
         this.checkedPosition = position;
         return this;
     }
