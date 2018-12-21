@@ -38,7 +38,7 @@ implementation 'com.lxj:xpopup:latest release'
 ```
 
 为了方便使用，已经内置了几种常见弹窗的实现：
-##### 1. 显示确认和取消对话框
+1. **显示确认和取消对话框**
     ```java
     XPopup.get(getContext()).asConfirm("我是标题", "我是内容",
                             new OnConfirmListener() {
@@ -49,7 +49,7 @@ implementation 'com.lxj:xpopup:latest release'
                             })
                             .show();
     ```
-##### 2. 显示带输入框的确认和取消对话框
+2. **显示带输入框的确认和取消对话框**
     ```java
     XPopup.get(getContext()).asInputConfirm("我是标题", "请输入内容。",
                             new OnInputConfirmListener() {
@@ -60,7 +60,7 @@ implementation 'com.lxj:xpopup:latest release'
                             })
                             .show();
     ```
-##### 3. 显示中间弹出的列表弹窗
+3. **显示中间弹出的列表弹窗**
     ```java
     XPopup.get(getActivity()).asCenterList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4"},
                             new OnSelectListener() {
@@ -71,11 +71,11 @@ implementation 'com.lxj:xpopup:latest release'
                             })
                             .show();
     ```
-##### 4. 显示中间弹出的加载框
+4. **显示中间弹出的加载框**
     ```java
     XPopup.get(getActivity()).asLoading().show();
     ```
-##### 5. 显示从底部弹出的列表弹窗
+5. **显示从底部弹出的列表弹窗**
     ```java
     XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
                             new OnSelectListener() {
@@ -86,7 +86,7 @@ implementation 'com.lxj:xpopup:latest release'
                             })
                             .show();
     ```
-##### 6. 显示依附于某个View或者某个点的弹窗
+6. **显示依附于某个View或者某个点的弹窗**
     ```java
     XPopup.get(getActivity()).asAttachList(new String[]{"分享", "编辑", "不带icon"},
                             new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
@@ -120,12 +120,12 @@ implementation 'com.lxj:xpopup:latest release'
     });
     ```
 
-##### 7. 关闭弹窗
+7. **关闭弹窗**
     ```java
     XPopup.get(getContext()).dismiss();
     ```
 
-##### 8. 自定义弹窗
+8. **自定义弹窗**
 
     当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`或者`AttachPopupView`三者之一。假设需要自定义Center类型的弹窗：
     ```java
@@ -173,7 +173,7 @@ implementation 'com.lxj:xpopup:latest release'
             .show();
     ```
 
-##### 9. 自定义动画
+9. **自定义动画**
 
     自定义动画已经被设计得非常简单，动画和弹窗是无关的；这意味着你可以将动画设置给内置弹窗或者自定义弹窗。继承`PopupAnimator`，实现3个方法：
     - 如何初始化动画
@@ -208,7 +208,7 @@ implementation 'com.lxj:xpopup:latest release'
             .show();
     ```
 
-##### 10. 显示DrawerLayout类型弹窗
+10. **显示DrawerLayout类型弹窗**
 
     对于DrawerLayout类型的弹窗，我只能帮你做好弹窗效果和手势交互。里面的UI和逻辑是无法帮你完成的，所以需要自定义一个弹窗，继承`DrawerPopupView`。代码非常简单，如下：
     ```java
@@ -243,7 +243,7 @@ implementation 'com.lxj:xpopup:latest release'
     ```
 
 
-##### 11. 其他
+11. **其他**
 - 设置主色调
 
     默认情况下，XPopup的主色为灰色，这体现在Button和EditText的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
