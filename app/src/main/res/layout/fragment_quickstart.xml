@@ -13,7 +13,7 @@
             android:id="@+id/btnShowConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示ConfirmPopupView"
+            android:text="显示Confirm弹窗"
             android:textAllCaps="false" />
 
 
@@ -21,32 +21,61 @@
             android:id="@+id/btnShowInputConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示InputConfirmPopupView"
+            android:text="显示带输入框的Confirm弹窗"
             android:textAllCaps="false" />
 
-
-        <Button
-            android:id="@+id/btnShowCenterList"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示ListCenterPopupView"
-            android:textAllCaps="false" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnShowCenterList"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="显示Center类型的List弹窗"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnShowCenterListWithCheck"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="显示Center类型的List弹窗(带选中效果)"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnShowLoading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示LoadingPopupView"
+            android:text="显示Loading弹窗"
             android:textAllCaps="false" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnShowBottomList"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="显示ListBottomPopupView"
+            android:layout_marginRight="10dp"
+            android:text="显示Bottom类型的List弹窗"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/btnShowBottomListWithCheck"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="显示Bottom类型的List弹窗(带选中效果)"
+            android:textAllCaps="false" />
+    </LinearLayout>
 
         <TextView
             android:id="@+id/tv1"
@@ -78,7 +107,7 @@
             android:textColor="#fff" />
 
         <TextView
-            android:id="@+id/btnShowAttactPoint"
+            android:id="@+id/btnShowAttachPoint"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
@@ -90,6 +119,7 @@
             android:textSize="22sp" />
 
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="200dp"
@@ -99,9 +129,9 @@
                 android:id="@+id/btnShowDrawerLeft"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:text="显示左边DrawerPopupView"
+                android:text="显示左边Drawer弹窗"
                 android:textAllCaps="false" />
 
             <Button
@@ -109,10 +139,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="显示右边DrawerPopupView"
+                android:text="显示右边Drawer弹窗(带状态栏阴影)"
                 android:textAllCaps="false" />
         </LinearLayout>
-
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

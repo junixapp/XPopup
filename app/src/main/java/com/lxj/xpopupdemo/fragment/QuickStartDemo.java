@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
+import com.lxj.xpopup.widget.CheckView;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 
@@ -26,8 +28,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
+        view.findViewById(R.id.btnShowCenterListWithCheck).setOnClickListener(this);
         view.findViewById(R.id.btnShowLoading).setOnClickListener(this);
         view.findViewById(R.id.btnShowBottomList).setOnClickListener(this);
+        view.findViewById(R.id.btnShowBottomListWithCheck).setOnClickListener(this);
         view.findViewById(R.id.btnShowDrawerLeft).setOnClickListener(this);
         view.findViewById(R.id.btnShowDrawerRight).setOnClickListener(this);
         view.findViewById(R.id.tv1).setOnClickListener(this);
@@ -36,8 +40,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
 
-        XPopup.get(getActivity()).watch(view.findViewById(R.id.btnShowAttactPoint));
-        view.findViewById(R.id.btnShowAttactPoint).setOnLongClickListener(new View.OnLongClickListener() {
+        XPopup.get(getActivity()).watch(view.findViewById(R.id.btnShowAttachPoint));
+        view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 XPopup.get(getActivity()).asAttachList(new String[]{"置顶", "复制", "删除"},null,
@@ -51,6 +55,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 return false;
             }
         });
+
     }
 
     @Override
@@ -66,6 +71,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
 //                        .dismissOnBackPressed(false)
 //                        .dismissOnTouchOutside(false)
+                        // 设置弹窗显示和隐藏的回调监听
                         .setPopupCallback(new XPopupCallback() {
                             @Override
                             public void onShow() {
@@ -98,11 +104,33 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
+            case R.id.btnShowCenterListWithCheck:
+                XPopup.get(getActivity()).asCenterList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4"},
+                        null, 1,
+                        new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                toast("click "+text);
+                            }
+                        })
+                        .show();
+                break;
             case R.id.btnShowLoading:
                 XPopup.get(getActivity()).asLoading().show();
                 break;
             case R.id.btnShowBottomList:
                 XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
+                        new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                toast("click "+text);
+                            }
+                        })
+                        .show();
+                break;
+            case R.id.btnShowBottomListWithCheck:
+                XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
+                        null, 3,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {

@@ -297,23 +297,25 @@ public class XPopup implements BasePopupView.DismissProxy {
      * 显示在中间的列表Popup
      *
      * @param title          标题，可以不传，不传则不显示
-     * @param datas          显示的文本数据
+     * @param data          显示的文本数据
      * @param iconIds        图标的id数组，可以没有
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asCenterList(String title, String[] datas, int[] iconIds, OnSelectListener selectListener) {
+    public XPopup asCenterList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
         position(PopupType.Center);
-
-        ListCenterPopupView listPopupView = new ListCenterPopupView(contextRef.get());
-        listPopupView.setStringData(title, datas, iconIds);
-        listPopupView.setOnSelectListener(selectListener);
-        this.popupView = listPopupView;
+        this.popupView = new ListCenterPopupView(contextRef.get())
+                .setStringData(title, data, iconIds)
+                .setCheckedPosition(checkedPosition)
+                .setOnSelectListener(selectListener);
         return this;
     }
 
-    public XPopup asCenterList(String title, String[] datas, OnSelectListener selectListener) {
-        return asCenterList(title, datas, null, selectListener);
+    public XPopup asCenterList(String title, String[] data, OnSelectListener selectListener) {
+        return asCenterList(title, data, null, -1, selectListener);
+    }
+    public XPopup asCenterList(String title, String[] data, int[] iconIds, OnSelectListener selectListener) {
+        return asCenterList(title, data, iconIds, -1, selectListener);
     }
 
 
@@ -324,9 +326,7 @@ public class XPopup implements BasePopupView.DismissProxy {
      */
     public XPopup asLoading() {
         position(PopupType.Center);
-
-        LoadingPopupView loadingPopupView = new LoadingPopupView(contextRef.get());
-        this.popupView = loadingPopupView;
+        this.popupView = new LoadingPopupView(contextRef.get());
         return this;
     }
 
@@ -335,23 +335,25 @@ public class XPopup implements BasePopupView.DismissProxy {
      * 显示在底部的列表Popup
      *
      * @param title          标题，可以不传，不传则不显示
-     * @param datas          显示的文本数据
+     * @param data          显示的文本数据
      * @param iconIds        图标的id数组，可以没有
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asBottomList(String title, String[] datas, int[] iconIds, OnSelectListener selectListener) {
+    public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
         position(PopupType.Bottom);
-
-        ListBottomPopupView listPopupView = new ListBottomPopupView(contextRef.get());
-        listPopupView.setStringData(title, datas, iconIds);
-        listPopupView.setOnSelectListener(selectListener);
-        this.popupView = listPopupView;
+        this.popupView = new ListBottomPopupView(contextRef.get())
+                .setStringData(title, data, iconIds)
+                .setCheckedPosition(checkedPosition)
+                .setOnSelectListener(selectListener);
         return this;
     }
 
-    public XPopup asBottomList(String title, String[] datas, OnSelectListener selectListener) {
-        return asBottomList(title, datas, null, selectListener);
+    public XPopup asBottomList(String title, String[] data, OnSelectListener selectListener) {
+        return asBottomList(title, data, null,-1, selectListener);
+    }
+    public XPopup asBottomList(String title, String[] data, int[] iconIds, OnSelectListener selectListener) {
+        return asBottomList(title, data, iconIds,-1, selectListener);
     }
 
 

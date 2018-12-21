@@ -63,6 +63,8 @@ implementation 'com.lxj:xpopup:latest release'
 3. **显示中间弹出的列表弹窗**
     ```java
     XPopup.get(getActivity()).asCenterList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4"},
+                            // null, /** 图标Id数组，可无 **/
+                            // 1,    /** 选中的position，默认没有选中效果 **/
                             new OnSelectListener() {
                                 @Override
                                 public void onSelect(int position, String text) {
@@ -78,6 +80,8 @@ implementation 'com.lxj:xpopup:latest release'
 5. **显示从底部弹出的列表弹窗**
     ```java
     XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
+                            // null, /** 图标Id数组，可无 **/
+                            // 1,    /** 选中的position，默认没有选中效果 **/
                             new OnSelectListener() {
                                 @Override
                                 public void onSelect(int position, String text) {
@@ -249,7 +253,7 @@ implementation 'com.lxj:xpopup:latest release'
 11. **其他**
 - 设置主色调
 
-    默认情况下，XPopup的主色为灰色，这体现在Button和EditText的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
+    默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
   ```java
   XPopup.get(this).setPrimaryColor(getResources().getColor(R.color.colorPrimary));
   ```
