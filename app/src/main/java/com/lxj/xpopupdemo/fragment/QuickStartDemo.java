@@ -1,11 +1,13 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.util.Log;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 
@@ -64,6 +66,16 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
 //                        .dismissOnBackPressed(false)
 //                        .dismissOnTouchOutside(false)
+                        .setPopupCallback(new XPopupCallback() {
+                            @Override
+                            public void onShow() {
+                                Log.e("tag", "onShow");
+                            }
+                            @Override
+                            public void onDismiss() {
+                                Log.e("tag", "onDismiss");
+                            }
+                        })
                         .show();
                 break;
             case R.id.btnShowInputConfirm:

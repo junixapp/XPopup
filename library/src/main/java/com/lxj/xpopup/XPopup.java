@@ -31,6 +31,7 @@ import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.KeyboardUtils;
 
 import java.lang.ref.WeakReference;
@@ -46,7 +47,7 @@ public class XPopup implements BasePopupView.DismissProxy {
     private ViewGroup activityView = null;
     private PopupStatus popupStatus = PopupStatus.Dismiss;
     private BasePopupView popupView;
-
+    private XPopupCallback xPopupCallback;
     private int primaryColor = Color.parseColor("#121212");
 
     private XPopup() {
@@ -96,6 +97,8 @@ public class XPopup implements BasePopupView.DismissProxy {
             @Override
             public void run() {
                 popupStatus = PopupStatus.Show;
+                if(xPopupCallback!=null)
+                    xPopupCallback.onShow();
             }
         });
 
@@ -132,6 +135,8 @@ public class XPopup implements BasePopupView.DismissProxy {
                     contextRef.clear();
                     contextRef = null;
                     popupStatus = PopupStatus.Dismiss;
+                    if(xPopupCallback!=null)
+                        xPopupCallback.onDismiss();
                 }
             }
         }, popupView.getAnimationDuration() + 10);
@@ -147,6 +152,16 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     public int getPrimaryColor(){
         return primaryColor;
+    }
+
+    /**
+     * 设置显示和隐藏的回调
+     * @param callback
+     * @return
+     */
+    public XPopup setPopupCallback(XPopupCallback callback){
+        this.xPopupCallback = callback;
+        return this;
     }
 
     private XPopup position(PopupType popupType) {

@@ -259,6 +259,16 @@ implementation 'com.lxj:xpopup:latest release'
       .dismissOnTouchOutside(true) // 点击外部是否关闭弹窗，默认为true
       .popupAnimation(PopupAnimation.ScaleAlphaFromCenter) // 设置内置的动画
       .customAnimator(null) // 设置自定义的动画器
+      .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
+          @Override
+          public void onShow() {
+              // 完全显示的时候执行
+          }
+          @Override
+          public void onDismiss() {
+              // 完全隐藏的时候执行
+          }
+      })
   ```
 
 
