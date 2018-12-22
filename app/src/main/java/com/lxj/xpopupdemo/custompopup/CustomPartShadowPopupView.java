@@ -2,11 +2,7 @@ package com.lxj.xpopupdemo.custompopup;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopupdemo.R;
@@ -35,18 +31,5 @@ public class CustomPartShadowPopupView extends PartShadowPopupView {
                 dismiss();
             }
         });
-
-//        if(isBottomGravity){
-//            FrameLayout.LayoutParams params = (LayoutParams) container.getLayoutParams();
-//            params.gravity = Gravity.BOTTOM;
-//            container.setLayoutParams(params);
-//        }
     }
-
-//    boolean isBottomGravity = false;
-//    public CustomPartShadowPopupView setBottomGravity(){
-//        isBottomGravity = true;
-//        return this;
-//    }
-
 }
