@@ -53,16 +53,11 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.tv_select:
                 XPopup.get(getActivity())
-                        .asCustom(
-                                new CustomPartShadowPopupView(getContext())
-                                        // 此时弹窗显示在目标View上方，因此Gravity应该居于下方
-                                        .setBottomGravity()
-                        )
+                        .asCustom(new CustomPartShadowPopupView(getContext()))
                         .atView(v)
                         .show();
                 break;
             default:
-
                 XPopup.get(getActivity())
                         .asCustom(new CustomPartShadowPopupView(getContext()))
                         .atView(ll_container)

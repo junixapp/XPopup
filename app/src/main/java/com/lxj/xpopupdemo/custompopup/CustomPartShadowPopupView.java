@@ -36,17 +36,17 @@ public class CustomPartShadowPopupView extends PartShadowPopupView {
             }
         });
 
-        if(isBottomGravity){
-            FrameLayout.LayoutParams params = (LayoutParams) container.getLayoutParams();
-            params.gravity = Gravity.BOTTOM;
-            container.setLayoutParams(params);
-        }
+//        if(isBottomGravity){
+//            FrameLayout.LayoutParams params = (LayoutParams) container.getLayoutParams();
+//            params.gravity = Gravity.BOTTOM;
+//            container.setLayoutParams(params);
+//        }
     }
 
-    boolean isBottomGravity = false;
-    public CustomPartShadowPopupView setBottomGravity(){
-        isBottomGravity = true;
-        return this;
-    }
+//    boolean isBottomGravity = false;
+//    public CustomPartShadowPopupView setBottomGravity(){
+//        isBottomGravity = true;
+//        return this;
+//    }
 
 }
