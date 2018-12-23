@@ -1,12 +1,16 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -17,7 +21,6 @@ import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.interfaces.PopupInterface;
 import com.lxj.xpopup.util.Utils;
-import com.lxj.xpopup.widget.ClickConsumeView;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
@@ -32,14 +35,11 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     protected PopupAnimator popupContentAnimator;
     protected PopupAnimator shadowBgAnimator;
-
+    int touchSlop;
     public BasePopupView(@NonNull Context context) {
         super(context);
-
-        // 1.添加背景View，用来拦截所有内容之外的点击
-        ClickConsumeView bgView = new ClickConsumeView(context);
-        addView(bgView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        shadowBgAnimator = new ShadowBgAnimator(getBackgroundView());
+        touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        shadowBgAnimator = new ShadowBgAnimator(this);
 
         // 2. 添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
@@ -76,14 +76,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             @Override
             public void run() {
                 getPopupContentView().setAlpha(1f);
-                //处理未消费的点击
-                getBackgroundView().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (popupInfo.isDismissOnTouchOutside)
-                            dismiss();
-                    }
-                });
 
                 // 处理返回按键
                 setFocusableInTouchMode(true);
@@ -218,23 +210,14 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     /**
-     * 获取背景View
-     *
-     * @return
-     */
-    @Override
-    public View getBackgroundView() {
-        return getChildAt(0);
-    }
-
-    /**
-     * 获取内容View，本质上PopupView显示的内容都在这个View内部。而且我们对PopupView执行的动画，也是对它执行的动画
+     * 获取内容View，本质上PopupView显示的内容都在这个View内部。
+     * 而且我们对PopupView执行的动画，也是对它执行的动画
      *
      * @return
      */
     @Override
     public View getPopupContentView() {
-        return getChildAt(1);
+        return getChildAt(0);
     }
 
     @Override
@@ -263,5 +246,41 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
     public interface DismissProxy{
         void dismiss();
+    }
+
+    float x, y;
+    long downTime;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件
+        // 如果是，则dismiss
+        Rect rect = new Rect();
+        getPopupContentView().getGlobalVisibleRect(rect);
+        if(!isInContentRect(event.getX(), event.getY(), rect)){
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    x = event.getX();
+                    y = event.getY();
+                    downTime = System.currentTimeMillis();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    float dx = event.getX() - x;
+                    float dy = event.getY() - y;
+                    float distance = (float) Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2));
+                    if(distance< touchSlop && (System.currentTimeMillis() - downTime)<350){
+                        if (popupInfo.isDismissOnTouchOutside)
+                            dismiss();
+                    }
+                    x = 0;
+                    y = 0;
+                    downTime = 0;
+                    break;
+            }
+        }
+        return true;
+    }
+
+    private boolean isInContentRect(float x, float y, Rect rect) {
+        return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 }
