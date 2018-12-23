@@ -7,21 +7,62 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabIndicatorColor="#fff"
-            app:tabSelectedTextColor="#fff"
             app:tabMode="scrollable"
+            app:tabSelectedTextColor="#fff"
             app:tabTextColor="#aaf1f1f1" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
+    <com.lxj.xpopupdemo.SmartDragLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#aaa">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="Header"
+                android:background="#fa0cca"
+                android:textColor="#fff"
+                android:textSize="40sp" />
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+
+                <TextView
+                    android:padding="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17"
+                    android:textColor="#000"
+                    android:textSize="30sp" />
+
+
+            </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+    </com.lxj.xpopupdemo.SmartDragLayout>
+
 
 </LinearLayout>
