@@ -18,7 +18,7 @@ public class PopupInfo {
     public Boolean isDismissOnTouchOutside = true; //点击外部消失
     public Boolean hasShadowBg = true; // 是否有半透明的背景
     private View atView = null; // 依附于那个View显示
-    // 动画执行器，如果用户不指定，则会根据窗体类型popupType字段生成默认合适的动画执行器
+    // 动画执行器，如果不指定，则会根据窗体类型popupType字段生成默认合适的动画执行器
     public PopupAnimation popupAnimation = null;
     public PopupAnimator customAnimator = null;
     public PointF touchPoint = null; // 触摸的点
@@ -40,6 +40,8 @@ public class PopupInfo {
                 ", hasShadowBg=" + hasShadowBg +
                 ", atView=" + atView +
                 ", popupAnimation=" + popupAnimation +
+                ", customAnimator=" + customAnimator +
+                ", touchPoint=" + touchPoint +
                 '}';
     }
 }
