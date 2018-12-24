@@ -16,17 +16,6 @@ android {
         }
     }
 
-    // 自定义apk文件的生成名字
-    gradle.projectsEvaluated {
-        android.applicationVariants.all { variant ->
-            variant.outputs.all { output ->
-                outputFileName = "XPopupDemo" +
-                        "-" + new Date().format('yyyyMMdd') + ".apk"
-                // 指定apk生成目录
-//                variant.packageApplication.outputDirectory = new File("./apk")
-            }
-        }
-    }
 }
 
 dependencies {
