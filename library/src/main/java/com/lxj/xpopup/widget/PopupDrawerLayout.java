@@ -120,21 +120,13 @@ public class PopupDrawerLayout extends FrameLayout {
             super.onViewReleased(releasedChild, xvel, yvel);
             int centerLeft = 0;
             if (position == Position.Left) {
-                if(xvel < -1000){
-                    dragHelper.smoothSlideViewTo(releasedChild, -child.getMeasuredWidth(), releasedChild.getTop());
-                }else {
-                    centerLeft = -child.getMeasuredWidth() / 2;
-                    int finalLeft = releasedChild.getLeft() < centerLeft ? -child.getMeasuredWidth() : 0;
-                    dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
-                }
+                centerLeft = -child.getMeasuredWidth() / 2;
+                int finalLeft = child.getLeft() < centerLeft ? -child.getMeasuredWidth() : 0;
+                dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
             } else {
-                if(xvel > 1000){
-                    dragHelper.smoothSlideViewTo(releasedChild, getMeasuredWidth(), releasedChild.getTop());
-                }else {
-                    centerLeft = getMeasuredWidth() + child.getMeasuredWidth() / 2;
-                    int finalLeft = releasedChild.getLeft() < centerLeft ? getMeasuredWidth() : getMeasuredWidth() + child.getMeasuredWidth();
-                    dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
-                }
+                centerLeft = getMeasuredWidth() - child.getMeasuredWidth() / 2;
+                int finalLeft = releasedChild.getLeft() < centerLeft ? getMeasuredWidth() - child.getMeasuredWidth() : getMeasuredWidth();
+                dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
             }
             ViewCompat.postInvalidateOnAnimation(PopupDrawerLayout.this);
         }

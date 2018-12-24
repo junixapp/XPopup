@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import com.lxj.xpopup.widget.CheckView;
 import java.util.Arrays;
 
 /**
- * Description: 在中间的列表对话框
+ * Description: 底部的列表对话框
  * Create by dance, at 2018/12/16
  */
 public class BottomListPopupView extends BottomPopupView {
@@ -37,6 +38,7 @@ public class BottomListPopupView extends BottomPopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
+        Log.e("tag", "initPopupContent");
         recyclerView = findViewById(R.id.recyclerView);
         tv_title = findViewById(R.id.tv_title);
 

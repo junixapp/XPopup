@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,15 +51,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
-//        tabLayout.setupWithViewPager(viewPager);
-//
-//        viewPager.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                callFragmentInit(0);
-//            }
-//        },300);
+        viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                callFragmentInit(0);
+            }
+        },300);
 
         XPopup.get(this).setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 

@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.util.Utils;
+import com.lxj.xpopup.widget.PopupDrawerLayout;
+import com.lxj.xpopup.widget.SmartDragLayout;
 
 /**
  * Description: 在底部显示的Popup
@@ -20,6 +22,7 @@ public class BottomPopupView extends BasePopupView {
     public BottomPopupView(@NonNull Context context) {
         super(context);
         bottomPopupContainer = findViewById(R.id.bottomPopupContainer);
+//        bottomPopupContainer.setMaxHeight(getMaxHeight());
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), bottomPopupContainer, false);
         bottomPopupContainer.addView(contentView);
     }
@@ -45,7 +48,50 @@ public class BottomPopupView extends BasePopupView {
         int heightSize = getPopupContentView().getMeasuredHeight();
         getPopupContentView().measure(widthMeasureSpec,
                 MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
+
     }
+
+    @Override
+    protected void initPopupContent() {
+        super.initPopupContent();
+//        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+//            @Override
+//            public void onClose() {
+//                BottomPopupView.super.dismiss();
+//            }
+//        });
+//        drawerLayout.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drawerLayout.close();
+//            }
+//        });
+    }
+
+//    @Override
+//    public void doShowAnimation() {
+//        bottomPopupContainer.open();
+//    }
+//
+//    @Override
+//    public void doDismissAnimation() {
+//        bottomPopupContainer.close();
+//    }
+
+    /**
+     * 动画是跟随手势发生的，所以不需要额外的动画器，因此动画时间也清零
+     * @return
+     */
+//    @Override
+//    public int getAnimationDuration() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void dismiss() {
+//        // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
+//        bottomPopupContainer.close();
+//    }
 
 
     /**
@@ -55,4 +101,9 @@ public class BottomPopupView extends BasePopupView {
     protected int getImplLayoutId(){
         return 0;
     }
+
+//    @Override
+//    protected int getMaxHeight() {
+//        return (int) (Utils.getWindowHeight(getContext()));
+//    }
 }

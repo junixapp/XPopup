@@ -11,7 +11,6 @@ import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custompopup.CustomDrawerPopupView;
-import com.lxj.xpopupdemo.custompopup.CustomPartShadowPopupView;
 
 /**
  * Description:
