@@ -42,7 +42,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         shadowBgAnimator = new ShadowBgAnimator(this);
 
-        // 2. 添加Popup窗体内容View
+        //  添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
         // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
         contentView.setAlpha(0);

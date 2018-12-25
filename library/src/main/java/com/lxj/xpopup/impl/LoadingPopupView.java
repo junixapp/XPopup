@@ -30,6 +30,7 @@ public class LoadingPopupView extends CenterPopupView {
 
     @Override
     protected int getMaxWidth() {
-        return Utils.dp2px(getContext(), 85);
+        return popupInfo.maxWidth==0?Utils.dp2px(getContext(), 85)
+                : popupInfo.maxWidth;
     }
 }

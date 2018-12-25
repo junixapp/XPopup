@@ -114,6 +114,7 @@ public class CenterListPopupView extends CenterPopupView {
 
     @Override
     protected int getMaxWidth() {
-        return (int) (super.getMaxWidth() * .8f);
+        return popupInfo.maxWidth==0? (int) (super.getMaxWidth() * .8f)
+                : popupInfo.maxWidth;
     }
 }
