@@ -4,13 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.util.Utils;
-import com.lxj.xpopup.widget.PopupDrawerLayout;
+import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.widget.SmartDragLayout;
 
 /**
@@ -18,23 +18,14 @@ import com.lxj.xpopup.widget.SmartDragLayout;
  * Create by lxj, at 2018/12/11
  */
 public class BottomPopupView extends BasePopupView {
-    FrameLayout bottomPopupContainer;
-
+    SmartDragLayout bottomPopupContainer;
     public BottomPopupView(@NonNull Context context) {
         super(context);
         bottomPopupContainer = findViewById(R.id.bottomPopupContainer);
-//        bottomPopupContainer.setMaxHeight(getMaxHeight());
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), bottomPopupContainer, false);
         bottomPopupContainer.addView(contentView);
     }
 
-    public BottomPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public BottomPopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
 
     @Override
     protected int getPopupLayoutId() {
@@ -45,52 +36,60 @@ public class BottomPopupView extends BasePopupView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // 限制宽高
-        int heightSize = getPopupContentView().getMeasuredHeight();
-        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(getMaxWidth(),MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), heightSize), MeasureSpec.EXACTLY));
+//        int heightSize = getPopupContentView().getMeasuredHeight();
+//        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(getMaxWidth(),MeasureSpec.EXACTLY),
+//                heightMeasureSpec);
     }
 
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-//        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-//            @Override
-//            public void onClose() {
-//                BottomPopupView.super.dismiss();
-//            }
-//        });
-//        drawerLayout.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                drawerLayout.close();
-//            }
-//        });
+        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+            @Override
+            public void onClose() {
+                BottomPopupView.super.dismiss();
+            }
+        });
+        bottomPopupContainer.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomPopupContainer.close();
+            }
+        });
+
+        bottomPopupContainer.setMaxHeight(popupInfo.maxHeight);
     }
 
-//    @Override
-//    public void doShowAnimation() {
-//        bottomPopupContainer.open();
-//    }
-//
-//    @Override
-//    public void doDismissAnimation() {
-//        bottomPopupContainer.close();
-//    }
+    @Override
+    public void doShowAnimation() {
+        bottomPopupContainer.open();
+    }
+
+    @Override
+    public void doDismissAnimation() {
+        bottomPopupContainer.close();
+    }
 
     /**
      * 动画是跟随手势发生的，所以不需要额外的动画器，因此动画时间也清零
      * @return
      */
-//    @Override
-//    public int getAnimationDuration() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void dismiss() {
-//        // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
-//        bottomPopupContainer.close();
-//    }
+    @Override
+    public int getAnimationDuration() {
+        return 0;
+    }
+
+    @Override
+    protected PopupAnimator getPopupAnimator() {
+        // 移除默认的动画器
+        return null;
+    }
+
+    @Override
+    public void dismiss() {
+        // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
+        bottomPopupContainer.close();
+    }
 
     /**
      * 具体实现的类的布局
@@ -101,14 +100,14 @@ public class BottomPopupView extends BasePopupView {
         return 0;
     }
 
-    public int getMaxHeight() {
-        return popupInfo.maxHeight == 0 ? (int) (Utils.getWindowHeight(getContext()) * 0.85f)
-                : popupInfo.maxHeight;
-    }
-
-    @Override
-    protected int getMaxWidth() {
-        return popupInfo.maxWidth==0? getMeasuredWidth()
-                : popupInfo.maxWidth;
-    }
+//    public int getMaxHeight() {
+//        return popupInfo.maxHeight == 0 ? (int) (Utils.getWindowHeight(getContext()) * 0.85f)
+//                : popupInfo.maxHeight;
+//    }
+//
+//    @Override
+//    protected int getMaxWidth() {
+//        return popupInfo.maxWidth==0? getMeasuredWidth()
+//                : popupInfo.maxWidth;
+//    }
 }

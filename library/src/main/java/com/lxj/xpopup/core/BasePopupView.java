@@ -255,7 +255,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     public boolean onTouchEvent(MotionEvent event) {
         // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件
         // 如果是，则dismiss
-        Log.e("tag", "base popup touch");
         Rect rect = new Rect();
         getPopupContentView().getGlobalVisibleRect(rect);
         if(!isInContentRect(event.getX(), event.getY(), rect)){

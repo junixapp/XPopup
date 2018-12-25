@@ -32,17 +32,17 @@
             <Button
                 android:id="@+id/btnShowCenterList"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 android:text="显示Center类型的List弹窗"
                 android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btnShowCenterListWithCheck"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="显示Center类型的List弹窗(带选中效果)"
                 android:textAllCaps="false" />
         </LinearLayout>
@@ -54,28 +54,35 @@
             android:text="显示Loading弹窗"
             android:textAllCaps="false" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnShowBottomList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:text="显示Bottom类型的List弹窗"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnShowBottomListWithCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="显示Bottom类型的List弹窗(带选中效果)"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btnShowBottomList"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/btnCustomBottomPopup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="显示Bottom类型的List弹窗"
+            android:text="显示自定义Bottom弹窗（自带拖拽交互）"
             android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/btnShowBottomListWithCheck"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="显示Bottom类型的List弹窗(带选中效果)"
-            android:textAllCaps="false" />
-    </LinearLayout>
 
         <TextView
             android:id="@+id/tv1"
@@ -119,9 +126,9 @@
             android:textSize="22sp" />
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="200dp"
             android:orientation="horizontal">
 
@@ -142,6 +149,7 @@
                 android:text="显示右边Drawer弹窗(带状态栏阴影)"
                 android:textAllCaps="false" />
         </LinearLayout>
+
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

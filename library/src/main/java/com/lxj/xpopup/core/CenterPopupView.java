@@ -45,16 +45,8 @@ public class CenterPopupView extends BasePopupView {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            // popupContent限制宽高
-            if (child == getPopupContentView()) {
-                measureChild(child, MeasureSpec.makeMeasureSpec(Math.min(getMaxWidth(), width), MeasureSpec.EXACTLY),
-                        MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), height), MeasureSpec.EXACTLY));
-            } else {
-                measureChild(child, widthMeasureSpec, heightMeasureSpec);
-            }
-        }
+        measureChild(getPopupContentView(), MeasureSpec.makeMeasureSpec(Math.min(getMaxWidth(), width), MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), height), MeasureSpec.AT_MOST));
         setMeasuredDimension(width, height);
     }
 

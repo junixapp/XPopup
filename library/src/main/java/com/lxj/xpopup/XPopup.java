@@ -84,6 +84,7 @@ public class XPopup implements BasePopupView.DismissProxy {
 
         activityView.addView(popupView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
+        activityView.bringChildToFront(popupView);
         popupStatus = PopupStatus.Showing;
 
         //2. 执行初始化
@@ -387,7 +388,6 @@ public class XPopup implements BasePopupView.DismissProxy {
      */
     public XPopup asAttachList(String[] data, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener) {
         if (popupStatus != PopupStatus.Dismiss) return this;
-
         position(PopupType.AttachView);
 
         this.popupView = new AttachListPopupView(contextRef.get())

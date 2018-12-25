@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 
 /**

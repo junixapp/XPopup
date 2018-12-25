@@ -16,7 +16,7 @@ public class ShadowBgAnimator extends PopupAnimator {
 
     public ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     public int startColor = Color.TRANSPARENT;
-    public int endBgColor = Color.parseColor("#88000000");
+    public int endBgColor = Color.parseColor("#77000000");
     public ShadowBgAnimator(View target) {
         super(target);
     }

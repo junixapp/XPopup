@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="12dp"
+    android:clickable="true"
+    android:background="?selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_marginRight="12dp"
+        android:id="@+id/avatar"
+        android:background="@drawable/bg_circle"
+        android:layout_width="55dp"
+        android:layout_height="55dp" />
+
+    <TextView
+        android:text="知乎大神"
+        android:textColor="#111"
+        android:textSize="17sp"
+        android:id="@+id/name"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_below="@id/name"
+        android:textSize="15sp"
+        android:textColor="#888"
+        android:text="这是一个自定义Bottom类型的弹窗！你可以在里面添加任何滚动的View，我已经智能处理好嵌套滚动，你只需编写UI和逻辑即可！！！"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

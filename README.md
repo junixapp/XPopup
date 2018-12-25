@@ -12,7 +12,7 @@
 **设计思路**：
 综合常见的弹窗场景，我将其分为几类：
 1. Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
-2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表
+2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表，我内部会处理好手势拖拽和嵌套滚动
 3. Attach类型，就是弹窗的位置需要依附于某个View或者某个触摸点，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差
 4. DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
 
@@ -24,13 +24,13 @@
 
 ## ScreenShot
 
-![](screenshot/preview.gif) ![](screenshot/preview_attach.gif)
+![](screenshot/preview.gif) ![](screenshot/preview_bottom.gif)
 
-![](screenshot/preview_drawer.gif) ![](screenshot/preview_part.gif)
+![](screenshot/preview_attach.gif) ![](screenshot/preview_drawer.gif)
 
-![](screenshot/preview2.gif) ![](screenshot/preview3.gif)
+![](screenshot/preview_part.gif) ![](screenshot/preview2.gif)
 
-![](screenshot/preview4.gif)
+![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
 ## 体验Demo
 下载安装，快速体验：[点我下载Demo体验](https://fir.im/2q63)
@@ -83,6 +83,7 @@ implementation 'com.lxj:xpopup:latest release'
     ```
 5. **显示从底部弹出的列表弹窗**
     ```java
+    // 这种弹窗从 1.0.0版本开始实现了优雅的手势交互和智能嵌套滚动
     XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
                             // null, /** 图标Id数组，可无 **/
                             // 1,    /** 选中的position，默认没有选中效果 **/
@@ -310,6 +311,8 @@ implementation 'com.lxj:xpopup:latest release'
       })
   ```
 
+## 联系方式
 
-## 待办
-- [ ] Bottom类型的弹出支持手势拖拽，就像知乎的评论弹窗那样
+Gmail: lxj16167479@qq.com
+Email: 16167479@qq.com
+QQ: 16167479

@@ -1,6 +1,7 @@
 package com.lxj.xpopup.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
@@ -8,6 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
 import com.lxj.xpopup.animator.ShadowBgAnimator;
@@ -34,6 +36,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         super(context, attrs, defStyleAttr);
         scroller = new Scroller(context);
         setCardElevation(Utils.dp2px(context, 10));
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
     int maxY;
@@ -43,52 +46,51 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     public void onViewAdded(View c) {
         super.onViewAdded(c);
         child = c;
-        Log.e("tag", "onViewAdded : "+getChildCount());
     }
 
     @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-//        child = getChildAt(0);
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        child.measure(widthMeasureSpec, maxHeight==0 ?
+                Math.min((int) (getMeasuredHeight() * .7f), child.getMeasuredHeight()) : maxHeight);
     }
-
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        child.measure(widthMeasureSpec, maxHeight==0 ?
-//                (int) (getMeasuredHeight() * .85f) : maxHeight);
-//    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         maxY = child.getMeasuredHeight();
         minY = 0;
-
-        Log.e("tag", "w: "+getMeasuredWidth()
-            + "   h: "+getMeasuredHeight());
+    }
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        child.layout(0, getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight() + child.getMeasuredHeight());
     }
 
-//    @Override
-//    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-//        child.layout(0, getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight() + child.getMeasuredHeight());
-//    }
-
-    float touchY;
+    float touchX,touchY;
+    long downTime;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if(!scroller.isFinished()){
+                    scroller.abortAnimation();
+                }
+                touchX = event.getX();
                 touchY = event.getY();
+                downTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 int dy = (int) (event.getY() - touchY);
-                Log.e("tag", "touchY: " + touchY);
                 scrollTo(getScrollX(), getScrollY() - dy);
                 touchY = event.getY();
                 break;
             case MotionEvent.ACTION_UP:
                 finishScroll();
+
+                float distance = (float) Math.sqrt(Math.pow(event.getX()-touchX,2)+Math.pow(event.getY()-touchY,2) );
+                long duration = System.currentTimeMillis() - downTime;
+                if(distance < ViewConfiguration.get(getContext()).getScaledTouchSlop() && duration<350){
+                    performClick();
+                }
                 break;
         }
         return true;
@@ -111,10 +113,8 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         float fraction = (y - minY) * 1f / (maxY - minY);
         setBackgroundColor(bgAnimator.calculateBgColor(fraction));
         if(fraction==0f && listener!=null){
-//            listener.onClose();
+            listener.onClose();
         }
-
-        Log.e("tag", "fraction: "+fraction);
         isScrollUp = y > getScrollY();
         super.scrollTo(x, y);
     }
@@ -124,7 +124,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         super.computeScroll();
         if (scroller.computeScrollOffset()) {
             scrollTo(scroller.getCurrX(), scroller.getCurrY());
-            invalidate();
+            ViewCompat.postInvalidateOnAnimation(this);
         }
     }
 
@@ -135,15 +135,13 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     public void open() {
-//        scroller.startScroll(getScrollX(), getScrollY(), 0, 300, 400);
-//        invalidate();
-        Log.e("tag", "open");
+        scroller.startScroll(getScrollX(), getScrollY(), 0, maxY-getScrollY(), 500);
+        ViewCompat.postInvalidateOnAnimation(this);
     }
 
     public void close() {
-//        scroller.startScroll(getScrollX(), getScrollY(), 0, minY, 400);
-//        invalidate();
-        Log.e("tag", "close");
+        scroller.startScroll(getScrollX(), getScrollY(), 0, minY-getScrollY(), 600);
+        ViewCompat.postInvalidateOnAnimation(this);
     }
 
     @Override

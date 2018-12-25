@@ -1,5 +1,9 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -10,6 +14,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.custompopup.ZhihuCommentPopup;
 import com.lxj.xpopupdemo.custompopup.CustomDrawerPopupView;
 
 /**
@@ -33,6 +38,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowBottomListWithCheck).setOnClickListener(this);
         view.findViewById(R.id.btnShowDrawerLeft).setOnClickListener(this);
         view.findViewById(R.id.btnShowDrawerRight).setOnClickListener(this);
+        view.findViewById(R.id.btnCustomBottomPopup).setOnClickListener(this);
         view.findViewById(R.id.tv1).setOnClickListener(this);
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
@@ -170,8 +176,16 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         )
                         .show();
                 break;
+            case R.id.btnCustomBottomPopup:
+                XPopup.get(getActivity())
+                        .asCustom(new ZhihuCommentPopup(getContext()))
+//                        .setWidthAndHeight(0, 300)
+                        .show();
+                break;
         }
     }
+
+
 
 
 }

@@ -38,7 +38,6 @@ public class BottomListPopupView extends BottomPopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        Log.e("tag", "initPopupContent");
         recyclerView = findViewById(R.id.recyclerView);
         tv_title = findViewById(R.id.tv_title);
 
@@ -78,7 +77,12 @@ public class BottomListPopupView extends BottomPopupView {
                     checkedPosition = position;
                     adapter.notifyDataSetChanged();
                 }
-                dismiss();
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismiss();
+                    }
+                },100);
             }
         });
         recyclerView.setAdapter(adapter);
