@@ -82,6 +82,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 Log.e("tag", "onDismiss");
                             }
                         })
+//                        .setWidthAndHeight(800,1600)
                         .show();
                 break;
             case R.id.btnShowInputConfirm:
@@ -102,6 +103,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 toast("click "+text);
                             }
                         })
+//                        .setWidthAndHeight(600,0)
                         .show();
                 break;
             case R.id.btnShowCenterListWithCheck:
@@ -116,7 +118,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading:
-                XPopup.get(getActivity()).asLoading().show();
+                XPopup.get(getActivity()).asLoading()
+                        .show();
                 break;
             case R.id.btnShowBottomList:
                 XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
@@ -126,6 +129,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 toast("click "+text);
                             }
                         })
+//                        .setWidthAndHeight(600,0)
                         .show();
                 break;
             case R.id.btnShowBottomListWithCheck:

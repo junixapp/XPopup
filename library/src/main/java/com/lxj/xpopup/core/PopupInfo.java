@@ -22,6 +22,8 @@ public class PopupInfo {
     public PopupAnimation popupAnimation = null;
     public PopupAnimator customAnimator = null;
     public PointF touchPoint = null; // 触摸的点
+    public int maxWidth; // 最大宽度
+    public int maxHeight; // 最大高度
 
     public View getAtView() {
         return atView;

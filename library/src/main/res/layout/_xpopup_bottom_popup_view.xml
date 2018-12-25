@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/bottomPopupContainer"
     android:background="@android:color/white"
-    android:layout_gravity="bottom"
+    android:layout_gravity="bottom|center_horizontal"
     android:layout_height="wrap_content">
 
 

@@ -17,6 +17,7 @@ import com.lxj.xpopup.util.Utils;
  */
 public class BottomPopupView extends BasePopupView {
     FrameLayout bottomPopupContainer;
+
     public BottomPopupView(@NonNull Context context) {
         super(context);
         bottomPopupContainer = findViewById(R.id.bottomPopupContainer);
@@ -41,18 +42,29 @@ public class BottomPopupView extends BasePopupView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // 限制宽高
-        int maxHeight = (int) (Utils.getWindowHeight(getContext()) * 0.85f);
         int heightSize = getPopupContentView().getMeasuredHeight();
-        getPopupContentView().measure(widthMeasureSpec,
-                MeasureSpec.makeMeasureSpec(Math.min(maxHeight, heightSize), MeasureSpec.EXACTLY));
+        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(getMaxWidth(),MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), heightSize), MeasureSpec.EXACTLY));
     }
 
 
     /**
      * 具体实现的类的布局
+     *
      * @return
      */
-    protected int getImplLayoutId(){
+    protected int getImplLayoutId() {
         return 0;
+    }
+
+    public int getMaxHeight() {
+        return popupInfo.maxHeight == 0 ? (int) (Utils.getWindowHeight(getContext()) * 0.85f)
+                : popupInfo.maxHeight;
+    }
+
+    @Override
+    protected int getMaxWidth() {
+        return popupInfo.maxWidth==0? getMeasuredWidth()
+                : popupInfo.maxWidth;
     }
 }

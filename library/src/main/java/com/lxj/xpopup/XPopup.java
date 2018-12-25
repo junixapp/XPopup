@@ -215,6 +215,19 @@ public class XPopup implements BasePopupView.DismissProxy {
         return this;
     }
 
+    /**
+     * 设置弹窗的宽和高，只对Center和Bottom类型的弹窗有效
+     * @param maxWidth 传0就是不改变
+     * @param maxHeight 传0就是不改变
+     * @return
+     */
+    public XPopup setWidthAndHeight(int maxWidth, int maxHeight){
+        checkPopupInfo();
+        popupInfo.maxWidth = maxWidth;
+        popupInfo.maxHeight = maxHeight;
+        return this;
+    }
+
     private void checkPopupInfo() {
         if (popupInfo == null) {
             popupInfo = new PopupInfo();

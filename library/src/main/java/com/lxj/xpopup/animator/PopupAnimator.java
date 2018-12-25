@@ -22,8 +22,6 @@ public abstract class PopupAnimator {
         this.popupAnimation = popupAnimation;
     }
 
-
-
     public abstract void initAnimator();
     public abstract void animateShow();
     public abstract void animateDismiss();
