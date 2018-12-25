@@ -309,10 +309,13 @@ implementation 'com.lxj:xpopup:latest release'
               // 完全隐藏的时候执行
           }
       })
+      .setWidthAndHeight(0, 300) // 设置弹窗的宽高，只对Center和Bottom类型弹窗生效
   ```
 
 ## 联系方式
 
-Gmail: lxj16167479@qq.com
+Gmail: lxj16167479@gmail.com
+
 Email: 16167479@qq.com
+
 QQ: 16167479
