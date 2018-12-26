@@ -103,7 +103,7 @@ public class XPopupUtils {
      */
     public static boolean isFuckDevice(){
         String model = XPopupUtils.getModel();
-        return model.equalsIgnoreCase("MIX2") || model.equalsIgnoreCase("MIX2S");
+        return model.equalsIgnoreCase("MIX2");
     }
 
     public static void limitWidthAndHeight(View target, int maxWidth, int maxHeight){
