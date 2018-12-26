@@ -1,9 +1,5 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -14,8 +10,8 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.custompopup.ZhihuCommentPopup;
 import com.lxj.xpopupdemo.custompopup.CustomDrawerPopupView;
+import com.lxj.xpopupdemo.custompopup.ZhihuCommentPopup;
 
 /**
  * Description:

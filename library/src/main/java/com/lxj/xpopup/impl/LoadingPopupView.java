@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.util.Utils;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 确定和取消的对话框
@@ -30,7 +30,7 @@ public class LoadingPopupView extends CenterPopupView {
 
     @Override
     protected int getMaxWidth() {
-        return popupInfo.maxWidth==0?Utils.dp2px(getContext(), 85)
+        return popupInfo.maxWidth==0?XPopupUtils.dp2px(getContext(), 85)
                 : popupInfo.maxWidth;
     }
 }

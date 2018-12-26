@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -14,7 +13,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopup.util.Utils;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 依附于某个View的弹窗
@@ -27,8 +26,8 @@ public abstract class AttachPopupView extends BasePopupView {
 
     public AttachPopupView(@NonNull Context context) {
         super(context);
-        defaultOffsetY = Utils.dp2px(context, defaultOffsetY);
-        defaultOffsetX = Utils.dp2px(context, defaultOffsetX);
+        defaultOffsetY = XPopupUtils.dp2px(context, defaultOffsetY);
+        defaultOffsetX = XPopupUtils.dp2px(context, defaultOffsetX);
         attachPopupContainer = findViewById(R.id.attachPopupContainer);
 
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), attachPopupContainer, false);
@@ -69,7 +68,7 @@ public abstract class AttachPopupView extends BasePopupView {
      */
     protected void doAttach(){
         // 弹窗显示的位置不能超越Window高度
-        float maxY = Utils.getWindowHeight(getContext()) ;
+        float maxY = XPopupUtils.getWindowHeight(getContext()) ;
         float maxX = 0; // 显示在右边时候的最大值
 
         float translationX = 0, translationY = 0;
@@ -79,7 +78,7 @@ public abstract class AttachPopupView extends BasePopupView {
             maxX = Math.max(popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth(), 0);
             // 尽量优先放在下方，当不够的时候在显示在上方
             isShowUp = (popupInfo.touchPoint.y + getPopupContentView().getMeasuredHeight()) > maxY ;
-            isShowLeft = popupInfo.touchPoint.x < Utils.getWindowWidth(getContext()) / 2;
+            isShowLeft = popupInfo.touchPoint.x < XPopupUtils.getWindowWidth(getContext()) / 2;
 
             if (isShowUp) {
                 // 应显示在point上方
@@ -103,7 +102,7 @@ public abstract class AttachPopupView extends BasePopupView {
 
             // 尽量优先放在下方，当不够的时候在显示在上方
             isShowUp = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY ; // 不能正好贴着底边
-            isShowLeft = centerX < Utils.getWindowWidth(getContext()) / 2;
+            isShowLeft = centerX < XPopupUtils.getWindowWidth(getContext()) / 2;
 
             if (isShowUp) {
                 //说明上面的空间比较大，应显示在atView上方

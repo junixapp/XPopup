@@ -6,14 +6,13 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
 import com.lxj.xpopup.animator.ShadowBgAnimator;
-import com.lxj.xpopup.util.Utils;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 智能的拖拽布局，优先滚动整体，整体滚到头，则滚动内部能滚动的View
@@ -35,7 +34,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     public SmartDragLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         scroller = new Scroller(context);
-        setCardElevation(Utils.dp2px(context, 10));
+        setCardElevation(XPopupUtils.dp2px(context, 10));
         setBackgroundColor(Color.TRANSPARENT);
     }
 

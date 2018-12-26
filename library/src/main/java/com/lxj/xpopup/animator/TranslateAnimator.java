@@ -1,12 +1,9 @@
 package com.lxj.xpopup.animator;
 
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopup.util.Utils;
 
 /**
  * Description: 平移动画，不带渐变
