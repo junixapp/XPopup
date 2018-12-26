@@ -101,7 +101,7 @@ public class BottomPopupView extends BasePopupView {
     }
 
 //    public int getMaxHeight() {
-//        return popupInfo.maxHeight == 0 ? (int) (Utils.getWindowHeight(getContext()) * 0.85f)
+//        return popupInfo.maxHeight == 0 ? (int) (XPopupUtils.getWindowHeight(getContext()) * 0.85f)
 //                : popupInfo.maxHeight;
 //    }
 //

@@ -4,13 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.util.Utils;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 在中间显示的Popup
@@ -60,12 +59,12 @@ public class CenterPopupView extends BasePopupView {
     }
 
     protected int getMaxWidth() {
-        return popupInfo.maxWidth==0 ? (int) (Utils.getWindowWidth(getContext()) * 0.86f)
+        return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getWindowWidth(getContext()) * 0.86f)
                 : popupInfo.maxWidth;
     }
 
     protected int getMaxHeight() {
-        return popupInfo.maxHeight==0 ? (int) (Utils.getWindowHeight(getContext()) * 0.85f)
+        return popupInfo.maxHeight==0 ? (int) (XPopupUtils.getWindowHeight(getContext()) * 0.85f)
                 : popupInfo.maxHeight;
     }
 

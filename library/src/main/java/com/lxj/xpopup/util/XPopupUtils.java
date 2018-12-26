@@ -27,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
  * Description:
  * Create by lxj, at 2018/12/7
  */
-public class Utils {
+public class XPopupUtils {
     public static int getWindowWidth(Context context) {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
     }
@@ -69,7 +69,7 @@ public class Utils {
     public static boolean hasNavigationBar(Context context) {
         Point appUsableSize = getAppUsableScreenSize(context);
         Point realScreenSize = getRealScreenSize(context);
-        return appUsableSize.y + Utils.getStatusBarHeight() < realScreenSize.y;
+        return appUsableSize.y + XPopupUtils.getStatusBarHeight() < realScreenSize.y;
     }
 
     public static Point getAppUsableScreenSize(Context context) {
@@ -97,7 +97,14 @@ public class Utils {
         return size;
     }
 
-
+    /**
+     * 是否是特殊设备，目前发现有：小米MIX系列
+     * @return
+     */
+    public static boolean isFuckDevice(){
+        String model = XPopupUtils.getModel();
+        return model.equalsIgnoreCase("MIX2") || model.equalsIgnoreCase("MIX2S");
+    }
 
     public static void limitWidthAndHeight(View target, int maxWidth, int maxHeight){
         ViewGroup.LayoutParams params = target.getLayoutParams();
@@ -148,5 +155,31 @@ public class Utils {
         stateListDrawable.addState(new int[]{android.R.attr.state_focused}, focusDrawable);
         stateListDrawable.addState(new int[]{}, defaultDrawable);
         return stateListDrawable;
+    }
+
+    /**
+     * Return the manufacturer of the product/hardware.
+     * <p>e.g. Xiaomi</p>
+     *
+     * @return the manufacturer of the product/hardware
+     */
+    public static String getManufacturer() {
+        return Build.MANUFACTURER;
+    }
+
+    /**
+     * Return the model of device.
+     * <p>e.g. MI2SC</p>
+     *
+     * @return the model of device
+     */
+    public static String getModel() {
+        String model = Build.MODEL;
+        if (model != null) {
+            model = model.trim().replaceAll("\\s*", "");
+        } else {
+            model = "";
+        }
+        return model;
     }
 }

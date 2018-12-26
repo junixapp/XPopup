@@ -5,15 +5,14 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
@@ -21,7 +20,7 @@ import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.interfaces.PopupInterface;
-import com.lxj.xpopup.util.Utils;
+import com.lxj.xpopup.util.XPopupUtils;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
@@ -47,9 +46,9 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
         contentView.setAlpha(0);
         addView(contentView);
-        // 如果有导航栏，则不能覆盖导航栏
-        if(Utils.hasNavigationBar(getContext())){
-            setPadding(0,0,0, Utils.getNavBarHeight());
+        // 如果有导航栏，则不能覆盖导航栏，排除特殊设备
+        if(XPopupUtils.hasNavigationBar(getContext()) && !XPopupUtils.isFuckDevice()){
+            setPadding(0,0,0, XPopupUtils.getNavBarHeight());
         }
     }
 
