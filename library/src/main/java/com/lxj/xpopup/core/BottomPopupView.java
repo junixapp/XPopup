@@ -2,15 +2,13 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 
 /**
@@ -26,24 +24,16 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.addView(contentView);
     }
 
-
     @Override
     protected int getPopupLayoutId() {
         return R.layout._xpopup_bottom_popup_view;
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // 限制宽高
-//        int heightSize = getPopupContentView().getMeasuredHeight();
-//        getPopupContentView().measure(MeasureSpec.makeMeasureSpec(getMaxWidth(),MeasureSpec.EXACTLY),
-//                heightMeasureSpec);
-    }
-
-    @Override
     protected void initPopupContent() {
         super.initPopupContent();
+        XPopupUtils.widthAndHeight(getPopupImplView(),getMaxWidth(), getMaxHeight());
+
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override
             public void onClose() {
@@ -57,7 +47,6 @@ public class BottomPopupView extends BasePopupView {
             }
         });
 
-        bottomPopupContainer.setMaxHeight(popupInfo.maxHeight);
     }
 
     @Override
@@ -100,14 +89,8 @@ public class BottomPopupView extends BasePopupView {
         return 0;
     }
 
-//    public int getMaxHeight() {
-//        return popupInfo.maxHeight == 0 ? (int) (XPopupUtils.getWindowHeight(getContext()) * 0.85f)
-//                : popupInfo.maxHeight;
-//    }
-//
-//    @Override
-//    protected int getMaxWidth() {
-//        return popupInfo.maxWidth==0? getMeasuredWidth()
-//                : popupInfo.maxWidth;
-//    }
+    protected int getMaxWidth() {
+        return popupInfo.maxWidth==0 ?  XPopupUtils.getWindowWidth(getContext())
+                : popupInfo.maxWidth;
+    }
 }

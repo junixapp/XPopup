@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
@@ -220,6 +220,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         return getChildAt(0);
     }
 
+    public View getPopupImplView() {
+        return ((ViewGroup)getPopupContentView()).getChildAt(0);
+    }
+
     @Override
     public int getAnimationDuration() {
         return popupContentAnimator==null? 400 : popupContentAnimator.animateDuration;
@@ -230,7 +234,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     protected int getMaxHeight() {
-        return 0;
+        return popupInfo.maxHeight;
     }
 
     /**
@@ -256,7 +260,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         // 如果是，则dismiss
         Rect rect = new Rect();
         getPopupContentView().getGlobalVisibleRect(rect);
-        if(!isInContentRect(event.getX(), event.getY(), rect)){
+        if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect)){
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();
@@ -280,7 +284,5 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         return true;
     }
 
-    private boolean isInContentRect(float x, float y, Rect rect) {
-        return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-    }
+
 }

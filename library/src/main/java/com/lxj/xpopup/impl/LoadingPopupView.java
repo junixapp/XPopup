@@ -23,12 +23,6 @@ public class LoadingPopupView extends CenterPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        // 去除背景
-//        centerPopupContainer.setBackgroundResource(0);
-    }
-
-    @Override
     protected int getMaxWidth() {
         return popupInfo.maxWidth==0?XPopupUtils.dp2px(getContext(), 85)
                 : popupInfo.maxWidth;

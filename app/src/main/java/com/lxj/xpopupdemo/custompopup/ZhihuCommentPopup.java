@@ -9,6 +9,7 @@ import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
 
@@ -49,5 +50,10 @@ public class ZhihuCommentPopup extends BottomPopupView {
             }
         });
         recyclerView.setAdapter(commonAdapter);
+    }
+
+    @Override
+    protected int getMaxHeight() {
+        return (int) (XPopupUtils.getWindowHeight(getContext())*.85f);
     }
 }

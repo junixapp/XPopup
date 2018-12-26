@@ -8,6 +8,7 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custompopup.CustomDrawerPopupView;
@@ -83,7 +84,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 Log.e("tag", "onDismiss");
                             }
                         })
-//                        .setWidthAndHeight(800,1600)
                         .show();
                 break;
             case R.id.btnShowInputConfirm:
@@ -130,7 +130,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 toast("click "+text);
                             }
                         })
-//                        .setWidthAndHeight(600,0)
                         .show();
                 break;
             case R.id.btnShowBottomListWithCheck:

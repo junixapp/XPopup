@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -106,10 +107,14 @@ public class XPopupUtils {
         return model.equalsIgnoreCase("MIX2");
     }
 
-    public static void limitWidthAndHeight(View target, int maxWidth, int maxHeight){
+    public static void widthAndHeight(View target, int width, int height){
         ViewGroup.LayoutParams params = target.getLayoutParams();
-        params.width = Math.min(target.getMeasuredWidth(), maxWidth);
-        params.height = Math.min(target.getMeasuredHeight(), maxHeight);
+        if(width!=0){
+            params.width = width;
+        }
+        if(height!=0){
+            params.height = height;
+        }
         target.setLayoutParams(params);
     }
 
@@ -181,5 +186,9 @@ public class XPopupUtils {
             model = "";
         }
         return model;
+    }
+
+    public static boolean isInRect(float x, float y, Rect rect) {
+        return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 }

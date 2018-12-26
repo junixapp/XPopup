@@ -2,6 +2,7 @@ package com.lxj.xpopupdemo.fragment;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -44,6 +46,7 @@ public class CustomPopupDemo extends BaseFragment {
                         XPopup.get(getContext())
                                 .popupAnimation(datas[position])
                                 .asCustom(new CustomPopup(getContext()))
+//                                .setWidthAndHeight(XPopupUtils.getWindowWidth(getContext()),XPopupUtils.getWindowHeight(getContext()))
                                 .show();
                     }
                 },200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰

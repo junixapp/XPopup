@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -40,13 +41,9 @@ public class CenterPopupView extends BasePopupView {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-
-        measureChild(getPopupContentView(), MeasureSpec.makeMeasureSpec(Math.min(getMaxWidth(), width), MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(Math.min(getMaxHeight(), height), MeasureSpec.AT_MOST));
-        setMeasuredDimension(width, height);
+    protected void initPopupContent() {
+        super.initPopupContent();
+        XPopupUtils.widthAndHeight(getPopupContentView(), getMaxWidth(), getMaxHeight());
     }
 
     /**
@@ -63,9 +60,5 @@ public class CenterPopupView extends BasePopupView {
                 : popupInfo.maxWidth;
     }
 
-    protected int getMaxHeight() {
-        return popupInfo.maxHeight==0 ? (int) (XPopupUtils.getWindowHeight(getContext()) * 0.85f)
-                : popupInfo.maxHeight;
-    }
 
 }
