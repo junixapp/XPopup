@@ -2,10 +2,8 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -17,6 +15,7 @@ import com.lxj.xpopup.widget.SmartDragLayout;
  */
 public class BottomPopupView extends BasePopupView {
     SmartDragLayout bottomPopupContainer;
+    boolean enableGesture = true; //是否启用手势交互，默认启用
     public BottomPopupView(@NonNull Context context) {
         super(context);
         bottomPopupContainer = findViewById(R.id.bottomPopupContainer);
@@ -32,6 +31,7 @@ public class BottomPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
+        bottomPopupContainer.enableGesture(enableGesture);
         XPopupUtils.widthAndHeight(getPopupImplView(),getMaxWidth(), getMaxHeight());
 
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
@@ -51,12 +51,20 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     public void doShowAnimation() {
-        bottomPopupContainer.open();
+        if(enableGesture){
+            bottomPopupContainer.open();
+        }else {
+            super.doShowAnimation();
+        }
     }
 
     @Override
     public void doDismissAnimation() {
-        bottomPopupContainer.close();
+        if(enableGesture){
+            bottomPopupContainer.close();
+        }else {
+            super.doDismissAnimation();
+        }
     }
 
     /**
@@ -65,19 +73,24 @@ public class BottomPopupView extends BasePopupView {
      */
     @Override
     public int getAnimationDuration() {
-        return 0;
+        return enableGesture? 0: super.getAnimationDuration();
     }
 
     @Override
     protected PopupAnimator getPopupAnimator() {
         // 移除默认的动画器
-        return null;
+        return enableGesture ? null : super.getPopupAnimator();
     }
 
     @Override
     public void dismiss() {
-        // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
-        bottomPopupContainer.close();
+        if(enableGesture){
+            // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
+            bottomPopupContainer.close();
+        }else {
+            super.dismiss();
+        }
+
     }
 
     /**
@@ -92,5 +105,10 @@ public class BottomPopupView extends BasePopupView {
     protected int getMaxWidth() {
         return popupInfo.maxWidth==0 ?  XPopupUtils.getWindowWidth(getContext())
                 : popupInfo.maxWidth;
+    }
+
+    public BottomPopupView enableGesture(boolean enableGesture){
+        this.enableGesture = enableGesture;
+        return this;
     }
 }

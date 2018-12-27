@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -120,14 +121,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading:
-                XPopup.get(getActivity()).asLoading()
+                XPopup.get(getActivity()).asLoading(/*"正在加载中"*/)
                         .show();
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        XPopup.get(getActivity()).dismiss();
-//                    }
-//                }, 2000);
                 break;
             case R.id.btnShowBottomList:
                 XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
@@ -141,7 +136,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowBottomListWithCheck:
                 XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
-                        null, 3,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {

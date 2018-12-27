@@ -35,7 +35,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     protected PopupAnimator popupContentAnimator;
     protected PopupAnimator shadowBgAnimator;
-    int touchSlop;
+    private int touchSlop;
     public BasePopupView(@NonNull Context context) {
         super(context);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -252,8 +252,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         void dismiss();
     }
 
-    float x, y;
-    long downTime;
+    private float x, y;
+    private long downTime;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件

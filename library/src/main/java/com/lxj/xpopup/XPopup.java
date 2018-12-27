@@ -348,6 +348,7 @@ public class XPopup implements BasePopupView.DismissProxy {
                 .setTitle(title);
         return this;
     }
+
     public XPopup asLoading() {
         return asLoading(null);
     }
@@ -359,25 +360,32 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @param title          标题，可以不传，不传则不显示
      * @param data           显示的文本数据
      * @param iconIds        图标的id数组，可以没有
+     * @param checkedPosition  选中的位置，传-1为不选中
      * @param selectListener 选中条目的监听器
      * @return
      */
-    public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
+    public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, boolean enableGesture, OnSelectListener selectListener) {
         if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.Bottom);
         this.popupView = new BottomListPopupView(contextRef.get())
                 .setStringData(title, data, iconIds)
                 .setCheckedPosition(checkedPosition)
-                .setOnSelectListener(selectListener);
+                .setOnSelectListener(selectListener)
+                .enableGesture(enableGesture);
         return this;
     }
 
     public XPopup asBottomList(String title, String[] data, OnSelectListener selectListener) {
-        return asBottomList(title, data, null, -1, selectListener);
+        return asBottomList(title, data, null, -1,true, selectListener);
     }
-
     public XPopup asBottomList(String title, String[] data, int[] iconIds, OnSelectListener selectListener) {
-        return asBottomList(title, data, iconIds, -1, selectListener);
+        return asBottomList(title, data, iconIds, -1, true, selectListener);
+    }
+    public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
+        return asBottomList(title, data, iconIds, checkedPosition, true, selectListener);
+    }
+    public XPopup asBottomList(String title, String[] data, int[] iconIds, boolean enableGesture, OnSelectListener selectListener) {
+        return asBottomList(title, data, iconIds, -1, enableGesture, selectListener);
     }
 
 
