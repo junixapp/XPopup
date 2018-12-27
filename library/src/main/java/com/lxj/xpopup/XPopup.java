@@ -218,11 +218,12 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     /**
      * 设置弹窗的宽和高，只对Center和Bottom类型的弹窗有效
-     * @param maxWidth 传0就是不改变
+     *
+     * @param maxWidth  传0就是不改变
      * @param maxHeight 传0就是不改变
      * @return
      */
-    public XPopup setWidthAndHeight(int maxWidth, int maxHeight){
+    public XPopup setWidthAndHeight(int maxWidth, int maxHeight) {
         checkPopupInfo();
         popupInfo.maxWidth = maxWidth;
         popupInfo.maxHeight = maxHeight;
@@ -340,11 +341,15 @@ public class XPopup implements BasePopupView.DismissProxy {
      *
      * @return
      */
-    public XPopup asLoading() {
+    public XPopup asLoading(String title) {
         if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.Center);
-        this.popupView = new LoadingPopupView(contextRef.get());
+        this.popupView = new LoadingPopupView(contextRef.get())
+                .setTitle(title);
         return this;
+    }
+    public XPopup asLoading() {
+        return asLoading(null);
     }
 
 

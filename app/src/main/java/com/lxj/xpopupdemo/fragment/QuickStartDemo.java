@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -121,6 +122,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowLoading:
                 XPopup.get(getActivity()).asLoading()
                         .show();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        XPopup.get(getActivity()).dismiss();
+//                    }
+//                }, 2000);
                 break;
             case R.id.btnShowBottomList:
                 XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},

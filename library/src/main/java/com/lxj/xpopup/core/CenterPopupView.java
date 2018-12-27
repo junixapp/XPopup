@@ -21,18 +21,9 @@ public class CenterPopupView extends BasePopupView {
 
     public CenterPopupView(@NonNull Context context) {
         super(context);
-
         centerPopupContainer = findViewById(R.id.centerPopupContainer);
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), centerPopupContainer, false);
         centerPopupContainer.addView(contentView);
-    }
-
-    public CenterPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public CenterPopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
     }
 
     @Override
@@ -59,6 +50,5 @@ public class CenterPopupView extends BasePopupView {
         return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getWindowWidth(getContext()) * 0.86f)
                 : popupInfo.maxWidth;
     }
-
 
 }
