@@ -314,7 +314,9 @@ implementation 'com.lxj:xpopup:latest release'
               // 完全隐藏的时候执行
           }
       })
-      .setWidthAndHeight(0, 300) // 设置弹窗的宽高，只对Center和Bottom类型弹窗生效
+      // 设置弹窗的宽高，只对Center和Bottom类型弹窗生效，传0表示不改变这个值；如果宽高设置为window的宽高；
+      // 那这个弹窗就是全屏的，看起来和Activity一样，并且可以轻易设置动画，还自带手势交互（Bottom类型的弹窗）！
+      .setWidthAndHeight(0, 300)
   ```
 
 ## 联系方式
