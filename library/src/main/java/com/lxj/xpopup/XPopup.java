@@ -5,13 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
-import android.util.Log;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -21,11 +19,11 @@ import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
-import com.lxj.xpopup.impl.ConfirmPopupView;
-import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.AttachListPopupView;
 import com.lxj.xpopup.impl.BottomListPopupView;
 import com.lxj.xpopup.impl.CenterListPopupView;
+import com.lxj.xpopup.impl.ConfirmPopupView;
+import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -35,6 +33,7 @@ import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.KeyboardUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 /**
  * PopupView的控制类，控制生命周期：显示，隐藏，添加，删除。
@@ -44,14 +43,12 @@ public class XPopup implements BasePopupView.DismissProxy {
     private static WeakReference<Context> contextRef;
     private PopupInfo popupInfo = null;
     private Handler handler = new Handler();
-    private ViewGroup activityView = null;
+    private ViewGroup decorView = null;
     private PopupStatus popupStatus = PopupStatus.Dismiss;
     private BasePopupView popupView;
     private XPopupCallback xPopupCallback;
-    private int primaryColor = Color.parseColor("#121212");
-
-    private XPopup() {
-    }
+    private int primaryColor = Color.parseColor(    "#121212");
+    private XPopup() {}
 
     public static XPopup get(Context ctx) {
         if (instance == null) {
@@ -74,16 +71,15 @@ public class XPopup implements BasePopupView.DismissProxy {
             throw new IllegalArgumentException("context must be an instance of Activity");
         }
         Activity activity = (Activity) contextRef.get();
-
-        activityView = (ViewGroup) activity.getWindow().getDecorView();
+        decorView = (ViewGroup) activity.getWindow().getDecorView();
 
         //1. set popupView
         popupView.setPopupInfo(popupInfo);
         popupView.setDismissProxy(this);
 
-        activityView.addView(popupView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+        decorView.addView(popupView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        activityView.bringChildToFront(popupView);
+        decorView.bringChildToFront(popupView);
         popupStatus = PopupStatus.Showing;
 
         //2. 执行初始化
@@ -128,9 +124,9 @@ public class XPopup implements BasePopupView.DismissProxy {
                 contextRef = null;
                 if (xPopupCallback != null)
                     xPopupCallback.onDismiss();
-                if (activityView != null) {
-                    activityView.removeView(popupView);
-                    activityView = null;
+                if (decorView != null) {
+                    decorView.removeView(popupView);
+                    decorView = null;
                 }
             }
         }, popupView.getAnimationDuration());
