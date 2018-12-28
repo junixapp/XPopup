@@ -3,7 +3,6 @@ package com.lxj.xpopup.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
@@ -27,6 +26,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
     boolean enableGesture = true;//是否启用手势
     boolean dismissOnTouchOutside = true;
+    boolean hasShadowBg = true;
     public SmartDragLayout(Context context) {
         this(context, null);
     }
@@ -126,7 +126,8 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         if (y > maxY) y = maxY;
         if (y < minY) y = minY;
         float fraction = (y - minY) * 1f / (maxY - minY);
-        setBackgroundColor(bgAnimator.calculateBgColor(fraction));
+        if(hasShadowBg)
+            setBackgroundColor(bgAnimator.calculateBgColor(fraction));
         if (fraction == 0f && listener != null) {
             listener.onClose();
         }
@@ -210,6 +211,9 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
     public void dismissOnTouchOutside(boolean dismissOnTouchOutside) {
         this.dismissOnTouchOutside = dismissOnTouchOutside;
+    }
+    public void hasShadowBg(boolean hasShadowBg) {
+        this.hasShadowBg = hasShadowBg;
     }
 
     private OnCloseListener listener;
