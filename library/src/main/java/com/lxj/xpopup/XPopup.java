@@ -74,7 +74,6 @@ public class XPopup implements BasePopupView.DismissProxy {
             throw new IllegalArgumentException("context must be an instance of Activity");
         }
         Activity activity = (Activity) contextRef.get();
-        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         activityView = (ViewGroup) activity.getWindow().getDecorView();
 
