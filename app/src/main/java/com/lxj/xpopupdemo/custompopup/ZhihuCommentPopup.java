@@ -40,8 +40,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
         }
         CommonAdapter<String> commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, strings) {
             @Override
-            protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
-            }
+            protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {}
         };
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
             @Override

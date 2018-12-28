@@ -32,6 +32,7 @@ public class BottomPopupView extends BasePopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         bottomPopupContainer.enableGesture(enableGesture);
+        bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
         XPopupUtils.widthAndHeight(getPopupImplView(),getMaxWidth(), getMaxHeight());
 
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {

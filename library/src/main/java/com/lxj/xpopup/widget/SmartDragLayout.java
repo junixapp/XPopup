@@ -26,7 +26,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     OverScroller scroller;
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
     boolean enableGesture = true;//是否启用手势
-
+    boolean dismissOnTouchOutside = true;
     public SmartDragLayout(Context context) {
         this(context, null);
     }
@@ -98,7 +98,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
                 // click in child rect
                 Rect rect = new Rect();
                 child.getGlobalVisibleRect(rect);
-                if (!XPopupUtils.isInRect(event.getX(), event.getY(), rect)) {
+                if (!XPopupUtils.isInRect(event.getX(), event.getY(), rect) && dismissOnTouchOutside) {
                     float distance = (float) Math.sqrt(Math.pow(event.getX() - touchX, 2) + Math.pow(event.getY() - touchY, 2));
                     long duration = System.currentTimeMillis() - downTime;
                     if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop() && duration < 350) {
@@ -207,6 +207,9 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
 
     public void enableGesture(boolean enableGesture) {
         this.enableGesture = enableGesture;
+    }
+    public void dismissOnTouchOutside(boolean dismissOnTouchOutside) {
+        this.dismissOnTouchOutside = dismissOnTouchOutside;
     }
 
     private OnCloseListener listener;

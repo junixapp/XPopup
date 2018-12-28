@@ -289,7 +289,54 @@ implementation 'com.lxj:xpopup:latest release'
         .show();
     ```
 
-12. **其他**
+
+12. **自定义Bottom类型的弹窗**
+
+    自定义Bottom类型的弹窗会比较常见，默认Bottom弹窗带有手势交互和嵌套滚动；如果您不想要手势交互可以调用`enableGesture(false)`方法关闭。
+
+    Demo中有一个模仿知乎评论的实现，代码在这里：
+    ```java
+    public class ZhihuCommentPopup extends BottomPopupView {
+        VerticalRecyclerView recyclerView;
+        public ZhihuCommentPopup(@NonNull Context context) {
+            super(context);
+        }
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.custom_bottom_popup;
+        }
+
+        @Override
+        protected void initPopupContent() {
+            super.initPopupContent();
+            recyclerView = findViewById(R.id.recyclerView);
+
+            ArrayList<String> strings = new ArrayList<>();
+            for (int i = 0; i < 30; i++) {
+                strings.add("");
+            }
+            CommonAdapter<String> commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, strings) {
+                @Override
+                protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {}
+            };
+            commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    dismiss();
+                }
+            });
+            recyclerView.setAdapter(commonAdapter);
+        }
+        // 最大高度为Window的0.85
+        @Override
+        protected int getMaxHeight() {
+            return (int) (XPopupUtils.getWindowHeight(getContext())*.85f);
+        }
+    }
+    ```
+
+
+13. **其他**
 - 设置主色调
 
     默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
