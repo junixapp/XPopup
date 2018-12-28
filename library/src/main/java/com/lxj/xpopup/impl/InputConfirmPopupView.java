@@ -50,8 +50,9 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
                         public boolean onKey(View v, int keyCode, KeyEvent event) {
                             if (keyCode == KeyEvent.KEYCODE_BACK && popupInfo.isDismissOnBackPressed) {
                                 dismiss();
+                                return true;
                             }
-                            return true;
+                            return false;
                         }
                     });
                 }
