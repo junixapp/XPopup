@@ -363,6 +363,7 @@ implementation 'com.lxj:xpopup:latest release'
           }
       })
       // 设置弹窗的最大宽高，只对Center和Bottom类型弹窗生效。默认情况下，弹窗的布局是自适应的，如果你设置了最大宽高，则弹窗的宽高不会超过你设置的值！
+      // 如果你想要一个全屏的弹窗：首先布局要都是`match_parent`，然后设置这个值为window的宽高即可。如果你是自定义弹窗，也可以重写`getMaxWidth()`和`getMaxHeight()`方法，效果是一样的
       .maxWidthAndHeight(0, 300)
   ```
 
