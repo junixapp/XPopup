@@ -19,6 +19,7 @@ import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
 import com.lxj.xpopupdemo.fragment.PartShadowDemo;
 import com.lxj.xpopupdemo.fragment.QuickStartDemo;
+import com.squareup.leakcanary.LeakCanary;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -3,6 +3,7 @@ package com.lxj.xpopup.util;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -43,8 +44,7 @@ public final class KeyboardUtils {
      * @param activity The activity.
      * @param listener The soft input changed listener.
      */
-    public static void registerSoftInputChangedListener(final Activity activity,
-                                                        final OnSoftInputChangedListener listener) {
+    public static void registerSoftInputChangedListener(final Activity activity, final OnSoftInputChangedListener listener) {
         final int flags = activity.getWindow().getAttributes().flags;
         if ((flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0) {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -66,6 +66,12 @@ public final class KeyboardUtils {
         };
         contentView.getViewTreeObserver()
                 .addOnGlobalLayoutListener(onGlobalLayoutListener);
+    }
+
+    public static void removeLayoutChangeListener(View decorView){
+        View contentView = decorView.findViewById(android.R.id.content);
+        contentView.getViewTreeObserver().removeGlobalOnLayoutListener(onGlobalLayoutListener);
+        onGlobalLayoutListener = null;
     }
 
     private static int getNavBarHeight() {

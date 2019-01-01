@@ -12,7 +12,6 @@ import com.lxj.xpopupdemo.R;
  * Create by dance, at 2018/12/21
  */
 public class CustomPartShadowPopupView extends PartShadowPopupView {
-    View container;
     public CustomPartShadowPopupView(@NonNull Context context) {
         super(context);
     }
@@ -24,7 +23,6 @@ public class CustomPartShadowPopupView extends PartShadowPopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        container = findViewById(R.id.container);
         findViewById(R.id.btnClose).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

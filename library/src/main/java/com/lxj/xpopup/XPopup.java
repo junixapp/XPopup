@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -42,7 +43,7 @@ public class XPopup implements BasePopupView.DismissProxy {
     private static WeakReference<Context> contextRef;
     private PopupInfo popupInfo = null;
     private Handler handler = new Handler();
-    private ViewGroup activityView = null;
+    private ViewGroup decorView = null;
     private PopupStatus popupStatus = PopupStatus.Dismiss;
     private BasePopupView popupView;
     private XPopupCallback xPopupCallback;
@@ -72,15 +73,15 @@ public class XPopup implements BasePopupView.DismissProxy {
         }
         Activity activity = (Activity) contextRef.get();
 
-        activityView = (ViewGroup) activity.getWindow().getDecorView();
+        decorView = (ViewGroup) activity.getWindow().getDecorView();
 
         //1. set popupView
         popupView.setPopupInfo(popupInfo);
         popupView.setDismissProxy(this);
 
-        activityView.addView(popupView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+        decorView.addView(popupView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        activityView.bringChildToFront(popupView);
+        decorView.bringChildToFront(popupView);
         popupStatus = PopupStatus.Showing;
 
         //2. 执行初始化
@@ -125,10 +126,13 @@ public class XPopup implements BasePopupView.DismissProxy {
                 contextRef = null;
                 if (xPopupCallback != null)
                     xPopupCallback.onDismiss();
-                if (activityView != null) {
-                    activityView.removeView(popupView);
-                    activityView = null;
+                if (decorView != null) {
+                    KeyboardUtils.removeLayoutChangeListener(decorView);
+                    decorView.removeView(popupView);
+                    decorView = null;
                 }
+                popupView = null;
+                xPopupCallback = null;
             }
         }, popupView.getAnimationDuration());
     }

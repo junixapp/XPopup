@@ -14,6 +14,7 @@ import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 局部阴影的弹窗，类似于淘宝商品列表的下拉筛选弹窗
@@ -58,6 +59,10 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         } else {
             // atView在上半部分，PartShadow应该显示在它下方，计算atView之下的高度
             params.height = getMeasuredHeight() - rect.bottom;
+            // 防止伸到导航栏下面\
+            if(XPopupUtils.hasNavigationBar(getContext()) && !XPopupUtils.isFuckDevice()){
+                params.height -= XPopupUtils.getNavBarHeight();
+            }
             isShowUp = false;
             getPopupContentView().setTranslationY(rect.bottom + defaultOffsetY);
 
