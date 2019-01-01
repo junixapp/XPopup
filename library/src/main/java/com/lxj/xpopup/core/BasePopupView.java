@@ -108,10 +108,12 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 }
 
                 //3. 初始化动画执行器
-
                 shadowBgAnimator.initAnimator();
-                if(popupContentAnimator!=null)
+                if(popupContentAnimator!=null){
                     popupContentAnimator.initAnimator();
+                    shadowBgAnimator.animateDuration = popupContentAnimator.animateDuration;
+                }
+
 
                 //4. 执行动画
                 doShowAnimation();

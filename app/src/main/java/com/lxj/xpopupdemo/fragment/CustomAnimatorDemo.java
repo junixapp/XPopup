@@ -38,6 +38,7 @@ public class CustomAnimatorDemo extends BaseFragment {
     static class RotateAnimator extends PopupAnimator{
         @Override
         public void initAnimator() {
+//            animateDuration = 1000;
             targetView.setScaleX(0);
             targetView.setScaleY(0);
             targetView.setAlpha(0);
