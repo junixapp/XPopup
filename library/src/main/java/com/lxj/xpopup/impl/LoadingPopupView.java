@@ -2,12 +2,10 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 加载对话框
@@ -22,11 +20,6 @@ public class LoadingPopupView extends CenterPopupView {
     @Override
     protected int getImplLayoutId() {
         return R.layout._xpopup_center_impl_loading;
-    }
-
-    @Override
-    protected int getMaxWidth() {
-        return popupInfo.maxWidth;
     }
 
     @Override

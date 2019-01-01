@@ -23,7 +23,13 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         targetView.setAlpha(0);
 
         // 设置动画参考点
+        targetView.post(new Runnable() {
+            @Override
+            public void run() {
+
         applyPivot();
+            }
+        });
     }
 
     /**

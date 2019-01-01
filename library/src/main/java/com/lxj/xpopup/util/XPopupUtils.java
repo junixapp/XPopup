@@ -13,12 +13,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
@@ -107,15 +109,40 @@ public class XPopupUtils {
         return model.equalsIgnoreCase("MIX2");
     }
 
-    public static void widthAndHeight(View target, int width, int height){
-        ViewGroup.LayoutParams params = target.getLayoutParams();
-        if(width!=0){
-            params.width = width;
-        }
-        if(height!=0){
-            params.height = height;
-        }
-        target.setLayoutParams(params);
+    public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){
+        widthAndHeight(target, maxWidth, maxHeight, false);
+    }
+    public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight, boolean isCenter){
+        target.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup.LayoutParams params = target.getLayoutParams();
+                View implView = ((ViewGroup) target).getChildAt(0);
+                ViewGroup.LayoutParams implParams = implView.getLayoutParams();
+                // 默认PopupContent宽是match，高是wrap
+                int w = target.getMeasuredWidth();
+                // response impl view wrap_content params.
+                if(implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT){
+                    w = Math.min(w, implView.getMeasuredWidth());
+                }
+                if(maxWidth!=0){
+                    params.width = Math.min(w, maxWidth);
+                }else {
+                    params.width = w;
+                }
+
+                int h = target.getMeasuredHeight();
+                // response impl view match_parent params.
+                if(implParams.height == FrameLayout.LayoutParams.MATCH_PARENT){
+                    h = ((ViewGroup)target.getParent()).getMeasuredHeight();
+                    params.height = h;
+                }
+                if(maxHeight!=0){
+                    params.height = Math.min(h, maxHeight);
+                }
+                target.setLayoutParams(params);
+            }
+        });
     }
 
     public static void setCursorDrawableColor(EditText editText, int color) {
@@ -162,15 +189,6 @@ public class XPopupUtils {
         return stateListDrawable;
     }
 
-    /**
-     * Return the manufacturer of the product/hardware.
-     * <p>e.g. Xiaomi</p>
-     *
-     * @return the manufacturer of the product/hardware
-     */
-    public static String getManufacturer() {
-        return Build.MANUFACTURER;
-    }
 
     /**
      * Return the model of device.

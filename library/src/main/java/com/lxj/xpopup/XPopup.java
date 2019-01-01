@@ -5,11 +5,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -21,11 +19,11 @@ import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
-import com.lxj.xpopup.impl.ConfirmPopupView;
-import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.AttachListPopupView;
 import com.lxj.xpopup.impl.BottomListPopupView;
 import com.lxj.xpopup.impl.CenterListPopupView;
+import com.lxj.xpopup.impl.ConfirmPopupView;
+import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -50,8 +48,7 @@ public class XPopup implements BasePopupView.DismissProxy {
     private XPopupCallback xPopupCallback;
     private int primaryColor = Color.parseColor("#121212");
 
-    private XPopup() {
-    }
+    private XPopup() {}
 
     public static XPopup get(Context ctx) {
         if (instance == null) {
@@ -217,12 +214,27 @@ public class XPopup implements BasePopupView.DismissProxy {
 
     /**
      * 设置弹窗的宽和高，只对Center和Bottom类型的弹窗有效
-     *
+     * 语义有歧义，请使用 maxWidthAndHeight
      * @param maxWidth  传0就是不改变
      * @param maxHeight 传0就是不改变
      * @return
      */
+    @Deprecated
     public XPopup setWidthAndHeight(int maxWidth, int maxHeight) {
+        checkPopupInfo();
+        popupInfo.maxWidth = maxWidth;
+        popupInfo.maxHeight = maxHeight;
+        return this;
+    }
+
+    /**
+     * 设置弹窗的宽和高的最大值，只对Center和Bottom类型的弹窗有效
+     *
+     * @param maxWidth  传0就是不限制
+     * @param maxHeight 传0就是不限制
+     * @return
+     */
+    public XPopup maxWidthAndHeight(int maxWidth, int maxHeight) {
         checkPopupInfo();
         popupInfo.maxWidth = maxWidth;
         popupInfo.maxHeight = maxHeight;

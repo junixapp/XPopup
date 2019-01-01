@@ -7,6 +7,7 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -54,14 +55,9 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         maxY = child.getMeasuredHeight();
         minY = 0;
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
         if (enableGesture) {
             // horizontal center
@@ -151,7 +147,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     public void open() {
-        scroller.startScroll(getScrollX(), getScrollY(), 0, maxY - getScrollY(), 500);
+        scroller.startScroll(getScrollX(), getScrollY(), 0, maxY - getScrollY(), 600);
         ViewCompat.postInvalidateOnAnimation(this);
     }
 

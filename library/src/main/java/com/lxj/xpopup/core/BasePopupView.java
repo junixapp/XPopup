@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -50,6 +51,22 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         if(XPopupUtils.hasNavigationBar(getContext()) && !XPopupUtils.isFuckDevice()){
             setPadding(0,0,0, XPopupUtils.getNavBarHeight());
         }
+
+        // 处理返回按键
+        setFocusableInTouchMode(true);
+        requestFocus();
+        // 此处焦点可能被内容的EditText抢走，此时需要给EditText也设置返回按下监听
+        setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if( popupInfo.isDismissOnBackPressed)
+                        dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -71,27 +88,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     public void init(final Runnable afterAnimationStarted){
         //1. 初始化Popup
         initPopupContent();
-
         post(new Runnable() {
             @Override
             public void run() {
                 getPopupContentView().setAlpha(1f);
-
-                // 处理返回按键
-                setFocusableInTouchMode(true);
-                requestFocus();
-                // 此处焦点可能被内容的EditText抢走，此时需要给EditText也设置返回按下监听
-                setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            if( popupInfo.isDismissOnBackPressed)
-                                dismiss();
-                            return true;
-                        }
-                        return false;
-                    }
-                });
 
                 //2. 收集动画执行器
                 // 优先使用自定义的动画器
@@ -108,6 +108,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 }
 
                 //3. 初始化动画执行器
+
                 shadowBgAnimator.initAnimator();
                 if(popupContentAnimator!=null)
                     popupContentAnimator.initAnimator();

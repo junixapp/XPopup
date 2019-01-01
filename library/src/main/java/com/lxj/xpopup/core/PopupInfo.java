@@ -1,6 +1,5 @@
 package com.lxj.xpopup.core;
 
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.view.View;
 
@@ -44,6 +43,8 @@ public class PopupInfo {
                 ", popupAnimation=" + popupAnimation +
                 ", customAnimator=" + customAnimator +
                 ", touchPoint=" + touchPoint +
+                ", maxWidth=" + maxWidth +
+                ", maxHeight=" + maxHeight +
                 '}';
     }
 }
