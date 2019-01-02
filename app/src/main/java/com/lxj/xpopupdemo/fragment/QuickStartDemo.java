@@ -94,7 +94,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             @Override
                             public void onConfirm(String text) {
                                 toast("input text: " + text);
-                                XPopup.get(getActivity()).asLoading().show();
+//                                XPopup.get(getActivity()).asLoading().show();
                             }
                         })
                         .show();

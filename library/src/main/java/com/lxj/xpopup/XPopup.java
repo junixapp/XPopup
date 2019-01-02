@@ -5,12 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -32,23 +31,21 @@ import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.KeyboardUtils;
-
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 /**
  * PopupView的控制类，控制生命周期：显示，隐藏，添加，删除。
  */
-public class XPopup implements BasePopupView.DismissProxy {
+public class XPopup {
     private static XPopup instance = null;
     private static WeakReference<Context> contextRef;
-    private PopupInfo popupInfo = null;
+    private PopupInfo tempInfo = null;
+    private BasePopupView tempView;
     private Handler handler = new Handler();
     private ViewGroup decorView = null;
-    private PopupStatus popupStatus = PopupStatus.Dismiss;
-    private BasePopupView popupView;
-    private XPopupCallback xPopupCallback;
     private int primaryColor = Color.parseColor("#121212");
-
+    private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
     private XPopup() {}
 
     public static XPopup get(Context ctx) {
@@ -56,85 +53,134 @@ public class XPopup implements BasePopupView.DismissProxy {
             instance = new XPopup();
         }
         contextRef = new WeakReference<>(ctx);
-        return instance;
-    }
-
-    /**
-     * 显示，本质是就将View添加到decorView上，并执行动画
-     */
-    public void show() {
-        if (popupStatus != PopupStatus.Dismiss) return;
-
         if (contextRef.get() == null) {
             throw new IllegalArgumentException("context can not be null!");
         }
         if (!(contextRef.get() instanceof Activity)) {
             throw new IllegalArgumentException("context must be an instance of Activity");
         }
-        Activity activity = (Activity) contextRef.get();
-
-        decorView = (ViewGroup) activity.getWindow().getDecorView();
-
-        //1. set popupView
-        popupView.setPopupInfo(popupInfo);
-        popupView.setDismissProxy(this);
-
-        decorView.addView(popupView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT));
-        decorView.bringChildToFront(popupView);
-        popupStatus = PopupStatus.Showing;
-
-        //2. 执行初始化
-        popupView.init(new Runnable() {
-            @Override
-            public void run() {
-                popupStatus = PopupStatus.Show;
-                if (xPopupCallback != null)
-                    xPopupCallback.onShow();
-            }
-        });
-
-        KeyboardUtils.registerSoftInputChangedListener(activity, new KeyboardUtils.OnSoftInputChangedListener() {
+        KeyboardUtils.registerSoftInputChangedListener((Activity) contextRef.get(), new KeyboardUtils.OnSoftInputChangedListener() {
             @Override
             public void onSoftInputChanged(int height) {
                 if (height == 0) { // 说明对话框隐藏
-                    popupView.getPopupContentView().animate().translationY(0)
-                            .setDuration(300).start();
+                    for (BasePopupView pv: popupViews){
+                        pv.getPopupContentView().animate().translationY(0)
+                                .setDuration(300).start();
+                    }
                 }
             }
         });
+        return instance;
     }
 
+    /**
+     * 显示弹窗，并指定tag。
+     * @param tag 在同时显示多个弹窗的场景下，tag会有用；否则tag无用，也不需要传。
+     */
+    public void show(Object tag) {
+        if (tempView==null) throw new IllegalArgumentException("要显示的弹窗为空！");
+        //1. set popup view
+        tempView.popupInfo = tempInfo;
+        if(tag!=null)tempView.setTag(tag);
+        popupViews.add(tempView);
+        tempInfo = null;
+        tempView = null;
+
+        //2. show popup view with tag
+        for (BasePopupView pv: popupViews){
+            if(tag!=null){
+                if(pv.getTag() == tag){
+                    showInternal(pv);
+                    break;
+                }
+            }else {
+                //show all
+                showInternal(pv);
+            }
+        }
+    }
+
+    /**
+     * 显示弹窗
+     */
+    public void show(){
+        show(null);
+    }
+
+    private void showInternal(final BasePopupView pv){
+        if(pv.getParent()!=null)return;
+        Activity activity = (Activity) contextRef.get();
+        decorView = (ViewGroup) activity.getWindow().getDecorView();
+        decorView.addView(pv, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT));
+        decorView.bringChildToFront(pv);
+
+        //2. 执行初始化
+        pv.init(new Runnable() { // 弹窗显示动画执行完毕调用
+            @Override
+            public void run() {
+                if (pv.popupInfo.xPopupCallback != null)
+                    pv.popupInfo.xPopupCallback.onShow();
+            }
+        }, new Runnable() {             // 弹窗消失动画执行完毕调用
+            @Override
+            public void run() {
+                popupViews.remove(pv);
+                if (pv.popupInfo.xPopupCallback != null)
+                    pv.popupInfo.xPopupCallback.onDismiss();
+
+                // 移除弹窗
+                decorView.removeView(pv);
+
+                // 释放对象
+                release();
+            }
+        });
+    }
 
     /**
      * 消失
      */
     public void dismiss() {
-        if (popupStatus != PopupStatus.Show) return;
-        //1. 执行结束动画
-        popupStatus = PopupStatus.Dismissing;
-        popupView.doDismissAnimation();
+        dismiss(null);
+    }
 
-        //2. 将PopupView从window中移除
-        handler.removeCallbacks(null);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                popupStatus = PopupStatus.Dismiss;
-                popupInfo = null;
-                contextRef.clear();
-                contextRef = null;
-                if (xPopupCallback != null)
-                    xPopupCallback.onDismiss();
-                if (decorView != null) {
-                    KeyboardUtils.removeLayoutChangeListener(decorView);
-                    decorView.removeView(popupView);
-                    decorView = null;
+    /**
+     * 消失，让指定tag的弹窗消失。
+     * @param tag 在同时显示多弹窗情况下有用，否则没有用。
+     */
+    public void dismiss(Object tag){
+        if(tag==null){
+            //如果没有tag，则因此第0个
+            popupViews.get(0).dismiss();
+        }else {
+            int temp = -1;
+            for (int i = 0; i < popupViews.size(); i++) {
+                if(tag==popupViews.get(i).getTag()){
+                    temp = i;
+                    break;
                 }
-                popupView = null;
-                xPopupCallback = null;
             }
-        }, popupView.getAnimationDuration());
+            if(temp!=-1){
+                popupViews.get(temp).dismiss();
+            }
+        }
+    }
+
+    /**
+     * 释放相关资源
+     */
+    private void release(){
+        if(!popupViews.isEmpty()){
+            return;
+        }
+        handler.removeCallbacks(null);
+        contextRef.clear();
+        contextRef = null;
+        if (decorView != null) {
+            KeyboardUtils.removeLayoutChangeListener(decorView);
+            decorView = null;
+        }
     }
 
     /**
@@ -157,13 +203,14 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @return
      */
     public XPopup setPopupCallback(XPopupCallback callback) {
-        this.xPopupCallback = callback;
+        checkPopupInfo();
+        tempInfo.xPopupCallback = callback;
         return this;
     }
 
     private XPopup position(PopupType popupType) {
         checkPopupInfo();
-        popupInfo.popupType = popupType;
+        tempInfo.popupType = popupType;
         return this;
     }
 
@@ -175,7 +222,7 @@ public class XPopup implements BasePopupView.DismissProxy {
      */
     public XPopup popupAnimation(PopupAnimation animation) {
         checkPopupInfo();
-        popupInfo.popupAnimation = animation;
+        tempInfo.popupAnimation = animation;
         return this;
     }
 
@@ -187,32 +234,32 @@ public class XPopup implements BasePopupView.DismissProxy {
      */
     public XPopup customAnimator(PopupAnimator animator) {
         checkPopupInfo();
-        popupInfo.customAnimator = animator;
+        tempInfo.customAnimator = animator;
         return this;
     }
 
     public XPopup dismissOnBackPressed(boolean isDismissOnBackPressed) {
         checkPopupInfo();
-        popupInfo.isDismissOnBackPressed = isDismissOnBackPressed;
+        tempInfo.isDismissOnBackPressed = isDismissOnBackPressed;
         return this;
     }
 
     public XPopup dismissOnTouchOutside(boolean isDismissOnTouchOutside) {
         checkPopupInfo();
-        popupInfo.isDismissOnTouchOutside = isDismissOnTouchOutside;
+        tempInfo.isDismissOnTouchOutside = isDismissOnTouchOutside;
         return this;
     }
 
     public XPopup atView(View view) {
         checkPopupInfo();
-        popupInfo.setAtView(view);
-        popupInfo.touchPoint = null;
+        tempInfo.setAtView(view);
+        tempInfo.touchPoint = null;
         return this;
     }
 
     public XPopup hasShadowBg(boolean hasShadowBg) {
         checkPopupInfo();
-        popupInfo.hasShadowBg = hasShadowBg;
+        tempInfo.hasShadowBg = hasShadowBg;
         return this;
     }
 
@@ -226,8 +273,8 @@ public class XPopup implements BasePopupView.DismissProxy {
     @Deprecated
     public XPopup setWidthAndHeight(int maxWidth, int maxHeight) {
         checkPopupInfo();
-        popupInfo.maxWidth = maxWidth;
-        popupInfo.maxHeight = maxHeight;
+        tempInfo.maxWidth = maxWidth;
+        tempInfo.maxHeight = maxHeight;
         return this;
     }
 
@@ -240,14 +287,14 @@ public class XPopup implements BasePopupView.DismissProxy {
      */
     public XPopup maxWidthAndHeight(int maxWidth, int maxHeight) {
         checkPopupInfo();
-        popupInfo.maxWidth = maxWidth;
-        popupInfo.maxHeight = maxHeight;
+        tempInfo.maxWidth = maxWidth;
+        tempInfo.maxHeight = maxHeight;
         return this;
     }
 
     private void checkPopupInfo() {
-        if (popupInfo == null) {
-            popupInfo = new PopupInfo();
+        if (tempInfo == null) {
+            tempInfo = new PopupInfo();
         }
     }
 
@@ -262,10 +309,9 @@ public class XPopup implements BasePopupView.DismissProxy {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN &&
-                        popupStatus == PopupStatus.Dismiss) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     checkPopupInfo();
-                    popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
+                    tempInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
                 }
                 return false;
             }
@@ -285,13 +331,12 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @return
      */
     public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
-        if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.Center);
 
         ConfirmPopupView popupView = new ConfirmPopupView(contextRef.get());
         popupView.setTitleContent(title, content);
         popupView.setListener(confirmListener, cancelListener);
-        this.popupView = popupView;
+        this.tempView = popupView;
         return this;
     }
 
@@ -309,13 +354,12 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @return
      */
     public XPopup asInputConfirm(String title, String content, OnInputConfirmListener confirmListener, OnCancelListener cancelListener) {
-        if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.Center);
 
         InputConfirmPopupView popupView = new InputConfirmPopupView(contextRef.get());
         popupView.setTitleContent(title, content);
         popupView.setListener(confirmListener, cancelListener);
-        this.popupView = popupView;
+        this.tempView = popupView;
         return this;
     }
 
@@ -333,9 +377,8 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @return
      */
     public XPopup asCenterList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
-        if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.Center);
-        this.popupView = new CenterListPopupView(contextRef.get())
+        this.tempView = new CenterListPopupView(contextRef.get())
                 .setStringData(title, data, iconIds)
                 .setCheckedPosition(checkedPosition)
                 .setOnSelectListener(selectListener);
@@ -357,9 +400,8 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @return
      */
     public XPopup asLoading(String title) {
-        if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.Center);
-        this.popupView = new LoadingPopupView(contextRef.get())
+        this.tempView = new LoadingPopupView(contextRef.get())
                 .setTitle(title);
         return this;
     }
@@ -380,9 +422,8 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @return
      */
     public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, boolean enableGesture, OnSelectListener selectListener) {
-        if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.Bottom);
-        this.popupView = new BottomListPopupView(contextRef.get())
+        this.tempView = new BottomListPopupView(contextRef.get())
                 .setStringData(title, data, iconIds)
                 .setCheckedPosition(checkedPosition)
                 .setOnSelectListener(selectListener)
@@ -415,10 +456,9 @@ public class XPopup implements BasePopupView.DismissProxy {
      * @return
      */
     public XPopup asAttachList(String[] data, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener) {
-        if (popupStatus != PopupStatus.Dismiss) return this;
         position(PopupType.AttachView);
 
-        this.popupView = new AttachListPopupView(contextRef.get())
+        this.tempView = new AttachListPopupView(contextRef.get())
                 .setStringData(data, iconIds)
                 .setOffsetXAndY(offsetX, offsetY)
                 .setOnSelectListener(selectListener);
@@ -434,7 +474,6 @@ public class XPopup implements BasePopupView.DismissProxy {
      * 自定义弹窗
      **/
     public XPopup asCustom(BasePopupView popupView) {
-        if (popupStatus != PopupStatus.Dismiss) return this;
         if (popupView instanceof CenterPopupView) {
             position(PopupType.Center);
         } else if (popupView instanceof BottomPopupView) {
@@ -444,7 +483,7 @@ public class XPopup implements BasePopupView.DismissProxy {
         } else {
             checkPopupInfo();
         }
-        this.popupView = popupView;
+        this.tempView = popupView;
         return this;
     }
 }

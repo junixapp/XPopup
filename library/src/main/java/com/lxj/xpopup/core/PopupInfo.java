@@ -6,9 +6,10 @@ import android.view.View;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupType;
+import com.lxj.xpopup.interfaces.XPopupCallback;
 
 /**
- * Description: PopupView的属性封装
+ * Description: Popup的属性封装
  * Create by dance, at 2018/12/8
  */
 public class PopupInfo {
@@ -23,6 +24,8 @@ public class PopupInfo {
     public PointF touchPoint = null; // 触摸的点
     public int maxWidth; // 最大宽度
     public int maxHeight; // 最大高度
+
+    public XPopupCallback xPopupCallback;
 
     public View getAtView() {
         return atView;

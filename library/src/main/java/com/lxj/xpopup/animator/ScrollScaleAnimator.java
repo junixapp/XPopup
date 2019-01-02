@@ -31,10 +31,15 @@ public class ScrollScaleAnimator extends PopupAnimator{
         targetView.setScaleX(startScale);
         targetView.setScaleY(startScale);
 
-        // 设置参考点
-        applyPivot();
+        targetView.post(new Runnable() {
+            @Override
+            public void run() {
+                // 设置参考点
+                applyPivot();
 
-        targetView.scrollTo(startScrollX, startScrollY);
+                targetView.scrollTo(startScrollX, startScrollY);
+            }
+        });
     }
 
     private void applyPivot(){

@@ -11,5 +11,5 @@ public interface PopupInterface {
     int getAnimationDuration();
     void doShowAnimation();
     void doDismissAnimation();
-    void init(final Runnable afterAnimationStarted);
+    void init(final Runnable afterAnimationStarted, Runnable afterAnimationEnd);
 }
