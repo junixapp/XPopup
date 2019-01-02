@@ -335,8 +335,20 @@ implementation 'com.lxj:xpopup:latest release'
     }
     ```
 
+13. **多弹窗同时显示**
 
-13. **其他**
+    虽然多弹窗同时显示的场景不多见，但本库也支持。在多弹窗场景下，显示的时候需要给弹窗指定tag，隐藏的时候也指定tag。
+    ```
+    XPopup.get(getActivity())
+            ... // 略过
+            .show(tag);// 给弹窗设置tag
+
+    // 指定要消失的弹窗
+    XPopup.get(getActivity()).dismiss(tag);
+    ```
+
+
+14. **其他**
 - 设置主色调
 
     默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
