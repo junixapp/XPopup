@@ -79,5 +79,14 @@ public class CustomPopupDemo extends BaseFragment {
             });
         }
 
+//        @Override
+//        protected int getMaxHeight() {
+//            return 1200;
+//        }
+//
+//        @Override
+//        protected int getMaxWidth() {
+//            return 1200;
+//        }
     }
 }

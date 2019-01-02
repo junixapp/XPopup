@@ -94,7 +94,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             @Override
                             public void onConfirm(String text) {
                                 toast("input text: " + text);
-                                XPopup.get(getActivity()).asLoading().show();
+//                                XPopup.get(getActivity()).asLoading().show();
                             }
                         })
                         .show();
@@ -137,6 +137,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowBottomListWithCheck:
                 XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
+                        null, 2,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {

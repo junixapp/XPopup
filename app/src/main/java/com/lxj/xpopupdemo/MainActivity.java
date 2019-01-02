@@ -8,11 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
@@ -94,5 +90,13 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return pageInfos[position].title;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewPager.removeAllViews();
+        viewPager = null;
+        pageInfos = null;
     }
 }

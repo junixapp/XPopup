@@ -26,4 +26,6 @@ dependencies {
     implementation 'com.lxj:easyadapter:0.0.8'
     implementation project(':library')
 
+    implementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    implementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
 }

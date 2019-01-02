@@ -12,16 +12,15 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
+import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.PopupInterface;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -31,11 +30,11 @@ import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
  * Create by lxj, at 2018/12/7
  */
 public abstract class BasePopupView extends FrameLayout implements PopupInterface {
-    protected PopupInfo popupInfo;
-
+    public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected PopupAnimator shadowBgAnimator;
     private int touchSlop;
+    public PopupStatus popupStatus = PopupStatus.Dismiss;
     public BasePopupView(@NonNull Context context) {
         super(context);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -50,6 +49,22 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         if(XPopupUtils.hasNavigationBar(getContext()) && !XPopupUtils.isFuckDevice()){
             setPadding(0,0,0, XPopupUtils.getNavBarHeight());
         }
+
+        // 处理返回按键
+        setFocusableInTouchMode(true);
+        requestFocus();
+        // 此处焦点可能被内容的EditText抢走，此时需要给EditText也设置返回按下监听
+        setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if( popupInfo.isDismissOnBackPressed)
+                        dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -59,38 +74,20 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
-    public void setPopupInfo(PopupInfo popupInfo) {
-        this.popupInfo = popupInfo;
-    }
-
+    Runnable afterAnimationEnd;
     /**
      * 执行初始化
      * @param afterAnimationStarted
      */
-    public void init(final Runnable afterAnimationStarted){
+    public void init(final Runnable afterAnimationStarted, Runnable afterAnimationEnd){
+        if(popupStatus!=PopupStatus.Dismiss)return;
+        this.afterAnimationEnd = afterAnimationEnd;
         //1. 初始化Popup
         initPopupContent();
-
         post(new Runnable() {
             @Override
             public void run() {
                 getPopupContentView().setAlpha(1f);
-
-                // 处理返回按键
-                setFocusableInTouchMode(true);
-                requestFocus();
-                // 此处焦点可能被内容的EditText抢走，此时需要给EditText也设置返回按下监听
-                setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == KeyEvent.KEYCODE_BACK && popupInfo.isDismissOnBackPressed) {
-                            dismiss();
-                            return true;
-                        }
-                        return false;
-                    }
-                });
 
                 //2. 收集动画执行器
                 // 优先使用自定义的动画器
@@ -108,14 +105,24 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
                 //3. 初始化动画执行器
                 shadowBgAnimator.initAnimator();
-                if(popupContentAnimator!=null)
+                if(popupContentAnimator!=null){
                     popupContentAnimator.initAnimator();
+                    shadowBgAnimator.animateDuration = popupContentAnimator.animateDuration;
+                }
+
 
                 //4. 执行动画
+                popupStatus = PopupStatus.Showing;
                 doShowAnimation();
 
                 // call xpopup init.
-                postDelayed(afterAnimationStarted, 20);
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        afterAnimationStarted.run();
+                        popupStatus = PopupStatus.Show;
+                    }
+                }, 20);
             }
         });
 
@@ -242,15 +249,17 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 消失
      */
     public void dismiss(){
-        if(proxy!=null)proxy.dismiss();
-    }
-
-    private DismissProxy proxy;
-    public void setDismissProxy(DismissProxy proxy){
-        this.proxy = proxy;
-    }
-    public interface DismissProxy{
-        void dismiss();
+        if(popupStatus!=PopupStatus.Show)return;
+        popupStatus = PopupStatus.Dismissing;
+        doDismissAnimation();
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                afterAnimationEnd.run();
+                popupStatus = PopupStatus.Dismiss;
+                popupInfo = null;
+            }
+        }, getAnimationDuration());
     }
 
     private float x, y;
