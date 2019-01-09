@@ -258,6 +258,8 @@ implementation 'com.lxj:xpopup:latest release'
                     //.hasStatusBarShadow(true)
             )
             .show();
+    // 注意：如果每次show的时候都new一个弹窗对象，那么弹窗内的数据和状态则无法保存，因为都是新的；
+    // 如果想保存，则先new一个弹窗对象，每次都显示同一个对象即可
     ```
 
 

@@ -60,8 +60,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             }
         });
 
+         drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
+                .setDrawerPosition(PopupDrawerLayout.Position.Right)
+                .hasStatusBarShadow(true);   // 添加状态栏Shadow
     }
-
+    CustomDrawerPopupView drawerPopupView;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -167,17 +170,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowDrawerRight:
                 XPopup.get(getActivity())
-                        .asCustom(
-                                new CustomDrawerPopupView(getContext())
-                                .setDrawerPosition(PopupDrawerLayout.Position.Right)
-                                .hasStatusBarShadow(true)   // 添加状态栏Shadow
-                        )
+                        .asCustom(drawerPopupView)
                         .show();
                 break;
             case R.id.btnCustomBottomPopup:
                 XPopup.get(getActivity())
                         .asCustom(new ZhihuCommentPopup(getContext()))
-//                        .setWidthAndHeight(0, 300)
+//                        .maxWidthAndHeight(0, 300)
                         .show();
                 break;
         }
