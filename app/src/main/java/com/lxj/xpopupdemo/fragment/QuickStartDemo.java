@@ -166,6 +166,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowDrawerLeft:
                 XPopup.get(getActivity())
                         .asCustom(new CustomDrawerPopupView(getContext()))
+//                        .asCustom(new ListDrawerPopupView(getContext()))
                         .show();
                 break;
             case R.id.btnShowDrawerRight:

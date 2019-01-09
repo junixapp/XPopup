@@ -51,12 +51,19 @@ public class PopupDrawerLayout extends FrameLayout {
         child = getChildAt(0);
     }
 
+    boolean hasLayout = false;
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        if (position == Position.Left) {
-            child.layout(-child.getMeasuredWidth(), 0, 0, getMeasuredHeight());
-        } else {
-            child.layout(getMeasuredWidth(), 0, getMeasuredWidth() + child.getMeasuredWidth(), getMeasuredHeight());
+        if (!hasLayout) {
+            if (position == Position.Left) {
+                child.layout(-child.getMeasuredWidth(), 0, 0, getMeasuredHeight());
+            } else {
+                child.layout(getMeasuredWidth(), 0, getMeasuredWidth() + child.getMeasuredWidth(), getMeasuredHeight());
+            }
+            hasLayout = true;
+        }else {
+            child.layout(child.getLeft(), child.getTop(), child.getRight(), child.getBottom());
         }
     }
 
@@ -99,18 +106,18 @@ public class PopupDrawerLayout extends FrameLayout {
         public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float fraction = 0f;
-            if(position==Position.Left){
+            if (position == Position.Left) {
                 // fraction = (now - start)*1f / (end - start)
-                fraction = (left + child.getMeasuredWidth())*1f / child.getMeasuredWidth();
-                if(left==-child.getMeasuredWidth() && listener!=null)
+                fraction = (left + child.getMeasuredWidth()) * 1f / child.getMeasuredWidth();
+                if (left == -child.getMeasuredWidth() && listener != null)
                     listener.onClose();
-            }else {
-                fraction = (left - getMeasuredWidth())*1f / -child.getMeasuredWidth();
-                if(left==getMeasuredWidth() && listener!=null)
+            } else {
+                fraction = (left - getMeasuredWidth()) * 1f / -child.getMeasuredWidth();
+                if (left == getMeasuredWidth() && listener != null)
                     listener.onClose();
             }
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
-            if(listener!=null){
+            if (listener != null) {
                 listener.onDismissing(fraction);
             }
         }
@@ -167,14 +174,17 @@ public class PopupDrawerLayout extends FrameLayout {
     }
 
     private OnCloseListener listener;
-    public void setOnCloseListener(OnCloseListener listener){
+
+    public void setOnCloseListener(OnCloseListener listener) {
         this.listener = listener;
     }
-    public interface OnCloseListener{
+
+    public interface OnCloseListener {
         void onClose();
 
         /**
          * 关闭过程中执行
+         *
          * @param fraction 关闭的百分比
          */
         void onDismissing(float fraction);
