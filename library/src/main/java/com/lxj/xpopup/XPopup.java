@@ -209,7 +209,12 @@ public class XPopup {
         return this;
     }
 
-    private XPopup position(PopupType popupType) {
+    /**
+     * 设置弹窗的类型，除非你非常熟悉本库的代码，否则不建议自己设置弹窗类型。
+     * @param popupType PopupType其中之一
+     * @return
+     */
+    public XPopup position(PopupType popupType) {
         checkPopupInfo();
         tempInfo.popupType = popupType;
         return this;
