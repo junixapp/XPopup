@@ -14,6 +14,7 @@ import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.PartShadowContainer;
 
 /**
  * Description: 依附于某个View的弹窗
@@ -22,7 +23,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 public abstract class AttachPopupView extends BasePopupView {
     protected int defaultOffsetY = 6;
     protected int defaultOffsetX = 0;
-    protected CardView attachPopupContainer;
+    protected PartShadowContainer attachPopupContainer;
 
     public AttachPopupView(@NonNull Context context) {
         super(context);

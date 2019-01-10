@@ -5,10 +5,10 @@
     android:background="?selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="18dp"
-    android:paddingTop="18dp"
-    android:paddingRight="40dp"
-    android:paddingBottom="18dp">
+    android:paddingLeft="15dp"
+    android:paddingTop="15dp"
+    android:paddingRight="18dp"
+    android:paddingBottom="15dp">
 
     <ImageView
         android:id="@+id/iv_image"
@@ -23,7 +23,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:textColor="@color/_xpopup_title_color"
-        android:textSize="17sp" />
+        android:textSize="16sp" />
 
     <Space
         android:layout_width="0dp"

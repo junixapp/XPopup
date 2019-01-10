@@ -15,7 +15,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import java.util.Arrays;
 
 /**
- * Description:
+ * Description: Attach类型的列表弹窗
  * Create by dance, at 2018/12/12
  */
 public class AttachListPopupView extends AttachPopupView {

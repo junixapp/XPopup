@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -82,7 +81,6 @@ public class CenterListPopupView extends CenterPopupView {
             }
         });
         recyclerView.setAdapter(adapter);
-        Log.e("tag", "center list init data...");
     }
 
     String title;
