@@ -13,6 +13,7 @@ import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.custompopup.CustomBasePopupView;
 import com.lxj.xpopupdemo.custompopup.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custompopup.ZhihuCommentPopup;
 
@@ -177,6 +178,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnCustomBottomPopup:
                 XPopup.get(getActivity())
                         .asCustom(new ZhihuCommentPopup(getContext()))
+//                        .popupAnimation(PopupAnimation.TranslateFromLeft)
+//                        .asCustom(new CustomBasePopupView(getContext()))
 //                        .maxWidthAndHeight(0, 300)
                         .show();
                 break;
