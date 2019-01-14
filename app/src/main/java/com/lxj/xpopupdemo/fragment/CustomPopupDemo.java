@@ -19,8 +19,10 @@ import com.lxj.xpopupdemo.R;
  * Create by dance, at 2018/12/9
  */
 public class CustomPopupDemo extends BaseFragment {
+
     Spinner spinner;
     TextView temp;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_all_animator_demo;
