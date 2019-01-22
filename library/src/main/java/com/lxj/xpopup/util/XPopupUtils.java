@@ -109,9 +109,19 @@ public class XPopupUtils {
         return model.equalsIgnoreCase("MIX2") || model.equalsIgnoreCase("MIX2S");
     }
 
+    public static void setWidthHeight( View target, int width, int height){
+        ViewGroup.LayoutParams params = target.getLayoutParams();
+        if(params==null)params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.width = width;
+        params.height = height;
+        target.setLayoutParams(params);
+    }
+
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){
         widthAndHeight(target, maxWidth, maxHeight, false);
     }
+
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight, boolean isCenter){
         target.post(new Runnable() {
             @Override

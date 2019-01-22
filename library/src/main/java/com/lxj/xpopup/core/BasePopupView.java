@@ -35,7 +35,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
 public abstract class BasePopupView extends FrameLayout implements PopupInterface {
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
-    protected PopupAnimator shadowBgAnimator;
+    protected ShadowBgAnimator shadowBgAnimator;
     private int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
 
