@@ -23,9 +23,7 @@ import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
-import android.view.View;
-import android.widget.ImageView;
-
+;
 
 /**
  * A zoomable ImageView. See {@link PhotoViewAttacher} for most of the details on how the zooming
@@ -35,7 +33,7 @@ import android.widget.ImageView;
 public class PhotoView extends AppCompatImageView {
 
     private PhotoViewAttacher attacher;
-    private ImageView.ScaleType pendingScaleType;
+    private ScaleType pendingScaleType;
 
     public PhotoView(Context context) {
         this(context, null);
@@ -54,7 +52,7 @@ public class PhotoView extends AppCompatImageView {
         attacher = new PhotoViewAttacher(this);
         //We always pose as a Matrix scale type, though we can change to another scale type
         //via the attacher
-        super.setScaleType(ImageView.ScaleType.MATRIX);
+        super.setScaleType(ScaleType.MATRIX);
         //apply the previously applied scale type
         if (pendingScaleType != null) {
             setScaleType(pendingScaleType);
@@ -74,7 +72,7 @@ public class PhotoView extends AppCompatImageView {
     }
 
     @Override
-    public ImageView.ScaleType getScaleType() {
+    public ScaleType getScaleType() {
         return attacher.getScaleType();
     }
 
@@ -84,26 +82,24 @@ public class PhotoView extends AppCompatImageView {
     }
 
     @Override
-    public void setOnLongClickListener(View.OnLongClickListener l) {
+    public void setOnLongClickListener(OnLongClickListener l) {
         attacher.setOnLongClickListener(l);
     }
 
     @Override
-    public void setOnClickListener(View.OnClickListener l) {
+    public void setOnClickListener(OnClickListener l) {
         attacher.setOnClickListener(l);
     }
 
     @Override
-    public void setScaleType(ImageView.ScaleType scaleType) {
+    public void setScaleType(ScaleType scaleType) {
         if (attacher == null) {
             pendingScaleType = scaleType;
         } else {
             attacher.setScaleType(scaleType);
         }
     }
-    public void update(){
-        attacher.update();
-    }
+
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
@@ -256,9 +252,5 @@ public class PhotoView extends AppCompatImageView {
 
     public void setOnSingleFlingListener(OnSingleFlingListener onSingleFlingListener) {
         attacher.setOnSingleFlingListener(onSingleFlingListener);
-    }
-
-    public void setIsInPager(){
-        attacher.isInPager = true;
     }
 }

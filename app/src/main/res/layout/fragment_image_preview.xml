@@ -6,6 +6,7 @@
     <com.lxj.xpopup.photoview.PhotoView
         android:id="@+id/iv_image"
         android:layout_width="200dp"
+        android:scaleType="centerCrop"
         android:background="@color/colorPrimary"
         android:layout_height="150dp" />
 

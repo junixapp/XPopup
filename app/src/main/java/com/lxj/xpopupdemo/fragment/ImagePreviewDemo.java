@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.ImagePreviewPopupView;
 import com.lxj.xpopup.interfaces.OnLoadImageListener;
-import com.lxj.xpopup.photoview.OnPhotoTapListener;
 import com.lxj.xpopup.photoview.PhotoView;
 import com.lxj.xpopupdemo.R;
 
