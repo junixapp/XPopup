@@ -6,6 +6,7 @@ import android.animation.FloatEvaluator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Rect;
@@ -16,6 +17,7 @@ import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.lxj.xpopup.R;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
  * Create by lxj, at 2019/1/22
  */
 public class ImagePreviewPopupView extends BasePopupView implements OnDragChangeListener {
-    PhotoViewContainer photoViewContainer;
+    FrameLayout photoViewContainer;
     HackyViewPager pager;
     IntEvaluator intEvaluator = new IntEvaluator();
     FloatEvaluator floatEvaluator = new FloatEvaluator();
@@ -52,7 +54,7 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
     protected void initPopupContent() {
         super.initPopupContent();
         photoViewContainer = findViewById(R.id.photoViewContainer);
-        photoViewContainer.setOnDragChangeListener(this);
+//        photoViewContainer.setOnDragChangeListener(this);
         pager = findViewById(R.id.pager);
         pager.setAdapter(new PhotoViewAdapter());
         pager.setVisibility(INVISIBLE);
@@ -60,54 +62,52 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
     }
 
     ImageView startView, endView;
+    Matrix startMatrix,endMatrix;
     private void addSnapshot() {
         //1. add startView
         startView = new ImageView(getContext());
-        startView.setScaleType(scrScaleType);
-        XPopupUtils.setWidthHeight(startView, rect.width(), rect.height());
+        startView.setScaleType(srcView.getScaleType());
+        startView.setImageBitmap(bitmap);
+        photoViewContainer.addView(startView);
         startView.setTranslationX(rect.left);
         startView.setTranslationY(rect.top);
-        photoViewContainer.addView(startView);
-        if(loadImageListener!=null){
-            loadImageListener.loadImage(0, urls.get(0), startView);
-        }
+        XPopupUtils.setWidthHeight(startView, rect.width(), rect.height());
 
         //2. add endView
         endView = new ImageView(getContext());
-//        endView.setVisibility(INVISIBLE);
+        endView.setVisibility(INVISIBLE);
+        endView.setImageBitmap(bitmap);
 //        endView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        XPopupUtils.setWidthHeight(endView, XPopupUtils.getWindowWidth(getContext()), XPopupUtils.getWindowHeight(getContext()));
         photoViewContainer.addView(endView);
-        if(loadImageListener!=null){
-            loadImageListener.loadImage(0, urls.get(0), endView);
-        }
+        XPopupUtils.setWidthHeight(endView, XPopupUtils.getWindowWidth(getContext()), XPopupUtils.getWindowHeight(getContext()));
     }
 
     @Override
     public void doShowAnimation() {
         startView.setScaleType(ImageView.ScaleType.MATRIX);
-        final Matrix startMatrix = MatrixUtils.getImageMatrix(startView);
-        final Matrix endMatrix = MatrixUtils.getImageMatrix(endView);
+        startMatrix = MatrixUtils.getImageMatrix(startView);
+        endMatrix = MatrixUtils.getImageMatrix(endView);
+        final float startX = startView.getTranslationX();
+        final float startY = startView.getTranslationY();
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float fraction = animation.getAnimatedFraction();
-                int w = intEvaluator.evaluate(fraction, rect.width(), pager.getWidth());
-                int h = intEvaluator.evaluate(fraction, rect.height(), pager.getHeight());
+                int w = intEvaluator.evaluate(fraction, srcView.getWidth(), pager.getWidth());
+                int h = intEvaluator.evaluate(fraction, srcView.getHeight(), pager.getHeight());
                 XPopupUtils.setWidthHeight(startView, w, h);
-                startView.setTranslationX(floatEvaluator.evaluate(fraction, rect.left, 0f));
-                startView.setTranslationY(floatEvaluator.evaluate(fraction, rect.top, 0f));
+                startView.setTranslationX(floatEvaluator.evaluate(fraction, startX, 0f));
+                startView.setTranslationY(floatEvaluator.evaluate(fraction, startY, 0f));
                 startView.setImageMatrix(matrixEvaluator.evaluate(fraction, startMatrix, endMatrix));
 //                photoViewContainer.applyBgAnimation(animation.getAnimatedFraction());
-                Log.e("tag", "w: "+ pager.getWidth() + " h: "+pager.getHeight());
             }
         });
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-//                startView.setVisibility(INVISIBLE);
-//                pager.setVisibility(VISIBLE);
+                startView.setVisibility(INVISIBLE);
+                pager.setVisibility(VISIBLE);
             }
         });
         animator.setDuration(shadowBgAnimator.animateDuration)
@@ -116,18 +116,29 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
 
     @Override
     public void doDismissAnimation() {
+        pager.setVisibility(INVISIBLE);
+        startView.setVisibility(VISIBLE);
+
+        final float startX = startView.getTranslationX();
+        final float startY = startView.getTranslationY();
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float fraction = animation.getAnimatedFraction();
-                int w = intEvaluator.evaluate(fraction, XPopupUtils.getWindowWidth(getContext()), rect.width());
-                int h = intEvaluator.evaluate(fraction, XPopupUtils.getWindowHeight(getContext()) +
-                        XPopupUtils.getStatusBarHeight(), rect.height());
+                int w = intEvaluator.evaluate(fraction, pager.getWidth(),srcView.getWidth());
+                int h = intEvaluator.evaluate(fraction, pager.getHeight(), srcView.getHeight());
                 XPopupUtils.setWidthHeight(startView, w, h);
-                startView.setTranslationX(floatEvaluator.evaluate(fraction, startView.getTranslationX(),rect.left));
-                startView.setTranslationY(floatEvaluator.evaluate(fraction, startView.getTranslationY(), rect.top));
-                photoViewContainer.applyBgAnimation(animation.getAnimatedFraction());
+                startView.setTranslationX(floatEvaluator.evaluate(fraction,startX,  rect.left));
+                startView.setTranslationY(floatEvaluator.evaluate(fraction, startY, rect.top));
+                startView.setImageMatrix(matrixEvaluator.evaluate(fraction, endMatrix, startMatrix));
+//                photoViewContainer.applyBgAnimation(animation.getAnimatedFraction());
+            }
+        });
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ImagePreviewPopupView.super.dismiss();
             }
         });
         animator.setDuration(shadowBgAnimator.animateDuration)
@@ -165,12 +176,15 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
     }
 
     Rect rect = null;
-    ImageView.ScaleType scrScaleType;
-    public ImagePreviewPopupView setSrcView(ImageView srcView) {
+    ImageView srcView;
+    Bitmap bitmap;
+    public ImagePreviewPopupView setSrcView(ImageView srcView, Bitmap bitmap) {
+        this.srcView = srcView;
+        this.bitmap = bitmap;
         int[] locations = new int[2];
         srcView.getLocationOnScreen(locations);
         rect = new Rect(locations[0], locations[1], locations[0] + srcView.getWidth(), locations[1] + srcView.getHeight());
-        scrScaleType = srcView.getScaleType();
+        Log.e("tag", rect.toShortString() + " left: "+srcView.getLeft());
         return this;
     }
 
