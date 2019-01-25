@@ -7,9 +7,11 @@ import android.graphics.PointF;
 import android.os.Handler;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -47,7 +49,7 @@ public class XPopup {
     private PopupInfo tempInfo = null;
     private BasePopupView tempView;
     private Handler handler = new Handler();
-    private static ViewGroup decorView = null;
+    private ViewGroup decorView = null;
     private int primaryColor = Color.parseColor("#121212");
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
@@ -65,35 +67,6 @@ public class XPopup {
         if (!(contextRef.get() instanceof Activity)) {
             throw new IllegalArgumentException("context must be an instance of Activity");
         }
-        KeyboardUtils.registerSoftInputChangedListener((Activity) contextRef.get(), new KeyboardUtils.OnSoftInputChangedListener() {
-            @Override
-            public void onSoftInputChanged(int height) {
-                if (height == 0) { // 说明对话框隐藏
-                    for (BasePopupView pv : popupViews) {
-                        pv.getPopupContentView().animate().translationY(0)
-                                .setDuration(300).start();
-                    }
-                } else {
-                    //when show keyboard, move up
-                    View focusChild = XPopupUtils.findFocusEditText(decorView);
-                    if (focusChild != null) {
-                        int[] location = new int[2];
-                        int offset = XPopupUtils.dp2px(ctx, 30); // 输入框离输入法30dp间隔
-                        focusChild.getLocationOnScreen(location);
-                        int space = XPopupUtils.getWindowHeight(ctx) + XPopupUtils.getStatusBarHeight() - offset - location[1] - focusChild.getHeight();
-                        if (space < height) {
-                            //被遮挡
-                            for (BasePopupView pv : popupViews) {
-                                pv.getPopupContentView().animate().translationY(space - height)
-                                        .setDuration(300).start();
-                            }
-                        } else {
-                            //没有被遮挡
-                        }
-                    }
-                }
-            }
-        });
         return instance;
     }
 
@@ -108,8 +81,6 @@ public class XPopup {
         tempView.popupInfo = tempInfo;
         if (tag != null) tempView.setTag(tag);
         popupViews.add(tempView);
-        tempInfo = null;
-        tempView = null;
 
         //2. show popup view with tag
         for (BasePopupView pv : popupViews) {
@@ -123,6 +94,52 @@ public class XPopup {
                 showInternal(pv);
             }
         }
+
+        //3. 监视软键盘
+        notifyKeyboard();
+    }
+
+    private void notifyKeyboard(){
+        KeyboardUtils.registerSoftInputChangedListener((Activity) contextRef.get(), new KeyboardUtils.OnSoftInputChangedListener() {
+            @Override
+            public void onSoftInputChanged(int height) {
+                if (height == 0) { // 说明对话框隐藏
+                    for (BasePopupView pv : popupViews) {
+                        pv.getPopupContentView().animate().translationY(0)
+                                .setDuration(300).start();
+                    }
+                } else {
+                    //when show keyboard, move up
+                    EditText focusChild = XPopupUtils.findFocusEditText(decorView);
+                    if (focusChild != null) {
+                        int[] location = new int[2];
+                        int offset = XPopupUtils.dp2px(contextRef.get(), 30); // 输入框离输入法30dp间隔
+                        focusChild.getLocationOnScreen(location);
+                        int space = XPopupUtils.getWindowHeight(contextRef.get()) + XPopupUtils.getStatusBarHeight() - offset - location[1] - focusChild.getHeight();
+                        if (space < height) {
+                            //说明被遮挡
+                            for (BasePopupView pv : popupViews) {
+                                pv.getPopupContentView().animate().translationY(space - height)
+                                        .setDuration(300).start();
+                            }
+                        }
+
+                        // 设置返回按下监听
+                        focusChild.setOnKeyListener(new View.OnKeyListener() {
+                            @Override
+                            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                    if(tempInfo.isDismissOnBackPressed)
+                                        dismiss();
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -200,6 +217,9 @@ public class XPopup {
         if (!popupViews.isEmpty()) {
             return;
         }
+
+        tempInfo = null;
+        tempView = null;
         handler.removeCallbacks(null);
         contextRef.clear();
         contextRef = null;

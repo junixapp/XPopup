@@ -211,14 +211,14 @@ public class XPopupUtils {
         return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 
-    public static View findFocusEditText(ViewGroup group){
+    public static EditText findFocusEditText(ViewGroup group){
         View focusedChild = group.getFocusedChild();
         if(!(focusedChild instanceof EditText)){
             if(focusedChild instanceof ViewGroup){
                 return findFocusEditText((ViewGroup) focusedChild);
             }
         }else {
-            return focusedChild;
+            return (EditText) focusedChild;
         }
         return null;
     }
