@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -208,5 +209,17 @@ public class XPopupUtils {
 
     public static boolean isInRect(float x, float y, Rect rect) {
         return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    public static View findFocusEditText(ViewGroup group){
+        View focusedChild = group.getFocusedChild();
+        if(!(focusedChild instanceof EditText)){
+            if(focusedChild instanceof ViewGroup){
+                return findFocusEditText((ViewGroup) focusedChild);
+            }
+        }else {
+            return focusedChild;
+        }
+        return null;
     }
 }

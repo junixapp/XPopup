@@ -5,11 +5,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -31,6 +33,8 @@ import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.KeyboardUtils;
+import com.lxj.xpopup.util.XPopupUtils;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -43,13 +47,14 @@ public class XPopup {
     private PopupInfo tempInfo = null;
     private BasePopupView tempView;
     private Handler handler = new Handler();
-    private ViewGroup decorView = null;
+    private static ViewGroup decorView = null;
     private int primaryColor = Color.parseColor("#121212");
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
-    private XPopup() {}
+    private XPopup() {
+    }
 
-    public static XPopup get(Context ctx) {
+    public static XPopup get(final Context ctx) {
         if (instance == null) {
             instance = new XPopup();
         }
@@ -64,9 +69,27 @@ public class XPopup {
             @Override
             public void onSoftInputChanged(int height) {
                 if (height == 0) { // 说明对话框隐藏
-                    for (BasePopupView pv: popupViews){
+                    for (BasePopupView pv : popupViews) {
                         pv.getPopupContentView().animate().translationY(0)
                                 .setDuration(300).start();
+                    }
+                } else {
+                    //when show keyboard, move up
+                    View focusChild = XPopupUtils.findFocusEditText(decorView);
+                    if (focusChild != null) {
+                        int[] location = new int[2];
+                        int offset = XPopupUtils.dp2px(ctx, 30); // 输入框离输入法30dp间隔
+                        focusChild.getLocationOnScreen(location);
+                        int space = XPopupUtils.getWindowHeight(ctx) + XPopupUtils.getStatusBarHeight() - offset - location[1] - focusChild.getHeight();
+                        if (space < height) {
+                            //被遮挡
+                            for (BasePopupView pv : popupViews) {
+                                pv.getPopupContentView().animate().translationY(space - height)
+                                        .setDuration(300).start();
+                            }
+                        } else {
+                            //没有被遮挡
+                        }
                     }
                 }
             }
@@ -76,25 +99,26 @@ public class XPopup {
 
     /**
      * 显示弹窗，并指定tag。
+     *
      * @param tag 在同时显示多个弹窗的场景下，tag会有用；否则tag无用，也不需要传。
      */
     public void show(Object tag) {
-        if (tempView==null) throw new IllegalArgumentException("要显示的弹窗为空！");
+        if (tempView == null) throw new IllegalArgumentException("要显示的弹窗为空！");
         //1. set popup view
         tempView.popupInfo = tempInfo;
-        if(tag!=null)tempView.setTag(tag);
+        if (tag != null) tempView.setTag(tag);
         popupViews.add(tempView);
         tempInfo = null;
         tempView = null;
 
         //2. show popup view with tag
-        for (BasePopupView pv: popupViews){
-            if(tag!=null){
-                if(pv.getTag() == tag){
+        for (BasePopupView pv : popupViews) {
+            if (tag != null) {
+                if (pv.getTag() == tag) {
                     showInternal(pv);
                     break;
                 }
-            }else {
+            } else {
                 //show all
                 showInternal(pv);
             }
@@ -104,12 +128,12 @@ public class XPopup {
     /**
      * 显示弹窗
      */
-    public void show(){
+    public void show() {
         show(null);
     }
 
-    private void showInternal(final BasePopupView pv){
-        if(pv.getParent()!=null)return;
+    private void showInternal(final BasePopupView pv) {
+        if (pv.getParent() != null) return;
         Activity activity = (Activity) contextRef.get();
         decorView = (ViewGroup) activity.getWindow().getDecorView();
         decorView.addView(pv, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
@@ -148,21 +172,22 @@ public class XPopup {
 
     /**
      * 消失，让指定tag的弹窗消失。
+     *
      * @param tag 在同时显示多弹窗情况下有用，否则没有用。
      */
-    public void dismiss(Object tag){
-        if(tag==null){
+    public void dismiss(Object tag) {
+        if (tag == null) {
             //如果没有tag，则因此第0个
             popupViews.get(0).dismiss();
-        }else {
+        } else {
             int temp = -1;
             for (int i = 0; i < popupViews.size(); i++) {
-                if(tag==popupViews.get(i).getTag()){
+                if (tag == popupViews.get(i).getTag()) {
                     temp = i;
                     break;
                 }
             }
-            if(temp!=-1){
+            if (temp != -1) {
                 popupViews.get(temp).dismiss();
             }
         }
@@ -171,8 +196,8 @@ public class XPopup {
     /**
      * 释放相关资源
      */
-    private void release(){
-        if(!popupViews.isEmpty()){
+    private void release() {
+        if (!popupViews.isEmpty()) {
             return;
         }
         handler.removeCallbacks(null);
@@ -211,6 +236,7 @@ public class XPopup {
 
     /**
      * 设置弹窗的类型，除非你非常熟悉本库的代码，否则不建议自己设置弹窗类型。
+     *
      * @param popupType PopupType其中之一
      * @return
      */
@@ -272,6 +298,7 @@ public class XPopup {
     /**
      * 设置弹窗的宽和高，只对Center和Bottom类型的弹窗有效
      * 语义有歧义，请使用 maxWidthAndHeight
+     *
      * @param maxWidth  传0就是不改变
      * @param maxHeight 传0就是不改变
      * @return
@@ -420,11 +447,11 @@ public class XPopup {
     /**
      * 显示在底部的列表Popup
      *
-     * @param title          标题，可以不传，不传则不显示
-     * @param data           显示的文本数据
-     * @param iconIds        图标的id数组，可以没有
-     * @param checkedPosition  选中的位置，传-1为不选中
-     * @param selectListener 选中条目的监听器
+     * @param title           标题，可以不传，不传则不显示
+     * @param data            显示的文本数据
+     * @param iconIds         图标的id数组，可以没有
+     * @param checkedPosition 选中的位置，传-1为不选中
+     * @param selectListener  选中条目的监听器
      * @return
      */
     public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, boolean enableGesture, OnSelectListener selectListener) {
@@ -438,14 +465,17 @@ public class XPopup {
     }
 
     public XPopup asBottomList(String title, String[] data, OnSelectListener selectListener) {
-        return asBottomList(title, data, null, -1,true, selectListener);
+        return asBottomList(title, data, null, -1, true, selectListener);
     }
+
     public XPopup asBottomList(String title, String[] data, int[] iconIds, OnSelectListener selectListener) {
         return asBottomList(title, data, iconIds, -1, true, selectListener);
     }
+
     public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
         return asBottomList(title, data, iconIds, checkedPosition, true, selectListener);
     }
+
     public XPopup asBottomList(String title, String[] data, int[] iconIds, boolean enableGesture, OnSelectListener selectListener) {
         return asBottomList(title, data, iconIds, -1, enableGesture, selectListener);
     }

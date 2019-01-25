@@ -41,15 +41,12 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(tv_input==v && hasFocus){
-                    getPopupContentView().animate().translationY(-getPopupContentView().getMeasuredHeight()/2)
-                            .setDuration(300).start();
-
                     // 设置返回按下监听
                     tv_input.setOnKeyListener(new View.OnKeyListener() {
                         @Override
                         public boolean onKey(View v, int keyCode, KeyEvent event) {
                             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                if( popupInfo.isDismissOnBackPressed)
+                                if(popupInfo.isDismissOnBackPressed)
                                     dismiss();
                                 return true;
                             }
@@ -90,11 +87,6 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         }else if(v==tv_confirm){
             if(inputConfirmListener!=null)inputConfirmListener.onConfirm(tv_input.getText().toString().trim());
             dismiss();
-        }else if(v==tv_input){
-            if(getPopupContentView().getTranslationY()!=-getPopupContentView().getMeasuredHeight()/2){
-                getPopupContentView().animate().translationY(-getPopupContentView().getMeasuredHeight()/2)
-                        .setDuration(300).start();
-            }
         }
     }
 }
