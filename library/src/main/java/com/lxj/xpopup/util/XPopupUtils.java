@@ -14,8 +14,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.v7.widget.AppCompatEditText;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
