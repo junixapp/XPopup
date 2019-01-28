@@ -86,6 +86,13 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         });
     }
 
+    //让触摸透过
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        dismiss();
+        return false;
+    }
+
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new TranslateAnimator(getPopupImplView(), isShowUp ?
