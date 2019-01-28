@@ -1,5 +1,6 @@
 package com.lxj.xpopup.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,16 +14,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.v7.widget.AppCompatEditText;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.lxj.xpopup.core.BasePopupView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -211,15 +213,40 @@ public class XPopupUtils {
         return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 
-    public static EditText findFocusEditText(ViewGroup group){
-        View focusedChild = group.getFocusedChild();
-        if(!(focusedChild instanceof EditText)){
-            if(focusedChild instanceof ViewGroup){
-                return findFocusEditText((ViewGroup) focusedChild);
-            }
-        }else {
-            return (EditText) focusedChild;
+    /**
+     * Return whether soft input is visible.
+     *
+     * @param activity The activity.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isSoftInputVisible(final Activity activity) {
+        return getDecorViewInvisibleHeight(activity) > 0;
+    }
+
+    private static int sDecorViewDelta = 0;
+
+    public static int getDecorViewInvisibleHeight(final Activity activity) {
+        final View decorView = activity.getWindow().getDecorView();
+        final Rect outRect = new Rect();
+        decorView.getWindowVisibleDisplayFrame(outRect);
+        int delta = Math.abs(decorView.getBottom() - outRect.bottom);
+        if (delta <= getNavBarHeight()) {
+            sDecorViewDelta = delta;
+            return 0;
         }
-        return null;
+        return delta - sDecorViewDelta;
+    }
+
+    public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
+        int targetY = keyboardHeight + pv.getPopupContentView().getHeight() / 2 - XPopupUtils.getWindowHeight(pv.getContext()) / 2;
+        pv.getPopupContentView().animate().translationY(-Math.abs(targetY))
+                .setDuration(300)
+                .setInterpolator(new OvershootInterpolator(1))
+                .start();
+    }
+    public static void moveDown(BasePopupView pv){
+        pv.getPopupContentView().animate().translationY(0)
+                .setInterpolator(new OvershootInterpolator(1))
+                .setDuration(300).start();
     }
 }
