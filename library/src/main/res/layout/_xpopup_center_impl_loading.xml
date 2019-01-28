@@ -5,6 +5,7 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingTop="15dp"
+    android:background="@drawable/_xpopup_round3_bg"
     android:paddingBottom="15dp"
     android:orientation="vertical"
     android:layout_width="wrap_content"
