@@ -70,26 +70,12 @@ public class XPopup {
             public void onSoftInputChanged(int height) {
                 if (height == 0) { // 说明对话框隐藏
                     for (BasePopupView pv : popupViews) {
-                        pv.getPopupContentView().animate().translationY(0)
-                                .setDuration(300).start();
+                        XPopupUtils.moveDown(pv);
                     }
                 } else {
                     //when show keyboard, move up
-                    View focusChild = XPopupUtils.findFocusEditText(decorView);
-                    if (focusChild != null) {
-                        int[] location = new int[2];
-                        int offset = XPopupUtils.dp2px(ctx, 30); // 输入框离输入法30dp间隔
-                        focusChild.getLocationOnScreen(location);
-                        int space = XPopupUtils.getWindowHeight(ctx) + XPopupUtils.getStatusBarHeight() - offset - location[1] - focusChild.getHeight();
-                        if (space < height) {
-                            //被遮挡
-                            for (BasePopupView pv : popupViews) {
-                                pv.getPopupContentView().animate().translationY(space - height)
-                                        .setDuration(300).start();
-                            }
-                        } else {
-                            //没有被遮挡
-                        }
+                    for (BasePopupView pv : popupViews) {
+                        XPopupUtils.moveUpToKeyboard(height, pv);
                     }
                 }
             }
@@ -134,7 +120,7 @@ public class XPopup {
 
     private void showInternal(final BasePopupView pv) {
         if (pv.getParent() != null) return;
-        Activity activity = (Activity) contextRef.get();
+        final Activity activity = (Activity) contextRef.get();
         decorView = (ViewGroup) activity.getWindow().getDecorView();
         decorView.addView(pv, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
@@ -146,6 +132,11 @@ public class XPopup {
             public void run() {
                 if (pv.popupInfo.xPopupCallback != null)
                     pv.popupInfo.xPopupCallback.onShow();
+
+                if (XPopupUtils.getDecorViewInvisibleHeight(activity) > 0) {
+                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(activity), pv);
+                }
+
             }
         }, new Runnable() {             // 弹窗消失动画执行完毕调用
             @Override
