@@ -35,8 +35,11 @@
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
-## 体验Demo
-下载安装，快速体验：[点我下载Demo体验](https://fir.im/2q63)
+## 快速体验Demo
+扫描二维码下载：
+![](screenshot/download.png)
+
+如果图片不可见，[点我下载Demo体验](https://fir.im/2q63)
 
 ## 使用
 首先需要添加Gradle依赖：
