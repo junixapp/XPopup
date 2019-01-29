@@ -15,7 +15,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -24,7 +23,10 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.lxj:easyadapter:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation project(':library')
+
+
 
     implementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     implementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'

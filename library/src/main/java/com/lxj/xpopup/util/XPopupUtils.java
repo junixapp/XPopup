@@ -67,6 +67,13 @@ public class XPopupUtils {
         }
     }
 
+
+    public static void setWidthHeight(final View target, final int width, final int height){
+        ViewGroup.LayoutParams params = target.getLayoutParams();
+        params.width = width;
+        params.height = height;
+    }
+
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){
         widthAndHeight(target, maxWidth, maxHeight, false);
     }
@@ -234,5 +241,17 @@ public class XPopupUtils {
             isVisible = (visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0;
         }
         return isVisible;
+    }
+
+    public static View findEditText(ViewGroup group){
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View v = group.getChildAt(i);
+            if(v instanceof EditText){
+                return v;
+            }else if(v instanceof ViewGroup){
+                return findEditText((ViewGroup) v);
+            }
+        }
+        return null;
     }
 }

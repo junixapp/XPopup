@@ -38,18 +38,14 @@ public class ImagePreviewDemo extends BaseFragment {
                 XPopup.get(getContext())
                         .asCustom(popupView)
                         .show();
+//                imageView.setImageAlpha(50);
             }
         });
-//        imageView.setOnPhotoTapListener(new OnPhotoTapListener() {
-//            @Override
-//            public void onPhotoTap(ImageView view, float x, float y) {
-//                Log.e("tag", "aaaaaaaaaaaa");
-//            }
-//        });
 
-
-
+        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548756837006&di=551df0dcf59d1d71673c3d46b33f0d93&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201308%2F04%2F20130804155912_wCRnE.thumb.700_0.jpeg");
         list.add("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2279952540,2544282724&fm=26&gp=0.jpg");
+        list.add("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=174904559,2874238085&fm=26&gp=0.jpg");
+        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548764579122&di=e3a46d9075ee49ecefb552a447974ddc&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201112%2F03%2F20111203233836_3wu5E.thumb.700_0.jpg");
         Glide.with(this).asBitmap().load(list.get(0)).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {

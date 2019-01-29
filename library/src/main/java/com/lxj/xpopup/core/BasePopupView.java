@@ -54,6 +54,20 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
         }
 
+
+
+    }
+
+    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+
+    private void focusAndProcessBackPress(){
         // 处理返回按键
         setFocusableInTouchMode(true);
         requestFocus();
@@ -70,16 +84,24 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             }
         });
 
+        View editText = XPopupUtils.findEditText(this);
+        if(editText!=null){
+            editText.setFocusableInTouchMode(true);
+            editText.requestFocus();
+            editText.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (popupInfo.isDismissOnBackPressed)
+                            dismiss();
+                    }
+                    return true;
+                }
+            });
+        }
 
     }
 
-    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
 
     Runnable afterAnimationEnd;
 
@@ -130,6 +152,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                     public void run() {
                         afterAnimationStarted.run();
                         popupStatus = PopupStatus.Show;
+                        focusAndProcessBackPress();
                     }
                 }, 20);
             }
@@ -269,6 +292,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         if (popupStatus != PopupStatus.Show) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
+        doAfterDismiss();
+    }
+
+    protected void doAfterDismiss(){
         postDelayed(new Runnable() {
             @Override
             public void run() {

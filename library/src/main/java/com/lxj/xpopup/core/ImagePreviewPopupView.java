@@ -1,46 +1,53 @@
 package com.lxj.xpopup.core;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.animation.ArgbEvaluator;
 import android.animation.FloatEvaluator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
-import android.support.design.animation.MatrixEvaluator;
+import android.support.transition.ChangeBounds;
+import android.support.transition.ChangeImageTransform;
+import android.support.transition.ChangeTransform;
+import android.support.transition.Slide;
+import android.support.transition.Transition;
+import android.support.transition.TransitionListenerAdapter;
+import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnLoadImageListener;
 import com.lxj.xpopup.photoview.PhotoView;
-import com.lxj.xpopup.util.MatrixUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
 
 import java.util.ArrayList;
 
+;
+
 /**
  * Description: 图片预览的弹窗
  * Create by lxj, at 2019/1/22
  */
 public class ImagePreviewPopupView extends BasePopupView implements OnDragChangeListener {
-    FrameLayout photoViewContainer;
+    PhotoViewContainer photoViewContainer;
     HackyViewPager pager;
+    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     IntEvaluator intEvaluator = new IntEvaluator();
     FloatEvaluator floatEvaluator = new FloatEvaluator();
-    MatrixEvaluator matrixEvaluator = new MatrixEvaluator();
+
     public ImagePreviewPopupView(@NonNull Context context) {
         super(context);
     }
@@ -54,60 +61,62 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
     protected void initPopupContent() {
         super.initPopupContent();
         photoViewContainer = findViewById(R.id.photoViewContainer);
-//        photoViewContainer.setOnDragChangeListener(this);
+        photoViewContainer.setOnDragChangeListener(this);
         pager = findViewById(R.id.pager);
         pager.setAdapter(new PhotoViewAdapter());
         pager.setVisibility(INVISIBLE);
         addSnapshot();
     }
 
-    ImageView startView, endView;
-    Matrix startMatrix,endMatrix;
-    private void addSnapshot() {
-        //1. add startView
-        startView = new ImageView(getContext());
-        startView.setScaleType(srcView.getScaleType());
-        startView.setImageBitmap(bitmap);
-        photoViewContainer.addView(startView);
-        startView.setTranslationX(rect.left);
-        startView.setTranslationY(rect.top);
-        XPopupUtils.setWidthHeight(startView, rect.width(), rect.height());
+    ImageView snapshotView;
 
-        //2. add endView
-        endView = new ImageView(getContext());
-        endView.setVisibility(INVISIBLE);
-        endView.setImageBitmap(bitmap);
-//        endView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        photoViewContainer.addView(endView);
-        XPopupUtils.setWidthHeight(endView, XPopupUtils.getWindowWidth(getContext()), XPopupUtils.getWindowHeight(getContext()));
+    private void addSnapshot() {
+        snapshotView = new ImageView(getContext());
+        snapshotView.setScaleType(srcView.getScaleType());
+        snapshotView.setImageBitmap(bitmap);
+        photoViewContainer.addView(snapshotView);
+//        snapshotView.setTranslationX(rect.left);
+        snapshotView.setTranslationY(rect.top);
+        XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
+
     }
 
     @Override
     public void doShowAnimation() {
-        startView.setScaleType(ImageView.ScaleType.MATRIX);
-        startMatrix = MatrixUtils.getImageMatrix(startView);
-        endMatrix = MatrixUtils.getImageMatrix(endView);
-        final float startX = startView.getTranslationX();
-        final float startY = startView.getTranslationY();
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
+        snapshotView.post(new Runnable() {
+            @Override
+            public void run() {
+                TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
+                        .setDuration(shadowBgAnimator.animateDuration)
+                        .addTransition(new Slide())
+                        .addTransition(new ChangeBounds())
+                        .addTransition(new ChangeTransform())
+                        .addTransition(new ChangeImageTransform())
+                        .addListener(new TransitionListenerAdapter() {
+                            @Override
+                            public void onTransitionEnd(@NonNull Transition transition) {
+                                pager.setVisibility(VISIBLE);
+                                snapshotView.setVisibility(INVISIBLE);
+                            }
+                        }));
+                snapshotView.setTranslationY(0);
+                snapshotView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                XPopupUtils.setWidthHeight(snapshotView, photoViewContainer.getWidth(), photoViewContainer.getHeight());
+
+                // do shadow anim.
+                animateShadowBg(Color.BLACK);
+            }
+        });
+
+    }
+
+    private void animateShadowBg(final int endColor) {
+        ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float fraction = animation.getAnimatedFraction();
-                int w = intEvaluator.evaluate(fraction, srcView.getWidth(), pager.getWidth());
-                int h = intEvaluator.evaluate(fraction, srcView.getHeight(), pager.getHeight());
-                XPopupUtils.setWidthHeight(startView, w, h);
-                startView.setTranslationX(floatEvaluator.evaluate(fraction, startX, 0f));
-                startView.setTranslationY(floatEvaluator.evaluate(fraction, startY, 0f));
-                startView.setImageMatrix(matrixEvaluator.evaluate(fraction, startMatrix, endMatrix));
-//                photoViewContainer.applyBgAnimation(animation.getAnimatedFraction());
-            }
-        });
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                startView.setVisibility(INVISIBLE);
-                pager.setVisibility(VISIBLE);
+                photoViewContainer.setBackgroundColor((Integer) argbEvaluator.evaluate(animation.getAnimatedFraction(),
+                        ((ColorDrawable) photoViewContainer.getBackground()).getColor(), endColor));
             }
         });
         animator.setDuration(shadowBgAnimator.animateDuration)
@@ -117,39 +126,35 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
     @Override
     public void doDismissAnimation() {
         pager.setVisibility(INVISIBLE);
-        startView.setVisibility(VISIBLE);
+        snapshotView.setVisibility(VISIBLE);
+        TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
+                .setDuration(shadowBgAnimator.animateDuration)
+                .addTransition(new ChangeBounds())
+                .addTransition(new Slide())
+                .addTransition(new ChangeTransform())
+                .addTransition(new ChangeImageTransform())
+                .addListener(new TransitionListenerAdapter() {
+                    @Override
+                    public void onTransitionEnd(@NonNull Transition transition) {
+                        doAfterDismiss();
+                        pager.setVisibility(INVISIBLE);
+                        snapshotView.setVisibility(VISIBLE);
+                        pager.setScaleX(1f);
+                        pager.setScaleY(1f);
+                        snapshotView.setScaleX(1f);
+                        snapshotView.setScaleY(1f);
+                    }
+                }));
 
-        final float startX = startView.getTranslationX();
-        final float startY = startView.getTranslationY();
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float fraction = animation.getAnimatedFraction();
-                int w = intEvaluator.evaluate(fraction, pager.getWidth(),srcView.getWidth());
-                int h = intEvaluator.evaluate(fraction, pager.getHeight(), srcView.getHeight());
-                XPopupUtils.setWidthHeight(startView, w, h);
-                startView.setTranslationX(floatEvaluator.evaluate(fraction,startX,  rect.left));
-                startView.setTranslationY(floatEvaluator.evaluate(fraction, startY, rect.top));
-                startView.setImageMatrix(matrixEvaluator.evaluate(fraction, endMatrix, startMatrix));
-//                photoViewContainer.applyBgAnimation(animation.getAnimatedFraction());
-            }
-        });
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                ImagePreviewPopupView.super.dismiss();
-            }
-        });
-        animator.setDuration(shadowBgAnimator.animateDuration)
-                .start();
+        snapshotView.setTranslationY(rect.top);
+        snapshotView.setTranslationX(0);
+        snapshotView.setScaleType(srcView.getScaleType());
+        XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
+
+        // do shadow anim.
+        animateShadowBg(Color.TRANSPARENT);
     }
 
-    /**
-     * 动画是跟随手势发生的，所以不需要额外的动画器，因此动画时间也清零
-     *
-     * @return
-     */
     @Override
     public int getAnimationDuration() {
         return 0;
@@ -157,8 +162,8 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
 
     @Override
     public void dismiss() {
-        // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
-//        drawerLayout.close();
+        if (popupStatus != PopupStatus.Show) return;
+        popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
     }
 
@@ -178,23 +183,33 @@ public class ImagePreviewPopupView extends BasePopupView implements OnDragChange
     Rect rect = null;
     ImageView srcView;
     Bitmap bitmap;
+
     public ImagePreviewPopupView setSrcView(ImageView srcView, Bitmap bitmap) {
         this.srcView = srcView;
         this.bitmap = bitmap;
         int[] locations = new int[2];
-        srcView.getLocationOnScreen(locations);
+        srcView.getLocationInWindow(locations);
         rect = new Rect(locations[0], locations[1], locations[0] + srcView.getWidth(), locations[1] + srcView.getHeight());
-        Log.e("tag", rect.toShortString() + " left: "+srcView.getLeft());
+        Log.e("tag", rect.toShortString());
         return this;
     }
 
     @Override
     public void onRelease() {
-
+        Log.e("tag", "onReleaseonRelease w: " + pager.getWidth() * pager.getScaleX());
+        int w = (int) (pager.getWidth() * pager.getScaleX());
+        int h = (int) (pager.getHeight() * pager.getScaleY());
+        int x = (XPopupUtils.getWindowWidth(getContext()) - w) / 2;
+        int y = (XPopupUtils.getWindowHeight(getContext()) - h) / 2;
+        XPopupUtils.setWidthHeight(snapshotView, w, h);
+        snapshotView.setTranslationX(x);
+        snapshotView.setTranslationY(y);
+//        dismiss();
     }
 
     @Override
     public void onDragChange(int dy, float scale) {
+
     }
 
     public class PhotoViewAdapter extends PagerAdapter {

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,11 @@ import com.lxj.xpopup.interfaces.OnDragChangeListener;
  * wrap ViewPager, process drag event.
  */
 public class PhotoViewContainer extends FrameLayout {
-    private static final String TAG = "DragContainer";
+    private static final String TAG = "PhotoViewContainer";
     private ViewDragHelper dragHelper;
     private ViewPager viewPager;
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private int HideTopThreshold = 80;
+    private int HideTopThreshold = 85;
     private int maxOffset;
     private OnDragChangeListener dragChangeListener;
 
@@ -43,6 +44,7 @@ public class PhotoViewContainer extends FrameLayout {
     private void init() {
         HideTopThreshold = dip2px(HideTopThreshold);
         dragHelper = ViewDragHelper.create(this, cb);
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
@@ -51,12 +53,17 @@ public class PhotoViewContainer extends FrameLayout {
         viewPager = (ViewPager) getChildAt(0);
     }
 
+    public ViewPager getViewPager(){
+        return viewPager;
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         maxOffset = getHeight() / 3;
     }
-
+    boolean isVertical = false;
+    private float touchX, touchY;
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
@@ -67,27 +74,24 @@ public class PhotoViewContainer extends FrameLayout {
             case MotionEvent.ACTION_MOVE:
                 float dx = ev.getX() - touchX;
                 float dy = ev.getY() - touchY;
-                // detect horizontal move, then throw to ViewPager see if it need first.
-                // if ViewPager consumed, than end.
-                if(Math.abs(dx) >= Math.abs(dy)){
-                    viewPager.dispatchTouchEvent(ev);
-                }
+                viewPager.dispatchTouchEvent(ev);
+                isVertical = (Math.abs(dy) > Math.abs(dx)) ;
+                touchX = ev.getX();
+                touchY = ev.getY();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 touchX = 0;
                 touchY = 0;
+                isVertical = false;
                 break;
         }
         return super.dispatchTouchEvent(ev);
     }
-
-    private float touchX, touchY;
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getPointerCount() > 1) return super.onInterceptTouchEvent(ev);
-        return dragHelper.shouldInterceptTouchEvent(ev);
+        if (ev.getPointerCount() > 1)return false;
+        return dragHelper.shouldInterceptTouchEvent(ev) && isVertical;
     }
 
     @Override
@@ -101,12 +105,6 @@ public class PhotoViewContainer extends FrameLayout {
         public boolean tryCaptureView(@NonNull View view, int i) {
             return true;
         }
-
-        @Override
-        public void onViewCaptured(@NonNull View capturedChild, int activePointerId) {
-            super.onViewCaptured(capturedChild, activePointerId);
-        }
-
         @Override
         public int getViewVerticalDragRange(@NonNull View child) {
             return 1;
@@ -119,7 +117,7 @@ public class PhotoViewContainer extends FrameLayout {
 
         @Override
         public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
-            int t = child.getTop() + dy / 2;
+            int t = viewPager.getTop() + dy / 2;
             if (t >= 0) {
                 return Math.min(t, maxOffset);
             } else {
@@ -130,14 +128,18 @@ public class PhotoViewContainer extends FrameLayout {
         @Override
         public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
+            if(changedView!=viewPager){
+                viewPager.offsetTopAndBottom(dy);
+            }
             float fraction = Math.abs(top) * 1f / maxOffset;
-            float pageScale = 1 - fraction * .15f;
+            float pageScale = 1 - fraction * .2f ;
             viewPager.setScaleX(pageScale);
             viewPager.setScaleY(pageScale);
             applyBgAnimation(fraction);
             if(dragChangeListener!=null){
                 dragChangeListener.onDragChange(dy, pageScale);
             }
+
         }
 
         @Override
@@ -147,6 +149,7 @@ public class PhotoViewContainer extends FrameLayout {
                 if(dragChangeListener!=null)dragChangeListener.onRelease();
             } else {
                 dragHelper.smoothSlideViewTo(viewPager, 0, 0);
+                dragHelper.smoothSlideViewTo(releasedChild, 0, 0);
                 ViewCompat.postInvalidateOnAnimation(PhotoViewContainer.this);
             }
         }
@@ -160,8 +163,8 @@ public class PhotoViewContainer extends FrameLayout {
         }
     }
 
-    public void applyBgAnimation(float fraction){
-        ((ViewGroup)getParent()).setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, Color.BLACK, Color.TRANSPARENT));
+    private void applyBgAnimation(float fraction){
+        setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, Color.BLACK, Color.TRANSPARENT));
     }
 
     public int dip2px(float dpValue) {
