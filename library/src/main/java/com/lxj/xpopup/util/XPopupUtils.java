@@ -1,5 +1,6 @@
 package com.lxj.xpopup.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,15 +14,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.lxj.xpopup.core.BasePopupView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -64,64 +67,9 @@ public class XPopupUtils {
         }
     }
 
-    /**
-     * 全网唯一能兼容所有手机（包括全面屏）判断是否有导航栏的方法
-     * @param context
-     * @return
-     */
-    public static boolean hasNavigationBar(Context context) {
-        Point appUsableSize = getAppUsableScreenSize(context);
-        Point realScreenSize = getRealScreenSize(context);
-        return appUsableSize.y + XPopupUtils.getStatusBarHeight() < realScreenSize.y;
-    }
-
-    public static Point getAppUsableScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
-
-    public static Point getRealScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-
-        if (Build.VERSION.SDK_INT >= 17) {
-            display.getRealSize(size);
-        } else if (Build.VERSION.SDK_INT >= 14) {
-            try {
-                size.x = (Integer) Display.class.getMethod("getRawWidth").invoke(display);
-                size.y = (Integer) Display.class.getMethod("getRawHeight").invoke(display);
-            } catch (IllegalAccessException e) {} catch (InvocationTargetException e) {} catch (NoSuchMethodException e) {}
-        }
-
-        return size;
-    }
-
-    /**
-     * 是否是特殊设备，目前发现有：小米MIX系列
-     * @return
-     */
-    public static boolean isFuckDevice(){
-        String model = XPopupUtils.getModel();
-        return model.equalsIgnoreCase("MIX2") || model.equalsIgnoreCase("MIX2S");
-    }
-
-    public static void setWidthHeight( View target, int width, int height){
-        ViewGroup.LayoutParams params = target.getLayoutParams();
-        if(params==null)params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.width = width;
-        params.height = height;
-        target.setLayoutParams(params);
-    }
-
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){
         widthAndHeight(target, maxWidth, maxHeight, false);
     }
-
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight, boolean isCenter){
         target.post(new Runnable() {
             @Override
@@ -218,5 +166,73 @@ public class XPopupUtils {
 
     public static boolean isInRect(float x, float y, Rect rect) {
         return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    /**
+     * Return whether soft input is visible.
+     *
+     * @param activity The activity.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isSoftInputVisible(final Activity activity) {
+        return getDecorViewInvisibleHeight(activity) > 0;
+    }
+
+    private static int sDecorViewDelta = 0;
+
+    public static int getDecorViewInvisibleHeight(final Activity activity) {
+        final View decorView = activity.getWindow().getDecorView();
+        final Rect outRect = new Rect();
+        decorView.getWindowVisibleDisplayFrame(outRect);
+        int delta = Math.abs(decorView.getBottom() - outRect.bottom);
+        if (delta <= getNavBarHeight()) {
+            sDecorViewDelta = delta;
+            return 0;
+        }
+        return delta - sDecorViewDelta;
+    }
+
+    public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
+        int targetY = keyboardHeight + pv.getPopupContentView().getHeight() / 2 - XPopupUtils.getWindowHeight(pv.getContext()) / 2;
+        pv.getPopupContentView().animate().translationY(-Math.abs(targetY))
+                .setDuration(300)
+                .setInterpolator(new OvershootInterpolator(1))
+                .start();
+    }
+    public static void moveDown(BasePopupView pv){
+        pv.getPopupContentView().animate().translationY(0)
+                .setInterpolator(new OvershootInterpolator(1))
+                .setDuration(300).start();
+    }
+
+
+    /**
+     * Return whether the navigation bar visible.
+     * <p>Call it in onWindowFocusChanged will get right result.</p>
+     *
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isNavBarVisible(Context context) {
+        boolean isVisible = false;
+        ViewGroup decorView = (ViewGroup) ((Activity)context).getWindow().getDecorView();
+        for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
+            final View child = decorView.getChildAt(i);
+            final int id = child.getId();
+            if (id != View.NO_ID) {
+                String resourceEntryName = context
+                        .getResources()
+                        .getResourceEntryName(id);
+                if ("navigationBarBackground".equals(resourceEntryName)
+                        && child.getVisibility() == View.VISIBLE) {
+                    isVisible = true;
+                    break;
+                }
+            }
+        }
+        if (isVisible) {
+            int visibility = decorView.getSystemUiVisibility();
+            isVisible = (visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0;
+        }
+        return isVisible;
     }
 }

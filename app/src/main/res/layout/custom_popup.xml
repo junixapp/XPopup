@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:padding="20dp"
+    android:background="#eee"
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -45,6 +46,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
+    <EditText
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="测试输入框会不会被软键盘盖住"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="测试输入框会不会被软键盘盖住"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tv_close"

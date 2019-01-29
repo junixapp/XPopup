@@ -77,7 +77,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                toast("click confirm");
                             }
                         })
-//                        .dismissOnBackPressed(false)
 //                        .dismissOnTouchOutside(false)
                         // 设置弹窗显示和隐藏的回调监听
                         .setPopupCallback(new XPopupCallback() {
@@ -101,6 +100,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                                XPopup.get(getActivity()).asLoading().show();
                             }
                         })
+//                        .dismissOnBackPressed(false)
                         .show();
                 break;
             case R.id.btnShowCenterList:
