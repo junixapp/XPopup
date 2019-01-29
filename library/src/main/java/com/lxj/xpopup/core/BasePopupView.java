@@ -49,8 +49,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
         contentView.setAlpha(0);
         addView(contentView);
-        // 如果有导航栏，则不能覆盖导航栏，排除特殊设备
-        if (XPopupUtils.hasNavigationBar(getContext()) && !XPopupUtils.isFuckDevice()) {
+        // 如果有导航栏，则不能覆盖导航栏，
+        if (XPopupUtils.isNavBarVisible(getContext())) {
             setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
         }
 
@@ -69,6 +69,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 return false;
             }
         });
+
+
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {

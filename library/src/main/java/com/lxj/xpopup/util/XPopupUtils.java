@@ -67,51 +67,6 @@ public class XPopupUtils {
         }
     }
 
-    /**
-     * 全网唯一能兼容所有手机（包括全面屏）判断是否有导航栏的方法
-     * @param context
-     * @return
-     */
-    public static boolean hasNavigationBar(Context context) {
-        Point appUsableSize = getAppUsableScreenSize(context);
-        Point realScreenSize = getRealScreenSize(context);
-        return appUsableSize.y + XPopupUtils.getStatusBarHeight() < realScreenSize.y;
-    }
-
-    public static Point getAppUsableScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
-
-    public static Point getRealScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-
-        if (Build.VERSION.SDK_INT >= 17) {
-            display.getRealSize(size);
-        } else if (Build.VERSION.SDK_INT >= 14) {
-            try {
-                size.x = (Integer) Display.class.getMethod("getRawWidth").invoke(display);
-                size.y = (Integer) Display.class.getMethod("getRawHeight").invoke(display);
-            } catch (IllegalAccessException e) {} catch (InvocationTargetException e) {} catch (NoSuchMethodException e) {}
-        }
-
-        return size;
-    }
-
-    /**
-     * 是否是特殊设备，目前发现有：小米MIX系列
-     * @return
-     */
-    public static boolean isFuckDevice(){
-        String model = XPopupUtils.getModel();
-        return model.equalsIgnoreCase("MIX2") || model.equalsIgnoreCase("MIX2S");
-    }
-
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){
         widthAndHeight(target, maxWidth, maxHeight, false);
     }
@@ -248,5 +203,36 @@ public class XPopupUtils {
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(1))
                 .setDuration(300).start();
+    }
+
+
+    /**
+     * Return whether the navigation bar visible.
+     * <p>Call it in onWindowFocusChanged will get right result.</p>
+     *
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isNavBarVisible(Context context) {
+        boolean isVisible = false;
+        ViewGroup decorView = (ViewGroup) ((Activity)context).getWindow().getDecorView();
+        for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
+            final View child = decorView.getChildAt(i);
+            final int id = child.getId();
+            if (id != View.NO_ID) {
+                String resourceEntryName = context
+                        .getResources()
+                        .getResourceEntryName(id);
+                if ("navigationBarBackground".equals(resourceEntryName)
+                        && child.getVisibility() == View.VISIBLE) {
+                    isVisible = true;
+                    break;
+                }
+            }
+        }
+        if (isVisible) {
+            int visibility = decorView.getSystemUiVisibility();
+            isVisible = (visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0;
+        }
+        return isVisible;
     }
 }
