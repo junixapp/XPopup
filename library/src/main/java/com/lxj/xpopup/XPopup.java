@@ -11,12 +11,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
@@ -31,6 +33,7 @@ import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -51,7 +54,8 @@ public class XPopup {
     private int primaryColor = Color.parseColor("#121212");
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
-    private XPopup() { }
+    private XPopup() {
+    }
 
     public static XPopup get(final Context ctx) {
         if (instance == null) {
@@ -493,6 +497,40 @@ public class XPopup {
 
     public XPopup asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
         return asAttachList(data, iconIds, 0, 0, selectListener);
+    }
+
+
+    /**
+     * 大图浏览类型弹窗，单张图片使用场景
+     *
+     * @param srcView 源View，弹窗消失的时候需回到该位置
+     * @param url   对应图片的url
+     * @return
+     */
+    public XPopup asImageViewer(ImageView srcView, String url) {
+        position(PopupType.ImageViewer);
+        this.tempView = new ImageViewerPopupView(contextRef.get())
+                .setSingleSrcView(srcView, url);
+        return this;
+    }
+
+    /**
+     * 大图浏览类型弹窗，多张图片使用场景
+     *
+     * @param srcView 源View，弹窗消失的时候需回到该位置
+     * @param currentPosition 指定显示图片的位置
+     * @param urls  图片url集合
+     * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
+     * @return
+     */
+    public XPopup asImageViewer(ImageView srcView, int currentPosition, ArrayList<String> urls,
+                                OnSrcViewUpdateListener srcViewUpdateListener) {
+        position(PopupType.ImageViewer);
+        this.tempView = new ImageViewerPopupView(contextRef.get())
+                .setSrcView(srcView, currentPosition)
+                .setImageUrls(urls)
+                .setSrcViewUpdateListener(srcViewUpdateListener);
+        return this;
     }
 
 

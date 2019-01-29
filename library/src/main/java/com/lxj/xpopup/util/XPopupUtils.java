@@ -72,6 +72,7 @@ public class XPopupUtils {
         ViewGroup.LayoutParams params = target.getLayoutParams();
         params.width = width;
         params.height = height;
+        target.setLayoutParams(params);
     }
 
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){

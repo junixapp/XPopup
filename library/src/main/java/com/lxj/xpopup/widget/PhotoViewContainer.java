@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * wrap ViewPager, process drag event.
@@ -24,10 +25,10 @@ public class PhotoViewContainer extends FrameLayout {
     private ViewDragHelper dragHelper;
     private ViewPager viewPager;
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private int HideTopThreshold = 85;
+    private int HideTopThreshold = 80;
     private int maxOffset;
     private OnDragChangeListener dragChangeListener;
-
+    public int blackColor = Color.rgb(32,36,46);
     public PhotoViewContainer(@NonNull Context context) {
         this(context, null);
     }
@@ -51,10 +52,6 @@ public class PhotoViewContainer extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         viewPager = (ViewPager) getChildAt(0);
-    }
-
-    public ViewPager getViewPager(){
-        return viewPager;
     }
 
     @Override
@@ -135,9 +132,12 @@ public class PhotoViewContainer extends FrameLayout {
             float pageScale = 1 - fraction * .2f ;
             viewPager.setScaleX(pageScale);
             viewPager.setScaleY(pageScale);
+            changedView.setScaleX(pageScale);
+            changedView.setScaleY(pageScale);
+
             applyBgAnimation(fraction);
             if(dragChangeListener!=null){
-                dragChangeListener.onDragChange(dy, pageScale);
+                dragChangeListener.onDragChange(dy, pageScale, fraction);
             }
 
         }
@@ -164,7 +164,7 @@ public class PhotoViewContainer extends FrameLayout {
     }
 
     private void applyBgAnimation(float fraction){
-        setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, Color.BLACK, Color.TRANSPARENT));
+        setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, blackColor, Color.TRANSPARENT));
     }
 
     public int dip2px(float dpValue) {

@@ -20,6 +20,7 @@
 2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表，我内部会处理好手势拖拽和嵌套滚动
 3. Attach类型，就是弹窗的位置需要依附于某个View或者某个触摸点，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差，淘宝的商品列表筛选的下拉弹窗也属于这种。
 4. DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
+4. 大图浏览类型，就像掘金那样的图片浏览弹窗，带有良好的拖拽交互体验
 
 **动画设计**：
 为了增加交互的趣味性，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化。具体可以从Demo中感受。
@@ -31,9 +32,13 @@
 
 ![](screenshot/preview_attach.gif) ![](screenshot/preview_drawer.gif)
 
-![](screenshot/preview_part.gif) ![](screenshot/preview2.gif)
+![](screenshot/preview_part.gif) ![](screenshot/image_viewer1.gif)
 
-![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
+![](screenshot/image_viewer2.gif) ![](screenshot/image_viewer3.gif)
+
+![](screenshot/preview2.gif) ![](screenshot/preview3.gif)
+
+![](screenshot/preview4.gif)
 
 ## 快速体验Demo
 扫描二维码下载：
@@ -338,7 +343,27 @@ implementation 'com.lxj:xpopup:最新的版本号'
     }
     ```
 
-13. **多弹窗同时显示**
+13. **大图浏览弹窗**
+
+    这种弹窗多用于App内列表中图片进行详细展示的场景，用法如下：
+    ```
+    // 多图片场景
+    XPopup.get(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
+            @Override
+            public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
+                // 作用是当Pager切换了图片，需要更新源View
+                popupView.updateSrcView((ImageView) recyclerView.getChildAt(position));
+            }
+        }).show();
+
+    // 单张图片场景
+    XPopup.get(getContext())
+        .asImageViewer(imageView, url)
+        .show();
+    ```
+
+
+14. **多弹窗同时显示**
 
     虽然多弹窗同时显示的场景不多见，但本库也支持。在多弹窗场景下，显示的时候需要给弹窗指定tag，隐藏的时候也指定tag。
     ```
@@ -351,7 +376,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
     ```
 
 
-14. **其他**
+15. **其他**
 - 设置主色调
 
     默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
@@ -381,9 +406,6 @@ implementation 'com.lxj:xpopup:最新的版本号'
       // 如果你想要一个全屏的弹窗：首先布局要都是`match_parent`，然后设置这个值为window的宽高即可。也可以重写`getMaxWidth()`和`getMaxHeight()`方法，效果是一样的
       .maxWidthAndHeight(0, 300)
   ```
-
-## TODO
-- [ ] 实现掘金那样的大图浏览弹窗
 
 
 ## 联系方式

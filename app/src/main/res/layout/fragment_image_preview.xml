@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="100dp"
-        android:scaleType="centerCrop"
-        android:background="@color/colorPrimary"
-        android:layout_height="100dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+        <TextView
+            android:text="以下是单张图片使用场景："
+            android:textSize="18sp"
+            android:textColor="#222"
+            android:padding="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_margin="30dp"
+            android:id="@+id/image1"
+            android:background="#999"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_margin="10dp"
+            android:id="@+id/image2"
+            android:layout_gravity="right"
+            android:background="#999"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
