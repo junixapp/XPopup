@@ -408,6 +408,11 @@ implementation 'com.lxj:xpopup:最新的版本号'
   ```
 
 
+## TODO
+- 优化嵌套滚动
+- 优化长图浏览
+
+
 ## 联系方式
 
 Gmail: lxj16167479@gmail.com

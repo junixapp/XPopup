@@ -27,7 +27,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
@@ -294,7 +296,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 //            if (imageLoader != null) {
 //                imageLoader.loadImage(position, urls.get(position), photoView);
 //            }
-            Glide.with(getContext()).load(urls.get(position)).into(photoView);
+            Glide.with(getContext()).load(urls.get(position)).apply(
+                    new RequestOptions().override(Target.SIZE_ORIGINAL)).into(photoView);
             container.addView(photoView);
             photoView.setOnClickListener(new OnClickListener() {
                 @Override

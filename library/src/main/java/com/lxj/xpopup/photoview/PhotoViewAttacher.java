@@ -40,8 +40,8 @@ import android.widget.OverScroller;
 public class PhotoViewAttacher implements View.OnTouchListener,
         View.OnLayoutChangeListener {
 
-    private static float DEFAULT_MAX_SCALE = 3.0f;
-    private static float DEFAULT_MID_SCALE = 1.75f;
+    private static float DEFAULT_MAX_SCALE = 4.0f;
+    private static float DEFAULT_MID_SCALE = 2f;
     private static float DEFAULT_MIN_SCALE = 1.0f;
     private static int DEFAULT_ZOOM_DURATION = 200;
 
@@ -632,6 +632,9 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             switch (mScaleType) {
                 case FIT_CENTER:
                     mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.CENTER);
+                    if(drawableHeight>viewHeight){
+                        mBaseMatrix.postScale(widthScale, widthScale);
+                    }
                     break;
                 case FIT_START:
                     mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.START);
