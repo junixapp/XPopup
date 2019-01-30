@@ -18,13 +18,13 @@
         android:textColor="#111"
         android:textSize="17sp"
         android:id="@+id/name"
-        android:layout_toEndOf="@id/avatar"
+        android:layout_toRightOf="@id/avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@id/avatar"
+        android:layout_toRightOf="@id/avatar"
         android:layout_below="@id/name"
         android:textSize="15sp"
         android:textColor="#888"

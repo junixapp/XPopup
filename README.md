@@ -354,13 +354,29 @@ implementation 'com.lxj:xpopup:最新的版本号'
                 // 作用是当Pager切换了图片，需要更新源View
                 popupView.updateSrcView((ImageView) recyclerView.getChildAt(position));
             }
-        }).show();
+        }, new ImageLoader())
+        .show();
 
     // 单张图片场景
     XPopup.get(getContext())
-        .asImageViewer(imageView, url)
+        .asImageViewer(imageView, url, new ImageLoader())
         .show();
+
+    // 图片加载器，我不负责加载图片，需要你实现一个图片加载器传给我，这里以Glide为例。
+    class ImageLoader implements XPopupImageLoader {
+            @Override
+            public void loadImage(int position, @NonNull String url, @NonNull ImageView imageView) {
+                Glide.with(imageView).load(url).into(imageView);
+            }
+        }
     ```
+    ** 注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为Target.SIZE_ORIGINAL；
+    这样会禁止Glide裁剪图片，保证可以拿到原始图片，让图片过渡动画变的天衣无缝。例如： **
+    ```
+    Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
+                        .into(imageView);
+    ```
+    如果你使用其他类库加载图片，请保证加载的图片没有被裁剪过。
 
 
 14. **多弹窗同时显示**

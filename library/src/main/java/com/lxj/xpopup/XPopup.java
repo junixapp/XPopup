@@ -35,6 +35,7 @@ import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -504,32 +505,33 @@ public class XPopup {
      * 大图浏览类型弹窗，单张图片使用场景
      *
      * @param srcView 源View，弹窗消失的时候需回到该位置
-     * @param url   对应图片的url
      * @return
      */
-    public XPopup asImageViewer(ImageView srcView, String url) {
+    public XPopup asImageViewer(ImageView srcView, String url, XPopupImageLoader imageLoader) {
         position(PopupType.ImageViewer);
         this.tempView = new ImageViewerPopupView(contextRef.get())
-                .setSingleSrcView(srcView, url);
+                .setSingleSrcView(srcView, url)
+                .setXPopupImageLoader(imageLoader);
         return this;
     }
 
     /**
      * 大图浏览类型弹窗，多张图片使用场景
      *
-     * @param srcView 源View，弹窗消失的时候需回到该位置
-     * @param currentPosition 指定显示图片的位置
-     * @param urls  图片url集合
+     * @param srcView               源View，弹窗消失的时候需回到该位置
+     * @param currentPosition       指定显示图片的位置
+     * @param urls                  图片url集合
      * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
      * @return
      */
     public XPopup asImageViewer(ImageView srcView, int currentPosition, ArrayList<String> urls,
-                                OnSrcViewUpdateListener srcViewUpdateListener) {
+                                OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
         position(PopupType.ImageViewer);
         this.tempView = new ImageViewerPopupView(contextRef.get())
                 .setSrcView(srcView, currentPosition)
                 .setImageUrls(urls)
-                .setSrcViewUpdateListener(srcViewUpdateListener);
+                .setSrcViewUpdateListener(srcViewUpdateListener)
+                .setXPopupImageLoader(imageLoader);
         return this;
     }
 

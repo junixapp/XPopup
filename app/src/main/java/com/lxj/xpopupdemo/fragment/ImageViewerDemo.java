@@ -14,6 +14,7 @@ import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 XPopup.get(getContext())
-                        .asImageViewer(image1, url1)
+                        .asImageViewer(image1, url1, new ImageLoader())
                         .show();
             }
         });
@@ -68,7 +69,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 XPopup.get(getContext())
-                        .asImageViewer(image2, url2)
+                        .asImageViewer(image2, url2, new ImageLoader())
                         .show();
             }
         });
@@ -83,8 +84,10 @@ public class ImageViewerDemo extends BaseFragment {
         @Override
         protected void convert(@NonNull final ViewHolder holder, @NonNull final String s, final int position) {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
-            //1. 加载图片
-            Glide.with(imageView).load(s).into(imageView);
+            //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
+            // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
+            Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
+                    .into(imageView);
 
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -95,11 +98,18 @@ public class ImageViewerDemo extends BaseFragment {
                         public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
                             popupView.updateSrcView((ImageView) recyclerView.getChildAt(position));
                         }
-                    }).show();
+                    }, new ImageLoader())
+                            .show();
                 }
             });
         }
     }
 
+    class ImageLoader implements XPopupImageLoader {
+        @Override
+        public void loadImage(int position, @NonNull String url, @NonNull ImageView imageView) {
+            Glide.with(imageView).load(url).into(imageView);
+        }
+    }
 }
 

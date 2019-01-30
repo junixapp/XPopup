@@ -3,12 +3,10 @@ package com.lxj.xpopup.core;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.transition.ChangeBounds;
 import android.support.transition.ChangeImageTransform;
 import android.support.transition.ChangeTransform;
@@ -19,19 +17,12 @@ import android.support.transition.TransitionSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
@@ -54,8 +45,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     HackyViewPager pager;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private ArrayList<String> urls = new ArrayList<>();
-//    private XPopupImageLoader imageLoader;
-
+    private XPopupImageLoader imageLoader;
     private OnSrcViewUpdateListener srcViewUpdateListener;
     private int position;
     Rect rect = null;
@@ -108,22 +98,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (snapshotView == null) {
             snapshotView = new ImageView(getContext());
             photoViewContainer.addView(snapshotView);
-            snapshotView.setScaleType(srcView.getScaleType());
-            snapshotView.setTranslationX(rect.left);
-            snapshotView.setTranslationY(rect.top);
-            XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
         }
-
-//        if (imageLoader != null) {
-//            imageLoader.loadImage(position, urls.get(position), snapshotView);
-//        }
-        Glide.with(this).asBitmap().load(urls.get(position)).into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
-                snapshotView.setImageBitmap(resource);
-            }
-        });
-
+        snapshotView.setScaleType(srcView.getScaleType());
+        snapshotView.setTranslationX(rect.left);
+        snapshotView.setTranslationY(rect.top);
+        XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
+        snapshotView.setImageDrawable(srcView.getDrawable());
     }
 
     @Override
@@ -232,15 +212,14 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
-//    public ImageViewerPopupView setXPopupImageLoader(XPopupImageLoader imageLoader) {
-//        this.imageLoader = imageLoader;
-//        return this;
-//    }
+    public ImageViewerPopupView setXPopupImageLoader(XPopupImageLoader imageLoader) {
+        this.imageLoader = imageLoader;
+        return this;
+    }
 
     /**
      * 设置单个使用的源View。单个使用的情况下，无需设置url集合和SrcViewUpdateListener
      * @param srcView
-     * @param url
      * @return
      */
     public ImageViewerPopupView setSingleSrcView(ImageView srcView, String url){
@@ -293,11 +272,9 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             final PhotoView photoView = new PhotoView(container.getContext());
             // call LoadImageListener
-//            if (imageLoader != null) {
-//                imageLoader.loadImage(position, urls.get(position), photoView);
-//            }
-            Glide.with(getContext()).load(urls.get(position)).apply(
-                    new RequestOptions().override(Target.SIZE_ORIGINAL)).into(photoView);
+            if (imageLoader != null) {
+                imageLoader.loadImage(position, urls.get(position), photoView);
+            }
             container.addView(photoView);
             photoView.setOnClickListener(new OnClickListener() {
                 @Override
