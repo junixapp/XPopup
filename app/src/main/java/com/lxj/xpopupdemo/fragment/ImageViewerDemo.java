@@ -108,7 +108,8 @@ public class ImageViewerDemo extends BaseFragment {
     class ImageLoader implements XPopupImageLoader {
         @Override
         public void loadImage(int position, @NonNull String url, @NonNull ImageView imageView) {
-            Glide.with(imageView).load(url).into(imageView);
+            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
+            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
         }
     }
 }

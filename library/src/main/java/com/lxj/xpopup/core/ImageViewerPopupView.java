@@ -96,13 +96,13 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     private void addSnapshot() {
         if (snapshotView == null) {
-            snapshotView = new ImageView(getContext());
+            snapshotView = new PhotoView(getContext());
             photoViewContainer.addView(snapshotView);
+            snapshotView.setScaleType(srcView.getScaleType());
+            snapshotView.setTranslationX(rect.left);
+            snapshotView.setTranslationY(rect.top);
+            XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
         }
-        snapshotView.setScaleType(srcView.getScaleType());
-        snapshotView.setTranslationX(rect.left);
-        snapshotView.setTranslationY(rect.top);
-        XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
         snapshotView.setImageDrawable(srcView.getDrawable());
     }
 

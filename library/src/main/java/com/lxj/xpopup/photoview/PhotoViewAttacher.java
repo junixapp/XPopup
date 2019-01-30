@@ -455,9 +455,9 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     public void setScale(float scale, float focalX, float focalY,
                          boolean animate) {
         // Check to see if the scale is within bounds
-        if (scale < mMinScale || scale > mMaxScale) {
-            throw new IllegalArgumentException("Scale must be within the range of minScale and maxScale");
-        }
+//        if (scale < mMinScale || scale > mMaxScale) {
+//            throw new IllegalArgumentException("Scale must be within the range of minScale and maxScale");
+//        }
         if (animate) {
             mImageView.post(new AnimatedZoomRunnable(getScale(), scale,
                     focalX, focalY));
@@ -632,7 +632,8 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             switch (mScaleType) {
                 case FIT_CENTER:
                     mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.CENTER);
-                    if(drawableHeight>viewHeight){
+                    // for long image.
+                    if(drawableHeight > viewHeight && drawableHeight>drawableWidth){
                         mBaseMatrix.postScale(widthScale, widthScale);
                     }
                     break;
