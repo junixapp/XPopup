@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -28,7 +29,9 @@ public class PhotoViewContainer extends FrameLayout {
     private int HideTopThreshold = 80;
     private int maxOffset;
     private OnDragChangeListener dragChangeListener;
-    public int blackColor = Color.rgb(32,36,46);
+    public int blackColor = Color.rgb(32, 36, 46);
+    public boolean isReleaseing = false;
+
     public PhotoViewContainer(@NonNull Context context) {
         this(context, null);
     }
@@ -59,8 +62,10 @@ public class PhotoViewContainer extends FrameLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         maxOffset = getHeight() / 3;
     }
+
     boolean isVertical = false;
     private float touchX, touchY;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
@@ -72,7 +77,7 @@ public class PhotoViewContainer extends FrameLayout {
                 float dx = ev.getX() - touchX;
                 float dy = ev.getY() - touchY;
                 viewPager.dispatchTouchEvent(ev);
-                isVertical = (Math.abs(dy) > Math.abs(dx)) ;
+                isVertical = (Math.abs(dy) > Math.abs(dx));
                 touchX = ev.getX();
                 touchY = ev.getY();
                 break;
@@ -85,9 +90,10 @@ public class PhotoViewContainer extends FrameLayout {
         }
         return super.dispatchTouchEvent(ev);
     }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getPointerCount() > 1)return false;
+        if (ev.getPointerCount() > 1) return false;
         return dragHelper.shouldInterceptTouchEvent(ev) && isVertical;
     }
 
@@ -100,8 +106,9 @@ public class PhotoViewContainer extends FrameLayout {
     ViewDragHelper.Callback cb = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View view, int i) {
-            return true;
+            return !isReleaseing;
         }
+
         @Override
         public int getViewVerticalDragRange(@NonNull View child) {
             return 1;
@@ -125,18 +132,17 @@ public class PhotoViewContainer extends FrameLayout {
         @Override
         public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            if(changedView!=viewPager){
+            if (changedView != viewPager) {
                 viewPager.offsetTopAndBottom(dy);
             }
             float fraction = Math.abs(top) * 1f / maxOffset;
-            float pageScale = 1 - fraction * .2f ;
+            float pageScale = 1 - fraction * .2f;
             viewPager.setScaleX(pageScale);
             viewPager.setScaleY(pageScale);
             changedView.setScaleX(pageScale);
             changedView.setScaleY(pageScale);
-
             applyBgAnimation(fraction);
-            if(dragChangeListener!=null){
+            if (dragChangeListener != null) {
                 dragChangeListener.onDragChange(dy, pageScale, fraction);
             }
 
@@ -146,7 +152,7 @@ public class PhotoViewContainer extends FrameLayout {
         public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
             if (Math.abs(releasedChild.getTop()) > HideTopThreshold) {
-                if(dragChangeListener!=null)dragChangeListener.onRelease();
+                if (dragChangeListener != null) dragChangeListener.onRelease();
             } else {
                 dragHelper.smoothSlideViewTo(viewPager, 0, 0);
                 dragHelper.smoothSlideViewTo(releasedChild, 0, 0);
@@ -163,7 +169,7 @@ public class PhotoViewContainer extends FrameLayout {
         }
     }
 
-    private void applyBgAnimation(float fraction){
+    private void applyBgAnimation(float fraction) {
         setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, blackColor, Color.TRANSPARENT));
     }
 
@@ -172,7 +178,13 @@ public class PhotoViewContainer extends FrameLayout {
         return (int) (dpValue * scale + 0.5f);
     }
 
-    public void setOnDragChangeListener(OnDragChangeListener listener){
+    public void setOnDragChangeListener(OnDragChangeListener listener) {
         this.dragChangeListener = listener;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        isReleaseing = false;
     }
 }

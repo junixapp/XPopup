@@ -159,6 +159,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         tv_pager_indicator.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
         snapshotView.setVisibility(VISIBLE);
+        photoViewContainer.isReleaseing = true;
         TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
                 .setDuration(shadowBgAnimator.animateDuration )
                 .addTransition(new ChangeBounds())
@@ -200,7 +201,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
     }
-
 
     public ImageViewerPopupView setImageUrls(ArrayList<String> urls) {
         this.urls = urls;
