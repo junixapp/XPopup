@@ -346,7 +346,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
 13. **大图浏览弹窗**
 
     这种弹窗多用于App内列表中图片进行详细展示的场景，用法如下：
-    ```
+    ```java
     // 多图片场景
     XPopup.get(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
             @Override
@@ -370,8 +370,8 @@ implementation 'com.lxj:xpopup:最新的版本号'
             }
         }
     ```
-    ** 注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为Target.SIZE_ORIGINAL；
-    这样会禁止Glide裁剪图片，保证可以拿到原始图片，让图片过渡动画变的天衣无缝。例如： **
+    注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为Target.SIZE_ORIGINAL；
+    这样会禁止Glide裁剪图片，保证可以拿到原始图片，让图片过渡动画变的天衣无缝。例如：
     ```
     Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
                         .into(imageView);
@@ -382,7 +382,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
 14. **多弹窗同时显示**
 
     虽然多弹窗同时显示的场景不多见，但本库也支持。在多弹窗场景下，显示的时候需要给弹窗指定tag，隐藏的时候也指定tag。
-    ```
+    ```java
     XPopup.get(getActivity())
             ... // 略过
             .show(tag);// 给弹窗设置tag
