@@ -85,6 +85,7 @@ public class BottomListPopupView extends BottomPopupView {
                 },100);
             }
         });
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 

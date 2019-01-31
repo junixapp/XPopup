@@ -27,6 +27,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     boolean enableGesture = true;//是否启用手势
     boolean dismissOnTouchOutside = true;
     boolean hasShadowBg = true;
+    boolean isUserClose = false;
     public SmartDragLayout(Context context) {
         this(context, null);
     }
@@ -67,6 +68,12 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         }
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        isUserClose = true;
+        return super.dispatchTouchEvent(ev);
+    }
+
     float touchX, touchY;
     long downTime;
 
@@ -89,6 +96,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 finishScroll();
                 // click in child rect
                 Rect rect = new Rect();
@@ -110,7 +118,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
             int threshold = isScrollUp ? (maxY - minY) / 3 : (maxY - minY) * 2 / 3;
             int dy = (getScrollY() > threshold ? maxY : minY) - getScrollY();
             scroller.startScroll(getScrollX(), getScrollY(), 0, dy, 400);
-            invalidate();
+            ViewCompat.postInvalidateOnAnimation(this);
         }
     }
 
@@ -123,7 +131,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         float fraction = (y - minY) * 1f / (maxY - minY);
         if(hasShadowBg)
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
-        if (fraction == 0f && listener != null) {
+        if (isUserClose && fraction == 0f && listener != null) {
             listener.onClose();
         }
         isScrollUp = y > getScrollY();
@@ -143,15 +151,17 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         isScrollUp = false;
+        isUserClose = false;
     }
 
     public void open() {
-        scroller.startScroll(getScrollX(), getScrollY(), 0, maxY - getScrollY(), 600);
+        scroller.startScroll(getScrollX(), getScrollY(), 0, maxY - getScrollY(), 500);
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
     public void close() {
-        scroller.startScroll(getScrollX(), getScrollY(), 0, minY - getScrollY(), 600);
+        isUserClose = true;
+        scroller.startScroll(getScrollX(), getScrollY(), 0, minY - getScrollY(), 500);
         ViewCompat.postInvalidateOnAnimation(this);
     }
 

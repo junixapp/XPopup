@@ -146,11 +146,11 @@ public class XPopup {
             @Override
             public void run() {
                 popupViews.remove(pv);
-                if (pv.popupInfo.xPopupCallback != null)
+                if (pv.popupInfo!=null && pv.popupInfo.xPopupCallback != null)
                     pv.popupInfo.xPopupCallback.onDismiss();
 
                 // 移除弹窗
-                decorView.removeView(pv);
+                if(decorView!=null) decorView.removeView(pv);
 
                 // 释放对象
                 release();

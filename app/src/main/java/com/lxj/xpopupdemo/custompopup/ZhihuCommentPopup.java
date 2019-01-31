@@ -35,7 +35,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
         recyclerView = findViewById(R.id.recyclerView);
 
         ArrayList<String> strings = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 15; i++) {
             strings.add("");
         }
         CommonAdapter<String> commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, strings) {
@@ -45,9 +45,15 @@ public class ZhihuCommentPopup extends BottomPopupView {
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                dismiss();
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismiss();
+                    }
+                },200);
             }
         });
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(commonAdapter);
     }
 
