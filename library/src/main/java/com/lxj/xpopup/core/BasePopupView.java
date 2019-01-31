@@ -53,9 +53,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         if (XPopupUtils.isNavBarVisible(getContext())) {
             setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
         }
-
-
-
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -94,8 +91,9 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
                         if (popupInfo.isDismissOnBackPressed)
                             dismiss();
+                        return true;
                     }
-                    return true;
+                    return false;
                 }
             });
         }
