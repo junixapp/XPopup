@@ -1,78 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#eee"
-    android:layout_height="wrap_content">
+    android:orientation="vertical"
+    android:padding="20dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_marginRight="12dp"
-        android:background="#ddd"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="12dp"
+            android:background="#ddd" />
+
         <TextView
             android:id="@+id/tv_name"
-            android:layout_toRightOf="@+id/iv_image"
-            android:textSize="18sp"
-            android:textColor="#222"
-            android:text="齐天大圣"
             android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            android:layout_height="25dp"
+            android:layout_toRightOf="@+id/iv_image"
+            android:text="齐天大圣"
+            android:textColor="#222"
+            android:textSize="18sp" />
+
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_name"
             android:layout_toRightOf="@+id/iv_image"
-            android:text="玉帝小儿，吃俺老孙一棒!"
-            android:gravity="center_vertical"
-            android:textColor="#666"
-            android:textSize="14sp"
-            android:layout_width="match_parent"
-            android:lines="1"
             android:ellipsize="end"
-            android:layout_height="25dp" />
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="玉帝小儿，吃俺老孙一棒!"
+            android:textColor="#666"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="混沌未分天地乱，茫茫渺渺无人见。
 自从盘古破鸿蒙，开辟从兹清浊辨。
 覆载群生仰至仁，发明万物皆成善。
 欲知造化会元功，须看西游释厄传。"
         android:textColor="#222"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textSize="16sp" />
 
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:text="测试输入框会不会被软键盘盖住"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:text="测试输入框会不会被软键盘盖住" />
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="15dp"
-        android:text="测试输入框会不会被软键盘盖住"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:text="测试输入框会不会被软键盘盖住" />
 
     <TextView
         android:id="@+id/tv_close"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:paddingLeft="35dp"
-        android:paddingRight="35dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:clickable="true"
-        android:background="?selectableItemBackground"
-        android:textColor="@color/colorPrimary"
-        android:text="关闭"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="35dp"
+        android:paddingTop="12dp"
+        android:paddingRight="35dp"
+        android:paddingBottom="12dp"
+        android:text="关闭"
+        android:textColor="@color/colorPrimary" />
 </LinearLayout>

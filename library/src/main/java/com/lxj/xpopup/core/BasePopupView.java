@@ -24,6 +24,8 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.PopupInterface;
 import com.lxj.xpopup.util.XPopupUtils;
 
+import java.util.ArrayList;
+
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -68,11 +70,11 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         // 处理返回按键
         setFocusableInTouchMode(true);
         requestFocus();
-        // 此处焦点可能被内容的EditText抢走，此时需要给EditText也设置返回按下监听
+        // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
         setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (popupInfo.isDismissOnBackPressed)
                         dismiss();
                     return true;
@@ -81,14 +83,16 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             }
         });
 
-        View editText = XPopupUtils.findEditText(this);
-        if(editText!=null){
-            editText.setFocusableInTouchMode(true);
-            editText.requestFocus();
-            editText.setOnKeyListener(new View.OnKeyListener() {
+        //let all EditText can process back pressed.
+        ArrayList<View> list = new ArrayList<>();
+        XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
+        for (int i = 0; i < list.size(); i++) {
+            View et = list.get(i);
+            if(i==0)et.requestFocus();
+            et.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
                         if (popupInfo.isDismissOnBackPressed)
                             dismiss();
                         return true;
@@ -97,9 +101,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 }
             });
         }
-
     }
-
 
     Runnable afterAnimationEnd;
 

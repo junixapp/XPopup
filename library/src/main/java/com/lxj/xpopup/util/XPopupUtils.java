@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.lxj.xpopup.core.BasePopupView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 /**
  * Description:
@@ -155,23 +157,6 @@ public class XPopupUtils {
         return stateListDrawable;
     }
 
-
-    /**
-     * Return the model of device.
-     * <p>e.g. MI2SC</p>
-     *
-     * @return the model of device
-     */
-    public static String getModel() {
-        String model = Build.MODEL;
-        if (model != null) {
-            model = model.trim().replaceAll("\\s*", "");
-        } else {
-            model = "";
-        }
-        return model;
-    }
-
     public static boolean isInRect(float x, float y, Rect rect) {
         return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
@@ -244,15 +229,14 @@ public class XPopupUtils {
         return isVisible;
     }
 
-    public static View findEditText(ViewGroup group){
+    public static void findAllEditText(ArrayList<View> list, ViewGroup group){
         for (int i = 0; i < group.getChildCount(); i++) {
             View v = group.getChildAt(i);
-            if(v instanceof EditText){
-                return v;
+            if(v instanceof EditText ){
+                list.add(v);
             }else if(v instanceof ViewGroup){
-                return findEditText((ViewGroup) v);
+                findAllEditText(list,(ViewGroup) v);
             }
         }
-        return null;
     }
 }
