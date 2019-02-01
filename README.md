@@ -427,9 +427,8 @@ implementation 'com.lxj:xpopup:最新的版本号'
 
 
 ## TODO
-- 优化嵌套滚动
-- 优化长图浏览
-- 增加简易的设置全屏弹窗的方法，比如增加全屏弹窗的默认实现
+- 优化极限操作时的嵌套滚动体验
+- XPopup中完善的null check
 
 
 ## 联系方式
