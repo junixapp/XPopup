@@ -111,7 +111,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * @param afterAnimationStarted
      */
     public void init(final Runnable afterAnimationStarted, Runnable afterAnimationEnd) {
-        if (popupStatus != PopupStatus.Dismiss) return;
+        if (popupStatus != PopupStatus.Dismiss || popupStatus==PopupStatus.Showing) return;
+        popupStatus = PopupStatus.Showing;
         this.afterAnimationEnd = afterAnimationEnd;
         //1. 初始化Popup
         initPopupContent();
@@ -143,7 +144,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
 
                 //4. 执行动画
-                popupStatus = PopupStatus.Showing;
                 doShowAnimation();
 
                 // call xpopup init.
@@ -289,7 +289,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 消失
      */
     public void dismiss() {
-        if (popupStatus != PopupStatus.Show) return;
+        if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
         doAfterDismiss();

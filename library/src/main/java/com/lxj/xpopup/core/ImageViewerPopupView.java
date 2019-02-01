@@ -108,6 +108,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void doShowAnimation() {
+        photoViewContainer.isReleaseing = true;
         snapshotView.setVisibility(VISIBLE);
         snapshotView.post(new Runnable() {
             @Override
@@ -124,6 +125,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                                 pager.setVisibility(VISIBLE);
                                 snapshotView.setVisibility(INVISIBLE);
                                 showPagerIndicator();
+                                photoViewContainer.isReleaseing = false;
                             }
                         }));
                 snapshotView.setTranslationY(0);

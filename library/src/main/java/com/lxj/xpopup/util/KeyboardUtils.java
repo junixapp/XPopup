@@ -72,6 +72,7 @@ public final class KeyboardUtils {
         View contentView = decorView.findViewById(android.R.id.content);
         contentView.getViewTreeObserver().removeGlobalOnLayoutListener(onGlobalLayoutListener);
         onGlobalLayoutListener = null;
+        onSoftInputChangedListener = null;
     }
 
     private static int getNavBarHeight() {

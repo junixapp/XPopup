@@ -5,14 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -21,7 +18,6 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.AttachListPopupView;
 import com.lxj.xpopup.impl.BottomListPopupView;
@@ -134,7 +130,7 @@ public class XPopup {
         pv.init(new Runnable() { // 弹窗显示动画执行完毕调用
             @Override
             public void run() {
-                if (pv.popupInfo.xPopupCallback != null)
+                if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null)
                     pv.popupInfo.xPopupCallback.onShow();
 
                 if (XPopupUtils.getDecorViewInvisibleHeight(activity) > 0) {
