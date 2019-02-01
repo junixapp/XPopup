@@ -92,7 +92,7 @@ public class BottomPopupView extends BasePopupView {
     @Override
     public void dismiss() {
         if (enableGesture) {
-            if (popupStatus != PopupStatus.Show) return;
+            if (popupStatus == PopupStatus.Dismiss) return;
             popupStatus = PopupStatus.Dismissing;
             // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
             bottomPopupContainer.close();
