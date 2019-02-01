@@ -49,11 +49,7 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (enableGesture) {
-                    bottomPopupContainer.close(); // 通过scroll关闭
-                } else {
-                    dismiss(); //使用动画关闭
-                }
+                dismiss();
             }
         });
 

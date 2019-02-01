@@ -428,7 +428,6 @@ implementation 'com.lxj:xpopup:最新的版本号'
 
 ## TODO
 - 优化极限操作时的嵌套滚动体验
-- XPopup中完善的null check
 
 
 ## 联系方式

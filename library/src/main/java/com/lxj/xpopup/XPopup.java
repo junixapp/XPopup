@@ -66,9 +66,6 @@ public class XPopup {
         if (contextRef.get() == null) {
             throw new IllegalArgumentException("context can not be null!");
         }
-        if (!(contextRef.get() instanceof Activity)) {
-            throw new IllegalArgumentException("context must be an instance of Activity");
-        }
         KeyboardUtils.registerSoftInputChangedListener((Activity) contextRef.get(), new KeyboardUtils.OnSoftInputChangedListener() {
             @Override
             public void onSoftInputChanged(int height) {
@@ -123,6 +120,9 @@ public class XPopup {
     }
 
     private void showInternal(final BasePopupView pv) {
+        if (!(contextRef.get() instanceof Activity)) {
+            throw new IllegalArgumentException("context must be an instance of Activity");
+        }
         if (pv.getParent() != null) return;
         final Activity activity = (Activity) contextRef.get();
         decorView = (ViewGroup) activity.getWindow().getDecorView();
@@ -146,11 +146,11 @@ public class XPopup {
             @Override
             public void run() {
                 popupViews.remove(pv);
-                if (pv.popupInfo!=null && pv.popupInfo.xPopupCallback != null)
+                if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null)
                     pv.popupInfo.xPopupCallback.onDismiss();
 
                 // 移除弹窗
-                if(decorView!=null) decorView.removeView(pv);
+                if (decorView != null) decorView.removeView(pv);
 
                 // 释放对象
                 release();
@@ -192,16 +192,12 @@ public class XPopup {
      * 释放相关资源
      */
     private void release() {
-        if (!popupViews.isEmpty()) {
-            return;
-        }
+        if (!popupViews.isEmpty()) return;
         handler.removeCallbacks(null);
-        contextRef.clear();
+        if (contextRef != null) contextRef.clear();
+        if (decorView != null) KeyboardUtils.removeLayoutChangeListener(decorView);
         contextRef = null;
-        if (decorView != null) {
-            KeyboardUtils.removeLayoutChangeListener(decorView);
-            decorView = null;
-        }
+        decorView = null;
     }
 
     /**
