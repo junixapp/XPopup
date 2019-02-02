@@ -148,8 +148,15 @@
                 android:layout_weight="1"
                 android:text="显示右边Drawer弹窗(带状态栏阴影)"
                 android:textAllCaps="false" />
+
+
         </LinearLayout>
 
+
+
+        <com.lxj.xpopup.widget.BlankView
+            android:layout_width="100dp"
+            android:layout_height="90dp" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

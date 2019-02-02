@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
@@ -29,6 +30,7 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.photoview.PhotoView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
 
@@ -41,6 +43,7 @@ import java.util.ArrayList;
  */
 public class ImageViewerPopupView extends BasePopupView implements OnDragChangeListener {
     PhotoViewContainer photoViewContainer;
+    BlankView placeholderView;
     TextView tv_pager_indicator;
     HackyViewPager pager;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
@@ -50,6 +53,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     private int position;
     Rect rect = null;
     ImageView srcView;
+    boolean isShowPlaceholder = true;
+    int placeholderColor = -1; //占位View的颜色
+    int placeholderStrokeColor = -1; // 占位View的边框色
+    int placeholderRadius = -1; // 占位View的圆角
 
     public ImageViewerPopupView(@NonNull Context context) {
         super(context);
@@ -64,6 +71,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected void initPopupContent() {
         super.initPopupContent();
         tv_pager_indicator = findViewById(R.id.tv_pager_indicator);
+        placeholderView = findViewById(R.id.placeholderView);
         photoViewContainer = findViewById(R.id.photoViewContainer);
         photoViewContainer.setOnDragChangeListener(this);
         pager = findViewById(R.id.pager);
@@ -83,12 +91,27 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 showPagerIndicator();
             }
         });
+
+        setupPlaceholder();
     }
 
-    private void showPagerIndicator(){
-        if(urls.size()>1){
+    private void setupPlaceholder(){
+        placeholderView.setVisibility(isShowPlaceholder ? VISIBLE : INVISIBLE);
+        if(isShowPlaceholder){
+            if(placeholderColor!=-1)
+                placeholderView.color = placeholderColor;
+            if(placeholderRadius!=-1)
+                placeholderView.radius = placeholderRadius;
+            if(placeholderStrokeColor!=-1)
+                placeholderView.strokeColor = placeholderStrokeColor;
+            placeholderView.invalidate();
+        }
+    }
+
+    private void showPagerIndicator() {
+        if (urls.size() > 1) {
             tv_pager_indicator.setVisibility(VISIBLE);
-            tv_pager_indicator.setText((position+1) + "/"+urls.size());
+            tv_pager_indicator.setText((position + 1) + "/" + urls.size());
         }
     }
 
@@ -102,6 +125,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             snapshotView.setTranslationX(rect.left);
             snapshotView.setTranslationY(rect.top);
             XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
+            if(isShowPlaceholder){
+                placeholderView.setTranslationX(rect.left);
+                placeholderView.setTranslationY(rect.top);
+                XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
+            }
         }
         snapshotView.setImageDrawable(srcView.getDrawable());
     }
@@ -163,7 +191,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         snapshotView.setVisibility(VISIBLE);
         photoViewContainer.isReleaseing = true;
         TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                .setDuration(shadowBgAnimator.animateDuration )
+                .setDuration(shadowBgAnimator.animateDuration)
                 .addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
@@ -178,6 +206,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         pager.setScaleY(1f);
                         snapshotView.setScaleX(1f);
                         snapshotView.setScaleY(1f);
+                        placeholderView.setVisibility(INVISIBLE);
                     }
                 }));
 
@@ -219,13 +248,32 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
+    public ImageViewerPopupView isShowPlaceholder(boolean isShow) {
+        this.isShowPlaceholder = isShow;
+        return this;
+    }
+
+    public ImageViewerPopupView setPlaceholderColor(int color){
+        this.placeholderColor = color;
+        return this;
+    }
+    public ImageViewerPopupView setPlaceholderRadius(int radius){
+        this.placeholderRadius = radius;
+        return this;
+    }
+    public ImageViewerPopupView setPlaceholderStrokeColor(int strokeColor){
+        this.placeholderStrokeColor = strokeColor;
+        return this;
+    }
+
     /**
      * 设置单个使用的源View。单个使用的情况下，无需设置url集合和SrcViewUpdateListener
+     *
      * @param srcView
      * @return
      */
-    public ImageViewerPopupView setSingleSrcView(ImageView srcView, String url){
-        if(this.urls==null){
+    public ImageViewerPopupView setSingleSrcView(ImageView srcView, String url) {
+        if (this.urls == null) {
             urls = new ArrayList<>();
         }
         urls.clear();
@@ -243,7 +291,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
-    public void updateSrcView(ImageView srcView){
+    public void updateSrcView(ImageView srcView) {
         setSrcView(srcView, position);
         addSnapshot();
     }
@@ -255,7 +303,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void onDragChange(int dy, float scale, float fraction) {
-        tv_pager_indicator.setAlpha(1-fraction);
+        tv_pager_indicator.setAlpha(1 - fraction);
     }
 
     public class PhotoViewAdapter extends PagerAdapter {
@@ -281,7 +329,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             photoView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(photoView.getScale()==1.0f){
+                    if (photoView.getScale() == 1.0f) {
                         dismiss();
                     }
                 }
