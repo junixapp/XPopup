@@ -370,7 +370,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
             }
         }
     ```
-    注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为Target.SIZE_ORIGINAL；
+    注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为`Target.SIZE_ORIGINAL`；
     这样会禁止Glide裁剪图片，保证可以拿到原始图片，让图片过渡动画变的天衣无缝。例如：
     ```
     Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
@@ -425,9 +425,31 @@ implementation 'com.lxj:xpopup:最新的版本号'
       .maxWidthAndHeight(0, 300)
   ```
 
+- 最佳实践
+
+    我们在项目中经常会点击某个按钮然后关闭弹窗，接着去做一些事。比如：点击一个按钮，关闭弹窗，然后开启一个界面：
+    ```java
+    dismiss();
+    getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+    ```
+    要知道弹窗的关闭是有一个动画过程的，上面的写法会出现弹窗还没有完全关闭，就立即跳页面，界面有一种顿挫感；而且在设备资源不足的时候，还可能造成丢帧。
+
+    为了得到最佳体验，您可以等dismiss动画完全结束去执行一些东西，而不是立即就执行。可以这样做：
+    ```java
+    dismiss(new Runnable() {
+        @Override
+        public void run() {
+            // 这里的代码会等弹窗动画执行完毕才走
+            getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+        }
+    });
+    ```
+
+
 
 ## TODO
 - 优化极限操作时的嵌套滚动体验
+- ImageViewer弹窗增加图片保存功能
 
 
 ## 联系方式

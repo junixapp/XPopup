@@ -47,8 +47,16 @@ public class ZhihuCommentPopup extends BottomPopupView {
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                dismiss();
-                getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+//                dismiss();
+//                getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+                //上面的代码是一个不好的示例，为了得到最佳体验，您可以等dismiss动画完全结束去执行一些东西，而不是立即就执行。
+                //像下面这样：
+                dismiss(new Runnable() {
+                    @Override
+                    public void run() {
+                        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+                    }
+                });
             }
         });
         recyclerView.setHasFixedSize(true);
