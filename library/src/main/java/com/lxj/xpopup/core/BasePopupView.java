@@ -289,7 +289,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 消失
      */
     public void dismiss() {
-        if (popupStatus == PopupStatus.Dismissing) return;
+        if (popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
         doAfterDismiss();
