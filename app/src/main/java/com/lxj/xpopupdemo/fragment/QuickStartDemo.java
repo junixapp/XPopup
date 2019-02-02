@@ -1,21 +1,17 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
-import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.custompopup.CustomBasePopupView;
-import com.lxj.xpopupdemo.custompopup.CustomDrawerPopupView;
-import com.lxj.xpopupdemo.custompopup.ZhihuCommentPopup;
+import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
+import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
 
 /**
  * Description:

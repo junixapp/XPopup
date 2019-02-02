@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -153,8 +152,6 @@ public class XPopup {
                         if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null) {
                             pv.popupInfo.xPopupCallback.onDismiss();
                         }
-                        pv.popupInfo = null;
-
                         // 释放对象
                         release();
                     }

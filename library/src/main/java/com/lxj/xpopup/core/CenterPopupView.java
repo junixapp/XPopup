@@ -31,7 +31,7 @@ public class CenterPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        XPopupUtils.widthAndHeight(getPopupContentView(), getMaxWidth(), getMaxHeight(), true);
+        XPopupUtils.widthAndHeight(getPopupContentView(), getMaxWidth(), getMaxHeight());
     }
 
     /**

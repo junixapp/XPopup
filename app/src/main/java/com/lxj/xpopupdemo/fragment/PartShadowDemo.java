@@ -2,14 +2,13 @@ package com.lxj.xpopupdemo.fragment;
 
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.custompopup.CustomPartShadowPopupView;
+import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView;
 
 import java.util.ArrayList;
 

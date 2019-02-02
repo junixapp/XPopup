@@ -7,7 +7,6 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -135,7 +134,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         if (isUserClose && fraction == 0f && listener != null) {
             listener.onClose();
         }
-        Log.e("tag", "scrollTo  fraction: "+fraction);
         isScrollUp = y > getScrollY();
         super.scrollTo(x, y);
     }
@@ -143,8 +141,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     @Override
     public void computeScroll() {
         super.computeScroll();
-//        Log.e("tag", "scroller.isFinished() : "+scroller.isFinished() +
-//                "  scroller.computeScrollOffset(): "+scroller.computeScrollOffset());
         if (scroller.computeScrollOffset()) {
             scrollTo(scroller.getCurrX(), scroller.getCurrY());
             ViewCompat.postInvalidateOnAnimation(this);
@@ -157,7 +153,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         super.onDetachedFromWindow();
         isScrollUp = false;
         isUserClose = false;
-        Log.e("tag", "onDetachedFromWindow  isUserClose: "+isUserClose);
     }
 
     public void open() {
@@ -166,7 +161,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     public void close() {
-        Log.e("tag", "close  isUserClose: "+isUserClose);
         isUserClose = true;
         scroller.startScroll(getScrollX(), getScrollY(), 0, minY - getScrollY(), 500);
         ViewCompat.postInvalidateOnAnimation(this);

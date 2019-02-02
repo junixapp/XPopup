@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -107,7 +106,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * @param afterAnimationStarted
      */
     public void init(final Runnable afterAnimationStarted, Runnable afterAnimationEnd) {
-        if (popupStatus != PopupStatus.Dismiss || popupStatus==PopupStatus.Showing) return;
+        if (popupStatus != PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Showing;
         this.afterAnimationEnd = afterAnimationEnd;
         //1. 初始化Popup
@@ -228,8 +227,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     // 执行初始化Popup的content
-    protected void initPopupContent() {
-    }
+    protected void initPopupContent() {}
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
@@ -289,7 +287,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 消失
      */
     public void dismiss() {
-        if (popupStatus == PopupStatus.Dismiss) return;
+        if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
         doAfterDismiss();

@@ -1,4 +1,4 @@
-package com.lxj.xpopupdemo.custompopup;
+package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +40,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
         for (int i = 0; i < 15; i++) {
             strings.add("");
         }
-        CommonAdapter<String> commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, strings) {
+        final CommonAdapter<String> commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, strings) {
             @Override
             protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {}
         };

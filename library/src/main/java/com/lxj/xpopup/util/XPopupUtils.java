@@ -78,9 +78,6 @@ public class XPopupUtils {
     }
 
     public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){
-        widthAndHeight(target, maxWidth, maxHeight, false);
-    }
-    public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight, boolean isCenter){
         target.post(new Runnable() {
             @Override
             public void run() {
