@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.graphics.PointF;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
@@ -26,6 +27,8 @@ public class PopupInfo {
     public int maxHeight; // 最大高度
 
     public XPopupCallback xPopupCallback;
+
+    public ViewGroup decorView; //每个弹窗所属的DecorView
 
     public View getAtView() {
         return atView;

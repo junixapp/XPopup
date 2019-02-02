@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,6 @@ public class XPopup {
     private static WeakReference<Context> contextRef;
     private PopupInfo tempInfo = null;
     private BasePopupView tempView;
-    private Handler handler = new Handler();
-    private static ViewGroup decorView = null;
     private int primaryColor = Color.parseColor("#121212");
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
@@ -121,38 +120,50 @@ public class XPopup {
         }
         if (pv.getParent() != null) return;
         final Activity activity = (Activity) contextRef.get();
-        decorView = (ViewGroup) activity.getWindow().getDecorView();
-        decorView.addView(pv, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT));
-        decorView.bringChildToFront(pv);
-
-        //2. 执行初始化
-        pv.init(new Runnable() { // 弹窗显示动画执行完毕调用
+        pv.popupInfo.decorView = (ViewGroup) activity.getWindow().getDecorView();
+        // add PopupView to its decorView after measured.
+        pv.popupInfo.decorView.post(new Runnable() {
             @Override
             public void run() {
-                if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null)
-                    pv.popupInfo.xPopupCallback.onShow();
-
-                if (XPopupUtils.getDecorViewInvisibleHeight(activity) > 0) {
-                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(activity), pv);
+                if(pv.getParent()!=null){
+                    ((ViewGroup)pv.getParent()).removeView(pv);
                 }
+                pv.popupInfo.decorView.addView(pv, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT));
 
-            }
-        }, new Runnable() {             // 弹窗消失动画执行完毕调用
-            @Override
-            public void run() {
-                popupViews.remove(pv);
-                if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null)
-                    pv.popupInfo.xPopupCallback.onDismiss();
+                //2. 执行初始化
+                pv.init(new Runnable() { // 弹窗显示动画执行完毕调用
+                    @Override
+                    public void run() {
+                        if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null)
+                            pv.popupInfo.xPopupCallback.onShow();
 
-                // 移除弹窗
-                if (decorView != null) decorView.removeView(pv);
+                        if (XPopupUtils.getDecorViewInvisibleHeight(activity) > 0) {
+                            XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(activity), pv);
+                        }
 
-                // 释放对象
-                release();
+                    }
+                }, new Runnable() {             // 弹窗消失动画执行完毕调用
+                    @Override
+                    public void run() {
+                        // 移除弹窗
+                        pv.popupInfo.decorView.removeView(pv);
+                        KeyboardUtils.removeLayoutChangeListener(pv.popupInfo.decorView);
+                        popupViews.remove(pv);
+                        if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null) {
+                            pv.popupInfo.xPopupCallback.onDismiss();
+                        }
+                        pv.popupInfo = null;
+
+                        // 释放对象
+                        release();
+                    }
+                });
             }
         });
     }
+
+
 
     /**
      * 消失
@@ -189,11 +200,8 @@ public class XPopup {
      */
     private void release() {
         if (!popupViews.isEmpty()) return;
-        handler.removeCallbacks(null);
         if (contextRef != null) contextRef.clear();
-        if (decorView != null) KeyboardUtils.removeLayoutChangeListener(decorView);
         contextRef = null;
-        decorView = null;
     }
 
     /**

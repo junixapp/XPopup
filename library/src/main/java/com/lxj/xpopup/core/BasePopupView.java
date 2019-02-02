@@ -51,10 +51,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
         contentView.setAlpha(0);
         addView(contentView);
-        // 如果有导航栏，则不能覆盖导航栏，
-        if (XPopupUtils.isNavBarVisible(getContext())) {
-            setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
-        }
     }
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -119,6 +115,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         post(new Runnable() {
             @Override
             public void run() {
+                // 如果有导航栏，则不能覆盖导航栏，
+                if (XPopupUtils.isNavBarVisible(getContext())) {
+                    setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
+                }
                 getPopupContentView().setAlpha(1f);
 
                 //2. 收集动画执行器
@@ -301,7 +301,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             public void run() {
                 afterAnimationEnd.run();
                 popupStatus = PopupStatus.Dismiss;
-                popupInfo = null;
             }
         }, getAnimationDuration());
     }

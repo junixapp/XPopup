@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.custompopup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
+import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.R;
 
 import java.util.ArrayList;
@@ -45,12 +47,8 @@ public class ZhihuCommentPopup extends BottomPopupView {
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dismiss();
-                    }
-                },200);
+                dismiss();
+                getContext().startActivity(new Intent(getContext(), DemoActivity.class));
             }
         });
         recyclerView.setHasFixedSize(true);
