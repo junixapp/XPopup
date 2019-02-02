@@ -18,10 +18,10 @@ public class DemoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        XPopup.get(this).asBottomList("haha", new String[]{"aaaa", "bbbb"}, new OnSelectListener() {
+        XPopup.get(this).asBottomList("haha", new String[]{"aaaa", "bbbb", "bbbb"}, new OnSelectListener() {
             @Override
             public void onSelect(int position, String text) {
-                Toast.makeText(DemoActivity.this, text, 0).show();
+                Toast.makeText(DemoActivity.this, text, Toast.LENGTH_LONG).show();
             }
         }).show();
 
