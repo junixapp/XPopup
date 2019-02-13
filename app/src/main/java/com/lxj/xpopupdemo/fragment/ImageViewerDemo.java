@@ -33,7 +33,7 @@ public class ImageViewerDemo extends BaseFragment {
         return R.layout.fragment_image_preview;
     }
 
-    ArrayList<String> list = new ArrayList<>();
+    ArrayList<Object> list = new ArrayList<>();
     RecyclerView recyclerView;
     ImageView image1, image2;
 
@@ -76,13 +76,13 @@ public class ImageViewerDemo extends BaseFragment {
 
     }
 
-    class ImageAdapter extends CommonAdapter<String> {
+    class ImageAdapter extends CommonAdapter<Object> {
         public ImageAdapter() {
             super(R.layout.adapter_image, list);
         }
 
         @Override
-        protected void convert(@NonNull final ViewHolder holder, @NonNull final String s, final int position) {
+        protected void convert(@NonNull final ViewHolder holder, @NonNull final Object s, final int position) {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
             //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
             // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
@@ -107,7 +107,7 @@ public class ImageViewerDemo extends BaseFragment {
 
     class ImageLoader implements XPopupImageLoader {
         @Override
-        public void loadImage(int position, @NonNull String url, @NonNull ImageView imageView) {
+        public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
             //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
             Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
         }

@@ -49,7 +49,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     TextView tv_pager_indicator, tv_save;
     HackyViewPager pager;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private ArrayList<String> urls = new ArrayList<>();
+    private ArrayList<Object> urls = new ArrayList<>();
     private XPopupImageLoader imageLoader;
     private OnSrcViewUpdateListener srcViewUpdateListener;
     private int position;
@@ -241,7 +241,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         doDismissAnimation();
     }
 
-    public ImageViewerPopupView setImageUrls(ArrayList<String> urls) {
+    public ImageViewerPopupView setImageUrls(ArrayList<Object> urls) {
         this.urls = urls;
         return this;
     }
@@ -280,7 +280,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
      * @param srcView
      * @return
      */
-    public ImageViewerPopupView setSingleSrcView(ImageView srcView, String url) {
+    public ImageViewerPopupView setSingleSrcView(ImageView srcView, Object url) {
         if (this.urls == null) {
             urls = new ArrayList<>();
         }

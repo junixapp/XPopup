@@ -504,7 +504,7 @@ public class XPopup {
      * @param srcView 源View，弹窗消失的时候需回到该位置
      * @return
      */
-    public XPopup asImageViewer(ImageView srcView, String url, XPopupImageLoader imageLoader) {
+    public XPopup asImageViewer(ImageView srcView, Object url, XPopupImageLoader imageLoader) {
         position(PopupType.ImageViewer);
         this.tempView = new ImageViewerPopupView(contextRef.get())
                 .setSingleSrcView(srcView, url)
@@ -516,13 +516,13 @@ public class XPopup {
      * 大图浏览类型弹窗，单张图片使用场景
      *
      * @param srcView 源View，弹窗消失的时候需回到该位置
-     * @param url
+     * @param url 资源id，url或者文件路径
      * @param placeholderColor 占位View的填充色
      * @param placeholderStroke 占位View的边框色
      * @param placeholderRadius 占位View的圆角大小
      * @return
      */
-    public XPopup asImageViewer(ImageView srcView, String url, int placeholderColor, int placeholderStroke, int placeholderRadius, XPopupImageLoader imageLoader) {
+    public XPopup asImageViewer(ImageView srcView, Object url, int placeholderColor, int placeholderStroke, int placeholderRadius, XPopupImageLoader imageLoader) {
         position(PopupType.ImageViewer);
         this.tempView = new ImageViewerPopupView(contextRef.get())
                 .setSingleSrcView(srcView, url)
@@ -542,7 +542,7 @@ public class XPopup {
      * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
      * @return
      */
-    public XPopup asImageViewer(ImageView srcView, int currentPosition, ArrayList<String> urls,
+    public XPopup asImageViewer(ImageView srcView, int currentPosition, ArrayList<Object> urls,
                                 OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
         position(PopupType.ImageViewer);
         this.tempView = new ImageViewerPopupView(contextRef.get())
@@ -565,7 +565,7 @@ public class XPopup {
      * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
      * @return
      */
-    public XPopup asImageViewer(ImageView srcView, int currentPosition, ArrayList<String> urls,
+    public XPopup asImageViewer(ImageView srcView, int currentPosition, ArrayList<Object> urls,
                                 int placeholderColor, int placeholderStroke, int placeholderRadius,
                                 OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
         position(PopupType.ImageViewer);
