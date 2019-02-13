@@ -13,7 +13,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -24,12 +29,19 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lxj.xpopup.core.BasePopupView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Description:
@@ -49,11 +61,12 @@ public class XPopupUtils {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    public static int getStatusBarHeight(){
+    public static int getStatusBarHeight() {
         Resources resources = Resources.getSystem();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         return resources.getDimensionPixelSize(resourceId);
     }
+
     /**
      * Return the navigation bar's height.
      *
@@ -70,14 +83,14 @@ public class XPopupUtils {
     }
 
 
-    public static void setWidthHeight(final View target, final int width, final int height){
+    public static void setWidthHeight(final View target, final int width, final int height) {
         ViewGroup.LayoutParams params = target.getLayoutParams();
         params.width = width;
         params.height = height;
         target.setLayoutParams(params);
     }
 
-    public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight){
+    public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight) {
         target.post(new Runnable() {
             @Override
             public void run() {
@@ -87,22 +100,22 @@ public class XPopupUtils {
                 // 默认PopupContent宽是match，高是wrap
                 int w = target.getMeasuredWidth();
                 // response impl view wrap_content params.
-                if(implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT){
+                if (implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT) {
                     w = Math.min(w, implView.getMeasuredWidth());
                 }
-                if(maxWidth!=0){
+                if (maxWidth != 0) {
                     params.width = Math.min(w, maxWidth);
-                }else {
+                } else {
                     params.width = w;
                 }
 
                 int h = target.getMeasuredHeight();
                 // response impl view match_parent params.
-                if(implParams.height == FrameLayout.LayoutParams.MATCH_PARENT){
-                    h = ((ViewGroup)target.getParent()).getMeasuredHeight();
+                if (implParams.height == FrameLayout.LayoutParams.MATCH_PARENT) {
+                    h = ((ViewGroup) target.getParent()).getMeasuredHeight();
                     params.height = h;
                 }
-                if(maxHeight!=0){
+                if (maxHeight != 0) {
                     params.height = Math.min(h, maxHeight);
                 }
                 target.setLayoutParams(params);
@@ -134,20 +147,20 @@ public class XPopupUtils {
         }
     }
 
-    public static BitmapDrawable createBitmapDrawable(Resources resources,int width, int color){
+    public static BitmapDrawable createBitmapDrawable(Resources resources, int width, int color) {
         Bitmap bitmap = Bitmap.createBitmap(width, 20, Bitmap.Config.ARGB_4444);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
         paint.setColor(color);
-        canvas.drawRect(0,0, bitmap.getWidth(), 4, paint);
+        canvas.drawRect(0, 0, bitmap.getWidth(), 4, paint);
         paint.setColor(Color.TRANSPARENT);
-        canvas.drawRect(0,4, bitmap.getWidth(), 20, paint);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(resources,bitmap);
+        canvas.drawRect(0, 4, bitmap.getWidth(), 20, paint);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, bitmap);
         bitmapDrawable.setGravity(Gravity.BOTTOM);
         return bitmapDrawable;
     }
 
-    public static StateListDrawable createSelector(Drawable defaultDrawable, Drawable focusDrawable){
+    public static StateListDrawable createSelector(Drawable defaultDrawable, Drawable focusDrawable) {
         StateListDrawable stateListDrawable = new StateListDrawable();
         stateListDrawable.addState(new int[]{android.R.attr.state_focused}, focusDrawable);
         stateListDrawable.addState(new int[]{}, defaultDrawable);
@@ -189,7 +202,8 @@ public class XPopupUtils {
                 .setInterpolator(new OvershootInterpolator(1))
                 .start();
     }
-    public static void moveDown(BasePopupView pv){
+
+    public static void moveDown(BasePopupView pv) {
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(1))
                 .setDuration(300).start();
@@ -204,7 +218,7 @@ public class XPopupUtils {
      */
     public static boolean isNavBarVisible(Context context) {
         boolean isVisible = false;
-        ViewGroup decorView = (ViewGroup) ((Activity)context).getWindow().getDecorView();
+        ViewGroup decorView = (ViewGroup) ((Activity) context).getWindow().getDecorView();
         for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
             final View child = decorView.getChildAt(i);
             final int id = child.getId();
@@ -226,14 +240,52 @@ public class XPopupUtils {
         return isVisible;
     }
 
-    public static void findAllEditText(ArrayList<View> list, ViewGroup group){
+    public static void findAllEditText(ArrayList<View> list, ViewGroup group) {
         for (int i = 0; i < group.getChildCount(); i++) {
             View v = group.getChildAt(i);
-            if(v instanceof EditText ){
+            if (v instanceof EditText) {
                 list.add(v);
-            }else if(v instanceof ViewGroup){
-                findAllEditText(list,(ViewGroup) v);
+            } else if (v instanceof ViewGroup) {
+                findAllEditText(list, (ViewGroup) v);
             }
         }
     }
+
+    public static void saveBmpToAlbum(final Context context, final Bitmap bitmap) {
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                //1. create path
+                String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_PICTURES;
+                File dirFile = new File(dirPath);
+                if (!dirFile.exists()) dirFile.mkdirs();
+
+                final File file = new File(dirPath, System.currentTimeMillis() + ".jpeg");
+                if (file.exists()) file.delete();
+                try {
+                    file.createNewFile();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+
+                    //2. save
+                    MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()},
+                            new String[]{"image/jpeg"}, new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(final String path, Uri uri) {
+                                    mainHandler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(context, "保存成功！保存到：" + path, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }

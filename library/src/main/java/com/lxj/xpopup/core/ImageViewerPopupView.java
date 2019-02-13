@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.transition.ChangeBounds;
@@ -17,6 +18,7 @@ import android.support.transition.TransitionSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -41,10 +43,10 @@ import java.util.ArrayList;
  * Description: 大图预览的弹窗，使用Transition实现
  * Create by lxj, at 2019/1/22
  */
-public class ImageViewerPopupView extends BasePopupView implements OnDragChangeListener {
+public class ImageViewerPopupView extends BasePopupView implements OnDragChangeListener, View.OnClickListener {
     PhotoViewContainer photoViewContainer;
     BlankView placeholderView;
-    TextView tv_pager_indicator;
+    TextView tv_pager_indicator, tv_save;
     HackyViewPager pager;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private ArrayList<String> urls = new ArrayList<>();
@@ -71,28 +73,31 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected void initPopupContent() {
         super.initPopupContent();
         tv_pager_indicator = findViewById(R.id.tv_pager_indicator);
+        tv_save = findViewById(R.id.tv_save);
         placeholderView = findViewById(R.id.placeholderView);
         photoViewContainer = findViewById(R.id.photoViewContainer);
         photoViewContainer.setOnDragChangeListener(this);
         pager = findViewById(R.id.pager);
         pager.setAdapter(new PhotoViewAdapter());
+        pager.setOffscreenPageLimit(urls.size());
         pager.setCurrentItem(position);
         pager.setVisibility(INVISIBLE);
-        addSnapshot();
+        addOrUpdateSnapshot();
 
         pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int i) {
                 position = i;
+                showPagerIndicator();
                 //更新srcView
-                if (srcViewUpdateListener != null)
+                if (srcViewUpdateListener != null) {
                     srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this
                             , i);
-                showPagerIndicator();
+                }
             }
         });
 
-        setupPlaceholder();
+        tv_save.setOnClickListener(this);
     }
 
     private void setupPlaceholder(){
@@ -104,6 +109,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 placeholderView.radius = placeholderRadius;
             if(placeholderStrokeColor!=-1)
                 placeholderView.strokeColor = placeholderStrokeColor;
+
+            placeholderView.setTranslationX(rect.left);
+            placeholderView.setTranslationY(rect.top);
+            XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
+
             placeholderView.invalidate();
         }
     }
@@ -113,11 +123,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             tv_pager_indicator.setVisibility(VISIBLE);
             tv_pager_indicator.setText((position + 1) + "/" + urls.size());
         }
+        tv_save.setVisibility(VISIBLE);
     }
 
     ImageView snapshotView;
 
-    private void addSnapshot() {
+    private void addOrUpdateSnapshot() {
         if (snapshotView == null) {
             snapshotView = new PhotoView(getContext());
             photoViewContainer.addView(snapshotView);
@@ -125,12 +136,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             snapshotView.setTranslationX(rect.left);
             snapshotView.setTranslationY(rect.top);
             XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
-            if(isShowPlaceholder){
-                placeholderView.setTranslationX(rect.left);
-                placeholderView.setTranslationY(rect.top);
-                XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
-            }
         }
+        setupPlaceholder();
         snapshotView.setImageDrawable(srcView.getDrawable());
     }
 
@@ -187,6 +194,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     @Override
     public void doDismissAnimation() {
         tv_pager_indicator.setVisibility(INVISIBLE);
+        tv_save.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
         snapshotView.setVisibility(VISIBLE);
         photoViewContainer.isReleaseing = true;
@@ -293,7 +301,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     public void updateSrcView(ImageView srcView) {
         setSrcView(srcView, position);
-        addSnapshot();
+        addOrUpdateSnapshot();
     }
 
     @Override
@@ -304,6 +312,16 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     @Override
     public void onDragChange(int dy, float scale, float fraction) {
         tv_pager_indicator.setAlpha(1 - fraction);
+        tv_save.setAlpha(1 - fraction);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==tv_save){
+            //save bitmap to album.
+            ImageView imageView = (ImageView) pager.getChildAt(pager.getCurrentItem());
+            XPopupUtils.saveBmpToAlbum(getContext(), ((BitmapDrawable)imageView.getDrawable()).getBitmap());
+        }
     }
 
     public class PhotoViewAdapter extends PagerAdapter {
