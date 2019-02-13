@@ -23,7 +23,6 @@
         <ImageView
             android:layout_margin="30dp"
             android:id="@+id/image1"
-            android:background="#999"
             android:layout_width="300dp"
             android:layout_height="wrap_content" />
 
@@ -31,7 +30,6 @@
             android:layout_margin="10dp"
             android:id="@+id/image2"
             android:layout_gravity="right"
-            android:background="#999"
             android:layout_width="90dp"
             android:layout_height="wrap_content" />
 

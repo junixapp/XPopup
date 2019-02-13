@@ -517,9 +517,9 @@ public class XPopup {
      *
      * @param srcView 源View，弹窗消失的时候需回到该位置
      * @param url 资源id，url或者文件路径
-     * @param placeholderColor 占位View的填充色
-     * @param placeholderStroke 占位View的边框色
-     * @param placeholderRadius 占位View的圆角大小
+     * @param placeholderColor 占位View的填充色，默认为-1
+     * @param placeholderStroke 占位View的边框色，默认为-1
+     * @param placeholderRadius 占位View的圆角大小，默认为-1
      * @return
      */
     public XPopup asImageViewer(ImageView srcView, Object url, int placeholderColor, int placeholderStroke, int placeholderRadius, XPopupImageLoader imageLoader) {
@@ -559,9 +559,9 @@ public class XPopup {
      * @param srcView               源View，弹窗消失的时候需回到该位置
      * @param currentPosition       指定显示图片的位置
      * @param urls                  图片url集合
-     * @param placeholderColor      占位View的填充色
-     * @param placeholderStroke     占位View的边框色
-     * @param placeholderRadius     占位View的圆角大小
+     * @param placeholderColor      占位View的填充色，默认为-1
+     * @param placeholderStroke     占位View的边框色，默认为-1
+     * @param placeholderRadius     占位View的圆角大小，默认为-1
      * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
      * @return
      */

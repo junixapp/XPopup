@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.lxj.easyadapter.CommonAdapter;
@@ -55,13 +56,13 @@ public class ImageViewerDemo extends BaseFragment {
         recyclerView.setAdapter(new ImageAdapter());
 
 
-        Glide.with(this).load(url1).into(image1);
+        Glide.with(this).load(url1).apply(new RequestOptions().override(Target.SIZE_ORIGINAL).transform(new RoundedCorners(50))).into(image1);
         Glide.with(this).load(url2).into(image2);
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 XPopup.get(getContext())
-                        .asImageViewer(image1, url1, new ImageLoader())
+                        .asImageViewer(image1, url1, -1, -1, 50,new ImageLoader())
                         .show();
             }
         });

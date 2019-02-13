@@ -449,7 +449,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
 
 ## TODO
 - 优化极限操作时的嵌套滚动体验
-- ImageViewer弹窗增加图片保存功能
+- 修复全屏弹窗含有输入框时上移距离错误的问题
 
 
 ## 联系方式
