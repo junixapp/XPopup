@@ -17,6 +17,7 @@ public class PopupInfo {
     public PopupType popupType = null; //窗体的类型
     public Boolean isDismissOnBackPressed = true;  //按返回键是否消失
     public Boolean isDismissOnTouchOutside = true; //点击外部消失
+    public Boolean autoDismiss = true; //操作完毕后是否自动关闭
     public Boolean hasShadowBg = true; // 是否有半透明的背景
     private View atView = null; // 依附于那个View显示
     // 动画执行器，如果不指定，则会根据窗体类型popupType字段生成默认合适的动画执行器

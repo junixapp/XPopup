@@ -61,9 +61,9 @@ public class BottomListPopupView extends BottomPopupView {
                 // 对勾View
                 if (checkedPosition != -1) {
                     holder.setVisible(R.id.check_view, position == checkedPosition);
-                    holder.<CheckView>getView(R.id.check_view).setColor(XPopup.get(getContext()).getPrimaryColor());
+                    holder.<CheckView>getView(R.id.check_view).setColor(XPopup.getPrimaryColor());
                     holder.setTextColor(R.id.tv_text, position==checkedPosition ?
-                            XPopup.get(getContext()).getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
+                            XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }
             }
         };
@@ -80,7 +80,7 @@ public class BottomListPopupView extends BottomPopupView {
                 postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        dismiss();
+                        if(popupInfo.autoDismiss)dismiss();
                     }
                 },100);
             }

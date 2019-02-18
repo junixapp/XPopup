@@ -397,7 +397,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
 
     默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
   ```java
-  XPopup.get(this).setPrimaryColor(getResources().getColor(R.color.colorPrimary));
+  XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
   ```
 
 - 常用设置
@@ -406,6 +406,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
       .hasShadowBg(true) // 是否有半透明的背景，默认为true
       .dismissOnBackPressed(true) // 按返回键是否关闭弹窗，默认为true
       .dismissOnTouchOutside(true) // 点击外部是否关闭弹窗，默认为true
+      .autoDismiss(false) // 操作完毕后是否自动关闭弹窗，默认为true；比如点击ConfirmPopup的确认按钮，默认自动关闭；如果为false，则不会关闭
       .popupAnimation(PopupAnimation.ScaleAlphaFromCenter) // 设置内置的动画
       .customAnimator(null) // 设置自定义的动画器
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调

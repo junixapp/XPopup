@@ -53,7 +53,7 @@ public class AttachListPopupView extends AttachPopupView {
                 if (selectListener != null) {
                     selectListener.onSelect(position, adapter.getDatas().get(position));
                 }
-                dismiss();
+                if(popupInfo.autoDismiss)dismiss();
             }
         });
         recyclerView.setAdapter(adapter);

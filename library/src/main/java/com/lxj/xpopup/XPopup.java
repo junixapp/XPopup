@@ -46,7 +46,7 @@ public class XPopup {
     private static WeakReference<Context> contextRef;
     private PopupInfo tempInfo = null;
     private BasePopupView tempView;
-    private int primaryColor = Color.parseColor("#121212");
+    private static int primaryColor = Color.parseColor("#121212");
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
     private XPopup() {
@@ -206,11 +206,11 @@ public class XPopup {
      *
      * @param color
      */
-    public void setPrimaryColor(int color) {
-        this.primaryColor = color;
+    public static void setPrimaryColor(int color) {
+        primaryColor = color;
     }
 
-    public int getPrimaryColor() {
+    public static int getPrimaryColor() {
         return primaryColor;
     }
 
@@ -271,6 +271,18 @@ public class XPopup {
     public XPopup dismissOnTouchOutside(boolean isDismissOnTouchOutside) {
         checkPopupInfo();
         tempInfo.isDismissOnTouchOutside = isDismissOnTouchOutside;
+        return this;
+    }
+
+    /**
+     * 操作完毕后是否自动关闭弹窗，默认为true。
+     * 比如：点击确认对话框的确认和取消按钮后默认会关闭弹窗，如果设置为false则不会自动关闭
+     * @param isAutoDismiss
+     * @return
+     */
+    public XPopup autoDismiss(boolean isAutoDismiss) {
+        checkPopupInfo();
+        tempInfo.autoDismiss = isAutoDismiss;
         return this;
     }
 

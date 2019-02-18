@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
             }
         },300);
 
-        XPopup.get(this).setPrimaryColor(getResources().getColor(R.color.colorPrimary));
+        XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
+//        XPopup.setPrimaryColor(Color.RED);
 
     }
 

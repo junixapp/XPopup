@@ -39,12 +39,12 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
 
     protected void applyPrimaryColor(){
         super.applyPrimaryColor();
-        XPopupUtils.setCursorDrawableColor(tv_input, XPopup.get(getContext()).getPrimaryColor());
+        XPopupUtils.setCursorDrawableColor(tv_input, XPopup.getPrimaryColor());
         tv_input.post(new Runnable() {
             @Override
             public void run() {
                 BitmapDrawable defaultDrawable = XPopupUtils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), Color.parseColor("#888888"));
-                BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), XPopup.get(getContext()).getPrimaryColor());
+                BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), XPopup.getPrimaryColor());
                 tv_input.setBackgroundDrawable(XPopupUtils.createSelector(defaultDrawable, focusDrawable));
             }
         });
@@ -62,10 +62,9 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     public void onClick(View v) {
         if(v==tv_cancel){
             if(cancelListener!=null)cancelListener.onCancel();
-            dismiss();
         }else if(v==tv_confirm){
             if(inputConfirmListener!=null)inputConfirmListener.onConfirm(tv_input.getText().toString().trim());
-            dismiss();
         }
+        if(popupInfo.autoDismiss)dismiss();
     }
 }
