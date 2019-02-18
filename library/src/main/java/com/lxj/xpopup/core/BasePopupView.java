@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -79,7 +80,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         });
 
         //let all EditText can process back pressed.
-        ArrayList<View> list = new ArrayList<>();
+        ArrayList<EditText> list = new ArrayList<>();
         XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
         for (int i = 0; i < list.size(); i++) {
             View et = list.get(i);

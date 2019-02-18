@@ -49,8 +49,7 @@ public class XPopup {
     private static int primaryColor = Color.parseColor("#121212");
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
-    private XPopup() {
-    }
+    private XPopup() { }
 
     public static XPopup get(final Context ctx) {
         if (instance == null) {

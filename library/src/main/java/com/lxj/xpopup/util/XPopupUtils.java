@@ -196,8 +196,32 @@ public class XPopupUtils {
     }
 
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
-        int targetY = keyboardHeight + pv.getPopupContentView().getHeight() / 2 - XPopupUtils.getWindowHeight(pv.getContext()) / 2;
-        pv.getPopupContentView().animate().translationY(-Math.abs(targetY))
+        //判断是否盖住输入框
+        ArrayList<EditText> allEts = new ArrayList<>();
+        findAllEditText(allEts, pv);
+        EditText focusEt = null;
+        for (EditText et: allEts){
+            if(et.isFocused()){
+                focusEt = et;
+                break;
+            }
+        }
+
+        int dy = 0;
+        if(focusEt!=null){
+            int[] locations = new int[2];
+            focusEt.getLocationInWindow(locations);
+            int bottom = locations[1] + focusEt.getMeasuredHeight();
+            int offset = dp2px(pv.getContext(), 10); //冗余高度
+            dy = getWindowHeight(pv.getContext()) - (bottom + keyboardHeight + offset);
+            if(dy > 0){
+                //没有遮盖，无需移动.
+                return;
+            }
+        }
+
+        //执行上移
+        pv.getPopupContentView().animate().translationY(dy)
                 .setDuration(300)
                 .setInterpolator(new OvershootInterpolator(1))
                 .start();
@@ -240,11 +264,11 @@ public class XPopupUtils {
         return isVisible;
     }
 
-    public static void findAllEditText(ArrayList<View> list, ViewGroup group) {
+    public static void findAllEditText(ArrayList<EditText> list, ViewGroup group) {
         for (int i = 0; i < group.getChildCount(); i++) {
             View v = group.getChildAt(i);
             if (v instanceof EditText) {
-                list.add(v);
+                list.add((EditText) v);
             } else if (v instanceof ViewGroup) {
                 findAllEditText(list, (ViewGroup) v);
             }

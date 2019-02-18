@@ -61,7 +61,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="325dp"
         android:layout_marginBottom="15dp"
         android:text="测试输入框会不会被软键盘盖住" />
 
