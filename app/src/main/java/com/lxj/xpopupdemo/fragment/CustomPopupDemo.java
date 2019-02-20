@@ -51,8 +51,8 @@ public class CustomPopupDemo extends BaseFragment {
                     @Override
                     public void run() {
                         XPopup.get(getContext())
-//                                .popupAnimation(datas[position])
-                                .asCustom(new CustomPopup2(getContext()))
+                                .popupAnimation(datas[position])
+                                .asCustom(new CustomPopup(getContext()))
 //                                .setWidthAndHeight(XPopupUtils.getWindowWidth(getContext()),XPopupUtils.getWindowHeight(getContext()))
                                 .show();
                     }

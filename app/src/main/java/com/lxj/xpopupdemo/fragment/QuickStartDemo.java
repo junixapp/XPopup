@@ -186,12 +186,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     @Override
     public void onPause() {
         super.onPause();
-        Log.e("tag", "onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.e("tag", "onStop");
     }
 }

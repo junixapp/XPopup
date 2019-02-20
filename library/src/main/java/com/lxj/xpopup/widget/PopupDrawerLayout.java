@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -61,14 +62,38 @@ public class PopupDrawerLayout extends FrameLayout {
                 child.layout(getMeasuredWidth(), 0, getMeasuredWidth() + child.getMeasuredWidth(), getMeasuredHeight());
             }
             hasLayout = true;
-        }else {
+        } else {
             child.layout(child.getLeft(), child.getTop(), child.getRight(), child.getBottom());
         }
     }
 
+//    float x,y;
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                x = ev.getX();
+//                y = ev.getY();
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                float dx = ev.getX() - x;
+//                float dy = ev.getY() - y;
+//                if(Math.abs(dx) > Math.abs(dy))
+//
+//                break;
+//            case MotionEvent.ACTION_UP:
+//            case MotionEvent.ACTION_CANCEL:
+//
+//                break;
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
+
+    boolean isIntercept = false;
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return dragHelper.shouldInterceptTouchEvent(ev);
+        isIntercept = dragHelper.shouldInterceptTouchEvent(ev);
+        return isIntercept;
     }
 
     @Override
@@ -125,15 +150,23 @@ public class PopupDrawerLayout extends FrameLayout {
         public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
             int centerLeft = 0;
+            int finalLeft = 0;
             if (position == Position.Left) {
-                centerLeft = -child.getMeasuredWidth() / 2;
-                int finalLeft = child.getLeft() < centerLeft ? -child.getMeasuredWidth() : 0;
-                dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
+                if (xvel < -1000) {
+                    finalLeft = -child.getMeasuredWidth();
+                } else {
+                    centerLeft = -child.getMeasuredWidth() / 2;
+                    finalLeft = child.getLeft() < centerLeft ? -child.getMeasuredWidth() : 0;
+                }
             } else {
-                centerLeft = getMeasuredWidth() - child.getMeasuredWidth() / 2;
-                int finalLeft = releasedChild.getLeft() < centerLeft ? getMeasuredWidth() - child.getMeasuredWidth() : getMeasuredWidth();
-                dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
+                if (xvel > 1000) {
+                    finalLeft = getMeasuredWidth();
+                } else {
+                    centerLeft = getMeasuredWidth() - child.getMeasuredWidth() / 2;
+                    finalLeft = releasedChild.getLeft() < centerLeft ? getMeasuredWidth() - child.getMeasuredWidth() : getMeasuredWidth();
+                }
             }
+            dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
             ViewCompat.postInvalidateOnAnimation(PopupDrawerLayout.this);
         }
     };
