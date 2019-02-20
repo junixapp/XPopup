@@ -451,6 +451,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
 ## TODO
 - 优化极限操作时的嵌套滚动体验
 - 优化Drawer弹窗滑动体验
+- 处理大图浏览Gif类型的图片
 
 
 ## 联系方式

@@ -123,7 +123,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading:
-                XPopup.get(getActivity()).asLoading(/*"正在加载中"*/)
+                XPopup.get(getActivity()).asLoading("正在加载中")
                         .show();
                 break;
             case R.id.btnShowBottomList:
