@@ -7,11 +7,11 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.OverScroller;
-
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -101,7 +101,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
                 // click in child rect
                 Rect rect = new Rect();
                 child.getGlobalVisibleRect(rect);
-                if (!XPopupUtils.isInRect(event.getX(), event.getY(), rect) && dismissOnTouchOutside) {
+                if (!XPopupUtils.isInRect(event.getRawX(), event.getRawY(), rect) && dismissOnTouchOutside) {
                     float distance = (float) Math.sqrt(Math.pow(event.getX() - touchX, 2) + Math.pow(event.getY() - touchY, 2));
                     long duration = System.currentTimeMillis() - downTime;
                     if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop() && duration < 350) {
