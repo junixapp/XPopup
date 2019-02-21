@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.OverScroller;
+
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -28,6 +29,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     boolean dismissOnTouchOutside = true;
     boolean hasShadowBg = true;
     boolean isUserClose = false;
+
     public SmartDragLayout(Context context) {
         this(context, null);
     }
@@ -79,16 +81,21 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (scroller.computeScrollOffset()) {
+            touchX = 0;
+            touchY = 0;
+            return false;
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (!scroller.isFinished()) {
-                    scroller.abortAnimation();
-                }
                 touchX = event.getX();
                 touchY = event.getY();
                 downTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (!scroller.isFinished()) {
+                    scroller.abortAnimation();
+                }
                 if (enableGesture) {
                     int dy = (int) (event.getY() - touchY);
                     scrollTo(getScrollX(), getScrollY() - dy);
@@ -129,7 +136,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         if (y > maxY) y = maxY;
         if (y < minY) y = minY;
         float fraction = (y - minY) * 1f / (maxY - minY);
-        if(hasShadowBg)
+        if (hasShadowBg)
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
         if (isUserClose && fraction == 0f && listener != null) {
             listener.onClose();
@@ -215,9 +222,11 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     public void enableGesture(boolean enableGesture) {
         this.enableGesture = enableGesture;
     }
+
     public void dismissOnTouchOutside(boolean dismissOnTouchOutside) {
         this.dismissOnTouchOutside = dismissOnTouchOutside;
     }
+
     public void hasShadowBg(boolean hasShadowBg) {
         this.hasShadowBg = hasShadowBg;
     }
