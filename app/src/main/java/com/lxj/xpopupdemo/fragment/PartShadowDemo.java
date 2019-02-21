@@ -1,9 +1,11 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
@@ -36,16 +38,23 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv_sales).setOnClickListener(this);
         view.findViewById(R.id.tv_select).setOnClickListener(this);
 
-        ArrayList<String> data = new ArrayList<>();
+        final ArrayList<String> data = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             data.add(i + "");
         }
-        recyclerView.setAdapter(new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
+        CommonAdapter adapter = new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
             @Override
             protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(android.R.id.text1, "商品名字 - " + position);
             }
+        };
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
+            @Override
+            public void onItemClick(@NonNull View view, @NonNull RecyclerView.ViewHolder holder, int position) {
+                toast(data.get(position));
+            }
         });
+        recyclerView.setAdapter(adapter);
 
         popupView = new CustomPartShadowPopupView(getContext());
     }

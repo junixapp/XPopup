@@ -148,6 +148,11 @@ public class XPopup {
                 }, new Runnable() {             // 弹窗消失动画执行完毕调用
                     @Override
                     public void run() {
+                        // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
+                        View contentView = activity.findViewById(android.R.id.content);
+                        contentView.setFocusable(true);
+                        contentView.setFocusableInTouchMode(true);
+
                         // 移除弹窗
                         pv.popupInfo.decorView.removeView(pv);
                         KeyboardUtils.removeLayoutChangeListener(pv.popupInfo.decorView);
@@ -155,6 +160,7 @@ public class XPopup {
                         if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null) {
                             pv.popupInfo.xPopupCallback.onDismiss();
                         }
+
                         // 释放对象
                         release();
                     }
