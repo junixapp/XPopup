@@ -98,7 +98,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
     XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
                             // null, /** 图标Id数组，可无 **/
                             // 1,    /** 选中的position，默认没有选中效果 **/
-                            // enableGesture, /** 是否启用手势交互，默认启用。手势交互模式下，无法设置动画器；禁用后无法进行手势交互，但是可以设置动画器 **/
+                            // enableGesture, /** 是否启用手势交互，默认启用。手势交互模式下，无法设置其他的动画器；禁用后无法进行手势交互，但是可以设置动画器 **/
                             new OnSelectListener() {
                                 @Override
                                 public void onSelect(int position, String text) {
