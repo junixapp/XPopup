@@ -18,6 +18,7 @@ import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
@@ -51,8 +52,9 @@ public class CustomPopupDemo extends BaseFragment {
                     @Override
                     public void run() {
                         XPopup.get(getContext())
-                                .popupAnimation(datas[position])
-                                .asCustom(new CustomPopup(getContext()))
+//                                .popupAnimation(datas[position])
+                                .asCustom(new CustomPopup2(getContext()))
+                                .autoOpenSoftInput(true)
 //                                .setWidthAndHeight(XPopupUtils.getWindowWidth(getContext()),XPopupUtils.getWindowHeight(getContext()))
                                 .show();
                     }

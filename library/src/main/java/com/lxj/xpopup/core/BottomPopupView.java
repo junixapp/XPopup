@@ -8,6 +8,7 @@ import android.view.View;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
+import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 
@@ -91,6 +92,7 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     public void dismiss() {
+        KeyboardUtils.hideSoftInput(this);
         if (enableGesture) {
             if (popupStatus == PopupStatus.Dismissing) return;
             popupStatus = PopupStatus.Dismissing;

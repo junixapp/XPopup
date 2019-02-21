@@ -275,13 +275,24 @@ public class XPopup {
 
     /**
      * 操作完毕后是否自动关闭弹窗，默认为true。
-     * 比如：点击确认对话框的确认和取消按钮后默认会关闭弹窗，如果设置为false则不会自动关闭
+     * 比如：点击确认对话框的确认按钮后默认会关闭弹窗，如果设置为false则不会自动关闭
      * @param isAutoDismiss
      * @return
      */
     public XPopup autoDismiss(boolean isAutoDismiss) {
         checkPopupInfo();
         tempInfo.autoDismiss = isAutoDismiss;
+        return this;
+    }
+
+    /**
+     * 是否在弹窗显示的时候自动弹窗输入法，默认false
+     * @param autoOpenSoftInput
+     * @return
+     */
+    public XPopup autoOpenSoftInput(boolean autoOpenSoftInput){
+        checkPopupInfo();
+        tempInfo.autoOpenSoftInput = autoOpenSoftInput;
         return this;
     }
 

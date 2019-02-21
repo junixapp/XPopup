@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.opengl.ETC1;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -22,6 +23,7 @@ import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.PopupInterface;
+import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 
 import java.util.ArrayList;
@@ -61,7 +63,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         super(context, attrs, defStyleAttr);
     }
 
-
     private void focusAndProcessBackPress(){
         // 处理返回按键
         setFocusableInTouchMode(true);
@@ -83,8 +84,18 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         ArrayList<EditText> list = new ArrayList<>();
         XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
         for (int i = 0; i < list.size(); i++) {
-            View et = list.get(i);
-            if(i==0)et.requestFocus();
+            final View et = list.get(i);
+            if(i==0){
+                et.requestFocus();
+                if(popupInfo.autoOpenSoftInput){
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            KeyboardUtils.showSoftInput(et);
+                        }
+                    }, 400);
+                }
+            }
             et.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -288,6 +299,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 消失
      */
     public void dismiss() {
+        KeyboardUtils.hideSoftInput(this);
         if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();

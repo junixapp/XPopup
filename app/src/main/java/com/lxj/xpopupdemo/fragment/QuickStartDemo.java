@@ -1,7 +1,12 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -45,11 +50,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                XPopup.get(getActivity()).asAttachList(new String[]{"置顶", "复制", "删除"},null,
+                XPopup.get(getActivity()).asAttachList(new String[]{"置顶", "复制", "删除"}, null,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                toast("click "+text);
+                                toast("click " + text);
                             }
                         })
                         .show();
@@ -57,20 +62,22 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             }
         });
 
-         drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
+        drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
                 .setDrawerPosition(PopupDrawerLayout.Position.Right)
                 .hasStatusBarShadow(true);   // 添加状态栏Shadow
     }
+
     CustomDrawerPopupView drawerPopupView;
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnShowConfirm:
                 XPopup.get(getContext()).asConfirm("我是标题", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
-                               toast("click confirm");
+                                toast("click confirm");
                             }
                         })
 //                        .dismissOnTouchOutside(false)
@@ -81,6 +88,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             public void onShow() {
                                 Log.e("tag", "onShow");
                             }
+
                             @Override
                             public void onDismiss() {
                                 Log.e("tag", "onDismiss");
@@ -98,26 +106,27 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             }
                         })
 //                        .dismissOnBackPressed(false)
+                        .autoOpenSoftInput(true)
                         .show();
                 break;
             case R.id.btnShowCenterList:
-                XPopup.get(getActivity()).asCenterList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4"},
+                XPopup.get(getActivity()).asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                toast("click "+text);
+                                toast("click " + text);
                             }
                         })
 //                        .setWidthAndHeight(600,0)
                         .show();
                 break;
             case R.id.btnShowCenterListWithCheck:
-                XPopup.get(getActivity()).asCenterList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4"},
+                XPopup.get(getActivity()).asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
                         null, 1,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                toast("click "+text);
+                                toast("click " + text);
                             }
                         })
                         .show();
@@ -127,22 +136,22 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowBottomList:
-                XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
+                XPopup.get(getActivity()).asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                toast("click "+text);
+                                toast("click " + text);
                             }
                         })
                         .show();
                 break;
             case R.id.btnShowBottomListWithCheck:
-                XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
+                XPopup.get(getActivity()).asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                         null, 2,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                toast("click "+text);
+                                toast("click " + text);
                             }
                         })
                         .show();
@@ -155,7 +164,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                toast("click "+text);
+                                toast("click " + text);
                             }
                         })
                         .atView(v)  // 依附于所点击的View
