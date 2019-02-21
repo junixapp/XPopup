@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class PartShadowDemo extends BaseFragment implements View.OnClickListener {
     View ll_container;
     VerticalRecyclerView recyclerView;
+    private CustomPartShadowPopupView popupView;
 
     @Override
     protected int getLayoutId() {
@@ -45,16 +46,19 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 holder.setText(android.R.id.text1, "商品名字 - " + position);
             }
         });
+
+        popupView = new CustomPartShadowPopupView(getContext());
     }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_select:
                 XPopup.get(getActivity())
-                        .asCustom(new CustomPartShadowPopupView(getContext()))
-                        .atView(v)
-                        .show();
+                    .asCustom(popupView)
+                    .atView(v)
+                    .show();
                 break;
             default:
                 XPopup.get(getActivity())

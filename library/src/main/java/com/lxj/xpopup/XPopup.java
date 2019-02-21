@@ -18,6 +18,7 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.AttachListPopupView;
 import com.lxj.xpopup.impl.BottomListPopupView;
@@ -85,6 +86,9 @@ public class XPopup {
     public void show(Object tag) {
         if (tempView == null) throw new IllegalArgumentException("要显示的弹窗为空！");
         //1. set popup view
+        if(tempView.popupStatus!= PopupStatus.Dismiss){
+            return;
+        }
         tempView.popupInfo = tempInfo;
         if (tag != null) tempView.setTag(tag);
         popupViews.add(tempView);
