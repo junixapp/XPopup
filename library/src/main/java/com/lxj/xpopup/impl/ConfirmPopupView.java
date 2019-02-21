@@ -70,9 +70,10 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     public void onClick(View v) {
         if(v==tv_cancel){
             if(cancelListener!=null)cancelListener.onCancel();
+            dismiss();
         }else if(v==tv_confirm){
             if(confirmListener!=null)confirmListener.onConfirm();
+            if(popupInfo.autoDismiss)dismiss();
         }
-        if(popupInfo.autoDismiss)dismiss();
     }
 }

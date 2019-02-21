@@ -62,9 +62,10 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     public void onClick(View v) {
         if(v==tv_cancel){
             if(cancelListener!=null)cancelListener.onCancel();
+            dismiss();
         }else if(v==tv_confirm){
             if(inputConfirmListener!=null)inputConfirmListener.onConfirm(tv_input.getText().toString().trim());
+            if(popupInfo.autoDismiss)dismiss();
         }
-        if(popupInfo.autoDismiss)dismiss();
     }
 }
