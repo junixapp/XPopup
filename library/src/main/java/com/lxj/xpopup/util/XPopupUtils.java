@@ -208,20 +208,34 @@ public class XPopupUtils {
         }
 
         int dy = 0;
+        int maxY = 0;
         if (focusEt != null) {
             int[] locations = new int[2];
             focusEt.getLocationInWindow(locations);
             int bottom = locations[1] + focusEt.getMeasuredHeight();
-            int offset = dp2px(pv.getContext(), 10); //冗余高度
-            dy = getWindowHeight(pv.getContext()) - (bottom + keyboardHeight + offset);
-            if (dy > 0) {
-                //没有遮盖，无需移动.
-                return;
+            int offset = dp2px(pv.getContext(), 0); //冗余高度
+
+            int popupHeight = pv.getPopupContentView().getMeasuredHeight();
+            if (pv.getPopupImplView() != null) {
+                popupHeight = Math.min(popupHeight, pv.getPopupImplView().getMeasuredHeight());
             }
+            maxY = getWindowHeight(pv.getContext()) - (popupHeight+ keyboardHeight + offset);
+//            if (dy > 0) {
+//                //没有遮盖，无需移动.
+//                return;
+//            }
+            Log.e("tag", "dy: " + dy);
         }
 
         //执行上移
-        if (dy == 0 && allEts.size()>0 && keyboardHeight!=0) dy = -keyboardHeight; //可能焦点被其他View获取了
+        if (dy == 0 && allEts.size() > 0 && keyboardHeight != 0) {
+            dy = -keyboardHeight; //可能焦点被其他View获取了
+        } else {
+            int targetY = -1 * (keyboardHeight + pv.getPopupContentView().getHeight() / 2 - XPopupUtils.getWindowHeight(pv.getContext()) / 2);
+            if(dy < 0){
+
+            }
+        }
         pv.getPopupContentView().animate().translationY(dy)
                 .setDuration(300)
                 .setInterpolator(new OvershootInterpolator(1))
@@ -268,7 +282,7 @@ public class XPopupUtils {
     public static void findAllEditText(ArrayList<EditText> list, ViewGroup group) {
         for (int i = 0; i < group.getChildCount(); i++) {
             View v = group.getChildAt(i);
-            if (v instanceof EditText && v.getVisibility()==View.VISIBLE) {
+            if (v instanceof EditText && v.getVisibility() == View.VISIBLE) {
                 list.add((EditText) v);
             } else if (v instanceof ViewGroup) {
                 findAllEditText(list, (ViewGroup) v);
