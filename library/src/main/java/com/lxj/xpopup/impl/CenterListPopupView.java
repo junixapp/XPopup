@@ -71,7 +71,8 @@ public class CenterListPopupView extends CenterPopupView {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 if (selectListener != null) {
-                    selectListener.onSelect(position, adapter.getDatas().get(position));
+                    if(position>=0 && position<adapter.getDatas().size())
+                        selectListener.onSelect(position, adapter.getDatas().get(position));
                 }
                 if(checkedPosition!=-1){
                     checkedPosition = position;

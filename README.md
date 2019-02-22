@@ -438,13 +438,11 @@ implementation 'com.lxj:xpopup:最新的版本号'
 
     为了得到最佳体验，您可以等dismiss动画完全结束去执行一些东西，而不是立即就执行。可以这样做：
     ```java
-    dismiss(new Runnable() {
-        @Override
-        public void run() {
-            // 这里的代码会等弹窗动画执行完毕才走
-            getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-        }
-    });
+    // 在弹窗完全隐藏的时候执行，还有一个onShow回调
+    @Override
+    protected void onDismiss() {
+        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+    }
     ```
 
 

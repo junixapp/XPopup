@@ -96,18 +96,15 @@ public class XPopup {
         tempInfo = null;
         tempView = null;
 
-        //2. show popup view with tag
+        //2. show popup view with tag, 运行同时显示多个
         for (BasePopupView pv : popupViews) {
-            if (tag != null) {
-                if (pv.getTag() == tag) {
-                    showInternal(pv);
-                    break;
-                }
-            } else {
-                //show all
+            if (pv.getTag() == tag) {
+                showInternal(pv);
+            }else {
                 showInternal(pv);
             }
         }
+
     }
 
     /**
@@ -145,7 +142,7 @@ public class XPopup {
                             XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(activity), pv);
                         }
                     }
-                }, new Runnable() {             // 弹窗消失动画执行完毕调用
+                }, new Runnable() {      // 弹窗消失动画执行完毕调用
                     @Override
                     public void run() {
                         // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
@@ -187,7 +184,8 @@ public class XPopup {
     public void dismiss(Object tag) {
         if (tag == null) {
             //如果没有tag，则因此第0个
-            popupViews.get(0).dismiss();
+            if(popupViews.size()>0)
+                popupViews.get(popupViews.size()-1).dismiss();
         } else {
             int temp = -1;
             for (int i = 0; i < popupViews.size(); i++) {

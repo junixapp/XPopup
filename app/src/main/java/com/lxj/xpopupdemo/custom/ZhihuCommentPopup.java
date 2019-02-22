@@ -10,7 +10,9 @@ import android.view.View;
 import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.DemoActivity;
@@ -51,7 +53,24 @@ public class ZhihuCommentPopup extends BottomPopupView {
                 //不要直接这样做，会导致消失动画未执行完就跳转界面，不流畅。可以将消失后的逻辑移到onDismiss回调方法中
 //                dismiss();
 //                getContext().startActivity(new Intent(getContext(), DemoActivity.class))
-                dismiss();
+//                dismiss();
+                XPopup.get(getContext()).autoDismiss(false).asConfirm("测试a", "aaaa", new OnConfirmListener() {
+                    @Override
+                    public void onConfirm() {
+                        XPopup.get(getContext()).autoDismiss(false).asConfirm("测试b", "bbbb", new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                XPopup.get(getContext()).autoDismiss(false).asConfirm("测试c", "cccc", new OnConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        XPopup.get(getContext()).dismiss();
+                                    }
+                                }).show();
+                            }
+                        }).show();
+                    }
+                }).show();
+
             }
         });
         recyclerView.setHasFixedSize(true);
