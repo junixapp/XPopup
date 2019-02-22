@@ -157,6 +157,7 @@ public class XPopup {
                         pv.popupInfo.decorView.removeView(pv);
                         KeyboardUtils.removeLayoutChangeListener(pv.popupInfo.decorView);
                         popupViews.remove(pv);
+
                         if (pv.popupInfo != null && pv.popupInfo.xPopupCallback != null) {
                             pv.popupInfo.xPopupCallback.onDismiss();
                         }

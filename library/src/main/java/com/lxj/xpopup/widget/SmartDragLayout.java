@@ -14,6 +14,7 @@ import android.view.ViewConfiguration;
 import android.widget.OverScroller;
 
 import com.lxj.xpopup.animator.ShadowBgAnimator;
+import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**
@@ -29,7 +30,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     boolean dismissOnTouchOutside = true;
     boolean hasShadowBg = true;
     boolean isUserClose = false;
-
+    LayoutStatus status = LayoutStatus.Close;
     public SmartDragLayout(Context context) {
         this(context, null);
     }
@@ -93,9 +94,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
                 downTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (!scroller.isFinished()) {
-                    scroller.abortAnimation();
-                }
                 if (enableGesture) {
                     int dy = (int) (event.getY() - touchY);
                     scrollTo(getScrollX(), getScrollY() - dy);
@@ -138,9 +136,11 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         if (hasShadowBg)
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
         if(listener!=null){
-            if (isUserClose && fraction == 0f) {
+            if (isUserClose && fraction == 0f && status!=LayoutStatus.Close) {
+                status = LayoutStatus.Close;
                 listener.onClose();
-            }else if(fraction==1f && !scroller.computeScrollOffset() ){
+            }else if(fraction==1f && status!=LayoutStatus.Open){
+                status = LayoutStatus.Open;
                 listener.onOpen();
             }
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.lxj.easyadapter.CommonAdapter;
@@ -47,20 +48,26 @@ public class ZhihuCommentPopup extends BottomPopupView {
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                //不要直接这样做，会导致消失动画未执行完就跳转界面，不流畅。可以将消失后的逻辑移到onDismiss回调方法中
 //                dismiss();
-//                getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-                //上面的代码是一个不好的示例，为了得到最佳体验，您可以等dismiss动画完全结束去执行一些东西，而不是立即就执行。
-                //像下面这样：
-                dismiss(new Runnable() {
-                    @Override
-                    public void run() {
-                        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-                    }
-                });
+//                getContext().startActivity(new Intent(getContext(), DemoActivity.class))
+                dismiss();
             }
         });
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(commonAdapter);
+    }
+
+    //完全可见执行
+    @Override
+    protected void onShow() {
+        super.onShow();
+    }
+
+    //完全消失执行
+    @Override
+    protected void onDismiss() {
+        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
     }
 
     @Override

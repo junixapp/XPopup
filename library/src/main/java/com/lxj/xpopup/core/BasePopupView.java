@@ -173,8 +173,9 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                afterShow.run();
                 popupStatus = PopupStatus.Show;
+                onShow();
+                afterShow.run();
             }
         }, getAnimationDuration());
     }
@@ -318,20 +319,21 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                afterDismiss.run();
                 popupStatus = PopupStatus.Dismiss;
+                onDismiss();
                 if(afterDismiss!=null)afterDismiss.run();
             }
         }, getAnimationDuration());
     }
+
     /**
-     * 结束后做一些事情
-     * @param afterDismiss
+     * 消失动画执行完毕后执行
      */
-    protected void dismiss(Runnable afterDismiss){
-        this.afterDismiss = afterDismiss;
-        dismiss();
-    }
+    protected void onDismiss(){}
+    /**
+     * 显示动画执行完毕后执行
+     */
+    protected void onShow(){}
 
     private float x, y;
     private long downTime;

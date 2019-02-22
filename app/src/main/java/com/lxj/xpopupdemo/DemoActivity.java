@@ -24,40 +24,15 @@ import java.util.ArrayList;
  * Create by lxj, at 2019/2/2
  */
 public class DemoActivity extends AppCompatActivity {
-    RecyclerView recycler_view;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
-        recycler_view = findViewById(R.id.recycler_view);
-        recycler_view.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<String> data = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            data.add(""+i);
-        }
-        recycler_view.setAdapter(new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
-            @Override
-            protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
-                holder.setText(android.R.id.text1, s);
-            }
-        });
-
-        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                XPopup.get(DemoActivity.this).asBottomList("我是标题", new String[]{"aaaa", "bbbb", "bbbb", "ddddd"}, new OnSelectListener() {
-                    @Override
-                    public void onSelect(int position, String text) {
-                        Toast.makeText(DemoActivity.this, text, Toast.LENGTH_LONG).show();
-                    }
-                }).show();
-            }
-        });
 
 
         XPopup.get(DemoActivity.this).asLoading().show("c");
 
-        XPopup.get(this).autoDismiss(false).asBottomList("haha", new String[]{"aaaa", "bbbb", "bbbb", "ddddd"}, new OnSelectListener() {
+        XPopup.get(this).autoDismiss(false).asBottomList("haha", new String[]{"点我显示弹窗", "点我显示弹窗", "点我显示弹窗", "点我显示弹窗"}, new OnSelectListener() {
             @Override
             public void onSelect(int position, String text) {
                 Toast.makeText(DemoActivity.this, text, Toast.LENGTH_LONG).show();
