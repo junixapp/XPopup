@@ -18,11 +18,14 @@ import com.lxj.xpopup.animator.ShadowBgAnimator;
  * Create by dance, at 2018/12/20
  */
 public class PopupDrawerLayout extends FrameLayout {
-
+    enum DrawerStatus{
+        Open, Close
+    }
     public enum Position {
         Left, Right
     }
 
+    DrawerStatus status = DrawerStatus.Close;
     ViewDragHelper dragHelper;
     View child;
     Position position = Position.Left;
@@ -133,8 +136,10 @@ public class PopupDrawerLayout extends FrameLayout {
             if (position == Position.Left) {
                 // fraction = (now - start)*1f / (end - start)
                 fraction = (left + child.getMeasuredWidth()) * 1f / child.getMeasuredWidth();
-                if (left == -child.getMeasuredWidth() && listener != null)
+                if (left == -child.getMeasuredWidth() && listener != null && status!= DrawerStatus.Close){
+                    status = DrawerStatus.Close;
                     listener.onClose();
+                }
             } else {
                 fraction = (left - getMeasuredWidth()) * 1f / -child.getMeasuredWidth();
                 if (left == getMeasuredWidth() && listener != null)
@@ -143,6 +148,10 @@ public class PopupDrawerLayout extends FrameLayout {
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
             if (listener != null) {
                 listener.onDismissing(fraction);
+                if(fraction==1f && status!=DrawerStatus.Open){
+                    status = DrawerStatus.Open;
+                    listener.onOpen();
+                }
             }
         }
 
@@ -213,6 +222,7 @@ public class PopupDrawerLayout extends FrameLayout {
 
     public interface OnCloseListener {
         void onClose();
+        void onOpen();
 
         /**
          * 关闭过程中执行

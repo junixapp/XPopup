@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 
 import java.util.ArrayList;
@@ -54,6 +55,22 @@ public class DemoActivity extends AppCompatActivity {
         });
 
 
-        XPopup.get(DemoActivity.this).asLoading().show();
+        XPopup.get(DemoActivity.this).asLoading().show("c");
+
+        XPopup.get(this).autoDismiss(false).asBottomList("haha", new String[]{"aaaa", "bbbb", "bbbb", "ddddd"}, new OnSelectListener() {
+            @Override
+            public void onSelect(int position, String text) {
+                Toast.makeText(DemoActivity.this, text, Toast.LENGTH_LONG).show();
+
+                XPopup.get(DemoActivity.this).autoDismiss(false).asConfirm("测试", "aaaa", new OnConfirmListener() {
+                    @Override
+                    public void onConfirm() {
+                        XPopup.get(DemoActivity.this).dismiss("c");
+                        XPopup.get(DemoActivity.this).dismiss("a");
+                        XPopup.get(DemoActivity.this).dismiss("b");
+                    }
+                }).show("b");
+            }
+        }).show("a");
     }
 }

@@ -6,6 +6,7 @@ import android.opengl.ETC1;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -86,6 +87,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         for (int i = 0; i < list.size(); i++) {
             final View et = list.get(i);
             if(i==0){
+                et.setFocusable(true);
+                et.setFocusableInTouchMode(true);
                 et.requestFocus();
                 if(popupInfo.autoOpenSoftInput){
                     postDelayed(new Runnable() {
@@ -93,7 +96,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                         public void run() {
                             KeyboardUtils.showSoftInput(et);
                         }
-                    }, 400);
+                    }, 405);
                 }
             }
             et.setOnKeyListener(new View.OnKeyListener() {
@@ -110,17 +113,18 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         }
     }
 
-    Runnable afterAnimationEnd;
+    Runnable afterShow,afterDismiss;
 
     /**
      * 执行初始化
      *
-     * @param afterAnimationStarted
+     * @param afterShow
      */
-    public void init(final Runnable afterAnimationStarted, Runnable afterAnimationEnd) {
+    public void init(Runnable afterShow, Runnable afterDismiss) {
         if (popupStatus != PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Showing;
-        this.afterAnimationEnd = afterAnimationEnd;
+        this.afterShow = afterShow;
+        this.afterDismiss = afterDismiss;
         //1. 初始化Popup
         initPopupContent();
         post(new Runnable() {
@@ -156,19 +160,23 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
                 //4. 执行动画
                 doShowAnimation();
+                focusAndProcessBackPress();
 
                 // call xpopup init.
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        afterAnimationStarted.run();
-                        popupStatus = PopupStatus.Show;
-                        focusAndProcessBackPress();
-                    }
-                }, 20);
+                doAfterShow();
             }
         });
 
+    }
+
+    protected void doAfterShow(){
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                afterShow.run();
+                popupStatus = PopupStatus.Show;
+            }
+        }, getAnimationDuration());
     }
 
     /**
@@ -299,7 +307,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 消失
      */
     public void dismiss() {
-        KeyboardUtils.hideSoftInput(this);
         if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
@@ -307,16 +314,16 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     protected void doAfterDismiss(){
+        KeyboardUtils.hideSoftInput(this);
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                afterAnimationEnd.run();
+                afterDismiss.run();
                 popupStatus = PopupStatus.Dismiss;
                 if(afterDismiss!=null)afterDismiss.run();
             }
         }, getAnimationDuration());
     }
-    Runnable afterDismiss;
     /**
      * 结束后做一些事情
      * @param afterDismiss

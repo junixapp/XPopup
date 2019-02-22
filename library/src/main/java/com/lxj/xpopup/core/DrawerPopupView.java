@@ -47,6 +47,11 @@ public abstract class DrawerPopupView extends BasePopupView {
             }
 
             @Override
+            public void onOpen() {
+                DrawerPopupView.super.doAfterShow();
+            }
+
+            @Override
             public void onDismissing(float fraction) {
                 // 是否显示状态栏的遮罩
                 if(isAddStatusBarShadow){
@@ -61,6 +66,11 @@ public abstract class DrawerPopupView extends BasePopupView {
                 drawerLayout.close();
             }
         });
+    }
+
+    @Override
+    protected void doAfterShow() {
+        //do nothing self.
     }
 
     @Override

@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.core.CenterPopupView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -209,34 +211,34 @@ public class XPopupUtils {
 
         int dy = 0;
         int maxY = 0;
+        int popupHeight = pv.getPopupContentView().getHeight();
+        if (pv.getPopupImplView() != null) {
+            popupHeight = Math.min(popupHeight, pv.getPopupImplView().getMeasuredHeight());
+        }
+        int windowHeight = getWindowHeight(pv.getContext());
+        int focusEtTop = 0;
         if (focusEt != null) {
             int[] locations = new int[2];
             focusEt.getLocationInWindow(locations);
-            int bottom = locations[1] + focusEt.getMeasuredHeight();
-            int offset = dp2px(pv.getContext(), 0); //冗余高度
-
-            int popupHeight = pv.getPopupContentView().getMeasuredHeight();
-            if (pv.getPopupImplView() != null) {
-                popupHeight = Math.min(popupHeight, pv.getPopupImplView().getMeasuredHeight());
-            }
-            maxY = getWindowHeight(pv.getContext()) - (popupHeight+ keyboardHeight + offset);
-//            if (dy > 0) {
-//                //没有遮盖，无需移动.
-//                return;
-//            }
-            Log.e("tag", "dy: " + dy);
+            focusEtTop = locations[1];
         }
 
         //执行上移
-        if (dy == 0 && allEts.size() > 0 && keyboardHeight != 0) {
-            dy = -keyboardHeight; //可能焦点被其他View获取了
-        } else {
-            int targetY = -1 * (keyboardHeight + pv.getPopupContentView().getHeight() / 2 - XPopupUtils.getWindowHeight(pv.getContext()) / 2);
-            if(dy < 0){
+        if (pv instanceof CenterPopupView) {
+            int targetY = keyboardHeight - (windowHeight - popupHeight + getStatusBarHeight()) / 2; //上移到下边贴着输入法的高度
 
+            if (focusEt != null && focusEtTop - targetY < 0) {
+                targetY += focusEtTop - targetY - getStatusBarHeight();//限制不能被状态栏遮住
+            }
+            dy = targetY;
+        } else if (pv instanceof BottomPopupView) {
+            dy = keyboardHeight;
+            if (focusEt != null && focusEtTop - dy < 0) {
+                dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
             }
         }
-        pv.getPopupContentView().animate().translationY(dy)
+
+        pv.getPopupContentView().animate().translationY(-dy)
                 .setDuration(300)
                 .setInterpolator(new OvershootInterpolator(1))
                 .start();

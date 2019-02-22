@@ -130,7 +130,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     boolean isScrollUp;
-
     @Override
     public void scrollTo(int x, int y) {
         if (y > maxY) y = maxY;
@@ -138,8 +137,12 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         float fraction = (y - minY) * 1f / (maxY - minY);
         if (hasShadowBg)
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
-        if (isUserClose && fraction == 0f && listener != null) {
-            listener.onClose();
+        if(listener!=null){
+            if (isUserClose && fraction == 0f) {
+                listener.onClose();
+            }else if(fraction==1f && !scroller.computeScrollOffset() ){
+                listener.onOpen();
+            }
         }
         isScrollUp = y > getScrollY();
         super.scrollTo(x, y);
@@ -239,5 +242,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
 
     public interface OnCloseListener {
         void onClose();
+        void onOpen();
     }
 }

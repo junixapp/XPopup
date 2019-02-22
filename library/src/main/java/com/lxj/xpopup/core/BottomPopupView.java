@@ -45,6 +45,10 @@ public class BottomPopupView extends BasePopupView {
             public void onClose() {
                 doAfterDismiss();
             }
+            @Override
+            public void onOpen() {
+                BottomPopupView.super.doAfterShow();
+            }
         });
 
         bottomPopupContainer.setOnClickListener(new OnClickListener() {
@@ -54,6 +58,11 @@ public class BottomPopupView extends BasePopupView {
             }
         });
 
+    }
+
+    @Override
+    protected void doAfterShow() {
+        //do nothing self.
     }
 
     @Override
@@ -92,7 +101,6 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     public void dismiss() {
-        KeyboardUtils.hideSoftInput(this);
         if (enableGesture) {
             if (popupStatus == PopupStatus.Dismissing) return;
             popupStatus = PopupStatus.Dismissing;

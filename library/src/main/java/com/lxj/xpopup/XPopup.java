@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,7 +144,6 @@ public class XPopup {
                         if (XPopupUtils.getDecorViewInvisibleHeight(activity) > 0) {
                             XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(activity), pv);
                         }
-
                     }
                 }, new Runnable() {             // 弹窗消失动画执行完毕调用
                     @Override
