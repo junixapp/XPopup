@@ -301,6 +301,8 @@ implementation 'com.lxj:xpopup:最新的版本号'
 12. **自定义Bottom类型的弹窗**
 
     自定义Bottom类型的弹窗会比较常见，默认Bottom弹窗带有手势交互和嵌套滚动；如果您不想要手势交互可以调用`enableGesture(false)`方法关闭。
+    如果弹窗内有输入框，在弹出输入法的情况下，弹窗默认会贴附在输入法之上，并且保证不会盖住输入框；目前Center和Bottom类型弹窗有此效果。
+
 
     Demo中有一个模仿知乎评论的实现，代码在这里：
     ```java
@@ -395,7 +397,7 @@ implementation 'com.lxj:xpopup:最新的版本号'
 15. **其他**
 - 设置主色调
 
-    默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。因为XPopup是单例，所以主色调只需要设置一次即可，可以放在Application中设置。
+    默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。主色调只需要设置一次即可，可以放在Application中设置。
   ```java
   XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
   ```
@@ -421,10 +423,11 @@ implementation 'com.lxj:xpopup:最新的版本号'
           }
       })
       // 设置弹窗的最大宽高，只对Center和Bottom类型弹窗生效。默认情况下，弹窗的布局是自适应的，如果你设置了最大宽高，则弹窗的宽高不会超过你设置的值！
-      // 如果你想要一个全屏的弹窗：首先布局要都是`match_parent`，然后设置这个值为window的宽高即可。
-      // 也可以重写`getMaxWidth()`和`getMaxHeight()`方法，效果是一样的。
-      // 也可以继承FullScreenPopupView，直接编写布局即可。
       .maxWidthAndHeight(0, 300)
+      // 如果你想要一个全屏的弹窗，有3种方式：
+      // 1. 首先布局要都是`match_parent`，然后调用上面的方法设置这个值为window的宽高即可。
+      // 2. 可以重写`getMaxWidth()`和`getMaxHeight()`方法，效果是一样的。
+      // 3. 可以继承FullScreenPopupView，直接编写布局即可。
   ```
 
 - 最佳实践
