@@ -449,6 +449,11 @@ implementation 'com.lxj:xpopup:最新的版本号'
     }
     ```
 
+## 混淆
+```
+-dontwarn com.lxj.xpopup.widget.**
+-keep class com.lxj.xpopup.widget.**{*;}
+```
 
 
 ## TODO

@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'xpopup'
+            keyPassword '111111'
+            storeFile file('F:/as_workspace/XPopup/xpopup.jks')
+            storePassword '111111'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.lxj.xpopupdemo"
@@ -11,8 +19,16 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "xpopup"
+    productFlavors {
+        xpopup {
+            dimension "xpopup"
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -24,10 +40,8 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.lxj:easyadapter:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-
+    //    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation project(':library')
-
     implementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     implementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
 }
