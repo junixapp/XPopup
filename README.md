@@ -2,7 +2,7 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-28-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-14-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 
 
-功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout效果等组件，自带十几种效果良好的动画，
+功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！它有这样几个特点：
 1. 功能强大，内部封装了常用的弹窗，内置十几种良好的动画，将弹窗和动画的自定义设计的极其简单
 2. UI和动画简洁，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化；或者说是模拟系统组件的动画
@@ -45,7 +45,7 @@
 扫描二维码下载：
 ![](screenshot/download.png)
 
-如果图片不可见，[点我下载Demo体验](https://fir.im/2q63)
+如果二维码图片不可见，[点我下载Demo体验](https://fir.im/2q63)
 
 ## 使用
 首先需要添加Gradle依赖：
@@ -449,7 +449,7 @@ implementation 'com.lxj:xpopup:1.4.2'
         }
     });
     ```
-    弹窗也有`onShow`和`onDismiss`的生命周期回调，可以根据需要使用。
+    每个弹窗本身也有`onShow()`和`onDismiss()`的生命周期回调，可以根据需要使用。
 
 ## 混淆
 ```
