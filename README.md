@@ -143,9 +143,13 @@ implementation 'com.lxj:xpopup:1.4.2'
     ```
 
 7. **关闭弹窗**
+
+    在弹窗外部可以这样：
     ```java
     XPopup.get(getContext()).dismiss();
     ```
+    在弹窗内部关闭可以直接调用dismiss()方法即可。
+
 
 8. **自定义弹窗**
 
