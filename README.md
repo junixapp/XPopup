@@ -442,12 +442,14 @@ implementation 'com.lxj:xpopup:1.4.1'
 
     为了得到最佳体验，您可以等dismiss动画完全结束去执行一些东西，而不是立即就执行。可以这样做：
     ```java
-    // 在弹窗完全隐藏的时候执行，还有一个onShow回调
-    @Override
-    protected void onDismiss() {
-        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-    }
+    dismissWith(new Runnable() {
+        @Override
+        public void run() {
+            getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+        }
+    });
     ```
+    弹窗也有`onShow`和`onDismiss`的生命周期回调，可以根据需要使用。
 
 ## 混淆
 ```

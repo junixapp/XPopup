@@ -44,7 +44,7 @@ import java.util.ArrayList;
  * Create by lxj, at 2019/1/22
  */
 public class ImageViewerPopupView extends BasePopupView implements OnDragChangeListener, View.OnClickListener {
-    PhotoViewContainer photoViewContainer;
+    protected PhotoViewContainer photoViewContainer;
     BlankView placeholderView;
     TextView tv_pager_indicator, tv_save;
     HackyViewPager pager;

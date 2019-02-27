@@ -322,8 +322,15 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 popupStatus = PopupStatus.Dismiss;
                 onDismiss();
                 if(afterDismiss!=null)afterDismiss.run();
+                if(dismissWithRunnable!=null)dismissWithRunnable.run();
             }
         }, getAnimationDuration());
+    }
+
+    Runnable dismissWithRunnable;
+    protected void dismissWith(Runnable runnable){
+        this.dismissWithRunnable = runnable;
+        dismiss();
     }
 
     /**

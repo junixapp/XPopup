@@ -2,5 +2,6 @@
 <com.lxj.xpopup.widget.VerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recyclerView"
     android:overScrollMode="never"
+    android:background="@android:color/white"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />

@@ -53,23 +53,28 @@ public class ZhihuCommentPopup extends BottomPopupView {
                 //不要直接这样做，会导致消失动画未执行完就跳转界面，不流畅。可以将消失后的逻辑移到onDismiss回调方法中
 //                dismiss();
 //                getContext().startActivity(new Intent(getContext(), DemoActivity.class))
-//                dismiss();
-                XPopup.get(getContext()).autoDismiss(false).asConfirm("测试a", "aaaa", new OnConfirmListener() {
+                dismissWith(new Runnable() {
                     @Override
-                    public void onConfirm() {
-                        XPopup.get(getContext()).autoDismiss(false).asConfirm("测试b", "bbbb", new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                XPopup.get(getContext()).autoDismiss(false).asConfirm("测试c", "cccc", new OnConfirmListener() {
-                                    @Override
-                                    public void onConfirm() {
-                                        XPopup.get(getContext()).dismiss();
-                                    }
-                                }).show();
-                            }
-                        }).show();
+                    public void run() {
+                        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
                     }
-                }).show();
+                });
+//                XPopup.get(getContext()).autoDismiss(false).asConfirm("测试a", "aaaa", new OnConfirmListener() {
+//                    @Override
+//                    public void onConfirm() {
+//                        XPopup.get(getContext()).autoDismiss(false).asConfirm("测试b", "bbbb", new OnConfirmListener() {
+//                            @Override
+//                            public void onConfirm() {
+//                                XPopup.get(getContext()).autoDismiss(false).asConfirm("测试c", "cccc", new OnConfirmListener() {
+//                                    @Override
+//                                    public void onConfirm() {
+//                                        XPopup.get(getContext()).dismiss();
+//                                    }
+//                                }).show();
+//                            }
+//                        }).show();
+//                    }
+//                }).show();
 
             }
         });
@@ -86,7 +91,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
     //完全消失执行
     @Override
     protected void onDismiss() {
-        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+
     }
 
     @Override

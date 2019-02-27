@@ -18,7 +18,7 @@ import com.lxj.xpopup.widget.PopupDrawerLayout;
  */
 public abstract class DrawerPopupView extends BasePopupView {
     PopupDrawerLayout drawerLayout;
-    FrameLayout drawerContentContainer;
+    protected FrameLayout drawerContentContainer;
     View view_statusbar_shadow;
     boolean isAddStatusBarShadow;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();

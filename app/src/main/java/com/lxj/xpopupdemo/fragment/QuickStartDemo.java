@@ -82,7 +82,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
 //                        .dismissOnTouchOutside(false)
                         // 设置弹窗显示和隐藏的回调监听
-                        .autoDismiss(false)
+//                        .autoDismiss(false)
                         .setPopupCallback(new XPopupCallback() {
                             @Override
                             public void onShow() {

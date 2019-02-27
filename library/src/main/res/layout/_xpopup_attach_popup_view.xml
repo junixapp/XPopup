@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardCornerRadius="0dp"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="10dp">
 
 </com.lxj.xpopup.widget.PartShadowContainer>

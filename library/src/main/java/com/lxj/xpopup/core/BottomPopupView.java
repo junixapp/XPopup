@@ -18,7 +18,7 @@ import com.lxj.xpopup.widget.SmartDragLayout;
  * Create by lxj, at 2018/12/11
  */
 public class BottomPopupView extends BasePopupView {
-    SmartDragLayout bottomPopupContainer;
+    protected SmartDragLayout bottomPopupContainer;
     boolean enableGesture = true; //是否启用手势交互，默认启用
 
     public BottomPopupView(@NonNull Context context) {
