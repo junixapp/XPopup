@@ -33,7 +33,7 @@ publish {
     userOrg = 'li-xiaojun'
     groupId = 'com.lxj'
     artifactId = 'xpopup'
-    publishVersion = '1.4.1'
+    publishVersion = '1.4.2'
     repoName = 'jrepo'
     desc = '功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout等组件，自带十几种效果良好的动画， 支持完全的UI和动画自定义！'
     website = 'https://github.com/li-xiaojun/XPopup'
