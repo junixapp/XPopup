@@ -64,7 +64,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
         if (enableGesture) {
             // horizontal center
-            child.layout(l, getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight() + child.getMeasuredHeight());
+            child.layout(l, getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight() + maxY);
         } else {
             // like bottom gravity
             child.layout(l, getMeasuredHeight() - child.getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight());
