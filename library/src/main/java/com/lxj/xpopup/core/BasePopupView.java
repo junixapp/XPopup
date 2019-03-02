@@ -47,8 +47,8 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     public BasePopupView(@NonNull Context context) {
         super(context);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        shadowBgAnimator = new ShadowBgAnimator(this);
 
+        shadowBgAnimator = new ShadowBgAnimator(this);
         //  添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
         // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
@@ -132,7 +132,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             public void run() {
                 // 如果有导航栏，则不能覆盖导航栏，
                 if (XPopupUtils.isNavBarVisible(getContext())) {
-                    setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
+//                    setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
+                    FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
+                    params.bottomMargin = XPopupUtils.getNavBarHeight();
+                    setLayoutParams(params);
                 }
                 getPopupContentView().setAlpha(1f);
 
