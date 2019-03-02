@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -31,7 +32,7 @@ public class CenterPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        XPopupUtils.widthAndHeight(getPopupContentView(), getMaxWidth(), getMaxHeight());
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
     }
 
     /**

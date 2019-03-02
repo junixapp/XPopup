@@ -186,9 +186,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 XPopup.get(getActivity())
                         .asCustom(new ZhihuCommentPopup(getContext()))
 //                        .asCustom(new CustomBottomPopup(getContext()))
-//                        .popupAnimation(PopupAnimation.TranslateFromLeft)
-//                        .asCustom(new CustomBasePopupView(getContext()))
-//                        .maxWidthAndHeight(0, 300)
+//                        .maxWidthAndHeight(0, 1300)
                         .show();
                 break;
         }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -39,7 +40,7 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.enableGesture(enableGesture);
         bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
         bottomPopupContainer.hasShadowBg(popupInfo.hasShadowBg);
-        XPopupUtils.widthAndHeight(getPopupImplView(), getMaxWidth(), getMaxHeight());
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
 
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override
@@ -58,7 +59,6 @@ public class BottomPopupView extends BasePopupView {
                 dismiss();
             }
         });
-
     }
 
     @Override

@@ -92,35 +92,39 @@ public class XPopupUtils {
         target.setLayoutParams(params);
     }
 
-    public static void widthAndHeight(final View target, final int maxWidth, final int maxHeight) {
-        target.post(new Runnable() {
+    public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight) {
+        content.post(new Runnable() {
             @Override
             public void run() {
-                ViewGroup.LayoutParams params = target.getLayoutParams();
-                View implView = ((ViewGroup) target).getChildAt(0);
+                ViewGroup.LayoutParams params = content.getLayoutParams();
+                View implView = content.getChildAt(0);
                 ViewGroup.LayoutParams implParams = implView.getLayoutParams();
-                // 默认PopupContent宽是match，高是wrap
-                int w = target.getMeasuredWidth();
+                // 假设默认Content宽是match，高是wrap
+                int w = content.getMeasuredWidth();
                 // response impl view wrap_content params.
                 if (implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT) {
                     w = Math.min(w, implView.getMeasuredWidth());
                 }
                 if (maxWidth != 0) {
                     params.width = Math.min(w, maxWidth);
-                } else {
-                    params.width = w;
                 }
 
-                int h = target.getMeasuredHeight();
+                int h = content.getMeasuredHeight();
                 // response impl view match_parent params.
                 if (implParams.height == FrameLayout.LayoutParams.MATCH_PARENT) {
-                    h = ((ViewGroup) target.getParent()).getMeasuredHeight();
+                    h = ((ViewGroup) content.getParent()).getMeasuredHeight();
                     params.height = h;
                 }
                 if (maxHeight != 0) {
-                    params.height = Math.min(h, maxHeight);
+                    // 如果content的高为match，则maxHeight限制impl
+                    if (params.height == FrameLayout.LayoutParams.MATCH_PARENT){
+                        implParams.height =  Math.min(h, maxHeight);
+                        implView.setLayoutParams(implParams);
+                    }else {
+                        params.height = Math.min(h, maxHeight);
+                    }
                 }
-                target.setLayoutParams(params);
+                content.setLayoutParams(params);
             }
         });
     }
