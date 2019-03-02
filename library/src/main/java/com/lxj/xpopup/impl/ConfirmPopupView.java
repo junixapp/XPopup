@@ -62,9 +62,11 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     }
     String title;
     String content;
-    public void setTitleContent(String title, String content){
+    String hint;
+    public void setTitleContent(String title, String content, String hint){
         this.title = title;
         this.content = content;
+        this.hint = hint;
     }
     @Override
     public void onClick(View v) {

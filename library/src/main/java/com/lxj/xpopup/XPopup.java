@@ -51,7 +51,8 @@ public class XPopup {
     private static int primaryColor = Color.parseColor("#121212");
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
-    private XPopup() { }
+    private XPopup() {
+    }
 
     public static XPopup get(final Context ctx) {
         if (instance == null) {
@@ -87,7 +88,7 @@ public class XPopup {
     public void show(Object tag) {
         if (tempView == null) throw new IllegalArgumentException("要显示的弹窗为空！");
         //1. set popup view
-        if(tempView.popupStatus!= PopupStatus.Dismiss){
+        if (tempView.popupStatus != PopupStatus.Dismiss) {
             return;
         }
         tempView.popupInfo = tempInfo;
@@ -100,7 +101,7 @@ public class XPopup {
         for (BasePopupView pv : popupViews) {
             if (pv.getTag() == tag) {
                 showInternal(pv);
-            }else {
+            } else {
                 showInternal(pv);
             }
         }
@@ -125,8 +126,8 @@ public class XPopup {
         pv.popupInfo.decorView.post(new Runnable() {
             @Override
             public void run() {
-                if(pv.getParent()!=null){
-                    ((ViewGroup)pv.getParent()).removeView(pv);
+                if (pv.getParent() != null) {
+                    ((ViewGroup) pv.getParent()).removeView(pv);
                 }
                 pv.popupInfo.decorView.addView(pv, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT));
@@ -168,7 +169,6 @@ public class XPopup {
     }
 
 
-
     /**
      * 消失
      */
@@ -184,8 +184,8 @@ public class XPopup {
     public void dismiss(Object tag) {
         if (tag == null) {
             //如果没有tag，则因此第0个
-            if(popupViews.size()>0)
-                popupViews.get(popupViews.size()-1).dismiss();
+            if (popupViews.size() > 0)
+                popupViews.get(popupViews.size() - 1).dismiss();
         } else {
             int temp = -1;
             for (int i = 0; i < popupViews.size(); i++) {
@@ -285,6 +285,7 @@ public class XPopup {
     /**
      * 操作完毕后是否自动关闭弹窗，默认为true。
      * 比如：点击确认对话框的确认按钮后默认会关闭弹窗，如果设置为false则不会自动关闭
+     *
      * @param isAutoDismiss
      * @return
      */
@@ -296,10 +297,11 @@ public class XPopup {
 
     /**
      * 是否在弹窗显示的时候自动弹窗输入法，默认false
+     *
      * @param autoOpenSoftInput
      * @return
      */
-    public XPopup autoOpenSoftInput(boolean autoOpenSoftInput){
+    public XPopup autoOpenSoftInput(boolean autoOpenSoftInput) {
         checkPopupInfo();
         tempInfo.autoOpenSoftInput = autoOpenSoftInput;
         return this;
@@ -390,7 +392,7 @@ public class XPopup {
         position(PopupType.Center);
 
         ConfirmPopupView popupView = new ConfirmPopupView(contextRef.get());
-        popupView.setTitleContent(title, content);
+        popupView.setTitleContent(title, content, null);
         popupView.setListener(confirmListener, cancelListener);
         this.tempView = popupView;
         return this;
@@ -405,22 +407,27 @@ public class XPopup {
      *
      * @param title           对话框标题
      * @param content         对话框内容
+     * @param hint            输入框默认文字
      * @param confirmListener 点击确认的监听器
      * @param cancelListener  点击取消的监听器
      * @return
      */
-    public XPopup asInputConfirm(String title, String content, OnInputConfirmListener confirmListener, OnCancelListener cancelListener) {
+    public XPopup asInputConfirm(String title, String content, String hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener) {
         position(PopupType.Center);
 
         InputConfirmPopupView popupView = new InputConfirmPopupView(contextRef.get());
-        popupView.setTitleContent(title, content);
+        popupView.setTitleContent(title, content, hint);
         popupView.setListener(confirmListener, cancelListener);
         this.tempView = popupView;
         return this;
     }
 
+    public XPopup asInputConfirm(String title, String content, String hint, OnInputConfirmListener confirmListener) {
+        return asInputConfirm(title, content, hint, confirmListener, null);
+    }
+
     public XPopup asInputConfirm(String title, String content, OnInputConfirmListener confirmListener) {
-        return asInputConfirm(title, content, confirmListener, null);
+        return asInputConfirm(title, content, null, confirmListener, null);
     }
 
     /**
@@ -546,9 +553,9 @@ public class XPopup {
     /**
      * 大图浏览类型弹窗，单张图片使用场景
      *
-     * @param srcView 源View，弹窗消失的时候需回到该位置
-     * @param url 资源id，url或者文件路径
-     * @param placeholderColor 占位View的填充色，默认为-1
+     * @param srcView           源View，弹窗消失的时候需回到该位置
+     * @param url               资源id，url或者文件路径
+     * @param placeholderColor  占位View的填充色，默认为-1
      * @param placeholderStroke 占位View的边框色，默认为-1
      * @param placeholderRadius 占位View的圆角大小，默认为-1
      * @return

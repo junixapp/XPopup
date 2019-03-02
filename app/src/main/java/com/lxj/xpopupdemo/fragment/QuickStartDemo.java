@@ -98,7 +98,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowInputConfirm:
-                XPopup.get(getContext()).asInputConfirm("我是标题", "请输入内容。",
+                XPopup.get(getContext()).asInputConfirm("我是标题", "请输入内容。", "我是默认Hint文字",
                         new OnInputConfirmListener() {
                             @Override
                             public void onConfirm(String text) {
