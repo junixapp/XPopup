@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -18,7 +19,9 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Description:
@@ -52,6 +55,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=174904559,2874238085&fm=26&gp=0.jpg");
         list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548764579122&di=e3a46d9075ee49ecefb552a447974ddc&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201112%2F03%2F20111203233836_3wu5E.thumb.700_0.jpg");
         list.add("https://user-gold-cdn.xitu.io/2019/1/25/168839e977414cc1?imageView2/2/w/800/q/100");
+        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551692956639&di=8ee41e070c6a42addfc07522fda3b6c8&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160413%2F75659e9b05b04eb8adf5b52669394897.jpg");
 
         recyclerView.setAdapter(new ImageAdapter());
 
@@ -112,6 +116,18 @@ public class ImageViewerDemo extends BaseFragment {
             //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
             Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
         }
+
+        @Override
+        public File getImageFile(int position, @NonNull Object uri, @NonNull ImageView imageView) {
+            try {
+                return Glide.with(imageView).load(uri).downloadOnly(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL).get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
     }
 }
 

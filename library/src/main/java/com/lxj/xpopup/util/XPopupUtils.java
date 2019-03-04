@@ -34,10 +34,15 @@ import android.widget.Toast;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.enums.ImageType;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -117,10 +122,10 @@ public class XPopupUtils {
                 }
                 if (maxHeight != 0) {
                     // 如果content的高为match，则maxHeight限制impl
-                    if (params.height == FrameLayout.LayoutParams.MATCH_PARENT){
-                        implParams.height =  Math.min(h, maxHeight);
+                    if (params.height == FrameLayout.LayoutParams.MATCH_PARENT) {
+                        implParams.height = Math.min(h, maxHeight);
                         implView.setLayoutParams(implParams);
-                    }else {
+                    } else {
                         params.height = Math.min(h, maxHeight);
                     }
                 }
@@ -296,9 +301,10 @@ public class XPopupUtils {
         }
     }
 
-    public static void saveBmpToAlbum(final Context context, final Bitmap bitmap) {
+
+    public static void saveBmpToAlbum(final Context context, final InputStream is) {
         final Handler mainHandler = new Handler(Looper.getMainLooper());
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -306,16 +312,19 @@ public class XPopupUtils {
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_PICTURES;
                 File dirFile = new File(dirPath);
                 if (!dirFile.exists()) dirFile.mkdirs();
-
-                final File file = new File(dirPath, System.currentTimeMillis() + ".jpeg");
-                if (file.exists()) file.delete();
                 try {
-                    file.createNewFile();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
-
+                    ImageType type = ImageHeaderParser.getImageType(is);
+                    String ext = getFileExt(type);
+                    final File target = new File(dirPath, System.currentTimeMillis() + "." + ext);
+                    Log.e("tag", "extttttttttttttt: "+ext);
+                    if (target.exists()) target.delete();
+                    target.createNewFile();
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                    boolean res = writeFileFromIS(target, is);
                     //2. save
-                    MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()},
-                            new String[]{"image/jpeg"}, new MediaScannerConnection.OnScanCompletedListener() {
+                    Log.e("tag", "res: "+res);
+                    MediaScannerConnection.scanFile(context, new String[]{target.getAbsolutePath()},
+                            new String[]{"image/"+ext}, new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
                                 public void onScanCompleted(final String path, Uri uri) {
                                     mainHandler.post(new Runnable() {
@@ -331,6 +340,51 @@ public class XPopupUtils {
                 }
             }
         });
+    }
+
+    private static String getFileExt(ImageType type) {
+        switch (type) {
+            case GIF:
+                return "gif";
+            case PNG:
+            case PNG_A:
+                return "png";
+            case WEBP:
+            case WEBP_A:
+                return "webp";
+            case JPEG:
+                return "jpeg";
+        }
+        return "jpeg";
+    }
+
+    private static boolean writeFileFromIS(final File file, final InputStream is) {
+        OutputStream os = null;
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(file));
+            byte data[] = new byte[8192];
+            int len;
+            while ((len = is.read(data, 0, 8192)) != -1) {
+                os.write(data, 0, len);
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

@@ -36,6 +36,9 @@ import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 
@@ -325,8 +328,21 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public void onClick(View v) {
         if(v==tv_save){
             //save bitmap to album.
-            ImageView imageView = (ImageView) pager.getChildAt(pager.getCurrentItem());
-            XPopupUtils.saveBmpToAlbum(getContext(), ((BitmapDrawable)imageView.getDrawable()).getBitmap());
+            final ImageView imageView = (ImageView) pager.getChildAt(pager.getCurrentItem());
+            new Thread(){
+                @Override
+                public void run() {
+                    File file = imageLoader.getImageFile(position, urls.get(position), imageView);
+                    Log.e("tag", "ffffffffffffff: "+file);
+//            XPopupUtils.saveBmpToAlbum(getContext(), ((BitmapDrawable)imageView.getDrawable()).getBitmap());
+                    try {
+                        XPopupUtils.saveBmpToAlbum(getContext(), new FileInputStream(file));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+
         }
     }
 
