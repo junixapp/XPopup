@@ -78,8 +78,8 @@ public class CustomPopupDemo extends BaseFragment {
             return R.layout.custom_popup;
         }
         @Override
-        protected void initPopupContent() {
-            super.initPopupContent();
+        protected void onCreate() {
+            super.onCreate();
             findViewById(R.id.tv_close).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -111,8 +111,8 @@ public class CustomPopupDemo extends BaseFragment {
             return R.layout.custom_popup2;
         }
         @Override
-        protected void initPopupContent() {
-            super.initPopupContent();
+        protected void onCreate() {
+            super.onCreate();
             recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             ArrayList<String> data = new ArrayList<>();

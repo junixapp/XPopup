@@ -126,6 +126,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         this.afterShow = afterShow;
         this.afterDismiss = afterDismiss;
         //1. 初始化Popup
+        onCreate();
         initPopupContent();
         post(new Runnable() {
             @Override
@@ -250,8 +251,18 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         return null;
     }
 
-    // 执行初始化Popup的content
-    protected void initPopupContent() {}
+    /**
+     * 请使用onCreate，主要给弹窗内部用，未来会移除。
+     */
+    @Deprecated
+    protected void initPopupContent() { }
+
+    /**
+     * do init.
+     */
+    protected void onCreate(){
+
+    }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；

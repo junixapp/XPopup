@@ -23,8 +23,8 @@ public class CustomDrawerPopupView extends DrawerPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

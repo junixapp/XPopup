@@ -167,8 +167,8 @@ implementation 'com.lxj:xpopup:1.4.3'
             }
             // 执行初始化操作，比如：findView，设置点击，或者任何你弹窗内的业务逻辑
             @Override
-            protected void initPopupContent() {
-                super.initPopupContent();
+            protected void onCreate() {
+                super.onCreate();
                 findViewById(R.id.tv_close).setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -248,8 +248,8 @@ implementation 'com.lxj:xpopup:1.4.3'
             return R.layout.custom_drawer_popup;
         }
         @Override
-        protected void initPopupContent() {
-            super.initPopupContent();
+        protected void onCreate() {
+            super.onCreate();
             findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -289,8 +289,8 @@ implementation 'com.lxj:xpopup:1.4.3'
             return R.layout.custom_part_shadow_popup; // 编写你自己的布局
         }
         @Override
-        protected void initPopupContent() {
-            super.initPopupContent();
+        protected void onCreate() {
+            super.onCreate();
             // 实现一些UI的初始和逻辑处理
         }
     }
@@ -325,8 +325,8 @@ implementation 'com.lxj:xpopup:1.4.3'
         }
 
         @Override
-        protected void initPopupContent() {
-            super.initPopupContent();
+        protected void onCreate() {
+            super.onCreate();
             recyclerView = findViewById(R.id.recyclerView);
 
             ArrayList<String> strings = new ArrayList<>();

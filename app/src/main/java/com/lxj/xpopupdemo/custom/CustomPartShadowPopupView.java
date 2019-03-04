@@ -21,8 +21,8 @@ public class CustomPartShadowPopupView extends PartShadowPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         findViewById(R.id.btnClose).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

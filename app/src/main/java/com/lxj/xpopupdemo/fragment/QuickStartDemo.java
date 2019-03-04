@@ -1,12 +1,7 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -15,7 +10,6 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.custom.CustomBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
 

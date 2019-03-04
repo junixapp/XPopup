@@ -35,8 +35,8 @@ public class ZhihuCommentPopup extends BottomPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         recyclerView = findViewById(R.id.recyclerView);
 
         ArrayList<String> strings = new ArrayList<>();
