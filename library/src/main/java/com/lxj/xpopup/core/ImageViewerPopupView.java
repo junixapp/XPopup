@@ -17,6 +17,7 @@ import android.support.transition.TransitionSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -102,17 +103,18 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     private void setupPlaceholder(){
         placeholderView.setVisibility(isShowPlaceholder ? VISIBLE : INVISIBLE);
         if(isShowPlaceholder){
-            if(placeholderColor!=-1)
+            if(placeholderColor!=-1){
                 placeholderView.color = placeholderColor;
-            if(placeholderRadius!=-1)
+            }
+            if(placeholderRadius!=-1) {
                 placeholderView.radius = placeholderRadius;
-            if(placeholderStrokeColor!=-1)
+            }
+            if(placeholderStrokeColor!=-1) {
                 placeholderView.strokeColor = placeholderStrokeColor;
-
+            }
+            XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
             placeholderView.setTranslationX(rect.left);
             placeholderView.setTranslationY(rect.top);
-            XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
-
             placeholderView.invalidate();
         }
     }

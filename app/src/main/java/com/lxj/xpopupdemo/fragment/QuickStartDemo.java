@@ -178,7 +178,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnCustomBottomPopup:
                 XPopup.get(getActivity())
-                        .asCustom(new ZhihuCommentPopup(getContext()))
+                        .asCustom(new ZhihuCommentPopup(getContext())/*.enableGesture(false)*/)
 //                        .asCustom(new CustomBottomPopup(getContext()))
 //                        .maxWidthAndHeight(0, 1300)
                         .show();

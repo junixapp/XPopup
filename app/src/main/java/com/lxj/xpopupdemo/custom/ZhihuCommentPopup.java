@@ -50,9 +50,10 @@ public class ZhihuCommentPopup extends BottomPopupView {
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                //不要直接这样做，会导致消失动画未执行完就跳转界面，不流畅。可以将消失后的逻辑移到onDismiss回调方法中
+                //不要直接这样做，会导致消失动画未执行完就跳转界面，不流畅。
 //                dismiss();
 //                getContext().startActivity(new Intent(getContext(), DemoActivity.class))
+                //可以等消失动画执行完毕再开启新界面
                 dismissWith(new Runnable() {
                     @Override
                     public void run() {
