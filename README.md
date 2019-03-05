@@ -419,6 +419,12 @@ implementation 'com.lxj:xpopup:1.4.3'
   ```java
   XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
   ```
+- 设置全局的动画时长
+  
+    默认情况下，弹窗的动画时长为400毫秒。你可以通过下面的方法进行修改：
+    ```java
+    XPopup.setAnimationDuration(300); // 如果传入的值小于200则忽略，动画的时长会影响除Drawer弹窗外的所有弹窗
+    ```  
 
 - 常用设置
   ```java
@@ -478,7 +484,6 @@ implementation 'com.lxj:xpopup:1.4.3'
 
 ## TODO
 - 优化极限操作时的嵌套滚动体验
-- 优化Drawer弹窗滑动体验
 
 
 ## 联系方式

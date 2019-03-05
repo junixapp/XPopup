@@ -38,7 +38,6 @@ public class CustomAnimatorDemo extends BaseFragment {
     static class RotateAnimator extends PopupAnimator{
         @Override
         public void initAnimator() {
-//            animateDuration = 1000;
             targetView.setScaleX(0);
             targetView.setScaleY(0);
             targetView.setAlpha(0);
@@ -46,11 +45,11 @@ public class CustomAnimatorDemo extends BaseFragment {
         }
         @Override
         public void animateShow() {
-            targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
+            targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(getDuration()).start();
         }
         @Override
         public void animateDismiss() {
-            targetView.animate().rotation(360).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
+            targetView.animate().rotation(720).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(getDuration()).start();
         }
     }
 

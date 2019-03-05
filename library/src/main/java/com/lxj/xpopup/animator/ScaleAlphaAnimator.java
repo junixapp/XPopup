@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
+
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -64,14 +66,14 @@ public class ScaleAlphaAnimator extends PopupAnimator {
     @Override
     public void animateShow() {
         targetView.animate().scaleX(1f).scaleY(1f).alpha(1f)
-                .setDuration(animateDuration)
+                .setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new OvershootInterpolator(1f))
                 .start();
     }
 
     @Override
     public void animateDismiss() {
-        targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(animateDuration)
+        targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new FastOutSlowInInterpolator()).start();
     }
 

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.lxj.xpopup.XPopup;
+
 /**
  * Description: 背景Shadow动画器，负责执行半透明的渐入渐出动画
  * Create by dance, at 2018/12/9
@@ -35,7 +37,7 @@ public class ShadowBgAnimator extends PopupAnimator {
                 targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
             }
         });
-        animator.setDuration(animateDuration).start();
+        animator.setDuration(XPopup.getAnimationDuration()).start();
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ShadowBgAnimator extends PopupAnimator {
                 targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
             }
         });
-        animator.setDuration(animateDuration).start();
+        animator.setDuration(XPopup.getAnimationDuration()).start();
     }
 
     public int calculateBgColor(float fraction){

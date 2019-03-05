@@ -49,6 +49,7 @@ public class XPopup {
     private PopupInfo tempInfo = null;
     private BasePopupView tempView;
     private static int primaryColor = Color.parseColor("#121212");
+    private static int animationDuration = 400;
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
     private XPopup() {
@@ -220,6 +221,15 @@ public class XPopup {
 
     public static int getPrimaryColor() {
         return primaryColor;
+    }
+
+    public static void setAnimationDuration(int duration){
+        if(duration>=200){
+            animationDuration = duration;
+        }
+    }
+    public static int getAnimationDuration(){
+        return animationDuration;
     }
 
     /**

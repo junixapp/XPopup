@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -113,7 +114,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 targetView.setScaleY(scale);
             }
         });
-        animator.setDuration(animateDuration).setInterpolator(new FastOutSlowInInterpolator());
+        animator.setDuration(XPopup.getAnimationDuration()).setInterpolator(new FastOutSlowInInterpolator());
         animator.start();
     }
 
@@ -132,12 +133,9 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 targetView.setScaleY(scale);
             }
         });
-        animator.setDuration(animateDuration)
+        animator.setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new FastOutSlowInInterpolator());
         animator.start();
     }
 
-    private void doAnim(){
-
-    }
 }

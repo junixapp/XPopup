@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
@@ -158,9 +159,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 shadowBgAnimator.initAnimator();
                 if (popupContentAnimator != null) {
                     popupContentAnimator.initAnimator();
-                    shadowBgAnimator.animateDuration = popupContentAnimator.animateDuration;
                 }
-
 
                 //4. 执行动画
                 doShowAnimation();
@@ -307,7 +306,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     @Override
     public int getAnimationDuration() {
-        return popupContentAnimator == null ? 400 : popupContentAnimator.animateDuration;
+        return XPopup.getAnimationDuration();
     }
 
     protected int getMaxWidth() {

@@ -2,6 +2,7 @@ package com.lxj.xpopup.animator;
 
 import android.view.View;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -10,7 +11,6 @@ import com.lxj.xpopup.enums.PopupAnimation;
  */
 public abstract class PopupAnimator {
     public View targetView;
-    public int animateDuration = 400;
     public PopupAnimation popupAnimation; // 内置的动画
     public PopupAnimator(){}
     public PopupAnimator(View target){
@@ -25,4 +25,7 @@ public abstract class PopupAnimator {
     public abstract void initAnimator();
     public abstract void animateShow();
     public abstract void animateDismiss();
+    public int getDuration(){
+        return XPopup.getAnimationDuration();
+    }
 }

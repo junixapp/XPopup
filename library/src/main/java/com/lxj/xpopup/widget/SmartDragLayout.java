@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.OverScroller;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -122,7 +123,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         if (enableGesture) {
             int threshold = isScrollUp ? (maxY - minY) / 3 : (maxY - minY) * 2 / 3;
             int dy = (getScrollY() > threshold ? maxY : minY) - getScrollY();
-            scroller.startScroll(getScrollX(), getScrollY(), 0, dy, 400);
+            scroller.startScroll(getScrollX(), getScrollY(), 0, dy, XPopup.getAnimationDuration());
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -166,13 +167,13 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     public void open() {
-        scroller.startScroll(getScrollX(), getScrollY(), 0, maxY - getScrollY(), 500);
+        scroller.startScroll(getScrollX(), getScrollY(), 0, maxY - getScrollY(), XPopup.getAnimationDuration());
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
     public void close() {
         isUserClose = true;
-        scroller.startScroll(getScrollX(), getScrollY(), 0, minY - getScrollY(), 500);
+        scroller.startScroll(getScrollX(), getScrollY(), 0, minY - getScrollY(), XPopup.getAnimationDuration());
         ViewCompat.postInvalidateOnAnimation(this);
     }
 

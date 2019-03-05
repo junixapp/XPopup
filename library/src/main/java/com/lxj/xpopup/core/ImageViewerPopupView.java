@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
@@ -152,7 +153,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             @Override
             public void run() {
                 TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                        .setDuration(shadowBgAnimator.animateDuration)
+                        .setDuration(XPopup.getAnimationDuration())
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeTransform())
                         .addTransition(new ChangeImageTransform())
@@ -190,7 +191,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         start, endColor));
             }
         });
-        animator.setDuration(shadowBgAnimator.animateDuration)
+        animator.setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new LinearInterpolator());
         animator.start();
     }
@@ -203,7 +204,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         snapshotView.setVisibility(VISIBLE);
         photoViewContainer.isReleaseing = true;
         TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                .setDuration(shadowBgAnimator.animateDuration)
+                .setDuration(XPopup.getAnimationDuration())
                 .addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
