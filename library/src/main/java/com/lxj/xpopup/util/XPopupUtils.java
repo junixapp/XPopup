@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,12 +14,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,20 +31,19 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.ImageType;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Description:
@@ -302,27 +297,26 @@ public class XPopupUtils {
     }
 
 
-    public static void saveBmpToAlbum(final Context context, final InputStream is) {
+    public static void saveBmpToAlbum(final Context context, final XPopupImageLoader imageLoader, final Object uri) {
         final Handler mainHandler = new Handler(Looper.getMainLooper());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                File source = imageLoader.getImageFile(context, uri);
                 //1. create path
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_PICTURES;
                 File dirFile = new File(dirPath);
                 if (!dirFile.exists()) dirFile.mkdirs();
                 try {
-                    ImageType type = ImageHeaderParser.getImageType(is);
+                    ImageType type = ImageHeaderParser.getImageType(new FileInputStream(source));
                     String ext = getFileExt(type);
                     final File target = new File(dirPath, System.currentTimeMillis() + "." + ext);
-                    Log.e("tag", "extttttttttttttt: "+ext);
                     if (target.exists()) target.delete();
                     target.createNewFile();
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
-                    boolean res = writeFileFromIS(target, is);
                     //2. save
-                    Log.e("tag", "res: "+res);
+                    writeFileFromIS(target, new FileInputStream(source));
+                    //3. notify
                     MediaScannerConnection.scanFile(context, new String[]{target.getAbsolutePath()},
                             new String[]{"image/"+ext}, new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
@@ -337,6 +331,12 @@ public class XPopupUtils {
                             });
                 } catch (IOException e) {
                     e.printStackTrace();
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "保存失败！请先申请权限", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

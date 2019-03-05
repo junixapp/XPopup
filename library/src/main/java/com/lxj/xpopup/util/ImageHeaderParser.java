@@ -4,8 +4,6 @@ import com.lxj.xpopup.enums.ImageType;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
-
 import static com.lxj.xpopup.enums.ImageType.GIF;
 import static com.lxj.xpopup.enums.ImageType.JPEG;
 import static com.lxj.xpopup.enums.ImageType.PNG;
@@ -13,26 +11,13 @@ import static com.lxj.xpopup.enums.ImageType.PNG_A;
 import static com.lxj.xpopup.enums.ImageType.UNKNOWN;
 
 /**
- * Description:
+ * Description: copy from Glide.
  * Create by lxj, at 2019/3/4
  */
 public class ImageHeaderParser {
     private static final int GIF_HEADER = 0x474946;
     private static final int PNG_HEADER = 0x89504E47;
     static final int EXIF_MAGIC_NUMBER = 0xFFD8;
-    // "MM".
-    private static final int MOTOROLA_TIFF_MAGIC_NUMBER = 0x4D4D;
-    // "II".
-    private static final int INTEL_TIFF_MAGIC_NUMBER = 0x4949;
-    private static final String JPEG_EXIF_SEGMENT_PREAMBLE = "Exif\0\0";
-    static final byte[] JPEG_EXIF_SEGMENT_PREAMBLE_BYTES =
-            JPEG_EXIF_SEGMENT_PREAMBLE.getBytes(Charset.forName("UTF-8"));
-    private static final int SEGMENT_SOS = 0xDA;
-    private static final int MARKER_EOI = 0xD9;
-    static final int SEGMENT_START_ID = 0xFF;
-    static final int EXIF_SEGMENT_TYPE = 0xE1;
-    private static final int ORIENTATION_TAG_TYPE = 0x0112;
-    private static final int[] BYTES_PER_FORMAT = {0, 1, 1, 2, 4, 8, 1, 1, 2, 4, 8, 4, 8};
     // WebP-related
     // "RIFF"
     private static final int RIFF_HEADER = 0x52494646;
@@ -102,6 +87,7 @@ public class ImageHeaderParser {
             reader.skip(4);
             return (reader.getByte() & WEBP_LOSSLESS_ALPHA_FLAG) != 0 ? ImageType.WEBP_A : ImageType.WEBP;
         }
+        is.close();
         return ImageType.WEBP;
     }
     private interface Reader {

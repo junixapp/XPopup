@@ -148,7 +148,7 @@ implementation 'com.lxj:xpopup:1.4.3'
     ```java
     XPopup.get(getContext()).dismiss();
     ```
-    在弹窗内部关闭可以直接调用dismiss()方法即可。
+    在弹窗内部关闭可以直接调用`dismiss()`方法即可。
 
 
 8. **自定义弹窗**
@@ -378,6 +378,16 @@ implementation 'com.lxj:xpopup:1.4.3'
             public void loadImage(int position, @NonNull String url, @NonNull ImageView imageView) {
                 Glide.with(imageView).load(url).into(imageView);
             }
+            //必须实现这个方法，返回uri对应的缓存文件，可参照下面的实现，内部保存图片会用到。
+            @Override
+            public File getImageFile(@NonNull Context context, @NonNull Object uri) {
+                try {
+                    return Glide.with(context).downloadOnly().load(uri).submit().get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
         }
     ```
     注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为`Target.SIZE_ORIGINAL`；
@@ -469,7 +479,6 @@ implementation 'com.lxj:xpopup:1.4.3'
 ## TODO
 - 优化极限操作时的嵌套滚动体验
 - 优化Drawer弹窗滑动体验
-- 处理大图浏览Gif类型的图片
 
 
 ## 联系方式

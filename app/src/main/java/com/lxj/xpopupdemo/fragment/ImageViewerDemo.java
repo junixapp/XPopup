@@ -1,13 +1,16 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.constant.PermissionConstants;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -21,7 +24,6 @@ import com.lxj.xpopupdemo.R;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Description:
@@ -79,6 +81,19 @@ public class ImageViewerDemo extends BaseFragment {
             }
         });
 
+        //申请权限
+        if(!PermissionUtils.isGranted(PermissionConstants.STORAGE)){
+            PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
+                @Override
+                public void onGranted() {
+
+                }
+                @Override
+                public void onDenied() {
+                    ToastUtils.showLong("权限申请失败，则无法使用保存图片的功能！");
+                }
+            }).request();
+        }
     }
 
     class ImageAdapter extends CommonAdapter<Object> {
@@ -118,9 +133,9 @@ public class ImageViewerDemo extends BaseFragment {
         }
 
         @Override
-        public File getImageFile(int position, @NonNull Object uri, @NonNull ImageView imageView) {
+        public File getImageFile(@NonNull Context context, @NonNull Object uri) {
             try {
-                return Glide.with(imageView).load(uri).downloadOnly(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL).get();
+                return Glide.with(context).downloadOnly().load(uri).submit().get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
