@@ -63,7 +63,11 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     protected void doAfterShow() {
-        //do nothing self.
+        if(enableGesture){
+            //do nothing self.
+        }else {
+            super.doAfterShow();
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopupdemo.R;
@@ -18,5 +19,23 @@ public class CustomBottomPopup extends BottomPopupView {
     @Override
     protected int getImplLayoutId() {
         return R.layout.custom_bottom_popup2;
+    }
+
+    @Override
+    protected void onCreate() {
+        super.onCreate();
+        enableGesture(false);
+    }
+
+    @Override
+    protected void onShow() {
+        super.onShow();
+        Log.e("tag", "CustomBottomPopup  onShow");
+    }
+
+    @Override
+    protected void onDismiss() {
+        super.onDismiss();
+        Log.e("tag", "CustomBottomPopup  onDismiss");
     }
 }

@@ -69,7 +69,7 @@ public class CustomPopupDemo extends BaseFragment {
     }
 
 
-    static class CustomPopup extends CenterPopupView{
+    public static class CustomPopup extends CenterPopupView{
         public CustomPopup(@NonNull Context context) {
             super(context);
         }
@@ -88,7 +88,12 @@ public class CustomPopupDemo extends BaseFragment {
             });
         }
 
-//        @Override
+        @Override
+        protected void onShow() {
+            super.onShow();
+        }
+
+        //        @Override
 //        protected int getMaxHeight() {
 //            return 1200;
 //        }
