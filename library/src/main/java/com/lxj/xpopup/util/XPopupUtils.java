@@ -120,7 +120,7 @@ public class XPopupUtils {
                 if (maxHeight != 0) {
                     // 如果content的高为match，则maxHeight限制impl
                     if (params.height == FrameLayout.LayoutParams.MATCH_PARENT) {
-                        implParams.height = Math.min(h, maxHeight);
+                        implParams.height = Math.min(implView.getMeasuredHeight(), maxHeight);
                         implView.setLayoutParams(implParams);
                     } else {
                         params.height = Math.min(h, maxHeight);

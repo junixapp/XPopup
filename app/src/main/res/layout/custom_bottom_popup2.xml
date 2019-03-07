@@ -22,8 +22,8 @@
             android:padding="16dp">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:text="scroll内容"/>
+                android:layout_height="wrap_content"
+                android:text="scroll内容\nscroll内容\nscroll内容\nscroll内容\nscroll内容\n"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

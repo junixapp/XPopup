@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -24,7 +25,6 @@ public class CustomBottomPopup extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        enableGesture(false);
     }
 
     @Override
@@ -37,5 +37,10 @@ public class CustomBottomPopup extends BottomPopupView {
     protected void onDismiss() {
         super.onDismiss();
         Log.e("tag", "CustomBottomPopup  onDismiss");
+    }
+
+    @Override
+    protected int getMaxHeight() {
+        return (int) (XPopupUtils.getWindowHeight(getContext())*0.75);
     }
 }
