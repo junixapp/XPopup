@@ -17,7 +17,7 @@
         android:id="@+id/tv_content"
         android:textColor="@color/_xpopup_content_color"
         android:layout_marginTop="22dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="16dp"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
