@@ -216,10 +216,11 @@ public class XPopupUtils {
         }
 
         int dy = 0;
-        int maxY = 0;
         int popupHeight = pv.getPopupContentView().getHeight();
+        int popupWidth = pv.getPopupContentView().getWidth();
         if (pv.getPopupImplView() != null) {
             popupHeight = Math.min(popupHeight, pv.getPopupImplView().getMeasuredHeight());
+            popupWidth = Math.min(popupWidth, pv.getPopupImplView().getMeasuredWidth());
         }
         int windowHeight = getWindowHeight(pv.getContext());
         int focusEtTop = 0;
@@ -232,8 +233,8 @@ public class XPopupUtils {
         }
 
         //执行上移
-        if (pv.getMeasuredWidth() == XPopupUtils.getWindowWidth(pv.getContext()) &&
-                pv.getMeasuredHeight() == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight())) {
+        if (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
+            popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight())) {
             // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动。
             if (focusBottom + keyboardHeight < windowHeight) {
                 return;
