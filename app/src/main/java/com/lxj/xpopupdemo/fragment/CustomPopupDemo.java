@@ -31,11 +31,14 @@ import java.util.ArrayList;
 public class CustomPopupDemo extends BaseFragment {
     Spinner spinner;
     TextView temp;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_all_animator_demo;
     }
+
     PopupAnimation[] datas;
+
     @Override
     public void init(View view) {
         spinner = view.findViewById(R.id.spinner);
@@ -58,9 +61,10 @@ public class CustomPopupDemo extends BaseFragment {
 //                                .setWidthAndHeight(XPopupUtils.getWindowWidth(getContext()),XPopupUtils.getWindowHeight(getContext()))
                                 .show();
                     }
-                },200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰
+                }, 200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -69,14 +73,16 @@ public class CustomPopupDemo extends BaseFragment {
     }
 
 
-    public static class CustomPopup extends CenterPopupView{
+    public static class CustomPopup extends CenterPopupView {
         public CustomPopup(@NonNull Context context) {
             super(context);
         }
+
         @Override
         protected int getImplLayoutId() {
             return R.layout.custom_popup;
         }
+
         @Override
         protected void onCreate() {
             super.onCreate();
@@ -93,12 +99,12 @@ public class CustomPopupDemo extends BaseFragment {
             super.onShow();
         }
 
-        //        @Override
+//        @Override
 //        protected int getMaxHeight() {
-//            return 1200;
+//            return 200;
 //        }
 //
-          //返回0表示让宽度撑满window，或者你可以返回一个任意宽度
+        //返回0表示让宽度撑满window，或者你可以返回一个任意宽度
 //        @Override
 //        protected int getMaxWidth() {
 //            return 1200;
@@ -107,6 +113,7 @@ public class CustomPopupDemo extends BaseFragment {
 
     static class CustomPopup2 extends BottomPopupView {
         RecyclerView recyclerView;
+
         public CustomPopup2(@NonNull Context context) {
             super(context);
         }
@@ -115,6 +122,7 @@ public class CustomPopupDemo extends BaseFragment {
         protected int getImplLayoutId() {
             return R.layout.custom_popup2;
         }
+
         @Override
         protected void onCreate() {
             super.onCreate();
@@ -122,7 +130,7 @@ public class CustomPopupDemo extends BaseFragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             ArrayList<String> data = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
-                data.add(""+i);
+                data.add("" + i);
             }
 
             recyclerView.setAdapter(new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {

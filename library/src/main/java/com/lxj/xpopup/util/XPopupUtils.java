@@ -119,7 +119,8 @@ public class XPopupUtils {
                 }
                 if (maxHeight != 0) {
                     // 如果content的高为match，则maxHeight限制impl
-                    if (params.height == FrameLayout.LayoutParams.MATCH_PARENT) {
+                    if (params.height == FrameLayout.LayoutParams.MATCH_PARENT ||
+                            params.height == (getWindowHeight(content.getContext()) + getStatusBarHeight())) {
                         implParams.height = Math.min(implView.getMeasuredHeight(), maxHeight);
                         implView.setLayoutParams(implParams);
                     } else {
@@ -234,7 +235,7 @@ public class XPopupUtils {
 
         //执行上移
         if (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
-            popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight())) {
+                popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight())) {
             // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动。
             if (focusBottom + keyboardHeight < windowHeight) {
                 return;
