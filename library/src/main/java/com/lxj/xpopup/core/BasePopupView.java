@@ -345,6 +345,13 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         dismiss();
     }
 
+    public boolean isShow(){
+        return popupStatus==PopupStatus.Show;
+    }
+    public boolean isDismiss(){
+        return popupStatus==PopupStatus.Dismiss;
+    }
+
     /**
      * 消失动画执行完毕后执行
      */
