@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
@@ -221,13 +223,22 @@ public class XPopupUtils {
         }
         int windowHeight = getWindowHeight(pv.getContext());
         int focusEtTop = 0;
+        int focusBottom = 0;
         if (focusEt != null) {
             int[] locations = new int[2];
             focusEt.getLocationInWindow(locations);
             focusEtTop = locations[1];
+            focusBottom = focusEtTop + focusEt.getMeasuredHeight();
         }
 
         //执行上移
+        if (pv.getMeasuredWidth() == XPopupUtils.getWindowWidth(pv.getContext()) &&
+                pv.getMeasuredHeight() == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight())) {
+            // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动。
+            if (focusBottom + keyboardHeight < windowHeight) {
+                return;
+            }
+        }
         if (pv instanceof CenterPopupView) {
             int targetY = keyboardHeight - (windowHeight - popupHeight + getStatusBarHeight()) / 2; //上移到下边贴着输入法的高度
 
@@ -318,7 +329,7 @@ public class XPopupUtils {
                     writeFileFromIS(target, new FileInputStream(source));
                     //3. notify
                     MediaScannerConnection.scanFile(context, new String[]{target.getAbsolutePath()},
-                            new String[]{"image/"+ext}, new MediaScannerConnection.OnScanCompletedListener() {
+                            new String[]{"image/" + ext}, new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
                                 public void onScanCompleted(final String path, Uri uri) {
                                     mainHandler.post(new Runnable() {

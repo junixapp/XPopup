@@ -97,7 +97,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                         public void run() {
                             KeyboardUtils.showSoftInput(et);
                         }
-                    }, 405);
+                    }, getAnimationDuration()+10);
                 }
             }
             et.setOnKeyListener(new View.OnKeyListener() {
@@ -134,7 +134,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
             public void run() {
                 // 如果有导航栏，则不能覆盖导航栏，
                 if (XPopupUtils.isNavBarVisible(getContext())) {
-//                    setPadding(0, 0, 0, XPopupUtils.getNavBarHeight());
                     FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
                     params.bottomMargin = XPopupUtils.getNavBarHeight();
                     setLayoutParams(params);
