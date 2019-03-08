@@ -33,6 +33,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.ImageType;
+import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
 import java.io.BufferedOutputStream;
@@ -233,6 +234,8 @@ public class XPopupUtils {
             focusBottom = focusEtTop + focusEt.getMeasuredHeight();
         }
 
+        //暂时忽略PartShadow弹窗
+        if(pv instanceof PartShadowPopupView)return;
         //执行上移
         if (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
                 popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight())) {
@@ -262,6 +265,8 @@ public class XPopupUtils {
     }
 
     public static void moveDown(BasePopupView pv) {
+        //暂时忽略PartShadow弹窗
+        if(pv instanceof PartShadowPopupView)return;
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(1))
                 .setDuration(300).start();
