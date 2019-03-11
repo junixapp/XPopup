@@ -97,7 +97,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                         public void run() {
                             KeyboardUtils.showSoftInput(et);
                         }
-                    }, getAnimationDuration()+10);
+                    }, 10);
                 }
             }
             et.setOnKeyListener(new View.OnKeyListener() {
@@ -162,7 +162,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
                 //4. 执行动画
                 doShowAnimation();
-                focusAndProcessBackPress();
 
                 // call xpopup init.
                 doAfterShow();
@@ -178,6 +177,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
                 popupStatus = PopupStatus.Show;
                 onShow();
                 afterShow.run();
+                focusAndProcessBackPress();
             }
         }, getAnimationDuration());
     }

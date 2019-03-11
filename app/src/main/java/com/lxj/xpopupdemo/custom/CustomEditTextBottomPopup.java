@@ -12,8 +12,8 @@ import com.lxj.xpopupdemo.R;
  * Description:
  * Create by dance, at 2019/2/27
  */
-public class CustomBottomPopup extends BottomPopupView {
-    public CustomBottomPopup(@NonNull Context context) {
+public class CustomEditTextBottomPopup extends BottomPopupView {
+    public CustomEditTextBottomPopup(@NonNull Context context) {
         super(context);
     }
 
@@ -25,22 +25,23 @@ public class CustomBottomPopup extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
+//        enableGesture(false);
     }
 
     @Override
     protected void onShow() {
         super.onShow();
-        Log.e("tag", "CustomBottomPopup  onShow");
+        Log.e("tag", "CustomEditTextBottomPopup  onShow");
     }
 
     @Override
     protected void onDismiss() {
         super.onDismiss();
-        Log.e("tag", "CustomBottomPopup  onDismiss");
+        Log.e("tag", "CustomEditTextBottomPopup  onDismiss");
     }
 
-    @Override
-    protected int getMaxHeight() {
-        return (int) (XPopupUtils.getWindowHeight(getContext())*0.75);
-    }
+//    @Override
+//    protected int getMaxHeight() {
+//        return (int) (XPopupUtils.getWindowHeight(getContext())*0.75);
+//    }
 }

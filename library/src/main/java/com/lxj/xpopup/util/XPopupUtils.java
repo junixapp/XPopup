@@ -17,11 +17,13 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -257,10 +259,9 @@ public class XPopupUtils {
                 dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
             }
         }
-
         pv.getPopupContentView().animate().translationY(-dy)
-                .setDuration(300)
-                .setInterpolator(new OvershootInterpolator(1))
+                .setDuration(250)
+                .setInterpolator(new OvershootInterpolator(0))
                 .start();
     }
 
@@ -268,7 +269,7 @@ public class XPopupUtils {
         //暂时忽略PartShadow弹窗
         if(pv instanceof PartShadowPopupView)return;
         pv.getPopupContentView().animate().translationY(0)
-                .setInterpolator(new OvershootInterpolator(1))
+                .setInterpolator(new OvershootInterpolator(0))
                 .setDuration(300).start();
     }
 

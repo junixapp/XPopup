@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewTreeObserver;
 import android.widget.OverScroller;
 
 import com.lxj.xpopup.XPopup;
@@ -56,12 +57,16 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     public void onViewAdded(View c) {
         super.onViewAdded(c);
         child = c;
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                maxY = child.getMeasuredHeight();
+            }
+        });
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        maxY = child.getMeasuredHeight();
-        Log.e("tag", "maxY: "+(maxY));
         minY = 0;
         int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
         if (enableGesture) {
@@ -175,7 +180,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
                 ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
             }
         });
-
     }
 
     public void close() {

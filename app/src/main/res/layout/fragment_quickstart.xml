@@ -129,7 +129,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="200dp"
             android:orientation="horizontal">
 
             <Button
@@ -152,11 +151,14 @@
 
         </LinearLayout>
 
-
-
-        <com.lxj.xpopup.widget.BlankView
-            android:layout_width="100dp"
-            android:layout_height="90dp" />
+        <Button
+            android:id="@+id/btnCustomEditPopup"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自定义贴在输入法之上的弹窗"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
