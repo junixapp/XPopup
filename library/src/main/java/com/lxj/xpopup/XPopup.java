@@ -48,8 +48,13 @@ public class XPopup {
     private static WeakReference<Context> contextRef;
     private PopupInfo tempInfo = null;
     private BasePopupView tempView;
+
+    /**
+     * 全局弹窗的设置
+     **/
     private static int primaryColor = Color.parseColor("#121212");
     private static int animationDuration = 400;
+
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
     private XPopup() {
@@ -98,13 +103,9 @@ public class XPopup {
         tempInfo = null;
         tempView = null;
 
-        //2. show popup view with tag, 运行同时显示多个
+        //2. show
         for (BasePopupView pv : popupViews) {
-            if (pv.getTag() == tag) {
-                showInternal(pv);
-            } else {
-                showInternal(pv);
-            }
+            showInternal(pv);
         }
 
     }
@@ -223,12 +224,13 @@ public class XPopup {
         return primaryColor;
     }
 
-    public static void setAnimationDuration(int duration){
-        if(duration>=200){
+    public static void setAnimationDuration(int duration) {
+        if (duration >= 200) {
             animationDuration = duration;
         }
     }
-    public static int getAnimationDuration(){
+
+    public static int getAnimationDuration() {
         return animationDuration;
     }
 

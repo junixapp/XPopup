@@ -33,13 +33,13 @@
 
 ![](screenshot/preview_attach.gif) ![](screenshot/preview_drawer.gif)
 
-![](screenshot/preview_part.gif) ![](screenshot/image_viewer1.gif)
+![](screenshot/bottom_edit.gif) ![](screenshot/preview_part.gif) 
 
-![](screenshot/image_viewer2.gif) ![](screenshot/image_viewer3.gif)
+![](screenshot/image_viewer1.gif) ![](screenshot/image_viewer2.gif) 
 
-![](screenshot/preview2.gif) ![](screenshot/preview3.gif)
+![](screenshot/image_viewer3.gif) ![](screenshot/preview2.gif) 
 
-![](screenshot/preview4.gif)
+![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
 ## 快速体验Demo
 扫描二维码下载：
