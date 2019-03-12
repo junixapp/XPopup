@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -12,6 +13,7 @@ import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
+import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
 
 /**
@@ -37,6 +39,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowDrawerRight).setOnClickListener(this);
         view.findViewById(R.id.btnCustomBottomPopup).setOnClickListener(this);
         view.findViewById(R.id.btnCustomEditPopup).setOnClickListener(this);
+        view.findViewById(R.id.btnFullScreenPopup).setOnClickListener(this);
         view.findViewById(R.id.tv1).setOnClickListener(this);
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
@@ -182,6 +185,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 XPopup.get(getActivity())
                         .asCustom(new ZhihuCommentPopup(getContext())/*.enableGesture(false)*/)
 //                        .maxWidthAndHeight(0, 1300)
+                        .show();
+                break;
+            case R.id.btnFullScreenPopup:
+                XPopup.get(getActivity())
+                        .asCustom(new CustomFullScreenPopup(getContext()))
+                        .popupAnimation(PopupAnimation.TranslateFromBottom)
                         .show();
                 break;
             case R.id.btnCustomEditPopup:

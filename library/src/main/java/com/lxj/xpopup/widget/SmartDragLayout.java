@@ -60,13 +60,15 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                maxY = child.getMeasuredHeight();
+
+                open();
             }
         });
     }
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        Log.e("tag", "onLayoutonLayout");
+        maxY = child.getMeasuredHeight();
         minY = 0;
         int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
         if (enableGesture) {

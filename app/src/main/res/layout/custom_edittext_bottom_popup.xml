@@ -20,7 +20,6 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:singleLine="true"
         android:hint="请输入姓名" />
 
     <EditText

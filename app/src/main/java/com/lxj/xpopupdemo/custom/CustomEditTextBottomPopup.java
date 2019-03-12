@@ -9,7 +9,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
 /**
- * Description:
+ * Description: 带有输入框的Bottom弹窗
  * Create by dance, at 2019/2/27
  */
 public class CustomEditTextBottomPopup extends BottomPopupView {
@@ -19,13 +19,12 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.custom_bottom_popup2;
+        return R.layout.custom_edittext_bottom_popup;
     }
 
     @Override
     protected void onCreate() {
         super.onCreate();
-//        enableGesture(false);
     }
 
     @Override

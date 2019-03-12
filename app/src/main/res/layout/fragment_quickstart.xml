@@ -150,7 +150,13 @@
 
 
         </LinearLayout>
-
+        <Button
+            android:id="@+id/btnFullScreenPopup"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自定义全屏弹窗"
+            android:textAllCaps="false" />
         <Button
             android:id="@+id/btnCustomEditPopup"
             android:layout_marginTop="10dp"
