@@ -11,6 +11,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
@@ -40,6 +41,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnCustomBottomPopup).setOnClickListener(this);
         view.findViewById(R.id.btnCustomEditPopup).setOnClickListener(this);
         view.findViewById(R.id.btnFullScreenPopup).setOnClickListener(this);
+        view.findViewById(R.id.btnAttachPopup1).setOnClickListener(this);
+        view.findViewById(R.id.btnAttachPopup2).setOnClickListener(this);
         view.findViewById(R.id.tv1).setOnClickListener(this);
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
@@ -167,7 +170,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 toast("click " + text);
                             }
                         })
-                        .atView(v)  // 依附于所点击的View
+                        .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
                         .show();
                 break;
             case R.id.btnShowDrawerLeft:
@@ -191,6 +194,20 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 XPopup.get(getActivity())
                         .asCustom(new CustomFullScreenPopup(getContext()))
                         .popupAnimation(PopupAnimation.TranslateFromBottom)
+                        .show();
+                break;
+            case R.id.btnAttachPopup1:
+                XPopup.get(getActivity())
+                        .asCustom(new CustomAttachPopup(getContext()))
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .atView(v)
+                        .show();
+                break;
+            case R.id.btnAttachPopup2:
+                XPopup.get(getActivity())
+                        .asCustom(new CustomAttachPopup(getContext()))
+                        .atView(v)
+                        .hasShadowBg(false) // 去掉半透明背景
                         .show();
                 break;
             case R.id.btnCustomEditPopup:

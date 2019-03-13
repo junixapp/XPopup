@@ -17,7 +17,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PartShadowContainer;
 
 /**
- * Description: 依附于某个View的弹窗
+ * Description: 依附于某个View的弹窗，弹窗会出现在目标的上方或下方，如果你想要出现在目标的左边或者右边，请使用HorizontalAttachPopupView。
  * Create by dance, at 2018/12/11
  */
 public abstract class AttachPopupView extends BasePopupView {

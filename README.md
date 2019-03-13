@@ -36,13 +36,13 @@
 
 ![](screenshot/bottom_edit.gif) ![](screenshot/fullscreen.gif) 
 
-![](screenshot/preview_part.gif) ![](screenshot/image_viewer1.gif) 
+![](screenshot/horizontal_attach.gif) ![](screenshot/preview_part.gif) 
 
-![](screenshot/image_viewer2.gif) ![](screenshot/image_viewer3.gif) 
+![](screenshot/image_viewer1.gif) ![](screenshot/image_viewer2.gif) 
 
-![](screenshot/preview2.gif) ![](screenshot/preview3.gif) 
+![](screenshot/image_viewer3.gif) ![](screenshot/preview2.gif) 
 
-![](screenshot/preview4.gif)
+![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
 ## 快速体验Demo
 扫描二维码下载：
@@ -121,7 +121,7 @@ implementation 'com.lxj:xpopup:1.4.7'
                                     toast("click "+text);
                                 }
                             })
-                            .atView(v)  // 如果是要依附某个View，必须设置
+                            .atView(v)  // 如果是要依附某个View，必须设置，弹窗会智能判断出现在上方还是下方
                             .show();
     ```
     如果是想依附于某个View的触摸点，则需要先`watch`该View，然后当单击或长按触发的时候去显示：
@@ -144,6 +144,41 @@ implementation 'com.lxj:xpopup:1.4.7'
         }
     });
     ```
+    
+    **`asAttachList`方法内部是对AttachPopupView的封装，如果你的布局不是列表，可以继承AttachPopupView实现自己想要的布局。**
+    **AttachPopupView会出现在目标的上方或者下方，如果你想要出现在目标的左边或者右边（像微信朋友圈那样点赞的弹窗），可以继承HorizontalAttachPopupView，然后编写你的布局即可。**
+    
+    最简单示例如下：
+    ```java
+    public class CustomAttachPopup extends HorizontalAttachPopupView {
+        public CustomAttachPopup(@NonNull Context context) {
+            super(context);
+        }
+    
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.custom_attach_popup;
+        }
+    
+        @Override
+        protected void onCreate() {
+            super.onCreate();
+            findViewById(R.id.tv_zan).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtils.showShort("赞");
+                }
+            });
+            findViewById(R.id.tv_comment).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtils.showShort("评论");
+                }
+            });
+        }
+    }
+    ```
+    
 
 7. **关闭弹窗**
 
