@@ -43,7 +43,7 @@
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
 ## 快速体验Demo
-扫描二维码下载：
+扫描二维码下载Demo：
 ![](screenshot/download.png)
 
 如果二维码图片不可见，[点我下载Demo体验](https://fir.im/2q63)
@@ -51,7 +51,7 @@
 ## 使用
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.4.7'
+implementation 'com.lxj:xpopup:1.4.8'
 ```
 
 为了方便使用，已经内置了几种常见弹窗的实现：

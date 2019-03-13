@@ -22,7 +22,6 @@
 
     <com.lxj.xpopup.widget.VerticalRecyclerView
         android:id="@+id/recyclerView"
-        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never" />

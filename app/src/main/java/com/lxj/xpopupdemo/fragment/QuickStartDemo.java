@@ -65,6 +65,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             }
         });
 
+//        XPopup.get(getActivity()).watch(view.findViewById(R.id.btnAttachPopup2));
         drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
                 .setDrawerPosition(PopupDrawerLayout.Position.Right)
                 .hasStatusBarShadow(true);   // 添加状态栏Shadow
@@ -82,7 +83,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             public void onConfirm() {
                                 toast("click confirm");
                             }
-                        })
+                        }, null, true)
 //                        .dismissOnTouchOutside(false)
                         // 设置弹窗显示和隐藏的回调监听
 //                        .autoDismiss(false)
