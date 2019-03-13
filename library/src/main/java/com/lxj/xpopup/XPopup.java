@@ -398,16 +398,22 @@ public class XPopup {
      * @param content         对话框内容
      * @param confirmListener 点击确认的监听器
      * @param cancelListener  点击取消的监听器
+     * @param isHideCancel    是否隐藏取消按钮
      * @return
      */
-    public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
+    public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel) {
         position(PopupType.Center);
 
         ConfirmPopupView popupView = new ConfirmPopupView(contextRef.get());
         popupView.setTitleContent(title, content, null);
         popupView.setListener(confirmListener, cancelListener);
+        if(isHideCancel)popupView.hideCancelBtn();
         this.tempView = popupView;
         return this;
+    }
+
+    public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
+        return asConfirm(title, content, confirmListener, null, false);
     }
 
     public XPopup asConfirm(String title, String content, OnConfirmListener confirmListener) {
