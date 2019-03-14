@@ -42,6 +42,8 @@
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
+![](screenshot/comment_edit.gif)
+
 ## 快速体验Demo
 扫描二维码下载Demo：
 ![](screenshot/download.png)

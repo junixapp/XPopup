@@ -49,6 +49,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
                 final CustomEditTextBottomPopup textBottomPopup = new CustomEditTextBottomPopup(getContext());
                 XPopup.get(getContext()).asCustom(textBottomPopup)
                         .autoOpenSoftInput(true)
+                        .hasShadowBg(false)
                         .setPopupCallback(new XPopupCallback() {
                             @Override
                             public void onShow() { }
