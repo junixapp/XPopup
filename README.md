@@ -53,7 +53,7 @@
 ## 使用
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.4.8'
+implementation 'com.lxj:xpopup:1.4.9'
 ```
 
 为了方便使用，已经内置了几种常见弹窗的实现：
