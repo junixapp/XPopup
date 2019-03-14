@@ -57,8 +57,7 @@ public class XPopup {
 
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
-    private XPopup() {
-    }
+    private XPopup() { }
 
     public static XPopup get(final Context ctx) {
         if (instance == null) {
@@ -282,12 +281,22 @@ public class XPopup {
         return this;
     }
 
+    /**
+     * 设置当按下返回键是否关闭弹窗，默认为true
+     * @param isDismissOnBackPressed
+     * @return
+     */
     public XPopup dismissOnBackPressed(boolean isDismissOnBackPressed) {
         checkPopupInfo();
         tempInfo.isDismissOnBackPressed = isDismissOnBackPressed;
         return this;
     }
 
+    /**
+     * 设置当点击弹窗外面是否关闭弹窗，默认为true
+     * @param isDismissOnTouchOutside
+     * @return
+     */
     public XPopup dismissOnTouchOutside(boolean isDismissOnTouchOutside) {
         checkPopupInfo();
         tempInfo.isDismissOnTouchOutside = isDismissOnTouchOutside;
@@ -326,6 +335,11 @@ public class XPopup {
         return this;
     }
 
+    /**
+     * 设置是否有半透明灰色背景层，默认为true
+     * @param hasShadowBg
+     * @return
+     */
     public XPopup hasShadowBg(boolean hasShadowBg) {
         checkPopupInfo();
         tempInfo.hasShadowBg = hasShadowBg;
@@ -359,6 +373,17 @@ public class XPopup {
         checkPopupInfo();
         tempInfo.maxWidth = maxWidth;
         tempInfo.maxHeight = maxHeight;
+        return this;
+    }
+
+    /**
+     * 设置当软键盘弹出后，弹窗是否移动到软键盘上面，默认是true
+     * @param isMoveUpToKeyboard
+     * @return
+     */
+    public XPopup moveUpToKeyboard(boolean isMoveUpToKeyboard){
+        checkPopupInfo();
+        tempInfo.isMoveUpToKeyboard = isMoveUpToKeyboard;
         return this;
     }
 

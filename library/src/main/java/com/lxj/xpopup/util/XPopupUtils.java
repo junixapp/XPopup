@@ -208,6 +208,7 @@ public class XPopupUtils {
     }
 
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
+        if(!pv.popupInfo.isMoveUpToKeyboard)return;
         //判断是否盖住输入框
         ArrayList<EditText> allEts = new ArrayList<>();
         findAllEditText(allEts, pv);

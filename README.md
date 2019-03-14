@@ -472,6 +472,7 @@ implementation 'com.lxj:xpopup:1.4.8'
       .autoOpenSoftInput(true) //是否弹窗显示的同时打开输入法，只在包含输入框的弹窗内才有效，默认为false
       .popupAnimation(PopupAnimation.ScaleAlphaFromCenter) // 设置内置的动画
       .customAnimator(null) // 设置自定义的动画器
+      .moveUpToKeyboard(false) // 软键盘弹出时，弹窗是否移动到软键盘上面，默认为true
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
           @Override
           public void onShow() {

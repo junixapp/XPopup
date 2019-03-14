@@ -111,6 +111,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
 //                        .dismissOnBackPressed(false)
                         .autoOpenSoftInput(true)
+//                        .moveUpToKeyboard(false) //是否移动到软键盘上面，默认为true
                         .show();
                 break;
             case R.id.btnShowCenterList:
@@ -189,6 +190,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 XPopup.get(getActivity())
                         .asCustom(new ZhihuCommentPopup(getContext())/*.enableGesture(false)*/)
 //                        .maxWidthAndHeight(0, 1300)
+                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                         .show();
                 break;
             case R.id.btnFullScreenPopup:

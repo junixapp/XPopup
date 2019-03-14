@@ -30,6 +30,7 @@ public class PopupInfo {
     public XPopupCallback xPopupCallback;
 
     public ViewGroup decorView; //每个弹窗所属的DecorView
+    public Boolean isMoveUpToKeyboard = true; //是否移动到软键盘上面，默认弹窗会移到软键盘上面
 
     public View getAtView() {
         return atView;

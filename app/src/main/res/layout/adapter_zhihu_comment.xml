@@ -27,7 +27,8 @@
         android:layout_below="@id/name"
         android:textSize="15sp"
         android:textColor="#888"
-        android:text="这是一个自定义Bottom类型的弹窗！你可以在里面添加任何滚动的View，我已经智能处理好嵌套滚动，你只需编写UI和逻辑即可！！！"
+        android:text=""
+        android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>
