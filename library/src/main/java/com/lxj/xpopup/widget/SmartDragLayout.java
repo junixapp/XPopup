@@ -34,7 +34,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     OverScroller scroller;
     VelocityTracker tracker;
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
-    boolean enableGesture = true;//是否启用手势
+    boolean enableDrag = true;//是否启用手势
     boolean dismissOnTouchOutside = true;
     boolean hasShadowBg = true;
     boolean isUserClose = false;
@@ -49,7 +49,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
 
     public SmartDragLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        if (enableGesture) {
+        if (enableDrag) {
             scroller = new OverScroller(context);
         }
     }
@@ -70,7 +70,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         maxY = child.getMeasuredHeight();
         minY = 0;
         int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
-        if (enableGesture) {
+        if (enableDrag) {
             // horizontal center
             child.layout(l, getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight() + maxY);
             if (status == LayoutStatus.Open) {
@@ -102,14 +102,14 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(enableGesture)
+                if(enableDrag)
                     tracker = VelocityTracker.obtain();
                 touchX = event.getX();
                 touchY = event.getY();
                 downTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (enableGesture) {
+                if (enableDrag) {
                     tracker.addMovement(event);
                     tracker.computeCurrentVelocity(1000);
                     int dy = (int) (event.getY() - touchY);
@@ -129,7 +129,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                         performClick();
                     }
                 }
-                if (enableGesture) {
+                if (enableDrag) {
                     float yVelocity = tracker.getYVelocity();
                     if (yVelocity > 1500){
                         close();
@@ -147,7 +147,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     }
 
     private void finishScroll() {
-        if (enableGesture) {
+        if (enableDrag) {
             int threshold = isScrollUp ? (maxY - minY) / 3 : (maxY - minY) * 2 / 3;
             int dy = (getScrollY() > threshold ? maxY : minY) - getScrollY();
             scroller.startScroll(getScrollX(), getScrollY(), 0, dy, XPopup.getAnimationDuration());
@@ -227,7 +227,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
 
     @Override
     public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
-        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL && enableGesture;
+        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL && enableDrag;
     }
 
     @Override
@@ -275,8 +275,8 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         return ViewCompat.SCROLL_AXIS_VERTICAL;
     }
 
-    public void enableGesture(boolean enableGesture) {
-        this.enableGesture = enableGesture;
+    public void enableDrag(boolean enableDrag) {
+        this.enableDrag = enableDrag;
     }
 
     public void dismissOnTouchOutside(boolean dismissOnTouchOutside) {

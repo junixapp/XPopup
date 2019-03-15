@@ -102,7 +102,7 @@ implementation 'com.lxj:xpopup:1.4.9'
     XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
                             // null, /** 图标Id数组，可无 **/
                             // 1,    /** 选中的position，默认没有选中效果 **/
-                            // enableGesture, /** 是否启用手势交互，默认启用。手势交互模式下，无法设置其他的动画器；禁用后无法进行手势交互，但是可以设置动画器 **/
+                            // enableDrag, /** 是否启用手势交互，默认启用。手势交互模式下，无法设置其他的动画器；禁用后无法进行手势交互，但是可以设置动画器 **/
                             new OnSelectListener() {
                                 @Override
                                 public void onSelect(int position, String text) {
@@ -344,7 +344,7 @@ implementation 'com.lxj:xpopup:1.4.9'
 
 12. **自定义Bottom类型的弹窗**
 
-    自定义Bottom类型的弹窗会比较常见，默认Bottom弹窗带有手势交互和嵌套滚动；如果您不想要手势交互可以调用`enableGesture(false)`方法关闭。
+    自定义Bottom类型的弹窗会比较常见，默认Bottom弹窗带有手势交互和嵌套滚动；如果您不想要手势交互可以调用`enableDrag(false)`方法关闭。
 
     如果弹窗内有输入框，在弹出输入法的情况下，弹窗默认会贴附在输入法之上，并且保证不会盖住输入框；目前Center和Bottom类型弹窗有此效果。
 

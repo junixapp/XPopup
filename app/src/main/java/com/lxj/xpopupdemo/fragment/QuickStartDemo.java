@@ -187,7 +187,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnCustomBottomPopup:
                 XPopup.get(getActivity())
-                        .asCustom(new ZhihuCommentPopup(getContext())/*.enableGesture(false)*/)
+                        .asCustom(new ZhihuCommentPopup(getContext())/*.enableDrag(false)*/)
 //                        .maxWidthAndHeight(0, 1300)
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                         .show();

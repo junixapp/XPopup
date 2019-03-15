@@ -527,13 +527,13 @@ public class XPopup {
      * @param selectListener  选中条目的监听器
      * @return
      */
-    public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, boolean enableGesture, OnSelectListener selectListener) {
+    public XPopup asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener) {
         position(PopupType.Bottom);
         this.tempView = new BottomListPopupView(contextRef.get())
                 .setStringData(title, data, iconIds)
                 .setCheckedPosition(checkedPosition)
                 .setOnSelectListener(selectListener)
-                .enableGesture(enableGesture);
+                .enableDrag(enableDrag);
         return this;
     }
 
@@ -549,8 +549,8 @@ public class XPopup {
         return asBottomList(title, data, iconIds, checkedPosition, true, selectListener);
     }
 
-    public XPopup asBottomList(String title, String[] data, int[] iconIds, boolean enableGesture, OnSelectListener selectListener) {
-        return asBottomList(title, data, iconIds, -1, enableGesture, selectListener);
+    public XPopup asBottomList(String title, String[] data, int[] iconIds, boolean enableDrag, OnSelectListener selectListener) {
+        return asBottomList(title, data, iconIds, -1, enableDrag, selectListener);
     }
 
 
