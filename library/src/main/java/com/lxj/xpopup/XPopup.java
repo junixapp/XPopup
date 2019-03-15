@@ -184,7 +184,7 @@ public class XPopup {
      */
     public void dismiss(Object tag) {
         if (tag == null) {
-            //如果没有tag，则因此第0个
+            //如果没有tag，则关闭最上面的
             if (popupViews.size() > 0)
                 popupViews.get(popupViews.size() - 1).dismiss();
         } else {

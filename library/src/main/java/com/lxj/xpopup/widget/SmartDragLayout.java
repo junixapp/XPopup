@@ -33,6 +33,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     boolean hasShadowBg = true;
     boolean isUserClose = false;
     LayoutStatus status = LayoutStatus.Close;
+
     public SmartDragLayout(Context context) {
         this(context, null);
     }
@@ -57,14 +58,10 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     public void onViewAdded(View c) {
         super.onViewAdded(c);
         child = c;
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-
-                open();
-            }
-        });
     }
+
+    int lastHeight;
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         maxY = child.getMeasuredHeight();
@@ -73,10 +70,15 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         if (enableGesture) {
             // horizontal center
             child.layout(l, getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight() + maxY);
+            if (status == LayoutStatus.Open) {
+                //通过scroll上移
+                scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
+            }
         } else {
             // like bottom gravity
             child.layout(l, getMeasuredHeight() - child.getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight());
         }
+        lastHeight = maxY;
     }
 
     @Override
@@ -136,23 +138,24 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     boolean isScrollUp;
+
     @Override
     public void scrollTo(int x, int y) {
         if (y > maxY) y = maxY;
         if (y < minY) y = minY;
         float fraction = (y - minY) * 1f / (maxY - minY);
+        isScrollUp = y > getScrollY();
         if (hasShadowBg)
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
-        if(listener!=null){
-            if (isUserClose && fraction == 0f && status!=LayoutStatus.Close) {
+        if (listener != null) {
+            if (isUserClose && fraction == 0f && status != LayoutStatus.Close) {
                 status = LayoutStatus.Close;
                 listener.onClose();
-            }else if(fraction==1f && status!=LayoutStatus.Open){
+            } else if (fraction == 1f && status != LayoutStatus.Open) {
                 status = LayoutStatus.Open;
                 listener.onOpen();
             }
         }
-        isScrollUp = y > getScrollY();
         super.scrollTo(x, y);
     }
 
@@ -174,21 +177,31 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
     }
 
     public void open() {
+        status = LayoutStatus.Opening;
         post(new Runnable() {
             @Override
             public void run() {
-                scroller.startScroll(getScrollX(), getScrollY(), 0, maxY - getScrollY(), XPopup.getAnimationDuration());
-                ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
+                smoothScroll(maxY - getScrollY());
             }
         });
     }
 
     public void close() {
         isUserClose = true;
+        status = LayoutStatus.Closing;
         post(new Runnable() {
             @Override
             public void run() {
-                scroller.startScroll(getScrollX(), getScrollY(), 0, minY - getScrollY(), XPopup.getAnimationDuration());
+                smoothScroll(minY - getScrollY());
+            }
+        });
+    }
+
+    public void smoothScroll(final int dy) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, XPopup.getAnimationDuration());
                 ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
             }
         });
@@ -260,6 +273,7 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
 
     public interface OnCloseListener {
         void onClose();
+
         void onOpen();
     }
 }

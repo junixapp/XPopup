@@ -48,7 +48,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv3).setOnClickListener(this);
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
-
         XPopup.get(getActivity()).watch(view.findViewById(R.id.btnShowAttachPoint));
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override

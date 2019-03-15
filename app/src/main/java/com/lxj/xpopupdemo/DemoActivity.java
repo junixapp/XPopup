@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,5 +48,25 @@ public class DemoActivity extends AppCompatActivity {
                 }).show("b");
             }
         }).show("a");
+
+//        final TextView text = findViewById(R.id.text);
+//        text.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Customxxx customxxx = new Customxxx(DemoActivity.this);
+//                customxxx.listener = new Customxxx.OnCustomConfirmListener() {
+//                    @Override
+//                    public void onConfirm() {
+//                        ViewGroup.LayoutParams params = text.getLayoutParams();
+//                        params.height += 100;
+//                        text.setLayoutParams(params);
+//
+//                    }
+//                };
+//                XPopup.get(DemoActivity.this).asCustom(customxxx).show();
+//            }
+//        });
+
+
     }
 }
