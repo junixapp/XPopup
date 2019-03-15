@@ -135,7 +135,7 @@ public class CustomPopupDemo extends BaseFragment {
 
             recyclerView.setAdapter(new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
                 @Override
-                protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
+                protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                     holder.setText(android.R.id.text1, s);
                 }
             });

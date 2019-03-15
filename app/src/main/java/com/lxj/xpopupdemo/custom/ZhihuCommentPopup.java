@@ -71,7 +71,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
         }
         commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, data) {
             @Override
-            protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
+            protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.name, "知乎大神 - "+position)
                 .setText(R.id.comment, s);
             }

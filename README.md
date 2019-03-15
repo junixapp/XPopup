@@ -53,7 +53,7 @@
 ## 使用
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.4.9'
+implementation 'com.lxj:xpopup:1.5.0'
 ```
 
 为了方便使用，已经内置了几种常见弹窗的实现：
@@ -373,7 +373,7 @@ implementation 'com.lxj:xpopup:1.4.9'
             }
             CommonAdapter<String> commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, strings) {
                 @Override
-                protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {}
+                protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {}
             };
             commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
                 @Override
