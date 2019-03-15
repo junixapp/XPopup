@@ -4,5 +4,4 @@
     android:id="@+id/bottomPopupContainer"
     android:layout_gravity="bottom"
     android:layout_height="match_parent">
-
 </com.lxj.xpopup.widget.SmartDragLayout>

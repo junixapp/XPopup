@@ -35,6 +35,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.ImageType;
+import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
@@ -240,8 +241,10 @@ public class XPopupUtils {
         //暂时忽略PartShadow弹窗
         if(pv instanceof PartShadowPopupView)return;
         //执行上移
-        if (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
-                popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight())) {
+        if (pv instanceof FullScreenPopupView ||
+                (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
+                popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight()))
+        ) {
             // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动。
             if (focusBottom + keyboardHeight < windowHeight) {
                 return;

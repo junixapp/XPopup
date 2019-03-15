@@ -1,24 +1,13 @@
 package com.lxj.xpopupdemo;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lxj.easyadapter.CommonAdapter;
-import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
-
-import java.util.ArrayList;
 
 /**
  * Description:
@@ -49,23 +38,6 @@ public class DemoActivity extends AppCompatActivity {
             }
         }).show("a");
 
-//        final TextView text = findViewById(R.id.text);
-//        text.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Customxxx customxxx = new Customxxx(DemoActivity.this);
-//                customxxx.listener = new Customxxx.OnCustomConfirmListener() {
-//                    @Override
-//                    public void onConfirm() {
-//                        ViewGroup.LayoutParams params = text.getLayoutParams();
-//                        params.height += 100;
-//                        text.setLayoutParams(params);
-//
-//                    }
-//                };
-//                XPopup.get(DemoActivity.this).asCustom(customxxx).show();
-//            }
-//        });
 
 
     }

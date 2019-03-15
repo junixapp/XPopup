@@ -3,15 +3,20 @@ package com.lxj.xpopup.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.NestedScrollingParent;
+import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.OverScroller;
 
 import com.lxj.xpopup.XPopup;
@@ -23,17 +28,17 @@ import com.lxj.xpopup.util.XPopupUtils;
  * Description: 智能的拖拽布局，优先滚动整体，整体滚到头，则滚动内部能滚动的View
  * Create by dance, at 2018/12/23
  */
-public class SmartDragLayout extends CardView implements NestedScrollingParent {
+public class SmartDragLayout extends FrameLayout implements NestedScrollingParent {
     private static final String TAG = "SmartDragLayout";
     private View child;
     OverScroller scroller;
+    VelocityTracker tracker;
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
     boolean enableGesture = true;//是否启用手势
     boolean dismissOnTouchOutside = true;
     boolean hasShadowBg = true;
     boolean isUserClose = false;
     LayoutStatus status = LayoutStatus.Close;
-
     public SmartDragLayout(Context context) {
         this(context, null);
     }
@@ -46,8 +51,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         super(context, attrs, defStyleAttr);
         if (enableGesture) {
             scroller = new OverScroller(context);
-            setCardElevation(XPopupUtils.dp2px(context, 10));
-            setBackgroundColor(Color.TRANSPARENT);
         }
     }
 
@@ -99,12 +102,16 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if(enableGesture)
+                    tracker = VelocityTracker.obtain();
                 touchX = event.getX();
                 touchY = event.getY();
                 downTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (enableGesture) {
+                    tracker.addMovement(event);
+                    tracker.computeCurrentVelocity(1000);
                     int dy = (int) (event.getY() - touchY);
                     scrollTo(getScrollX(), getScrollY() - dy);
                     touchY = event.getY();
@@ -112,7 +119,6 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                finishScroll();
                 // click in child rect
                 Rect rect = new Rect();
                 child.getGlobalVisibleRect(rect);
@@ -123,6 +129,18 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
                         performClick();
                     }
                 }
+                if (enableGesture) {
+                    float yVelocity = tracker.getYVelocity();
+                    if (yVelocity > 1500){
+                        close();
+                    }else {
+                        finishScroll();
+                    }
+
+                    tracker.clear();
+                    tracker.recycle();
+                }
+
                 break;
         }
         return true;
@@ -240,6 +258,10 @@ public class SmartDragLayout extends CardView implements NestedScrollingParent {
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
+        boolean isDragging = getScrollY()>minY && getScrollY()<maxY;
+        if(isDragging && velocityY<-1500){
+            close();
+        }
         return false;
     }
 

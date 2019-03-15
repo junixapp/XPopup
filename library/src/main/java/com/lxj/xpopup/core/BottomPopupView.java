@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import com.lxj.xpopup.widget.SmartDragLayout;
 public class BottomPopupView extends BasePopupView {
     protected SmartDragLayout bottomPopupContainer;
     boolean enableGesture = true; //是否启用手势交互，默认启用
-
     public BottomPopupView(@NonNull Context context) {
         super(context);
         bottomPopupContainer = findViewById(R.id.bottomPopupContainer);
