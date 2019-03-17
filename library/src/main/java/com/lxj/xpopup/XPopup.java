@@ -53,7 +53,7 @@ public class XPopup {
      * 全局弹窗的设置
      **/
     private static int primaryColor = Color.parseColor("#121212");
-    private static int animationDuration = 400;
+    private static int animationDuration = 360;
 
     private static ArrayList<BasePopupView> popupViews = new ArrayList<>();
 
