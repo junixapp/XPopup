@@ -319,7 +319,6 @@ public class XPopupUtils {
         }
     }
 
-
     public static void saveBmpToAlbum(final Context context, final XPopupImageLoader imageLoader, final Object uri) {
         final Handler mainHandler = new Handler(Looper.getMainLooper());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -327,6 +326,7 @@ public class XPopupUtils {
             @Override
             public void run() {
                 File source = imageLoader.getImageFile(context, uri);
+                if(source==null)return;
                 //1. create path
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_PICTURES;
                 File dirFile = new File(dirPath);
