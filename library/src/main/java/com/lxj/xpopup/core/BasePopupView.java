@@ -355,12 +355,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         return popupStatus==PopupStatus.Dismiss;
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        isCreated = false;
-    }
-
     /**
      * 消失动画执行完毕后执行
      */

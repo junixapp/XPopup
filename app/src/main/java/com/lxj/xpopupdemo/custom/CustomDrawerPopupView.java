@@ -2,6 +2,7 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class CustomDrawerPopupView extends DrawerPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
+        Log.e("tag", "CustomDrawerPopupView onCreate");
         text = findViewById(R.id.text);
         findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
             @Override
