@@ -44,7 +44,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     protected ShadowBgAnimator shadowBgAnimator;
     private int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
-
+    private boolean isCreated = false;
     public BasePopupView(@NonNull Context context) {
         super(context);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -127,7 +127,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         this.afterShow = afterShow;
         this.afterDismiss = afterDismiss;
         //1. 初始化Popup
-        onCreate();
+        if(!isCreated){
+            isCreated = true;
+            onCreate();
+        }
         initPopupContent();
         post(new Runnable() {
             @Override
@@ -350,6 +353,12 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
     public boolean isDismiss(){
         return popupStatus==PopupStatus.Dismiss;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        isCreated = false;
     }
 
     /**
