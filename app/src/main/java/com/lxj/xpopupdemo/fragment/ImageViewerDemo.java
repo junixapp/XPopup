@@ -2,9 +2,12 @@ package com.lxj.xpopupdemo.fragment;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.constant.PermissionConstants;
@@ -42,11 +45,13 @@ public class ImageViewerDemo extends BaseFragment {
     ArrayList<Object> list = new ArrayList<>();
     RecyclerView recyclerView;
     ImageView image1, image2;
+    ViewPager pager;
 
     @Override
     public void init(View view) {
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
+        pager = view.findViewById(R.id.pager);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -68,7 +73,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 XPopup.get(getContext())
-                        .asImageViewer(image1, url1, -1, -1, 50,new ImageLoader())
+                        .asImageViewer(image1, url1, -1, -1, 50, new ImageLoader())
                         .show();
             }
         });
@@ -81,13 +86,19 @@ public class ImageViewerDemo extends BaseFragment {
             }
         });
 
+        //ViewPager bind data
+        pager.setOffscreenPageLimit(list.size());
+        pager.setAdapter(new ImagePagerAdapter());
+
+
         //申请权限
-        if(!PermissionUtils.isGranted(PermissionConstants.STORAGE)){
+        if (!PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
             PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
                 @Override
                 public void onGranted() {
 
                 }
+
                 @Override
                 public void onDenied() {
                     ToastUtils.showLong("权限申请失败，则无法使用保存图片的功能！");
@@ -122,6 +133,54 @@ public class ImageViewerDemo extends BaseFragment {
                             .show();
                 }
             });
+        }
+    }
+
+    class ImagePagerAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
+            return view == o;
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+            final ImageView imageView = new ImageView(container.getContext());
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            container.addView(imageView);
+
+            //1. 加载图片
+            Glide.with(imageView).load(list.get(position)).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
+                    .into(imageView);
+            //2. 设置点击
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    XPopup.get(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
+                        @Override
+                        public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
+                            //1.pager更新当前显示的图片
+                            pager.setCurrentItem(position, false);
+                            //2.更新弹窗的srcView，注意这里的position是list中的position，上面ViewPager设置了pageLimit数量，
+                            //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
+                            popupView.updateSrcView((ImageView) pager.getChildAt(position));
+                        }
+                    }, new ImageLoader())
+                            .show();
+                }
+            });
+
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            container.removeView((View) object);
         }
     }
 
