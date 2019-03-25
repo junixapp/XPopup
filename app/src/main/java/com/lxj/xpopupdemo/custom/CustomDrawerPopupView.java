@@ -39,4 +39,16 @@ public class CustomDrawerPopupView extends DrawerPopupView {
         });
         text.setText(new Random().nextInt()+"");
     }
+
+    @Override
+    protected void onShow() {
+        super.onShow();
+        Log.e("tag", "CustomDrawerPopupView onShow");
+    }
+
+    @Override
+    protected void onDismiss() {
+        super.onDismiss();
+        Log.e("tag", "CustomDrawerPopupView onDismiss");
+    }
 }

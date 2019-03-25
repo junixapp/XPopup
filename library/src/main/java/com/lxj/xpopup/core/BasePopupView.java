@@ -73,7 +73,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                     if (popupInfo.isDismissOnBackPressed)
                         dismiss();
                     return true;

@@ -70,6 +70,16 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="3" />
+            <TextView
+                android:id="@+id/tv_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:drawablePadding="8dp"
+                android:padding="15dp"
+                android:text="筛选"
+                android:textColor="#000"
+                android:textSize="16sp" />
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
