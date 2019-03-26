@@ -1,8 +1,8 @@
 package com.lxj.xpopup.core;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.opengl.ETC1;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -45,6 +45,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     private int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
     private boolean isCreated = false;
+
     public BasePopupView(@NonNull Context context) {
         super(context);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -65,7 +66,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         super(context, attrs, defStyleAttr);
     }
 
-    private void focusAndProcessBackPress(){
+    private void focusAndProcessBackPress() {
         // 处理返回按键
         setFocusableInTouchMode(true);
         requestFocus();
@@ -87,11 +88,11 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
         for (int i = 0; i < list.size(); i++) {
             final View et = list.get(i);
-            if(i==0){
+            if (i == 0) {
                 et.setFocusable(true);
                 et.setFocusableInTouchMode(true);
                 et.requestFocus();
-                if(popupInfo.autoOpenSoftInput){
+                if (popupInfo.autoOpenSoftInput) {
                     postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -114,20 +115,16 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         }
     }
 
-    Runnable afterShow,afterDismiss;
 
     /**
      * 执行初始化
      *
-     * @param afterShow
      */
-    public void init(Runnable afterShow, Runnable afterDismiss) {
+    public void init() {
         if (popupStatus != PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Showing;
-        this.afterShow = afterShow;
-        this.afterDismiss = afterDismiss;
         //1. 初始化Popup
-        if(!isCreated){
+        if (!isCreated) {
             isCreated = true;
             onCreate();
         }
@@ -173,13 +170,49 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     }
 
-    protected void doAfterShow(){
+    public BasePopupView show() {
+        if (getParent() != null) return this;
+        final Activity activity = (Activity) getContext();
+        popupInfo.decorView = (ViewGroup) activity.getWindow().getDecorView();
+        KeyboardUtils.registerSoftInputChangedListener(activity, new KeyboardUtils.OnSoftInputChangedListener() {
+            @Override
+            public void onSoftInputChanged(int height) {
+                if (height == 0) { // 说明对话框隐藏
+                    XPopupUtils.moveDown(BasePopupView.this);
+                } else {
+                    //when show keyboard, move up
+                    XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
+                }
+            }
+        });
+        // 1. add PopupView to its decorView after measured.
+        popupInfo.decorView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (getParent() != null) {
+                    ((ViewGroup) getParent()).removeView(BasePopupView.this);
+                }
+                popupInfo.decorView.addView(BasePopupView.this, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT));
+
+                //2. do init
+                init();
+            }
+        });
+        return this;
+    }
+
+    protected void doAfterShow() {
         postDelayed(new Runnable() {
             @Override
             public void run() {
                 popupStatus = PopupStatus.Show;
                 onShow();
-                afterShow.run();
+                if (popupInfo != null && popupInfo.xPopupCallback != null)
+                    popupInfo.xPopupCallback.onShow();
+                if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0) {
+                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()), BasePopupView.this);
+                }
                 focusAndProcessBackPress();
             }
         }, getAnimationDuration());
@@ -227,6 +260,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     /**
      * 如果你自己继承BasePopupView来做，这个不用实现
+     *
      * @return
      */
     protected int getImplLayoutId() {
@@ -261,9 +295,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     /**
      * do init.
      */
-    protected void onCreate(){
-
-    }
+    protected void onCreate() { }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
@@ -329,40 +361,64 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         doAfterDismiss();
     }
 
-    protected void doAfterDismiss(){
+    protected void doAfterDismiss() {
         KeyboardUtils.hideSoftInput(this);
         postDelayed(new Runnable() {
             @Override
             public void run() {
                 onDismiss();
-                if(afterDismiss!=null)afterDismiss.run();
-                if(dismissWithRunnable!=null)dismissWithRunnable.run();
+                // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
+                View contentView = ((Activity)getContext()).findViewById(android.R.id.content);
+                contentView.setFocusable(true);
+                contentView.setFocusableInTouchMode(true);
+
+                // 移除弹窗
+                popupInfo.decorView.removeView(BasePopupView.this);
+                KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView);
+
+                if (popupInfo != null && popupInfo.xPopupCallback != null) {
+                    popupInfo.xPopupCallback.onDismiss();
+                }
+                if (dismissWithRunnable != null) dismissWithRunnable.run();
                 popupStatus = PopupStatus.Dismiss;
             }
         }, getAnimationDuration());
     }
 
     Runnable dismissWithRunnable;
-    protected void dismissWith(Runnable runnable){
+
+    protected void dismissWith(Runnable runnable) {
         this.dismissWithRunnable = runnable;
         dismiss();
     }
 
-    public boolean isShow(){
-        return popupStatus!=PopupStatus.Dismiss;
+    public boolean isShow() {
+        return popupStatus != PopupStatus.Dismiss;
     }
-    public boolean isDismiss(){
-        return popupStatus==PopupStatus.Dismiss;
+
+    public boolean isDismiss() {
+        return popupStatus == PopupStatus.Dismiss;
+    }
+
+    public void toggle(){
+        if(isShow()){
+            dismiss();
+        }else {
+            show();
+        }
     }
 
     /**
      * 消失动画执行完毕后执行
      */
-    protected void onDismiss(){}
+    protected void onDismiss() {
+    }
+
     /**
      * 显示动画执行完毕后执行
      */
-    protected void onShow(){}
+    protected void onShow() {
+    }
 
     private float x, y;
     private long downTime;

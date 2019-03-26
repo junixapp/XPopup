@@ -72,7 +72,7 @@ public class ImageViewerDemo extends BaseFragment {
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                XPopup.get(getContext())
+                new XPopup.Builder(getContext())
                         .asImageViewer(image1, url1, -1, -1, 50, new ImageLoader())
                         .show();
             }
@@ -80,7 +80,7 @@ public class ImageViewerDemo extends BaseFragment {
         image2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                XPopup.get(getContext())
+                new XPopup.Builder(getContext())
                         .asImageViewer(image2, url2, new ImageLoader())
                         .show();
             }
@@ -124,7 +124,7 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    XPopup.get(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
+                    new XPopup.Builder(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
                             popupView.updateSrcView((ImageView) recyclerView.getChildAt(position));
@@ -161,7 +161,8 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    XPopup.get(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
+                    new XPopup.Builder(getContext())
+                            .asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
                             //1.pager更新当前显示的图片

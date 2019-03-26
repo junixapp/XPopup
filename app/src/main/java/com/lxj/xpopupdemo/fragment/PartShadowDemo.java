@@ -69,7 +69,6 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         });
         recyclerView.setAdapter(adapter);
 
-        popupView = new CustomPartShadowPopupView(getContext());
     }
 
 
@@ -77,11 +76,10 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_all:
-                if(popupView.isShow()) {
-                    XPopup.get(getActivity()).dismiss();
-                }else {
-                    XPopup.get(getActivity())
-                            .asCustom(popupView)
+            case R.id.tv_price:
+            case R.id.tv_sales:
+                if(popupView==null){
+                    popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                             .atView(v)
                             .setPopupCallback(new XPopupCallback() {
                                 @Override
@@ -94,19 +92,19 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                                     Toast.makeText(getActivity(), "关闭了，更改箭头向上", Toast.LENGTH_SHORT).show();
                                 }
                             })
-                            .show();
+                            .asCustom(new CustomPartShadowPopupView(getContext()));
                 }
-
+                popupView.toggle();
                 break;
             case R.id.tv_filter:
-                XPopup.get(getActivity())
+                new XPopup.Builder(getContext())
                         .asCustom(drawerPopupView)
                         .show();
                 break;
             case R.id.tv_select:
-                XPopup.get(getActivity())
-                        .asCustom(new CustomPartShadowPopupView(getContext()))
+                new XPopup.Builder(getContext())
                         .atView(v)
+                        .asCustom(new CustomPartShadowPopupView(getContext()))
                         .show();
                 break;
         }

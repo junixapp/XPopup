@@ -191,6 +191,7 @@ public class PopupDrawerLayout extends FrameLayout {
      * 关闭Drawer
      */
     public void close() {
+        if(dragHelper.continueSettling(true))return;
         post(new Runnable() {
             @Override
             public void run() {

@@ -59,7 +59,7 @@ implementation 'com.lxj:xpopup:1.5.2'
 为了方便使用，已经内置了几种常见弹窗的实现：
 1. **显示确认和取消对话框**
     ```java
-    XPopup.get(getContext()).asConfirm("我是标题", "我是内容",
+    new XPopup.Builder(getContext()).asConfirm("我是标题", "我是内容",
                             new OnConfirmListener() {
                                 @Override
                                 public void onConfirm() {
@@ -70,7 +70,7 @@ implementation 'com.lxj:xpopup:1.5.2'
     ```
 2. **显示带输入框的确认和取消对话框**
     ```java
-    XPopup.get(getContext()).asInputConfirm("我是标题", "请输入内容。",
+    new XPopup.Builder(getContext()).asInputConfirm("我是标题", "请输入内容。",
                             new OnInputConfirmListener() {
                                 @Override
                                 public void onConfirm(String text) {
@@ -81,65 +81,66 @@ implementation 'com.lxj:xpopup:1.5.2'
     ```
 3. **显示中间弹出的列表弹窗**
     ```java
-    XPopup.get(getActivity()).asCenterList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4"},
-                            // null, /** 图标Id数组，可无 **/
-                            // 1,    /** 选中的position，默认没有选中效果 **/
+    new XPopup.Builder(getContext())
+                            .maxWidth(600)
+                            .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
                             new OnSelectListener() {
                                 @Override
                                 public void onSelect(int position, String text) {
-                                    toast("click "+text);
+                                    toast("click " + text);
                                 }
                             })
                             .show();
     ```
 4. **显示中间弹出的加载框**
     ```java
-    XPopup.get(getActivity()).asLoading(/*"可设置加载框标题"*/).show();
+    new XPopup.Builder(getContext())
+                            .asLoading("正在加载中")
+                            .show();
     ```
 5. **显示从底部弹出的列表弹窗**
     ```java
     // 这种弹窗从 1.0.0版本开始实现了优雅的手势交互和智能嵌套滚动
-    XPopup.get(getActivity()).asBottomList("请选择一项",new String[]{"条目1", "条目2", "条目3", "条目4","条目5"},
-                            // null, /** 图标Id数组，可无 **/
-                            // 1,    /** 选中的position，默认没有选中效果 **/
-                            // enableDrag, /** 是否启用手势交互，默认启用。手势交互模式下，无法设置其他的动画器；禁用后无法进行手势交互，但是可以设置动画器 **/
+    new XPopup.Builder(getContext())
+                            .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                             new OnSelectListener() {
                                 @Override
                                 public void onSelect(int position, String text) {
-                                    toast("click "+text);
+                                    toast("click " + text);
                                 }
                             })
                             .show();
     ```
 6. **显示依附于某个View或者某个点的弹窗**
     ```java
-    XPopup.get(getActivity()).asAttachList(new String[]{"分享", "编辑", "不带icon"},
+    new XPopup.Builder(getContext())
+                            .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
+                            .asAttachList(new String[]{"分享", "编辑", "不带icon"},
                             new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
                             new OnSelectListener() {
                                 @Override
                                 public void onSelect(int position, String text) {
-                                    toast("click "+text);
+                                    toast("click " + text);
                                 }
                             })
-                            .atView(v)  // 如果是要依附某个View，必须设置，弹窗会智能判断出现在上方还是下方
                             .show();
     ```
     如果是想依附于某个View的触摸点，则需要先`watch`该View，然后当单击或长按触发的时候去显示：
     ```java
     // 必须在事件发生前，调用这个方法来监视View的触摸
-    XPopup.get(getActivity()).watch(view);
+    final XPopup.Builder builder = new XPopup.Builder(getContext())
+                    .watchView(view.findViewById(R.id.btnShowAttachPoint));
     view.setOnLongClickListener(new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            XPopup.get(getActivity()).asAttachList(new String[]{"置顶", "复制", "删除"},null,
-                    new OnSelectListener() {
-                        @Override
-                        public void onSelect(int position, String text) {
-                            toast("click "+text);
-                        }
-                    })
-                    // 注意：已经监视了View的触摸点，无需调用atView()方法
-                    .show();
+            builder.asAttachList(new String[]{"置顶", "复制", "删除"}, null,
+                                    new OnSelectListener() {
+                                        @Override
+                                        public void onSelect(int position, String text) {
+                                            toast("click " + text);
+                                        }
+                                    })
+                                    .show();
             return false;
         }
     });
@@ -182,16 +183,13 @@ implementation 'com.lxj:xpopup:1.5.2'
 
 7. **关闭弹窗**
 
-    在弹窗外部可以这样：
     ```java
-    XPopup.get(getContext()).dismiss();
+    dismiss();
     ```
-    在弹窗内部关闭可以直接调用`dismiss()`方法即可。
-
 
 8. **自定义弹窗**
 
-    当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`，`AttachPopupView`，`DrawerPopupView`，`PartShadowPopupView`其中之一。假设需要自定义Center类型的弹窗：
+    当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`，`AttachPopupView/HorizontalAttachPopupView`，`DrawerPopupView`，`PartShadowPopupView`其中之一。假设需要自定义Center类型的弹窗：
     ```java
     class CustomPopup extends CenterPopupView{
             //自定义弹窗本质是一个自定义View，但是只需重写这个构造，其他的不用重写
@@ -233,7 +231,7 @@ implementation 'com.lxj:xpopup:1.5.2'
     ```
     使用自定义弹窗：
     ```java
-    XPopup.get(getContext())
+    new XPopup.Builder(getContext())
             .asCustom(new CustomPopup(getContext()))
             .show();
     ```
@@ -267,10 +265,10 @@ implementation 'com.lxj:xpopup:1.5.2'
     ```
     使用自定义动画：
     ```java
-    XPopup.get(getContext())
-            .asConfirm(...)
-            .customAnimator(new RotateAnimator())
-            .show();
+    new XPopup.Builder(getContext())
+                        .customAnimator(new RotateAnimator())
+                        .asConfirm("演示自定义动画", "当前的动画是一个自定义的旋转动画，无论是自定义弹窗还是自定义动画，已经被设计得非常简单；这个动画代码只有6行即可完成！", null)
+                        .show();
     ```
 
 10. **显示DrawerLayout类型弹窗**
@@ -299,7 +297,7 @@ implementation 'com.lxj:xpopup:1.5.2'
     ```
     使用自定义的DrawerLayout弹窗：
     ```java
-    XPopup.get(getActivity())
+    new XPopup.Builder(getContext())
             .asCustom(
                     new CustomDrawerPopupView(getContext())
                     //.setDrawerPosition(PopupPosition.Right)
@@ -308,8 +306,6 @@ implementation 'com.lxj:xpopup:1.5.2'
                     //.hasStatusBarShadow(true)
             )
             .show();
-    // 注意：如果每次show的时候都new一个弹窗对象，那么弹窗内的数据和状态则无法保存，因为都是新的；
-    // 如果想保存，则先new一个弹窗对象，每次都显示同一个对象即可
     ```
 
 
@@ -335,9 +331,9 @@ implementation 'com.lxj:xpopup:1.5.2'
     ```
     显示的时候仍然需要指定atView显示，内部会智能判断应该如何展示以及使用最佳的动画器：
     ```java
-    XPopup.get(getActivity())
-        .asCustom(new CustomPartShadowPopupView(getContext()))
+    new XPopup.Builder(getContext())
         .atView(ll_container)
+        .asCustom(new CustomPartShadowPopupView(getContext()))
         .show();
     ```
 
@@ -396,7 +392,7 @@ implementation 'com.lxj:xpopup:1.5.2'
     这种弹窗多用于App内列表中图片进行详细展示的场景，用法如下：
     ```java
     // 多图片场景
-    XPopup.get(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
+    new XPopup.Builder(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
             @Override
             public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
                 // 作用是当Pager切换了图片，需要更新源View
@@ -406,7 +402,7 @@ implementation 'com.lxj:xpopup:1.5.2'
         .show();
 
     // 单张图片场景
-    XPopup.get(getContext())
+    new XPopup.Builder(getContext())
         .asImageViewer(imageView, url, new ImageLoader())
         .show();
 
@@ -439,15 +435,8 @@ implementation 'com.lxj:xpopup:1.5.2'
 
 14. **多弹窗同时显示**
 
-    虽然多弹窗同时显示的场景不多见，但本库也支持。在多弹窗场景下，显示的时候需要给弹窗指定tag，隐藏的时候也指定tag。
-    ```java
-    XPopup.get(getActivity())
-            ... // 略过
-            .show(tag);// 给弹窗设置tag
+    虽然多弹窗同时显示的场景不多见，但本库也支持。无需额外做任何操作，天然支持。
 
-    // 指定要消失的弹窗
-    XPopup.get(getActivity()).dismiss(tag);
-    ```
 
 
 15. **其他**
@@ -466,7 +455,7 @@ implementation 'com.lxj:xpopup:1.5.2'
 
 - 常用设置
   ```java
-  XPopup.get(this)
+  new XPopup.Builder(getContext())
       .hasShadowBg(true) // 是否有半透明的背景，默认为true
       .dismissOnBackPressed(true) // 按返回键是否关闭弹窗，默认为true
       .dismissOnTouchOutside(true) // 点击外部是否关闭弹窗，默认为true
@@ -487,12 +476,28 @@ implementation 'com.lxj:xpopup:1.5.2'
       })
       // 设置弹窗的最大宽高，只对Center和Bottom类型弹窗生效。默认情况下，弹窗的布局是自适应的，如果你设置了最大宽高，则弹窗的宽高不会超过你设置的值！
       // 如果你重写了`getMaxWidth()`和`getMaxHeight()`方法，此方法设置的值会被覆盖；
-      .maxWidthAndHeight(0, 300)
+      .maxWidth(300)
+      .maxHeight(400)
       // 如果你想要一个全屏的弹窗，有3种方式：
       // 1. 首先布局要都是`match_parent`，然后调用上面的方法设置这个值为window的宽高即可。
       // 2. 可以重写`getMaxWidth()`和`getMaxHeight()`方法，效果是一样的。
       // 3. 可以继承FullScreenPopupView，直接编写布局即可。
+      .asXXX()
   ```
+
+- 数据和状态保存
+
+    如果每次显示都new一个，由于每次都是新的弹窗，状态无法保存。可以选择记录下：
+    ```
+    CustomDrawerPopupView drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
+                    .setDrawerPosition(PopupPosition.Right)
+                    .hasStatusBarShadow(true);   // 添加状态栏Shadow
+
+    //使用弹窗
+    new XPopup.Builder(getContext())
+                    .asCustom(new CustomDrawerPopupView(getContext()))
+                    .show();
+    ```
 
 - 最佳实践
 

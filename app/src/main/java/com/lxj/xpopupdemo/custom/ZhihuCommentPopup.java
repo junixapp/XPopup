@@ -47,7 +47,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
             public void onClick(View v) {
                 //弹出新的弹窗用来输入
                 final CustomEditTextBottomPopup textBottomPopup = new CustomEditTextBottomPopup(getContext());
-                XPopup.get(getContext()).asCustom(textBottomPopup)
+                new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
                         .hasShadowBg(false)
                         .setPopupCallback(new XPopupCallback() {
@@ -61,7 +61,9 @@ public class ZhihuCommentPopup extends BottomPopupView {
                                     commonAdapter.notifyDataSetChanged();
                                 }
                             }
-                        }).show();
+                        })
+                        .asCustom(textBottomPopup)
+                        .show();
             }
         });
 

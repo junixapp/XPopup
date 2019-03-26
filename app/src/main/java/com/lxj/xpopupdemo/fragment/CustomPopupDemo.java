@@ -54,11 +54,10 @@ public class CustomPopupDemo extends BaseFragment {
                 spinner.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        XPopup.get(getContext())
+                        new XPopup.Builder(getContext())
                                 .popupAnimation(datas[position])
-                                .asCustom(new CustomPopup(getContext()))
                                 .autoOpenSoftInput(true)
-//                                .setWidthAndHeight(XPopupUtils.getWindowWidth(getContext()),XPopupUtils.getWindowHeight(getContext()))
+                                .asCustom(new CustomPopup(getContext()))
                                 .show();
                     }
                 }, 200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰
