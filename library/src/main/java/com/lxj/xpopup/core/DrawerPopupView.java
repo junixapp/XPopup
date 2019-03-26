@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 
 /**
@@ -99,14 +100,14 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerLayout.close();
     }
 
-    PopupDrawerLayout.Position position = PopupDrawerLayout.Position.Left;
+    PopupPosition position = PopupPosition.Left;
 
     /**
      * 设置Drawer的位置
      * @param position
      * @return
      */
-    public DrawerPopupView setDrawerPosition(PopupDrawerLayout.Position position){
+    public DrawerPopupView setDrawerPosition(PopupPosition position){
         this.position = position;
         return this;
     }

@@ -41,7 +41,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
- * PopupView的控制类，控制生命周期：显示，隐藏，添加，删除。
+ * 弹窗的控制类，控制生命周期：显示，隐藏，添加，删除。
  */
 public class XPopup {
     private static XPopup instance = null;
@@ -93,7 +93,7 @@ public class XPopup {
     public void show(Object tag) {
         if (tempView == null) throw new IllegalArgumentException("要显示的弹窗为空！");
         //1. set popup view
-        if (tempView.popupStatus != PopupStatus.Dismiss) {
+        if (tempView.popupStatus != PopupStatus.Dismiss || popupViews.contains(tempView)) {
             return;
         }
         tempView.popupInfo = tempInfo;

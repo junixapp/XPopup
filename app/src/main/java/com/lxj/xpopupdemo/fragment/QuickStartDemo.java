@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -66,7 +67,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
 //        XPopup.get(getActivity()).watch(view.findViewById(R.id.btnAttachPopup2));
         drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
-                .setDrawerPosition(PopupDrawerLayout.Position.Right)
+                .setDrawerPosition(PopupPosition.Right)
                 .hasStatusBarShadow(true);   // 添加状态栏Shadow
     }
 

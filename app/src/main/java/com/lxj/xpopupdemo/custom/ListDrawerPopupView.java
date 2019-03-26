@@ -9,6 +9,7 @@ import android.view.View;
 import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.DrawerPopupView;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 
@@ -31,7 +32,7 @@ public class ListDrawerPopupView extends DrawerPopupView {
     final ArrayList<String> data = new ArrayList<>();
     @Override
     protected void onCreate() {
-        setDrawerPosition(PopupDrawerLayout.Position.Right);
+        setDrawerPosition(PopupPosition.Right);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

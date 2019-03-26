@@ -10,6 +10,7 @@ import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
@@ -47,7 +48,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv_filter).setOnClickListener(this);
 
         drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
-                .setDrawerPosition(PopupDrawerLayout.Position.Right)
+                .setDrawerPosition(PopupPosition.Right)
                 .hasStatusBarShadow(false);   // 添加状态栏Shadow
 
         final ArrayList<String> data = new ArrayList<>();
@@ -71,14 +72,12 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         popupView = new CustomPartShadowPopupView(getContext());
     }
 
-    private boolean isShow = false;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_all:
                 if(popupView.isShow()) {
-                    Log.e("tag", "xxx");
                     XPopup.get(getActivity()).dismiss();
                 }else {
                     XPopup.get(getActivity())
@@ -102,6 +101,12 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv_filter:
                 XPopup.get(getActivity())
                         .asCustom(drawerPopupView)
+                        .show();
+                break;
+            case R.id.tv_select:
+                XPopup.get(getActivity())
+                        .asCustom(new CustomPartShadowPopupView(getContext()))
+                        .atView(v)
                         .show();
                 break;
         }

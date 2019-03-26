@@ -34,7 +34,7 @@ public class CustomDrawerPopupView extends DrawerPopupView {
         findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "nothing!!!", Toast.LENGTH_SHORT).show();
+                dismiss();
             }
         });
         text.setText(new Random().nextInt()+"");

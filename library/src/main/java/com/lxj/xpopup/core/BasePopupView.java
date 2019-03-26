@@ -323,7 +323,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 消失
      */
     public void dismiss() {
-        if (popupStatus == PopupStatus.Dismissing) return;
+        if (popupStatus != PopupStatus.Show) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
         doAfterDismiss();
@@ -334,10 +334,10 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                popupStatus = PopupStatus.Dismiss;
                 onDismiss();
                 if(afterDismiss!=null)afterDismiss.run();
                 if(dismissWithRunnable!=null)dismissWithRunnable.run();
+                popupStatus = PopupStatus.Dismiss;
             }
         }, getAnimationDuration());
     }
@@ -349,7 +349,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
     }
 
     public boolean isShow(){
-        return popupStatus==PopupStatus.Show;
+        return popupStatus!=PopupStatus.Dismiss;
     }
     public boolean isDismiss(){
         return popupStatus==PopupStatus.Dismiss;
