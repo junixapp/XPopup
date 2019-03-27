@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.easyadapter.CommonAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
@@ -58,7 +60,21 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         CommonAdapter adapter = new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
-                holder.setText(android.R.id.text1, "商品名字 - " + position);
+                holder.setText(android.R.id.text1, "长按我试试 - " + position);
+                //必须要在事件发生之前就watch
+                final XPopup.Builder builder = new XPopup.Builder(getContext()).watchView(holder.itemView);
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null,0,10, new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                ToastUtils.showShort(text);
+                            }
+                        }).show();
+                        return true;
+                    }
+                });
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){

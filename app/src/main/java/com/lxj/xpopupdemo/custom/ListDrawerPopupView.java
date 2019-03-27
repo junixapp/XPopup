@@ -7,9 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 
@@ -47,8 +50,8 @@ public class ListDrawerPopupView extends DrawerPopupView {
                 holder.setText(android.R.id.text1, s);
             }
         };
-        recyclerView.setAdapter(commonAdapter);
 
+        recyclerView.setAdapter(commonAdapter);
         findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,5 +59,6 @@ public class ListDrawerPopupView extends DrawerPopupView {
                 commonAdapter.notifyDataSetChanged();
             }
         });
+
     }
 }
