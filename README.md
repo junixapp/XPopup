@@ -54,7 +54,11 @@
 首先需要添加Gradle依赖：
 ```groovy
 //注意：1.6.0的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
+//注意：1.6.0的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
+//注意：1.6.0的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
 implementation 'com.lxj:xpopup:1.6.0'
+
+//重构之前的版本
 //implementation 'com.lxj:xpopup:1.5.2'
 ```
 
@@ -84,7 +88,7 @@ implementation 'com.lxj:xpopup:1.6.0'
 3. **显示中间弹出的列表弹窗**
     ```java
     new XPopup.Builder(getContext())
-                            .maxWidth(600)
+                            //.maxWidth(600)
                             .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
                             new OnSelectListener() {
                                 @Override
@@ -435,13 +439,7 @@ implementation 'com.lxj:xpopup:1.6.0'
     如果你使用其他类库加载图片，请保证加载的图片没有被裁剪过。另外，保存功能需要权限，请自行申请。
 
 
-14. **多弹窗同时显示**
-
-    虽然多弹窗同时显示的场景不多见，但本库也支持。无需额外做任何操作，天然支持。
-
-
-
-15. **其他**
+14. **其他**
 - 设置主色调
 
     默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。主色调只需要设置一次即可，可以放在Application中设置。
@@ -450,9 +448,9 @@ implementation 'com.lxj:xpopup:1.6.0'
   ```
 - 设置全局的动画时长
   
-    默认情况下，弹窗的动画时长为400毫秒。你可以通过下面的方法进行修改：
+    默认情况下，弹窗的动画时长为360毫秒。你可以通过下面的方法进行修改：
     ```java
-    XPopup.setAnimationDuration(300); // 如果传入的值小于200则忽略，动画的时长会影响除Drawer弹窗外的所有弹窗
+    XPopup.setAnimationDuration(300); // 如果传入的值小于200会被忽略，动画的时长会影响除Drawer弹窗外的所有弹窗
     ```  
 
 - 常用设置
@@ -497,7 +495,7 @@ implementation 'com.lxj:xpopup:1.6.0'
 
     //使用弹窗
     new XPopup.Builder(getContext())
-                    .asCustom(new CustomDrawerPopupView(getContext()))
+                    .asCustom(drawerPopupView)
                     .show();
     ```
 
