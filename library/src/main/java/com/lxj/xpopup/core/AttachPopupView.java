@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -55,13 +55,13 @@ public abstract class AttachPopupView extends BasePopupView {
         super.initPopupContent();
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachView type！");
-
-        post(new Runnable() {
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
             @Override
             public void run() {
                 doAttach();
             }
         });
+
     }
 
     /**

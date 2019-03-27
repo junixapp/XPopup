@@ -56,6 +56,8 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             View implView = ((ViewGroup)getPopupContentView()).getChildAt(0);
             FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
             implParams.gravity = Gravity.BOTTOM;
+            if(getMaxHeight()!=0)
+                implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
             implView.setLayoutParams(implParams);
 
         } else {
@@ -72,6 +74,8 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             View implView = ((ViewGroup)getPopupContentView()).getChildAt(0);
             FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
             implParams.gravity = Gravity.TOP;
+            if(getMaxHeight()!=0)
+                implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
             implView.setLayoutParams(implParams);
         }
         getPopupContentView().setLayoutParams(params);
@@ -98,4 +102,5 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         return new TranslateAnimator(getPopupImplView(), isShowUp ?
                 PopupAnimation.TranslateFromBottom: PopupAnimation.TranslateFromTop);
     }
+
 }

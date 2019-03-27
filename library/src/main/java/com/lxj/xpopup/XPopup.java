@@ -36,14 +36,12 @@ import java.util.ArrayList;
  * 弹窗的控制类，控制生命周期：显示，隐藏，添加，删除。
  */
 public class XPopup {
+    private XPopup() { }
     /**
      * 全局弹窗的设置
      **/
     private static int primaryColor = Color.parseColor("#121212");
     private static int animationDuration = 360;
-
-    private XPopup() {
-    }
 
     /**
      * 设置主色调

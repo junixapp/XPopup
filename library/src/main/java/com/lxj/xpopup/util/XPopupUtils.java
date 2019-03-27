@@ -97,8 +97,10 @@ public class XPopupUtils {
         params.height = height;
         target.setLayoutParams(params);
     }
-
     public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight) {
+        applyPopupSize(content, maxWidth, maxHeight, null);
+    }
+    public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight, final Runnable afterApplySize) {
         content.post(new Runnable() {
             @Override
             public void run() {
@@ -132,6 +134,10 @@ public class XPopupUtils {
                     }
                 }
                 content.setLayoutParams(params);
+
+                if(afterApplySize!=null){
+                    afterApplySize.run();
+                }
             }
         });
     }
