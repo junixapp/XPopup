@@ -28,8 +28,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         targetView.post(new Runnable() {
             @Override
             public void run() {
-
-        applyPivot();
+                applyPivot();
             }
         });
     }
@@ -37,11 +36,11 @@ public class ScaleAlphaAnimator extends PopupAnimator {
     /**
      * 根据不同的PopupAnimation来设定对应的pivot
      */
-    private void applyPivot(){
-        switch (popupAnimation){
+    private void applyPivot() {
+        switch (popupAnimation) {
             case ScaleAlphaFromCenter:
-                targetView.setPivotX(targetView.getMeasuredWidth()/2);
-                targetView.setPivotY(targetView.getMeasuredHeight()/2);
+                targetView.setPivotX(targetView.getMeasuredWidth() / 2);
+                targetView.setPivotY(targetView.getMeasuredHeight() / 2);
                 break;
             case ScaleAlphaFromLeftTop:
                 targetView.setPivotX(0);

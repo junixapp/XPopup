@@ -499,6 +499,32 @@ implementation 'com.lxj:xpopup:1.6.0'
                     .show();
     ```
 
+- 在RecyclerView中长按弹出弹窗，这种场景需要watch一下itemView：
+
+    ```java
+    CommonAdapter adapter = new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
+        @Override
+        protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
+            holder.setText(android.R.id.text1, "长按我试试 - " + position);
+            //必须要在事件发生之前就watch
+            final XPopup.Builder builder = new XPopup.Builder(getContext()).watchView(holder.itemView);
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null,0,10, new OnSelectListener() {
+                        @Override
+                        public void onSelect(int position, String text) {
+                            ToastUtils.showShort(text);
+                        }
+                    }).show();
+                    return true;
+                }
+            });
+        }
+    };
+    ```
+
+
 - 最佳实践
 
     我们在项目中经常会点击某个按钮然后关闭弹窗，接着去做一些事。比如：点击一个按钮，关闭弹窗，然后开启一个界面：
