@@ -432,7 +432,7 @@ implementation 'com.lxj:xpopup:1.6.0'
     ```
     注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为`Target.SIZE_ORIGINAL`；
     这样会禁止Glide裁剪图片，保证可以拿到原始图片，让图片过渡动画变的天衣无缝。例如：
-    ```
+    ```java
     Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
                         .into(imageView);
     ```
@@ -488,7 +488,7 @@ implementation 'com.lxj:xpopup:1.6.0'
 - 数据和状态保存
 
     如果每次显示都new一个，由于每次都是新的弹窗，状态无法保存。可以选择记录下：
-    ```
+    ```java
     CustomDrawerPopupView drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
                     .setDrawerPosition(PopupPosition.Right)
                     .hasStatusBarShadow(true);   // 添加状态栏Shadow
