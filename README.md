@@ -553,8 +553,10 @@ implementation 'com.lxj:xpopup:1.6.2'
 ```
 
 
-## TODO
-- 优化极限操作时的嵌套滚动体验
+## 谁在用XPopup
+根据热心群众提供的信息，目前使用XPopup的产品和公司有：
+- 海鸥地图（https://cn.gullmap.com/）
+
 
 
 ## 联系方式
