@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +14,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
@@ -24,12 +22,9 @@ import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
-import com.lxj.xpopup.interfaces.PopupInterface;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import java.util.ArrayList;
-
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -38,7 +33,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
  * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
-public abstract class BasePopupView extends FrameLayout implements PopupInterface {
+public abstract class BasePopupView extends FrameLayout{
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
@@ -301,7 +296,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
      * 背景动画由父类实现，Content由子类实现
      */
-    @Override
     public void doShowAnimation() {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.animateShow();
@@ -314,7 +308,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      * 执行消失动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
      * 背景动画由父类实现，Content由子类实现
      */
-    @Override
     public void doDismissAnimation() {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.animateDismiss();
@@ -329,7 +322,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
      *
      * @return
      */
-    @Override
     public View getPopupContentView() {
         return getChildAt(0);
     }
@@ -338,7 +330,6 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
         return ((ViewGroup) getPopupContentView()).getChildAt(0);
     }
 
-    @Override
     public int getAnimationDuration() {
         return XPopup.getAnimationDuration();
     }
