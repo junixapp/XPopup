@@ -314,13 +314,9 @@ implementation 'com.android.support:design:28.0.0'
     使用自定义的DrawerLayout弹窗：
     ```java
     new XPopup.Builder(getContext())
-            .asCustom(
-                    new CustomDrawerPopupView(getContext())
-                    //.setDrawerPosition(PopupPosition.Right)
-                    // 添加状态栏Shadow，默认是false；如果你的Drawer背景是白色，会导致状态栏的白色文字看不清，
-                    // 此时建议设置该标志为true；
-                    //.hasStatusBarShadow(true)
-            )
+            .popupPosition(PopupPosition.Right)//右边
+            .hasStatusBarShadow(true) //启用状态栏阴影
+            .asCustom(new CustomDrawerPopupView(getContext()))
             .show();
     ```
 
@@ -474,6 +470,8 @@ implementation 'com.android.support:design:28.0.0'
       .popupAnimation(PopupAnimation.ScaleAlphaFromCenter) // 设置内置的动画
       .customAnimator(null) // 设置自定义的动画器
       .moveUpToKeyboard(false) // 软键盘弹出时，弹窗是否移动到软键盘上面，默认为true
+      .popupPosition(PopupPosition.Right)//手动指定弹窗出现在目标的什么位置，对Attach和Drawer类型弹窗生效
+      .hasStatusBarShadow(false) //是否有状态栏阴影，目前只对Drawer弹窗生效
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
           @Override
           public void onShow() {
@@ -499,12 +497,12 @@ implementation 'com.android.support:design:28.0.0'
 
     如果每次显示都new一个，由于每次都是新的弹窗，状态无法保存。可以选择记录下：
     ```java
-    CustomDrawerPopupView drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
-                    .setDrawerPosition(PopupPosition.Right)
-                    .hasStatusBarShadow(true);   // 添加状态栏Shadow
+    CustomDrawerPopupView drawerPopupView = new CustomDrawerPopupView(getContext());
 
     //使用弹窗
     new XPopup.Builder(getContext())
+                    .popupPosition(PopupPosition.Right)//右边
+                    .hasStatusBarShadow(true) //启用状态栏阴影
                     .asCustom(drawerPopupView)
                     .show();
     ```

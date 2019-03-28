@@ -13,11 +13,13 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PartShadowContainer;
 
 /**
  * Description: 依附于某个View的弹窗，弹窗会出现在目标的上方或下方，如果你想要出现在目标的左边或者右边，请使用HorizontalAttachPopupView。
+ * 支持通过popupPosition()方法手动指定想要出现在目标的上边还是下边，但是对Left和Right则不生效。
  * Create by dance, at 2018/12/11
  */
 public abstract class AttachPopupView extends BasePopupView {
@@ -50,6 +52,7 @@ public abstract class AttachPopupView extends BasePopupView {
 
     protected boolean isShowUp;
     boolean isShowLeft;
+
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
@@ -65,11 +68,11 @@ public abstract class AttachPopupView extends BasePopupView {
     }
 
     /**
-     * 执行附着逻辑
+     * 执行倚靠逻辑
      */
-    protected void doAttach(){
+    protected void doAttach() {
         // 弹窗显示的位置不能超越Window高度
-        float maxY = XPopupUtils.getWindowHeight(getContext()) ;
+        float maxY = XPopupUtils.getWindowHeight(getContext());
         float maxX = 0; // 显示在右边时候的最大值
 
         float translationX = 0, translationY = 0;
@@ -78,15 +81,15 @@ public abstract class AttachPopupView extends BasePopupView {
             // 依附于指定点
             maxX = Math.max(popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth(), 0);
             // 尽量优先放在下方，当不够的时候在显示在上方
-            isShowUp = (popupInfo.touchPoint.y + getPopupContentView().getMeasuredHeight()) > maxY ;
+            isShowUp = (popupInfo.touchPoint.y + getPopupContentView().getMeasuredHeight()) > maxY;
             isShowLeft = popupInfo.touchPoint.x < XPopupUtils.getWindowWidth(getContext()) / 2;
 
-            if (isShowUp) {
+            if (isShowUpToTarget()) {
                 // 应显示在point上方
                 // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
-                translationX = (isShowLeft ?popupInfo.touchPoint.x : maxX) + defaultOffsetX;
+                translationX = (isShowLeft ? popupInfo.touchPoint.x : maxX) + defaultOffsetX;
                 translationY = popupInfo.touchPoint.y - getPopupContentView().getMeasuredHeight() - defaultOffsetY;
-            }else {
+            } else {
                 translationX = (isShowLeft ? popupInfo.touchPoint.x : maxX) + defaultOffsetX;
                 translationY = popupInfo.touchPoint.y + defaultOffsetY;
             }
@@ -102,15 +105,15 @@ public abstract class AttachPopupView extends BasePopupView {
             int centerX = (rect.left + rect.right) / 2;
 
             // 尽量优先放在下方，当不够的时候在显示在上方
-            isShowUp = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY ; // 不能正好贴着底边
+            isShowUp = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY; // 不能正好贴着底边
             isShowLeft = centerX < XPopupUtils.getWindowWidth(getContext()) / 2;
 
-            if (isShowUp) {
+            if (isShowUpToTarget()) {
                 //说明上面的空间比较大，应显示在atView上方
                 // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
                 translationX = (isShowLeft ? rect.left : maxX) + defaultOffsetX;
                 translationY = rect.top - getPopupContentView().getMeasuredHeight() - defaultOffsetY;
-            }else {
+            } else {
                 translationX = (isShowLeft ? rect.left : maxX) + defaultOffsetX;
                 translationY = rect.bottom + defaultOffsetY;
             }
@@ -120,10 +123,15 @@ public abstract class AttachPopupView extends BasePopupView {
         getPopupContentView().setTranslationY(translationY);
     }
 
+    private boolean isShowUpToTarget() {
+        return (isShowUp || popupInfo.popupPosition == PopupPosition.Top)
+                && popupInfo.popupPosition != PopupPosition.Bottom;
+    }
+
     @Override
     protected PopupAnimator getPopupAnimator() {
         PopupAnimator animator;
-        if (isShowUp) {
+        if (isShowUpToTarget()) {
             // 在上方展示
             if (isShowLeft) {
                 animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromLeftBottom);

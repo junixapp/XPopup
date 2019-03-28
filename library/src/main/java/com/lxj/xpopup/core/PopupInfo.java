@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 
@@ -31,7 +32,8 @@ public class PopupInfo {
 
     public ViewGroup decorView; //每个弹窗所属的DecorView
     public Boolean isMoveUpToKeyboard = true; //是否移动到软键盘上面，默认弹窗会移到软键盘上面
-
+    public PopupPosition popupPosition = null; //弹窗出现在目标的什么位置
+    public Boolean hasStatusBarShadow = false;
     public View getAtView() {
         return atView;
     }

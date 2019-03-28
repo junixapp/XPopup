@@ -50,9 +50,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv_select).setOnClickListener(this);
         view.findViewById(R.id.tv_filter).setOnClickListener(this);
 
-        drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
-                .setDrawerPosition(PopupPosition.Right)
-                .hasStatusBarShadow(false);   // 添加状态栏Shadow
+        drawerPopupView = new CustomDrawerPopupView(getContext());
 
         final ArrayList<String> data = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
@@ -115,6 +113,8 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.tv_filter:
                 new XPopup.Builder(getContext())
+                        .popupPosition(PopupPosition.Right)//右边
+                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .asCustom(drawerPopupView)
                         .show();
                 break;

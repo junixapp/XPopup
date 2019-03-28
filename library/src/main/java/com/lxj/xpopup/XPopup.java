@@ -12,9 +12,11 @@ import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.AttachListPopupView;
 import com.lxj.xpopup.impl.BottomListPopupView;
@@ -203,6 +205,28 @@ public class XPopup {
          */
         public Builder moveUpToKeyboard(Boolean isMoveUpToKeyboard) {
             this.popupInfo.isMoveUpToKeyboard = isMoveUpToKeyboard;
+            return this;
+        }
+
+        /**
+         * 设置弹窗出现在目标的什么位置，有四种取值：Left，Right，Top，Bottom。这种手动设置位置的行为
+         * 只对Attach弹窗和Drawer弹窗生效。
+         * @param popupPosition
+         * @return
+         */
+        public Builder popupPosition(PopupPosition popupPosition) {
+            this.popupInfo.popupPosition = popupPosition;
+            return this;
+        }
+
+        /**
+         * 设置是否给StatusBar添加阴影，目前对Drawer弹窗生效。如果你的Drawer的背景是白色，建议设置为true，因为状态栏文字的颜色也往往
+         * 是白色，会导致状态栏文字看不清；如果Drawer的背景色不是白色，则忽略即可
+         * @param hasStatusBarShadow
+         * @return
+         */
+        public Builder hasStatusBarShadow(boolean hasStatusBarShadow){
+            this.popupInfo.hasStatusBarShadow = hasStatusBarShadow;
             return this;
         }
 

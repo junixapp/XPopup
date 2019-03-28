@@ -67,9 +67,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             }
         });
 
-        drawerPopupView = (CustomDrawerPopupView) new CustomDrawerPopupView(getContext())
-                .setDrawerPosition(PopupPosition.Right)
-                .hasStatusBarShadow(true);   // 添加状态栏Shadow
+        drawerPopupView = new CustomDrawerPopupView(getContext());
     }
 
     CustomDrawerPopupView drawerPopupView;
@@ -189,6 +187,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv2:
             case R.id.tv3:
                 new XPopup.Builder(getContext())
+//                        .popupPosition(PopupPosition.Bottom) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
                         .asAttachList(new String[]{"分享", "编辑", "不带icon"},
                         new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
@@ -208,6 +207,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowDrawerRight:
                 new XPopup.Builder(getContext())
+                        .popupPosition(PopupPosition.Right)//右边
+                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .asCustom(drawerPopupView)
                         .show();
                 break;
@@ -219,6 +220,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnAttachPopup1:
                 new XPopup.Builder(getContext())
+//                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
                         .hasShadowBg(false) // 去掉半透明背景
                         .atView(v)
                         .asCustom(new CustomAttachPopup(getContext()))

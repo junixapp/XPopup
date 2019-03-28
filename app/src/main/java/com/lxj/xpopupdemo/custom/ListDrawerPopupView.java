@@ -35,10 +35,8 @@ public class ListDrawerPopupView extends DrawerPopupView {
     final ArrayList<String> data = new ArrayList<>();
     @Override
     protected void onCreate() {
-        setDrawerPosition(PopupPosition.Right);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         for (int i = 0; i < 50; i++) {
             data.add(""+i);
