@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
@@ -244,8 +245,8 @@ public class XPopupUtils {
             focusBottom = focusEtTop + focusEt.getMeasuredHeight();
         }
 
-        //暂时忽略PartShadow弹窗
-        if(pv instanceof PartShadowPopupView)return;
+        //暂时忽略PartShadow弹窗和AttachPopupView
+        if(pv instanceof PartShadowPopupView || pv instanceof AttachPopupView)return;
         //执行上移
         if (pv instanceof FullScreenPopupView ||
                 (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
@@ -276,8 +277,8 @@ public class XPopupUtils {
     }
 
     public static void moveDown(BasePopupView pv) {
-        //暂时忽略PartShadow弹窗
-        if(pv instanceof PartShadowPopupView)return;
+        //暂时忽略PartShadow弹窗和AttachPopupView
+        if(pv instanceof PartShadowPopupView || pv instanceof AttachPopupView)return;
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(0))
                 .setDuration(300).start();

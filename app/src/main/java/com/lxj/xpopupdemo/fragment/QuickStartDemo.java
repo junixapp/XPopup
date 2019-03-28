@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -139,9 +140,16 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading:
-                new XPopup.Builder(getContext())
+                final BasePopupView loadingPopup = new XPopup.Builder(getContext())
                         .asLoading("正在加载中")
                         .show();
+                loadingPopup.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(loadingPopup.isShow())
+                            loadingPopup.dismiss();
+                    }
+                },2000);
                 break;
             case R.id.btnShowBottomList:
                 new XPopup.Builder(getContext())
