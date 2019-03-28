@@ -558,6 +558,8 @@ implementation 'com.lxj:xpopup:1.6.2'
 
 ## 联系方式
 
+![](screenshot/qqgroup.png)
+
 Gmail: lxj16167479@gmail.com
 
 QQ Email: 16167479@qq.com
