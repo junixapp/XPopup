@@ -54,7 +54,7 @@ public abstract class AttachPopupView extends BasePopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
-            throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachView type！");
+            throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
             @Override
             public void run() {
