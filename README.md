@@ -1,5 +1,5 @@
 ## XPopup
-![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-14-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
+![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-15-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
 
@@ -471,7 +471,7 @@ implementation 'com.android.support:design:28.0.0'
       .customAnimator(null) // 设置自定义的动画器
       .moveUpToKeyboard(false) // 软键盘弹出时，弹窗是否移动到软键盘上面，默认为true
       .popupPosition(PopupPosition.Right)//手动指定弹窗出现在目标的什么位置，对Attach和Drawer类型弹窗生效
-      .hasStatusBarShadow(false) //是否有状态栏阴影，目前只对Drawer弹窗生效
+      .hasStatusBarShadow(false) //是否有状态栏阴影，目前对Drawer弹窗和FullScreen弹窗生效
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
           @Override
           public void onShow() {

@@ -22,7 +22,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     View view_statusbar_shadow;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     int defaultColor = Color.TRANSPARENT;
-    int shadowColor = Color.parseColor("#55444444");
+    public static int shadowColor = Color.parseColor("#55343434");
 
     public DrawerPopupView(@NonNull Context context) {
         super(context);
