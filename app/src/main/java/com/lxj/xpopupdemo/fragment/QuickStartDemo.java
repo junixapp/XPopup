@@ -97,7 +97,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             public void onConfirm() {
                                 toast("click confirm");
                             }
-                        }, null, true)
+                        }, null, false)
                         .show();
                 break;
             case R.id.btnShowInputConfirm:

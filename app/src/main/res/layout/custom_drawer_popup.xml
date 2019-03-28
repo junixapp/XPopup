@@ -2,7 +2,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="280dp"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
+    android:background="#fefefe"
     android:orientation="vertical">
 
     <LinearLayout

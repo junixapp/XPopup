@@ -49,7 +49,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
                 final CustomEditTextBottomPopup textBottomPopup = new CustomEditTextBottomPopup(getContext());
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
-                        .hasShadowBg(false)
+//                        .hasShadowBg(false)
                         .setPopupCallback(new XPopupCallback() {
                             @Override
                             public void onShow() { }

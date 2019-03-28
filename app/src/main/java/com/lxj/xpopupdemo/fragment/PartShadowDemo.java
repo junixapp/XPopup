@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -100,12 +101,12 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                             .setPopupCallback(new XPopupCallback() {
                                 @Override
                                 public void onShow() {
-                                    Toast.makeText(getActivity(), "显示了，更改箭头向上", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "显示了", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onDismiss() {
-                                    Toast.makeText(getActivity(), "关闭了，更改箭头向上", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "关闭了", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .asCustom(new CustomPartShadowPopupView(getContext()));

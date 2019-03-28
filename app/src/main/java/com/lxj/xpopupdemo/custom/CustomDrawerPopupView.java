@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,10 @@ public class CustomDrawerPopupView extends DrawerPopupView {
             }
         });
         text.setText(new Random().nextInt()+"");
+
+        //通过设置topMargin，可以让Drawer弹窗进行局部阴影展示
+//        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
+//        params.topMargin = 450;
     }
 
     @Override

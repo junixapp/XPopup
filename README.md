@@ -54,14 +54,23 @@
 ## 使用
 首先需要添加Gradle依赖：
 ```groovy
-//注意：1.6.0的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
-//注意：1.6.0的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
-//注意：1.6.0的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
+//注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
+//注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
+//注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
 implementation 'com.lxj:xpopup:1.6.2'
 
 //重构之前的版本
 //implementation 'com.lxj:xpopup:1.5.2'
 ```
+
+必须添加的依赖库：
+```groovy
+//版本号在26以及以上即可
+implementation 'com.android.support:appcompat-v7:28.0.0'
+implementation 'com.android.support:recyclerview-v7:28.0.0'
+implementation 'com.android.support:design:28.0.0'
+```
+
 
 为了方便使用，已经内置了几种常见弹窗的实现：
 1. **显示确认和取消对话框**
