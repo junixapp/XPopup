@@ -387,7 +387,7 @@ public abstract class BasePopupView extends FrameLayout implements PopupInterfac
 
     Runnable dismissWithRunnable;
 
-    protected void dismissWith(Runnable runnable) {
+    public void dismissWith(Runnable runnable) {
         this.dismissWithRunnable = runnable;
         dismiss();
     }

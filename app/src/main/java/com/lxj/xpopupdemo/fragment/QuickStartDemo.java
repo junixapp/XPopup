@@ -81,7 +81,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
 //                         .dismissOnTouchOutside(false)
                         // 设置弹窗显示和隐藏的回调监听
-                         .autoDismiss(false)
+//                         .autoDismiss(false)
                         .setPopupCallback(new XPopupCallback() {
                             @Override
                             public void onShow() {
@@ -147,9 +147,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     @Override
                     public void run() {
                         if(loadingPopup.isShow())
-                            loadingPopup.dismiss();
+                            loadingPopup.dismissWith(new Runnable() {
+                                @Override
+                                public void run() {
+                                    toast("我消失了！！！");
+                                }
+                            });
                     }
-                },2000);
+                },1000);
                 break;
             case R.id.btnShowBottomList:
                 new XPopup.Builder(getContext())
