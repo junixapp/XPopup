@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
+            <Button
+                android:id="@+id/text"
                 android:text="测试多弹窗"
                 android:textSize="20sp"
                 android:padding="20dp"

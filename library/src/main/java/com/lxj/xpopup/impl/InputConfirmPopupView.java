@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -35,6 +36,9 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         tv_input = findViewById(R.id.tv_input);
         tv_input.setVisibility(VISIBLE);
         super.initPopupContent();
+        if(!TextUtils.isEmpty(hint)){
+            tv_input.setHint(hint);
+        }
     }
 
     protected void applyPrimaryColor(){

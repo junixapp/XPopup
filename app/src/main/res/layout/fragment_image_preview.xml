@@ -33,6 +33,20 @@
             android:layout_width="90dp"
             android:layout_height="wrap_content" />
 
+
+        <TextView
+            android:text="以下是ViewPager使用场景，点击任意一个图片查看效果："
+            android:textSize="18sp"
+            android:textColor="#222"
+            android:padding="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_marginBottom="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"/>
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

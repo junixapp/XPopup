@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -21,6 +22,9 @@ public class ScrollScaleAnimator extends PopupAnimator{
     int startScrollX, startScrollY;
     float startAlpha = .2f;
     float startScale = 0f;
+
+    public boolean isOnlyScaleX = false;
+
     public ScrollScaleAnimator(View target, PopupAnimation popupAnimation) {
         super(target, popupAnimation);
     }
@@ -29,14 +33,15 @@ public class ScrollScaleAnimator extends PopupAnimator{
     public void initAnimator() {
         targetView.setAlpha(startAlpha);
         targetView.setScaleX(startScale);
-        targetView.setScaleY(startScale);
+        if(!isOnlyScaleX){
+            targetView.setScaleY(startScale);
+        }
 
         targetView.post(new Runnable() {
             @Override
             public void run() {
                 // 设置参考点
                 applyPivot();
-
                 targetView.scrollTo(startScrollX, startScrollY);
             }
         });
@@ -110,10 +115,10 @@ public class ScrollScaleAnimator extends PopupAnimator{
                         intEvaluator.evaluate(fraction, startScrollY, 0));
                 float scale = floatEvaluator.evaluate(fraction, startScale, 1f);
                 targetView.setScaleX(scale);
-                targetView.setScaleY(scale);
+                if(!isOnlyScaleX)targetView.setScaleY(scale);
             }
         });
-        animator.setDuration(animateDuration).setInterpolator(new FastOutSlowInInterpolator());
+        animator.setDuration(XPopup.getAnimationDuration()).setInterpolator(new FastOutSlowInInterpolator());
         animator.start();
     }
 
@@ -129,15 +134,12 @@ public class ScrollScaleAnimator extends PopupAnimator{
                         intEvaluator.evaluate(fraction, 0, startScrollY));
                 float scale = floatEvaluator.evaluate(fraction, 1f, startScale);
                 targetView.setScaleX(scale);
-                targetView.setScaleY(scale);
+                if(!isOnlyScaleX)targetView.setScaleY(scale);
             }
         });
-        animator.setDuration(animateDuration)
+        animator.setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new FastOutSlowInInterpolator());
         animator.start();
     }
 
-    private void doAnim(){
-
-    }
 }

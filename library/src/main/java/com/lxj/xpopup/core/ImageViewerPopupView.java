@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.transition.ChangeBounds;
@@ -26,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
@@ -103,17 +103,18 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     private void setupPlaceholder(){
         placeholderView.setVisibility(isShowPlaceholder ? VISIBLE : INVISIBLE);
         if(isShowPlaceholder){
-            if(placeholderColor!=-1)
+            if(placeholderColor!=-1){
                 placeholderView.color = placeholderColor;
-            if(placeholderRadius!=-1)
+            }
+            if(placeholderRadius!=-1) {
                 placeholderView.radius = placeholderRadius;
-            if(placeholderStrokeColor!=-1)
+            }
+            if(placeholderStrokeColor!=-1) {
                 placeholderView.strokeColor = placeholderStrokeColor;
-
+            }
+            XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
             placeholderView.setTranslationX(rect.left);
             placeholderView.setTranslationY(rect.top);
-            XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
-
             placeholderView.invalidate();
         }
     }
@@ -154,7 +155,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             @Override
             public void run() {
                 TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                        .setDuration(shadowBgAnimator.animateDuration)
+                        .setDuration(XPopup.getAnimationDuration())
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeTransform())
                         .addTransition(new ChangeImageTransform())
@@ -192,7 +193,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         start, endColor));
             }
         });
-        animator.setDuration(shadowBgAnimator.animateDuration)
+        animator.setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new LinearInterpolator());
         animator.start();
     }
@@ -205,7 +206,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         snapshotView.setVisibility(VISIBLE);
         photoViewContainer.isReleaseing = true;
         TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                .setDuration(shadowBgAnimator.animateDuration)
+                .setDuration(XPopup.getAnimationDuration())
                 .addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
@@ -300,7 +301,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         this.srcView = srcView;
         this.position = position;
         int[] locations = new int[2];
-        srcView.getLocationInWindow(locations);
+        this.srcView.getLocationInWindow(locations);
         rect = new Rect(locations[0], locations[1], locations[0] + srcView.getWidth(), locations[1] + srcView.getHeight());
         return this;
     }
@@ -325,8 +326,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public void onClick(View v) {
         if(v==tv_save){
             //save bitmap to album.
-            ImageView imageView = (ImageView) pager.getChildAt(pager.getCurrentItem());
-            XPopupUtils.saveBmpToAlbum(getContext(), ((BitmapDrawable)imageView.getDrawable()).getBitmap());
+            XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(position));
         }
     }
 

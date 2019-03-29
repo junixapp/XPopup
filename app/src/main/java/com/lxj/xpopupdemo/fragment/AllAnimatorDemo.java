@@ -33,7 +33,7 @@ public class AllAnimatorDemo extends BaseFragment {
                 spinner.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        XPopup.get(getContext())
+                        new XPopup.Builder(getContext())
                                 .popupAnimation(datas[position])
                                 .asConfirm("演示应用不同的动画", "你可以为弹窗选择任意一种动画，但这并不必要，因为我已经默认给每种弹窗设定了最佳动画！对于你自定义的弹窗，可以随心选择心仪的动画方案。", null)
                                 .show();

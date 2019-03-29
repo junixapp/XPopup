@@ -5,13 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
+import com.lxj.xpopup.enums.PopupPosition;
 
 /**
  * Description: 根据手势拖拽子View的layout，这种类型的弹窗比较特殊，不需要额外的动画器，因为
@@ -19,15 +19,11 @@ import com.lxj.xpopup.enums.LayoutStatus;
  * Create by dance, at 2018/12/20
  */
 public class PopupDrawerLayout extends FrameLayout {
-
-    public enum Position {
-        Left, Right
-    }
-
+    
     LayoutStatus status = null;
     ViewDragHelper dragHelper;
-    View child;
-    Position position = Position.Left;
+    View mChild;
+    PopupPosition position = PopupPosition.Left;
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
 
     public PopupDrawerLayout(Context context) {
@@ -43,14 +39,14 @@ public class PopupDrawerLayout extends FrameLayout {
         dragHelper = ViewDragHelper.create(this, callback);
     }
 
-    public void setDrawerPosition(Position position) {
+    public void setDrawerPosition(PopupPosition position) {
         this.position = position;
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        child = getChildAt(0);
+        mChild = getChildAt(0);
     }
 
     boolean hasLayout = false;
@@ -58,14 +54,14 @@ public class PopupDrawerLayout extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         if (!hasLayout) {
-            if (position == Position.Left) {
-                child.layout(-child.getMeasuredWidth(), 0, 0, getMeasuredHeight());
+            if (position == PopupPosition.Left) {
+                mChild.layout(-mChild.getMeasuredWidth(), 0, 0, getMeasuredHeight());
             } else {
-                child.layout(getMeasuredWidth(), 0, getMeasuredWidth() + child.getMeasuredWidth(), getMeasuredHeight());
+                mChild.layout(getMeasuredWidth(), 0, getMeasuredWidth() + mChild.getMeasuredWidth(), getMeasuredHeight());
             }
             hasLayout = true;
         } else {
-            child.layout(child.getLeft(), child.getTop(), child.getRight(), child.getBottom());
+            mChild.layout(mChild.getLeft(), mChild.getTop(), mChild.getRight(), mChild.getBottom());
         }
     }
 
@@ -79,6 +75,7 @@ public class PopupDrawerLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(dragHelper.continueSettling(true))return true;
         dragHelper.processTouchEvent(event);
         return super.onTouchEvent(event);
     }
@@ -96,32 +93,25 @@ public class PopupDrawerLayout extends FrameLayout {
 
         @Override
         public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
-            if (position == Position.Left) {
-                if (left < -child.getMeasuredWidth()) left = -child.getMeasuredWidth();
-                if (left > 0) left = 0;
-            } else {
-                if (left < (getMeasuredWidth() - child.getMeasuredWidth()))
-                    left = (getMeasuredWidth() - child.getMeasuredWidth());
-                if (left > getMeasuredWidth()) left = getMeasuredWidth();
-            }
-            return left;
+            return fixLeft(left);
         }
 
         @Override
         public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            float fraction = 0f;
-            if (position == Position.Left) {
-                // fraction = (now - start)*1f / (end - start)
-                fraction = (left + child.getMeasuredWidth()) * 1f / child.getMeasuredWidth();
-                if (left == -child.getMeasuredWidth() && listener != null && status != LayoutStatus.Close) {
+            float fraction = 0f;// fraction = (now - start) * 1f / (end - start)
+            if (position == PopupPosition.Left) {
+                fraction = (left + mChild.getMeasuredWidth()) * 1f / mChild.getMeasuredWidth();
+                if (left == -mChild.getMeasuredWidth() && listener != null && status != LayoutStatus.Close) {
                     status = LayoutStatus.Close;
                     listener.onClose();
                 }
-            } else {
-                fraction = (left - getMeasuredWidth()) * 1f / -child.getMeasuredWidth();
-                if (left == getMeasuredWidth() && listener != null)
+            } else if (position == PopupPosition.Right){
+                fraction = (getMeasuredWidth() - left) * 1f / mChild.getMeasuredWidth();
+                if (left == getMeasuredWidth() && listener != null&& status != LayoutStatus.Close){
+                    status = LayoutStatus.Close;
                     listener.onClose();
+                }
             }
             setBackgroundColor(bgAnimator.calculateBgColor(fraction));
             if (listener != null) {
@@ -138,19 +128,19 @@ public class PopupDrawerLayout extends FrameLayout {
             super.onViewReleased(releasedChild, xvel, yvel);
             int centerLeft = 0;
             int finalLeft = 0;
-            if (position == Position.Left) {
+            if (position == PopupPosition.Left) {
                 if (xvel < -1000) {
-                    finalLeft = -child.getMeasuredWidth();
+                    finalLeft = -mChild.getMeasuredWidth();
                 } else {
-                    centerLeft = -child.getMeasuredWidth() / 2;
-                    finalLeft = child.getLeft() < centerLeft ? -child.getMeasuredWidth() : 0;
+                    centerLeft = -mChild.getMeasuredWidth() / 2;
+                    finalLeft = mChild.getLeft() < centerLeft ? -mChild.getMeasuredWidth() : 0;
                 }
             } else {
                 if (xvel > 1000) {
                     finalLeft = getMeasuredWidth();
                 } else {
-                    centerLeft = getMeasuredWidth() - child.getMeasuredWidth() / 2;
-                    finalLeft = releasedChild.getLeft() < centerLeft ? getMeasuredWidth() - child.getMeasuredWidth() : getMeasuredWidth();
+                    centerLeft = getMeasuredWidth() - mChild.getMeasuredWidth() / 2;
+                    finalLeft = releasedChild.getLeft() < centerLeft ? getMeasuredWidth() - mChild.getMeasuredWidth() : getMeasuredWidth();
                 }
             }
             dragHelper.smoothSlideViewTo(releasedChild, finalLeft, releasedChild.getTop());
@@ -158,10 +148,22 @@ public class PopupDrawerLayout extends FrameLayout {
         }
     };
 
+    private int fixLeft(int left){
+        if (position == PopupPosition.Left) {
+            if (left < -mChild.getMeasuredWidth()) left = -mChild.getMeasuredWidth();
+            if (left > 0) left = 0;
+        } else if (position == PopupPosition.Right) {
+            if (left < (getMeasuredWidth() - mChild.getMeasuredWidth()))
+                left = (getMeasuredWidth() - mChild.getMeasuredWidth());
+            if (left > getMeasuredWidth()) left = getMeasuredWidth();
+        }
+        return left;
+    }
+
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if (dragHelper.continueSettling(true)) {
+        if (dragHelper.continueSettling(false)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -179,7 +181,7 @@ public class PopupDrawerLayout extends FrameLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                dragHelper.smoothSlideViewTo(child, position == Position.Left ? 0 : (getMeasuredWidth() - child.getMeasuredWidth()), getTop());
+                dragHelper.smoothSlideViewTo(mChild, position == PopupPosition.Left ? 0 : (mChild.getLeft() - mChild.getMeasuredWidth()), getTop());
                 ViewCompat.postInvalidateOnAnimation(PopupDrawerLayout.this);
             }
         });
@@ -189,10 +191,11 @@ public class PopupDrawerLayout extends FrameLayout {
      * 关闭Drawer
      */
     public void close() {
+        if(dragHelper.continueSettling(true))return;
         post(new Runnable() {
             @Override
             public void run() {
-                dragHelper.smoothSlideViewTo(child, position == Position.Left ? -child.getMeasuredWidth() : getMeasuredWidth(), getTop());
+                dragHelper.smoothSlideViewTo(mChild, position == PopupPosition.Left ? -mChild.getMeasuredWidth() : getMeasuredWidth(), getTop());
                 ViewCompat.postInvalidateOnAnimation(PopupDrawerLayout.this);
             }
         });

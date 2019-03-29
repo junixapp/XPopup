@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="带有输入框并贴着输入法的弹窗"
+        android:background="#eee"
+        android:textColor="#333" />
+
+    <EditText
+        android:id="@+id/et_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="请输入评论" />
+
+    <TextView
+        android:textColor="#777"
+        android:textSize="16sp"
+        android:padding="20dp"
+        android:text="该输入框通过继承BottomPopupView实现，会智能根据内容的高度来调整上移的距离；默认会贴在输入法之上，为了不挡住输入框，在某些情况下回适当的伸入输入法之下。"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_finish"
+        android:text="发表评论"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>

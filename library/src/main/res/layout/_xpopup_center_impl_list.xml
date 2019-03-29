@@ -8,13 +8,13 @@
     <TextView
         android:id="@+id/tv_title"
         android:textColor="@color/_xpopup_title_color"
-        android:paddingTop="20dp"
-        android:paddingLeft="18dp"
-        android:paddingBottom="20dp"
-        android:paddingRight="18dp"
-        android:background="@android:color/white"
-        android:lines="1"
-        android:textSize="20sp"
+        android:paddingTop="16dp"
+        android:paddingLeft="14dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="14dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -22,7 +22,6 @@
 
     <com.lxj.xpopup.widget.VerticalRecyclerView
         android:id="@+id/recyclerView"
-        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never" />

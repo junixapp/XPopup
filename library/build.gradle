@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 26
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -22,18 +22,17 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.lxj:easyadapter:1.0.0'
+    implementation 'com.android.support:appcompat-v7:26.0.0'
+    implementation 'com.android.support:recyclerview-v7:26.0.0'
+    implementation 'com.android.support:design:26.0.0'
+    implementation 'com.lxj:easyadapter:1.1.0'
 }
 
 publish {
     userOrg = 'li-xiaojun'
     groupId = 'com.lxj'
     artifactId = 'xpopup'
-    publishVersion = '1.4.2'
+    publishVersion = '1.6.4'
     repoName = 'jrepo'
     desc = '功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout等组件，自带十几种效果良好的动画， 支持完全的UI和动画自定义！'
     website = 'https://github.com/li-xiaojun/XPopup'

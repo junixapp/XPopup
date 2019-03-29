@@ -3,6 +3,7 @@ package com.lxj.xpopup.animator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -45,13 +46,13 @@ public class TranslateAnimator extends PopupAnimator {
     public void animateShow() {
         targetView.animate().translationX(0).translationY(0)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(animateDuration).start();
+                .setDuration(XPopup.getAnimationDuration()).start();
     }
 
     @Override
     public void animateDismiss() {
         targetView.animate().translationX(startTranslationX).translationY(startTranslationY)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(animateDuration).start();
+                .setDuration(XPopup.getAnimationDuration()).start();
     }
 }

@@ -47,6 +47,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         if(!TextUtils.isEmpty(content)){
             tv_content.setText(content);
         }
+
+        if(isHideCancel)tv_cancel.setVisibility(GONE);
     }
 
     protected void applyPrimaryColor(){
@@ -56,16 +58,27 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
 
     OnCancelListener cancelListener;
     OnConfirmListener confirmListener;
-    public void setListener( OnConfirmListener confirmListener,OnCancelListener cancelListener){
+    public ConfirmPopupView setListener( OnConfirmListener confirmListener,OnCancelListener cancelListener){
         this.cancelListener = cancelListener;
         this.confirmListener = confirmListener;
+        return this;
     }
     String title;
     String content;
-    public void setTitleContent(String title, String content){
+    String hint;
+    public ConfirmPopupView setTitleContent(String title, String content, String hint){
         this.title = title;
         this.content = content;
+        this.hint = hint;
+        return this;
     }
+
+    boolean isHideCancel = false;
+    public ConfirmPopupView hideCancelBtn(){
+        isHideCancel = true;
+        return this;
+    }
+
     @Override
     public void onClick(View v) {
         if(v==tv_cancel){
