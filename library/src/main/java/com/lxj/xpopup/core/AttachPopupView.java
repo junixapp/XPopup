@@ -23,7 +23,7 @@ import com.lxj.xpopup.widget.PartShadowContainer;
  * Create by dance, at 2018/12/11
  */
 public abstract class AttachPopupView extends BasePopupView {
-    protected int defaultOffsetY = 6;
+    protected int defaultOffsetY = 0;
     protected int defaultOffsetX = 0;
     protected PartShadowContainer attachPopupContainer;
 
@@ -57,9 +57,8 @@ public abstract class AttachPopupView extends BasePopupView {
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
 
-
-        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), defaultOffsetY) : popupInfo.offsetY;
-        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), defaultOffsetX) : popupInfo.offsetX;
+        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 6) : popupInfo.offsetY;
+        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
             @Override
             public void run() {

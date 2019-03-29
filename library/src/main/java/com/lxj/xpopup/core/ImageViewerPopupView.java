@@ -45,16 +45,16 @@ import java.util.ArrayList;
  */
 public class ImageViewerPopupView extends BasePopupView implements OnDragChangeListener, View.OnClickListener {
     protected PhotoViewContainer photoViewContainer;
-    BlankView placeholderView;
-    TextView tv_pager_indicator, tv_save;
-    HackyViewPager pager;
-    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    protected BlankView placeholderView;
+    protected TextView tv_pager_indicator, tv_save;
+    protected HackyViewPager pager;
+    protected ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private ArrayList<Object> urls = new ArrayList<>();
     private XPopupImageLoader imageLoader;
     private OnSrcViewUpdateListener srcViewUpdateListener;
     private int position;
-    Rect rect = null;
-    ImageView srcView;
+    protected Rect rect = null;
+    protected ImageView srcView;
     boolean isShowPlaceholder = true;
     int placeholderColor = -1; //占位View的颜色
     int placeholderStrokeColor = -1; // 占位View的边框色

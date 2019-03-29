@@ -474,6 +474,7 @@ implementation 'com.android.support:design:28.0.0'
       .hasStatusBarShadow(false) //是否有状态栏阴影，目前对Drawer弹窗和FullScreen弹窗生效
       .offsetX(-10) //弹窗在x方向的偏移量
       .offsetY(-10) //弹窗在y方向的偏移量
+      .enableDrag(true) //是否启用拖拽，默认为true，目前对Bottom弹窗有用
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
           @Override
           public void onShow() {

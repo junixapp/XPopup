@@ -75,7 +75,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnShowConfirm:
+            case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 new XPopup.Builder(getContext())
 //                         .dismissOnTouchOutside(false)
                         // 设置弹窗显示和隐藏的回调监听
@@ -98,7 +98,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         }, null, false)
                         .show();
                 break;
-            case R.id.btnShowInputConfirm:
+            case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗
                 new XPopup.Builder(getContext())
                         //.dismissOnBackPressed(false)
                         .autoOpenSoftInput(true)
@@ -113,7 +113,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
-            case R.id.btnShowCenterList:
+            case R.id.btnShowCenterList: //在中间弹出的List列表弹窗
                 new XPopup.Builder(getContext())
 //                        .maxWidth(600)
                         .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
@@ -125,7 +125,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
-            case R.id.btnShowCenterListWithCheck:
+            case R.id.btnShowCenterListWithCheck: //在中间弹出的List列表弹窗，带选中效果
                 new XPopup.Builder(getContext())
                         .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
                         null, 1,
@@ -137,7 +137,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
-            case R.id.btnShowLoading:
+            case R.id.btnShowLoading: //在中间弹出的Loading加载框
                 final BasePopupView loadingPopup = new XPopup.Builder(getContext())
                         .asLoading("正在加载中")
                         .show();
@@ -154,8 +154,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     }
                 },2000);
                 break;
-            case R.id.btnShowBottomList:
+            case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
+//                        .enableDrag(false)
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                         new OnSelectListener() {
                             @Override
@@ -165,7 +166,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
-            case R.id.btnShowBottomListWithCheck:
+            case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                         null, 2,
@@ -177,13 +178,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
-            case R.id.btnCustomBottomPopup:
+            case R.id.btnCustomBottomPopup: //自定义的底部弹窗
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                         .asCustom(new ZhihuCommentPopup(getContext())/*.enableDrag(false)*/)
                         .show();
                 break;
-            case R.id.tv1:
+            case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
                 new XPopup.Builder(getContext())
@@ -199,7 +200,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         })
                         .show();
                 break;
-            case R.id.btnShowDrawerLeft:
+            case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
                 new XPopup.Builder(getContext())
                         .asCustom(new CustomDrawerPopupView(getContext()))
 //                        .asCustom(new ListDrawerPopupView(getContext()))
@@ -212,17 +213,17 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .asCustom(drawerPopupView)
                         .show();
                 break;
-            case R.id.btnFullScreenPopup:
+            case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
                 new XPopup.Builder(getContext())
                         .popupAnimation(PopupAnimation.TranslateFromBottom)
                         .hasStatusBarShadow(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
                         .show();
                 break;
-            case R.id.btnAttachPopup1:
+            case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
                 new XPopup.Builder(getContext())
-//                        .offsetX(-10)
-//                        .offsetY(10)
+//                        .offsetX(-10) //往左偏移10
+//                        .offsetY(10)  //往下偏移10
 //                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
                         .hasShadowBg(false) // 去掉半透明背景
                         .atView(v)
@@ -236,7 +237,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .asCustom(new CustomAttachPopup(getContext()))
                         .show();
                 break;
-            case R.id.btnCustomEditPopup:
+            case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomEditTextBottomPopup(getContext()))

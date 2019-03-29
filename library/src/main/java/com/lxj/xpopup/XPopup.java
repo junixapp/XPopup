@@ -251,6 +251,16 @@ public class XPopup {
         }
 
         /**
+         * 是否启用拖拽
+         * @param enableDrag
+         * @return
+         */
+        public Builder enableDrag(boolean enableDrag){
+            this.popupInfo.enableDrag = enableDrag;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          * @param xPopupCallback
          * @return
@@ -377,8 +387,7 @@ public class XPopup {
             BottomPopupView popupView = new BottomListPopupView(this.context)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
-                    .setOnSelectListener(selectListener)
-                    .enableDrag(enableDrag);
+                    .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
             return (BottomListPopupView) popupView;
         }

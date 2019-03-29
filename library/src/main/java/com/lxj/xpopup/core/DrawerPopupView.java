@@ -19,7 +19,7 @@ import com.lxj.xpopup.widget.PopupDrawerLayout;
 public abstract class DrawerPopupView extends BasePopupView {
     PopupDrawerLayout drawerLayout;
     protected FrameLayout drawerContentContainer;
-    View view_statusbar_shadow;
+    View view_status_bar_shadow;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     int defaultColor = Color.TRANSPARENT;
     public static int shadowColor = Color.parseColor("#55343434");
@@ -27,7 +27,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     public DrawerPopupView(@NonNull Context context) {
         super(context);
         drawerLayout = findViewById(R.id.drawerLayout);
-        view_statusbar_shadow = findViewById(R.id.view_statusbar_shadow);
+        view_status_bar_shadow = findViewById(R.id.view_statusbar_shadow);
         drawerContentContainer = findViewById(R.id.drawerContentContainer);
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), drawerContentContainer, false);
         drawerContentContainer.addView(contentView);
@@ -56,7 +56,7 @@ public abstract class DrawerPopupView extends BasePopupView {
             public void onDismissing(float fraction) {
                 // 是否显示状态栏的遮罩
                 if (popupInfo.hasStatusBarShadow) {
-                    view_statusbar_shadow.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction, defaultColor, shadowColor));
+                    view_status_bar_shadow.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction, defaultColor, shadowColor));
                 }
             }
         });

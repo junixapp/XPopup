@@ -35,6 +35,7 @@ public class PopupInfo {
     public PopupPosition popupPosition = null; //弹窗出现在目标的什么位置
     public Boolean hasStatusBarShadow = false;
     public int offsetX, offsetY;//x，y方向的偏移量
+    public Boolean enableDrag = true;//是否启用拖拽
 
     public View getAtView() {
         return atView;

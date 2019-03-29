@@ -49,7 +49,7 @@ public abstract class BasePopupView extends FrameLayout{
         shadowBgAnimator = new ShadowBgAnimator(this);
         //  添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
-        // 事先隐藏，等测量完毕恢复。避免View影子跳动现象
+        // 事先隐藏，等测量完毕恢复，避免View影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
     }
