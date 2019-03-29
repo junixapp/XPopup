@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -19,7 +18,7 @@ import com.lxj.xpopup.util.XPopupUtils;
  * Description:
  * Create by dance, at 2019/1/10
  */
-public class PartShadowContainer extends CardView {
+public class PartShadowContainer extends FrameLayout {
     public boolean isDismissOnTouchOutside = true;
     public PartShadowContainer(@NonNull Context context) {
         super(context);

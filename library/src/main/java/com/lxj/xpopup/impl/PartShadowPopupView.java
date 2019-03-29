@@ -80,8 +80,6 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         }
         getPopupContentView().setLayoutParams(params);
 
-        attachPopupContainer.setCardBackgroundColor(Color.TRANSPARENT);
-        attachPopupContainer.setCardElevation(0);
         attachPopupContainer.setOnClickOutsideListener(new OnClickOutsideListener() {
             @Override
             public void onClickOutside() {
