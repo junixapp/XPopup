@@ -124,6 +124,7 @@ public abstract class BasePopupView extends FrameLayout{
             isCreated = true;
             onCreate();
         }
+        applyOffset();//执行偏移
         initPopupContent();
         post(new Runnable() {
             @Override
@@ -217,6 +218,10 @@ public abstract class BasePopupView extends FrameLayout{
         }
     };
 
+    /**
+     * 进行偏移
+     */
+    protected void applyOffset(){}
     /**
      * 根据PopupInfo的popupAnimation字段来生成对应的内置的动画执行器
      */

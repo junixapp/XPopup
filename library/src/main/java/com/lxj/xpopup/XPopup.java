@@ -231,6 +231,26 @@ public class XPopup {
         }
 
         /**
+         * 弹窗在x方向的偏移量，对所有弹窗生效
+         * @param offsetX
+         * @return
+         */
+        public Builder offsetX(int offsetX){
+            this.popupInfo.offsetX = offsetX;
+            return this;
+        }
+
+        /**
+         * 弹窗在y方向的偏移量，对所有弹窗生效
+         * @param offsetY
+         * @return
+         */
+        public Builder offsetY(int offsetY){
+            this.popupInfo.offsetY = offsetY;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          * @param xPopupCallback
          * @return
@@ -240,7 +260,7 @@ public class XPopup {
             return this;
         }
 
-        /************** 便捷方法 ************/
+        /****************************************** 便捷方法 ****************************************/
         /**
          * 显示确认和取消对话框
          *

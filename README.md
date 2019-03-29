@@ -472,6 +472,8 @@ implementation 'com.android.support:design:28.0.0'
       .moveUpToKeyboard(false) // 软键盘弹出时，弹窗是否移动到软键盘上面，默认为true
       .popupPosition(PopupPosition.Right)//手动指定弹窗出现在目标的什么位置，对Attach和Drawer类型弹窗生效
       .hasStatusBarShadow(false) //是否有状态栏阴影，目前对Drawer弹窗和FullScreen弹窗生效
+      .offsetX(-10) //弹窗在x方向的偏移量
+      .offsetY(-10) //弹窗在y方向的偏移量
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
           @Override
           public void onShow() {

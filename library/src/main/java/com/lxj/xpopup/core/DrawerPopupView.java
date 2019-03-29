@@ -68,7 +68,11 @@ public abstract class DrawerPopupView extends BasePopupView {
             }
         });
     }
-
+    @Override
+    protected void applyOffset() {
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
+    }
     @Override
     protected void doAfterShow() {
         //do nothing self.

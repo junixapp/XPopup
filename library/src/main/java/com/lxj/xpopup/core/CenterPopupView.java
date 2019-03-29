@@ -35,6 +35,12 @@ public class CenterPopupView extends BasePopupView {
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
     }
 
+    @Override
+    protected void applyOffset() {
+        getPopupContentView().setTranslationX(popupInfo.offsetX);
+        getPopupContentView().setTranslationY(popupInfo.offsetY);
+    }
+
     /**
      * 具体实现的类的布局
      *

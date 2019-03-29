@@ -62,6 +62,12 @@ public class BottomPopupView extends BasePopupView {
     }
 
     @Override
+    protected void applyOffset() {
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
+    }
+
+    @Override
     protected void doAfterShow() {
         if(enableDrag){
             //do nothing self.

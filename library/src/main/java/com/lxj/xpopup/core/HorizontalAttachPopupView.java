@@ -23,8 +23,8 @@ public class HorizontalAttachPopupView extends AttachPopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        defaultOffsetX = 6;
-        defaultOffsetY = 0;
+        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
+        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 6) : popupInfo.offsetX;
     }
 
     /**
