@@ -57,7 +57,7 @@ public abstract class AttachPopupView extends BasePopupView {
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
 
-        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 6) : popupInfo.offsetY;
+        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 5) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
             @Override
@@ -66,12 +66,6 @@ public abstract class AttachPopupView extends BasePopupView {
             }
         });
 
-    }
-
-    @Override
-    protected void applyOffset() {
-        getPopupContentView().setTranslationX(popupInfo.offsetX);
-        getPopupContentView().setTranslationY(popupInfo.offsetY);
     }
 
     /**

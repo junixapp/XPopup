@@ -25,7 +25,13 @@ import com.lxj.xpopup.util.XPopupUtils;
 public abstract class PartShadowPopupView extends AttachPopupView {
     public PartShadowPopupView(@NonNull Context context) {
         super(context);
-        defaultOffsetY = 0;
+    }
+
+    @Override
+    protected void initPopupContent() {
+        super.initPopupContent();
+        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
+        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
     }
 
     @Override

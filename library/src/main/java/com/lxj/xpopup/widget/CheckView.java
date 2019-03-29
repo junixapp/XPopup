@@ -42,11 +42,11 @@ public class CheckView extends View {
         postInvalidate();
     }
 
+    Path path = new Path();
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(color==Color.TRANSPARENT)return;
-        Path path = new Path();
         // first part
         path.moveTo(getMeasuredWidth()/4, getMeasuredHeight()/2);
         path.lineTo(getMeasuredWidth()/2 , getMeasuredHeight()*3/4);

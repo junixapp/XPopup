@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         },300);
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
-//        XPopup.setAnimationDuration(200);
+//        XPopup.setAnimationDuration(1000);
 //        XPopup.setPrimaryColor(Color.RED);
 
     }
