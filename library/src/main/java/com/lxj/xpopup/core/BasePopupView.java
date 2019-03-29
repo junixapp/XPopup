@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -116,7 +117,7 @@ public abstract class BasePopupView extends FrameLayout{
      *
      */
     public void init() {
-        if (popupStatus != PopupStatus.Dismiss) return;
+        if (popupStatus == PopupStatus.Showing) return;
         popupStatus = PopupStatus.Showing;
         //1. 初始化Popup
         if (!isCreated) {
@@ -198,20 +199,23 @@ public abstract class BasePopupView extends FrameLayout{
     }
 
     protected void doAfterShow() {
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                popupStatus = PopupStatus.Show;
-                onShow();
-                if (popupInfo != null && popupInfo.xPopupCallback != null)
-                    popupInfo.xPopupCallback.onShow();
-                if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0) {
-                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()), BasePopupView.this);
-                }
-                focusAndProcessBackPress();
-            }
-        }, getAnimationDuration());
+        removeCallbacks(doAfterShowTask);
+        postDelayed(doAfterShowTask, getAnimationDuration());
     }
+
+    private Runnable doAfterShowTask = new Runnable() {
+        @Override
+        public void run() {
+            popupStatus = PopupStatus.Show;
+            onShow();
+            if (popupInfo != null && popupInfo.xPopupCallback != null)
+                popupInfo.xPopupCallback.onShow();
+            if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0) {
+                XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()), BasePopupView.this);
+            }
+            focusAndProcessBackPress();
+        }
+    };
 
     /**
      * 根据PopupInfo的popupAnimation字段来生成对应的内置的动画执行器
@@ -346,7 +350,7 @@ public abstract class BasePopupView extends FrameLayout{
      * 消失
      */
     public void dismiss() {
-        if (popupStatus != PopupStatus.Show) return;
+        if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
         doDismissAnimation();
         doAfterDismiss();
@@ -354,27 +358,30 @@ public abstract class BasePopupView extends FrameLayout{
 
     protected void doAfterDismiss() {
         KeyboardUtils.hideSoftInput(this);
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onDismiss();
-                // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
-                View contentView = ((Activity)getContext()).findViewById(android.R.id.content);
-                contentView.setFocusable(true);
-                contentView.setFocusableInTouchMode(true);
-
-                // 移除弹窗
-                popupInfo.decorView.removeView(BasePopupView.this);
-                KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView);
-
-                if (popupInfo != null && popupInfo.xPopupCallback != null) {
-                    popupInfo.xPopupCallback.onDismiss();
-                }
-                if (dismissWithRunnable != null) dismissWithRunnable.run();
-                popupStatus = PopupStatus.Dismiss;
-            }
-        }, getAnimationDuration());
+        removeCallbacks(doAfterDismissTask);
+        postDelayed(doAfterDismissTask, getAnimationDuration());
     }
+
+    private Runnable doAfterDismissTask = new Runnable() {
+        @Override
+        public void run() {
+            onDismiss();
+            // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
+            View contentView = ((Activity)getContext()).findViewById(android.R.id.content);
+            contentView.setFocusable(true);
+            contentView.setFocusableInTouchMode(true);
+
+            // 移除弹窗
+            popupInfo.decorView.removeView(BasePopupView.this);
+            KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView);
+
+            if (popupInfo != null && popupInfo.xPopupCallback != null) {
+                popupInfo.xPopupCallback.onDismiss();
+            }
+            if (dismissWithRunnable != null) dismissWithRunnable.run();
+            popupStatus = PopupStatus.Dismiss;
+        }
+    };
 
     Runnable dismissWithRunnable;
 
@@ -409,6 +416,14 @@ public abstract class BasePopupView extends FrameLayout{
      * 显示动画执行完毕后执行
      */
     protected void onShow() {
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        removeCallbacks(doAfterShowTask);
+        removeCallbacks(doAfterDismissTask);
+        popupStatus = PopupStatus.Dismiss;
     }
 
     private float x, y;

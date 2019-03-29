@@ -144,7 +144,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(loadingPopup.isShow())
+//                        if(loadingPopup.isShow())
                             loadingPopup.dismissWith(new Runnable() {
                                 @Override
                                 public void run() {
@@ -152,7 +152,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 }
                             });
                     }
-                },1000);
+                },2000);
                 break;
             case R.id.btnShowBottomList:
                 new XPopup.Builder(getContext())

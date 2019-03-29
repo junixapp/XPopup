@@ -101,7 +101,6 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                                 public void onShow() {
                                     Toast.makeText(getActivity(), "显示了", Toast.LENGTH_SHORT).show();
                                 }
-
                                 @Override
                                 public void onDismiss() {
                                     Toast.makeText(getActivity(), "关闭了", Toast.LENGTH_SHORT).show();
@@ -110,6 +109,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                             .asCustom(new CustomPartShadowPopupView(getContext()));
                 }
                 popupView.toggle();
+                Log.e("tag", "popupView status: "+popupView.popupStatus);
                 break;
             case R.id.tv_filter:
                 new XPopup.Builder(getContext())
