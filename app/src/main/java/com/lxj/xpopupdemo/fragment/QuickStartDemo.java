@@ -13,6 +13,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
+import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
@@ -223,8 +224,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
                 new XPopup.Builder(getContext())
-//                        .offsetX(-10) //往左偏移10
-//                        .offsetY(10)  //往下偏移10
+//                        .offsetX(60) //往左偏移10
+//                        .offsetY(-50)  //往下偏移10
 //                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
                         .hasShadowBg(false) // 去掉半透明背景
                         .atView(v)
