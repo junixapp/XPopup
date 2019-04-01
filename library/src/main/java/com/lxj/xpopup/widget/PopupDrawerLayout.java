@@ -1,6 +1,11 @@
 package com.lxj.xpopup.widget;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
@@ -9,9 +14,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
+import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 根据手势拖拽子View的layout，这种类型的弹窗比较特殊，不需要额外的动画器，因为
@@ -25,7 +33,10 @@ public class PopupDrawerLayout extends FrameLayout {
     View mChild;
     PopupPosition position = PopupPosition.Left;
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
-
+    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    int defaultColor = Color.TRANSPARENT;
+    public boolean isDrawStatusBarShadow = false;
+    float fraction = 0f;
     public PopupDrawerLayout(Context context) {
         this(context, null);
     }
@@ -99,7 +110,7 @@ public class PopupDrawerLayout extends FrameLayout {
         @Override
         public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            float fraction = 0f;// fraction = (now - start) * 1f / (end - start)
+            // fraction = (now - start) * 1f / (end - start)
             if (position == PopupPosition.Left) {
                 fraction = (left + mChild.getMeasuredWidth()) * 1f / mChild.getMeasuredWidth();
                 if (left == -mChild.getMeasuredWidth() && listener != null && status != LayoutStatus.Close) {
@@ -168,10 +179,26 @@ public class PopupDrawerLayout extends FrameLayout {
         }
     }
 
+    Paint paint;
+    Rect shadowRect;
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        if(isDrawStatusBarShadow){
+            if(paint==null){
+                paint = new Paint();
+                shadowRect = new Rect(0,0, getMeasuredHeight(), XPopupUtils.getStatusBarHeight());
+            }
+            paint.setColor((Integer) argbEvaluator.evaluate(fraction, defaultColor, XPopup.statusBarShadowColor));
+            canvas.drawRect(shadowRect, paint);
+        }
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         status = null;
+        fraction = 0f;
     }
 
     /**

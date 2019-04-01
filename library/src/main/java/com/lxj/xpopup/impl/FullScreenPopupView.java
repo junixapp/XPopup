@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -34,7 +35,7 @@ public class FullScreenPopupView extends CenterPopupView {
         if(popupInfo.hasStatusBarShadow){
             if(paint==null){
                 paint = new Paint();
-                paint.setColor(DrawerPopupView.shadowColor);
+                paint.setColor(XPopup.statusBarShadowColor);
                 shadowRect = new Rect(0,0, getMeasuredHeight(), XPopupUtils.getStatusBarHeight());
             }
             canvas.drawRect(shadowRect, paint);

@@ -44,6 +44,7 @@ public class XPopup {
      **/
     private static int primaryColor = Color.parseColor("#121212");
     private static int animationDuration = 360;
+    public static int statusBarShadowColor = Color.parseColor("#55343434");
 
     /**
      * 设置主色调
