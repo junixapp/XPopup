@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopupdemo.R;
@@ -21,14 +23,25 @@ public class CustomPartShadowPopupView extends PartShadowPopupView {
         return R.layout.custom_part_shadow_popup;
     }
 
+    TextView text;
     @Override
     protected void onCreate() {
         super.onCreate();
+        text = findViewById(R.id.text);
         Log.e("tag","CustomPartShadowPopupView onCreate");
         findViewById(R.id.btnClose).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+        findViewById(R.id.ch).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewGroup.LayoutParams layoutParams = text.getLayoutParams();
+                layoutParams.height += 100;
+                text.setLayoutParams(layoutParams);
+
             }
         });
     }
