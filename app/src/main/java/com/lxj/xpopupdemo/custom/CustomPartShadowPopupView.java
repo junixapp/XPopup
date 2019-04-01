@@ -38,9 +38,7 @@ public class CustomPartShadowPopupView extends PartShadowPopupView {
         findViewById(R.id.ch).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewGroup.LayoutParams layoutParams = text.getLayoutParams();
-                layoutParams.height += 100;
-                text.setLayoutParams(layoutParams);
+                text.setText(text.getText()+"\n 啦啦啦啦啦啦");
 
             }
         });
