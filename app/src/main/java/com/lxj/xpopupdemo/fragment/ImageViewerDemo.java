@@ -89,22 +89,6 @@ public class ImageViewerDemo extends BaseFragment {
         //ViewPager bind data
         pager.setOffscreenPageLimit(list.size());
         pager.setAdapter(new ImagePagerAdapter());
-
-
-        //申请权限
-        if (!PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
-            PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
-                @Override
-                public void onGranted() {
-
-                }
-
-                @Override
-                public void onDenied() {
-                    ToastUtils.showLong("权限申请失败，则无法使用保存图片的功能！");
-                }
-            }).request();
-        }
     }
 
     class ImageAdapter extends CommonAdapter<Object> {
@@ -201,8 +185,6 @@ public class ImageViewerDemo extends BaseFragment {
             }
             return null;
         }
-
-
     }
 }
 

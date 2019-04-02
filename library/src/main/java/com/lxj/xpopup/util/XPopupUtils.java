@@ -354,7 +354,7 @@ public class XPopupUtils {
                                     mainHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(context, "保存成功！保存到：" + path, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "保存成功！保存在：" + path, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -364,7 +364,7 @@ public class XPopupUtils {
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "保存失败！请先申请权限", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

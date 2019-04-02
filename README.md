@@ -442,7 +442,7 @@ implementation 'com.android.support:design:28.0.0'
     Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
                         .into(imageView);
     ```
-    如果你使用其他类库加载图片，请保证加载的图片没有被裁剪过。另外，保存功能需要权限，请自行申请。
+    如果你使用其他类库加载图片，请保证加载的图片没有被裁剪过。
 
 
 14. **其他**
