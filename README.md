@@ -567,6 +567,8 @@ implementation 'com.android.support:design:28.0.0'
 根据热心群众提供的信息，目前使用XPopup的产品和公司有：
 - 海鸥地图（https://cn.gullmap.com/）
 - 马自达汽车检测（主要是一个汽车厂商工作人员使用的汽车检测APP）
+- 变福侠App
+- 进境肉牛检疫追溯系统(App端)
 
 
 ## 联系方式
