@@ -6,13 +6,11 @@ import android.graphics.PointF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.enums.PopupAnimation;
@@ -31,7 +29,6 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
-
 import java.util.ArrayList;
 
 /**
@@ -232,7 +229,7 @@ public class XPopup {
         }
 
         /**
-         * 弹窗在x方向的偏移量，对所有弹窗生效
+         * 弹窗在x方向的偏移量，对所有弹窗生效，单位是px
          * @param offsetX
          * @return
          */
@@ -242,7 +239,7 @@ public class XPopup {
         }
 
         /**
-         * 弹窗在y方向的偏移量，对所有弹窗生效
+         * 弹窗在y方向的偏移量，对所有弹窗生效，单位是px
          * @param offsetY
          * @return
          */
@@ -252,7 +249,7 @@ public class XPopup {
         }
 
         /**
-         * 是否启用拖拽
+         * 是否启用拖拽，比如：Bottom弹窗默认是带手势拖拽效果的，如果禁用则不能拖拽
          * @param enableDrag
          * @return
          */

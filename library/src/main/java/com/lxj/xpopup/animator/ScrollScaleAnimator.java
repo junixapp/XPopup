@@ -17,11 +17,11 @@ import com.lxj.xpopup.enums.PopupAnimation;
  */
 public class ScrollScaleAnimator extends PopupAnimator{
 
-    FloatEvaluator floatEvaluator = new FloatEvaluator();
-    IntEvaluator intEvaluator = new IntEvaluator();
-    int startScrollX, startScrollY;
-    float startAlpha = .2f;
-    float startScale = 0f;
+    private FloatEvaluator floatEvaluator = new FloatEvaluator();
+    private IntEvaluator intEvaluator = new IntEvaluator();
+    private int startScrollX, startScrollY;
+    private float startAlpha = .2f;
+    private float startScale = 0f;
 
     public boolean isOnlyScaleX = false;
 

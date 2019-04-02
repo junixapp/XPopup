@@ -137,6 +137,7 @@ public class XPopupUtils {
                 content.setLayoutParams(params);
 
                 if(afterApplySize!=null){
+//                    content.post(afterApplySize);
                     afterApplySize.run();
                 }
             }
