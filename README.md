@@ -57,7 +57,7 @@
 //注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
 //注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
 //注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
-implementation 'com.lxj:xpopup:1.6.5'
+implementation 'com.lxj:xpopup:1.6.6'
 
 //重构之前的版本
 //implementation 'com.lxj:xpopup:1.5.2'
@@ -475,6 +475,7 @@ implementation 'com.android.support:design:28.0.0'
       .offsetX(-10) //弹窗在x方向的偏移量
       .offsetY(-10) //弹窗在y方向的偏移量
       .enableDrag(true) //是否启用拖拽，默认为true，目前对Bottom弹窗有用
+      .isCenterHorizontal(true)//默认为false，默认情况下Attach弹窗依靠着目标的左边或者右边，如果isCenterHorizontal为true，则与目标水平居中对齐
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
           @Override
           public void onShow() {
