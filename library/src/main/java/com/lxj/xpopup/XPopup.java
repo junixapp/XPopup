@@ -259,6 +259,16 @@ public class XPopup {
         }
 
         /**
+         * 是否水平居中，默认情况下Attach弹窗依靠着目标的左边或者右边，如果isCenterHorizontal为true，则与目标水平居中对齐
+         * @param isCenterHorizontal
+         * @return
+         */
+        public Builder isCenterHorizontal(boolean isCenterHorizontal){
+            this.popupInfo.isCenterHorizontal = isCenterHorizontal;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          * @param xPopupCallback
          * @return

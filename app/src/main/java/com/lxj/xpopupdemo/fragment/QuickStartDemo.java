@@ -189,6 +189,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv2:
             case R.id.tv3:
                 new XPopup.Builder(getContext())
+//                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-10)
 //                        .popupPosition(PopupPosition.Bottom) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示

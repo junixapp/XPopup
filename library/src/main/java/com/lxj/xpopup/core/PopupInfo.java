@@ -36,6 +36,7 @@ public class PopupInfo {
     public Boolean hasStatusBarShadow = false;
     public int offsetX, offsetY;//x，y方向的偏移量
     public Boolean enableDrag = true;//是否启用拖拽
+    public boolean isCenterHorizontal = false;//是否水平居中
 
     public View getAtView() {
         return atView;
