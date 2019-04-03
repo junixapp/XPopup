@@ -62,6 +62,7 @@ public abstract class BasePopupView extends FrameLayout{
         super(context, attrs, defStyleAttr);
     }
 
+    private ShowSoftInputTask showSoftInputTask;
     private void focusAndProcessBackPress() {
         // 处理返回按键
         setFocusableInTouchMode(true);
@@ -89,12 +90,12 @@ public abstract class BasePopupView extends FrameLayout{
                 et.setFocusableInTouchMode(true);
                 et.requestFocus();
                 if (popupInfo.autoOpenSoftInput) {
-                    postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            KeyboardUtils.showSoftInput(et);
-                        }
-                    }, 10);
+                    if(showSoftInputTask==null){
+                        showSoftInputTask = new ShowSoftInputTask(et);
+                    }else {
+                        removeCallbacks(showSoftInputTask);
+                    }
+                    postDelayed(showSoftInputTask, 10);
                 }
             }
             et.setOnKeyListener(new View.OnKeyListener() {
@@ -111,6 +112,20 @@ public abstract class BasePopupView extends FrameLayout{
         }
     }
 
+    class ShowSoftInputTask implements Runnable{
+        View focusView;
+        boolean isDone = false;
+        public ShowSoftInputTask(View focusView){
+            this.focusView = focusView;
+        }
+        @Override
+        public void run() {
+            if(focusView!=null && !isDone){
+                isDone = true;
+                KeyboardUtils.showSoftInput(focusView);
+            }
+        }
+    }
 
     /**
      * 执行初始化
@@ -357,6 +372,7 @@ public abstract class BasePopupView extends FrameLayout{
     public void dismiss() {
         if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
+        clearFocus();
         doDismissAnimation();
         doAfterDismiss();
     }
@@ -428,7 +444,9 @@ public abstract class BasePopupView extends FrameLayout{
         super.onDetachedFromWindow();
         removeCallbacks(doAfterShowTask);
         removeCallbacks(doAfterDismissTask);
+        if(showSoftInputTask!=null)removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
+        showSoftInputTask = null;
     }
 
     private float x, y;
