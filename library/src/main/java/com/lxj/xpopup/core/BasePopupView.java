@@ -65,8 +65,10 @@ public abstract class BasePopupView extends FrameLayout{
     private ShowSoftInputTask showSoftInputTask;
     private void focusAndProcessBackPress() {
         // 处理返回按键
-        setFocusableInTouchMode(true);
-        requestFocus();
+        if(popupInfo.isRequestFocus){
+            setFocusableInTouchMode(true);
+            requestFocus();
+        }
         // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
         setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -388,9 +390,11 @@ public abstract class BasePopupView extends FrameLayout{
         public void run() {
             onDismiss();
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
-            View contentView = ((Activity)getContext()).findViewById(android.R.id.content);
-            contentView.setFocusable(true);
-            contentView.setFocusableInTouchMode(true);
+            if(popupInfo.isRequestFocus) {
+                View contentView = ((Activity) getContext()).findViewById(android.R.id.content);
+                contentView.setFocusable(true);
+                contentView.setFocusableInTouchMode(true);
+            }
 
             // 移除弹窗
             popupInfo.decorView.removeView(BasePopupView.this);

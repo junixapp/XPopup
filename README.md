@@ -476,6 +476,7 @@ implementation 'com.android.support:design:28.0.0'
       .offsetY(-10) //弹窗在y方向的偏移量
       .enableDrag(true) //是否启用拖拽，默认为true，目前对Bottom弹窗有用
       .isCenterHorizontal(true)//默认为false，默认情况下Attach弹窗依靠着目标的左边或者右边，如果isCenterHorizontal为true，则与目标水平居中对齐
+      .isRequestFocus(false)//默认为true，默认情况下弹窗会抢占焦点，目的是为了响应返回按键按下事件；如果为false，则不抢焦点
       .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
           @Override
           public void onShow() {

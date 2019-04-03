@@ -267,6 +267,15 @@ public class XPopup {
             this.popupInfo.isCenterHorizontal = isCenterHorizontal;
             return this;
         }
+        /**
+         * 是否抢占焦点，默认情况下弹窗会抢占焦点，目的是为了能处理返回按键事件。如果为false，则不在抢焦点，但也无法响应返回按键了
+         * @param isRequestFocus
+         * @return
+         */
+        public Builder isRequestFocus(boolean isRequestFocus){
+            this.popupInfo.isRequestFocus = isRequestFocus;
+            return this;
+        }
 
         /**
          * 设置弹窗显示和隐藏的回调监听
