@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,7 +33,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
  * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
-public abstract class BasePopupView extends FrameLayout{
+public abstract class BasePopupView extends FrameLayout {
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
@@ -60,73 +59,6 @@ public abstract class BasePopupView extends FrameLayout{
 
     public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    private ShowSoftInputTask showSoftInputTask;
-    private void focusAndProcessBackPress() {
-        // 处理返回按键
-        if(popupInfo.isRequestFocus){
-            setFocusableInTouchMode(true);
-            requestFocus();
-        }
-        // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
-        setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    if (popupInfo.isDismissOnBackPressed)
-                        dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        //let all EditText can process back pressed.
-        ArrayList<EditText> list = new ArrayList<>();
-        XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
-        for (int i = 0; i < list.size(); i++) {
-            final View et = list.get(i);
-            if (i == 0) {
-                et.setFocusable(true);
-                et.setFocusableInTouchMode(true);
-                et.requestFocus();
-                if (popupInfo.autoOpenSoftInput) {
-                    if(showSoftInputTask==null){
-                        showSoftInputTask = new ShowSoftInputTask(et);
-                    }else {
-                        removeCallbacks(showSoftInputTask);
-                    }
-                    postDelayed(showSoftInputTask, 10);
-                }
-            }
-            et.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-                        if (popupInfo.isDismissOnBackPressed)
-                            dismiss();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        }
-    }
-
-    class ShowSoftInputTask implements Runnable{
-        View focusView;
-        boolean isDone = false;
-        public ShowSoftInputTask(View focusView){
-            this.focusView = focusView;
-        }
-        @Override
-        public void run() {
-            if(focusView!=null && !isDone){
-                isDone = true;
-                KeyboardUtils.showSoftInput(focusView);
-            }
-        }
     }
 
     /**
@@ -234,6 +166,73 @@ public abstract class BasePopupView extends FrameLayout{
             focusAndProcessBackPress();
         }
     };
+
+    private ShowSoftInputTask showSoftInputTask;
+    private void focusAndProcessBackPress() {
+        // 处理返回按键
+        if(popupInfo.isRequestFocus){
+            setFocusableInTouchMode(true);
+            requestFocus();
+        }
+        // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
+        setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    if (popupInfo.isDismissOnBackPressed)
+                        dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        //let all EditText can process back pressed.
+        ArrayList<EditText> list = new ArrayList<>();
+        XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
+        for (int i = 0; i < list.size(); i++) {
+            final View et = list.get(i);
+            if (i == 0) {
+                et.setFocusable(true);
+                et.setFocusableInTouchMode(true);
+                et.requestFocus();
+                if (popupInfo.autoOpenSoftInput) {
+                    if(showSoftInputTask==null){
+                        showSoftInputTask = new ShowSoftInputTask(et);
+                    }else {
+                        removeCallbacks(showSoftInputTask);
+                    }
+                    postDelayed(showSoftInputTask, 10);
+                }
+            }
+            et.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+                        if (popupInfo.isDismissOnBackPressed)
+                            dismiss();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
+    }
+
+    class ShowSoftInputTask implements Runnable{
+        View focusView;
+        boolean isDone = false;
+        public ShowSoftInputTask(View focusView){
+            this.focusView = focusView;
+        }
+        @Override
+        public void run() {
+            if(focusView!=null && !isDone){
+                isDone = true;
+                KeyboardUtils.showSoftInput(focusView);
+            }
+        }
+    }
 
     /**
      * 进行偏移

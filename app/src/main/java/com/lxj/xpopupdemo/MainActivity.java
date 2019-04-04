@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 //        XPopup.setAnimationDuration(1000);
-        XPopup.setPrimaryColor(Color.RED);
+//        XPopup.setPrimaryColor(Color.RED);
     }
 
     private void callFragmentInit(int i){
