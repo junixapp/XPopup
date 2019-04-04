@@ -94,8 +94,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 showPagerIndicator();
                 //更新srcView
                 if (srcViewUpdateListener != null) {
-                    srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this
-                            , i);
+                    srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this , i);
                 }
             }
         });

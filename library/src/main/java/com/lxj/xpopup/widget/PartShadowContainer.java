@@ -36,17 +36,11 @@ public class PartShadowContainer extends FrameLayout {
     private long downTime;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // 计算OutSide的Rect
+        // 计算implView的Rect
         View implView = getChildAt(0);
-        Rect outsideRect = null;
-        FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
-        if(implParams.gravity==Gravity.TOP){
-            outsideRect = new Rect(0, implView.getHeight(), getWidth(), getHeight());
-        }else {
-            outsideRect = new Rect(0, 0,  getWidth(),  getHeight()-implView.getHeight());
-        }
-
-        if(XPopupUtils.isInRect(event.getX(), event.getY(), outsideRect)){
+        Rect implViewRect = new Rect();
+        implView.getLocalVisibleRect(implViewRect);
+        if(!XPopupUtils.isInRect(event.getX(), event.getY(), implViewRect)){
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();

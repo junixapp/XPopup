@@ -379,7 +379,8 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     protected void doAfterDismiss() {
-        KeyboardUtils.hideSoftInput(this);
+        if(popupInfo.isRequestFocus)
+            KeyboardUtils.hideSoftInput(this);
         removeCallbacks(doAfterDismissTask);
         postDelayed(doAfterDismissTask, getAnimationDuration());
     }

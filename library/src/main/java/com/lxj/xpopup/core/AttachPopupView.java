@@ -66,7 +66,6 @@ public abstract class AttachPopupView extends BasePopupView {
                 doAttach();
             }
         });
-
     }
 
     /**
