@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -98,9 +99,11 @@ public class XPopupUtils {
         params.height = height;
         target.setLayoutParams(params);
     }
+
     public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight) {
         applyPopupSize(content, maxWidth, maxHeight, null);
     }
+
     public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight, final Runnable afterApplySize) {
         content.post(new Runnable() {
             @Override
@@ -136,35 +139,15 @@ public class XPopupUtils {
                 }
                 content.setLayoutParams(params);
 
-                if(afterApplySize!=null){
+                if (afterApplySize != null) {
                     afterApplySize.run();
                 }
             }
         });
     }
 
-    public static void setCursorDrawableColor(EditText editText, int color) {
-        try {
-            Field fCursorDrawableRes =
-                    TextView.class.getDeclaredField("mCursorDrawableRes");
-            fCursorDrawableRes.setAccessible(true);
-            int mCursorDrawableRes = fCursorDrawableRes.getInt(editText);
-            Field fEditor = TextView.class.getDeclaredField("mEditor");
-            fEditor.setAccessible(true);
-            Object editor = fEditor.get(editText);
-            Class<?> clazz = editor.getClass();
-            Field fCursorDrawable = clazz.getDeclaredField("mCursorDrawable");
-            fCursorDrawable.setAccessible(true);
-
-            Drawable[] drawables = new Drawable[2];
-            Resources res = editText.getContext().getResources();
-            drawables[0] = res.getDrawable(mCursorDrawableRes);
-            drawables[1] = res.getDrawable(mCursorDrawableRes);
-            drawables[0].setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            drawables[1].setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            fCursorDrawable.set(editor, drawables);
-        } catch (final Throwable ignored) {
-        }
+    public static void setCursorDrawableColor(EditText et, int color) {
+        //暂时没有找到有效的方法来动态设置cursor的颜色
     }
 
     public static BitmapDrawable createBitmapDrawable(Resources resources, int width, int color) {
@@ -216,7 +199,7 @@ public class XPopupUtils {
     }
 
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
-        if(!pv.popupInfo.isMoveUpToKeyboard)return;
+        if (!pv.popupInfo.isMoveUpToKeyboard) return;
         //判断是否盖住输入框
         ArrayList<EditText> allEts = new ArrayList<>();
         findAllEditText(allEts, pv);
@@ -246,11 +229,11 @@ public class XPopupUtils {
         }
 
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if(pv instanceof PartShadowPopupView || pv instanceof AttachPopupView)return;
+        if (pv instanceof PartShadowPopupView || pv instanceof AttachPopupView) return;
         //执行上移
         if (pv instanceof FullScreenPopupView ||
                 (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
-                popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight()))
+                        popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight()))
         ) {
             // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动。
             if (focusBottom + keyboardHeight < windowHeight) {
@@ -278,7 +261,7 @@ public class XPopupUtils {
 
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if(pv instanceof PartShadowPopupView || pv instanceof AttachPopupView)return;
+        if (pv instanceof PartShadowPopupView || pv instanceof AttachPopupView) return;
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(0))
                 .setDuration(300).start();
@@ -333,7 +316,7 @@ public class XPopupUtils {
             @Override
             public void run() {
                 File source = imageLoader.getImageFile(context, uri);
-                if(source==null)return;
+                if (source == null) return;
                 //1. create path
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_PICTURES;
                 File dirFile = new File(dirPath);

@@ -191,5 +191,26 @@
             android:text="自定义贴在输入法之上的弹窗"
             android:textAllCaps="false" />
 
+
+
+        <com.lxj.xpopup.widget.ShadowContainer
+            android:layout_width="300dp"
+            android:background="#fff"
+            android:layout_height="200dp">
+
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="点我看看"
+                android:textColor="#fff" />
+
+
+        </com.lxj.xpopup.widget.ShadowContainer>
+
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

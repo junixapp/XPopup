@@ -1,6 +1,5 @@
 package com.lxj.xpopupdemo;
 
-import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,11 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 //        XPopup.setAnimationDuration(1000);
-//        XPopup.setPrimaryColor(Color.RED);
+        XPopup.setPrimaryColor(Color.RED);
     }
 
     private void callFragmentInit(int i){
