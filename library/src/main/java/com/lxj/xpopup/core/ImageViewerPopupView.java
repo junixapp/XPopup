@@ -40,6 +40,7 @@ import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -52,7 +53,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected TextView tv_pager_indicator, tv_save;
     protected HackyViewPager pager;
     protected ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private ArrayList<Object> urls = new ArrayList<>();
+    private List<Object> urls = new ArrayList<>();
     private XPopupImageLoader imageLoader;
     private OnSrcViewUpdateListener srcViewUpdateListener;
     private int position;
@@ -250,7 +251,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         doDismissAnimation();
     }
 
-    public ImageViewerPopupView setImageUrls(ArrayList<Object> urls) {
+    public ImageViewerPopupView setImageUrls(List<Object> urls) {
         this.urls = urls;
         return this;
     }

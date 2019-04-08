@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lxj.xpopup.impl.PartShadowPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
 /**

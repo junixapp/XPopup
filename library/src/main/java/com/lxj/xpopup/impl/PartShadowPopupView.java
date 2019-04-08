@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -41,6 +42,13 @@ public abstract class PartShadowPopupView extends AttachPopupView {
 
         // 指定阴影动画的目标View
         shadowBgAnimator.targetView = getPopupContentView();
+
+        getPopupContentView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.e("tag", "viewTreeObserver: " + getPopupContentView().getMeasuredHeight());
+            }
+        });
 
         //1. apply width and height
         ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();

@@ -29,7 +29,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 弹窗的控制类，控制生命周期：显示，隐藏，添加，删除。
@@ -496,7 +496,7 @@ public class XPopup {
          * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
          * @return
          */
-        public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, ArrayList<Object> urls,
+        public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
             return asImageViewer(srcView, currentPosition, urls, -1, -1, -1, srcViewUpdateListener, imageLoader);
         }
@@ -513,7 +513,7 @@ public class XPopup {
          * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
          * @return
          */
-        public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, ArrayList<Object> urls,
+        public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
             popupType(PopupType.ImageViewer);
