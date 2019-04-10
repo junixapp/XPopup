@@ -109,7 +109,7 @@ public abstract class BasePopupView extends FrameLayout {
                 //4. 执行动画
                 doShowAnimation();
 
-                // call xpopup init.
+                // call init.
                 doAfterShow();
             }
         });
@@ -141,7 +141,7 @@ public abstract class BasePopupView extends FrameLayout {
                 popupInfo.decorView.addView(BasePopupView.this, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT));
 
-                //2. do init
+                //2. do init，game start.
                 init();
             }
         });
@@ -389,6 +389,11 @@ public abstract class BasePopupView extends FrameLayout {
         @Override
         public void run() {
             onDismiss();
+            if (popupInfo != null && popupInfo.xPopupCallback != null) {
+                popupInfo.xPopupCallback.onDismiss();
+            }
+            if (dismissWithRunnable != null) dismissWithRunnable.run();
+            popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
             if(popupInfo.isRequestFocus) {
                 View contentView = ((Activity) getContext()).findViewById(android.R.id.content);
@@ -396,15 +401,9 @@ public abstract class BasePopupView extends FrameLayout {
                 contentView.setFocusableInTouchMode(true);
             }
 
-            // 移除弹窗
+            // 移除弹窗，GameOver
             popupInfo.decorView.removeView(BasePopupView.this);
             KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView);
-
-            if (popupInfo != null && popupInfo.xPopupCallback != null) {
-                popupInfo.xPopupCallback.onDismiss();
-            }
-            if (dismissWithRunnable != null) dismissWithRunnable.run();
-            popupStatus = PopupStatus.Dismiss;
         }
     };
 

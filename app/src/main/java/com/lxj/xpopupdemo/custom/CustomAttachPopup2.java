@@ -20,23 +20,12 @@ public class CustomAttachPopup2 extends AttachPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.custom_attach_popup;
+        return R.layout.custom_attach_popup2;
     }
 
     @Override
     protected void onCreate() {
         super.onCreate();
-        findViewById(R.id.tv_zan).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showShort("赞");
-            }
-        });
-        findViewById(R.id.tv_comment).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showShort("评论");
-            }
-        });
+
     }
 }

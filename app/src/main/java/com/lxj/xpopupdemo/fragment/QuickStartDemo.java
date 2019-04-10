@@ -237,7 +237,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .atView(v)
                         .hasShadowBg(false) // 去掉半透明背景
-                        .asCustom(new CustomAttachPopup(getContext()))
+                        .asCustom(new CustomAttachPopup2(getContext()))
                         .show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗

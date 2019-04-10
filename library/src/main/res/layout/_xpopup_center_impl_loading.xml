@@ -3,22 +3,21 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:padding="15dp"
-    android:background="@drawable/_xpopup_round3_bg"
+    android:background="@drawable/_xpopup_round3_dark_bg"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-
     <com.lxj.xpopup.widget.LoadingView
-        android:layout_width="34dp"
-        android:layout_height="34dp" />
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
     <TextView
         android:id="@+id/tv_title"
         android:maxLines="1"
         android:visibility="gone"
         android:ellipsize="end"
-        android:textSize="18sp"
-        android:textColor="@color/_xpopup_title_color"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
         android:paddingLeft="8dp"
         android:paddingRight="18dp"
         android:layout_width="wrap_content"

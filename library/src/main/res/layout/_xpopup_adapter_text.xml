@@ -5,16 +5,16 @@
     android:background="?selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="15dp"
-    android:paddingTop="15dp"
-    android:paddingRight="18dp"
-    android:paddingBottom="15dp">
+    android:paddingLeft="12dp"
+    android:paddingTop="12dp"
+    android:paddingRight="14dp"
+    android:paddingBottom="12dp">
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="6dp" />
 
     <TextView
         android:id="@+id/tv_text"
@@ -23,7 +23,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:textColor="@color/_xpopup_title_color"
-        android:textSize="16sp" />
+        android:textSize="15sp" />
 
     <Space
         android:layout_width="0dp"

@@ -326,6 +326,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     }
 
     @Override
+    protected void onDismiss() {
+        super.onDismiss();
+        srcView = null;
+    }
+
+    @Override
     public void onClick(View v) {
         if(v==tv_save){
             //check permission
