@@ -73,7 +73,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
-                        .asImageViewer(image1, url1, -1, -1, 50, new ImageLoader())
+                        .asImageViewer(image1, url1, -1, -1, 50, false,new ImageLoader())
                         .show();
             }
         });

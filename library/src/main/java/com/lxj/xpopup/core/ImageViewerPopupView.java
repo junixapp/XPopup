@@ -63,6 +63,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     int placeholderColor = -1; //占位View的颜色
     int placeholderStrokeColor = -1; // 占位View的边框色
     int placeholderRadius = -1; // 占位View的圆角
+    boolean isShowSaveBtn = true; //是否显示保存按钮
 
     public ImageViewerPopupView(@NonNull Context context) {
         super(context);
@@ -99,8 +100,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 }
             }
         });
-
-        tv_save.setOnClickListener(this);
+        if(isShowSaveBtn)tv_save.setOnClickListener(this);
     }
 
     private void setupPlaceholder(){
@@ -127,7 +127,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             tv_pager_indicator.setVisibility(VISIBLE);
             tv_pager_indicator.setText((position + 1) + "/" + urls.size());
         }
-        tv_save.setVisibility(VISIBLE);
+        if(isShowSaveBtn)tv_save.setVisibility(VISIBLE);
     }
 
     ImageView snapshotView;
@@ -271,6 +271,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
+    public ImageViewerPopupView isShowSaveButton(boolean isShowSaveBtn) {
+        this.isShowSaveBtn = isShowSaveBtn;
+        return this;
+    }
+
     public ImageViewerPopupView setPlaceholderColor(int color){
         this.placeholderColor = color;
         return this;
@@ -322,7 +327,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     @Override
     public void onDragChange(int dy, float scale, float fraction) {
         tv_pager_indicator.setAlpha(1 - fraction);
-        tv_save.setAlpha(1 - fraction);
+        if(isShowSaveBtn)tv_save.setAlpha(1 - fraction);
     }
 
     @Override
