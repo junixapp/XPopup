@@ -22,6 +22,7 @@ import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
+import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public abstract class BasePopupView extends FrameLayout {
             @Override
             public void run() {
                 // 如果有导航栏，则不能覆盖导航栏，
-                if (XPopupUtils.isNavBarVisible(getContext())) {
+                if (XPopupUtils.isNavBarVisible(getContext()) && !(BasePopupView.this instanceof FullScreenPopupView)) {
                     FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
                     params.bottomMargin = XPopupUtils.getNavBarHeight();
                     setLayoutParams(params);
