@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -80,7 +81,8 @@ public abstract class BasePopupView extends FrameLayout {
             @Override
             public void run() {
                 // 如果有导航栏，则不能覆盖导航栏，
-                if (XPopupUtils.isNavBarVisible(getContext()) && !(BasePopupView.this instanceof FullScreenPopupView)) {
+                boolean isLand = Configuration.ORIENTATION_LANDSCAPE == getContext().getResources().getConfiguration().orientation;
+                if (XPopupUtils.isNavBarVisible(getContext()) && !isLand && !(BasePopupView.this instanceof FullScreenPopupView)) {
                     FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
                     params.bottomMargin = XPopupUtils.getNavBarHeight();
                     setLayoutParams(params);
