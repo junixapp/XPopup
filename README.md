@@ -57,7 +57,7 @@
 //注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
 //注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
 //注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
-implementation 'com.lxj:xpopup:1.6.7'
+implementation 'com.lxj:xpopup:1.6.8'
 
 //重构之前的版本
 //implementation 'com.lxj:xpopup:1.5.2'
