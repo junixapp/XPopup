@@ -191,7 +191,7 @@ public abstract class AttachPopupView extends BasePopupView {
         }
     }
 
-    private boolean isShowUpToTarget() {
+    protected boolean isShowUpToTarget() {
         return (isShowUp || popupInfo.popupPosition == PopupPosition.Top)
                 && popupInfo.popupPosition != PopupPosition.Bottom;
     }

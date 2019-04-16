@@ -31,9 +31,7 @@ import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import java.util.List;
 
-/**
- * 弹窗的控制类，控制生命周期：显示，隐藏，添加，删除。
- */
+
 public class XPopup {
     private XPopup() { }
     /**

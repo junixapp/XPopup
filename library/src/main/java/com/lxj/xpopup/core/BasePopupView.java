@@ -405,8 +405,10 @@ public abstract class BasePopupView extends FrameLayout {
             }
 
             // 移除弹窗，GameOver
-            popupInfo.decorView.removeView(BasePopupView.this);
-            KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView);
+            if(popupInfo.decorView!=null){
+                popupInfo.decorView.removeView(BasePopupView.this);
+                KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView);
+            }
         }
     };
 
