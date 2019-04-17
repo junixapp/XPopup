@@ -52,7 +52,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
         final XPopup.Builder builder = new XPopup.Builder(getContext())
-                .hasShadowBg(false)
                 .watchView(view.findViewById(R.id.btnShowAttachPoint));
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override

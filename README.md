@@ -54,7 +54,7 @@
 ## 使用
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.6.8'
+implementation 'com.lxj:xpopup:1.6.9'
 ```
 
 必须添加的依赖库：

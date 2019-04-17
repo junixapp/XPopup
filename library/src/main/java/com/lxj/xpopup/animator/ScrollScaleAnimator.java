@@ -43,8 +43,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 // 设置参考点
                 applyPivot();
                 targetView.scrollTo(startScrollX, startScrollY);
-                targetView.getBackground().setAlpha(0);
-
+                if(targetView.getBackground()!=null)targetView.getBackground().setAlpha(0);
             }
         });
     }
@@ -118,7 +117,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 float scale = floatEvaluator.evaluate(fraction, startScale, 1f);
                 targetView.setScaleX(scale);
                 if(!isOnlyScaleX)targetView.setScaleY(scale);
-                if(fraction>=.9f){
+                if(fraction>=.9f && targetView.getBackground()!=null) {
                     float alphaFraction = (fraction - .9f) / .1f;
                     targetView.getBackground().setAlpha((int) (alphaFraction*255));
                 }
@@ -141,7 +140,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 float scale = floatEvaluator.evaluate(fraction, 1f, startScale);
                 targetView.setScaleX(scale);
                 if(!isOnlyScaleX)targetView.setScaleY(scale);
-                targetView.getBackground().setAlpha((int) (fraction*255));
+                if(targetView.getBackground()!=null)targetView.getBackground().setAlpha((int) (fraction*255));
             }
         });
         animator.setDuration(XPopup.getAnimationDuration())
