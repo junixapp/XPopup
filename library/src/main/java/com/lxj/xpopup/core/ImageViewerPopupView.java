@@ -178,7 +178,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 snapshotView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 XPopupUtils.setWidthHeight(snapshotView, photoViewContainer.getWidth(), photoViewContainer.getHeight());
 
-                // do shadow anim.
+                // do _xpopup_shadow anim.
                 animateShadowBg(photoViewContainer.blackColor);
             }
         });
@@ -235,7 +235,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         snapshotView.setScaleType(srcView.getScaleType());
         XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
 
-        // do shadow anim.
+        // do _xpopup_shadow anim.
         animateShadowBg(Color.TRANSPARENT);
     }
 

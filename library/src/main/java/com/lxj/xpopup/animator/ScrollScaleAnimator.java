@@ -3,6 +3,7 @@ package com.lxj.xpopup.animator;
 import android.animation.FloatEvaluator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +25,6 @@ public class ScrollScaleAnimator extends PopupAnimator{
     private float startScale = 0f;
 
     public boolean isOnlyScaleX = false;
-
     public ScrollScaleAnimator(View target, PopupAnimation popupAnimation) {
         super(target, popupAnimation);
     }
@@ -43,6 +43,8 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 // 设置参考点
                 applyPivot();
                 targetView.scrollTo(startScrollX, startScrollY);
+                targetView.getBackground().setAlpha(0);
+
             }
         });
     }
@@ -116,6 +118,10 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 float scale = floatEvaluator.evaluate(fraction, startScale, 1f);
                 targetView.setScaleX(scale);
                 if(!isOnlyScaleX)targetView.setScaleY(scale);
+                if(fraction>=.9f){
+                    float alphaFraction = (fraction - .9f) / .1f;
+                    targetView.getBackground().setAlpha((int) (alphaFraction*255));
+                }
             }
         });
         animator.setDuration(XPopup.getAnimationDuration()).setInterpolator(new FastOutSlowInInterpolator());
@@ -135,6 +141,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 float scale = floatEvaluator.evaluate(fraction, 1f, startScale);
                 targetView.setScaleX(scale);
                 if(!isOnlyScaleX)targetView.setScaleY(scale);
+                targetView.getBackground().setAlpha((int) (fraction*255));
             }
         });
         animator.setDuration(XPopup.getAnimationDuration())

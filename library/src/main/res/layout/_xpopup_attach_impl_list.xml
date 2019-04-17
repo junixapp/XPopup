@@ -3,6 +3,6 @@
     android:id="@+id/recyclerView"
     android:overScrollMode="never"
     android:scrollbars="vertical"
-    android:background="@drawable/_xpopup_list_bg"
+    android:background="@android:color/white"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />

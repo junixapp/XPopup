@@ -52,6 +52,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
         final XPopup.Builder builder = new XPopup.Builder(getContext())
+                .hasShadowBg(false)
                 .watchView(view.findViewById(R.id.btnShowAttachPoint));
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -189,6 +190,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv2:
             case R.id.tv3:
                 new XPopup.Builder(getContext())
+                        .hasShadowBg(false)
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-10)
 //                        .popupPosition(PopupPosition.Bottom) //手动指定弹窗的位置

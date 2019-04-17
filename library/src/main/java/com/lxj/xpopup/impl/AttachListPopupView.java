@@ -2,6 +2,7 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.util.XPopupUtils;
 
 import java.util.Arrays;
 
