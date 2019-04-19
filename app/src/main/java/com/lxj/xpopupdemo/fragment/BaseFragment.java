@@ -14,16 +14,42 @@ import android.widget.Toast;
  * Create by dance, at 2018/12/9
  */
 public abstract class BaseFragment extends Fragment {
+    View view;
+    boolean isInit = false;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(getLayoutId(), container,false);
+        if (view == null) view = inflater.inflate(getLayoutId(), container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        safeInit();
+    }
+
+    private void safeInit(){
+        if(getUserVisibleHint()){
+            if(!isInit){
+                isInit = true;
+                init(view);
+            }
+        }
     }
 
     protected abstract int getLayoutId();
+
     public abstract void init(View view);
 
-    public void toast(String msg){
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(view==null)return;
+        safeInit();
+    }
+
+    public void toast(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

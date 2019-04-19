@@ -83,10 +83,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             }
         });
         recyclerView.setAdapter(adapter);
-
     }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

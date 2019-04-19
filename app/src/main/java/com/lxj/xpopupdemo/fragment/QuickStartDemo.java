@@ -31,7 +31,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     }
 
     @Override
-    public void init(final View view) {
+    public void init(View view) {
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);

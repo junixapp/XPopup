@@ -1,6 +1,5 @@
 package com.lxj.xpopupdemo;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,10 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
-import com.lxj.xpopupdemo.fragment.BaseFragment;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
 import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     TabLayout tabLayout;
-    ViewPager viewPager;
+    public ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,39 +36,14 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-            }
-            @Override
-            public void onPageSelected(int i) {
-               callFragmentInit(i);
-            }
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-
         viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
-
-        viewPager.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callFragmentInit(0);
-            }
-        },300);
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 //        XPopup.setAnimationDuration(1000);
 //        XPopup.setPrimaryColor(Color.RED);
     }
 
-    private void callFragmentInit(int i){
-        BaseFragment fragment = (BaseFragment) ((FragmentPagerAdapter) viewPager.getAdapter()).getItem(i);
-        fragment.init(fragment.getView());
-    }
 
     class MainAdapter extends FragmentPagerAdapter{
 

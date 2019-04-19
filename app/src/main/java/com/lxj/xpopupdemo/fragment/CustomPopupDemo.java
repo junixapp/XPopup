@@ -37,7 +37,7 @@ public class CustomPopupDemo extends BaseFragment {
         return R.layout.fragment_all_animator_demo;
     }
 
-    PopupAnimation[] datas;
+    PopupAnimation[] data;
 
     @Override
     public void init(View view) {
@@ -45,8 +45,8 @@ public class CustomPopupDemo extends BaseFragment {
         temp = view.findViewById(R.id.temp);
         temp.setText("演示如何自定义弹窗，并给自定义的弹窗应用不同的内置动画方案；你也可以为自己的弹窗编写自定义的动画。");
 
-        datas = PopupAnimation.values();
-        spinner.setAdapter(new ArrayAdapter<PopupAnimation>(getContext(), android.R.layout.simple_list_item_1, datas));
+        data = PopupAnimation.values();
+        spinner.setAdapter(new ArrayAdapter<PopupAnimation>(getContext(), android.R.layout.simple_list_item_1, data));
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -55,7 +55,7 @@ public class CustomPopupDemo extends BaseFragment {
                     @Override
                     public void run() {
                         new XPopup.Builder(getContext())
-                                .popupAnimation(datas[position])
+                                .popupAnimation(data[position])
                                 .autoOpenSoftInput(true)
                                 .asCustom(new CustomPopup(getContext()))
                                 .show();
