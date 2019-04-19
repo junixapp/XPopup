@@ -1,13 +1,18 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.lxj.statelayout.StateLayout;
 
 /**
  * Description:
@@ -16,10 +21,13 @@ import android.widget.Toast;
 public abstract class BaseFragment extends Fragment {
     View view;
     boolean isInit = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (view == null) view = inflater.inflate(getLayoutId(), container, false);
+        if (view == null) {
+            view = inflater.inflate(getLayoutId(), container, false);
+        }
         return view;
     }
 
@@ -29,9 +37,9 @@ public abstract class BaseFragment extends Fragment {
         safeInit();
     }
 
-    private void safeInit(){
-        if(getUserVisibleHint()){
-            if(!isInit){
+    private void safeInit() {
+        if (getUserVisibleHint()) {
+            if (!isInit) {
                 isInit = true;
                 init(view);
             }
@@ -45,7 +53,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(view==null)return;
+        if (view == null) return;
         safeInit();
     }
 

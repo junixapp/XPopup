@@ -565,6 +565,7 @@ implementation 'com.android.support:design:28.0.0'
 - 马自达汽车检测（主要是一个汽车厂商工作人员使用的汽车检测APP）
 - 变福侠App
 - 进境肉牛检疫追溯系统(App端)
+- 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 
 
 ## 联系方式
@@ -576,3 +577,20 @@ Gmail: lxj16167479@gmail.com
 QQ Email: 16167479@qq.com
 
 QQ: 16167479
+
+## Licenses
+```
+ Copyright 2019 li-xiaojun
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+```
