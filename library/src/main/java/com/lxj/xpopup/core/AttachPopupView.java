@@ -3,6 +3,7 @@ package com.lxj.xpopup.core;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -64,12 +65,22 @@ public abstract class AttachPopupView extends BasePopupView {
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
         if (!popupInfo.hasShadowBg) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                attachPopupContainer.setBackgroundColor(Color.WHITE);
+                ////优先使用implView的背景
+                if(getPopupBackground()==null){
+                    attachPopupContainer.setBackgroundColor(Color.WHITE);
+                }else {
+                    attachPopupContainer.setBackgroundDrawable(getPopupBackground());
+                }
                 attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 10));
             } else {
-                defaultOffsetX -= bgDrawableMargin;
-                defaultOffsetY -= bgDrawableMargin;
-                attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
+                //优先使用implView的背景
+                if(getPopupImplView().getBackground()==null){
+                    defaultOffsetX -= bgDrawableMargin;
+                    defaultOffsetY -= bgDrawableMargin;
+                    attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
+                }else {
+                    attachPopupContainer.setBackgroundDrawable(getPopupBackground());
+                }
             }
         }
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
@@ -230,4 +241,11 @@ public abstract class AttachPopupView extends BasePopupView {
         return animator;
     }
 
+    /**
+     * 如果Attach弹窗的子类想自定义弹窗的背景，不能去直接给布局设置背景，那样效果不好；需要实现这个方法返回一个Drawable
+     * @return
+     */
+    protected Drawable getPopupBackground(){
+        return null;
+    }
 }

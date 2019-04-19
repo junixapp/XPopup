@@ -29,12 +29,14 @@ public class CustomAttachPopup extends HorizontalAttachPopupView {
             @Override
             public void onClick(View v) {
                 ToastUtils.showShort("赞");
+                dismiss();
             }
         });
         findViewById(R.id.tv_comment).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtils.showShort("评论");
+                dismiss();
             }
         });
     }

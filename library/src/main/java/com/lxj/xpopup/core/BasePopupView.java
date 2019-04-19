@@ -71,12 +71,12 @@ public abstract class BasePopupView extends FrameLayout {
         if (popupStatus == PopupStatus.Showing) return;
         popupStatus = PopupStatus.Showing;
         //1. 初始化Popup
+        applyOffset();//执行偏移
+        initPopupContent();
         if (!isCreated) {
             isCreated = true;
             onCreate();
         }
-        applyOffset();//执行偏移
-        initPopupContent();
         post(new Runnable() {
             @Override
             public void run() {
