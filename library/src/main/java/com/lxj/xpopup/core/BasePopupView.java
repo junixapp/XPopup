@@ -112,7 +112,6 @@ public abstract class BasePopupView extends FrameLayout {
                 //4. 执行动画
                 doShowAnimation();
 
-                // call init.
                 doAfterShow();
             }
         });
@@ -123,7 +122,7 @@ public abstract class BasePopupView extends FrameLayout {
         if (getParent() != null) return this;
         final Activity activity = (Activity) getContext();
         popupInfo.decorView = (ViewGroup) activity.getWindow().getDecorView();
-        KeyboardUtils.registerSoftInputChangedListener(activity, new KeyboardUtils.OnSoftInputChangedListener() {
+        KeyboardUtils.registerSoftInputChangedListener(activity, this, new KeyboardUtils.OnSoftInputChangedListener() {
             @Override
             public void onSoftInputChanged(int height) {
                 if (height == 0) { // 说明对话框隐藏
@@ -407,7 +406,7 @@ public abstract class BasePopupView extends FrameLayout {
             // 移除弹窗，GameOver
             if(popupInfo.decorView!=null){
                 popupInfo.decorView.removeView(BasePopupView.this);
-                KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView);
+                KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
             }
         }
     };
