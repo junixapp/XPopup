@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class ZhihuCommentPopup extends BottomPopupView {
     VerticalRecyclerView recyclerView;
     private ArrayList<String> data;
-    private CommonAdapter<String> commonAdapter;
+    private EasyAdapter<String> commonAdapter;
 
     public ZhihuCommentPopup(@NonNull Context context) {
         super(context);
@@ -71,7 +71,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
         for (int i = 0; i < 15; i++) {
             data.add("这是一个自定义Bottom类型的弹窗！你可以在里面添加任何滚动的View，我已经智能处理好嵌套滚动，你只需编写UI和逻辑即可！");
         }
-        commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, data) {
+        commonAdapter = new EasyAdapter<String>(data, R.layout.adapter_zhihu_comment) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.name, "知乎大神 - "+position)

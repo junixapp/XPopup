@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.ImageViewerPopupView;
@@ -86,9 +86,9 @@ public class ImageViewerDemo extends BaseFragment {
         pager.setAdapter(new ImagePagerAdapter());
     }
 
-    class ImageAdapter extends CommonAdapter<Object> {
+    class ImageAdapter extends EasyAdapter<Object> {
         public ImageAdapter() {
-            super(R.layout.adapter_image, list);
+            super(list, R.layout.adapter_image);
         }
 
         @Override

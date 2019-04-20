@@ -4,23 +4,19 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.blankj.utilcode.util.ToastUtils;
-import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
-import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView;
-
 import java.util.ArrayList;
 
 /**
@@ -56,7 +52,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         for (int i = 0; i < 50; i++) {
             data.add(i + "");
         }
-        CommonAdapter adapter = new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
+        EasyAdapter<String> adapter = new EasyAdapter<String>(data, android.R.layout.simple_list_item_1) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(android.R.id.text1, "长按我试试 - " + position);

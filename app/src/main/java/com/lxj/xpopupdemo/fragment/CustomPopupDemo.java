@@ -4,24 +4,18 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopup.interfaces.XPopupCallback;
-import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
-
 import java.util.ArrayList;
 
 /**
@@ -132,7 +126,7 @@ public class CustomPopupDemo extends BaseFragment {
                 data.add("" + i);
             }
 
-            recyclerView.setAdapter(new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
+            recyclerView.setAdapter(new EasyAdapter<String>(data, android.R.layout.simple_list_item_1) {
                 @Override
                 protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                     holder.setText(android.R.id.text1, s);
