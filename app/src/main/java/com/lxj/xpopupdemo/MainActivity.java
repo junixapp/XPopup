@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-
-import com.lxj.statelayout.StateLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;

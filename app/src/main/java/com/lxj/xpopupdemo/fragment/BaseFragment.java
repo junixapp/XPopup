@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.lxj.statelayout.StateLayout;
-
 /**
  * Description:
  * Create by dance, at 2018/12/9
@@ -18,17 +16,13 @@ import com.lxj.statelayout.StateLayout;
 public abstract class BaseFragment extends Fragment {
     View view;
     boolean isInit = false;
-    StateLayout stateLayout;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(getLayoutId(), container, false);
-            stateLayout = new StateLayout(getContext())
-                    .wrap(view)
-                    .showLoading();
         }
-        return stateLayout;
+        return view;
     }
 
     @Override
@@ -38,30 +32,22 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private void safeInit() {
-        if (getUserVisibleHint()) {
+        if (getUserVisibleHint() && view!=null) {
             if (!isInit) {
                 isInit = true;
                 init(view);
-                stateLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        stateLayout.showContent();
-                    }
-                }, 500);
             }
         }
     }
 
-    protected abstract int getLayoutId();
-
-    public abstract void init(View view);
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (view == null) return;
         safeInit();
     }
+
+    protected abstract int getLayoutId();
+    public abstract void init(View view);
 
     public void toast(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

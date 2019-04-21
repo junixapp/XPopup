@@ -54,7 +54,7 @@
 ## 使用
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.6.9'
+implementation 'com.lxj:xpopup:1.7.0'
 ```
 
 必须添加的依赖库：
@@ -201,7 +201,7 @@ implementation 'com.android.support:design:28.0.0'
 
     当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`，`AttachPopupView/HorizontalAttachPopupView`，`DrawerPopupView`，`PartShadowPopupView`其中之一。假设需要自定义Center类型的弹窗：
     ```java
-    class CustomPopup extends CenterPopupView{
+    class CustomPopup extends CenterPopupView {
             //自定义弹窗本质是一个自定义View，但是只需重写这个构造，其他的不用重写
             public CustomPopup(@NonNull Context context) {
                 super(context);
@@ -245,6 +245,8 @@ implementation 'com.android.support:design:28.0.0'
             .asCustom(new CustomPopup(getContext()))
             .show();
     ```
+    **注意：**对于Attach弹窗比较特殊，由于内部实现的原因，会自带背景。当你重写`getPopupImplLayout()`返回一个自定义的布局时，自定义布局
+    的背景并不能覆盖弹窗的背景，这样会有2个背景。Attach弹窗提供了`getPopupBackground()`方法用来自定义弹窗的背景，重写这个方法即可。
 
 9. **自定义动画**
 
