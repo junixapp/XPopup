@@ -46,7 +46,7 @@
 
 ![](screenshot/comment_edit.gif)
 
-## 快速体验Demo
+## 快速体验
 扫描二维码下载Demo：
 ![](screenshot/download.png)
 
@@ -67,7 +67,7 @@ implementation 'com.android.support:design:28.0.0'
 ```
 
 ## WIKI
-具体使用方法全在WIKI中，请查看WIKI的各个章节：
+具体使用方法全在WIKI中，请查看下面各个章节：
 - [介绍](https://github.com/li-xiaojun/XPopup/wiki/1.-%E4%BB%8B%E7%BB%8D)
 - [如何使用内置的弹窗](https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0)
 - [如何自定义弹窗](https://github.com/li-xiaojun/XPopup/wiki/3.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%B9%E7%AA%97)

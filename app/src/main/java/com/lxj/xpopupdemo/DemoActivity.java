@@ -65,22 +65,25 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     public void showMultiPopup(){
-        final BasePopupView loadingPopup = new XPopup.Builder(this).asLoading();
-        loadingPopup.show();
+//        final BasePopupView loadingPopup = new XPopup.Builder(this).asLoading();
+//        loadingPopup.show();
         new XPopup.Builder(DemoActivity.this)
                 .autoDismiss(false)
                 .asBottomList("haha", new String[]{"点我显示弹窗", "点我显示弹窗", "点我显示弹窗", "点我显示弹窗"}, new OnSelectListener() {
                     @Override
                     public void onSelect(int position, String text) {
-                        Toast.makeText(DemoActivity.this, text, Toast.LENGTH_LONG).show();
+                        Toast.makeText(XPopupApp.context, text, Toast.LENGTH_LONG).show();
+                        finish();
+//                        new XPopup.Builder(DemoActivity.this).asConfirm("测试", "aaaa", new OnConfirmListener() {
+//                            @Override
+//                            public void onConfirm() {
+//                                loadingPopup.dismiss();
+//                            }
+//                        }).show();
 
-                        new XPopup.Builder(DemoActivity.this).asConfirm("测试", "aaaa", new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                loadingPopup.dismiss();
-                            }
-                        }).show();
                     }
                 }).show();
+
+
     }
 }

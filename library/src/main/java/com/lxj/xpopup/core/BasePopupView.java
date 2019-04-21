@@ -451,6 +451,7 @@ public abstract class BasePopupView extends FrameLayout {
         super.onDetachedFromWindow();
         removeCallbacks(doAfterShowTask);
         removeCallbacks(doAfterDismissTask);
+        KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
         if(showSoftInputTask!=null)removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
