@@ -89,6 +89,7 @@ public abstract class AttachPopupView extends BasePopupView {
                 doAttach();
             }
         });
+
     }
 
     /**
@@ -248,4 +249,5 @@ public abstract class AttachPopupView extends BasePopupView {
     protected Drawable getPopupBackground(){
         return null;
     }
+
 }

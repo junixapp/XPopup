@@ -93,4 +93,8 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerLayout.close();
     }
 
+    @Override
+    protected View getTargetSizeView() {
+        return getPopupImplView();
+    }
 }

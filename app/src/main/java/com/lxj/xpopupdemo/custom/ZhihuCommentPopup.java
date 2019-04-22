@@ -112,6 +112,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (int) (XPopupUtils.getWindowHeight(getContext())*.85f);
+        return (int) (XPopupUtils.getWindowHeight(getContext())*.55f);
     }
+
 }

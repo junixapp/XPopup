@@ -83,15 +83,15 @@ public class XPopupUtils {
         }
     }
 
-
-    public static void setWidthHeight(final View target, final int width, final int height) {
+    public static void setWidthHeight(View target, int width, int height) {
+        if(width<=0 && height<=0)return;
         ViewGroup.LayoutParams params = target.getLayoutParams();
-        params.width = width;
-        params.height = height;
+        if(width>0) params.width = width;
+        if(height>0) params.height = height;
         target.setLayoutParams(params);
     }
 
-    public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight) {
+    public static void applyPopupSize(ViewGroup content, int maxWidth, int maxHeight) {
         applyPopupSize(content, maxWidth, maxHeight, null);
     }
 

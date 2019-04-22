@@ -135,4 +135,9 @@ public class BottomPopupView extends BasePopupView {
                 : popupInfo.maxWidth;
     }
 
+    @Override
+    protected View getTargetSizeView() {
+        return getPopupImplView();
+    }
+
 }

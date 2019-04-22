@@ -15,6 +15,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
@@ -26,7 +27,9 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
+
 import java.util.ArrayList;
+
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -65,7 +68,6 @@ public abstract class BasePopupView extends FrameLayout {
 
     /**
      * 执行初始化
-     *
      */
     public void init() {
         if (popupStatus == PopupStatus.Showing) return;
@@ -73,6 +75,14 @@ public abstract class BasePopupView extends FrameLayout {
         //1. 初始化Popup
         applyOffset();//执行偏移
         initPopupContent();
+        //apply size dynamic
+        if(!(this instanceof FullScreenPopupView) && !(this instanceof ImageViewerPopupView)){
+            XPopupUtils.setWidthHeight(getTargetSizeView(),
+                    (getMaxWidth() != 0 && getPopupWidth() > getMaxWidth()) ? getMaxWidth() : getPopupWidth(),
+                    (getMaxHeight() != 0 && getPopupHeight() > getMaxHeight()) ? getMaxHeight() : getPopupHeight()
+            );
+        }
+
         if (!isCreated) {
             isCreated = true;
             onCreate();
@@ -170,9 +180,10 @@ public abstract class BasePopupView extends FrameLayout {
     };
 
     private ShowSoftInputTask showSoftInputTask;
+
     private void focusAndProcessBackPress() {
         // 处理返回按键
-        if(popupInfo.isRequestFocus){
+        if (popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             requestFocus();
         }
@@ -199,9 +210,9 @@ public abstract class BasePopupView extends FrameLayout {
                 et.setFocusableInTouchMode(true);
                 et.requestFocus();
                 if (popupInfo.autoOpenSoftInput) {
-                    if(showSoftInputTask==null){
+                    if (showSoftInputTask == null) {
                         showSoftInputTask = new ShowSoftInputTask(et);
-                    }else {
+                    } else {
                         removeCallbacks(showSoftInputTask);
                     }
                     postDelayed(showSoftInputTask, 10);
@@ -221,15 +232,17 @@ public abstract class BasePopupView extends FrameLayout {
         }
     }
 
-    class ShowSoftInputTask implements Runnable{
+    class ShowSoftInputTask implements Runnable {
         View focusView;
         boolean isDone = false;
-        public ShowSoftInputTask(View focusView){
+
+        public ShowSoftInputTask(View focusView) {
             this.focusView = focusView;
         }
+
         @Override
         public void run() {
-            if(focusView!=null && !isDone){
+            if (focusView != null && !isDone) {
                 isDone = true;
                 KeyboardUtils.showSoftInput(focusView);
             }
@@ -239,7 +252,9 @@ public abstract class BasePopupView extends FrameLayout {
     /**
      * 进行偏移
      */
-    protected void applyOffset(){}
+    protected void applyOffset() {
+    }
+
     /**
      * 根据PopupInfo的popupAnimation字段来生成对应的内置的动画执行器
      */
@@ -312,12 +327,14 @@ public abstract class BasePopupView extends FrameLayout {
      * 请使用onCreate，主要给弹窗内部用，未来会移除。
      */
     @Deprecated
-    protected void initPopupContent() { }
+    protected void initPopupContent() {
+    }
 
     /**
      * do init.
      */
-    protected void onCreate() { }
+    protected void onCreate() {
+    }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
@@ -361,12 +378,44 @@ public abstract class BasePopupView extends FrameLayout {
         return XPopup.getAnimationDuration();
     }
 
+    /**
+     * 弹窗的最大宽度，一般用来限制布局宽度为wrap或者match时的最大宽度
+     *
+     * @return
+     */
     protected int getMaxWidth() {
         return 0;
     }
 
+    /**
+     * 弹窗的最大高度，一般用来限制布局高度为wrap或者match时的最大宽度
+     *
+     * @return
+     */
     protected int getMaxHeight() {
         return popupInfo.maxHeight;
+    }
+
+    /**
+     * 弹窗的宽度，用来动态设定当前弹窗的宽度，受getMaxWidth()限制
+     *
+     * @return
+     */
+    protected int getPopupWidth() {
+        return 0;
+    }
+
+    /**
+     * 弹窗的高度，用来动态设定当前弹窗的高度，受getMaxHeight()限制
+     *
+     * @return
+     */
+    protected int getPopupHeight() {
+        return 0;
+    }
+
+    protected View getTargetSizeView(){
+        return getPopupContentView();
     }
 
     /**
@@ -381,7 +430,7 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     protected void doAfterDismiss() {
-        if(popupInfo.isRequestFocus)
+        if (popupInfo.isRequestFocus)
             KeyboardUtils.hideSoftInput(this);
         removeCallbacks(doAfterDismissTask);
         postDelayed(doAfterDismissTask, getAnimationDuration());
@@ -397,14 +446,14 @@ public abstract class BasePopupView extends FrameLayout {
             if (dismissWithRunnable != null) dismissWithRunnable.run();
             popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
-            if(popupInfo.isRequestFocus) {
+            if (popupInfo.isRequestFocus) {
                 View contentView = ((Activity) getContext()).findViewById(android.R.id.content);
                 contentView.setFocusable(true);
                 contentView.setFocusableInTouchMode(true);
             }
 
             // 移除弹窗，GameOver
-            if(popupInfo.decorView!=null){
+            if (popupInfo.decorView != null) {
                 popupInfo.decorView.removeView(BasePopupView.this);
                 KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
             }
@@ -426,10 +475,10 @@ public abstract class BasePopupView extends FrameLayout {
         return popupStatus == PopupStatus.Dismiss;
     }
 
-    public void toggle(){
-        if(isShow()){
+    public void toggle() {
+        if (isShow()) {
             dismiss();
-        }else {
+        } else {
             show();
         }
     }
@@ -452,7 +501,7 @@ public abstract class BasePopupView extends FrameLayout {
         removeCallbacks(doAfterShowTask);
         removeCallbacks(doAfterDismissTask);
         KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
-        if(showSoftInputTask!=null)removeCallbacks(showSoftInputTask);
+        if (showSoftInputTask != null) removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
     }
