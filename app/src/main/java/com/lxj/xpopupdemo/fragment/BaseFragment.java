@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.lxj.xpopupdemo.XPopupApp;
+
 /**
  * Description:
  * Create by dance, at 2018/12/9
@@ -50,6 +52,6 @@ public abstract class BaseFragment extends Fragment {
     public abstract void init(View view);
 
     public void toast(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(XPopupApp.context, msg, Toast.LENGTH_SHORT).show();
     }
 }

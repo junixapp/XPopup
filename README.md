@@ -83,7 +83,9 @@ implementation 'com.android.support:design:28.0.0'
 
 
 ## 谁在用XPopup
-根据热心群众提供的信息，目前使用XPopup的产品和公司有：
+我本人很希望您能[点击这里附上](https://github.com/li-xiaojun/XPopup/issues/93)使用这个库的App名或者公司名，这样会给我更大的动力和热情去维护这个类库。
+
+根据热心朋友提供的信息，目前使用XPopup的产品和公司有：
 - 海鸥地图（https://cn.gullmap.com/）
 - 马自达汽车检测（主要是一个汽车厂商工作人员使用的汽车检测APP）
 - 变福侠App

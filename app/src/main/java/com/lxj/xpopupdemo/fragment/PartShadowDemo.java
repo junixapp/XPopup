@@ -15,6 +15,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.XPopupApp;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null,0,10, new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
-                                ToastUtils.showShort(text);
+                                toast(text);
                             }
                         }).show();
                         return true;
@@ -92,11 +93,11 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                             .setPopupCallback(new XPopupCallback() {
                                 @Override
                                 public void onShow() {
-                                    Toast.makeText(getActivity(), "显示了", Toast.LENGTH_SHORT).show();
+                                    toast("显示了");
                                 }
                                 @Override
                                 public void onDismiss() {
-                                    Toast.makeText(getActivity(), "关闭了", Toast.LENGTH_SHORT).show();
+                                    toast("关闭了");
                                 }
                             })
                             .asCustom(new CustomPartShadowPopupView(getContext()));
