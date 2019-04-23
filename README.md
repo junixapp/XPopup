@@ -56,6 +56,8 @@
 首先需要添加Gradle依赖：
 ```groovy
 implementation 'com.lxj:xpopup:1.7.0'
+//for androidx.
+implementation 'com.lxj:xpopup:1.7.0-x'
 ```
 
 必须添加的依赖库：
