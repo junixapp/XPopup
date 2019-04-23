@@ -307,7 +307,7 @@ public class XPopup {
         }
 
         public ConfirmPopupView asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
-            return asConfirm(title, content, confirmListener, null, false);
+            return asConfirm(title, content, confirmListener, cancelListener, false);
         }
 
         public ConfirmPopupView asConfirm(String title, String content, OnConfirmListener confirmListener) {
