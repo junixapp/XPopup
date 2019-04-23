@@ -2,16 +2,12 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.NestedScrollView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
-import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 

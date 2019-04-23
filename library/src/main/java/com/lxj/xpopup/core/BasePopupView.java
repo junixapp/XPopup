@@ -235,11 +235,9 @@ public abstract class BasePopupView extends FrameLayout {
     class ShowSoftInputTask implements Runnable {
         View focusView;
         boolean isDone = false;
-
         public ShowSoftInputTask(View focusView) {
             this.focusView = focusView;
         }
-
         @Override
         public void run() {
             if (focusView != null && !isDone) {
@@ -252,8 +250,7 @@ public abstract class BasePopupView extends FrameLayout {
     /**
      * 进行偏移
      */
-    protected void applyOffset() {
-    }
+    protected void applyOffset() { }
 
     /**
      * 根据PopupInfo的popupAnimation字段来生成对应的内置的动画执行器
@@ -324,17 +321,14 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     /**
-     * 请使用onCreate，主要给弹窗内部用，未来会移除。
+     * 请使用onCreate，主要给弹窗内部用，不要去重写。
      */
-    @Deprecated
-    protected void initPopupContent() {
-    }
+    protected void initPopupContent() { }
 
     /**
      * do init.
      */
-    protected void onCreate() {
-    }
+    protected void onCreate() { }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
