@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="" />
 
-    <android.support.v7.widget.AppCompatEditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/tv_input"
         android:visibility="gone"
         android:textSize="16sp"

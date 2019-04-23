@@ -1,7 +1,5 @@
 package com.lxj.xpopupdemo;
 
-import android.support.v4.app.Fragment;
-
 import com.lxj.xpopupdemo.fragment.BaseFragment;
 
 /**

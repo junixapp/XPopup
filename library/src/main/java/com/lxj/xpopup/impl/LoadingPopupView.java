@@ -1,7 +1,7 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;

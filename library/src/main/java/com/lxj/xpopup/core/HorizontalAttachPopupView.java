@@ -1,12 +1,10 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
-import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;

@@ -1,7 +1,7 @@
 package com.lxj.xpopup.interfaces;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ImageView;
 
 import java.io.File;

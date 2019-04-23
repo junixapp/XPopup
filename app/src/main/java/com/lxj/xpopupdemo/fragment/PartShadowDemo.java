@@ -1,11 +1,10 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-import com.blankj.utilcode.util.ToastUtils;
+
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
@@ -15,7 +14,6 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.XPopupApp;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView;
 import java.util.ArrayList;

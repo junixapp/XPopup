@@ -3,11 +3,10 @@ package com.lxj.xpopup.animator;
 import android.animation.FloatEvaluator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
-import android.graphics.drawable.Drawable;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.Log;
+
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;

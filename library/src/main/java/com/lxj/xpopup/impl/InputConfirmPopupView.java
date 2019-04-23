@@ -3,10 +3,9 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 
 import com.lxj.xpopup.R;

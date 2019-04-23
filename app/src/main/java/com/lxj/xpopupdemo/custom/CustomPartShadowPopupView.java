@@ -1,14 +1,12 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lxj.xpopup.impl.PartShadowPopupView;
-import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
 /**
