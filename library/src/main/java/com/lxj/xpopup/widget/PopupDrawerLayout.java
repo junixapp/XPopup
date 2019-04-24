@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.core.DrawerPopupView;
@@ -208,7 +207,7 @@ public class PopupDrawerLayout extends FrameLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                dragHelper.smoothSlideViewTo(mChild, position == PopupPosition.Left ? 0 : (mChild.getLeft() - mChild.getMeasuredWidth()), getTop());
+                dragHelper.smoothSlideViewTo(mChild, position == PopupPosition.Left ? 0 : (mChild.getLeft() - mChild.getMeasuredWidth()), 0);
                 ViewCompat.postInvalidateOnAnimation(PopupDrawerLayout.this);
             }
         });
@@ -222,7 +221,7 @@ public class PopupDrawerLayout extends FrameLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                dragHelper.smoothSlideViewTo(mChild, position == PopupPosition.Left ? -mChild.getMeasuredWidth() : getMeasuredWidth(), getTop());
+                dragHelper.smoothSlideViewTo(mChild, position == PopupPosition.Left ? -mChild.getMeasuredWidth() : getMeasuredWidth(), 0);
                 ViewCompat.postInvalidateOnAnimation(PopupDrawerLayout.this);
             }
         });
