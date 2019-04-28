@@ -82,7 +82,6 @@ public abstract class BasePopupView extends FrameLayout {
                     (getMaxHeight() != 0 && getPopupHeight() > getMaxHeight()) ? getMaxHeight() : getPopupHeight()
             );
         }
-
         if (!isCreated) {
             isCreated = true;
             onCreate();

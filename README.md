@@ -2,6 +2,7 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-15-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
+### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
 
 功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！它有这样几个特点：
@@ -55,9 +56,9 @@
 ## Gradle
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.7.1'
+implementation 'com.lxj:xpopup:1.7.2'
 //for androidx.
-implementation 'com.lxj:xpopup:1.7.1-x'
+implementation 'com.lxj:xpopup:1.7.2-x'
 ```
 
 必须添加的依赖库：
