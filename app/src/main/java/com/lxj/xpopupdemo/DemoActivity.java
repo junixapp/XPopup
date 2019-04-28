@@ -72,8 +72,6 @@ public class DemoActivity extends AppCompatActivity {
                 .asBottomList("haha", new String[]{"点我显示弹窗", "点我显示弹窗", "点我显示弹窗", "点我显示弹窗"}, new OnSelectListener() {
                     @Override
                     public void onSelect(int position, String text) {
-                        Toast.makeText(XPopupApp.context, text, Toast.LENGTH_LONG).show();
-                        finish();
                         new XPopup.Builder(DemoActivity.this).asConfirm("测试", "aaaa", new OnConfirmListener() {
                             @Override
                             public void onConfirm() {

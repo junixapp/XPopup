@@ -237,7 +237,7 @@ public class XPopupUtils {
             if (focusEt != null && focusEtTop - targetY < 0) {
                 targetY += focusEtTop - targetY - getStatusBarHeight();//限制不能被状态栏遮住
             }
-            dy = targetY;
+            dy = Math.max(0, targetY);
         } else if (pv instanceof BottomPopupView) {
             dy = keyboardHeight;
             if (focusEt != null && focusEtTop - dy < 0) {
