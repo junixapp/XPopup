@@ -44,9 +44,9 @@ public class PartShadowContainer extends FrameLayout {
         View implView = getChildAt(0);
         int[] location = new int[2];
         implView.getLocationInWindow(location);
-        Rect implViewRect = new Rect(location[0], location[1], location[0] + implView.getMeasuredWidth() - (int)getTranslationY(),
-                location[1] + implView.getMeasuredHeight() - (int)getTranslationY());
-        if (!XPopupUtils.isInRect(event.getX(), event.getY(), implViewRect)) {
+        Rect implViewRect = new Rect(location[0], location[1], location[0] + implView.getMeasuredWidth(),
+                location[1] + implView.getMeasuredHeight());
+        if (!XPopupUtils.isInRect(event.getRawX(), event.getRawY(), implViewRect)) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();

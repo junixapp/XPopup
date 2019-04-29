@@ -20,6 +20,11 @@
             android:textColor="#111"
             android:textSize="18sp" />
 
+        <EditText
+            android:hint="测试输入交互"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/ch"
             android:layout_width="match_parent"

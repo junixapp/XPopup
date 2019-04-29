@@ -51,7 +51,7 @@ public abstract class AttachPopupView extends BasePopupView {
         return R.layout._xpopup_attach_popup_view;
     }
 
-    protected boolean isShowUp;
+    public boolean isShowUp;
     boolean isShowLeft;
     protected int bgDrawableMargin = 6;
 

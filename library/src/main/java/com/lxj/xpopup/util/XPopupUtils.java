@@ -220,7 +220,7 @@ public class XPopupUtils {
         }
 
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PartShadowPopupView || pv instanceof AttachPopupView) return;
+        if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
         //执行上移
         if (pv instanceof FullScreenPopupView ||
                 (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
@@ -238,21 +238,28 @@ public class XPopupUtils {
                 targetY += focusEtTop - targetY - getStatusBarHeight();//限制不能被状态栏遮住
             }
             dy = Math.max(0, targetY);
-        } else if (pv instanceof BottomPopupView) {
+        } else if (pv instanceof BottomPopupView || isBottomPartShadow(pv)) {
             dy = keyboardHeight;
             if (focusEt != null && focusEtTop - dy < 0) {
                 dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
             }
         }
+        //dy=0说明没有触发滚动，有些弹窗有translationY，不能影响它们
+        if(dy==0 && pv.getPopupContentView().getTranslationY()!=0)return;
         pv.getPopupContentView().animate().translationY(-dy)
                 .setDuration(250)
                 .setInterpolator(new OvershootInterpolator(0))
                 .start();
     }
 
+    private static boolean isBottomPartShadow(BasePopupView pv){
+        return pv instanceof PartShadowPopupView && ((PartShadowPopupView) pv).isShowUp;
+    }
+
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PartShadowPopupView || pv instanceof AttachPopupView) return;
+        if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
+        if(pv instanceof PartShadowPopupView && !isBottomPartShadow(pv))return;
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(0))
                 .setDuration(300).start();
