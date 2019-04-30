@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -185,6 +186,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         super.onDetachedFromWindow();
         isScrollUp = false;
         isUserClose = false;
+        setTranslationY(0);
     }
 
     public void open() {

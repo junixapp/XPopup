@@ -15,6 +15,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
+import com.lxj.xpopupdemo.Demo2Activity;
 import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.R;
 

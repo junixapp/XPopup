@@ -1,13 +1,16 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
-import androidx.annotation.NonNull;
-
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -42,8 +45,14 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         shadowBgAnimator.targetView = getPopupContentView();
 
         //1. apply width and height
+        int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
         ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-        params.width = getMeasuredWidth(); // 满宽
+        if(rotation==0){
+            params.width = getMeasuredWidth(); // 满宽
+        }else if(rotation==1 || rotation==3){
+            params.width = getMeasuredWidth() - (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0)
+                    - XPopupUtils.getStatusBarHeight();
+        }
 
         //1. 获取atView在屏幕上的位置
         int[] locations = new int[2];

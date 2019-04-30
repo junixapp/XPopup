@@ -44,6 +44,12 @@ public class CenterPopupView extends BasePopupView {
         getPopupContentView().setTranslationY(popupInfo.offsetY);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setTranslationY(0);
+    }
+
     /**
      * 具体实现的类的布局
      *

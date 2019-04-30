@@ -31,7 +31,7 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
     @Override
     protected void onShow() {
         super.onShow();
-        Log.e("tag", "CustomEditTextBottomPopup  onShow");
+//        Log.e("tag", "CustomEditTextBottomPopup  onShow");
         findViewById(R.id.btn_finish).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +43,7 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
     @Override
     protected void onDismiss() {
         super.onDismiss();
-        Log.e("tag", "CustomEditTextBottomPopup  onDismiss");
+//        Log.e("tag", "CustomEditTextBottomPopup  onDismiss");
     }
 
     public String getComment(){
