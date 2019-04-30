@@ -239,16 +239,21 @@ public class XPopupUtils {
                 targetY += focusEtTop - targetY - getStatusBarHeight();//限制不能被状态栏遮住
             }
             dy = Math.max(0, targetY);
-        } else if (pv instanceof BottomPopupView || isBottomPartShadow(pv)) {
+        } else if (pv instanceof BottomPopupView) {
             dy = keyboardHeight;
             if (focusEt != null && focusEtTop - dy < 0) {
                 dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
+            }
+        } else if(isBottomPartShadow(pv)){
+            int overflowHeight = (focusBottom+keyboardHeight) - windowHeight - getStatusBarHeight();
+            if (focusEt != null && overflowHeight>0) {
+                dy = overflowHeight;
             }
         }
         //dy=0说明没有触发移动，有些弹窗有translationY，不能影响它们
         if(dy==0 && pv.getPopupContentView().getTranslationY()!=0)return;
         pv.getPopupContentView().animate().translationY(-dy)
-                .setDuration(250)
+                .setDuration(200)
                 .setInterpolator(new OvershootInterpolator(0))
                 .start();
     }
@@ -263,7 +268,7 @@ public class XPopupUtils {
         if(pv instanceof PartShadowPopupView && !isBottomPartShadow(pv))return;
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(0))
-                .setDuration(300).start();
+                .setDuration(200).start();
     }
 
 
