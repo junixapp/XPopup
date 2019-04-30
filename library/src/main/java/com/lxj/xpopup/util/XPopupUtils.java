@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -244,7 +245,7 @@ public class XPopupUtils {
                 dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
             }
         }
-        //dy=0说明没有触发滚动，有些弹窗有translationY，不能影响它们
+        //dy=0说明没有触发移动，有些弹窗有translationY，不能影响它们
         if(dy==0 && pv.getPopupContentView().getTranslationY()!=0)return;
         pv.getPopupContentView().animate().translationY(-dy)
                 .setDuration(250)

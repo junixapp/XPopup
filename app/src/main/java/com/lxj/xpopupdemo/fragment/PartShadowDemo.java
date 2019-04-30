@@ -103,7 +103,6 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                             .asCustom(new CustomPartShadowPopupView(getContext()));
                 }
                 popupView.toggle();
-                Log.e("tag", "popupView status: "+popupView.popupStatus);
                 break;
             case R.id.tv_filter:
                 new XPopup.Builder(getContext())
