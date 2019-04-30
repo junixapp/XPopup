@@ -2,21 +2,17 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**
