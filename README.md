@@ -96,6 +96,11 @@ implementation 'com.android.support:design:28.0.0'
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 
 
+## 打个赏
+如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏，金额随意，以表支持。
+![](screenshot/pay.png)
+
+
 ## 联系方式
 
 ![](screenshot/qqgroup.png)
@@ -105,6 +110,7 @@ Gmail: lxj16167479@gmail.com
 QQ Email: 16167479@qq.com
 
 QQ: 16167479
+
 
 ## Licenses
 ```

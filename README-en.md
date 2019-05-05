@@ -74,6 +74,11 @@ Base on information provided by some friends，they are using Xpopup:
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 
 
+## 打个赏
+如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏，金额随意，以表支持。
+![](screenshot/pay.png)
+
+
 ## Contact way
 
 ![](screenshot/qqgroup.png)
