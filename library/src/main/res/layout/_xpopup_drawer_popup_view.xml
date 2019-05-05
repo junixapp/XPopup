@@ -4,13 +4,14 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <FrameLayout
         android:id="@+id/drawerContentContainer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:clickable="true"
         android:minWidth="30dp">
-
     </FrameLayout>
-
 </com.lxj.xpopup.widget.PopupDrawerLayout>

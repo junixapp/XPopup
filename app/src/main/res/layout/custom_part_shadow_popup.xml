@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="change height" />
+            android:text="改变高度" />
 
         <Button
             android:id="@+id/btnClose"

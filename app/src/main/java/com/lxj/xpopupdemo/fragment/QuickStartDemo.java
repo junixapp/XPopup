@@ -18,6 +18,7 @@ import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
+import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
 
 /**
@@ -206,7 +207,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
                 new XPopup.Builder(getContext())
-                        .asCustom(new CustomDrawerPopupView(getContext()))
+//                        .asCustom(new CustomDrawerPopupView(getContext()))
+                        .asCustom(new PagerDrawerPopup(getContext()))
 //                        .asCustom(new ListDrawerPopupView(getContext()))
                         .show();
                 break;

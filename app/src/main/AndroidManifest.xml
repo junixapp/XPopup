@@ -15,14 +15,14 @@
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         tools:replace="android:appComponentFactory"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"  android:windowSoftInputMode="adjustUnspecified">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".DemoActivity"/>
-        <activity android:name=".Demo2Activity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".Demo2Activity"/>
     </application>
 
 </manifest>
