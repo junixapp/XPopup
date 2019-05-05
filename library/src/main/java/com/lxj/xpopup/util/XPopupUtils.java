@@ -25,6 +25,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -33,6 +34,7 @@ import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,10 +87,10 @@ public class XPopupUtils {
     }
 
     public static void setWidthHeight(View target, int width, int height) {
-        if(width<=0 && height<=0)return;
+        if (width <= 0 && height <= 0) return;
         ViewGroup.LayoutParams params = target.getLayoutParams();
-        if(width>0) params.width = width;
-        if(height>0) params.height = height;
+        if (width > 0) params.width = width;
+        if (height > 0) params.height = height;
         target.setLayoutParams(params);
     }
 
@@ -244,28 +246,28 @@ public class XPopupUtils {
             if (focusEt != null && focusEtTop - dy < 0) {
                 dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
             }
-        } else if(isBottomPartShadow(pv)){
-            int overflowHeight = (focusBottom+keyboardHeight) - windowHeight - getStatusBarHeight();
-            if (focusEt != null && overflowHeight>0) {
+        } else if (isBottomPartShadow(pv)) {
+            int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
+            if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
         }
         //dy=0说明没有触发移动，有些弹窗有translationY，不能影响它们
-        if(dy==0 && pv.getPopupContentView().getTranslationY()!=0)return;
+        if (dy == 0 && pv.getPopupContentView().getTranslationY() != 0) return;
         pv.getPopupContentView().animate().translationY(-dy)
                 .setDuration(200)
                 .setInterpolator(new OvershootInterpolator(0))
                 .start();
     }
 
-    private static boolean isBottomPartShadow(BasePopupView pv){
+    private static boolean isBottomPartShadow(BasePopupView pv) {
         return pv instanceof PartShadowPopupView && ((PartShadowPopupView) pv).isShowUp;
     }
 
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
-        if(pv instanceof PartShadowPopupView && !isBottomPartShadow(pv))return;
+        if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) return;
         pv.getPopupContentView().animate().translationY(0)
                 .setInterpolator(new OvershootInterpolator(0))
                 .setDuration(200).start();
@@ -314,6 +316,7 @@ public class XPopupUtils {
     }
 
     private static Context mContext;
+
     public static void saveBmpToAlbum(final Context context, final XPopupImageLoader imageLoader, final Object uri) {
         final Handler mainHandler = new Handler(Looper.getMainLooper());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
