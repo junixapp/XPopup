@@ -1,16 +1,18 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopupdemo.R;
 
@@ -53,7 +55,7 @@ public class PagerDrawerPopup extends DrawerPopupView {
         Log.e("tag", "PagerDrawerPopup onDismiss");
     }
 
-    class PAdapter extends PagerAdapter{
+    class PAdapter extends PagerAdapter {
         @Override
         public int getCount() {
             return titles.length;
