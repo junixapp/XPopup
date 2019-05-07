@@ -90,7 +90,7 @@ Base on information provided by some friends，they are using Xpopup:
 
 ## Buy me a coffee
 
-If this library helped you，you can buy me a coffee.
+If this library helped you，you can buy me a coffee. [reward list](https://github.com/li-xiaojun/XPopup/blob/master/reward-list.md)
 
 ![](screenshot/pay.png)
 

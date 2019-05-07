@@ -112,7 +112,7 @@ implementation 'com.android.support:design:28.0.0'
 
 ## 打个赏
 
-如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏，金额随意，以表支持。
+如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏（打赏时可以附上自己的大名和Github地址），金额随意，以表支持。[打赏名单](https://github.com/li-xiaojun/XPopup/blob/master/reward-list.md)
 
 ![](screenshot/pay.png)
 

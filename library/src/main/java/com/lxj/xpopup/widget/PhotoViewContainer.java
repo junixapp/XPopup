@@ -73,7 +73,8 @@ public class PhotoViewContainer extends FrameLayout {
                 float dx = ev.getX() - touchX;
                 float dy = ev.getY() - touchY;
                 viewPager.dispatchTouchEvent(ev);
-                isVertical = (Math.abs(dy) > Math.abs(dx));
+                isVertical = (Math.abs(dy) > Math.abs(dx)*2);
+//                viewPager.requestDisallowInterceptTouchEvent(!isVertical);
                 touchX = ev.getX();
                 touchY = ev.getY();
                 break;
@@ -86,6 +87,7 @@ public class PhotoViewContainer extends FrameLayout {
         }
         return super.dispatchTouchEvent(ev);
     }
+
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {

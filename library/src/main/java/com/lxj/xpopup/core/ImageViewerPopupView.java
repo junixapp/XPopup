@@ -17,6 +17,7 @@ import android.support.transition.TransitionSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -31,6 +32,7 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+import com.lxj.xpopup.photoview.OnViewDragListener;
 import com.lxj.xpopup.photoview.PhotoView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
@@ -379,6 +381,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                     if (photoView.getScale() == 1.0f) {
                         dismiss();
                     }
+                }
+            });
+            photoView.setOnViewDragListener(new OnViewDragListener() {
+                @Override
+                public void onDrag(float dx, float dy) {
+
                 }
             });
             return photoView;

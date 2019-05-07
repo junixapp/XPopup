@@ -95,7 +95,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
     private boolean mZoomEnabled = true;
     private ScaleType mScaleType = ScaleType.FIT_CENTER;
-
+    float[] values = new float[9];
     private OnGestureListener onGestureListener = new OnGestureListener() {
         @Override
         public void onDrag(float dx, float dy) {
@@ -107,7 +107,9 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             }
             mSuppMatrix.postTranslate(dx, dy);
             checkAndDisplayMatrix();
-
+            mSuppMatrix.getValues(values);
+            Log.e("tag", "values："+values[6] + "  dy: "+mSuppMatrix.toShortString()+
+            " py: " + getScale());
             /*
              * Here we decide whether to let the ImageView's parent to start taking
              * over the touch event.
