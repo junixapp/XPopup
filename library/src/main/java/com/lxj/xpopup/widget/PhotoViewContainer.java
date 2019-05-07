@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
+import com.lxj.xpopup.photoview.PhotoView;
 
 /**
  * wrap ViewPager, process drag event.
@@ -20,7 +21,7 @@ import com.lxj.xpopup.interfaces.OnDragChangeListener;
 public class PhotoViewContainer extends FrameLayout {
     private static final String TAG = "PhotoViewContainer";
     private ViewDragHelper dragHelper;
-    private ViewPager viewPager;
+    public ViewPager viewPager;
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private int HideTopThreshold = 80;
     private int maxOffset;
@@ -73,8 +74,7 @@ public class PhotoViewContainer extends FrameLayout {
                 float dx = ev.getX() - touchX;
                 float dy = ev.getY() - touchY;
                 viewPager.dispatchTouchEvent(ev);
-                isVertical = (Math.abs(dy) > Math.abs(dx)*2);
-//                viewPager.requestDisallowInterceptTouchEvent(!isVertical);
+                isVertical = (Math.abs(dy) > Math.abs(dx));
                 touchX = ev.getX();
                 touchY = ev.getY();
                 break;
@@ -88,7 +88,6 @@ public class PhotoViewContainer extends FrameLayout {
         return super.dispatchTouchEvent(ev);
     }
 
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (ev.getPointerCount() > 1) return false;
@@ -97,6 +96,10 @@ public class PhotoViewContainer extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+//        PhotoView photoView = (PhotoView) viewPager.getChildAt(viewPager.getCurrentItem());
+//        if(photoView.getScale()!=1f && !photoView.attacher.isTopEnd){
+//            return false;
+//        }
         dragHelper.processTouchEvent(ev);
         return true;
     }

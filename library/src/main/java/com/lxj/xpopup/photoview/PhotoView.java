@@ -32,7 +32,7 @@ import android.view.GestureDetector;
 @SuppressWarnings("unused")
 public class PhotoView extends AppCompatImageView {
 
-    private PhotoViewAttacher attacher;
+    public PhotoViewAttacher attacher;
     private ScaleType pendingScaleType;
 
     public PhotoView(Context context) {

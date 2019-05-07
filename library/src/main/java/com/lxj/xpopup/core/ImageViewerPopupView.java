@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -381,12 +382,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                     if (photoView.getScale() == 1.0f) {
                         dismiss();
                     }
-                }
-            });
-            photoView.setOnViewDragListener(new OnViewDragListener() {
-                @Override
-                public void onDrag(float dx, float dy) {
-
                 }
             });
             return photoView;

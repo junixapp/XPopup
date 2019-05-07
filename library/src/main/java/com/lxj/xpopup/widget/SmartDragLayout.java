@@ -83,7 +83,6 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     }
 
     float touchX, touchY;
-    long downTime;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (scroller.computeScrollOffset()) {
@@ -97,7 +96,6 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                     tracker = VelocityTracker.obtain();
                 touchX = event.getX();
                 touchY = event.getY();
-                downTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (enableDrag) {
@@ -115,8 +113,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                 child.getGlobalVisibleRect(rect);
                 if (!XPopupUtils.isInRect(event.getRawX(), event.getRawY(), rect) && dismissOnTouchOutside) {
                     float distance = (float) Math.sqrt(Math.pow(event.getX() - touchX, 2) + Math.pow(event.getY() - touchY, 2));
-                    long duration = System.currentTimeMillis() - downTime;
-                    if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop() && duration < 350) {
+                    if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
                         performClick();
                     }
                 }

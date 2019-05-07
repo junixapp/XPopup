@@ -92,10 +92,9 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     private int mHorizontalScrollEdge = HORIZONTAL_EDGE_BOTH;
     private int mVerticalScrollEdge = VERTICAL_EDGE_BOTH;
     private float mBaseRotation;
-
+    public boolean isTopEnd = false;
     private boolean mZoomEnabled = true;
     private ScaleType mScaleType = ScaleType.FIT_CENTER;
-    float[] values = new float[9];
     private OnGestureListener onGestureListener = new OnGestureListener() {
         @Override
         public void onDrag(float dx, float dy) {
@@ -107,9 +106,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             }
             mSuppMatrix.postTranslate(dx, dy);
             checkAndDisplayMatrix();
-            mSuppMatrix.getValues(values);
-            Log.e("tag", "values："+values[6] + "  dy: "+mSuppMatrix.toShortString()+
-            " py: " + getScale());
+
             /*
              * Here we decide whether to let the ImageView's parent to start taking
              * over the touch event.
@@ -120,6 +117,16 @@ public class PhotoViewAttacher implements View.OnTouchListener,
              * the edge, aka 'overscrolling', let the parent take over).
              */
             ViewParent parent = mImageView.getParent();
+            isTopEnd = (mVerticalScrollEdge == VERTICAL_EDGE_TOP) && dy>0f;
+//            boolean isBottomEnd = (mVerticalScrollEdge == VERTICAL_EDGE_BOTTOM) && dy<0f;
+//            Log.e("tag", "isTopEnd："+isTopEnd + " isBottomEnd: "+isBottomEnd+
+//                    " py: " + dy);
+//            if(isTopEnd){
+//                if (parent != null) {
+//                    parent.requestDisallowInterceptTouchEvent(false);
+//                }
+//                return;
+//            }
             boolean isVerticalFromScale = (getScale() != 1.0 && Math.abs(dx) < Math.abs(dy));
             if (mAllowParentInterceptOnEdge && !mScaleDragDetector.isScaling() && !mBlockParentIntercept && !isVerticalFromScale) {
                 if (mHorizontalScrollEdge == HORIZONTAL_EDGE_BOTH
@@ -352,6 +359,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                     break;
                 case MotionEvent.ACTION_CANCEL:
                 case MotionEvent.ACTION_UP:
+                    isTopEnd = false;
                     // If the user has zoomed less than min scale, zoom back
                     // to min scale
                     if (getScale() < mMinScale) {
