@@ -26,7 +26,7 @@ public class PhotoViewContainer extends FrameLayout {
     private int maxOffset;
     private OnDragChangeListener dragChangeListener;
     public int blackColor = Color.rgb(32, 36, 46);
-    public boolean isReleaseing = false;
+    public boolean isReleasing = false;
 
     public PhotoViewContainer(@NonNull Context context) {
         this(context, null);
@@ -102,7 +102,7 @@ public class PhotoViewContainer extends FrameLayout {
     ViewDragHelper.Callback cb = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View view, int i) {
-            return !isReleaseing;
+            return !isReleasing;
         }
 
         @Override
@@ -181,6 +181,6 @@ public class PhotoViewContainer extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        isReleaseing = false;
+        isReleasing = false;
     }
 }

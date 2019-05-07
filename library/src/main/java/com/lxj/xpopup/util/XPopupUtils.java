@@ -325,7 +325,16 @@ public class XPopupUtils {
             @Override
             public void run() {
                 File source = imageLoader.getImageFile(mContext, uri);
-                if (source == null) return;
+                if (source == null) {
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "图片不存在！", Toast.LENGTH_SHORT).show();
+                            mContext = null;
+                        }
+                    });
+                    return;
+                }
                 //1. create path
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_PICTURES;
                 File dirFile = new File(dirPath);
@@ -346,7 +355,7 @@ public class XPopupUtils {
                                     mainHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(mContext, "保存成功！保存在：" + path, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "已保存到相册！", Toast.LENGTH_SHORT).show();
                                             mContext = null;
                                         }
                                     });

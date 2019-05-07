@@ -17,14 +17,12 @@ import android.support.transition.TransitionSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lxj.xpermission.PermissionConstants;
 import com.lxj.xpermission.XPermission;
 import com.lxj.xpopup.R;
@@ -38,7 +36,6 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,10 +50,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected TextView tv_pager_indicator, tv_save;
     protected HackyViewPager pager;
     protected ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private List<Object> urls = new ArrayList<>();
-    private XPopupImageLoader imageLoader;
-    private OnSrcViewUpdateListener srcViewUpdateListener;
-    private int position;
+    protected List<Object> urls = new ArrayList<>();
+    protected XPopupImageLoader imageLoader;
+    protected OnSrcViewUpdateListener srcViewUpdateListener;
+    protected int position;
     protected Rect rect = null;
     protected ImageView srcView;
     boolean isShowPlaceholder = true;
@@ -67,6 +64,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     public ImageViewerPopupView(@NonNull Context context) {
         super(context);
+        int implLayoudId = getPopupLayoutId();
     }
 
     @Override
@@ -152,7 +150,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void doShowAnimation() {
-        photoViewContainer.isReleaseing = true;
+        photoViewContainer.isReleasing = true;
         snapshotView.setVisibility(VISIBLE);
         snapshotView.post(new Runnable() {
             @Override
@@ -169,7 +167,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                                 pager.setVisibility(VISIBLE);
                                 snapshotView.setVisibility(INVISIBLE);
                                 showPagerIndicator();
-                                photoViewContainer.isReleaseing = false;
+                                photoViewContainer.isReleasing = false;
                                 ImageViewerPopupView.super.doAfterShow();
                             }
                         }));
@@ -178,7 +176,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 snapshotView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 XPopupUtils.setWidthHeight(snapshotView, photoViewContainer.getWidth(), photoViewContainer.getHeight());
 
-                // do _xpopup_shadow anim.
+                // do shadow anim.
                 animateShadowBg(photoViewContainer.blackColor);
             }
         });
@@ -207,7 +205,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         tv_save.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
         snapshotView.setVisibility(VISIBLE);
-        photoViewContainer.isReleaseing = true;
+        photoViewContainer.isReleasing = true;
         TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
                 .setDuration(XPopup.getAnimationDuration())
                 .addTransition(new ChangeBounds())
@@ -235,7 +233,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         snapshotView.setScaleType(srcView.getScaleType());
         XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
 
-        // do _xpopup_shadow anim.
+        // do shadow anim.
         animateShadowBg(Color.TRANSPARENT);
     }
 
