@@ -45,7 +45,7 @@
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
-![](screenshot/comment_edit.gif)
+![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
 
 

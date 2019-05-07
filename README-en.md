@@ -23,7 +23,7 @@ Powerful，material UI，elegant interaction general popup！can absolutely repl
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
-![](screenshot/comment_edit.gif)
+![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
 
 
