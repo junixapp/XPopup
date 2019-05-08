@@ -6,7 +6,6 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -20,8 +19,6 @@ import android.support.transition.TransitionSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +27,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lxj.xpermission.PermissionConstants;
 import com.lxj.xpermission.XPermission;
 import com.lxj.xpopup.R;
@@ -44,7 +40,6 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,12 +61,13 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected int position;
     protected Rect rect = null;
     protected ImageView srcView, snapshotView;
-    boolean isShowPlaceholder = true;
-    int placeholderColor = -1; //占位View的颜色
-    int placeholderStrokeColor = -1; // 占位View的边框色
-    int placeholderRadius = -1; // 占位View的圆角
-    boolean isShowSaveBtn = true; //是否显示保存按钮
+    protected boolean isShowPlaceholder = true;
+    protected int placeholderColor = -1; //占位View的颜色
+    protected int placeholderStrokeColor = -1; // 占位View的边框色
+    protected int placeholderRadius = -1; // 占位View的圆角
+    protected boolean isShowSaveBtn = true; //是否显示保存按钮
     protected View customView;
+    protected int bgColor = Color.rgb(32, 36, 46);//弹窗的背景颜色，可以自定义
 
     public ImageViewerPopupView(@NonNull Context context) {
         super(context);
@@ -193,7 +189,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 XPopupUtils.setWidthHeight(snapshotView, photoViewContainer.getWidth(), photoViewContainer.getHeight());
 
                 // do shadow anim.
-                animateShadowBg(photoViewContainer.blackColor);
+                animateShadowBg(bgColor);
                 if (customView != null)
                     customView.animate().alpha(1f).setDuration(XPopup.getAnimationDuration()).start();
             }
@@ -356,6 +352,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         tv_pager_indicator.setAlpha(1 - fraction);
         if (customView != null) customView.setAlpha(1 - fraction);
         if (isShowSaveBtn) tv_save.setAlpha(1 - fraction);
+        photoViewContainer.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, bgColor, Color.TRANSPARENT));
     }
 
     @Override
@@ -366,35 +363,36 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void onClick(View v) {
-        if (v == tv_save) {
-            //check permission
-            XPermission.create(getContext(), PermissionConstants.STORAGE)
-                    .callback(new XPermission.SimpleCallback() {
-                        @Override
-                        public void onGranted() {
-                            //save bitmap to album.
-                            XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(position));
-                        }
-
-                        @Override
-                        public void onDenied() {
-                            Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
-                        }
-                    }).request();
-        }
+        if (v == tv_save) save();
     }
 
+    /**
+     * 保存图片到相册，会自动检查是否有保存权限
+     */
+    protected void save(){
+        //check permission
+        XPermission.create(getContext(), PermissionConstants.STORAGE)
+                .callback(new XPermission.SimpleCallback() {
+                    @Override
+                    public void onGranted() {
+                        //save bitmap to album.
+                        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(position));
+                    }
+                    @Override
+                    public void onDenied() {
+                        Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
+                    }
+                }).request();
+    }
     public class PhotoViewAdapter extends PagerAdapter {
         @Override
         public int getCount() {
             return urls.size();
         }
-
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
             return o == view;
         }
-
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
@@ -414,12 +412,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             });
             return photoView;
         }
-
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             container.removeView((View) object);
         }
     }
-
 
 }

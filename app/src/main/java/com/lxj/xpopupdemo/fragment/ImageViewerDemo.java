@@ -92,7 +92,9 @@ public class ImageViewerDemo extends BaseFragment {
         btn_custom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //自定义的弹窗需要用asCustom来显示，之前的asImageViewer这些方法当然不能用了。
                 CustomImageViewerPopup viewerPopup = new CustomImageViewerPopup(getContext());
+                //自定义的ImageViewer弹窗需要自己手动设置相应的属性，必须设置的有srcView，url和imageLoader。
                 viewerPopup.setSingleSrcView(image2, url2);
                 viewerPopup.setXPopupImageLoader(new ImageLoader());
                 new XPopup.Builder(getContext())
