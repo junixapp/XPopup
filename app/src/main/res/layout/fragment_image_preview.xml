@@ -33,7 +33,14 @@
             android:layout_width="90dp"
             android:layout_height="wrap_content" />
 
-
+        <Button
+            android:id="@+id/btn_custom"
+            android:textAllCaps="false"
+            android:text="自定义ImageViewer弹窗的布局"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <TextView
             android:text="以下是ViewPager使用场景，点击任意一个图片查看效果："
             android:textSize="18sp"
@@ -47,6 +54,8 @@
             android:layout_marginBottom="200dp"
             android:layout_width="match_parent"
             android:layout_height="160dp"/>
+
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

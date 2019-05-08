@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -20,6 +21,8 @@ import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -41,12 +44,13 @@ public class ImageViewerDemo extends BaseFragment {
     RecyclerView recyclerView;
     ImageView image1, image2;
     ViewPager pager;
-
+    Button btn_custom;
     @Override
     public void init(View view) {
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
         pager = view.findViewById(R.id.pager);
+        btn_custom = view.findViewById(R.id.btn_custom);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -84,6 +88,18 @@ public class ImageViewerDemo extends BaseFragment {
         //ViewPager bind data
         pager.setOffscreenPageLimit(list.size());
         pager.setAdapter(new ImagePagerAdapter());
+
+        btn_custom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomImageViewerPopup viewerPopup = new CustomImageViewerPopup(getContext());
+                viewerPopup.setSingleSrcView(image2, url2);
+                viewerPopup.setXPopupImageLoader(new ImageLoader());
+                new XPopup.Builder(getContext())
+                        .asCustom(viewerPopup)
+                        .show();
+            }
+        });
     }
 
     class ImageAdapter extends EasyAdapter<Object> {
