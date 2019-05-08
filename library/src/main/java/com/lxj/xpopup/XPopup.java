@@ -6,6 +6,7 @@ import android.graphics.PointF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -29,11 +30,14 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.util.List;
 
 
 public class XPopup {
-    private XPopup() { }
+    private XPopup() {
+    }
+
     /**
      * 全局弹窗的设置
      **/
@@ -79,6 +83,7 @@ public class XPopup {
 
         /**
          * 设置按下返回键是否关闭弹窗，默认为true
+         *
          * @param isDismissOnBackPressed
          * @return
          */
@@ -89,6 +94,7 @@ public class XPopup {
 
         /**
          * 设置点击弹窗外面是否关闭弹窗，默认为true
+         *
          * @param isDismissOnTouchOutside
          * @return
          */
@@ -99,6 +105,7 @@ public class XPopup {
 
         /**
          * 设置当操作完毕后是否自动关闭弹窗，默认为true。比如：点击Confirm弹窗的确认按钮默认是关闭弹窗，如果为false，则不关闭
+         *
          * @param autoDismiss
          * @return
          */
@@ -109,6 +116,7 @@ public class XPopup {
 
         /**
          * 弹窗是否有半透明背景遮罩，默认是true
+         *
          * @param hasShadowBg
          * @return
          */
@@ -119,6 +127,7 @@ public class XPopup {
 
         /**
          * 设置弹窗依附的View
+         *
          * @param atView
          * @return
          */
@@ -126,8 +135,10 @@ public class XPopup {
             this.popupInfo.atView = atView;
             return this;
         }
+
         /**
          * 设置弹窗监视的View
+         *
          * @param watchView
          * @return
          */
@@ -147,6 +158,7 @@ public class XPopup {
 
         /**
          * 为弹窗设置内置的动画器，默认情况下，已经为每种弹窗设置了效果最佳的动画器；如果你不喜欢，仍然可以修改。
+         *
          * @param popupAnimation
          * @return
          */
@@ -157,6 +169,7 @@ public class XPopup {
 
         /**
          * 自定义弹窗动画器
+         *
          * @param customAnimator
          * @return
          */
@@ -167,6 +180,7 @@ public class XPopup {
 
         /**
          * 设置最大宽度，如果重写了弹窗的getMaxWidth，则以重写的为准
+         *
          * @param maxWidth
          * @return
          */
@@ -174,8 +188,10 @@ public class XPopup {
             this.popupInfo.maxWidth = maxWidth;
             return this;
         }
+
         /**
          * 设置最大高度，如果重写了弹窗的getMaxHeight，则以重写的为准
+         *
          * @param maxHeight
          * @return
          */
@@ -186,6 +202,7 @@ public class XPopup {
 
         /**
          * 是否自动打开输入法，当弹窗包含输入框时很有用，默认为false
+         *
          * @param autoOpenSoftInput
          * @return
          */
@@ -196,6 +213,7 @@ public class XPopup {
 
         /**
          * 当弹出输入法时，弹窗是否要移动到输入法之上，默认为true。如果不移动，弹窗很有可能被输入法盖住
+         *
          * @param isMoveUpToKeyboard
          * @return
          */
@@ -207,6 +225,7 @@ public class XPopup {
         /**
          * 设置弹窗出现在目标的什么位置，有四种取值：Left，Right，Top，Bottom。这种手动设置位置的行为
          * 只对Attach弹窗和Drawer弹窗生效。
+         *
          * @param popupPosition
          * @return
          */
@@ -218,65 +237,73 @@ public class XPopup {
         /**
          * 设置是否给StatusBar添加阴影，目前对Drawer弹窗生效。如果你的Drawer的背景是白色，建议设置为true，因为状态栏文字的颜色也往往
          * 是白色，会导致状态栏文字看不清；如果Drawer的背景色不是白色，则忽略即可
+         *
          * @param hasStatusBarShadow
          * @return
          */
-        public Builder hasStatusBarShadow(boolean hasStatusBarShadow){
+        public Builder hasStatusBarShadow(boolean hasStatusBarShadow) {
             this.popupInfo.hasStatusBarShadow = hasStatusBarShadow;
             return this;
         }
 
         /**
          * 弹窗在x方向的偏移量，对所有弹窗生效，单位是px
+         *
          * @param offsetX
          * @return
          */
-        public Builder offsetX(int offsetX){
+        public Builder offsetX(int offsetX) {
             this.popupInfo.offsetX = offsetX;
             return this;
         }
 
         /**
          * 弹窗在y方向的偏移量，对所有弹窗生效，单位是px
+         *
          * @param offsetY
          * @return
          */
-        public Builder offsetY(int offsetY){
+        public Builder offsetY(int offsetY) {
             this.popupInfo.offsetY = offsetY;
             return this;
         }
 
         /**
          * 是否启用拖拽，比如：Bottom弹窗默认是带手势拖拽效果的，如果禁用则不能拖拽
+         *
          * @param enableDrag
          * @return
          */
-        public Builder enableDrag(boolean enableDrag){
+        public Builder enableDrag(boolean enableDrag) {
             this.popupInfo.enableDrag = enableDrag;
             return this;
         }
 
         /**
          * 是否水平居中，默认情况下Attach弹窗依靠着目标的左边或者右边，如果isCenterHorizontal为true，则与目标水平居中对齐
+         *
          * @param isCenterHorizontal
          * @return
          */
-        public Builder isCenterHorizontal(boolean isCenterHorizontal){
+        public Builder isCenterHorizontal(boolean isCenterHorizontal) {
             this.popupInfo.isCenterHorizontal = isCenterHorizontal;
             return this;
         }
+
         /**
          * 是否抢占焦点，默认情况下弹窗会抢占焦点，目的是为了能处理返回按键事件。如果为false，则不在抢焦点，但也无法响应返回按键了
+         *
          * @param isRequestFocus
          * @return
          */
-        public Builder isRequestFocus(boolean isRequestFocus){
+        public Builder isRequestFocus(boolean isRequestFocus) {
             this.popupInfo.isRequestFocus = isRequestFocus;
             return this;
         }
 
         /**
          * 设置弹窗显示和隐藏的回调监听
+         *
          * @param xPopupCallback
          * @return
          */
@@ -291,15 +318,19 @@ public class XPopup {
          *
          * @param title           对话框标题
          * @param content         对话框内容
+         * @param cancelBtnText   取消按钮的文字内容
+         * @param confirmBtnText  确认按钮的文字内容
          * @param confirmListener 点击确认的监听器
          * @param cancelListener  点击取消的监听器
          * @param isHideCancel    是否隐藏取消按钮
          * @return
          */
-        public ConfirmPopupView asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel) {
+        public ConfirmPopupView asConfirm(String title, String content, String cancelBtnText, String confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel) {
             popupType(PopupType.Center);
             ConfirmPopupView popupView = new ConfirmPopupView(this.context);
             popupView.setTitleContent(title, content, null);
+            popupView.setCancelText(cancelBtnText);
+            popupView.setConfirmText(confirmBtnText);
             popupView.setListener(confirmListener, cancelListener);
             if (isHideCancel) popupView.hideCancelBtn();
             popupView.popupInfo = this.popupInfo;
@@ -307,11 +338,11 @@ public class XPopup {
         }
 
         public ConfirmPopupView asConfirm(String title, String content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
-            return asConfirm(title, content, confirmListener, cancelListener, false);
+            return asConfirm(title, content, null, null, confirmListener, cancelListener, false);
         }
 
         public ConfirmPopupView asConfirm(String title, String content, OnConfirmListener confirmListener) {
-            return asConfirm(title, content, confirmListener, null);
+            return asConfirm(title, content, null, null, confirmListener, null, false);
         }
 
         /**
@@ -368,7 +399,6 @@ public class XPopup {
             return asCenterList(title, data, iconIds, -1, selectListener);
         }
 
-
         /**
          * 显示在中间加载的弹窗
          *
@@ -385,7 +415,6 @@ public class XPopup {
         public LoadingPopupView asLoading() {
             return asLoading(null);
         }
-
 
         /**
          * 显示在底部的列表Popup
@@ -499,7 +528,7 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, -1, -1, -1, true,srcViewUpdateListener, imageLoader);
+            return asImageViewer(srcView, currentPosition, urls, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
         }
 
         /**

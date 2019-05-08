@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
-import com.lxj.xpopup.photoview.PhotoView;
 
 /**
  * wrap ViewPager, process drag event.
