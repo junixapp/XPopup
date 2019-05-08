@@ -95,10 +95,6 @@ public class PhotoViewContainer extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-//        PhotoView photoView = (PhotoView) viewPager.getChildAt(viewPager.getCurrentItem());
-//        if(photoView.getScale()!=1f && !photoView.attacher.isTopEnd){
-//            return false;
-//        }
         dragHelper.processTouchEvent(ev);
         return true;
     }

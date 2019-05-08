@@ -20,6 +20,7 @@ import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -31,6 +32,8 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.OverScroller;
+
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * The component of which does the work allowing for zooming, scaling, panning, etc.
@@ -92,7 +95,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     private int mHorizontalScrollEdge = HORIZONTAL_EDGE_BOTH;
     private int mVerticalScrollEdge = VERTICAL_EDGE_BOTH;
     private float mBaseRotation;
-    public boolean isTopEnd = false;
+    private boolean isTopEnd = false;
     private boolean mZoomEnabled = true;
     private ScaleType mScaleType = ScaleType.FIT_CENTER;
     private OnGestureListener onGestureListener = new OnGestureListener() {
@@ -107,26 +110,18 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             mSuppMatrix.postTranslate(dx, dy);
             checkAndDisplayMatrix();
 
-            /*
-             * Here we decide whether to let the ImageView's parent to start taking
-             * over the touch event.
-             *
-             * First we check whether this function is enabled. We never want the
-             * parent to take over if we're scaling. We then check the edge we're
-             * on, and the direction of the scroll (i.e. if we're pulling against
-             * the edge, aka 'overscrolling', let the parent take over).
-             */
             ViewParent parent = mImageView.getParent();
-            isTopEnd = (mVerticalScrollEdge == VERTICAL_EDGE_TOP) && dy>0f;
+            isTopEnd = (mVerticalScrollEdge == VERTICAL_EDGE_TOP) && dy>0f && getScale()!=1f;
 //            boolean isBottomEnd = (mVerticalScrollEdge == VERTICAL_EDGE_BOTTOM) && dy<0f;
-//            Log.e("tag", "isTopEnd："+isTopEnd + " isBottomEnd: "+isBottomEnd+
-//                    " py: " + dy);
-//            if(isTopEnd){
-//                if (parent != null) {
-//                    parent.requestDisallowInterceptTouchEvent(false);
-//                }
-//                return;
-//            }
+            if(isTopEnd && dy > 0f){
+                mImageView.animate().translationY(XPopupUtils.getStatusBarHeight())
+                        .setDuration(250)
+                        .setInterpolator(new FastOutSlowInInterpolator()).start();
+            }else if(dy < 0 && mImageView.getTranslationY()!=0){
+                mImageView.animate().translationY(0)
+                        .setDuration(250)
+                        .setInterpolator(new FastOutSlowInInterpolator()).start();
+            }
             boolean isVerticalFromScale = (getScale() != 1.0 && Math.abs(dx) < Math.abs(dy));
             if (mAllowParentInterceptOnEdge && !mScaleDragDetector.isScaling() && !mBlockParentIntercept && !isVerticalFromScale) {
                 if (mHorizontalScrollEdge == HORIZONTAL_EDGE_BOTH
@@ -456,10 +451,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     }
 
     public void setScale(float scale, boolean animate) {
-        setScale(scale,
-                (mImageView.getRight()) / 2,
-                (mImageView.getBottom()) / 2,
-                animate);
+        setScale(scale,(mImageView.getRight()) / 2,(mImageView.getBottom()) / 2, animate);
     }
 
     public void setScale(float scale, float focalX, float focalY,
