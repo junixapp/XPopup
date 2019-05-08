@@ -536,7 +536,7 @@ public abstract class BasePopupView extends FrameLayout {
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                    if (distance < touchSlop && (System.currentTimeMillis() - downTime) < 350) {
+                    if (distance < touchSlop) {
                         if (popupInfo.isDismissOnTouchOutside)
                             dismiss();
                     }

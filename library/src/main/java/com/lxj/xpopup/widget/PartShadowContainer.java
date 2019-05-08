@@ -33,8 +33,6 @@ public class PartShadowContainer extends FrameLayout {
     }
 
     private float x, y;
-    private long downTime;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // 计算implView的Rect
@@ -48,20 +46,18 @@ public class PartShadowContainer extends FrameLayout {
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();
                     y = event.getY();
-                    downTime = System.currentTimeMillis();
                     break;
                 case MotionEvent.ACTION_UP:
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                    if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop() && (System.currentTimeMillis() - downTime) < 350) {
+                    if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
                         if (isDismissOnTouchOutside) {
                             if (listener != null) listener.onClickOutside();
                         }
                     }
                     x = 0;
                     y = 0;
-                    downTime = 0;
                     break;
             }
         }

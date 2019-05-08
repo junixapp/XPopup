@@ -1,30 +1,32 @@
 package com.lxj.xpopup.core;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import androidx.annotation.NonNull;
-import androidx.transition.ChangeBounds;
-import androidx.transition.ChangeImageTransform;
-import androidx.transition.ChangeTransform;
-import androidx.transition.Transition;
-import androidx.transition.TransitionListenerAdapter;
-import androidx.transition.TransitionManager;
-import androidx.transition.TransitionSet;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-
+import android.support.annotation.NonNull;
+import android.support.transition.ChangeBounds;
+import android.support.transition.ChangeImageTransform;
+import android.support.transition.ChangeTransform;
+import android.support.transition.Transition;
+import android.support.transition.TransitionListenerAdapter;
+import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lxj.xpermission.PermissionConstants;
 import com.lxj.xpermission.XPermission;
 import com.lxj.xpopup.R;
@@ -38,7 +40,6 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,25 +49,35 @@ import java.util.List;
  * Create by lxj, at 2019/1/22
  */
 public class ImageViewerPopupView extends BasePopupView implements OnDragChangeListener, View.OnClickListener {
+    protected FrameLayout container;
     protected PhotoViewContainer photoViewContainer;
     protected BlankView placeholderView;
     protected TextView tv_pager_indicator, tv_save;
     protected HackyViewPager pager;
     protected ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private List<Object> urls = new ArrayList<>();
-    private XPopupImageLoader imageLoader;
-    private OnSrcViewUpdateListener srcViewUpdateListener;
-    private int position;
+    protected List<Object> urls = new ArrayList<>();
+    protected XPopupImageLoader imageLoader;
+    protected OnSrcViewUpdateListener srcViewUpdateListener;
+    protected int position;
     protected Rect rect = null;
-    protected ImageView srcView;
-    boolean isShowPlaceholder = true;
-    int placeholderColor = -1; //占位View的颜色
-    int placeholderStrokeColor = -1; // 占位View的边框色
-    int placeholderRadius = -1; // 占位View的圆角
-    boolean isShowSaveBtn = true; //是否显示保存按钮
+    protected ImageView srcView, snapshotView;
+    protected boolean isShowPlaceholder = true;
+    protected int placeholderColor = -1; //占位View的颜色
+    protected int placeholderStrokeColor = -1; // 占位View的边框色
+    protected int placeholderRadius = -1; // 占位View的圆角
+    protected boolean isShowSaveBtn = true; //是否显示保存按钮
+    protected View customView;
+    protected int bgColor = Color.rgb(32, 36, 46);//弹窗的背景颜色，可以自定义
 
     public ImageViewerPopupView(@NonNull Context context) {
         super(context);
+        container = findViewById(R.id.container);
+        if (getImplLayoutId() > 0) {
+            customView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), container, false);
+            customView.setVisibility(INVISIBLE);
+            customView.setAlpha(0);
+            container.addView(customView);
+        }
     }
 
     @Override
@@ -96,23 +107,23 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 showPagerIndicator();
                 //更新srcView
                 if (srcViewUpdateListener != null) {
-                    srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this , i);
+                    srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, i);
                 }
             }
         });
-        if(isShowSaveBtn)tv_save.setOnClickListener(this);
+        if (isShowSaveBtn) tv_save.setOnClickListener(this);
     }
 
-    private void setupPlaceholder(){
+    private void setupPlaceholder() {
         placeholderView.setVisibility(isShowPlaceholder ? VISIBLE : INVISIBLE);
-        if(isShowPlaceholder){
-            if(placeholderColor!=-1){
+        if (isShowPlaceholder) {
+            if (placeholderColor != -1) {
                 placeholderView.color = placeholderColor;
             }
-            if(placeholderRadius!=-1) {
+            if (placeholderRadius != -1) {
                 placeholderView.radius = placeholderRadius;
             }
-            if(placeholderStrokeColor!=-1) {
+            if (placeholderStrokeColor != -1) {
                 placeholderView.strokeColor = placeholderStrokeColor;
             }
             XPopupUtils.setWidthHeight(placeholderView, rect.width(), rect.height());
@@ -127,10 +138,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             tv_pager_indicator.setVisibility(VISIBLE);
             tv_pager_indicator.setText((position + 1) + "/" + urls.size());
         }
-        if(isShowSaveBtn)tv_save.setVisibility(VISIBLE);
+        if (isShowSaveBtn) tv_save.setVisibility(VISIBLE);
     }
-
-    ImageView snapshotView;
 
     private void addOrUpdateSnapshot() {
         if (snapshotView == null) {
@@ -152,8 +161,9 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void doShowAnimation() {
-        photoViewContainer.isReleaseing = true;
+        photoViewContainer.isReleasing = true;
         snapshotView.setVisibility(VISIBLE);
+        if (customView != null) customView.setVisibility(VISIBLE);
         snapshotView.post(new Runnable() {
             @Override
             public void run() {
@@ -169,7 +179,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                                 pager.setVisibility(VISIBLE);
                                 snapshotView.setVisibility(INVISIBLE);
                                 showPagerIndicator();
-                                photoViewContainer.isReleaseing = false;
+                                photoViewContainer.isReleasing = false;
                                 ImageViewerPopupView.super.doAfterShow();
                             }
                         }));
@@ -178,8 +188,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 snapshotView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 XPopupUtils.setWidthHeight(snapshotView, photoViewContainer.getWidth(), photoViewContainer.getHeight());
 
-                // do _xpopup_shadow anim.
-                animateShadowBg(photoViewContainer.blackColor);
+                // do shadow anim.
+                animateShadowBg(bgColor);
+                if (customView != null)
+                    customView.animate().alpha(1f).setDuration(XPopup.getAnimationDuration()).start();
             }
         });
 
@@ -189,7 +201,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         final int start = ((ColorDrawable) photoViewContainer.getBackground()).getColor();
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 photoViewContainer.setBackgroundColor((Integer) argbEvaluator.evaluate(animation.getAnimatedFraction(),
@@ -207,7 +218,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         tv_save.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
         snapshotView.setVisibility(VISIBLE);
-        photoViewContainer.isReleaseing = true;
+        photoViewContainer.isReleasing = true;
         TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
                 .setDuration(XPopup.getAnimationDuration())
                 .addTransition(new ChangeBounds())
@@ -235,8 +246,18 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         snapshotView.setScaleType(srcView.getScaleType());
         XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
 
-        // do _xpopup_shadow anim.
+        // do shadow anim.
         animateShadowBg(Color.TRANSPARENT);
+        if (customView != null)
+            customView.animate().alpha(0f).setDuration(XPopup.getAnimationDuration())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            if (customView != null) customView.setVisibility(INVISIBLE);
+                        }
+                    })
+                    .start();
     }
 
     @Override
@@ -276,15 +297,17 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
-    public ImageViewerPopupView setPlaceholderColor(int color){
+    public ImageViewerPopupView setPlaceholderColor(int color) {
         this.placeholderColor = color;
         return this;
     }
-    public ImageViewerPopupView setPlaceholderRadius(int radius){
+
+    public ImageViewerPopupView setPlaceholderRadius(int radius) {
         this.placeholderRadius = radius;
         return this;
     }
-    public ImageViewerPopupView setPlaceholderStrokeColor(int strokeColor){
+
+    public ImageViewerPopupView setPlaceholderStrokeColor(int strokeColor) {
         this.placeholderStrokeColor = strokeColor;
         return this;
     }
@@ -327,7 +350,9 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     @Override
     public void onDragChange(int dy, float scale, float fraction) {
         tv_pager_indicator.setAlpha(1 - fraction);
-        if(isShowSaveBtn)tv_save.setAlpha(1 - fraction);
+        if (customView != null) customView.setAlpha(1 - fraction);
+        if (isShowSaveBtn) tv_save.setAlpha(1 - fraction);
+        photoViewContainer.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, bgColor, Color.TRANSPARENT));
     }
 
     @Override
@@ -338,34 +363,36 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void onClick(View v) {
-        if(v==tv_save){
-            //check permission
-            XPermission.create(getContext(), PermissionConstants.STORAGE)
-                    .callback(new XPermission.SimpleCallback() {
-                        @Override
-                        public void onGranted() {
-                            //save bitmap to album.
-                            XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(position));
-                        }
-                        @Override
-                        public void onDenied() {
-                            Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
-                        }
-                    }).request();
-        }
+        if (v == tv_save) save();
     }
 
+    /**
+     * 保存图片到相册，会自动检查是否有保存权限
+     */
+    protected void save(){
+        //check permission
+        XPermission.create(getContext(), PermissionConstants.STORAGE)
+                .callback(new XPermission.SimpleCallback() {
+                    @Override
+                    public void onGranted() {
+                        //save bitmap to album.
+                        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(position));
+                    }
+                    @Override
+                    public void onDenied() {
+                        Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
+                    }
+                }).request();
+    }
     public class PhotoViewAdapter extends PagerAdapter {
         @Override
         public int getCount() {
             return urls.size();
         }
-
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
             return o == view;
         }
-
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
@@ -385,12 +412,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             });
             return photoView;
         }
-
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             container.removeView((View) object);
         }
     }
-
 
 }

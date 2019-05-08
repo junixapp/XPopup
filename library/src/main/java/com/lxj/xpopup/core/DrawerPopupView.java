@@ -1,12 +1,10 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import androidx.annotation.NonNull;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.widget.PopupDrawerLayout;

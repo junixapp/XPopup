@@ -5,14 +5,12 @@ import android.graphics.Rect;
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 import android.widget.OverScroller;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
@@ -85,8 +83,6 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     }
 
     float touchX, touchY;
-    long downTime;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (scroller.computeScrollOffset()) {
@@ -96,11 +92,10 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(enableDrag)
+                if (enableDrag)
                     tracker = VelocityTracker.obtain();
                 touchX = event.getX();
                 touchY = event.getY();
-                downTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (enableDrag) {
@@ -118,16 +113,15 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                 child.getGlobalVisibleRect(rect);
                 if (!XPopupUtils.isInRect(event.getRawX(), event.getRawY(), rect) && dismissOnTouchOutside) {
                     float distance = (float) Math.sqrt(Math.pow(event.getX() - touchX, 2) + Math.pow(event.getY() - touchY, 2));
-                    long duration = System.currentTimeMillis() - downTime;
-                    if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop() && duration < 350) {
+                    if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
                         performClick();
                     }
                 }
                 if (enableDrag) {
                     float yVelocity = tracker.getYVelocity();
-                    if (yVelocity > 1500){
+                    if (yVelocity > 1500) {
                         close();
-                    }else {
+                    } else {
                         finishScroll();
                     }
 
@@ -180,7 +174,6 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         }
     }
 
-
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -227,6 +220,8 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
 
     @Override
     public void onNestedScrollAccepted(View child, View target, int nestedScrollAxes) {
+        //必须要取消，否则会导致滑动初次延迟
+        scroller.abortAnimation();
     }
 
     @Override
@@ -253,8 +248,8 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        boolean isDragging = getScrollY()>minY && getScrollY()<maxY;
-        if(isDragging && velocityY<-1500){
+        boolean isDragging = getScrollY() > minY && getScrollY() < maxY;
+        if (isDragging && velocityY < -1500) {
             close();
         }
         return false;

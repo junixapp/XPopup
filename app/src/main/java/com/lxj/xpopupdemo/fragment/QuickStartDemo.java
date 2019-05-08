@@ -17,7 +17,7 @@ import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
-import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
+import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
 
@@ -43,6 +43,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowDrawerLeft).setOnClickListener(this);
         view.findViewById(R.id.btnShowDrawerRight).setOnClickListener(this);
         view.findViewById(R.id.btnCustomBottomPopup).setOnClickListener(this);
+        view.findViewById(R.id.btnPagerBottomPopup).setOnClickListener(this);
         view.findViewById(R.id.btnCustomEditPopup).setOnClickListener(this);
         view.findViewById(R.id.btnFullScreenPopup).setOnClickListener(this);
         view.findViewById(R.id.btnAttachPopup1).setOnClickListener(this);
@@ -92,6 +93,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 Log.e("tag", "onDismiss");
                             }
                         }).asConfirm("我是标题", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+                        "取消", "确定",
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
@@ -184,6 +186,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                         .asCustom(new ZhihuCommentPopup(getContext())/*.enableDrag(false)*/)
+                        .show();
+                break;
+            case R.id.btnPagerBottomPopup: //自定义的底部弹窗
+                new XPopup.Builder(getContext())
+                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                        .asCustom(new PagerBottomPopup(getContext()))
                         .show();
                 break;
             case R.id.tv1: //依附于某个View的Attach类型弹窗

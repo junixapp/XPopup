@@ -2,7 +2,7 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-15-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
-### English | ![中文]()
+### English | [中文]()
 
 Powerful，material UI，elegant interaction general popup！can absolutely replace Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner. With built-in many beautiful animation，you can custom your UI and logic！
 
@@ -23,15 +23,21 @@ Powerful，material UI，elegant interaction general popup！can absolutely repl
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
-![](screenshot/comment_edit.gif)
+![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
+
+
 
 ## Download Apk
+
 Scan qrcode to download Demo.apk：
 ![](screenshot/download.png)
 
 If the qrcode is invisible，[click me to download Demo.apk](https://fir.im/2q63)
 
+
+
 ## Gradle
+
 First, you need add gradle dependency：
 ```groovy
 implementation 'com.lxj:xpopup:1.7.4'
@@ -47,7 +53,10 @@ implementation 'com.android.support:recyclerview-v7:28.0.0'
 implementation 'com.android.support:design:28.0.0'
 ```
 
+
+
 ## WIKI
+
 Detailed usage is in wiki，enjoy it:
 - [Introduce](https://github.com/li-xiaojun/XPopup/wiki/1.-%E4%BB%8B%E7%BB%8D)
 - [How to use built-in popups](https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0)
@@ -56,14 +65,18 @@ Detailed usage is in wiki，enjoy it:
 - [Popup settings](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
 
 
+
 ## Proguard
+
 ```
 -dontwarn com.lxj.xpopup.widget.**
 -keep class com.lxj.xpopup.widget.**{*;}
 ```
 
 
+
 ## Who are use XPopup
+
 I prefer you can [click here to provide](https://github.com/li-xiaojun/XPopup/issues/93)your App name，which will give me more passion to maintain this library。
 
 Base on information provided by some friends，they are using Xpopup:
@@ -74,9 +87,18 @@ Base on information provided by some friends，they are using Xpopup:
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 
 
+
+## Buy me a coffee
+
+If this library helped you，you can buy me a coffee. [reward list](https://github.com/li-xiaojun/XPopup/blob/master/reward-list.md)
+
+![](screenshot/pay.png)
+
+
+
 ## Contact way
 
-![](screenshot/qqgroup.png)
+QQ Group：**783659607**
 
 Gmail: lxj16167479@gmail.com
 
@@ -84,7 +106,10 @@ QQ Email: 16167479@qq.com
 
 QQ: 16167479
 
+
+
 ## Licenses
+
 ```
  Copyright 2019 li-xiaojun
 

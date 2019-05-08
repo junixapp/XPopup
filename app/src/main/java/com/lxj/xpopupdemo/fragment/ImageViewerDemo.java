@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -20,6 +21,8 @@ import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -41,12 +44,13 @@ public class ImageViewerDemo extends BaseFragment {
     RecyclerView recyclerView;
     ImageView image1, image2;
     ViewPager pager;
-
+    Button btn_custom;
     @Override
     public void init(View view) {
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
         pager = view.findViewById(R.id.pager);
+        btn_custom = view.findViewById(R.id.btn_custom);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -62,7 +66,7 @@ public class ImageViewerDemo extends BaseFragment {
         recyclerView.setAdapter(new ImageAdapter());
 
 
-        Glide.with(this).load(url1).apply(new RequestOptions().override(Target.SIZE_ORIGINAL).transform(new RoundedCorners(50))).into(image1);
+        Glide.with(this).load(url1).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL).transform(new RoundedCorners(50))).into(image1);
         Glide.with(this).load(url2).into(image2);
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +88,20 @@ public class ImageViewerDemo extends BaseFragment {
         //ViewPager bind data
         pager.setOffscreenPageLimit(list.size());
         pager.setAdapter(new ImagePagerAdapter());
+
+        btn_custom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //自定义的弹窗需要用asCustom来显示，之前的asImageViewer这些方法当然不能用了。
+                CustomImageViewerPopup viewerPopup = new CustomImageViewerPopup(getContext());
+                //自定义的ImageViewer弹窗需要自己手动设置相应的属性，必须设置的有srcView，url和imageLoader。
+                viewerPopup.setSingleSrcView(image2, url2);
+                viewerPopup.setXPopupImageLoader(new ImageLoader());
+                new XPopup.Builder(getContext())
+                        .asCustom(viewerPopup)
+                        .show();
+            }
+        });
     }
 
     class ImageAdapter extends EasyAdapter<Object> {
@@ -96,7 +114,8 @@ public class ImageViewerDemo extends BaseFragment {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
             //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
             // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
-            Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
+            Glide.with(imageView).load(s).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round)
+                    .override(Target.SIZE_ORIGINAL))
                     .into(imageView);
 
             //2. 设置点击
@@ -134,7 +153,7 @@ public class ImageViewerDemo extends BaseFragment {
             container.addView(imageView);
 
             //1. 加载图片
-            Glide.with(imageView).load(list.get(position)).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
+            Glide.with(imageView).load(list.get(position)).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL))
                     .into(imageView);
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +187,7 @@ public class ImageViewerDemo extends BaseFragment {
         @Override
         public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
             //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
-            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+            Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL)).into(imageView);
         }
 
         @Override

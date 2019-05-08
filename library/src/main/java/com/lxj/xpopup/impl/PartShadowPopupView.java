@@ -90,6 +90,13 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         }
         getPopupContentView().setLayoutParams(params);
 
+        attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                dismiss();
+                return false;
+            }
+        });
         attachPopupContainer.setOnClickOutsideListener(new OnClickOutsideListener() {
             @Override
             public void onClickOutside() {

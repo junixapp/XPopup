@@ -45,20 +45,26 @@
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
-![](screenshot/comment_edit.gif)
+![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
+
+
 
 ## 快速体验
+
 扫描二维码下载Demo：
 ![](screenshot/download.png)
 
 如果二维码图片不可见，[点我下载Demo体验](https://fir.im/2q63)
 
+
+
 ## Gradle
+
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.7.4'
+implementation 'com.lxj:xpopup:1.7.5'
 //for androidx.
-implementation 'com.lxj:xpopup:1.7.4-x'
+implementation 'com.lxj:xpopup:1.7.5-x'
 ```
 
 必须添加的依赖库：
@@ -69,7 +75,10 @@ implementation 'com.android.support:recyclerview-v7:28.0.0'
 implementation 'com.android.support:design:28.0.0'
 ```
 
+
+
 ## WIKI
+
 具体使用方法全在WIKI中，请查看下面各个章节：
 - [介绍](https://github.com/li-xiaojun/XPopup/wiki/1.-%E4%BB%8B%E7%BB%8D)
 - [如何使用内置的弹窗](https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0)
@@ -78,14 +87,18 @@ implementation 'com.android.support:design:28.0.0'
 - [常用设置](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
 
 
+
 ## 混淆
+
 ```
 -dontwarn com.lxj.xpopup.widget.**
 -keep class com.lxj.xpopup.widget.**{*;}
 ```
 
 
+
 ## 谁在用XPopup
+
 我本人很希望您能[点击这里附上](https://github.com/li-xiaojun/XPopup/issues/93)使用这个库的App名或者公司名，这样会给我更大的动力和热情去维护这个类库。
 
 根据热心朋友提供的信息，目前使用XPopup的产品和公司有：
@@ -96,9 +109,18 @@ implementation 'com.android.support:design:28.0.0'
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 
 
+
+## 打个赏
+
+如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏（打赏时可以附上自己的大名和Github地址），金额随意，以表支持。[打赏名单](https://github.com/li-xiaojun/XPopup/blob/master/reward-list.md)
+
+![](screenshot/pay.png)
+
+
+
 ## 联系方式
 
-![](screenshot/qqgroup.png)
+XPopup交流群：**783659607**
 
 Gmail: lxj16167479@gmail.com
 
@@ -106,7 +128,10 @@ QQ Email: 16167479@qq.com
 
 QQ: 16167479
 
+
+
 ## Licenses
+
 ```
  Copyright 2019 li-xiaojun
 

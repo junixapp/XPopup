@@ -1,6 +1,5 @@
 package com.lxj.xpopup.widget;
 
-import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.annotation.NonNull;
@@ -20,22 +19,17 @@ import com.lxj.xpopup.interfaces.OnDragChangeListener;
 public class PhotoViewContainer extends FrameLayout {
     private static final String TAG = "PhotoViewContainer";
     private ViewDragHelper dragHelper;
-    private ViewPager viewPager;
-    private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    public ViewPager viewPager;
     private int HideTopThreshold = 80;
     private int maxOffset;
     private OnDragChangeListener dragChangeListener;
-    public int blackColor = Color.rgb(32, 36, 46);
-    public boolean isReleaseing = false;
-
+    public boolean isReleasing = false;
     public PhotoViewContainer(@NonNull Context context) {
         this(context, null);
     }
-
     public PhotoViewContainer(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
-
     public PhotoViewContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
@@ -102,7 +96,7 @@ public class PhotoViewContainer extends FrameLayout {
     ViewDragHelper.Callback cb = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View view, int i) {
-            return !isReleaseing;
+            return !isReleasing;
         }
 
         @Override
@@ -137,7 +131,6 @@ public class PhotoViewContainer extends FrameLayout {
             viewPager.setScaleY(pageScale);
             changedView.setScaleX(pageScale);
             changedView.setScaleY(pageScale);
-            applyBgAnimation(fraction);
             if (dragChangeListener != null) {
                 dragChangeListener.onDragChange(dy, pageScale, fraction);
             }
@@ -165,10 +158,6 @@ public class PhotoViewContainer extends FrameLayout {
         }
     }
 
-    private void applyBgAnimation(float fraction) {
-        setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, blackColor, Color.TRANSPARENT));
-    }
-
     public int dip2px(float dpValue) {
         float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
@@ -181,6 +170,6 @@ public class PhotoViewContainer extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        isReleaseing = false;
+        isReleasing = false;
     }
 }
