@@ -61,11 +61,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected int position;
     protected Rect rect = null;
     protected ImageView srcView, snapshotView;
-    protected boolean isShowPlaceholder = true;
+    protected boolean isShowPlaceholder = true; //是否显示占位白色，当图片切换为大图时，原来的地方会有一个白色块
     protected int placeholderColor = -1; //占位View的颜色
     protected int placeholderStrokeColor = -1; // 占位View的边框色
     protected int placeholderRadius = -1; // 占位View的圆角
     protected boolean isShowSaveBtn = true; //是否显示保存按钮
+    protected boolean isShowIndicator = true; //是否页码指示器
     protected View customView;
     protected int bgColor = Color.rgb(32, 36, 46);//弹窗的背景颜色，可以自定义
 
@@ -111,7 +112,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 }
             }
         });
-        if (isShowSaveBtn) tv_save.setOnClickListener(this);
+        if(!isShowIndicator)tv_pager_indicator.setVisibility(GONE);
+        if (!isShowSaveBtn) {
+            tv_save.setVisibility(GONE);
+        }else {
+            tv_save.setOnClickListener(this);
+        }
     }
 
     private void setupPlaceholder() {
@@ -135,7 +141,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     private void showPagerIndicator() {
         if (urls.size() > 1) {
-            tv_pager_indicator.setVisibility(VISIBLE);
             tv_pager_indicator.setText((position + 1) + "/" + urls.size());
         }
         if (isShowSaveBtn) tv_save.setVisibility(VISIBLE);
@@ -287,11 +292,31 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
+    /**
+     * 是否显示白色占位区块
+     * @param isShow
+     * @return
+     */
     public ImageViewerPopupView isShowPlaceholder(boolean isShow) {
         this.isShowPlaceholder = isShow;
         return this;
     }
 
+    /**
+     * 是否显示页码指示器
+     * @param isShow
+     * @return
+     */
+    public ImageViewerPopupView isShowIndicator(boolean isShow) {
+        this.isShowIndicator = isShow;
+        return this;
+    }
+
+    /**
+     * 是否显示保存按钮
+     * @param isShowSaveBtn
+     * @return
+     */
     public ImageViewerPopupView isShowSaveButton(boolean isShowSaveBtn) {
         this.isShowSaveBtn = isShowSaveBtn;
         return this;
