@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,28 +82,35 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         });
         recyclerView.setAdapter(adapter);
     }
+
+    private void showPartShadow(final View v){
+        if(popupView!=null && popupView.isShow())return;
+        popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
+                .atView(v)
+                .setPopupCallback(new XPopupCallback() {
+                    @Override
+                    public void onShow() {
+                        toast("显示了");
+                    }
+                    @Override
+                    public void onDismiss() {
+                        popupView = null;
+                        showPartShadow(v);
+                    }
+                })
+                .asCustom(new CustomPartShadowPopupView(getContext()));
+        popupView.show();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_all:
             case R.id.tv_price:
             case R.id.tv_sales:
-                if(popupView==null){
-                    popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
-                            .atView(v)
-                            .setPopupCallback(new XPopupCallback() {
-                                @Override
-                                public void onShow() {
-                                    toast("显示了");
-                                }
-                                @Override
-                                public void onDismiss() {
-                                    toast("关闭了");
-                                }
-                            })
-                            .asCustom(new CustomPartShadowPopupView(getContext()));
-                }
-                popupView.toggle();
+                if(popupView==null){}
+                showPartShadow(v);
+
                 break;
             case R.id.tv_filter:
                 new XPopup.Builder(getContext())
