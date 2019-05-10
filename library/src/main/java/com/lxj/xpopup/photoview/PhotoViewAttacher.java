@@ -176,7 +176,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         // Create Gesture Detectors...
         mScaleDragDetector = new CustomGestureDetector(imageView.getContext(), onGestureListener);
         mGestureDetector = new GestureDetector(imageView.getContext(), new GestureDetector.SimpleOnGestureListener() {
-
             // forward long click listener
             @Override
             public void onLongPress(MotionEvent e) {
@@ -234,6 +233,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
             @Override
             public boolean onDoubleTap(MotionEvent ev) {
+                Log.e("tag", "onDoubleTap");
                 try {
                     float scale = getScale();
                     float x = ev.getX();
@@ -254,7 +254,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             @Override
             public boolean onDoubleTapEvent(MotionEvent e) {
                 // Wait for the confirmed onDoubleTap() instead
-                return false;
+                return true;
             }
         });
     }
@@ -355,9 +355,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                     // event
                     if (parent != null) {
                         parent.requestDisallowInterceptTouchEvent(true);
-//                        MotionEvent event = MotionEvent.obtain(ev);
-//                        event.setAction(MotionEvent.ACTION_DOWN);
-//                        ((ViewGroup)parent).onTouchEvent(event);
                     }
                     // If we're flinging, and the user presses down, cancel
                     // fling
@@ -395,6 +392,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             if (mScaleDragDetector != null) {
                 boolean wasScaling = mScaleDragDetector.isScaling();
                 boolean wasDragging = mScaleDragDetector.isDragging();
+                Log.e("tag", "wasScaling: " +wasScaling + "  wasDragging: "+wasDragging);
                 handled = mScaleDragDetector.onTouchEvent(ev);
                 boolean didntScale = !wasScaling && !mScaleDragDetector.isScaling();
                 boolean didntDrag = !wasDragging && !mScaleDragDetector.isDragging();
@@ -680,7 +678,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         final float height = rect.height(), width = rect.width();
         float deltaX = 0, deltaY = 0;
         final int viewHeight = getImageViewHeight(mImageView);
-        Log.e("tag", "rect: " + rect.toShortString() + " viewHeight: " + viewHeight);
         if (height <= viewHeight && rect.top >= 0) {
             switch (mScaleType) {
                 case FIT_START:

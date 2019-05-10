@@ -16,6 +16,7 @@
 package com.lxj.xpopup.photoview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.VelocityTracker;
@@ -52,10 +53,10 @@ class CustomGestureDetector {
             @Override
             public boolean onScale(ScaleGestureDetector detector) {
                 float scaleFactor = detector.getScaleFactor();
-
                 if (Float.isNaN(scaleFactor) || Float.isInfinite(scaleFactor))
                     return false;
-             
+
+                Log.e("tag", " onScale: " + scaleFactor);
                 if (scaleFactor >= 0) {
                     mListener.onScale(scaleFactor,
                             detector.getFocusX(), detector.getFocusY());
@@ -102,7 +103,8 @@ class CustomGestureDetector {
 
     public boolean onTouchEvent(MotionEvent ev) {
         try {
-            mDetector.onTouchEvent(ev);
+            if(ev.getPointerCount()>1)
+                mDetector.onTouchEvent(ev);
             return processTouchEvent(ev);
         } catch (IllegalArgumentException e) {
             // Fix for support lib bug, happening when onDestroy is called
