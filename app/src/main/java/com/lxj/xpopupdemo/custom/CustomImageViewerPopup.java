@@ -1,7 +1,7 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopupdemo.R;
 
