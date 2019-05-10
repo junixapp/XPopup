@@ -453,7 +453,10 @@ public abstract class BasePopupView extends FrameLayout {
             if (popupInfo != null && popupInfo.xPopupCallback != null) {
                 popupInfo.xPopupCallback.onDismiss();
             }
-            if (dismissWithRunnable != null) dismissWithRunnable.run();
+            if (dismissWithRunnable != null) {
+                dismissWithRunnable.run();
+                dismissWithRunnable = null;//no cache, avoid some bad edge effect.
+            }
             popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
             if (popupInfo.isRequestFocus) {
