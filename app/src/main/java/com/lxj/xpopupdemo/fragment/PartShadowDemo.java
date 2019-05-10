@@ -87,6 +87,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
 //        if(popupView!=null && popupView.isShow())return;
         popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                 .atView(v)
+//                .dismissOnTouchOutside(false)
                 .setPopupCallback(new XPopupCallback() {
                     @Override
                     public void onShow() {
