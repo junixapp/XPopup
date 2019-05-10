@@ -8,7 +8,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -96,7 +95,6 @@ public class PhotoViewContainer extends FrameLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         boolean result = dragHelper.shouldInterceptTouchEvent(ev);
         if (ev.getPointerCount() > 1 && ev.getAction()==MotionEvent.ACTION_MOVE) return false;
-        Log.e("tag", "isTopOrBottomEnd():  " + isTopOrBottomEnd() + " isVertical: "+isVertical);
         if (isTopOrBottomEnd()  && isVertical)return true;
         return result && isVertical;
     }

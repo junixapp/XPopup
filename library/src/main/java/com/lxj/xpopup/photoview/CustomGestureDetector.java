@@ -16,7 +16,6 @@
 package com.lxj.xpopup.photoview;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.VelocityTracker;
@@ -55,8 +54,6 @@ class CustomGestureDetector {
                 float scaleFactor = detector.getScaleFactor();
                 if (Float.isNaN(scaleFactor) || Float.isInfinite(scaleFactor))
                     return false;
-
-                Log.e("tag", " onScale: " + scaleFactor);
                 if (scaleFactor >= 0) {
                     mListener.onScale(scaleFactor,
                             detector.getFocusX(), detector.getFocusY());

@@ -20,13 +20,10 @@ import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -34,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.OverScroller;
 
-import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * The component of which does the work allowing for zooming, scaling, panning, etc.
@@ -45,7 +41,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         View.OnLayoutChangeListener {
 
     private static float DEFAULT_MAX_SCALE = 4.0f;
-    private static float DEFAULT_MID_SCALE = 2f;
+    private static float DEFAULT_MID_SCALE = 2.5f;
     private static float DEFAULT_MIN_SCALE = 1.0f;
     private static int DEFAULT_ZOOM_DURATION = 200;
 
@@ -99,6 +95,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     public boolean isTopEnd, isBottomEnd, isLeftEnd, isRightEnd = false;
     public boolean isVertical, isHorizontal;
     private boolean mZoomEnabled = true;
+    private boolean isLongImage = false;//是否是长图
     private ScaleType mScaleType = ScaleType.FIT_CENTER;
     private OnGestureListener onGestureListener = new OnGestureListener() {
         @Override
@@ -109,14 +106,8 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             if (mOnViewDragListener != null) {
                 mOnViewDragListener.onDrag(dx, dy);
             }
-            final RectF rect = getDisplayRect(getDrawMatrix());
-            if (rect != null) {
-                mSuppMatrix.postTranslate(dx, dy);
-                checkAndDisplayMatrix();
-            } else {
-                mSuppMatrix.postTranslate(dx, dy);
-                checkAndDisplayMatrix();
-            }
+            mSuppMatrix.postTranslate(dx, dy);
+            checkAndDisplayMatrix();
             isTopEnd = (mVerticalScrollEdge == VERTICAL_EDGE_TOP) && getScale() != 1f;
             isBottomEnd = (mVerticalScrollEdge == VERTICAL_EDGE_BOTTOM) && getScale() != 1f;
             isLeftEnd = (mHorizontalScrollEdge == HORIZONTAL_EDGE_LEFT) && getScale() != 1f;
@@ -124,24 +115,33 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
             ViewParent parent = mImageView.getParent();
             if (parent == null) return;
-            Log.e("tag", "isTopEnd: " + isTopEnd + " isBottomEnd: " + isBottomEnd
-                    + " isLeftEnd:" + isLeftEnd + "  isRightEnd: " + isRightEnd);
-            Log.e("tag", "isHorizontal: " + isHorizontal + "  isVertical: " + isVertical);
             if (mAllowParentInterceptOnEdge && !mScaleDragDetector.isScaling() && !mBlockParentIntercept) {
-                if (mHorizontalScrollEdge == HORIZONTAL_EDGE_BOTH
+                if ((mHorizontalScrollEdge == HORIZONTAL_EDGE_BOTH && !isLongImage)
                         || (mHorizontalScrollEdge == HORIZONTAL_EDGE_LEFT && dx >= 0f && isHorizontal)
                         || (mHorizontalScrollEdge == HORIZONTAL_EDGE_RIGHT && dx <= -0f && isHorizontal)
 //                        || (mVerticalScrollEdge == VERTICAL_EDGE_TOP && dy >= 1f)
 //                        || (mVerticalScrollEdge == VERTICAL_EDGE_BOTTOM && dy <= -1f)
                 ) {
                     parent.requestDisallowInterceptTouchEvent(false);
-                } else if (mVerticalScrollEdge == VERTICAL_EDGE_BOTH
+                } else if ((mVerticalScrollEdge == VERTICAL_EDGE_BOTH && isVertical)
                         || (isTopEnd && dy > 0 && isVertical)
                         || (isBottomEnd && dy < 0 && isVertical)) {
                     parent.requestDisallowInterceptTouchEvent(false);
+                } else if (isLongImage) {
+                    //长图特殊上下滑动
+                    if ((mVerticalScrollEdge == VERTICAL_EDGE_TOP && dy > 0 && isVertical)
+                      || (mVerticalScrollEdge == VERTICAL_EDGE_BOTTOM && dy < 0 && isVertical)) {
+                        parent.requestDisallowInterceptTouchEvent(false);
+                    }
                 }
+
             } else {
-                parent.requestDisallowInterceptTouchEvent(true);
+                if (mHorizontalScrollEdge == HORIZONTAL_EDGE_BOTH && isLongImage && isHorizontal) {
+                    //长图左右滑动
+                    parent.requestDisallowInterceptTouchEvent(false);
+                }else{
+                    parent.requestDisallowInterceptTouchEvent(true);
+                }
             }
         }
 
@@ -233,7 +233,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
             @Override
             public boolean onDoubleTap(MotionEvent ev) {
-                Log.e("tag", "onDoubleTap");
                 try {
                     float scale = getScale();
                     float x = ev.getX();
@@ -353,12 +352,13 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                     ViewParent parent = v.getParent();
                     // First, disable the Parent from intercepting the touch
                     // event
-                    if (parent != null) {
-                        parent.requestDisallowInterceptTouchEvent(true);
-                    }
                     // If we're flinging, and the user presses down, cancel
                     // fling
                     cancelFling();
+                    if (parent != null) {
+                        parent.requestDisallowInterceptTouchEvent(true);
+                    }
+
                     break;
                 case MotionEvent.ACTION_CANCEL:
                 case MotionEvent.ACTION_UP:
@@ -384,15 +384,19 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                 case MotionEvent.ACTION_MOVE:
                     float dx = Math.abs(ev.getX() - x);
                     float dy = Math.abs(ev.getY() - y);
-                    isVertical = (getScale() != 1.0 && dy > dx * 2);
-                    isHorizontal = (getScale() != 1.0 && dx > dy * 2);
+                    if(isLongImage){
+                        isVertical = dy > dx;
+                        isHorizontal = dx > dy * 2;
+                    }else {
+                        isVertical = (getScale() != 1.0 && dy > dx);
+                        isHorizontal = (getScale() != 1.0 && dx > dy * 2);
+                    }
                     break;
             }
             // Try the Scale/Drag detector
             if (mScaleDragDetector != null) {
                 boolean wasScaling = mScaleDragDetector.isScaling();
                 boolean wasDragging = mScaleDragDetector.isDragging();
-                Log.e("tag", "wasScaling: " +wasScaling + "  wasDragging: "+wasDragging);
                 handled = mScaleDragDetector.onTouchEvent(ev);
                 boolean didntScale = !wasScaling && !mScaleDragDetector.isScaling();
                 boolean didntDrag = !wasDragging && !mScaleDragDetector.isDragging();
@@ -648,10 +652,15 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             }
             switch (mScaleType) {
                 case FIT_CENTER:
-                    mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.CENTER);
-                    // for long image.
-                    if (drawableHeight > viewHeight && drawableHeight > drawableWidth) {
-                        mBaseMatrix.postScale(widthScale, widthScale);
+                    // for long image, 图片高>view高，比例也大于view的高/宽，则认为是长图
+                    if (drawableHeight > viewHeight && drawableHeight * 1f / drawableWidth > viewHeight * 1f / viewWidth) {
+//                        mBaseMatrix.postScale(widthScale, widthScale);
+//                        setScale(widthScale);
+                        //长图特殊处理，宽度撑满屏幕，并且顶部对齐
+                        isLongImage = true;
+                        mBaseMatrix.setRectToRect(mTempSrc, new RectF(0, 0, viewWidth, drawableHeight * widthScale), ScaleToFit.START);
+                    } else {
+                        mBaseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.CENTER);
                     }
                     break;
                 case FIT_START:
@@ -701,6 +710,8 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             mVerticalScrollEdge = VERTICAL_EDGE_NONE;
         }
         final int viewWidth = getImageViewWidth(mImageView);
+//        Log.e("tag", "rect: " + rect.toShortString() + " viewWidth: " + viewWidth + " viewHeight: " + viewHeight
+//                + " recLeft: " + rect.left + "  recRight: " + rect.right + " mHorizontalScrollEdge: " + mHorizontalScrollEdge);
         if (width <= viewWidth && rect.left >= 0) {
             switch (mScaleType) {
                 case FIT_START:

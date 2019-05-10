@@ -276,7 +276,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public void dismiss() {
         if (popupStatus != PopupStatus.Show) return;
         popupStatus = PopupStatus.Dismissing;
-        //snapshotView拥有当前pager中photoView的样子
+        //snapshotView拥有当前pager中photoView的样子(matrix)
         PhotoView current = (PhotoView) pager.getChildAt(pager.getCurrentItem());
         if(current!=null){
             Matrix matrix = new Matrix();
