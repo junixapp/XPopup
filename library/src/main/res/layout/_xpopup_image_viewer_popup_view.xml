@@ -30,8 +30,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginBottom="20dp"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:visibility="invisible" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/tv_save"

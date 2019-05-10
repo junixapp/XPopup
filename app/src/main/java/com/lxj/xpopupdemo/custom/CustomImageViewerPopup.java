@@ -1,9 +1,7 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
-
+import android.support.annotation.NonNull;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopupdemo.R;
 
@@ -19,5 +17,11 @@ public class CustomImageViewerPopup extends ImageViewerPopupView {
     @Override
     protected int getImplLayoutId() {
         return R.layout.custom_image_viewer_popup;
+    }
+
+    @Override
+    protected void onCreate() {
+        super.onCreate();
+//        tv_pager_indicator.setVisibility(GONE);
     }
 }

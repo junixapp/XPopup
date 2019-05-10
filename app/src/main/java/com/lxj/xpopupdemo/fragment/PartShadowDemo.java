@@ -1,10 +1,12 @@
 package com.lxj.xpopupdemo.fragment;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-
+import android.widget.Toast;
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
@@ -14,6 +16,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.XPopupApp;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView;
 import java.util.ArrayList;
@@ -79,28 +82,36 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         });
         recyclerView.setAdapter(adapter);
     }
+
+    private void showPartShadow(final View v){
+//        if(popupView!=null && popupView.isShow())return;
+        popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
+                .atView(v)
+//                .dismissOnTouchOutside(false)
+                .setPopupCallback(new XPopupCallback() {
+                    @Override
+                    public void onShow() {
+                        toast("显示了");
+                    }
+                    @Override
+                    public void onDismiss() {
+                        popupView = null;
+//                        showPartShadow(v);
+                    }
+                })
+                .asCustom(new CustomPartShadowPopupView(getContext()));
+        popupView.show();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_all:
             case R.id.tv_price:
             case R.id.tv_sales:
-                if(popupView==null){
-                    popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
-                            .atView(v)
-                            .setPopupCallback(new XPopupCallback() {
-                                @Override
-                                public void onShow() {
-                                    toast("显示了");
-                                }
-                                @Override
-                                public void onDismiss() {
-                                    toast("关闭了");
-                                }
-                            })
-                            .asCustom(new CustomPartShadowPopupView(getContext()));
-                }
-                popupView.toggle();
+                if(popupView==null){}
+                showPartShadow(v);
+
                 break;
             case R.id.tv_filter:
                 new XPopup.Builder(getContext())

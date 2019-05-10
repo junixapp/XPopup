@@ -46,7 +46,7 @@ public class ImageViewerDemo extends BaseFragment {
     ViewPager pager;
     Button btn_custom;
     @Override
-    public void init(View view) {
+    public void init(final View view) {
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
         pager = view.findViewById(R.id.pager);
@@ -97,6 +97,9 @@ public class ImageViewerDemo extends BaseFragment {
                 //自定义的ImageViewer弹窗需要自己手动设置相应的属性，必须设置的有srcView，url和imageLoader。
                 viewerPopup.setSingleSrcView(image2, url2);
                 viewerPopup.setXPopupImageLoader(new ImageLoader());
+//                viewerPopup.isShowIndicator(false);//是否显示页码指示器
+//                viewerPopup.isShowPlaceholder(false);//是否显示白色占位块
+//                viewerPopup.isShowSaveButton(false);//是否显示保存按钮
                 new XPopup.Builder(getContext())
                         .asCustom(viewerPopup)
                         .show();

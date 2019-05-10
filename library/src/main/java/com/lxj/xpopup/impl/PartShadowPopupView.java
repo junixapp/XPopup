@@ -93,14 +93,14 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                dismiss();
+                if(popupInfo.isDismissOnTouchOutside)dismiss();
                 return false;
             }
         });
         attachPopupContainer.setOnClickOutsideListener(new OnClickOutsideListener() {
             @Override
             public void onClickOutside() {
-                dismiss();
+                if(popupInfo.isDismissOnTouchOutside)dismiss();
             }
         });
     }
@@ -108,8 +108,10 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     //让触摸透过
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        dismiss();
-        return false;
+        if(popupInfo.isDismissOnTouchOutside){
+            dismiss();
+        }
+        return !popupInfo.isDismissOnTouchOutside;
     }
 
     @Override
