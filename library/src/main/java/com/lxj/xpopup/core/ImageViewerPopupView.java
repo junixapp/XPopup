@@ -6,6 +6,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -60,7 +61,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected OnSrcViewUpdateListener srcViewUpdateListener;
     protected int position;
     protected Rect rect = null;
-    protected ImageView srcView, snapshotView;
+    protected ImageView srcView;
+    protected PhotoView snapshotView;
     protected boolean isShowPlaceholder = true; //是否显示占位白色，当图片切换为大图时，原来的地方会有一个白色块
     protected int placeholderColor = -1; //占位View的颜色
     protected int placeholderStrokeColor = -1; // 占位View的边框色
@@ -274,6 +276,14 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public void dismiss() {
         if (popupStatus != PopupStatus.Show) return;
         popupStatus = PopupStatus.Dismissing;
+        //snapshotView拥有当前pager中photoView的样子
+        PhotoView current = (PhotoView) pager.getChildAt(pager.getCurrentItem());
+        if(current!=null){
+            Matrix matrix = new Matrix();
+            current.getSuppMatrix(matrix);
+            snapshotView.setSuppMatrix(matrix);
+        }
+
         doDismissAnimation();
     }
 

@@ -8,10 +8,12 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
+import com.lxj.xpopup.photoview.PhotoView;
 
 /**
  * wrap ViewPager, process drag event.
@@ -81,15 +83,31 @@ public class PhotoViewContainer extends FrameLayout {
         return super.dispatchTouchEvent(ev);
     }
 
+    private boolean isTopOrBottomEnd(){
+        PhotoView photoView = getCurrentPhotoView();
+        return photoView!=null && (photoView.attacher.isTopEnd || photoView.attacher.isBottomEnd);
+    }
+
+    private PhotoView getCurrentPhotoView(){
+        return  (PhotoView) viewPager.getChildAt(viewPager.getCurrentItem());
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getPointerCount() > 1) return false;
-        return dragHelper.shouldInterceptTouchEvent(ev) && isVertical;
+        boolean result = dragHelper.shouldInterceptTouchEvent(ev);
+        if (ev.getPointerCount() > 1 && ev.getAction()==MotionEvent.ACTION_MOVE) return false;
+        Log.e("tag", "isTopOrBottomEnd():  " + isTopOrBottomEnd() + " isVertical: "+isVertical);
+        if (isTopOrBottomEnd()  && isVertical)return true;
+        return result && isVertical;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        dragHelper.processTouchEvent(ev);
+        if (ev.getPointerCount() > 1 ) return false;
+        try {
+            dragHelper.processTouchEvent(ev);
+            return true;
+        }catch (Exception e){}
         return true;
     }
 
@@ -102,11 +120,6 @@ public class PhotoViewContainer extends FrameLayout {
         @Override
         public int getViewVerticalDragRange(@NonNull View child) {
             return 1;
-        }
-
-        @Override
-        public int getViewHorizontalDragRange(@NonNull View child) {
-            return 0;
         }
 
         @Override

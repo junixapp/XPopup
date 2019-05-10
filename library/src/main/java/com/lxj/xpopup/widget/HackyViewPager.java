@@ -18,6 +18,7 @@ public class HackyViewPager extends ViewPager {
     public HackyViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         try {
