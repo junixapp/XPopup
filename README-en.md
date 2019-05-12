@@ -85,7 +85,7 @@ Base on information provided by some friends，they are using Xpopup:
 - 变福侠App
 - 进境肉牛检疫追溯系统(App端)
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
-
+- 爱勘(ican)App
 
 
 ## Buy me a coffee
