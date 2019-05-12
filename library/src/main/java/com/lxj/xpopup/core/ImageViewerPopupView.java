@@ -61,7 +61,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected OnSrcViewUpdateListener srcViewUpdateListener;
     protected int position;
     protected Rect rect = null;
-    protected ImageView srcView;
+    protected ImageView srcView; //动画起始的View，如果为null，移动和过渡动画效果会没有，只有弹窗的缩放功能
     protected PhotoView snapshotView;
     protected boolean isShowPlaceholder = true; //是否显示占位白色，当图片切换为大图时，原来的地方会有一个白色块
     protected int placeholderColor = -1; //占位View的颜色
@@ -109,7 +109,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 position = i;
                 showPagerIndicator();
                 //更新srcView
-                if (srcViewUpdateListener != null) {
+                if (srcViewUpdateListener != null && srcView!=null) {
                     srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, i);
                 }
             }
@@ -149,6 +149,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     }
 
     private void addOrUpdateSnapshot() {
+        if(srcView==null)return;
         if (snapshotView == null) {
             snapshotView = new PhotoView(getContext());
             photoViewContainer.addView(snapshotView);
@@ -168,6 +169,14 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void doShowAnimation() {
+        if(srcView==null){
+            photoViewContainer.setBackgroundColor(bgColor);
+            pager.setVisibility(VISIBLE);
+            showPagerIndicator();
+            photoViewContainer.isReleasing = false;
+            ImageViewerPopupView.super.doAfterShow();
+            return;
+        }
         photoViewContainer.isReleasing = true;
         snapshotView.setVisibility(VISIBLE);
         if (customView != null) customView.setVisibility(VISIBLE);
@@ -221,6 +230,13 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     @Override
     public void doDismissAnimation() {
+        if(srcView==null){
+            photoViewContainer.setBackgroundColor(Color.TRANSPARENT);
+            doAfterDismiss();
+            pager.setVisibility(INVISIBLE);
+            placeholderView.setVisibility(INVISIBLE);
+            return;
+        }
         tv_pager_indicator.setVisibility(INVISIBLE);
         tv_save.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
@@ -276,14 +292,15 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public void dismiss() {
         if (popupStatus != PopupStatus.Show) return;
         popupStatus = PopupStatus.Dismissing;
-        //snapshotView拥有当前pager中photoView的样子(matrix)
-        PhotoView current = (PhotoView) pager.getChildAt(pager.getCurrentItem());
-        if(current!=null){
-            Matrix matrix = new Matrix();
-            current.getSuppMatrix(matrix);
-            snapshotView.setSuppMatrix(matrix);
+        if(srcView!=null){
+            //snapshotView拥有当前pager中photoView的样子(matrix)
+            PhotoView current = (PhotoView) pager.getChildAt(pager.getCurrentItem());
+            if(current!=null){
+                Matrix matrix = new Matrix();
+                current.getSuppMatrix(matrix);
+                snapshotView.setSuppMatrix(matrix);
+            }
         }
-
         doDismissAnimation();
     }
 
@@ -366,9 +383,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public ImageViewerPopupView setSrcView(ImageView srcView, int position) {
         this.srcView = srcView;
         this.position = position;
-        int[] locations = new int[2];
-        this.srcView.getLocationInWindow(locations);
-        rect = new Rect(locations[0], locations[1], locations[0] + srcView.getWidth(), locations[1] + srcView.getHeight());
+        if(srcView!=null) {
+            int[] locations = new int[2];
+            this.srcView.getLocationInWindow(locations);
+            rect = new Rect(locations[0], locations[1], locations[0] + srcView.getWidth(), locations[1] + srcView.getHeight());
+        }
         return this;
     }
 
