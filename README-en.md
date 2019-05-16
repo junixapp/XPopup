@@ -40,9 +40,9 @@ If the qrcode is invisible，[click me to download Demo.apk](https://fir.im/2q63
 
 First, you need add gradle dependency：
 ```groovy
-implementation 'com.lxj:xpopup:1.7.7'
+implementation 'com.lxj:xpopup:1.7.8'
 //for androidx.
-implementation 'com.lxj:xpopup:1.7.7-x'
+implementation 'com.lxj:xpopup:1.7.8-x'
 ```
 
 Second, you also need these：
