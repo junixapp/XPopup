@@ -146,7 +146,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     private void showPagerIndicator() {
         if (urls.size() > 1) {
-            tv_pager_indicator.setText((position + 1) + "/" + urls.size());
+            int posi = isInfinite ? position%urls.size(): position;
+            tv_pager_indicator.setText((posi + 1) + "/" + urls.size());
         }
         if (isShowSaveBtn) tv_save.setVisibility(VISIBLE);
     }
