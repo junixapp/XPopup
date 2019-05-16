@@ -497,17 +497,19 @@ public class XPopup {
          *
          * @param srcView           源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
          * @param url               资源id，url或者文件路径
+         * @param isInfinite         是否需要无限滚动
          * @param placeholderColor  占位View的填充色，默认为-1
          * @param placeholderStroke 占位View的边框色，默认为-1
          * @param placeholderRadius 占位View的圆角大小，默认为-1
          * @param isShowSaveBtn     是否显示保存按钮，默认显示
          * @return
          */
-        public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, int placeholderColor, int placeholderStroke, int placeholderRadius,
+        public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, boolean isInfinite, int placeholderColor, int placeholderStroke, int placeholderRadius,
                                                   boolean isShowSaveBtn, XPopupImageLoader imageLoader) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSingleSrcView(srcView, url)
+                    .isInfinite(isInfinite)
                     .setPlaceholderColor(placeholderColor)
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)
@@ -528,7 +530,7 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
+            return asImageViewer(srcView, currentPosition, urls, false, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
         }
 
         /**
@@ -537,6 +539,7 @@ public class XPopup {
          * @param srcView               源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
          * @param currentPosition       指定显示图片的位置
          * @param urls                  图片url集合
+         * @param isInfinite            是否需要无限滚动
          * @param placeholderColor      占位View的填充色，默认为-1
          * @param placeholderStroke     占位View的边框色，默认为-1
          * @param placeholderRadius     占位View的圆角大小，默认为-1
@@ -545,12 +548,14 @@ public class XPopup {
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
+                                                  boolean isInfinite,
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius, boolean isShowSaveBtn,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSrcView(srcView, currentPosition)
                     .setImageUrls(urls)
+                    .isInfinite(isInfinite)
                     .setPlaceholderColor(placeholderColor)
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)

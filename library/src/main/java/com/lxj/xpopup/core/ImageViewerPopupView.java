@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.lxj.xpermission.PermissionConstants;
 import com.lxj.xpermission.XPermission;
 import com.lxj.xpopup.R;
@@ -41,6 +42,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +71,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected int placeholderRadius = -1; // 占位View的圆角
     protected boolean isShowSaveBtn = true; //是否显示保存按钮
     protected boolean isShowIndicator = true; //是否页码指示器
+    protected boolean isInfinite = false;//是否需要无限滚动
     protected View customView;
     protected int bgColor = Color.rgb(32, 36, 46);//弹窗的背景颜色，可以自定义
 
@@ -110,14 +113,14 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 showPagerIndicator();
                 //更新srcView
                 if (srcViewUpdateListener != null) {
-                    srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, i);
+                    srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, isInfinite ? i % urls.size() : i);
                 }
             }
         });
-        if(!isShowIndicator)tv_pager_indicator.setVisibility(GONE);
+        if (!isShowIndicator) tv_pager_indicator.setVisibility(GONE);
         if (!isShowSaveBtn) {
             tv_save.setVisibility(GONE);
-        }else {
+        } else {
             tv_save.setOnClickListener(this);
         }
     }
@@ -278,7 +281,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         popupStatus = PopupStatus.Dismissing;
         //snapshotView拥有当前pager中photoView的样子(matrix)
         PhotoView current = (PhotoView) pager.getChildAt(pager.getCurrentItem());
-        if(current!=null){
+        if (current != null) {
             Matrix matrix = new Matrix();
             current.getSuppMatrix(matrix);
             snapshotView.setSuppMatrix(matrix);
@@ -304,6 +307,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     /**
      * 是否显示白色占位区块
+     *
      * @param isShow
      * @return
      */
@@ -314,6 +318,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     /**
      * 是否显示页码指示器
+     *
      * @param isShow
      * @return
      */
@@ -324,11 +329,17 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     /**
      * 是否显示保存按钮
+     *
      * @param isShowSaveBtn
      * @return
      */
     public ImageViewerPopupView isShowSaveButton(boolean isShowSaveBtn) {
         this.isShowSaveBtn = isShowSaveBtn;
+        return this;
+    }
+
+    public ImageViewerPopupView isInfinite(boolean isInfinite) {
+        this.isInfinite = isInfinite;
         return this;
     }
 
@@ -404,7 +415,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     /**
      * 保存图片到相册，会自动检查是否有保存权限
      */
-    protected void save(){
+    protected void save() {
         //check permission
         XPermission.create(getContext(), PermissionConstants.STORAGE)
                 .callback(new XPermission.SimpleCallback() {
@@ -413,40 +424,43 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         //save bitmap to album.
                         XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(position));
                     }
+
                     @Override
                     public void onDenied() {
                         Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
                     }
                 }).request();
     }
+
     public class PhotoViewAdapter extends PagerAdapter {
         @Override
         public int getCount() {
-            return urls.size();
+            return isInfinite ? Integer.MAX_VALUE / 2 : urls.size();
         }
+
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
             return o == view;
         }
+
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             final PhotoView photoView = new PhotoView(container.getContext());
             // call LoadImageListener
             if (imageLoader != null) {
-                imageLoader.loadImage(position, urls.get(position), photoView);
+                imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView);
             }
             container.addView(photoView);
             photoView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (photoView.getScale() == 1.0f) {
-                        dismiss();
-                    }
+                    dismiss();
                 }
             });
             return photoView;
         }
+
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             container.removeView((View) object);
