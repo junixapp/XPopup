@@ -497,7 +497,7 @@ public class XPopup {
          *
          * @param srcView           源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
          * @param url               资源id，url或者文件路径
-         * @param isInfinite         是否需要无限滚动
+         * @param isInfinite        是否需要无限滚动，默认为false
          * @param placeholderColor  占位View的填充色，默认为-1
          * @param placeholderStroke 占位View的边框色，默认为-1
          * @param placeholderRadius 占位View的圆角大小，默认为-1
@@ -539,7 +539,7 @@ public class XPopup {
          * @param srcView               源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
          * @param currentPosition       指定显示图片的位置
          * @param urls                  图片url集合
-         * @param isInfinite            是否需要无限滚动
+         * @param isInfinite            是否需要无限滚动，默认为false
          * @param placeholderColor      占位View的填充色，默认为-1
          * @param placeholderStroke     占位View的边框色，默认为-1
          * @param placeholderRadius     占位View的圆角大小，默认为-1
