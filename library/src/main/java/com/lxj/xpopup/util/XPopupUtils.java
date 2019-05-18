@@ -234,7 +234,12 @@ public class XPopupUtils {
                 return;
             }
         }
-        if (pv instanceof CenterPopupView) {
+        if (pv instanceof FullScreenPopupView) {
+            int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
+            if (focusEt != null && overflowHeight > 0) {
+                dy = overflowHeight;
+            }
+        } else if (pv instanceof CenterPopupView) {
             int targetY = keyboardHeight - (windowHeight - popupHeight + getStatusBarHeight()) / 2; //上移到下边贴着输入法的高度
 
             if (focusEt != null && focusEtTop - targetY < 0) {

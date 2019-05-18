@@ -480,7 +480,7 @@ public class XPopup {
         /**
          * 大图浏览类型弹窗，单张图片使用场景
          *
-         * @param srcView 源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
+         * @param srcView 源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置。如果实在没有这个View，可以传空，但是动画变的非常僵硬，适用于在Webview点击场景
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, XPopupImageLoader imageLoader) {
@@ -495,7 +495,7 @@ public class XPopup {
         /**
          * 大图浏览类型弹窗，单张图片使用场景
          *
-         * @param srcView           源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
+         * @param srcView           源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置。如果实在没有这个View，可以传空，但是动画变的非常僵硬，适用于在Webview点击场景
          * @param url               资源id，url或者文件路径
          * @param isInfinite        是否需要无限滚动，默认为false
          * @param placeholderColor  占位View的填充色，默认为-1
@@ -522,7 +522,7 @@ public class XPopup {
         /**
          * 大图浏览类型弹窗，多张图片使用场景
          *
-         * @param srcView               源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
+         * @param srcView               源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置。如果实在没有这个View，可以传空，但是动画变的非常僵硬，适用于在Webview点击场景
          * @param currentPosition       指定显示图片的位置
          * @param urls                  图片url集合
          * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
@@ -536,7 +536,7 @@ public class XPopup {
         /**
          * 大图浏览类型弹窗，多张图片使用场景
          *
-         * @param srcView               源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置
+         * @param srcView               源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置。如果实在没有这个View，可以传空，但是动画变的非常僵硬，适用于在Webview点击场景
          * @param currentPosition       指定显示图片的位置
          * @param urls                  图片url集合
          * @param isInfinite            是否需要无限滚动，默认为false

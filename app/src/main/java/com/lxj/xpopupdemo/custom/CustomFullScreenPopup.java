@@ -28,16 +28,16 @@ public class CustomFullScreenPopup extends FullScreenPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        recyclerView = findViewById(R.id.recyclerView);
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            data.add("text");
-        }
-        recyclerView.setAdapter(new EasyAdapter<String>(data, R.layout.adapter_custom_fullscreen_popup) {
-            @Override
-            protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
-                holder.setText(R.id.text, s + "-"+position);
-            }
-        });
+//        recyclerView = findViewById(R.id.recyclerView);
+//        List<String> data = new ArrayList<>();
+//        for (int i = 0; i < 30; i++) {
+//            data.add("text");
+//        }
+//        recyclerView.setAdapter(new EasyAdapter<String>(data, R.layout.adapter_custom_fullscreen_popup) {
+//            @Override
+//            protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
+//                holder.setText(R.id.text, s + "-"+position);
+//            }
+//        });
     }
 }
