@@ -101,9 +101,10 @@ public abstract class BasePopupView extends FrameLayout {
                 } else if (rotation == 1) {
                     params.bottomMargin = 0;
                     params.rightMargin = XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0;
-                    params.leftMargin = XPopupUtils.getStatusBarHeight();
+                    params.leftMargin = 0;
                 } else if (rotation == 3) {
                     params.bottomMargin = 0;
+                    params.leftMargin = 0;
                     params.rightMargin = (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0)
                             + XPopupUtils.getStatusBarHeight();
                 }
@@ -520,8 +521,6 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     private float x, y;
-    private long downTime;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件
@@ -533,7 +532,6 @@ public abstract class BasePopupView extends FrameLayout {
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();
                     y = event.getY();
-                    downTime = System.currentTimeMillis();
                     break;
                 case MotionEvent.ACTION_UP:
                     float dx = event.getX() - x;
@@ -545,7 +543,6 @@ public abstract class BasePopupView extends FrameLayout {
                     }
                     x = 0;
                     y = 0;
-                    downTime = 0;
                     break;
             }
         }

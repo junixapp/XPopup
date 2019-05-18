@@ -50,8 +50,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         if(rotation==0){
             params.width = getMeasuredWidth(); // 满宽
         }else if(rotation==1 || rotation==3){
-            params.width = getMeasuredWidth() - (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0)
-                    - XPopupUtils.getStatusBarHeight();
+            params.width = getMeasuredWidth() - (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0);
         }
 
         //1. 获取atView在屏幕上的位置

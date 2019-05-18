@@ -47,8 +47,7 @@ public class FullScreenPopupView extends CenterPopupView {
             contentView.setPadding(contentView.getPaddingLeft(),contentView.getPaddingTop(),contentView.getPaddingRight(),
                     actualNabBarHeight);
         }else if(rotation==1 || rotation==3){
-            contentView.setPadding(contentView.getPaddingLeft(),contentView.getPaddingTop(),contentView.getPaddingRight(),
-                    0);
+            contentView.setPadding(contentView.getPaddingLeft(),contentView.getPaddingTop(),contentView.getPaddingRight(),0);
         }
 
     }
