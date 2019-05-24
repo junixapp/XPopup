@@ -83,7 +83,12 @@
             android:layout_height="wrap_content"
             android:text="显示自定义Bottom弹窗（自带拖拽交互）"
             android:textAllCaps="false" />
-
+        <Button
+            android:id="@+id/btnPagerBottomPopup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示复杂交互的Bottom弹窗（各种手势滑动嵌套）"
+            android:textAllCaps="false" />
         <TextView
             android:id="@+id/tv1"
             android:layout_width="100dp"

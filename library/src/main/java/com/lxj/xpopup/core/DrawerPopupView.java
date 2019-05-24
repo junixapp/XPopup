@@ -1,13 +1,10 @@
 package com.lxj.xpopup.core;
 
-import android.animation.ArgbEvaluator;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
@@ -19,15 +16,10 @@ import com.lxj.xpopup.widget.PopupDrawerLayout;
 public abstract class DrawerPopupView extends BasePopupView {
     PopupDrawerLayout drawerLayout;
     protected FrameLayout drawerContentContainer;
-    View view_statusbar_shadow;
-    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    int defaultColor = Color.TRANSPARENT;
-    public static int shadowColor = Color.parseColor("#55343434");
 
     public DrawerPopupView(@NonNull Context context) {
         super(context);
         drawerLayout = findViewById(R.id.drawerLayout);
-        view_statusbar_shadow = findViewById(R.id.view_statusbar_shadow);
         drawerContentContainer = findViewById(R.id.drawerContentContainer);
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), drawerContentContainer, false);
         drawerContentContainer.addView(contentView);
@@ -54,10 +46,7 @@ public abstract class DrawerPopupView extends BasePopupView {
 
             @Override
             public void onDismissing(float fraction) {
-                // 是否显示状态栏的遮罩
-                if (popupInfo.hasStatusBarShadow) {
-                    view_statusbar_shadow.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction, defaultColor, shadowColor));
-                }
+                drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
             }
         });
         drawerLayout.setDrawerPosition(popupInfo.popupPosition == null ? PopupPosition.Left : popupInfo.popupPosition);
@@ -68,7 +57,11 @@ public abstract class DrawerPopupView extends BasePopupView {
             }
         });
     }
-
+    @Override
+    protected void applyOffset() {
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
+    }
     @Override
     protected void doAfterShow() {
         //do nothing self.
@@ -100,4 +93,8 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerLayout.close();
     }
 
+    @Override
+    protected View getTargetSizeView() {
+        return getPopupImplView();
+    }
 }

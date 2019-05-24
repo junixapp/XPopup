@@ -13,7 +13,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:background="?selectableItemBackground"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <View
@@ -28,7 +28,7 @@
         android:textSize="14sp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:background="?selectableItemBackground"
+        android:background="?android:attr/selectableItemBackground"
         android:text="评论"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

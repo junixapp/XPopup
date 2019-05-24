@@ -2,6 +2,7 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-15-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
+### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
 
 功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！它有这样几个特点：
@@ -17,13 +18,14 @@
 1. 项目有这样常见需求：中间和底部弹出甚至可拖拽的对话框，指定位置的PopupMenu或者PopupWindow，指定区域阴影的弹出层效果
 2. 市面上已有的类库要么功能不足够，要么交互效果不完美，有着普遍的缺点，就像BottomSheet存在的问题一样。比如：窗体消失的动画和背景渐变动画不一致，窗体消失后半透明背景仍然停留一会儿
 
+
 **设计思路**：
 综合常见的弹窗场景，我将其分为几类：
 1. Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
 2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表，我内部会处理好手势拖拽和嵌套滚动
 3. Attach类型，就是弹窗的位置需要依附于某个View或者某个触摸点，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差，淘宝的商品列表筛选的下拉弹窗也属于这种，微信的朋友圈点赞弹窗也是这种。
 4. DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
-5. 大图浏览类型，就像掘金那样的图片浏览弹窗，带有良好的拖拽交互体验
+5. 大图浏览类型，就像掘金那样的图片浏览弹窗，带有良好的拖拽交互体验，内部嵌入了改良的PhotoView
 6. 全屏弹窗，弹窗是全屏的，就像Activity那样，可以设置任意的动画器；适合用来实现登录，选择性的界面效果。
 
 
@@ -43,24 +45,26 @@
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
-![](screenshot/comment_edit.gif)
+![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
-## 快速体验Demo
+
+
+## 快速体验
+
 扫描二维码下载Demo：
 ![](screenshot/download.png)
 
 如果二维码图片不可见，[点我下载Demo体验](https://fir.im/2q63)
 
-## 使用
+
+
+## Gradle
+
 首先需要添加Gradle依赖：
 ```groovy
-//注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
-//注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
-//注意：1.6.0之后的API大幅重构，不兼容之前的API，但是扩展性更好，请酌情升级。
-implementation 'com.lxj:xpopup:1.6.4'
-
-//重构之前的版本
-//implementation 'com.lxj:xpopup:1.5.2'
+implementation 'com.lxj:xpopup:1.7.9'
+//for androidx.
+implementation 'com.lxj:xpopup:1.7.9-x'
 ```
 
 必须添加的依赖库：
@@ -72,506 +76,74 @@ implementation 'com.android.support:design:28.0.0'
 ```
 
 
-为了方便使用，已经内置了几种常见弹窗的实现：
-1. **显示确认和取消对话框**
-    ```java
-    new XPopup.Builder(getContext()).asConfirm("我是标题", "我是内容",
-                            new OnConfirmListener() {
-                                @Override
-                                public void onConfirm() {
-                                   toast("click confirm");
-                                }
-                            })
-                            .show();
-    ```
-2. **显示带输入框的确认和取消对话框**
-    ```java
-    new XPopup.Builder(getContext()).asInputConfirm("我是标题", "请输入内容。",
-                            new OnInputConfirmListener() {
-                                @Override
-                                public void onConfirm(String text) {
-                                    toast("input text: " + text);
-                                }
-                            })
-                            .show();
-    ```
-3. **显示中间弹出的列表弹窗**
-    ```java
-    new XPopup.Builder(getContext())
-                            //.maxWidth(600)
-                            .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
-                            new OnSelectListener() {
-                                @Override
-                                public void onSelect(int position, String text) {
-                                    toast("click " + text);
-                                }
-                            })
-                            .show();
-    ```
-4. **显示中间弹出的加载框**
-    ```java
-    new XPopup.Builder(getContext())
-                            .asLoading("正在加载中")
-                            .show();
-    ```
-5. **显示从底部弹出的列表弹窗**
-    ```java
-    // 这种弹窗从 1.0.0版本开始实现了优雅的手势交互和智能嵌套滚动
-    new XPopup.Builder(getContext())
-                            .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
-                            new OnSelectListener() {
-                                @Override
-                                public void onSelect(int position, String text) {
-                                    toast("click " + text);
-                                }
-                            })
-                            .show();
-    ```
-6. **显示依附于某个View或者某个点的弹窗**
-    ```java
-    new XPopup.Builder(getContext())
-                            .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                            .asAttachList(new String[]{"分享", "编辑", "不带icon"},
-                            new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-                            new OnSelectListener() {
-                                @Override
-                                public void onSelect(int position, String text) {
-                                    toast("click " + text);
-                                }
-                            })
-                            .show();
-    ```
-    如果是想依附于某个View的触摸点，则需要先`watch`该View，然后当单击或长按触发的时候去显示：
-    ```java
-    // 必须在事件发生前，调用这个方法来监视View的触摸
-    final XPopup.Builder builder = new XPopup.Builder(getContext())
-                    .watchView(view.findViewById(R.id.btnShowAttachPoint));
-    view.setOnLongClickListener(new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            builder.asAttachList(new String[]{"置顶", "复制", "删除"}, null,
-                                    new OnSelectListener() {
-                                        @Override
-                                        public void onSelect(int position, String text) {
-                                            toast("click " + text);
-                                        }
-                                    })
-                                    .show();
-            return false;
-        }
-    });
-    ```
-    
-    **`asAttachList`方法内部是对AttachPopupView的封装，如果你的布局不是列表，可以继承AttachPopupView实现自己想要的布局。**
-    **AttachPopupView会出现在目标的上方或者下方，如果你想要出现在目标的左边或者右边（像微信朋友圈那样点赞的弹窗），可以继承HorizontalAttachPopupView，然后编写你的布局即可。**
-    
-    最简单示例如下：
-    ```java
-    public class CustomAttachPopup extends HorizontalAttachPopupView {
-        public CustomAttachPopup(@NonNull Context context) {
-            super(context);
-        }
-    
-        @Override
-        protected int getImplLayoutId() {
-            return R.layout.custom_attach_popup;
-        }
-    
-        @Override
-        protected void onCreate() {
-            super.onCreate();
-            findViewById(R.id.tv_zan).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ToastUtils.showShort("赞");
-                }
-            });
-            findViewById(R.id.tv_comment).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ToastUtils.showShort("评论");
-                }
-            });
-        }
-    }
-    ```
-    
 
-7. **关闭弹窗**
+## WIKI
 
-    ```java
-    dismiss();
-    ```
-
-8. **自定义弹窗**
-
-    当你自定义弹窗的时候，需要选择继承`CenterPopupView`，`BottomPopupView`，`AttachPopupView/HorizontalAttachPopupView`，`DrawerPopupView`，`PartShadowPopupView`其中之一。假设需要自定义Center类型的弹窗：
-    ```java
-    class CustomPopup extends CenterPopupView{
-            //自定义弹窗本质是一个自定义View，但是只需重写这个构造，其他的不用重写
-            public CustomPopup(@NonNull Context context) {
-                super(context);
-            }
-            // 返回自定义弹窗的布局
-            @Override
-            protected int getImplLayoutId() {
-                return R.layout.custom_popup;
-            }
-            // 执行初始化操作，比如：findView，设置点击，或者任何你弹窗内的业务逻辑
-            @Override
-            protected void onCreate() {
-                super.onCreate();
-                findViewById(R.id.tv_close).setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dismiss(); // 关闭弹窗
-                    }
-                });
-            }
-            // 设置最大宽度，看需要而定
-            @Override
-            protected int getMaxWidth() {
-                return super.getMaxWidth();
-            }
-            // 设置最大高度，看需要而定
-            @Override
-            protected int getMaxHeight() {
-                return super.getMaxHeight();
-            }
-            // 设置自定义动画器，看需要而定
-            @Override
-            protected PopupAnimator getPopupAnimator() {
-                return super.getPopupAnimator();
-            }
-        }
-    ```
-    使用自定义弹窗：
-    ```java
-    new XPopup.Builder(getContext())
-            .asCustom(new CustomPopup(getContext()))
-            .show();
-    ```
-
-9. **自定义动画**
-
-    自定义动画已经被设计得非常简单，动画和弹窗是无关的；这意味着你可以将动画设置给内置弹窗或者自定义弹窗。继承`PopupAnimator`，实现3个方法：
-    - 如何初始化动画
-    - 动画如何开始
-    - 动画如何结束
-
-    比如：自定义一个旋转的动画：
-    ```java
-    class RotateAnimator extends PopupAnimator{
-            @Override
-            public void initAnimator() {
-                targetView.setScaleX(0);
-                targetView.setScaleY(0);
-                targetView.setAlpha(0);
-                targetView.setRotation(360);
-            }
-            @Override
-            public void animateShow() {
-                targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
-            }
-            @Override
-            public void animateDismiss() {
-                targetView.animate().rotation(360).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(animateDuration).start();
-            }
-        }
-    ```
-    使用自定义动画：
-    ```java
-    new XPopup.Builder(getContext())
-                        .customAnimator(new RotateAnimator())
-                        .asConfirm("演示自定义动画", "当前的动画是一个自定义的旋转动画，无论是自定义弹窗还是自定义动画，已经被设计得非常简单；这个动画代码只有6行即可完成！", null)
-                        .show();
-    ```
-
-10. **显示DrawerLayout类型弹窗**
-
-    对于DrawerLayout类型的弹窗，我只能帮你做好弹窗效果和手势交互。里面的UI和逻辑是无法帮你完成的，所以需要自定义一个弹窗，继承`DrawerPopupView`。代码非常简单，如下：
-    ```java
-    public class CustomDrawerPopupView extends DrawerPopupView {
-        public CustomDrawerPopupView(@NonNull Context context) {
-            super(context);
-        }
-        @Override
-        protected int getImplLayoutId() {
-            return R.layout.custom_drawer_popup;
-        }
-        @Override
-        protected void onCreate() {
-            super.onCreate();
-            findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "nothing!!!", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-    ```
-    使用自定义的DrawerLayout弹窗：
-    ```java
-    new XPopup.Builder(getContext())
-            .popupPosition(PopupPosition.Right)//右边
-            .hasStatusBarShadow(true) //启用状态栏阴影
-            .asCustom(new CustomDrawerPopupView(getContext()))
-            .show();
-    ```
+具体使用方法全在WIKI中，请查看下面各个章节：
+- [介绍](https://github.com/li-xiaojun/XPopup/wiki/1.-%E4%BB%8B%E7%BB%8D)
+- [如何使用内置的弹窗](https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0)
+- [如何自定义弹窗](https://github.com/li-xiaojun/XPopup/wiki/3.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%B9%E7%AA%97)
+- [如何自定义动画](https://github.com/li-xiaojun/XPopup/wiki/4.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB)
+- [常用设置](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
 
 
-11. **自定义局部阴影弹窗**
-
-    这种效果从分类上看仍然是Attach类型，因为要依附于某个View，在其上方或者下方显示。常见于列表条件筛选弹窗，比如京东或者淘宝的商品列表筛选。同样我只能帮你把复杂的交互效果做了，弹窗里面的UI和逻辑需要你自己继承`PartShadowPopupView`来做，这当然非常简单。
-    最简单的示例如下：
-    ```java
-    public class CustomPartShadowPopupView extends PartShadowPopupView {
-        public CustomPartShadowPopupView(@NonNull Context context) {
-            super(context);
-        }
-        @Override
-        protected int getImplLayoutId() {
-            return R.layout.custom_part_shadow_popup; // 编写你自己的布局
-        }
-        @Override
-        protected void onCreate() {
-            super.onCreate();
-            // 实现一些UI的初始和逻辑处理
-        }
-    }
-    ```
-    显示的时候仍然需要指定atView显示，内部会智能判断应该如何展示以及使用最佳的动画器：
-    ```java
-    new XPopup.Builder(getContext())
-        .atView(ll_container)
-        .asCustom(new CustomPartShadowPopupView(getContext()))
-        .show();
-    ```
-
-
-12. **自定义Bottom类型的弹窗**
-
-    自定义Bottom类型的弹窗会比较常见，默认Bottom弹窗带有手势交互和嵌套滚动；如果您不想要手势交互可以调用`enableDrag(false)`方法关闭。
-
-    如果弹窗内有输入框，在弹出输入法的情况下，弹窗默认会贴附在输入法之上，并且保证不会盖住输入框；目前Center和Bottom类型弹窗有此效果。
-
-    请注意：**弹窗的宽高是自适应的，大部分情况下都应该将弹窗布局的高设置为`wrap_content`；除非你希望得到一个高度撑满的弹窗。**
-
-    Demo中有一个模仿知乎评论的实现，代码在这里：
-    ```java
-    public class ZhihuCommentPopup extends BottomPopupView {
-        VerticalRecyclerView recyclerView;
-        public ZhihuCommentPopup(@NonNull Context context) {
-            super(context);
-        }
-        @Override
-        protected int getImplLayoutId() {
-            return R.layout.custom_bottom_popup;
-        }
-
-        @Override
-        protected void onCreate() {
-            super.onCreate();
-            recyclerView = findViewById(R.id.recyclerView);
-
-            ArrayList<String> strings = new ArrayList<>();
-            for (int i = 0; i < 30; i++) {
-                strings.add("");
-            }
-            CommonAdapter<String> commonAdapter = new CommonAdapter<String>(R.layout.adapter_zhihu_comment, strings) {
-                @Override
-                protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {}
-            };
-            commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
-                @Override
-                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    dismiss();
-                }
-            });
-            recyclerView.setAdapter(commonAdapter);
-        }
-        // 最大高度为Window的0.85
-        @Override
-        protected int getMaxHeight() {
-            return (int) (XPopupUtils.getWindowHeight(getContext())*.85f);
-        }
-    }
-    ```
-
-13. **大图浏览弹窗**
-
-    这种弹窗多用于App内列表中图片进行详细展示的场景，用法如下：
-    ```java
-    // 多图片场景
-    new XPopup.Builder(getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
-            @Override
-            public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
-                // 作用是当Pager切换了图片，需要更新源View
-                popupView.updateSrcView((ImageView) recyclerView.getChildAt(position));
-            }
-        }, new ImageLoader())
-        .show();
-
-    // 单张图片场景
-    new XPopup.Builder(getContext())
-        .asImageViewer(imageView, url, new ImageLoader())
-        .show();
-
-    // 图片加载器，我不负责加载图片，需要你实现一个图片加载器传给我，这里以Glide为例。
-    class ImageLoader implements XPopupImageLoader {
-            @Override
-            public void loadImage(int position, @NonNull String url, @NonNull ImageView imageView) {
-                Glide.with(imageView).load(url).into(imageView);
-            }
-            //必须实现这个方法，返回uri对应的缓存文件，可参照下面的实现，内部保存图片会用到。
-            @Override
-            public File getImageFile(@NonNull Context context, @NonNull Object uri) {
-                try {
-                    return Glide.with(context).downloadOnly().load(uri).submit().get();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }
-    ```
-    注意事项：假设你使用Glide加载图片，如果你的ImageView是CenterCrop的，那么加载的时候一定要指定大小为`Target.SIZE_ORIGINAL`；
-    这样会禁止Glide裁剪图片，保证可以拿到原始图片，让图片过渡动画变的天衣无缝。例如：
-    ```java
-    Glide.with(imageView).load(s).apply(new RequestOptions().override(Target.SIZE_ORIGINAL))
-                        .into(imageView);
-    ```
-    如果你使用其他类库加载图片，请保证加载的图片没有被裁剪过。另外，保存功能需要权限，请自行申请。
-
-
-14. **其他**
-- 设置主色调
-
-    默认情况下，XPopup的主色为灰色，主色作用于Button文字，EditText边框和光标，Check文字的颜色上。主色调只需要设置一次即可，可以放在Application中设置。
-  ```java
-  XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
-  ```
-- 设置全局的动画时长
-  
-    默认情况下，弹窗的动画时长为360毫秒。你可以通过下面的方法进行修改：
-    ```java
-    XPopup.setAnimationDuration(300); // 如果传入的值小于200会被忽略，动画的时长会影响除Drawer弹窗外的所有弹窗
-    ```  
-
-- 常用设置
-  ```java
-  new XPopup.Builder(getContext())
-      .hasShadowBg(true) // 是否有半透明的背景，默认为true
-      .dismissOnBackPressed(true) // 按返回键是否关闭弹窗，默认为true
-      .dismissOnTouchOutside(true) // 点击外部是否关闭弹窗，默认为true
-      .autoDismiss(false) // 操作完毕后是否自动关闭弹窗，默认为true；比如点击ConfirmPopup的确认按钮，默认自动关闭；如果为false，则不会关闭
-      .autoOpenSoftInput(true) //是否弹窗显示的同时打开输入法，只在包含输入框的弹窗内才有效，默认为false
-      .popupAnimation(PopupAnimation.ScaleAlphaFromCenter) // 设置内置的动画
-      .customAnimator(null) // 设置自定义的动画器
-      .moveUpToKeyboard(false) // 软键盘弹出时，弹窗是否移动到软键盘上面，默认为true
-      .popupPosition(PopupPosition.Right)//手动指定弹窗出现在目标的什么位置，对Attach和Drawer类型弹窗生效
-      .hasStatusBarShadow(false) //是否有状态栏阴影，目前对Drawer弹窗和FullScreen弹窗生效
-      .setPopupCallback(new XPopupCallback() { //设置显示和隐藏的回调
-          @Override
-          public void onShow() {
-              // 完全显示的时候执行
-          }
-          @Override
-          public void onDismiss() {
-              // 完全隐藏的时候执行
-          }
-      })
-      // 设置弹窗的最大宽高，只对Center和Bottom类型弹窗生效。默认情况下，弹窗的布局是自适应的，如果你设置了最大宽高，则弹窗的宽高不会超过你设置的值！
-      // 如果你重写了`getMaxWidth()`和`getMaxHeight()`方法，此方法设置的值会被覆盖；
-      .maxWidth(300)
-      .maxHeight(400)
-      // 如果你想要一个全屏的弹窗，有3种方式：
-      // 1. 首先布局要都是`match_parent`，然后调用上面的方法设置这个值为window的宽高即可。
-      // 2. 可以重写`getMaxWidth()`和`getMaxHeight()`方法，效果是一样的。
-      // 3. 可以继承FullScreenPopupView，直接编写布局即可。
-      .asXXX()
-  ```
-
-- 数据和状态保存
-
-    如果每次显示都new一个，由于每次都是新的弹窗，状态无法保存。可以选择记录下：
-    ```java
-    CustomDrawerPopupView drawerPopupView = new CustomDrawerPopupView(getContext());
-
-    //使用弹窗
-    new XPopup.Builder(getContext())
-                    .popupPosition(PopupPosition.Right)//右边
-                    .hasStatusBarShadow(true) //启用状态栏阴影
-                    .asCustom(drawerPopupView)
-                    .show();
-    ```
-
-- 在RecyclerView中长按弹出弹窗，这种场景需要watch一下itemView：
-
-    ```java
-    CommonAdapter adapter = new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
-        @Override
-        protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
-            holder.setText(android.R.id.text1, "长按我试试 - " + position);
-            //必须要在事件发生之前就watch
-            final XPopup.Builder builder = new XPopup.Builder(getContext()).watchView(holder.itemView);
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null,0,10, new OnSelectListener() {
-                        @Override
-                        public void onSelect(int position, String text) {
-                            ToastUtils.showShort(text);
-                        }
-                    }).show();
-                    return true;
-                }
-            });
-        }
-    };
-    ```
-
-
-- 最佳实践
-
-    我们在项目中经常会点击某个按钮然后关闭弹窗，接着去做一些事。比如：点击一个按钮，关闭弹窗，然后开启一个界面：
-    ```java
-    dismiss();
-    getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-    ```
-    要知道弹窗的关闭是有一个动画过程的，上面的写法会出现弹窗还没有完全关闭，就立即跳页面，界面有一种顿挫感；而且在设备资源不足的时候，还可能造成丢帧。
-
-    为了得到最佳体验，您可以等dismiss动画完全结束去执行一些东西，而不是立即就执行。可以这样做：
-    ```java
-    dismissWith(new Runnable() {
-        @Override
-        public void run() {
-            getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-        }
-    });
-    ```
-    每个弹窗本身也有`onShow()`和`onDismiss()`的生命周期回调，可以根据需要使用。
 
 ## 混淆
+
 ```
 -dontwarn com.lxj.xpopup.widget.**
 -keep class com.lxj.xpopup.widget.**{*;}
 ```
 
 
+
 ## 谁在用XPopup
-根据热心群众提供的信息，目前使用XPopup的产品和公司有：
+
+我本人很希望您能[点击这里附上](https://github.com/li-xiaojun/XPopup/issues/93)使用这个库的App名或者公司名，这样会给我更大的动力和热情去维护这个类库。
+
+根据热心朋友提供的信息，目前使用XPopup的产品和公司有：
 - 海鸥地图（https://cn.gullmap.com/）
+- 马自达汽车检测（主要是一个汽车厂商工作人员使用的汽车检测APP）
+- 变福侠App
+- 进境肉牛检疫追溯系统(App端)
+- 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
+- 爱勘(ican)App
+
+
+## 打个赏
+
+如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏（打赏时可以附上自己的大名和Github地址），金额随意，以表支持。[打赏名单](https://github.com/li-xiaojun/XPopup/blob/master/reward-list.md)
+
+![](screenshot/pay.png)
 
 
 
 ## 联系方式
 
-![](screenshot/qqgroup.png)
+XPopup交流群：**783659607**
 
 Gmail: lxj16167479@gmail.com
 
 QQ Email: 16167479@qq.com
 
 QQ: 16167479
+
+
+
+## Licenses
+
+```
+ Copyright 2019 li-xiaojun
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+```

@@ -9,6 +9,8 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -25,7 +27,13 @@ import com.lxj.xpopup.util.XPopupUtils;
 public abstract class PartShadowPopupView extends AttachPopupView {
     public PartShadowPopupView(@NonNull Context context) {
         super(context);
-        defaultOffsetY = 0;
+    }
+
+    @Override
+    protected void initPopupContent() {
+        super.initPopupContent();
+        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
+        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
     }
 
     @Override
@@ -37,8 +45,13 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         shadowBgAnimator.targetView = getPopupContentView();
 
         //1. apply width and height
+        int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
         ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-        params.width = getMeasuredWidth(); // 满宽
+        if(rotation==0){
+            params.width = getMeasuredWidth(); // 满宽
+        }else if(rotation==1 || rotation==3){
+            params.width = getMeasuredWidth() - (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0);
+        }
 
         //1. 获取atView在屏幕上的位置
         int[] locations = new int[2];
@@ -80,10 +93,17 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         }
         getPopupContentView().setLayoutParams(params);
 
+        attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(popupInfo.isDismissOnTouchOutside)dismiss();
+                return false;
+            }
+        });
         attachPopupContainer.setOnClickOutsideListener(new OnClickOutsideListener() {
             @Override
             public void onClickOutside() {
-                dismiss();
+                if(popupInfo.isDismissOnTouchOutside)dismiss();
             }
         });
     }
@@ -91,8 +111,10 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     //让触摸透过
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        dismiss();
-        return false;
+        if(popupInfo.isDismissOnTouchOutside){
+            dismiss();
+        }
+        return !popupInfo.isDismissOnTouchOutside;
     }
 
     @Override

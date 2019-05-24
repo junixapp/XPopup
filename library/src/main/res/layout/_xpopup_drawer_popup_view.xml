@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.lxj.xpopup.widget.PopupDrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.lxj.xpopup.widget.PopupDrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/drawerContentContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:minWidth="30dp">
-
-        </FrameLayout>
-
-    </com.lxj.xpopup.widget.PopupDrawerLayout>
-
-    <!--处理状态栏字体被淹没的问题-->
     <View
-        android:id="@+id/view_statusbar_shadow"
         android:layout_width="match_parent"
-        android:layout_height="24dp" />
-</FrameLayout>
+        android:layout_height="match_parent"/>
+    <FrameLayout
+        android:id="@+id/drawerContentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:minWidth="30dp">
+    </FrameLayout>
+</com.lxj.xpopup.widget.PopupDrawerLayout>

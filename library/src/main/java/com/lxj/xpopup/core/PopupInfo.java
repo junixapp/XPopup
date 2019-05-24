@@ -34,6 +34,11 @@ public class PopupInfo {
     public Boolean isMoveUpToKeyboard = true; //是否移动到软键盘上面，默认弹窗会移到软键盘上面
     public PopupPosition popupPosition = null; //弹窗出现在目标的什么位置
     public Boolean hasStatusBarShadow = false;
+    public int offsetX, offsetY;//x，y方向的偏移量
+    public Boolean enableDrag = true;//是否启用拖拽
+    public boolean isCenterHorizontal = false;//是否水平居中
+    public boolean isRequestFocus = true; //弹窗是否抢占焦点
+
     public View getAtView() {
         return atView;
     }

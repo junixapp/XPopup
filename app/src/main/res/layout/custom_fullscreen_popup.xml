@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="0dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -49,6 +49,11 @@
             android:background="#AC5959"
             android:layout_width="match_parent"
             android:layout_height="150dp" />
-    </LinearLayout>
 
+
+    </LinearLayout>
+    <!--<com.lxj.xpopup.widget.VerticalRecyclerView-->
+        <!--android:id="@+id/recyclerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 </android.support.v4.widget.NestedScrollView>
