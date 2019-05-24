@@ -32,6 +32,7 @@ import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
 import java.util.List;
+import java.util.Stack;
 
 
 public class XPopup {

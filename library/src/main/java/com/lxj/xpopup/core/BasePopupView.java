@@ -31,6 +31,7 @@ import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
@@ -41,6 +42,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
  * Create by lxj, at 2018/12/7
  */
 public abstract class BasePopupView extends FrameLayout {
+    private static Stack<BasePopupView> stack = new Stack<>();
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
@@ -105,8 +107,7 @@ public abstract class BasePopupView extends FrameLayout {
                 } else if (rotation == 3) {
                     params.bottomMargin = 0;
                     params.leftMargin = 0;
-                    params.rightMargin = (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0)
-                            + XPopupUtils.getStatusBarHeight();
+                    params.rightMargin = XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0;
                 }
                 setLayoutParams(params);
                 getPopupContentView().setAlpha(1f);
@@ -193,11 +194,12 @@ public abstract class BasePopupView extends FrameLayout {
 
     private ShowSoftInputTask showSoftInputTask;
 
-    private void focusAndProcessBackPress() {
+    public void focusAndProcessBackPress() {
         // 处理返回按键
         if (popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             requestFocus();
+            if(!stack.contains(this))stack.push(this);
         }
         // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
         setOnKeyListener(new View.OnKeyListener() {
@@ -460,10 +462,17 @@ public abstract class BasePopupView extends FrameLayout {
             }
             popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
+            stack.pop();
             if (popupInfo.isRequestFocus) {
-                View contentView = ((Activity) getContext()).findViewById(android.R.id.content);
-                contentView.setFocusable(true);
-                contentView.setFocusableInTouchMode(true);
+                View needFocusView = null;
+                if(stack.size()>0){
+                    needFocusView = stack.get(stack.size() - 1);
+                    ((BasePopupView) needFocusView).focusAndProcessBackPress();
+                }else {
+                    needFocusView = ((Activity) getContext()).findViewById(android.R.id.content);
+                }
+                needFocusView.setFocusable(true);
+                needFocusView.setFocusableInTouchMode(true);
             }
 
             // 移除弹窗，GameOver
