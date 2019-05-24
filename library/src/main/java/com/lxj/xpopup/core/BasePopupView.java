@@ -107,8 +107,7 @@ public abstract class BasePopupView extends FrameLayout {
                 } else if (rotation == 3) {
                     params.bottomMargin = 0;
                     params.leftMargin = 0;
-                    params.rightMargin = (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0)
-                            + XPopupUtils.getStatusBarHeight();
+                    params.rightMargin = XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0;
                 }
                 setLayoutParams(params);
                 getPopupContentView().setAlpha(1f);

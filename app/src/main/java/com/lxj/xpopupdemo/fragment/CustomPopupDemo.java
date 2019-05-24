@@ -51,6 +51,7 @@ public class CustomPopupDemo extends BaseFragment {
                         new XPopup.Builder(getContext())
                                 .popupAnimation(data[position])
                                 .autoOpenSoftInput(true)
+                                .maxWidth(100)
                                 .asCustom(new CustomPopup(getContext()))
                                 .show();
                     }
