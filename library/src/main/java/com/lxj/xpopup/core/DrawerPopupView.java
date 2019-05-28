@@ -33,6 +33,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
+        drawerLayout.enableShadow = popupInfo.hasShadowBg;
         drawerLayout.setOnCloseListener(new PopupDrawerLayout.OnCloseListener() {
             @Override
             public void onClose() {

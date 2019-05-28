@@ -462,7 +462,7 @@ public abstract class BasePopupView extends FrameLayout {
             }
             popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
-            stack.pop();
+            if(!stack.isEmpty()) stack.pop();
             if (popupInfo.isRequestFocus) {
                 View needFocusView = null;
                 if(stack.size()>0){
