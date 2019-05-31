@@ -148,9 +148,7 @@ public class XPopup {
             this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
-                    }
+                    if (popupInfo.touchPoint==null)popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
                     return false;
                 }
             });
@@ -301,6 +299,17 @@ public class XPopup {
             this.popupInfo.isRequestFocus = isRequestFocus;
             return this;
         }
+
+        /**
+         * 是否点击弹窗背景时将点击事件透传到Activity下，默认是不透传
+         *
+         * @param isClickThrough
+         * @return
+         */
+//        public Builder isClickThrough(boolean isClickThrough) {
+//            this.popupInfo.isClickThrough = isClickThrough;
+//            return this;
+//        }
 
         /**
          * 设置弹窗显示和隐藏的回调监听
