@@ -40,6 +40,7 @@ public class PopupDrawerLayout extends FrameLayout {
     int defaultColor = Color.TRANSPARENT;
     public boolean isDrawStatusBarShadow = false;
     float fraction = 0f;
+    public boolean enableShadow = true;
 
     public PopupDrawerLayout(Context context) {
         this(context, null);
@@ -187,7 +188,7 @@ public class PopupDrawerLayout extends FrameLayout {
                     listener.onClose();
                 }
             }
-            setBackgroundColor(bgAnimator.calculateBgColor(fraction));
+            if(enableShadow) setBackgroundColor(bgAnimator.calculateBgColor(fraction));
             if (listener != null) {
                 listener.onDismissing(fraction);
                 if (fraction == 1f && status != LayoutStatus.Open) {

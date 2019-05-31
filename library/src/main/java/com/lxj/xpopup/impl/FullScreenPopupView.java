@@ -39,27 +39,25 @@ public class FullScreenPopupView extends CenterPopupView {
         contentView.setLayoutParams(params);
 
         int actualNabBarHeight = XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0;
-        if(rotation==0){
-            contentView.setPadding(contentView.getPaddingLeft(),contentView.getPaddingTop(),contentView.getPaddingRight(),
+        if (rotation == 0) {
+            contentView.setPadding(contentView.getPaddingLeft(), contentView.getPaddingTop(), contentView.getPaddingRight(),
                     actualNabBarHeight);
-        }else if(rotation==1 || rotation==3){
-            contentView.setPadding(contentView.getPaddingLeft(),contentView.getPaddingTop(),contentView.getPaddingRight(),0);
+        } else if (rotation == 1 || rotation == 3) {
+            contentView.setPadding(contentView.getPaddingLeft(), contentView.getPaddingTop(), contentView.getPaddingRight(), 0);
         }
 
     }
 
-    Paint paint;
+    Paint paint = new Paint();
     Rect shadowRect;
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if(popupInfo.hasStatusBarShadow){
-            if(paint==null){
-                paint = new Paint();
-                paint.setColor(XPopup.statusBarShadowColor);
-                shadowRect = new Rect(0,0, getMeasuredWidth(), XPopupUtils.getStatusBarHeight());
-                canvas.drawRect(shadowRect, paint);
-            }
+        if (popupInfo.hasStatusBarShadow) {
+            paint.setColor(XPopup.statusBarShadowColor);
+            shadowRect = new Rect(0, 0, XPopupUtils.getWindowWidth(getContext()), XPopupUtils.getStatusBarHeight());
+            canvas.drawRect(shadowRect, paint);
         }
     }
 

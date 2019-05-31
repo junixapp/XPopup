@@ -40,9 +40,9 @@ If the qrcode is invisible，[click me to download Demo.apk](https://fir.im/2q63
 
 First, you need add gradle dependency：
 ```groovy
-implementation 'com.lxj:xpopup:1.7.10'
+implementation 'com.lxj:xpopup:1.7.11'
 //for androidx.
-implementation 'com.lxj:xpopup:1.7.10-x'
+implementation 'com.lxj:xpopup:1.7.11-x'
 ```
 
 Second, you also need these：
@@ -85,7 +85,7 @@ Base on information provided by some friends，they are using Xpopup:
 - 变福侠App
 - 进境肉牛检疫追溯系统(App端)
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
-
+- 爱勘(ican)App
 
 
 ## Buy me a coffee

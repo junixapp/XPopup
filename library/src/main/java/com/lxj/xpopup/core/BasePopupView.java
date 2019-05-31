@@ -2,12 +2,10 @@ package com.lxj.xpopup.core;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
@@ -29,10 +26,8 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import java.util.ArrayList;
 import java.util.Stack;
-
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -199,7 +194,7 @@ public abstract class BasePopupView extends FrameLayout {
         if (popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             requestFocus();
-            if(!stack.contains(this))stack.push(this);
+            if (!stack.contains(this)) stack.push(this);
         }
         // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
         setOnKeyListener(new View.OnKeyListener() {
@@ -462,17 +457,15 @@ public abstract class BasePopupView extends FrameLayout {
             }
             popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
-            stack.pop();
+            if (!stack.isEmpty()) stack.pop();
             if (popupInfo.isRequestFocus) {
-                View needFocusView = null;
-                if(stack.size()>0){
-                    needFocusView = stack.get(stack.size() - 1);
-                    ((BasePopupView) needFocusView).focusAndProcessBackPress();
-                }else {
-                    needFocusView = ((Activity) getContext()).findViewById(android.R.id.content);
+                if (!stack.isEmpty()) {
+                    stack.get(stack.size() - 1).focusAndProcessBackPress();
+                } else {
+                    View needFocusView = ((Activity) getContext()).findViewById(android.R.id.content);
+                    needFocusView.setFocusable(true);
+                    needFocusView.setFocusableInTouchMode(true);
                 }
-                needFocusView.setFocusable(true);
-                needFocusView.setFocusableInTouchMode(true);
             }
 
             // 移除弹窗，GameOver
@@ -530,10 +523,10 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     private float x, y;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件
-        // 如果是，则dismiss
+        // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件,如果是，则dismiss
         Rect rect = new Rect();
         getPopupContentView().getGlobalVisibleRect(rect);
         if (!XPopupUtils.isInRect(event.getX(), event.getY(), rect)) {
@@ -546,9 +539,8 @@ public abstract class BasePopupView extends FrameLayout {
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                    if (distance < touchSlop) {
-                        if (popupInfo.isDismissOnTouchOutside)
-                            dismiss();
+                    if (distance < touchSlop && popupInfo.isDismissOnTouchOutside) {
+                        dismiss();
                     }
                     x = 0;
                     y = 0;
