@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <TextView
+            android:background="#aaff0000"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:padding="40dp"
+            android:layout_gravity="top"
+            android:text="我是自定义的区域，我的布局是盖在ImageViewer弹窗上的，因此你可以为所欲为，不会影响图片的拖拽。"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:background="#495ED2"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:padding="30dp"
+            android:layout_gravity="bottom"
+            android:text="下面也可以自定义哦。"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+</FrameLayout>

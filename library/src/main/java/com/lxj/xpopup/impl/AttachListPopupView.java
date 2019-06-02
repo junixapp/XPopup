@@ -4,18 +4,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
-
 import java.util.Arrays;
 
 /**
- * Description:
+ * Description: Attach类型的列表弹窗
  * Create by dance, at 2018/12/12
  */
 public class AttachListPopupView extends AttachPopupView {
@@ -35,15 +33,15 @@ public class AttachListPopupView extends AttachPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        final CommonAdapter<String> adapter = new CommonAdapter<String>(R.layout._xpopup_adapter_text, Arrays.asList(data)) {
+        final EasyAdapter<String> adapter = new EasyAdapter<String>( Arrays.asList(data), R.layout._xpopup_adapter_text) {
             @Override
-            protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
+            protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
                 if (iconIds != null && iconIds.length > position) {
-                    holder.setVisible(R.id.iv_image, true);
-                    holder.setBackgroundRes(R.id.iv_image, iconIds[position]);
+                    holder.getView(R.id.iv_image).setVisibility(VISIBLE);
+                    holder.getView(R.id.iv_image).setBackgroundResource(iconIds[position]);
                 }else {
-                    holder.setVisible(R.id.iv_image, false);
+                    holder.getView(R.id.iv_image).setVisibility(GONE);
                 }
             }
         };
@@ -51,9 +49,9 @@ public class AttachListPopupView extends AttachPopupView {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 if (selectListener != null) {
-                    selectListener.onSelect(position, adapter.getDatas().get(position));
+                    selectListener.onSelect(position, adapter.getData().get(position));
                 }
-                dismiss();
+                if(popupInfo.autoDismiss)dismiss();
             }
         });
         recyclerView.setAdapter(adapter);

@@ -83,7 +83,12 @@
             android:layout_height="wrap_content"
             android:text="显示自定义Bottom弹窗（自带拖拽交互）"
             android:textAllCaps="false" />
-
+        <Button
+            android:id="@+id/btnPagerBottomPopup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示复杂交互的Bottom弹窗（各种手势滑动嵌套）"
+            android:textAllCaps="false" />
         <TextView
             android:id="@+id/tv1"
             android:layout_width="100dp"
@@ -129,7 +134,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="200dp"
             android:orientation="horizontal">
 
             <Button
@@ -148,8 +152,49 @@
                 android:layout_weight="1"
                 android:text="显示右边Drawer弹窗(带状态栏阴影)"
                 android:textAllCaps="false" />
-        </LinearLayout>
 
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnFullScreenPopup"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自定义全屏弹窗"
+            android:textAllCaps="false" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnAttachPopup1"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="55dp"
+                android:layout_height="wrap_content"
+                android:text="横向Attach弹窗1"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnAttachPopup2"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="横向Attach弹窗2"
+                android:textAllCaps="false" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnCustomEditPopup"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自定义贴在输入法之上的弹窗"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

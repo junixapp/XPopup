@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="_xpopup_list_divider">#cccccc</color>
+    <color name="_xpopup_list_divider">#dedede</color>
     <color name="_xpopup_title_color">#111111</color>
     <color name="_xpopup_content_color">#333333</color>
 </resources>

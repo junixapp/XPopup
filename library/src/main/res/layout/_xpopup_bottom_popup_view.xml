@@ -2,6 +2,6 @@
 <com.lxj.xpopup.widget.SmartDragLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="match_parent"
     android:id="@+id/bottomPopupContainer"
+    android:layout_gravity="bottom"
     android:layout_height="match_parent">
-
 </com.lxj.xpopup.widget.SmartDragLayout>

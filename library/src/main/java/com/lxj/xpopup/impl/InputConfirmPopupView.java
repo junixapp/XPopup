@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -35,40 +36,19 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         tv_input = findViewById(R.id.tv_input);
         tv_input.setVisibility(VISIBLE);
         super.initPopupContent();
-
-        tv_input.setOnClickListener(this);
-        tv_input.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(tv_input==v && hasFocus){
-                    getPopupContentView().animate().translationY(-getPopupContentView().getMeasuredHeight()/2)
-                            .setDuration(300).start();
-
-                    // 设置返回按下监听
-                    tv_input.setOnKeyListener(new View.OnKeyListener() {
-                        @Override
-                        public boolean onKey(View v, int keyCode, KeyEvent event) {
-                            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                if( popupInfo.isDismissOnBackPressed)
-                                    dismiss();
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
-                }
-            }
-        });
+        if(!TextUtils.isEmpty(hint)){
+            tv_input.setHint(hint);
+        }
     }
 
     protected void applyPrimaryColor(){
         super.applyPrimaryColor();
-        XPopupUtils.setCursorDrawableColor(tv_input, XPopup.get(getContext()).getPrimaryColor());
+        XPopupUtils.setCursorDrawableColor(tv_input, XPopup.getPrimaryColor());
         tv_input.post(new Runnable() {
             @Override
             public void run() {
                 BitmapDrawable defaultDrawable = XPopupUtils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), Color.parseColor("#888888"));
-                BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), XPopup.get(getContext()).getPrimaryColor());
+                BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getResources(), tv_input.getMeasuredWidth(), XPopup.getPrimaryColor());
                 tv_input.setBackgroundDrawable(XPopupUtils.createSelector(defaultDrawable, focusDrawable));
             }
         });
@@ -89,12 +69,7 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
             dismiss();
         }else if(v==tv_confirm){
             if(inputConfirmListener!=null)inputConfirmListener.onConfirm(tv_input.getText().toString().trim());
-            dismiss();
-        }else if(v==tv_input){
-            if(getPopupContentView().getTranslationY()!=-getPopupContentView().getMeasuredHeight()/2){
-                getPopupContentView().animate().translationY(-getPopupContentView().getMeasuredHeight()/2)
-                        .setDuration(300).start();
-            }
+            if(popupInfo.autoDismiss)dismiss();
         }
     }
 }

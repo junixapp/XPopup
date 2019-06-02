@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/_xpopup_round3_bg"
     android:padding="20dp"
     android:orientation="vertical">
 
@@ -16,7 +17,7 @@
         android:id="@+id/tv_content"
         android:textColor="@color/_xpopup_content_color"
         android:layout_marginTop="22dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="16dp"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
             android:id="@+id/tv_cancel"
             android:textSize="16sp"
             android:text="取消"
-            android:background="?selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_marginRight="20dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -58,7 +59,7 @@
             android:paddingRight="18dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:background="?selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

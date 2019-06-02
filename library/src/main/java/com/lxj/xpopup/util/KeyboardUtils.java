@@ -1,13 +1,19 @@
 package com.lxj.xpopup.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+
+import com.lxj.xpopup.core.BasePopupView;
+
+import java.util.HashMap;
 
 /**
  * Description:
@@ -15,10 +21,9 @@ import android.widget.FrameLayout;
  */
 public final class KeyboardUtils {
 
-    private static int                        sDecorViewInvisibleHeightPre;
+    private static int sDecorViewInvisibleHeightPre;
     private static ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
-    private static OnSoftInputChangedListener onSoftInputChangedListener;
-
+    private static HashMap<View,OnSoftInputChangedListener> listenerMap = new HashMap<>();
     private KeyboardUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
@@ -44,34 +49,36 @@ public final class KeyboardUtils {
      * @param activity The activity.
      * @param listener The soft input changed listener.
      */
-    public static void registerSoftInputChangedListener(final Activity activity, final OnSoftInputChangedListener listener) {
+    public static void registerSoftInputChangedListener(final Activity activity, final BasePopupView popupView, final OnSoftInputChangedListener listener) {
         final int flags = activity.getWindow().getAttributes().flags;
         if ((flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0) {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
         final FrameLayout contentView = activity.findViewById(android.R.id.content);
         sDecorViewInvisibleHeightPre = getDecorViewInvisibleHeight(activity);
-        onSoftInputChangedListener = listener;
-        onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        listenerMap.put(popupView, listener);
+        ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (onSoftInputChangedListener != null) {
                     int height = getDecorViewInvisibleHeight(activity);
                     if (sDecorViewInvisibleHeightPre != height) {
-                        onSoftInputChangedListener.onSoftInputChanged(height);
+                        //通知所有弹窗的监听器输入法高度变化了
+                        for (OnSoftInputChangedListener  changedListener: listenerMap.values()) {
+                            changedListener.onSoftInputChanged(height);
+                        }
                         sDecorViewInvisibleHeightPre = height;
                     }
-                }
             }
         };
         contentView.getViewTreeObserver()
                 .addOnGlobalLayoutListener(onGlobalLayoutListener);
     }
 
-    public static void removeLayoutChangeListener(View decorView){
+    public static void removeLayoutChangeListener(View decorView, BasePopupView popupView){
         View contentView = decorView.findViewById(android.R.id.content);
         contentView.getViewTreeObserver().removeGlobalOnLayoutListener(onGlobalLayoutListener);
         onGlobalLayoutListener = null;
+        listenerMap.remove(popupView);
     }
 
     private static int getNavBarHeight() {
@@ -82,6 +89,16 @@ public final class KeyboardUtils {
         } else {
             return 0;
         }
+    }
+
+    public static void showSoftInput(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+    }
+
+    public static void hideSoftInput(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public interface OnSoftInputChangedListener {

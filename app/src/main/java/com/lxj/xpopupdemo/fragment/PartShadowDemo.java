@@ -1,16 +1,20 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.LinearLayout;
 
-import com.lxj.easyadapter.CommonAdapter;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import com.lxj.easyadapter.EasyAdapter;
+import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.custompopup.CustomPartShadowPopupView;
-
+import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
+import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +24,9 @@ import java.util.ArrayList;
 public class PartShadowDemo extends BaseFragment implements View.OnClickListener {
     View ll_container;
     VerticalRecyclerView recyclerView;
+    private CustomPartShadowPopupView popupView;
+
+    private CustomDrawerPopupView drawerPopupView;
 
     @Override
     protected int getLayoutId() {
@@ -35,32 +42,84 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv_price).setOnClickListener(this);
         view.findViewById(R.id.tv_sales).setOnClickListener(this);
         view.findViewById(R.id.tv_select).setOnClickListener(this);
+        view.findViewById(R.id.tv_filter).setOnClickListener(this);
 
-        ArrayList<String> data = new ArrayList<>();
+        drawerPopupView = new CustomDrawerPopupView(getContext());
+
+        final ArrayList<String> data = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             data.add(i + "");
         }
-        recyclerView.setAdapter(new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
+        EasyAdapter<String> adapter = new EasyAdapter<String>(data, android.R.layout.simple_list_item_1) {
             @Override
-            protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
-                holder.setText(android.R.id.text1, "商品名字 - " + position);
+            protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
+                holder.setText(android.R.id.text1, "长按我试试 - " + position);
+                //必须要在事件发生之前就watch
+                final XPopup.Builder builder = new XPopup.Builder(getContext()).watchView(holder.itemView);
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null,0,10, new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                toast(text);
+                            }
+                        }).show();
+                        return true;
+                    }
+                });
+            }
+        };
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
+            @Override
+            public void onItemClick(@NonNull View view, @NonNull RecyclerView.ViewHolder holder, int position) {
+                toast(data.get(position));
             }
         });
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void showPartShadow(final View v){
+//        if(popupView!=null && popupView.isShow())return;
+        popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
+                .atView(v)
+//                .dismissOnTouchOutside(false)
+                .setPopupCallback(new XPopupCallback() {
+                    @Override
+                    public void onShow() {
+                        toast("显示了");
+                    }
+                    @Override
+                    public void onDismiss() {
+                        popupView = null;
+//                        showPartShadow(v);
+                    }
+                })
+                .asCustom(new CustomPartShadowPopupView(getContext()));
+        popupView.show();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_select:
-                XPopup.get(getActivity())
-                        .asCustom(new CustomPartShadowPopupView(getContext()))
-                        .atView(v)
+            case R.id.tv_all:
+            case R.id.tv_price:
+            case R.id.tv_sales:
+                if(popupView==null){}
+                showPartShadow(v);
+
+                break;
+            case R.id.tv_filter:
+                new XPopup.Builder(getContext())
+                        .popupPosition(PopupPosition.Right)//右边
+                        .hasStatusBarShadow(true) //启用状态栏阴影
+                        .asCustom(drawerPopupView)
                         .show();
                 break;
-            default:
-                XPopup.get(getActivity())
+            case R.id.tv_select:
+                new XPopup.Builder(getContext())
+                        .atView(v)
                         .asCustom(new CustomPartShadowPopupView(getContext()))
-                        .atView(ll_container)
                         .show();
                 break;
         }
