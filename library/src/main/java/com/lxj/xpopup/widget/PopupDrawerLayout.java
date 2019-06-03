@@ -7,22 +7,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
-import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -67,6 +62,13 @@ public class PopupDrawerLayout extends FrameLayout {
         super.onFinishInflate();
         placeHolder = getChildAt(0);
         mChild = getChildAt(1);
+    }
+
+    float ty;
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        ty = getTranslationY();
     }
 
     boolean hasLayout = false;
@@ -276,6 +278,7 @@ public class PopupDrawerLayout extends FrameLayout {
         super.onDetachedFromWindow();
         status = null;
         fraction = 0f;
+        setTranslationY(ty);
     }
 
     /**
