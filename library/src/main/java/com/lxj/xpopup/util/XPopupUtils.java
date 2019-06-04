@@ -30,6 +30,7 @@ import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
@@ -251,7 +252,7 @@ public class XPopupUtils {
             if (focusEt != null && focusEtTop - dy < 0) {
                 dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
             }
-        } else if (isBottomPartShadow(pv)) {
+        } else if (isBottomPartShadow(pv) || pv instanceof DrawerPopupView) {
             int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
