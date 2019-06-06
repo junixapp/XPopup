@@ -148,7 +148,7 @@ public class XPopup {
             this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (popupInfo.touchPoint==null)popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
+                    if (popupInfo.touchPoint==null || event.getAction()==MotionEvent.ACTION_DOWN)popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
                     return false;
                 }
             });
