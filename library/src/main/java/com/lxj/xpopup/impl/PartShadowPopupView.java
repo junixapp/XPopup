@@ -17,6 +17,7 @@ import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnClickOutsideListener;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -59,7 +60,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
                 locations[1] + popupInfo.getAtView().getMeasuredHeight());
         int centerY = rect.top + rect.height()/2;
-        if(centerY > getMeasuredHeight()/2){
+        if((centerY > getMeasuredHeight()/2 || popupInfo.popupPosition== PopupPosition.Top) && popupInfo.popupPosition!=PopupPosition.Bottom){
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
             params.height = rect.top;
             isShowUp = true;
