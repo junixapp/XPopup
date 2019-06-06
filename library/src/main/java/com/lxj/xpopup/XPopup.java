@@ -30,9 +30,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
-
 import java.util.List;
-import java.util.Stack;
 
 
 public class XPopup {
@@ -148,7 +146,7 @@ public class XPopup {
             this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (popupInfo.touchPoint==null)popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
+                    if (popupInfo.touchPoint==null || event.getAction()==MotionEvent.ACTION_DOWN)popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
                     return false;
                 }
             });

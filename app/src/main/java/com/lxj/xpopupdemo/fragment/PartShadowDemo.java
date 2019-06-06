@@ -21,6 +21,8 @@ import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.XPopupApp;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView;
+import com.lxj.xpopupdemo.custom.CustomPartShadowPopupView2;
+
 import java.util.ArrayList;
 
 /**
@@ -49,6 +51,8 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv_sales).setOnClickListener(this);
         view.findViewById(R.id.tv_select).setOnClickListener(this);
         view.findViewById(R.id.tv_filter).setOnClickListener(this);
+        view.findViewById(R.id.tvCenter).setOnClickListener(this);
+        view.findViewById(R.id.tvCenter2).setOnClickListener(this);
 
         drawerPopupView = new CustomDrawerPopupView(getContext());
 
@@ -126,6 +130,20 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .atView(v)
                         .asCustom(new CustomPartShadowPopupView(getContext()))
+                        .show();
+                break;
+            case R.id.tvCenter:
+                new XPopup.Builder(getContext())
+                        .atView(v)
+                        .popupPosition(PopupPosition.Top)
+                        .asCustom(new CustomPartShadowPopupView2(getContext()))
+                        .show();
+                break;
+            case R.id.tvCenter2:
+                new XPopup.Builder(getContext())
+                        .atView(v)
+                        .popupPosition(PopupPosition.Bottom)
+                        .asCustom(new CustomPartShadowPopupView2(getContext()))
                         .show();
                 break;
         }

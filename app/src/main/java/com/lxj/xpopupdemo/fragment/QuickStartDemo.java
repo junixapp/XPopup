@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
@@ -83,6 +84,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                         .dismissOnTouchOutside(false)
                         // 设置弹窗显示和隐藏的回调监听
 //                         .autoDismiss(false)
+//                        .popupAnimation(PopupAnimation.NoAnimation)
                         .setPopupCallback(new XPopupCallback() {
                             @Override
                             public void onShow() {
@@ -199,6 +201,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 new XPopup.Builder(getContext())
                         .hasShadowBg(false)
+//                        .popupAnimation(PopupAnimation.NoAnimation) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-10)
 //                        .popupPosition(PopupPosition.Bottom) //手动指定弹窗的位置
