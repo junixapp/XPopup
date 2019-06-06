@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
@@ -85,7 +86,7 @@ public abstract class BasePopupView extends FrameLayout {
             isCreated = true;
             onCreate();
         }
-        post(new Runnable() {
+        postDelayed(new Runnable() {
             @Override
             public void run() {
                 // 如果有导航栏，则不能覆盖导航栏，
@@ -132,7 +133,7 @@ public abstract class BasePopupView extends FrameLayout {
 
                 doAfterShow();
             }
-        });
+        },50);
 
     }
 
@@ -298,6 +299,9 @@ public abstract class BasePopupView extends FrameLayout {
             case ScrollAlphaFromBottom:
             case ScrollAlphaFromLeftBottom:
                 return new ScrollScaleAnimator(getPopupContentView(), popupInfo.popupAnimation);
+
+            case NoAnimation:
+                return new EmptyAnimator();
         }
         return null;
     }
