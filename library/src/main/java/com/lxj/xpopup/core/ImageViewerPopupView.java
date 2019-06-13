@@ -460,9 +460,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             final PhotoView photoView = new PhotoView(container.getContext());
             // call LoadImageListener
-            if (imageLoader != null) {
-                imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView);
-            }
+            if (imageLoader != null) imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView);
+
             container.addView(photoView);
             photoView.setOnClickListener(new OnClickListener() {
                 @Override

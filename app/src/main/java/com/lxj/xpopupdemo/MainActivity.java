@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
@@ -19,20 +21,25 @@ import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 public class MainActivity extends AppCompatActivity {
 
     PageInfo[] pageInfos = new PageInfo[]{
-      new PageInfo("快速开始", new QuickStartDemo()),
-      new PageInfo("局部阴影", new PartShadowDemo()),
-      new PageInfo("图片浏览", new ImageViewerDemo()),
-      new PageInfo("尝试不同动画", new AllAnimatorDemo()),
-      new PageInfo("自定义弹窗", new CustomPopupDemo()),
-      new PageInfo("自定义动画", new CustomAnimatorDemo())
+            new PageInfo("快速开始", new QuickStartDemo()),
+            new PageInfo("局部阴影", new PartShadowDemo()),
+            new PageInfo("图片浏览", new ImageViewerDemo()),
+            new PageInfo("尝试不同动画", new AllAnimatorDemo()),
+            new PageInfo("自定义弹窗", new CustomPopupDemo()),
+            new PageInfo("自定义动画", new CustomAnimatorDemo())
     };
 
     TabLayout tabLayout;
     public ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(actionBar.getTitle() + BuildConfig.VERSION_NAME);
+
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
@@ -45,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class MainAdapter extends FragmentPagerAdapter{
+    class MainAdapter extends FragmentPagerAdapter {
 
         public MainAdapter(FragmentManager fm) {
             super(fm);
