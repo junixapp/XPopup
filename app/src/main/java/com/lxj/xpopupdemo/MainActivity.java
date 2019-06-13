@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(actionBar.getTitle() + BuildConfig.VERSION_NAME);
+
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class MainAdapter extends FragmentPagerAdapter{
+    class MainAdapter extends FragmentPagerAdapter {
 
         public MainAdapter(FragmentManager fm) {
             super(fm);

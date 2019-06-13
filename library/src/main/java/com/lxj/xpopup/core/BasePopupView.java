@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -27,8 +29,10 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
+
 import java.util.ArrayList;
 import java.util.Stack;
+
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -133,7 +137,7 @@ public abstract class BasePopupView extends FrameLayout {
 
                 doAfterShow();
             }
-        },50);
+        }, 50);
 
     }
 
@@ -189,7 +193,7 @@ public abstract class BasePopupView extends FrameLayout {
     };
 
     private ShowSoftInputTask showSoftInputTask;
-
+    private EditText focusEt;
     public void focusAndProcessBackPress() {
         // 处理返回按键
         if (popupInfo.isRequestFocus) {
@@ -198,24 +202,15 @@ public abstract class BasePopupView extends FrameLayout {
             if (!stack.contains(this)) stack.push(this);
         }
         // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
-        setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    if (popupInfo.isDismissOnBackPressed)
-                        dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
+        setOnKeyListener(new BackPressListener());
 
         //let all EditText can process back pressed.
         ArrayList<EditText> list = new ArrayList<>();
         XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
         for (int i = 0; i < list.size(); i++) {
-            final View et = list.get(i);
+            final EditText et = list.get(i);
             if (i == 0) {
+                focusEt = et;
                 et.setFocusable(true);
                 et.setFocusableInTouchMode(true);
                 et.requestFocus();
@@ -228,20 +223,16 @@ public abstract class BasePopupView extends FrameLayout {
                     postDelayed(showSoftInputTask, 10);
                 }
             }
-            et.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-                        if (popupInfo.isDismissOnBackPressed)
-                            dismiss();
-                        return true;
-                    }
-                    return false;
-                }
-            });
+            et.setOnKeyListener(new BackPressListener());
         }
     }
 
+    protected void dismissOrHideSoftInput(){
+        if(KeyboardUtils.sDecorViewInvisibleHeightPre==0)
+            dismiss();
+        else
+            KeyboardUtils.hideSoftInput(BasePopupView.this);
+    }
     class ShowSoftInputTask implements Runnable {
         View focusView;
         boolean isDone = false;
@@ -256,6 +247,18 @@ public abstract class BasePopupView extends FrameLayout {
                 isDone = true;
                 KeyboardUtils.showSoftInput(focusView);
             }
+        }
+    }
+    class BackPressListener implements OnKeyListener{
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                if (popupInfo.isDismissOnBackPressed &&
+                        (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed()))
+                    dismissOrHideSoftInput();
+                return true;
+            }
+            return false;
         }
     }
 
@@ -436,14 +439,14 @@ public abstract class BasePopupView extends FrameLayout {
     public void dismiss() {
         if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
+        if (popupInfo.autoOpenSoftInput)KeyboardUtils.hideSoftInput(this);
         clearFocus();
         doDismissAnimation();
         doAfterDismiss();
     }
 
     protected void doAfterDismiss() {
-        if (popupInfo.isRequestFocus)
-            KeyboardUtils.hideSoftInput(this);
+        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         removeCallbacks(doAfterDismissTask);
         postDelayed(doAfterDismissTask, getAnimationDuration());
     }
@@ -462,7 +465,7 @@ public abstract class BasePopupView extends FrameLayout {
             popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
             if (!stack.isEmpty()) stack.pop();
-            if (popupInfo.isRequestFocus) {
+            if (popupInfo!=null && popupInfo.isRequestFocus) {
                 if (!stack.isEmpty()) {
                     stack.get(stack.size() - 1).focusAndProcessBackPress();
                 } else {

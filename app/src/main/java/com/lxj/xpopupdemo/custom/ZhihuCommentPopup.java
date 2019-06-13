@@ -12,6 +12,8 @@ import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
@@ -50,7 +52,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
 //                        .hasShadowBg(false)
-                        .setPopupCallback(new XPopupCallback() {
+                        .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onShow() { }
                             @Override

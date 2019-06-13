@@ -15,6 +15,7 @@ import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
@@ -94,7 +95,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                 .atView(v)
 //                .dismissOnTouchOutside(false)
-                .setPopupCallback(new XPopupCallback() {
+                .setPopupCallback(new SimpleCallback() {
                     @Override
                     public void onShow() {
                         toast("显示了");

@@ -21,7 +21,7 @@ import java.util.HashMap;
  */
 public final class KeyboardUtils {
 
-    private static int sDecorViewInvisibleHeightPre;
+    public static int sDecorViewInvisibleHeightPre;
     private static ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
     private static HashMap<View,OnSoftInputChangedListener> listenerMap = new HashMap<>();
     private KeyboardUtils() {
