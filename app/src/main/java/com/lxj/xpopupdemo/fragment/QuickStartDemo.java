@@ -3,6 +3,7 @@ package com.lxj.xpopupdemo.fragment;
 import android.util.Log;
 import android.view.View;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.core.BasePopupView;
@@ -11,6 +12,7 @@ import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
@@ -85,7 +87,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         // 设置弹窗显示和隐藏的回调监听
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
-                        .setPopupCallback(new XPopupCallback() {
+                        .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onShow() {
                                 Log.e("tag", "onShow");
@@ -93,6 +95,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             @Override
                             public void onDismiss() {
                                 Log.e("tag", "onDismiss");
+                            }
+                            //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
+                            @Override
+                            public boolean onBackPressed() {
+                                ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
+                                return true;
                             }
                         }).asConfirm("我是标题", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
                         "取消", "确定",

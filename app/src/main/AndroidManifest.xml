@@ -15,7 +15,7 @@
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         tools:replace="android:appComponentFactory"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"  android:windowSoftInputMode="adjustUnspecified">
+        <activity android:name=".MainActivity"  android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

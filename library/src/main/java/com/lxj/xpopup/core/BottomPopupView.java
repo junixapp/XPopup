@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
+import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 
@@ -110,6 +111,8 @@ public class BottomPopupView extends BasePopupView {
         if (popupInfo.enableDrag) {
             if (popupStatus == PopupStatus.Dismissing) return;
             popupStatus = PopupStatus.Dismissing;
+            if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+            clearFocus();
             // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
             bottomPopupContainer.close();
         } else {
