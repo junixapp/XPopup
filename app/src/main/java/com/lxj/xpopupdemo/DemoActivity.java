@@ -3,6 +3,8 @@ package com.lxj.xpopupdemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
+import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 
 /**
  * Description:
@@ -23,11 +26,13 @@ import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
  */
 public class DemoActivity extends AppCompatActivity {
     EditText editText;
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
         editText = findViewById(R.id.et);
+        recyclerView = findViewById(R.id.recyclerView);
         findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +68,13 @@ public class DemoActivity extends AppCompatActivity {
                 }
             }
         });
+
+        initData();
+    }
+
+    private void initData() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new ImageViewerDemo.ImageAdapter());
     }
 
     public void showMultiPopup(){

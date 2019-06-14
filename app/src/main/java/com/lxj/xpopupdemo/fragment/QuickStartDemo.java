@@ -1,7 +1,9 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
