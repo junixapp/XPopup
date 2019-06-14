@@ -1,14 +1,9 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
@@ -16,8 +11,6 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
-import com.lxj.xpopup.interfaces.XPopupCallback;
-import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
