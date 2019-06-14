@@ -6,8 +6,8 @@ android {
         applicationId "com.lxj.xpopupdemo"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.8.0"
+        versionCode 3
+        versionName "1.8.3"
     }
     buildTypes {
         release {
@@ -30,7 +30,7 @@ dependencies {
     implementation 'com.lxj:easyadapter:1.1.1'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation project(':library')
-    implementation 'com.blankj:utilcode:1.23.6'
+    implementation 'com.blankj:utilcode:1.24.2'
     implementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     implementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
     implementation 'androidx.cardview:cardview:1.0.0-beta01'

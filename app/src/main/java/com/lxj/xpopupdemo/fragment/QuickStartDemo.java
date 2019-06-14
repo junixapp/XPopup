@@ -2,10 +2,8 @@ package com.lxj.xpopupdemo.fragment;
 
 import android.util.Log;
 import android.view.View;
-
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
@@ -13,7 +11,6 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
-import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
@@ -22,6 +19,7 @@ import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
+import com.lxj.xpopupdemo.custom.QQMsgPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
 
 /**
@@ -37,6 +35,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     @Override
     public void init(View view) {
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
+        view.findViewById(R.id.btnShowPosition1).setOnClickListener(this);
+        view.findViewById(R.id.btnShowPosition2).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterListWithCheck).setOnClickListener(this);
@@ -248,8 +248,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
                 new XPopup.Builder(getContext())
-//                        .offsetX(60) //往左偏移10
-//                        .offsetY(-50)  //往下偏移10
+//                        .offsetX(-10) //往左偏移10
+//                        .offsetY(10)  //往下偏移10
 //                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
                         .hasShadowBg(false) // 去掉半透明背景
                         .atView(v)
@@ -267,6 +267,21 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomEditTextBottomPopup(getContext()))
+                        .show();
+                break;
+            case R.id.btnShowPosition1:
+                new XPopup.Builder(getContext())
+                        .offsetY(300)
+                        .popupAnimation(PopupAnimation.TranslateFromLeft)
+                        .asCustom(new QQMsgPopup(getContext()))
+                        .show();
+                break;
+            case R.id.btnShowPosition2:
+                new XPopup.Builder(getContext())
+                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
+                        .isCenterHorizontal(true)
+                        .offsetY(200)
+                        .asCustom(new QQMsgPopup(getContext()))
                         .show();
                 break;
         }

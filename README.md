@@ -27,6 +27,7 @@
 4. DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
 5. 大图浏览类型，就像掘金那样的图片浏览弹窗，带有良好的拖拽交互体验，内部嵌入了改良的PhotoView
 6. 全屏弹窗，弹窗是全屏的，就像Activity那样，可以设置任意的动画器；适合用来实现登录，选择性的界面效果。
+7. 自由定位弹窗(Position)，弹窗是自由的，你可放在屏幕左上角，右下角，或者任意地方，结合强大的动画器，可以实现各种效果。
 
 
 ## ScreenShot
@@ -62,9 +63,9 @@
 
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.0'
+implementation 'com.lxj:xpopup:1.8.2'
 //for androidx.
-implementation 'com.lxj:xpopup:1.8.0-x'
+implementation 'com.lxj:xpopup:1.8.2-x'
 ```
 
 必须添加的依赖库：

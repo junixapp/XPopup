@@ -166,6 +166,11 @@ public abstract class BasePopupView extends FrameLayout {
                 popupInfo.decorView.addView(BasePopupView.this, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT));
 
+                ArrayList<EditText> list = new ArrayList<>();
+                XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
+                if(list.size()>0){
+                    ((Activity)getContext()).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                }
                 //2. do init，game start.
                 init();
             }
@@ -193,7 +198,6 @@ public abstract class BasePopupView extends FrameLayout {
     };
 
     private ShowSoftInputTask showSoftInputTask;
-    private EditText focusEt;
     public void focusAndProcessBackPress() {
         // 处理返回按键
         if (popupInfo.isRequestFocus) {
@@ -210,7 +214,6 @@ public abstract class BasePopupView extends FrameLayout {
         for (int i = 0; i < list.size(); i++) {
             final EditText et = list.get(i);
             if (i == 0) {
-                focusEt = et;
                 et.setFocusable(true);
                 et.setFocusableInTouchMode(true);
                 et.requestFocus();
