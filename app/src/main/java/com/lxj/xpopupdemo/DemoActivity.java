@@ -3,6 +3,9 @@ package com.lxj.xpopupdemo;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,6 +18,7 @@ import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
+import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 
 /**
  * Description:
