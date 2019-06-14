@@ -112,6 +112,7 @@ public class BottomPopupView extends BasePopupView {
             if (popupStatus == PopupStatus.Dismissing) return;
             popupStatus = PopupStatus.Dismissing;
             if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+            restoreSoftMode();
             clearFocus();
             // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
             bottomPopupContainer.close();

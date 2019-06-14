@@ -109,6 +109,7 @@ implementation 'com.android.support:design:28.0.0'
 - 进境肉牛检疫追溯系统(App端)
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 - 爱勘(ican)App
+- 医美消费指南(https://www.pgyer.com/yimeiandroid)
 
 
 ## 打个赏

@@ -209,5 +209,9 @@
             android:text="水平居中的自由定位Position弹窗"
             android:layout_marginBottom="180dp"
             android:textAllCaps="false" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
