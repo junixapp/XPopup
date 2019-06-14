@@ -38,14 +38,6 @@ public abstract class AttachPopupView extends BasePopupView {
         attachPopupContainer.addView(contentView);
     }
 
-    public AttachPopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public AttachPopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
     @Override
     protected int getPopupLayoutId() {
         return R.layout._xpopup_attach_popup_view;

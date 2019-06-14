@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
@@ -49,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 //        XPopup.setAnimationDuration(1000);
 //        XPopup.setPrimaryColor(Color.RED);
+    }
+
+    public ViewGroup getAppBar(){
+        return findViewById(R.id.appBarLayout);
     }
 
 

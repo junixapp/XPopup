@@ -14,6 +14,7 @@ public class TranslateAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
     private int oldWidth, oldHeight;
+    private float defTranslationX, defTranslationY;
 
     public TranslateAnimator(View target, PopupAnimation popupAnimation) {
         super(target, popupAnimation);
@@ -21,6 +22,8 @@ public class TranslateAnimator extends PopupAnimator {
 
     @Override
     public void initAnimator() {
+        defTranslationX = targetView.getTranslationX();
+        defTranslationY = targetView.getTranslationY();
         // 设置起始坐标
         applyTranslation();
         startTranslationX = targetView.getTranslationX();
@@ -48,7 +51,7 @@ public class TranslateAnimator extends PopupAnimator {
 
     @Override
     public void animateShow() {
-        targetView.animate().translationX(0).translationY(0)
+        targetView.animate().translationX(defTranslationX).translationY(defTranslationY)
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .setDuration(XPopup.getAnimationDuration()).start();
     }
@@ -58,7 +61,7 @@ public class TranslateAnimator extends PopupAnimator {
         //执行消失动画的时候，宽高可能改变了，所以需要修正动画的起始值
         switch (popupAnimation){
             case TranslateFromLeft:
-                startTranslationX -= targetView.getMeasuredWidth() - oldWidth;
+                startTranslationX -= targetView.getMeasuredWidth() - oldWidth ;
                 break;
             case TranslateFromTop:
                 startTranslationY -= targetView.getMeasuredHeight() - oldHeight;
