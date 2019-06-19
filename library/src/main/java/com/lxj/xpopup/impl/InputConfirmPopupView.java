@@ -29,6 +29,7 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     }
 
     AppCompatEditText tv_input;
+    public String inputContent;
     @Override
     protected void initPopupContent() {
         tv_input = findViewById(R.id.tv_input);
@@ -37,8 +38,9 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         if(!TextUtils.isEmpty(hint)){
             tv_input.setHint(hint);
         }
-        if(!TextUtils.isEmpty(content)){
-            tv_input.setText(content);
+        if(!TextUtils.isEmpty(inputContent)){
+            tv_input.setText(inputContent);
+            tv_input.setSelection(inputContent.length());
         }
     }
 

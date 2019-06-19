@@ -7,6 +7,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -117,14 +118,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         //.dismissOnBackPressed(false)
                         .autoOpenSoftInput(true)
                         //.moveUpToKeyboard(false) //是否移动到软键盘上面，默认为true
-                        .asInputConfirm("我是标题", "请输入内容。", "我是默认Hint文字",
-                        new OnInputConfirmListener() {
-                            @Override
-                            public void onConfirm(String text) {
-                                toast("input text: " + text);
+                        .asInputConfirm("我是标题", "请输入内容。", "啊啊啊啊","我是默认Hint文字",
+                                new OnInputConfirmListener() {
+                                    @Override
+                                    public void onConfirm(String text) {
+                                        toast("input text: " + text);
 //                                new XPopup.Builder(getContext()).asLoading().show();
-                            }
-                        })
+                                    }
+                                })
                         .show();
                 break;
             case R.id.btnShowCenterList: //在中间弹出的List列表弹窗
