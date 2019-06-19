@@ -6,9 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
@@ -39,6 +37,13 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         if(!TextUtils.isEmpty(hint)){
             tv_input.setHint(hint);
         }
+        if(!TextUtils.isEmpty(content)){
+            tv_input.setText(content);
+        }
+    }
+
+    public AppCompatEditText getEditText() {
+        return tv_input;
     }
 
     protected void applyPrimaryColor(){
