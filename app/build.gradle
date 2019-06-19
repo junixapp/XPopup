@@ -6,8 +6,8 @@ android {
         applicationId "com.lxj.xpopupdemo"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.8.2"
+        versionCode 4
+        versionName "1.8.3"
     }
     buildTypes {
         release {
