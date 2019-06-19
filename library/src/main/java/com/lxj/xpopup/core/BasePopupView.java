@@ -87,6 +87,7 @@ public abstract class BasePopupView extends FrameLayout {
         if (!isCreated) {
             isCreated = true;
             onCreate();
+            if(popupInfo.xPopupCallback!=null)popupInfo.xPopupCallback.onCreated();
         }
         postDelayed(new Runnable() {
             @Override

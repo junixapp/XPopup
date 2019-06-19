@@ -90,6 +90,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupAnimation(PopupAnimation.NoAnimation)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
+                            public void onCreated() {
+                                Log.e("tag", "弹窗创建了");
+                            }
+                            @Override
                             public void onShow() {
                                 Log.e("tag", "onShow");
                             }

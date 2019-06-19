@@ -15,6 +15,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopupdemo.R;
 import java.util.ArrayList;
 
@@ -48,10 +49,12 @@ public class CustomPopupDemo extends BaseFragment {
                 spinner.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        CustomPopup customPopup = new CustomPopup(getContext());
                         new XPopup.Builder(getContext())
                                 .popupAnimation(data[position])
                                 .autoOpenSoftInput(true)
-                                .asCustom(new CustomPopup(getContext()))
+                                .asCustom(customPopup)
                                 .show();
                     }
                 }, 200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰
@@ -75,7 +78,6 @@ public class CustomPopupDemo extends BaseFragment {
         protected int getImplLayoutId() {
             return R.layout.custom_popup;
         }
-
         @Override
         protected void onCreate() {
             super.onCreate();
@@ -86,8 +88,6 @@ public class CustomPopupDemo extends BaseFragment {
                 }
             });
         }
-
-        @Override
         protected void onShow() {
             super.onShow();
         }

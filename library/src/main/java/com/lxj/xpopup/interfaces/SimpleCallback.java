@@ -6,6 +6,10 @@ package com.lxj.xpopup.interfaces;
  */
 public class SimpleCallback implements XPopupCallback {
     @Override
+    public void onCreated() {
+
+    }
+    @Override
     public void onShow() {
 
     }

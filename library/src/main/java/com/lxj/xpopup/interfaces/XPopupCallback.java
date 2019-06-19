@@ -7,6 +7,10 @@ package com.lxj.xpopup.interfaces;
  */
 public interface XPopupCallback {
     /**
+     * 弹窗的onCreate方法执行完调用
+     */
+    void onCreated();
+    /**
      * 完全显示的时候执行
      */
     void onShow();
