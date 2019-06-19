@@ -48,7 +48,7 @@
 
 ![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
-
+![](screenshot/position.gif)
 
 ## 快速体验
 

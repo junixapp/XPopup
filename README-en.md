@@ -25,7 +25,7 @@ Powerful，material UI，elegant interaction general popup！can absolutely repl
 
 ![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
-
+![](screenshot/position.gif)
 
 ## Download Apk
 

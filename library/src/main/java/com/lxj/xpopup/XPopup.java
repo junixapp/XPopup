@@ -6,7 +6,6 @@ import android.graphics.PointF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -14,6 +13,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.core.PopupInfo;
+import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.enums.PopupType;
@@ -34,8 +34,7 @@ import java.util.List;
 
 
 public class XPopup {
-    private XPopup() {
-    }
+    private XPopup() {}
 
     /**
      * 全局弹窗的设置
@@ -155,7 +154,8 @@ public class XPopup {
             this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (popupInfo.touchPoint==null || event.getAction()==MotionEvent.ACTION_DOWN)popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
+                    if (popupInfo.touchPoint == null || event.getAction() == MotionEvent.ACTION_DOWN)
+                        popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
                     return false;
                 }
             });
@@ -445,12 +445,12 @@ public class XPopup {
          */
         public BottomListPopupView asBottomList(String title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener) {
             popupType(PopupType.Bottom);
-            BottomPopupView popupView = new BottomListPopupView(this.context)
+            BottomListPopupView popupView = new BottomListPopupView(this.context)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
                     .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
-            return (BottomListPopupView) popupView;
+            return popupView;
         }
 
         public BottomListPopupView asBottomList(String title, String[] data, OnSelectListener selectListener) {
@@ -583,9 +583,6 @@ public class XPopup {
             return popupView;
         }
 
-        /**
-         * 自定义弹窗
-         **/
         public BasePopupView asCustom(BasePopupView popupView) {
             if (popupView instanceof CenterPopupView) {
                 popupType(PopupType.Center);
@@ -593,6 +590,10 @@ public class XPopup {
                 popupType(PopupType.Bottom);
             } else if (popupView instanceof AttachPopupView) {
                 popupType(PopupType.AttachView);
+            } else if (popupView instanceof ImageViewerPopupView) {
+                popupType(PopupType.ImageViewer);
+            } else if (popupView instanceof PositionPopupView) {
+                popupType(PopupType.Position);
             }
             popupView.popupInfo = this.popupInfo;
             return popupView;
