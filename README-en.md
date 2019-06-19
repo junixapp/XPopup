@@ -25,7 +25,7 @@ Powerful，material UI，elegant interaction general popup！can absolutely repl
 
 ![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
-
+![](screenshot/position.gif)
 
 ## Download Apk
 
@@ -40,9 +40,9 @@ If the qrcode is invisible，[click me to download Demo.apk](https://fir.im/2q63
 
 First, you need add gradle dependency：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.2'
+implementation 'com.lxj:xpopup:1.8.3'
 //for androidx.
-implementation 'com.lxj:xpopup:1.8.2-x'
+implementation 'com.lxj:xpopup:1.8.3-x'
 ```
 
 Second, you also need these：
@@ -86,6 +86,7 @@ Base on information provided by some friends，they are using Xpopup:
 - 进境肉牛检疫追溯系统(App端)
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 - 爱勘(ican)App
+- 医美消费指南(https://www.pgyer.com/yimeiandroid)
 
 
 ## Buy me a coffee

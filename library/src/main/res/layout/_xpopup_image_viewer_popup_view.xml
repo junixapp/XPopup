@@ -39,7 +39,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="20dp"
-        android:text="保存"
+        android:text="@string/save"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:visibility="invisible" />

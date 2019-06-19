@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/tv_cancel"
             android:textSize="16sp"
-            android:text="取消"
+            android:text="@string/cancel"
             android:background="?android:attr/selectableItemBackground"
             android:layout_marginRight="20dp"
             android:paddingLeft="18dp"
@@ -54,7 +54,7 @@
         <TextView
             android:textSize="16sp"
             android:id="@+id/tv_confirm"
-            android:text="确定"
+            android:text="@string/ok"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:paddingTop="10dp"

@@ -48,7 +48,7 @@
 
 ![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
-
+![](screenshot/position.gif)
 
 ## 快速体验
 
@@ -63,9 +63,9 @@
 
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.2'
+implementation 'com.lxj:xpopup:1.8.3'
 //for androidx.
-implementation 'com.lxj:xpopup:1.8.2-x'
+implementation 'com.lxj:xpopup:1.8.3-x'
 ```
 
 必须添加的依赖库：
@@ -109,6 +109,7 @@ implementation 'com.android.support:design:28.0.0'
 - 进境肉牛检疫追溯系统(App端)
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 - 爱勘(ican)App
+- 医美消费指南(https://www.pgyer.com/yimeiandroid)
 
 
 ## 打个赏
