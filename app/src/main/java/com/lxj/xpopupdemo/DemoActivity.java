@@ -11,13 +11,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
-import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
 import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 
 /**

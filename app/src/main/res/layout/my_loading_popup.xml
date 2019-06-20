@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:padding="15dp"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_title"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:ellipsize="end"
+        android:textSize="15sp"
+        android:textColor="#222"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+</LinearLayout>
+

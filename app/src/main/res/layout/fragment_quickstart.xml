@@ -17,6 +17,13 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/btnBindLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="使用内置弹窗绑定项目已有布局"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/btnShowInputConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

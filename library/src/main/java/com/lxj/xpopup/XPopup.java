@@ -6,6 +6,7 @@ import android.graphics.PointF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -30,11 +31,13 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.util.List;
 
 
 public class XPopup {
-    private XPopup() {}
+    private XPopup() {
+    }
 
     /**
      * 全局弹窗的设置
@@ -367,26 +370,32 @@ public class XPopup {
          *
          * @param title           对话框标题
          * @param content         对话框内容
+         * @param inputContent    输入框文字内容，会覆盖hint
          * @param hint            输入框默认文字
          * @param confirmListener 点击确认的监听器
          * @param cancelListener  点击取消的监听器
          * @return
          */
-        public InputConfirmPopupView asInputConfirm(String title, String content, String hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener) {
+        public InputConfirmPopupView asInputConfirm(String title, String content, String inputContent, String hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener) {
             popupType(PopupType.Center);
             InputConfirmPopupView popupView = new InputConfirmPopupView(this.context);
             popupView.setTitleContent(title, content, hint);
+            popupView.inputContent = inputContent;
             popupView.setListener(confirmListener, cancelListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
 
+        public InputConfirmPopupView asInputConfirm(String title, String content, String inputContent, String hint, OnInputConfirmListener confirmListener) {
+            return asInputConfirm(title, content, inputContent, hint, confirmListener, null);
+        }
+
         public InputConfirmPopupView asInputConfirm(String title, String content, String hint, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, hint, confirmListener, null);
+            return asInputConfirm(title, content, null, hint, confirmListener, null);
         }
 
         public InputConfirmPopupView asInputConfirm(String title, String content, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, null, confirmListener, null);
+            return asInputConfirm(title, content, null, null, confirmListener, null);
         }
 
         /**

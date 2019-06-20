@@ -6,11 +6,12 @@
 
 功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！它有这样几个特点：
-1. 功能强大，内部封装了常用的弹窗，内置十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果
+1. 功能强大，内部封装了常用的弹窗，内置十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果。
+   内置弹窗的UI是固定的，但允许你使用项目已有的布局或者自己的布局，同时还能用上XPopup提供的动画，交互和逻辑封装。
 2. UI和动画简洁，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化；或者说是模拟系统组件的动画，具体可以从Demo中感受
 3. 交互优雅，实现了优雅的手势交互以及智能的嵌套滚动，具体看Demo
 4. 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
-5. 通用性，项目需求复杂多变，产品经理天马行空，虽然很难做到UI的通用，但是你可以看到交互和动画完全可以通用；至于弹窗的UI和逻辑可能需要你自定义
+5. 通用性，项目需求复杂多变，产品经理天马行空，XPopup力求做到交互和动画通用；至于弹窗的UI和逻辑可能需要你自定义
 6. 易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后在`onCreate`方法写逻辑即可
 
 
@@ -63,9 +64,9 @@
 
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.3'
+implementation 'com.lxj:xpopup:1.8.4'
 //for androidx.
-implementation 'com.lxj:xpopup:1.8.3-x'
+implementation 'com.lxj:xpopup:1.8.4-x'
 ```
 
 必须添加的依赖库：
@@ -78,7 +79,7 @@ implementation 'com.android.support:design:28.0.0'
 
 
 
-## WIKI
+## 使用文档
 
 具体使用方法全在WIKI中，请查看下面各个章节：
 - [介绍](https://github.com/li-xiaojun/XPopup/wiki/1.-%E4%BB%8B%E7%BB%8D)
@@ -86,6 +87,8 @@ implementation 'com.android.support:design:28.0.0'
 - [如何自定义弹窗](https://github.com/li-xiaojun/XPopup/wiki/3.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%B9%E7%AA%97)
 - [如何自定义动画](https://github.com/li-xiaojun/XPopup/wiki/4.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB)
 - [常用设置](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
+- [常见问题](https://github.com/li-xiaojun/XPopup/wiki/6.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
+- [也许你想要这些效果](https://github.com/li-xiaojun/XPopup/wiki/7.-%E4%B9%9F%E8%AE%B8%E4%BD%A0%E6%83%B3%E8%A6%81%E8%BF%99%E4%BA%9B%E6%95%88%E6%9E%9C)
 
 
 

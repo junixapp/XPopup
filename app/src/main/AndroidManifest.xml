@@ -26,7 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".DemoActivity"/>
-        <activity android:name=".Demo2Activity"/>
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"

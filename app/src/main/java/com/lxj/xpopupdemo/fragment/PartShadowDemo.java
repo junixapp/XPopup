@@ -92,21 +92,23 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
 
     private void showPartShadow(final View v){
 //        if(popupView!=null && popupView.isShow())return;
-        popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
-                .atView(v)
+        if(popupView==null){
+            popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
+                    .atView(v)
 //                .dismissOnTouchOutside(false)
-                .setPopupCallback(new SimpleCallback() {
-                    @Override
-                    public void onShow() {
-                        toast("显示了");
-                    }
-                    @Override
-                    public void onDismiss() {
-                        popupView = null;
-//                        showPartShadow(v);
-                    }
-                })
-                .asCustom(new CustomPartShadowPopupView(getContext()));
+                    .setPopupCallback(new SimpleCallback() {
+                        @Override
+                        public void onShow() {
+                            toast("显示了");
+                        }
+                        @Override
+                        public void onDismiss() {
+//                            popupView = null;
+                        }
+                    })
+                    .asCustom(new CustomPartShadowPopupView(getContext()));
+        }
+
         popupView.show();
     }
 
@@ -116,9 +118,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv_all:
             case R.id.tv_price:
             case R.id.tv_sales:
-                if(popupView==null){}
                 showPartShadow(v);
-
                 break;
             case R.id.tv_filter:
                 new XPopup.Builder(getContext())

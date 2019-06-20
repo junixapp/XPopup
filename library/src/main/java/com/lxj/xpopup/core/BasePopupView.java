@@ -17,7 +17,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -30,10 +29,8 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import java.util.ArrayList;
 import java.util.Stack;
-
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -54,7 +51,6 @@ public abstract class BasePopupView extends FrameLayout {
     public BasePopupView(@NonNull Context context) {
         super(context);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-
         shadowBgAnimator = new ShadowBgAnimator(this);
         //  添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
@@ -90,6 +86,7 @@ public abstract class BasePopupView extends FrameLayout {
         if (!isCreated) {
             isCreated = true;
             onCreate();
+            if(popupInfo.xPopupCallback!=null)popupInfo.xPopupCallback.onCreated();
         }
         postDelayed(new Runnable() {
             @Override
@@ -137,11 +134,14 @@ public abstract class BasePopupView extends FrameLayout {
                 doShowAnimation();
 
                 doAfterShow();
+
+                focusAndProcessBackPress();
             }
         }, 50);
 
     }
     private int preSoftMode = -1;
+    private boolean hasMoveUp = false;
     public BasePopupView show() {
         if (getParent() != null) return this;
         final Activity activity = (Activity) getContext();
@@ -151,9 +151,11 @@ public abstract class BasePopupView extends FrameLayout {
             public void onSoftInputChanged(int height) {
                 if (height == 0) { // 说明对话框隐藏
                     XPopupUtils.moveDown(BasePopupView.this);
+                    hasMoveUp = false;
                 } else {
                     //when show keyboard, move up
                     XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
+                    hasMoveUp = true;
                 }
             }
         });
@@ -194,16 +196,14 @@ public abstract class BasePopupView extends FrameLayout {
             onShow();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow();
-            if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0) {
+            if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0 && !hasMoveUp) {
                 XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()), BasePopupView.this);
             }
-            focusAndProcessBackPress();
         }
     };
 
     private ShowSoftInputTask showSoftInputTask;
     public void focusAndProcessBackPress() {
-        // 处理返回按键
         if (popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             requestFocus();
@@ -543,6 +543,7 @@ public abstract class BasePopupView extends FrameLayout {
         if (showSoftInputTask != null) removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
+        hasMoveUp = false;
     }
 
     private float x, y;
