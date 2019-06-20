@@ -50,7 +50,6 @@ public abstract class BasePopupView extends FrameLayout {
     public BasePopupView(@NonNull Context context) {
         super(context);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-
         shadowBgAnimator = new ShadowBgAnimator(this);
         //  添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
@@ -204,7 +203,6 @@ public abstract class BasePopupView extends FrameLayout {
 
     private ShowSoftInputTask showSoftInputTask;
     public void focusAndProcessBackPress() {
-        // 处理返回按键
         if (popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             requestFocus();

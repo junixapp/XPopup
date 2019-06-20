@@ -19,14 +19,19 @@ public class LoadingPopupView extends CenterPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout._xpopup_center_impl_loading;
+        return bindLayoutId != 0 ? bindLayoutId : R.layout._xpopup_center_impl_loading;
+    }
+
+    public LoadingPopupView bindLayout(int layoutId){
+        bindLayoutId = layoutId;
+        return this;
     }
 
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
         tv_title = findViewById(R.id.tv_title);
-        if(title!=null){
+        if(title!=null && tv_title!=null){
             tv_title.setVisibility(VISIBLE);
             tv_title.setText(title);
         }

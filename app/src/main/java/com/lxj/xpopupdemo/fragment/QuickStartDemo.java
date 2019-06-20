@@ -7,7 +7,6 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
-import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -36,6 +35,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     @Override
     public void init(View view) {
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
+        view.findViewById(R.id.btnBindLayout).setOnClickListener(this);
         view.findViewById(R.id.btnShowPosition1).setOnClickListener(this);
         view.findViewById(R.id.btnShowPosition2).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
@@ -85,9 +85,42 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 new XPopup.Builder(getContext())
 //                         .dismissOnTouchOutside(false)
-                        // 设置弹窗显示和隐藏的回调监听
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
+                        .setPopupCallback(new SimpleCallback() {
+                            @Override
+                            public void onCreated() {
+                                Log.e("tag", "弹窗创建了");
+                            }
+
+                            @Override
+                            public void onShow() {
+                                Log.e("tag", "onShow");
+                            }
+
+                            @Override
+                            public void onDismiss() {
+                                Log.e("tag", "onDismiss");
+                            }
+
+                            //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
+                            @Override
+                            public boolean onBackPressed() {
+                                ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
+                                return true;
+                            }
+                        }).asConfirm("我是标题", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+                        "取消", "确定",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                toast("click confirm");
+                            }
+                        }, null, false)
+                        .show();
+                break;
+            case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
+                new XPopup.Builder(getContext())
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onCreated() {
@@ -107,14 +140,16 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
                                 return true;
                             }
-                        }).asConfirm("我是标题", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
-                        "取消", "确定",
+                        }).asConfirm("复用项目已有布局", "您可以复用项目已有布局，来使用XPopup强大的交互能力和逻辑封装，弹窗的布局完全由你自己控制。\n" +
+                                "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。",
+                        "关闭", "XPopup牛逼",
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
                                 toast("click confirm");
                             }
                         }, null, false)
+                        .bindLayout(R.layout.my_confim_popup) //绑定已有布局
                         .show();
                 break;
             case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗
@@ -122,7 +157,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         //.dismissOnBackPressed(false)
                         .autoOpenSoftInput(true)
                         //.moveUpToKeyboard(false) //是否移动到软键盘上面，默认为true
-                        .asInputConfirm("我是标题", "请输入内容。", "啊啊啊啊","我是默认Hint文字",
+                        .asInputConfirm("我是标题", "请输入内容。", "啊啊啊啊", "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override
                                     public void onConfirm(String text) {
@@ -136,24 +171,24 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
 //                        .maxWidth(600)
                         .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                toast("click " + text);
-                            }
-                        })
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        toast("click " + text);
+                                    }
+                                })
                         .show();
                 break;
             case R.id.btnShowCenterListWithCheck: //在中间弹出的List列表弹窗，带选中效果
                 new XPopup.Builder(getContext())
                         .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
-                        null, 1,
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                toast("click " + text);
-                            }
-                        })
+                                null, 1,
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        toast("click " + text);
+                                    }
+                                })
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
@@ -164,37 +199,37 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     @Override
                     public void run() {
 //                        if(loadingPopup.isShow())
-                            loadingPopup.dismissWith(new Runnable() {
-                                @Override
-                                public void run() {
-                                    toast("我消失了！！！");
-                                }
-                            });
+                        loadingPopup.dismissWith(new Runnable() {
+                            @Override
+                            public void run() {
+                                toast("我消失了！！！");
+                            }
+                        });
                     }
-                },2000);
+                }, 2000);
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
 //                        .enableDrag(false)
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                toast("click " + text);
-                            }
-                        })
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        toast("click " + text);
+                                    }
+                                })
                         .show();
                 break;
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
-                        null, 2,
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                toast("click " + text);
-                            }
-                        })
+                                null, 2,
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        toast("click " + text);
+                                    }
+                                })
                         .show();
                 break;
             case R.id.btnCustomBottomPopup: //自定义的底部弹窗
@@ -220,13 +255,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupPosition(PopupPosition.Bottom) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
                         .asAttachList(new String[]{"分享", "编辑", "不带icon"},
-                        new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                toast("click " + text);
-                            }
-                        })
+                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        toast("click " + text);
+                                    }
+                                })
                         .show();
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗

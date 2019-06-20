@@ -24,7 +24,7 @@
         android:text="" />
 
     <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/tv_input"
+        android:id="@+id/et_input"
         android:visibility="gone"
         android:textSize="16sp"
         android:singleLine="true"
