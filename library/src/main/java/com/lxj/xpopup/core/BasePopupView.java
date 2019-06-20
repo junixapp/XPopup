@@ -3,7 +3,6 @@ package com.lxj.xpopup.core;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -135,11 +134,14 @@ public abstract class BasePopupView extends FrameLayout {
                 doShowAnimation();
 
                 doAfterShow();
+
+                focusAndProcessBackPress();
             }
         }, 50);
 
     }
     private int preSoftMode = -1;
+    private boolean hasMoveUp = false;
     public BasePopupView show() {
         if (getParent() != null) return this;
         final Activity activity = (Activity) getContext();
@@ -149,9 +151,11 @@ public abstract class BasePopupView extends FrameLayout {
             public void onSoftInputChanged(int height) {
                 if (height == 0) { // 说明对话框隐藏
                     XPopupUtils.moveDown(BasePopupView.this);
+                    hasMoveUp = false;
                 } else {
                     //when show keyboard, move up
                     XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
+                    hasMoveUp = true;
                 }
             }
         });
@@ -192,10 +196,9 @@ public abstract class BasePopupView extends FrameLayout {
             onShow();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow();
-            if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0) {
+            if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0 && !hasMoveUp) {
                 XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()), BasePopupView.this);
             }
-            focusAndProcessBackPress();
         }
     };
 
@@ -541,6 +544,7 @@ public abstract class BasePopupView extends FrameLayout {
         if (showSoftInputTask != null) removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
+        hasMoveUp = false;
     }
 
     private float x, y;
