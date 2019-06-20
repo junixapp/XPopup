@@ -50,10 +50,5 @@
             android:layout_width="match_parent"
             android:layout_height="150dp" />
 
-
     </LinearLayout>
-    <!--<com.lxj.xpopup.widget.VerticalRecyclerView-->
-        <!--android:id="@+id/recyclerView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
 </android.support.v4.widget.NestedScrollView>
