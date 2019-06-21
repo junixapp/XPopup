@@ -89,6 +89,7 @@ Base on information provided by some friends，they are using Xpopup:
 - 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 - 爱勘(ican)App
 - 医美消费指南(https://www.pgyer.com/yimeiandroid)
+- 蜜尚（APP名，广州时尚商业城有限公司（时尚集团））
 
 
 ## Buy me a coffee
