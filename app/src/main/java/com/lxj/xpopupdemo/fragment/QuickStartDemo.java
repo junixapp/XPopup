@@ -283,6 +283,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .popupAnimation(PopupAnimation.TranslateFromBottom)
                         .hasStatusBarShadow(true)
+                        .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
                         .show();
                 break;

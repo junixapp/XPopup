@@ -134,7 +134,8 @@ public abstract class BasePopupView extends FrameLayout {
 
                 doAfterShow();
 
-                focusAndProcessBackPress();
+                //目前全屏弹窗快速弹出输入法有问题，暂时用这个方案
+                if(!(BasePopupView.this instanceof FullScreenPopupView))focusAndProcessBackPress();
             }
         }, 50);
 
@@ -193,6 +194,7 @@ public abstract class BasePopupView extends FrameLayout {
         public void run() {
             popupStatus = PopupStatus.Show;
             onShow();
+            if(BasePopupView.this instanceof FullScreenPopupView)focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow();
             if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0 && !hasMoveUp) {
