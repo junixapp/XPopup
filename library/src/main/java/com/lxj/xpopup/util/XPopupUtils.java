@@ -257,6 +257,18 @@ public class XPopupUtils {
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
+        }else if(isTopPartShadow(pv)){
+            int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
+            if (focusEt != null && overflowHeight > 0) {
+                dy = overflowHeight;
+            }
+            if(dy!=0){
+                pv.getPopupImplView().animate().translationY(-dy)
+                        .setDuration(200)
+                        .setInterpolator(new OvershootInterpolator(0))
+                        .start();
+            }
+            return;
         }
         //dy=0说明没有触发移动，有些弹窗有translationY，不能影响它们
         if (dy == 0 && pv.getPopupContentView().getTranslationY() != 0) return;
@@ -270,13 +282,23 @@ public class XPopupUtils {
         return pv instanceof PartShadowPopupView && ((PartShadowPopupView) pv).isShowUp;
     }
 
+    private static boolean isTopPartShadow(BasePopupView pv) {
+        return pv instanceof PartShadowPopupView && !((PartShadowPopupView) pv).isShowUp;
+    }
+
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
-        if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) return;
-        pv.getPopupContentView().animate().translationY(0)
-                .setInterpolator(new OvershootInterpolator(0))
-                .setDuration(200).start();
+        if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) {
+            pv.getPopupImplView().animate().translationY(0)
+                    .setInterpolator(new OvershootInterpolator(0))
+                    .setDuration(200).start();
+        }else {
+            pv.getPopupContentView().animate().translationY(0)
+                    .setInterpolator(new OvershootInterpolator(0))
+                    .setDuration(200).start();
+
+        }
     }
 
 
