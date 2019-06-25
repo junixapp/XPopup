@@ -27,6 +27,11 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         super(context);
     }
 
+    /**
+     * 绑定已有布局
+     * @param layoutId 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
+     * @return
+     */
     public ConfirmPopupView bindLayout(int layoutId){
         bindLayoutId = layoutId;
         return this;

@@ -150,6 +150,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             }
                         }, null, false)
                         .bindLayout(R.layout.my_confim_popup) //绑定已有布局
+//                        .bindItemLayout() //带列表的弹窗还会有这样一个方法
                         .show();
                 break;
             case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗

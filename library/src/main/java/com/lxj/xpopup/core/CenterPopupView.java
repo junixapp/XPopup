@@ -18,6 +18,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 public class CenterPopupView extends BasePopupView {
     protected FrameLayout centerPopupContainer;
     protected int bindLayoutId;
+    protected int bindItemLayoutId;
     public CenterPopupView(@NonNull Context context) {
         super(context);
         centerPopupContainer = findViewById(R.id.centerPopupContainer);

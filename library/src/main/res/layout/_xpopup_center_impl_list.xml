@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/_xpopup_round3_bg"
     android:orientation="vertical">
 
@@ -21,6 +22,7 @@
     <include layout="@layout/_xpopup_divider"/>
 
     <com.lxj.xpopup.widget.VerticalRecyclerView
+        android:orientation="vertical"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

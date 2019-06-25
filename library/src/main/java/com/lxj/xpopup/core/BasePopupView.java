@@ -73,8 +73,8 @@ public abstract class BasePopupView extends FrameLayout {
         if (popupStatus == PopupStatus.Showing) return;
         popupStatus = PopupStatus.Showing;
         //1. 初始化Popup
-        applyOffset();//执行偏移
         initPopupContent();
+        applyOffset();//执行偏移
         //apply size dynamic
         if (!(this instanceof FullScreenPopupView) && !(this instanceof ImageViewerPopupView)) {
             XPopupUtils.setWidthHeight(getTargetSizeView(),
@@ -455,11 +455,11 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     protected void restoreSoftMode(){
-        Window window = ((Activity) getContext()).getWindow();
-        if(preSoftMode!=-1) {
-            window.setSoftInputMode(preSoftMode);
-            preSoftMode = -1;
-        }
+//        Window window = ((Activity) getContext()).getWindow();
+//        if(preSoftMode!=-1) {
+//            window.setSoftInputMode(preSoftMode);
+//            preSoftMode = -1;
+//        }
     }
 
     protected void doAfterDismiss() {
