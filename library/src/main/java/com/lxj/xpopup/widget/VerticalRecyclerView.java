@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.util.XPopupUtils;
