@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
@@ -14,6 +15,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.widget.CheckView;
+
 import java.util.Arrays;
 
 /**
@@ -28,9 +30,31 @@ public class CenterListPopupView extends CenterPopupView {
         super(context);
     }
 
+    /**
+     * 传入自定义的布局，对布局中的id有要求
+     *
+     * @param layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
+     * @return
+     */
+    public CenterListPopupView bindLayout(int layoutId) {
+        this.bindLayoutId = layoutId;
+        return this;
+    }
+
+    /**
+     * 传入自定义的 item布局
+     *
+     * @param itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     * @return
+     */
+    public CenterListPopupView bindItemLayout(int itemLayoutId) {
+        this.bindItemLayoutId = itemLayoutId;
+        return this;
+    }
+
     @Override
     protected int getImplLayoutId() {
-        return R.layout._xpopup_center_impl_list;
+        return bindLayoutId == 0 ? R.layout._xpopup_center_impl_list : bindLayoutId;
     }
 
     @Override
@@ -39,13 +63,15 @@ public class CenterListPopupView extends CenterPopupView {
         recyclerView = findViewById(R.id.recyclerView);
         tv_title = findViewById(R.id.tv_title);
 
-        if (TextUtils.isEmpty(title)) {
-            tv_title.setVisibility(GONE);
-        } else {
-            tv_title.setText(title);
+        if (tv_title != null) {
+            if (TextUtils.isEmpty(title)) {
+                tv_title.setVisibility(GONE);
+            } else {
+                tv_title.setText(title);
+            }
         }
 
-        final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), R.layout._xpopup_adapter_text) {
+        final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
@@ -58,9 +84,11 @@ public class CenterListPopupView extends CenterPopupView {
 
                 // 对勾View
                 if (checkedPosition != -1) {
-                    holder.getView(R.id.check_view).setVisibility(position == checkedPosition?VISIBLE:GONE);
-                    holder.<CheckView>getView(R.id.check_view).setColor(XPopup.getPrimaryColor());
-                    holder.<TextView>getView(R.id.tv_text).setTextColor(position==checkedPosition ?
+                    if (holder.getView(R.id.check_view) != null) {
+                        holder.getView(R.id.check_view).setVisibility(position == checkedPosition ? VISIBLE : GONE);
+                        holder.<CheckView>getView(R.id.check_view).setColor(XPopup.getPrimaryColor());
+                    }
+                    holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }
             }
@@ -69,14 +97,14 @@ public class CenterListPopupView extends CenterPopupView {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 if (selectListener != null) {
-                    if(position>=0 && position<adapter.getData().size())
+                    if (position >= 0 && position < adapter.getData().size())
                         selectListener.onSelect(position, adapter.getData().get(position));
                 }
-                if(checkedPosition!=-1){
+                if (checkedPosition != -1) {
                     checkedPosition = position;
                     adapter.notifyDataSetChanged();
                 }
-                if(popupInfo.autoDismiss)dismiss();
+                if (popupInfo.autoDismiss) dismiss();
             }
         });
         recyclerView.setAdapter(adapter);
@@ -85,6 +113,7 @@ public class CenterListPopupView extends CenterPopupView {
     String title;
     String[] data;
     int[] iconIds;
+
     public CenterListPopupView setStringData(String title, String[] data, int[] iconIds) {
         this.title = title;
         this.data = data;
@@ -100,6 +129,7 @@ public class CenterListPopupView extends CenterPopupView {
     }
 
     int checkedPosition = -1;
+
     /**
      * 设置默认选中的位置
      *
@@ -113,7 +143,7 @@ public class CenterListPopupView extends CenterPopupView {
 
     @Override
     protected int getMaxWidth() {
-        return popupInfo.maxWidth==0? (int) (super.getMaxWidth() * .8f)
+        return popupInfo.maxWidth == 0 ? (int) (super.getMaxWidth() * .8f)
                 : popupInfo.maxWidth;
     }
 }

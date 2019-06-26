@@ -179,10 +179,13 @@ public class ImageViewerDemo extends BaseFragment {
                         @Override
                         public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
                             //1.pager更新当前显示的图片
-                            pager.setCurrentItem(position, false);
+                            //当启用isInfinite时，position会无限增大，需要映射为当前ViewPager中的页
+                            int realPosi = position%list.size();
+//                            Log.e("tag", "position: "+realPosi + " list size: "+list.size());
+                            pager.setCurrentItem(realPosi, false);
                             //2.更新弹窗的srcView，注意这里的position是list中的position，上面ViewPager设置了pageLimit数量，
                             //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
-                            popupView.updateSrcView((ImageView) pager.getChildAt(position));
+                            popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
                         }
                     }, new ImageLoader())
                             .show();

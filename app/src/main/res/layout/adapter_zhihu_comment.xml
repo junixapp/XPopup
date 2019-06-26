@@ -31,4 +31,15 @@
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:text="删除"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnDel"
+        android:layout_below="@id/comment"
+        android:background="#ddd"
+        android:layout_centerHorizontal="true"
+        android:layout_width="150dp"
+        android:layout_height="36dp" />
+
 </RelativeLayout>

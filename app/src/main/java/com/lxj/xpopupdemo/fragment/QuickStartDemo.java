@@ -150,13 +150,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             }
                         }, null, false)
                         .bindLayout(R.layout.my_confim_popup) //绑定已有布局
+//                        .bindItemLayout() //带列表的弹窗还会有这样一个方法
                         .show();
                 break;
             case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗
                 new XPopup.Builder(getContext())
                         //.dismissOnBackPressed(false)
                         .autoOpenSoftInput(true)
-                        //.moveUpToKeyboard(false) //是否移动到软键盘上面，默认为true
+                        //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
                         .asInputConfirm("我是标题", "请输入内容。", "啊啊啊啊", "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override
@@ -283,6 +284,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .popupAnimation(PopupAnimation.TranslateFromBottom)
                         .hasStatusBarShadow(true)
+                        .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
                         .show();
                 break;

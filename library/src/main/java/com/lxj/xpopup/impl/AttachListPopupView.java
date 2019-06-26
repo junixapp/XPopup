@@ -4,12 +4,14 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+
 import java.util.Arrays;
 
 /**
@@ -18,29 +20,52 @@ import java.util.Arrays;
  */
 public class AttachListPopupView extends AttachPopupView {
     RecyclerView recyclerView;
+    protected int bindLayoutId;
+    protected int bindItemLayoutId;
 
     public AttachListPopupView(@NonNull Context context) {
         super(context);
     }
 
+    /**
+     * 传入自定义的布局，对布局中的id有要求
+     *
+     * @param layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
+     * @return
+     */
+    public AttachListPopupView bindLayout(int layoutId) {
+        this.bindLayoutId = layoutId;
+        return this;
+    }
+
+    /**
+     * 传入自定义的 item布局
+     *
+     * @param itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     * @return
+     */
+    public AttachListPopupView bindItemLayout(int itemLayoutId) {
+        this.bindItemLayoutId = itemLayoutId;
+        return this;
+    }
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout._xpopup_attach_impl_list;
+        return bindLayoutId == 0 ? R.layout._xpopup_attach_impl_list : bindLayoutId;
     }
 
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        final EasyAdapter<String> adapter = new EasyAdapter<String>( Arrays.asList(data), R.layout._xpopup_adapter_text) {
+        final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
                 if (iconIds != null && iconIds.length > position) {
                     holder.getView(R.id.iv_image).setVisibility(VISIBLE);
                     holder.getView(R.id.iv_image).setBackgroundResource(iconIds[position]);
-                }else {
+                } else {
                     holder.getView(R.id.iv_image).setVisibility(GONE);
                 }
             }
@@ -51,7 +76,7 @@ public class AttachListPopupView extends AttachPopupView {
                 if (selectListener != null) {
                     selectListener.onSelect(position, adapter.getData().get(position));
                 }
-                if(popupInfo.autoDismiss)dismiss();
+                if (popupInfo.autoDismiss) dismiss();
             }
         });
         recyclerView.setAdapter(adapter);
@@ -59,6 +84,7 @@ public class AttachListPopupView extends AttachPopupView {
 
     String[] data;
     int[] iconIds;
+
     public AttachListPopupView setStringData(String[] data, int[] iconIds) {
         this.data = data;
         this.iconIds = iconIds;

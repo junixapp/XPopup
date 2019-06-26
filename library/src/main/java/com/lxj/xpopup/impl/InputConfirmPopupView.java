@@ -22,6 +22,12 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     public InputConfirmPopupView(@NonNull Context context) {
         super(context);
     }
+
+    /**
+     * 绑定已有布局
+     * @param layoutId 在Confirm弹窗基础上需要增加一个id为et_input的EditText
+     * @return
+     */
     public InputConfirmPopupView bindLayout(int layoutId){
         bindLayoutId = layoutId;
         return this;

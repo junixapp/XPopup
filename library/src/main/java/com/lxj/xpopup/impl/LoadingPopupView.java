@@ -22,6 +22,11 @@ public class LoadingPopupView extends CenterPopupView {
         return bindLayoutId != 0 ? bindLayoutId : R.layout._xpopup_center_impl_loading;
     }
 
+    /**
+     * 绑定已有布局
+     * @param layoutId 如果要显示标题，则要求必须有id为tv_title的TextView，否则无任何要求
+     * @return
+     */
     public LoadingPopupView bindLayout(int layoutId){
         bindLayoutId = layoutId;
         return this;
