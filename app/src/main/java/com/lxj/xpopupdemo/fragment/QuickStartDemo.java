@@ -157,7 +157,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         //.dismissOnBackPressed(false)
                         .autoOpenSoftInput(true)
-                        //.moveUpToKeyboard(false) //是否移动到软键盘上面，默认为true
+                        //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
                         .asInputConfirm("我是标题", "请输入内容。", "啊啊啊啊", "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override

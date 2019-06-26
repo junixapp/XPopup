@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
@@ -31,6 +32,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
     public ZhihuCommentPopup(@NonNull Context context) {
         super(context);
     }
+
     @Override
     protected int getImplLayoutId() {
         return R.layout.custom_bottom_popup;
@@ -50,12 +52,14 @@ public class ZhihuCommentPopup extends BottomPopupView {
 //                        .hasShadowBg(false)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
-                            public void onShow() { }
+                            public void onShow() {
+                            }
+
                             @Override
                             public void onDismiss() {
                                 String comment = textBottomPopup.getComment();
-                                if(!comment.isEmpty()){
-                                    data.add(0,comment);
+                                if (!comment.isEmpty()) {
+                                    data.add(0, comment);
                                     commonAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -71,12 +75,20 @@ public class ZhihuCommentPopup extends BottomPopupView {
         }
         commonAdapter = new EasyAdapter<String>(data, R.layout.adapter_zhihu_comment) {
             @Override
-            protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
-                holder.setText(R.id.name, "知乎大神 - "+position)
-                .setText(R.id.comment, s);
+            protected void bind(@NonNull ViewHolder holder, @NonNull String s, final int position) {
+                holder.setText(R.id.name, "知乎大神 - " + position)
+                        .setText(R.id.comment, s);
+                holder.getView(R.id.btnDel).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        data.remove(position);
+                        commonAdapter.notifyItemRemoved(position);
+                        commonAdapter.notifyItemRangeChanged(position, data.size());
+                    }
+                });
             }
         };
-        commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener(){
+        commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 //不要直接这样做，会导致消失动画未执行完就跳转界面，不流畅。
@@ -110,6 +122,6 @@ public class ZhihuCommentPopup extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (int) (XPopupUtils.getWindowHeight(getContext())*.85f);
+        return (int) (XPopupUtils.getWindowHeight(getContext()) * .85f);
     }
 }
