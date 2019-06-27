@@ -86,7 +86,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
-                        .popupAnimation(PopupAnimation.NoAnimation)
+//                        .popupAnimation(PopupAnimation.NoAnimation)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onCreated() {
