@@ -73,8 +73,10 @@ public abstract class BasePopupView extends FrameLayout {
         if (popupStatus == PopupStatus.Showing) return;
         popupStatus = PopupStatus.Showing;
         //1. 初始化Popup
-        initPopupContent();
-        applyOffset();//执行偏移
+        if (!isCreated) {
+            initPopupContent();
+            applyOffset();//执行偏移
+        }
         //apply size dynamic
         if (!(this instanceof FullScreenPopupView) && !(this instanceof ImageViewerPopupView)) {
             XPopupUtils.setWidthHeight(getTargetSizeView(),

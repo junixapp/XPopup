@@ -19,6 +19,7 @@
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         tools:replace="android:appComponentFactory"
         android:theme="@style/AppTheme">
+        <meta-data android:name="android.max_aspect" android:value="2.4" />
         <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
