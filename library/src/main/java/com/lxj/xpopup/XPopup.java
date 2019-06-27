@@ -69,7 +69,7 @@ public class XPopup {
     }
 
     public static void setAnimationDuration(int duration) {
-        if (duration >= 200) {
+        if (duration >= 0) {
             animationDuration = duration;
         }
     }
