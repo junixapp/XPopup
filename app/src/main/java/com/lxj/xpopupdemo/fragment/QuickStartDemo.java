@@ -253,7 +253,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupAnimation(PopupAnimation.NoAnimation) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-10)
-//                        .popupPosition(PopupPosition.Bottom) //手动指定弹窗的位置
+//                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
                         .asAttachList(new String[]{"分享", "编辑", "不带icon"},
                                 new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},

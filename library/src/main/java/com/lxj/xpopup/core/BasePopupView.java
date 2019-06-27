@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -29,8 +30,11 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
+
 import java.util.ArrayList;
 import java.util.Stack;
+
+import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
 import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
@@ -74,8 +78,10 @@ public abstract class BasePopupView extends FrameLayout {
         if (popupStatus == PopupStatus.Showing) return;
         popupStatus = PopupStatus.Showing;
         //1. 初始化Popup
-        initPopupContent();
-        applyOffset();//执行偏移
+        if (!isCreated) {
+            initPopupContent();
+            applyOffset();//执行偏移
+        }
         //apply size dynamic
         if (!(this instanceof FullScreenPopupView) && !(this instanceof ImageViewerPopupView)) {
             XPopupUtils.setWidthHeight(getTargetSizeView(),
@@ -86,7 +92,7 @@ public abstract class BasePopupView extends FrameLayout {
         if (!isCreated) {
             isCreated = true;
             onCreate();
-            if(popupInfo.xPopupCallback!=null)popupInfo.xPopupCallback.onCreated();
+            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated();
         }
         postDelayed(new Runnable() {
             @Override
@@ -136,13 +142,16 @@ public abstract class BasePopupView extends FrameLayout {
                 doAfterShow();
 
                 //目前全屏弹窗快速弹出输入法有问题，暂时用这个方案
-                if(!(BasePopupView.this instanceof FullScreenPopupView))focusAndProcessBackPress();
+                if (!(BasePopupView.this instanceof FullScreenPopupView))
+                    focusAndProcessBackPress();
             }
         }, 50);
 
     }
+
     private int preSoftMode = -1;
     private boolean hasMoveUp = false;
+
     public BasePopupView show() {
         if (getParent() != null) return this;
         final Activity activity = (Activity) getContext();
@@ -173,10 +182,11 @@ public abstract class BasePopupView extends FrameLayout {
                 //如果弹窗内包含输入框，为了保证上移距离的正确计算，需要修改Soft Mode，弹窗消失后会还原
                 ArrayList<EditText> list = new ArrayList<>();
                 XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
-                if(list.size()>0){
+                if (list.size() > 0) {
                     Window window = ((Activity) getContext()).getWindow();
                     preSoftMode = window.getAttributes().softInputMode;
-                    if(preSoftMode!=WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    if (preSoftMode != WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 }
                 //2. do init，game start.
                 init();
@@ -195,7 +205,7 @@ public abstract class BasePopupView extends FrameLayout {
         public void run() {
             popupStatus = PopupStatus.Show;
             onShow();
-            if(BasePopupView.this instanceof FullScreenPopupView)focusAndProcessBackPress();
+            if (BasePopupView.this instanceof FullScreenPopupView) focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow();
             if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0 && !hasMoveUp) {
@@ -205,6 +215,7 @@ public abstract class BasePopupView extends FrameLayout {
     };
 
     private ShowSoftInputTask showSoftInputTask;
+
     public void focusAndProcessBackPress() {
         if (popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
@@ -236,12 +247,13 @@ public abstract class BasePopupView extends FrameLayout {
         }
     }
 
-    protected void dismissOrHideSoftInput(){
-        if(KeyboardUtils.sDecorViewInvisibleHeightPre==0)
+    protected void dismissOrHideSoftInput() {
+        if (KeyboardUtils.sDecorViewInvisibleHeightPre == 0)
             dismiss();
         else
             KeyboardUtils.hideSoftInput(BasePopupView.this);
     }
+
     class ShowSoftInputTask implements Runnable {
         View focusView;
         boolean isDone = false;
@@ -258,7 +270,8 @@ public abstract class BasePopupView extends FrameLayout {
             }
         }
     }
-    class BackPressListener implements OnKeyListener{
+
+    class BackPressListener implements OnKeyListener {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
@@ -366,6 +379,7 @@ public abstract class BasePopupView extends FrameLayout {
      */
     public void doShowAnimation() {
         if (popupInfo.hasShadowBg) {
+            shadowBgAnimator.isZeroDuration = (popupInfo.popupAnimation == NoAnimation);
             shadowBgAnimator.animateShow();
         }
         if (popupContentAnimator != null)
@@ -399,7 +413,7 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     public int getAnimationDuration() {
-        return XPopup.getAnimationDuration();
+        return  popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration();
     }
 
     /**
@@ -448,14 +462,14 @@ public abstract class BasePopupView extends FrameLayout {
     public void dismiss() {
         if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
-        if (popupInfo.autoOpenSoftInput)KeyboardUtils.hideSoftInput(this);
+        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         restoreSoftMode();
         clearFocus();
         doDismissAnimation();
         doAfterDismiss();
     }
 
-    protected void restoreSoftMode(){
+    protected void restoreSoftMode() {
 //        Window window = ((Activity) getContext()).getWindow();
 //        if(preSoftMode!=-1) {
 //            window.setSoftInputMode(preSoftMode);
@@ -483,7 +497,7 @@ public abstract class BasePopupView extends FrameLayout {
             popupStatus = PopupStatus.Dismiss;
             // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
             if (!stack.isEmpty()) stack.pop();
-            if (popupInfo!=null && popupInfo.isRequestFocus) {
+            if (popupInfo != null && popupInfo.isRequestFocus) {
                 if (!stack.isEmpty()) {
                     stack.get(stack.size() - 1).focusAndProcessBackPress();
                 } else {
