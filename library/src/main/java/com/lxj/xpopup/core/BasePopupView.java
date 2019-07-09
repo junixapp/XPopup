@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -479,14 +480,8 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     public void delayDismissWith(long delay, Runnable runnable) {
-        if (delay < 0) delay = 0;
         this.dismissWithRunnable = runnable;
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dismiss();
-            }
-        }, delay);
+        delayDismiss(delay);
     }
 
     protected void restoreSoftMode() {
@@ -573,6 +568,7 @@ public abstract class BasePopupView extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        stack.clear();
         removeCallbacks(doAfterShowTask);
         removeCallbacks(doAfterDismissTask);
         KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);

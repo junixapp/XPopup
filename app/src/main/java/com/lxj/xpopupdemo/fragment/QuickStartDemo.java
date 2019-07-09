@@ -196,18 +196,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 final BasePopupView loadingPopup = new XPopup.Builder(getContext())
                         .asLoading("正在加载中")
                         .show();
-                loadingPopup.postDelayed(new Runnable() {
+                loadingPopup.delayDismissWith(1500,new Runnable() {
                     @Override
                     public void run() {
-//                        if(loadingPopup.isShow())
-                        loadingPopup.dismissWith(new Runnable() {
-                            @Override
-                            public void run() {
-                                toast("我消失了！！！");
-                            }
-                        });
+                        toast("我消失了！！！");
                     }
-                }, 2000);
+                });
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
