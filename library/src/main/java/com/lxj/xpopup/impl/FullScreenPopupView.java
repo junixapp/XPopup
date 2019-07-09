@@ -14,9 +14,12 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.DrawerPopupView;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**
@@ -71,5 +74,8 @@ public class FullScreenPopupView extends CenterPopupView {
         paint = null;
     }
 
-
+    @Override
+    protected PopupAnimator getPopupAnimator() {
+        return new TranslateAnimator(getPopupContentView(), PopupAnimation.TranslateFromBottom);
+    }
 }

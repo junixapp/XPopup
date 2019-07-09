@@ -276,7 +276,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
                 new XPopup.Builder(getContext())
-                        .popupAnimation(PopupAnimation.TranslateFromBottom)
                         .hasStatusBarShadow(true)
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
@@ -314,7 +313,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowPosition2:
                 new XPopup.Builder(getContext())
-                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
                         .isCenterHorizontal(true)
                         .offsetY(200)
                         .asCustom(new QQMsgPopup(getContext()))

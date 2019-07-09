@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,21 +29,16 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import java.util.ArrayList;
 import java.util.Stack;
-
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
-import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
-import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
-import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
 
 /**
  * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
 public abstract class BasePopupView extends FrameLayout {
-    private static Stack<BasePopupView> stack = new Stack<>();
+    private Stack<BasePopupView> stack = new Stack<>();
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
@@ -80,7 +74,6 @@ public abstract class BasePopupView extends FrameLayout {
         //1. 初始化Popup
         if (!isCreated) {
             initPopupContent();
-            applyOffset();//执行偏移
         }
         //apply size dynamic
         if (!(this instanceof FullScreenPopupView) && !(this instanceof ImageViewerPopupView)) {
@@ -117,24 +110,7 @@ public abstract class BasePopupView extends FrameLayout {
                 getPopupContentView().setAlpha(1f);
 
                 //2. 收集动画执行器
-                // 优先使用自定义的动画器
-                if (popupInfo.customAnimator != null) {
-                    popupContentAnimator = popupInfo.customAnimator;
-                    popupContentAnimator.targetView = getPopupContentView();
-                } else {
-                    // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
-                    popupContentAnimator = genAnimatorByPopupType();
-                    if (popupContentAnimator == null) {
-                        // 使用默认的animator
-                        popupContentAnimator = getPopupAnimator();
-                    }
-                }
-
-                //3. 初始化动画执行器
-                shadowBgAnimator.initAnimator();
-                if (popupContentAnimator != null) {
-                    popupContentAnimator.initAnimator();
-                }
+                collectAnimator();
 
                 //4. 执行动画
                 doShowAnimation();
@@ -151,6 +127,27 @@ public abstract class BasePopupView extends FrameLayout {
 
     private int preSoftMode = -1;
     private boolean hasMoveUp = false;
+    private void collectAnimator(){
+        if(popupContentAnimator==null){
+            // 优先使用自定义的动画器
+            if (popupInfo.customAnimator != null) {
+                popupContentAnimator = popupInfo.customAnimator;
+                popupContentAnimator.targetView = getPopupContentView();
+            } else {
+                // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
+                popupContentAnimator = genAnimatorByPopupType();
+                if (popupContentAnimator == null) {
+                    popupContentAnimator = getPopupAnimator();
+                }
+            }
+
+            //3. 初始化动画执行器
+            shadowBgAnimator.initAnimator();
+            if (popupContentAnimator != null) {
+                popupContentAnimator.initAnimator();
+            }
+        }
+    }
 
     public BasePopupView show() {
         if (getParent() != null) return this;
@@ -285,12 +282,6 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     /**
-     * 进行偏移
-     */
-    protected void applyOffset() {
-    }
-
-    /**
      * 根据PopupInfo的popupAnimation字段来生成对应的内置的动画执行器
      */
     protected PopupAnimator genAnimatorByPopupType() {
@@ -349,15 +340,17 @@ public abstract class BasePopupView extends FrameLayout {
      * @return
      */
     protected PopupAnimator getPopupAnimator() {
-        if (popupInfo == null || popupInfo.popupType == null) return null;
-        switch (popupInfo.popupType) {
-            case Center:
-                return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
-            case Bottom:
-                return new TranslateAnimator(getPopupContentView(), TranslateFromBottom);
-            case AttachView:
-                return new ScrollScaleAnimator(getPopupContentView(), ScrollAlphaFromLeftTop);
-        }
+//        if (popupInfo == null || popupInfo.popupType == null) return null;
+//        switch (popupInfo.popupType) {
+//            case Center:
+//                return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
+//            case Bottom:
+//                return new TranslateAnimator(getPopupContentView(), TranslateFromBottom);
+//            case AttachView:
+//                return new ScrollScaleAnimator(getPopupContentView(), ScrollAlphaFromLeftTop);
+//            case Position:
+//                return new ScrollScaleAnimator(getPopupContentView(), ScaleAlphaFromCenter);
+//        }
         return null;
     }
 
