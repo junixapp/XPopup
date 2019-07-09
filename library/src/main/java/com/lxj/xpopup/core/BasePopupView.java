@@ -412,7 +412,7 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     public int getAnimationDuration() {
-        return  popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration();
+        return popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration();
     }
 
     /**
@@ -466,6 +466,27 @@ public abstract class BasePopupView extends FrameLayout {
         clearFocus();
         doDismissAnimation();
         doAfterDismiss();
+    }
+
+    public void delayDismiss(long delay) {
+        if (delay < 0) delay = 0;
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismiss();
+            }
+        }, delay);
+    }
+
+    public void delayDismissWith(long delay, Runnable runnable) {
+        if (delay < 0) delay = 0;
+        this.dismissWithRunnable = runnable;
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismiss();
+            }
+        }, delay);
     }
 
     protected void restoreSoftMode() {
