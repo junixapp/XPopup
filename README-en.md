@@ -90,6 +90,7 @@ Base on information provided by some friends，they are using Xpopup:
 - 爱勘(ican)App
 - 医美消费指南(https://www.pgyer.com/yimeiandroid)
 - 蜜尚（APP名，广州时尚商业城有限公司（时尚集团））
+- 关爱岛
 
 
 ## Buy me a coffee

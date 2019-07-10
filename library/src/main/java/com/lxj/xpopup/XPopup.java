@@ -302,7 +302,7 @@ public class XPopup {
         /**
          * 是否抢占焦点，默认情况下弹窗会抢占焦点，目的是为了能处理返回按键事件。如果为false，则不在抢焦点，但也无法响应返回按键了
          *
-         * @param isRequestFocus
+         * @param isRequestFocus 默认为true
          * @return
          */
         public Builder isRequestFocus(boolean isRequestFocus) {
@@ -311,7 +311,18 @@ public class XPopup {
         }
 
         /**
-         * 是否点击弹窗背景时将点击事件透传到Activity下，默认是不透传
+         * 是否让弹窗内的输入框自动获取焦点，默认是true。
+         *
+         * @param autoFocusEditText
+         * @return
+         */
+        public Builder autoFocusEditText(boolean autoFocusEditText) {
+            this.popupInfo.autoFocusEditText = autoFocusEditText;
+            return this;
+        }
+
+        /**
+         * 是否点击弹窗背景时将点击事件透传到Activity下，默认是不透传，目前会引发很多不可控的问题，暂时关闭。
          *
          * @param isClickThrough
          * @return
