@@ -30,21 +30,16 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import java.util.ArrayList;
 import java.util.Stack;
-
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
-import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
-import static com.lxj.xpopup.enums.PopupAnimation.ScrollAlphaFromLeftTop;
-import static com.lxj.xpopup.enums.PopupAnimation.TranslateFromBottom;
 
 /**
  * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
 public abstract class BasePopupView extends FrameLayout {
-    private static Stack<BasePopupView> stack = new Stack<>();
+    private static Stack<BasePopupView> stack = new Stack<>(); //静态存储所有弹窗对象
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
@@ -80,7 +75,6 @@ public abstract class BasePopupView extends FrameLayout {
         //1. 初始化Popup
         if (!isCreated) {
             initPopupContent();
-            applyOffset();//执行偏移
         }
         //apply size dynamic
         if (!(this instanceof FullScreenPopupView) && !(this instanceof ImageViewerPopupView)) {
@@ -97,7 +91,7 @@ public abstract class BasePopupView extends FrameLayout {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                // 如果有导航栏，则不能覆盖导航栏，
+                // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
                 FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
                 int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
                 if (rotation == 0) {
@@ -117,26 +111,9 @@ public abstract class BasePopupView extends FrameLayout {
                 getPopupContentView().setAlpha(1f);
 
                 //2. 收集动画执行器
-                // 优先使用自定义的动画器
-                if (popupInfo.customAnimator != null) {
-                    popupContentAnimator = popupInfo.customAnimator;
-                    popupContentAnimator.targetView = getPopupContentView();
-                } else {
-                    // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
-                    popupContentAnimator = genAnimatorByPopupType();
-                    if (popupContentAnimator == null) {
-                        // 使用默认的animator
-                        popupContentAnimator = getPopupAnimator();
-                    }
-                }
+                collectAnimator();
 
-                //3. 初始化动画执行器
-                shadowBgAnimator.initAnimator();
-                if (popupContentAnimator != null) {
-                    popupContentAnimator.initAnimator();
-                }
-
-                //4. 执行动画
+                //3. 执行动画
                 doShowAnimation();
 
                 doAfterShow();
@@ -151,6 +128,27 @@ public abstract class BasePopupView extends FrameLayout {
 
     private int preSoftMode = -1;
     private boolean hasMoveUp = false;
+    private void collectAnimator(){
+        if(popupContentAnimator==null){
+            // 优先使用自定义的动画器
+            if (popupInfo.customAnimator != null) {
+                popupContentAnimator = popupInfo.customAnimator;
+                popupContentAnimator.targetView = getPopupContentView();
+            } else {
+                // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
+                popupContentAnimator = genAnimatorByPopupType();
+                if (popupContentAnimator == null) {
+                    popupContentAnimator = getPopupAnimator();
+                }
+            }
+
+            //3. 初始化动画执行器
+            shadowBgAnimator.initAnimator();
+            if (popupContentAnimator != null) {
+                popupContentAnimator.initAnimator();
+            }
+        }
+    }
 
     public BasePopupView show() {
         if (getParent() != null) return this;
@@ -224,26 +222,31 @@ public abstract class BasePopupView extends FrameLayout {
         }
         // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
         setOnKeyListener(new BackPressListener());
+        if(!popupInfo.autoFocusEditText) showSoftInput(this);
 
         //let all EditText can process back pressed.
         ArrayList<EditText> list = new ArrayList<>();
         XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
         for (int i = 0; i < list.size(); i++) {
             final EditText et = list.get(i);
-            if (i == 0) {
+            et.setOnKeyListener(new BackPressListener());
+            if (i == 0 && popupInfo.autoFocusEditText) {
                 et.setFocusable(true);
                 et.setFocusableInTouchMode(true);
                 et.requestFocus();
-                if (popupInfo.autoOpenSoftInput) {
-                    if (showSoftInputTask == null) {
-                        showSoftInputTask = new ShowSoftInputTask(et);
-                    } else {
-                        removeCallbacks(showSoftInputTask);
-                    }
-                    postDelayed(showSoftInputTask, 10);
-                }
+                showSoftInput(et);
             }
-            et.setOnKeyListener(new BackPressListener());
+        }
+    }
+
+    protected void showSoftInput(View focusView){
+        if (popupInfo.autoOpenSoftInput) {
+            if (showSoftInputTask == null) {
+                showSoftInputTask = new ShowSoftInputTask(focusView);
+            } else {
+                removeCallbacks(showSoftInputTask);
+            }
+            postDelayed(showSoftInputTask, 10);
         }
     }
 
@@ -282,12 +285,6 @@ public abstract class BasePopupView extends FrameLayout {
             }
             return false;
         }
-    }
-
-    /**
-     * 进行偏移
-     */
-    protected void applyOffset() {
     }
 
     /**
@@ -343,21 +340,11 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     /**
-     * 获取PopupAnimator，每种类型的PopupView可以选择返回一个动画器，
-     * 父类默认实现是根据popupType字段返回一个默认最佳的动画器
+     * 获取PopupAnimator，用于每种类型的PopupView自定义自己的动画器
      *
      * @return
      */
     protected PopupAnimator getPopupAnimator() {
-        if (popupInfo == null || popupInfo.popupType == null) return null;
-        switch (popupInfo.popupType) {
-            case Center:
-                return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
-            case Bottom:
-                return new TranslateAnimator(getPopupContentView(), TranslateFromBottom);
-            case AttachView:
-                return new ScrollScaleAnimator(getPopupContentView(), ScrollAlphaFromLeftTop);
-        }
         return null;
     }
 
@@ -413,7 +400,7 @@ public abstract class BasePopupView extends FrameLayout {
     }
 
     public int getAnimationDuration() {
-        return  popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration();
+        return popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration();
     }
 
     /**
@@ -469,6 +456,21 @@ public abstract class BasePopupView extends FrameLayout {
         doAfterDismiss();
     }
 
+    public void delayDismiss(long delay) {
+        if (delay < 0) delay = 0;
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismiss();
+            }
+        }, delay);
+    }
+
+    public void delayDismissWith(long delay, Runnable runnable) {
+        this.dismissWithRunnable = runnable;
+        delayDismiss(delay);
+    }
+
     protected void restoreSoftMode() {
 //        Window window = ((Activity) getContext()).getWindow();
 //        if(preSoftMode!=-1) {
@@ -495,12 +497,13 @@ public abstract class BasePopupView extends FrameLayout {
                 dismissWithRunnable = null;//no cache, avoid some bad edge effect.
             }
             popupStatus = PopupStatus.Dismiss;
-            // 让根布局拿焦点，避免布局内RecyclerView获取焦点导致布局滚动
+
             if (!stack.isEmpty()) stack.pop();
             if (popupInfo != null && popupInfo.isRequestFocus) {
                 if (!stack.isEmpty()) {
                     stack.get(stack.size() - 1).focusAndProcessBackPress();
                 } else {
+                    // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
                     View needFocusView = ((Activity) getContext()).findViewById(android.R.id.content);
                     needFocusView.setFocusable(true);
                     needFocusView.setFocusableInTouchMode(true);
@@ -553,6 +556,7 @@ public abstract class BasePopupView extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        stack.clear();
         removeCallbacks(doAfterShowTask);
         removeCallbacks(doAfterDismissTask);
         KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);

@@ -2,6 +2,7 @@ package com.lxj.xpopup.animator;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
@@ -13,27 +14,25 @@ public class TranslateAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
     private int oldWidth, oldHeight;
-    private float defTranslationX, defTranslationY;
+    private float initTranslationX, initTranslationY;
+    private boolean hasInitDefTranslation = false;
 
     public TranslateAnimator(View target, PopupAnimation popupAnimation) {
         super(target, popupAnimation);
     }
 
-    private boolean isUseZero = false;
-
-    public TranslateAnimator forceUseZero(boolean b) {
-        isUseZero = b;
-        return this;
-    }
-
     @Override
     public void initAnimator() {
-        defTranslationX = targetView.getTranslationX();
-        defTranslationY = targetView.getTranslationY();
+        if(!hasInitDefTranslation){
+            initTranslationX = targetView.getTranslationX();
+            initTranslationY = targetView.getTranslationY();
+            hasInitDefTranslation = true;
+        }
         // 设置起始坐标
         applyTranslation();
         startTranslationX = targetView.getTranslationX();
         startTranslationY = targetView.getTranslationY();
+
         oldWidth = targetView.getMeasuredWidth();
         oldHeight = targetView.getMeasuredHeight();
     }
@@ -57,7 +56,7 @@ public class TranslateAnimator extends PopupAnimator {
 
     @Override
     public void animateShow() {
-        targetView.animate().translationX(isUseZero ? 0 : defTranslationX).translationY(isUseZero ? 0 : defTranslationY)
+        targetView.animate().translationX(initTranslationX).translationY(initTranslationY)
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .setDuration(XPopup.getAnimationDuration()).start();
     }
@@ -79,6 +78,7 @@ public class TranslateAnimator extends PopupAnimator {
                 startTranslationY += targetView.getMeasuredHeight() - oldHeight;
                 break;
         }
+
         targetView.animate().translationX(startTranslationX).translationY(startTranslationY)
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .setDuration(XPopup.getAnimationDuration()).start();

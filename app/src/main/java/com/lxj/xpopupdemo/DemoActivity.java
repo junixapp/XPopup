@@ -41,7 +41,7 @@ public class DemoActivity extends AppCompatActivity {
 
         final BasePopupView popupView = new XPopup.Builder(this)
                 .atView(editText)
-                .isRequestFocus(false)
+                .isRequestFocus(false) //要设置这个，否则Activity内的输入框会无法获取焦点
                 .hasShadowBg(false)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
                 .asAttachList(new String[]{"联想到的内容 - 1", "联想到的内容 - 2", "联想到的内容 - 333"}, null, new OnSelectListener() {
@@ -89,7 +89,6 @@ public class DemoActivity extends AppCompatActivity {
                                 loadingPopup.dismiss();
                             }
                         }).show();
-
                     }
                 }).show();
 

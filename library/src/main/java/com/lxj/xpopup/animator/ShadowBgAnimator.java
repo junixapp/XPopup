@@ -35,6 +35,7 @@ public class ShadowBgAnimator extends PopupAnimator {
                 targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
             }
         });
+        animator.setInterpolator(new FastOutSlowInInterpolator());
         animator.setDuration(isZeroDuration?0:XPopup.getAnimationDuration()).start();
     }
 
@@ -47,6 +48,7 @@ public class ShadowBgAnimator extends PopupAnimator {
                 targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
             }
         });
+        animator.setInterpolator(new FastOutSlowInInterpolator());
         animator.setDuration(isZeroDuration?0:XPopup.getAnimationDuration()).start();
     }
 

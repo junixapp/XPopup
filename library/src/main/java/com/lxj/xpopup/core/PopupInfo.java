@@ -37,15 +37,12 @@ public class PopupInfo {
     public int offsetX, offsetY;//x，y方向的偏移量
     public Boolean enableDrag = true;//是否启用拖拽
     public boolean isCenterHorizontal = false;//是否水平居中
-    public boolean isRequestFocus = true; //弹窗是否抢占焦点
+    public boolean isRequestFocus = true; //弹窗是否强制抢占焦点
+    public boolean autoFocusEditText = true; //是否让输入框自动获取焦点
 //    public boolean isClickThrough = true;//是否点击透传，默认弹背景点击是否拦截的
 
     public View getAtView() {
         return atView;
-    }
-    public void setAtView(View atView) {
-        this.atView = atView;
-        this.popupType = PopupType.AttachView;
     }
 
     @Override

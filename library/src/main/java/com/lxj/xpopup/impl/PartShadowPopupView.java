@@ -31,6 +31,9 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         super.initPopupContent();
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
+
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
     }
 
     @Override
@@ -43,11 +46,16 @@ public abstract class PartShadowPopupView extends AttachPopupView {
 
         //1. apply width and height
         int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-        ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
+        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
         if(rotation==0){
             params.width = getMeasuredWidth(); // 满宽
         }else if(rotation==1 || rotation==3){
             params.width = getMeasuredWidth() - (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0);
+        }
+
+        //水平居中
+        if(popupInfo.isCenterHorizontal && getPopupImplView()!=null){
+            getPopupImplView().setTranslationX(XPopupUtils.getWindowWidth(getContext())/2f - getPopupContentView().getMeasuredWidth()/2f);
         }
 
         //1. 获取atView在屏幕上的位置
@@ -60,8 +68,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
             params.height = rect.top;
             isShowUp = true;
-            getPopupContentView().setTranslationY(-defaultOffsetY);
-
+            params.topMargin = -defaultOffsetY;
             // 同时自定义的impl View应该Gravity居于底部
             View implView = ((ViewGroup)getPopupContentView()).getChildAt(0);
             FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
@@ -78,7 +85,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
                 params.height -= XPopupUtils.getNavBarHeight();
             }
             isShowUp = false;
-            getPopupContentView().setTranslationY(rect.bottom + defaultOffsetY);
+            params.topMargin = rect.bottom + defaultOffsetY;
 
             // 同时自定义的impl View应该Gravity居于顶部
             View implView = ((ViewGroup)getPopupContentView()).getChildAt(0);
@@ -117,8 +124,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new TranslateAnimator(getPopupImplView(), isShowUp ?
-                PopupAnimation.TranslateFromBottom: PopupAnimation.TranslateFromTop)
-                .forceUseZero(true);
+                PopupAnimation.TranslateFromBottom: PopupAnimation.TranslateFromTop);
     }
 
 }

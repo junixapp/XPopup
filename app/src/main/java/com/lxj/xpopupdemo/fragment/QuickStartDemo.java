@@ -157,6 +157,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         //.dismissOnBackPressed(false)
                         .autoOpenSoftInput(true)
+//                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
+                        .isRequestFocus(false)
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
                         .asInputConfirm("我是标题", "请输入内容。", "啊啊啊啊", "我是默认Hint文字",
                                 new OnInputConfirmListener() {
@@ -196,18 +198,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 final BasePopupView loadingPopup = new XPopup.Builder(getContext())
                         .asLoading("正在加载中")
                         .show();
-                loadingPopup.postDelayed(new Runnable() {
+                loadingPopup.delayDismissWith(1500,new Runnable() {
                     @Override
                     public void run() {
-//                        if(loadingPopup.isShow())
-                        loadingPopup.dismissWith(new Runnable() {
-                            @Override
-                            public void run() {
-                                toast("我消失了！！！");
-                            }
-                        });
+                        toast("我消失了！！！");
                     }
-                }, 2000);
+                });
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
@@ -282,7 +278,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
                 new XPopup.Builder(getContext())
-                        .popupAnimation(PopupAnimation.TranslateFromBottom)
                         .hasStatusBarShadow(true)
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
@@ -320,7 +315,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowPosition2:
                 new XPopup.Builder(getContext())
-                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
                         .isCenterHorizontal(true)
                         .offsetY(200)
                         .asCustom(new QQMsgPopup(getContext()))

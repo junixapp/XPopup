@@ -50,6 +50,8 @@ public abstract class DrawerPopupView extends BasePopupView {
                 drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
             }
         });
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
         drawerLayout.setDrawerPosition(popupInfo.popupPosition == null ? PopupPosition.Left : popupInfo.popupPosition);
         drawerLayout.setOnClickListener(new OnClickListener() {
             @Override
@@ -58,11 +60,7 @@ public abstract class DrawerPopupView extends BasePopupView {
             }
         });
     }
-    @Override
-    protected void applyOffset() {
-        getPopupImplView().setTranslationX(popupInfo.offsetX);
-        getPopupImplView().setTranslationY(popupInfo.offsetY);
-    }
+
     @Override
     protected void doAfterShow() {
         //do nothing self.

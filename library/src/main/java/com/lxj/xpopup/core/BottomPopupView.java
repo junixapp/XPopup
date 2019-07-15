@@ -36,6 +36,10 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.enableDrag(popupInfo.enableDrag);
         bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
         bottomPopupContainer.hasShadowBg(popupInfo.hasShadowBg);
+
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
+
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
 
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
@@ -57,11 +61,6 @@ public class BottomPopupView extends BasePopupView {
         });
     }
 
-    @Override
-    protected void applyOffset() {
-        getPopupImplView().setTranslationX(popupInfo.offsetX);
-        getPopupImplView().setTranslationY(popupInfo.offsetY);
-    }
 
     @Override
     protected void doAfterShow() {

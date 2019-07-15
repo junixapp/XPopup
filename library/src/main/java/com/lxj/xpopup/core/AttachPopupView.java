@@ -55,6 +55,9 @@ public abstract class AttachPopupView extends BasePopupView {
 
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
+
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
         if (!popupInfo.hasShadowBg) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ////优先使用implView的背景

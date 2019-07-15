@@ -9,7 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.util.XPopupUtils;
+
+import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 
 /**
  * Description: 在中间显示的Popup
@@ -36,13 +40,9 @@ public class CenterPopupView extends BasePopupView {
         LayoutParams params = (LayoutParams) contentView.getLayoutParams();
         params.gravity = Gravity.CENTER;
         centerPopupContainer.addView(contentView, params);
-        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
-    }
-
-    @Override
-    protected void applyOffset() {
         getPopupContentView().setTranslationX(popupInfo.offsetX);
         getPopupContentView().setTranslationY(popupInfo.offsetY);
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
     }
 
     @Override
@@ -65,4 +65,8 @@ public class CenterPopupView extends BasePopupView {
                 : popupInfo.maxWidth;
     }
 
+    @Override
+    protected PopupAnimator getPopupAnimator() {
+        return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
+    }
 }

@@ -8,8 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PartShadowContainer;
+
+import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 
 /**
  * Description: 用于自由定位的弹窗
@@ -46,5 +50,10 @@ public class PositionPopupView extends BasePopupView {
                 attachPopupContainer.setTranslationY(popupInfo.offsetY);
             }
         });
+    }
+
+    @Override
+    protected PopupAnimator getPopupAnimator() {
+        return new ScrollScaleAnimator(getPopupContentView(), ScaleAlphaFromCenter);
     }
 }

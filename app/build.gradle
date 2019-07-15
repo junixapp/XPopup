@@ -5,9 +5,9 @@ android {
     defaultConfig {
         applicationId "com.lxj.xpopupdemo"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 6
-        versionName "1.8.5"
+        versionName "1.8.7"
     }
     buildTypes {
         release {
@@ -35,5 +35,4 @@ dependencies {
     implementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
     implementation 'androidx.cardview:cardview:1.0.0-beta01'
     implementation 'com.lxj:statelayout:1.0.3'
-    implementation 'com.tencent.bugly:crashreport_upgrade:1.4.0'
 }
