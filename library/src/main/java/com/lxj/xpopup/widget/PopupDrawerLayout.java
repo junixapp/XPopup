@@ -294,11 +294,13 @@ public class PopupDrawerLayout extends FrameLayout {
         });
     }
 
+    public boolean isCanClose = true;
     /**
      * 关闭Drawer
      */
     public void close() {
         if (dragHelper.continueSettling(true)) return;
+        if(!isCanClose)return;
         post(new Runnable() {
             @Override
             public void run() {
