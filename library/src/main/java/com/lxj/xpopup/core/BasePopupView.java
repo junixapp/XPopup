@@ -125,7 +125,6 @@ public abstract class BasePopupView extends FrameLayout {
 
     }
 
-    private int preSoftMode = -1;
     private boolean hasMoveUp = false;
     private void collectAnimator(){
         if(popupContentAnimator==null){
@@ -176,15 +175,6 @@ public abstract class BasePopupView extends FrameLayout {
                 popupInfo.decorView.addView(BasePopupView.this, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT));
 
-                //如果弹窗内包含输入框，为了保证上移距离的正确计算，需要修改Soft Mode，弹窗消失后会还原
-                ArrayList<EditText> list = new ArrayList<>();
-                XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
-                if (list.size() > 0) {
-                    Window window = ((Activity) getContext()).getWindow();
-                    preSoftMode = window.getAttributes().softInputMode;
-                    if (preSoftMode != WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-                        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                }
                 //2. do init，game start.
                 init();
             }
@@ -449,7 +439,6 @@ public abstract class BasePopupView extends FrameLayout {
         if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
         if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
-        restoreSoftMode();
         clearFocus();
         doDismissAnimation();
         doAfterDismiss();
@@ -468,14 +457,6 @@ public abstract class BasePopupView extends FrameLayout {
     public void delayDismissWith(long delay, Runnable runnable) {
         this.dismissWithRunnable = runnable;
         delayDismiss(delay);
-    }
-
-    protected void restoreSoftMode() {
-//        Window window = ((Activity) getContext()).getWindow();
-//        if(preSoftMode!=-1) {
-//            window.setSoftInputMode(preSoftMode);
-//            preSoftMode = -1;
-//        }
     }
 
     protected void doAfterDismiss() {
