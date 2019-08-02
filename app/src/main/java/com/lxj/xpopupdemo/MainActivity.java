@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ToastUtils.showShort("config change...");
     }
 
     class MainAdapter extends FragmentPagerAdapter {
