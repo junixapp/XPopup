@@ -380,7 +380,7 @@ public class XPopup {
          * 显示带有输入框，确认和取消对话框
          *
          * @param title           对话框标题，传空串会隐藏标题
-         * @param content         对话框内容
+         * @param content         对话框内容,，传空串会隐藏
          * @param inputContent    输入框文字内容，会覆盖hint
          * @param hint            输入框默认文字
          * @param confirmListener 点击确认的监听器
