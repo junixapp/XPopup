@@ -31,6 +31,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.DrawerPopupView;
+import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
@@ -195,6 +196,7 @@ public class XPopupUtils {
 
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
         if (!pv.popupInfo.isMoveUpToKeyboard) return;
+        if (pv instanceof PositionPopupView) return;
         //判断是否盖住输入框
         ArrayList<EditText> allEts = new ArrayList<>();
         findAllEditText(allEts, pv);
@@ -288,6 +290,7 @@ public class XPopupUtils {
 
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
+        if (pv instanceof PositionPopupView) return;
         if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
         if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) {
             pv.getPopupImplView().animate().translationY(0)

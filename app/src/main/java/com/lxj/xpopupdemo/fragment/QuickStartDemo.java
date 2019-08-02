@@ -1,7 +1,10 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -22,6 +25,7 @@ import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
+
 
 /**
  * Description:
@@ -324,6 +328,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .offsetY(200)
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        KeyboardUtils.showSoftInput(getActivity());
+                    }
+                }, 1000);
                 break;
         }
     }
