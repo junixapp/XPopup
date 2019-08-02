@@ -1,12 +1,16 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -21,6 +25,7 @@ import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
+
 
 /**
  * Description:
@@ -195,10 +200,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
-                final BasePopupView loadingPopup = new XPopup.Builder(getContext())
+                final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
                         .asLoading("正在加载中")
                         .show();
-                loadingPopup.delayDismissWith(1500,new Runnable() {
+                loadingPopup.postDelayed(new Runnable() {
+                    @Override
+                    public void run() { loadingPopup.setTitle("啊啊啊"); }
+                },1000);
+                loadingPopup.delayDismissWith(3000,new Runnable() {
                     @Override
                     public void run() {
                         toast("我消失了！！！");
@@ -219,7 +228,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())
-                        .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
+                        .asBottomList("", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                 null, 2,
                                 new OnSelectListener() {
                                     @Override
@@ -319,6 +328,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .offsetY(200)
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        KeyboardUtils.showSoftInput(getActivity());
+                    }
+                }, 1000);
                 break;
         }
     }

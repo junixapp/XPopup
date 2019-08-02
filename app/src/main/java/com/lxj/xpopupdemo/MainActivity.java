@@ -12,7 +12,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.util.navbar.NavigationBarObserver;
+import com.lxj.xpopup.util.navbar.OnNavigationBarListener;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
@@ -23,12 +26,12 @@ import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 public class MainActivity extends AppCompatActivity {
 
     PageInfo[] pageInfos = new PageInfo[]{
-      new PageInfo("快速开始", new QuickStartDemo()),
-      new PageInfo("局部阴影", new PartShadowDemo()),
-      new PageInfo("图片浏览", new ImageViewerDemo()),
-      new PageInfo("尝试不同动画", new AllAnimatorDemo()),
-      new PageInfo("自定义弹窗", new CustomPopupDemo()),
-      new PageInfo("自定义动画", new CustomAnimatorDemo())
+            new PageInfo("快速开始", new QuickStartDemo()),
+            new PageInfo("局部阴影", new PartShadowDemo()),
+            new PageInfo("图片浏览", new ImageViewerDemo()),
+            new PageInfo("尝试不同动画", new AllAnimatorDemo()),
+            new PageInfo("自定义弹窗", new CustomPopupDemo()),
+            new PageInfo("自定义动画", new CustomAnimatorDemo())
     };
 
     TabLayout tabLayout;
@@ -53,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setPrimaryColor(Color.RED);
     }
 
-    public ViewGroup getAppBar(){
-        return findViewById(R.id.appBarLayout);
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        ToastUtils.showShort("config change...");
     }
-
 
     class MainAdapter extends FragmentPagerAdapter {
 

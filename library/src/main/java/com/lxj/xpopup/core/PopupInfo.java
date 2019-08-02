@@ -39,25 +39,10 @@ public class PopupInfo {
     public boolean isCenterHorizontal = false;//是否水平居中
     public boolean isRequestFocus = true; //弹窗是否强制抢占焦点
     public boolean autoFocusEditText = true; //是否让输入框自动获取焦点
-//    public boolean isClickThrough = true;//是否点击透传，默认弹背景点击是否拦截的
+//    public boolean isClickThrough = true;//是否点击透传，默认弹背景点击是拦截的
 
     public View getAtView() {
         return atView;
     }
 
-    @Override
-    public String toString() {
-        return "PopupInfo{" +
-                "popupType=" + popupType +
-                ", isDismissOnBackPressed=" + isDismissOnBackPressed +
-                ", isDismissOnTouchOutside=" + isDismissOnTouchOutside +
-                ", hasShadowBg=" + hasShadowBg +
-                ", atView=" + atView +
-                ", popupAnimation=" + popupAnimation +
-                ", customAnimator=" + customAnimator +
-                ", touchPoint=" + touchPoint +
-                ", maxWidth=" + maxWidth +
-                ", maxHeight=" + maxHeight +
-                '}';
-    }
 }
