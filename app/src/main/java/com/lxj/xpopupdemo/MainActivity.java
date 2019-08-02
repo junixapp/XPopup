@@ -52,10 +52,6 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setPrimaryColor(Color.RED);
     }
 
-    public ViewGroup getAppBar(){
-        return findViewById(R.id.appBarLayout);
-    }
-
 
     class MainAdapter extends FragmentPagerAdapter {
 

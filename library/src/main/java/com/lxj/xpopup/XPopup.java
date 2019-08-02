@@ -347,7 +347,7 @@ public class XPopup {
         /**
          * 显示确认和取消对话框
          *
-         * @param title           对话框标题
+         * @param title           对话框标题，传空串会隐藏标题
          * @param content         对话框内容
          * @param cancelBtnText   取消按钮的文字内容
          * @param confirmBtnText  确认按钮的文字内容
@@ -379,7 +379,7 @@ public class XPopup {
         /**
          * 显示带有输入框，确认和取消对话框
          *
-         * @param title           对话框标题
+         * @param title           对话框标题，传空串会隐藏标题
          * @param content         对话框内容
          * @param inputContent    输入框文字内容，会覆盖hint
          * @param hint            输入框默认文字

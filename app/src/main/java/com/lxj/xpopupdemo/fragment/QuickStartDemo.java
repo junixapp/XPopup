@@ -7,6 +7,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -195,13 +196,20 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
-                final BasePopupView loadingPopup = new XPopup.Builder(getContext())
+                final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
                         .asLoading("正在加载中")
                         .show();
+                loadingPopup.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingPopup.setTitle("啊啊啊");
+
+                    }
+                },1000);
                 loadingPopup.delayDismissWith(1500,new Runnable() {
                     @Override
                     public void run() {
-                        toast("我消失了！！！");
+//                        toast("我消失了！！！");
                     }
                 });
                 break;
@@ -251,6 +259,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetY(-10)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
+                        .offsetX(100)
                         .asAttachList(new String[]{"分享", "编辑", "不带icon"},
                                 new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                 new OnSelectListener() {
@@ -296,6 +305,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnAttachPopup2:
                 new XPopup.Builder(getContext())
                         .atView(v)
+                        .offsetX(100)
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomAttachPopup2(getContext()))
                         .show();
