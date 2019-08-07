@@ -205,7 +205,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
-                    public void run() { loadingPopup.setTitle("啊啊啊"); }
+                    public void run() { loadingPopup.setTitle("正在加载中啊啊啊"); }
                 },1000);
                 loadingPopup.delayDismissWith(3000,new Runnable() {
                     @Override
@@ -328,12 +328,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .offsetY(200)
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        KeyboardUtils.showSoftInput(getActivity());
-                    }
-                }, 1000);
                 break;
         }
     }
