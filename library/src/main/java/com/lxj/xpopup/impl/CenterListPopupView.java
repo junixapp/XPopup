@@ -92,6 +92,9 @@ public class CenterListPopupView extends CenterPopupView {
                     holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }
+                if(position==(data.length-1)){
+                    holder.getView(R.id.xpopup_divider).setVisibility(GONE);
+                }
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener() {

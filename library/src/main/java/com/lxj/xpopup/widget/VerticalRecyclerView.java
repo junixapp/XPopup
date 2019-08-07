@@ -28,11 +28,14 @@ public class VerticalRecyclerView extends RecyclerView {
     public VerticalRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    public void setupDivider(){
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setColor(getResources().getColor(R.color._xpopup_list_divider));
-        drawable.setSize(10, XPopupUtils.dp2px(context, .4f));
+        drawable.setSize(10, XPopupUtils.dp2px(getContext(), .4f));
         decoration.setDrawable(drawable);
         addItemDecoration(decoration);
     }
