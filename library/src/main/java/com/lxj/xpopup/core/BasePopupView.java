@@ -94,6 +94,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             onCreate();
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated();
         }
+        if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onShowing();
         postDelayed(new Runnable() {
             @Override
             public void run() {

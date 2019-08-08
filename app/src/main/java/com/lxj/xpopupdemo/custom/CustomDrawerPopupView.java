@@ -19,9 +19,11 @@ import java.util.Random;
  */
 public class CustomDrawerPopupView extends DrawerPopupView {
     TextView text;
+
     public CustomDrawerPopupView(@NonNull Context context) {
         super(context);
     }
+
     @Override
     protected int getImplLayoutId() {
         return R.layout.custom_drawer_popup;
@@ -38,7 +40,7 @@ public class CustomDrawerPopupView extends DrawerPopupView {
                 dismiss();
             }
         });
-        text.setText(new Random().nextInt()+"");
+
 
         //通过设置topMargin，可以让Drawer弹窗进行局部阴影展示
 //        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
@@ -55,5 +57,9 @@ public class CustomDrawerPopupView extends DrawerPopupView {
     protected void onDismiss() {
         super.onDismiss();
         Log.e("tag", "CustomDrawerPopupView onDismiss");
+    }
+
+    public void setContent(String str) {
+        text.setText(new Random().nextInt() + " -> " + str);
     }
 }

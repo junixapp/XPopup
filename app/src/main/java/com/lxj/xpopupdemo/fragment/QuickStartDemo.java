@@ -282,6 +282,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .popupPosition(PopupPosition.Right)//右边
                         .hasStatusBarShadow(true) //启用状态栏阴影
+                        .setPopupCallback(new SimpleCallback(){
+                            @Override
+                            public void onShowing() {
+                                //可以在onShowing 调用的时候改变内容文案 此时弹窗还未完全展示出来 并且已经走了onCreate 不会有NPE的问题
+                                drawerPopupView.setContent(String.valueOf(System.currentTimeMillis()));
+                            }
+                        })
                         .asCustom(drawerPopupView)
                         .show();
                 break;

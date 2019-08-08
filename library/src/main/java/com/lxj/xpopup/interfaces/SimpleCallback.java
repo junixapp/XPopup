@@ -9,6 +9,12 @@ public class SimpleCallback implements XPopupCallback {
     public void onCreated() {
 
     }
+
+    @Override
+    public void onShowing() {
+
+    }
+
     @Override
     public void onShow() {
 

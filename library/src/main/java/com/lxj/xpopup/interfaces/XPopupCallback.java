@@ -10,6 +10,12 @@ public interface XPopupCallback {
      * 弹窗的onCreate方法执行完调用
      */
     void onCreated();
+
+    /**
+     * 发生在完全显示之前
+     */
+    void onShowing();
+
     /**
      * 完全显示的时候执行
      */
