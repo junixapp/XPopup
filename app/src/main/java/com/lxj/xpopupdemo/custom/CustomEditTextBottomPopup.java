@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopupdemo.R;
 
@@ -35,7 +36,9 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
         findViewById(R.id.btn_finish).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+//                dismiss();
+
+                new XPopup.Builder(getContext()).atView(v).asAttachList(new String[]{"aa", "bbb"}, null, null).show();
             }
         });
     }

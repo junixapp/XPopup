@@ -129,8 +129,15 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onCreated() {
-                                Log.e("tag", "弹窗创建了");
+                                Log.e("tag", "弹窗创建了，每个弹窗的对象的onCreate只会执行一次");
                             }
+
+                            @Override
+                            public void beforeShow() {
+                                super.beforeShow();
+                                Log.e("tag", "beforeShow，在每次show之前都会执行，可以用来进行多次的数据更新。");
+                            }
+
                             @Override
                             public void onShow() {
                                 Log.e("tag", "onShow");
@@ -205,7 +212,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
-                    public void run() { loadingPopup.setTitle("啊啊啊"); }
+                    public void run() { loadingPopup.setTitle("正在加载中啊啊啊"); }
                 },1000);
                 loadingPopup.delayDismissWith(3000,new Runnable() {
                     @Override
@@ -328,12 +335,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .offsetY(200)
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        KeyboardUtils.showSoftInput(getActivity());
-                    }
-                }, 1000);
                 break;
         }
     }

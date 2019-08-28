@@ -93,6 +93,10 @@ public final class NavigationBarObserver extends ContentObserver {
     }
 
     public void removeOnNavigationBarListener(OnNavigationBarListener listener) {
+        if(mIsRegister){
+            context.getContentResolver().unregisterContentObserver(this);
+            mIsRegister = false;
+        }
         if (listener == null || mListeners == null) {
             return;
         }

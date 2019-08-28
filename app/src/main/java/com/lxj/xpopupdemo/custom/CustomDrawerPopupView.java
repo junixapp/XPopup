@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lxj.xpopup.core.DrawerPopupView;
+import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.R;
 
 import java.util.Random;
