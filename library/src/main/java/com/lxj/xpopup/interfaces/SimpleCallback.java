@@ -10,6 +10,11 @@ public class SimpleCallback implements XPopupCallback {
 
     }
     @Override
+    public void beforeShow() {
+
+    }
+
+    @Override
     public void onShow() {
 
     }

@@ -176,7 +176,7 @@ public class ImageViewerDemo extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     new XPopup.Builder(getContext())
-                            .asImageViewer(imageView, position, list, true, -1, -1, -1, true, new OnSrcViewUpdateListener() {
+                            .asImageViewer(imageView, position, list, true,false, -1, -1, -1, true, new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
                             //1.pager更新当前显示的图片

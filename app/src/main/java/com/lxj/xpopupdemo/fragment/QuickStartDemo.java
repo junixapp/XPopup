@@ -129,8 +129,15 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onCreated() {
-                                Log.e("tag", "弹窗创建了");
+                                Log.e("tag", "弹窗创建了，每个弹窗的对象的onCreate只会执行一次");
                             }
+
+                            @Override
+                            public void beforeShow() {
+                                super.beforeShow();
+                                Log.e("tag", "beforeShow，在每次show之前都会执行，可以用来进行多次的数据更新。");
+                            }
+
                             @Override
                             public void onShow() {
                                 Log.e("tag", "onShow");
