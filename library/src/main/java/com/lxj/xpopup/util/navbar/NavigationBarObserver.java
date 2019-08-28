@@ -27,7 +27,7 @@ public final class NavigationBarObserver extends ContentObserver {
     static final String IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW = "navigationbar_is_min";
 
     private ArrayList<OnNavigationBarListener> mListeners;
-    private Context context;
+    private Context mAppContext;
     private Boolean mIsRegister = false;
 
     public static NavigationBarObserver getInstance() {
@@ -39,9 +39,9 @@ public final class NavigationBarObserver extends ContentObserver {
     }
 
     public void register(Context context) {
-        this.context = context;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && context != null
-                && context.getContentResolver() != null && !mIsRegister) {
+        this.mAppContext = context.getApplicationContext();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && mAppContext != null
+                && mAppContext.getContentResolver() != null && !mIsRegister) {
             Uri uri = null;
             if (OSUtils.isMIUI()) {
                 uri = Settings.Global.getUriFor(IMMERSION_MIUI_NAVIGATION_BAR_HIDE_SHOW);
@@ -53,7 +53,7 @@ public final class NavigationBarObserver extends ContentObserver {
                 }
             }
             if (uri != null) {
-                context.getContentResolver().registerContentObserver(uri, true, this);
+                mAppContext.getContentResolver().registerContentObserver(uri, true, this);
                 mIsRegister = true;
             }
         }
@@ -62,16 +62,16 @@ public final class NavigationBarObserver extends ContentObserver {
     @Override
     public void onChange(boolean selfChange) {
         super.onChange(selfChange);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && context != null && context.getContentResolver() != null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && mAppContext != null && mAppContext.getContentResolver() != null
                 && mListeners != null && !mListeners.isEmpty()) {
             int show = 0;
             if (OSUtils.isMIUI()) {
-                show = Settings.Global.getInt(context.getContentResolver(), IMMERSION_MIUI_NAVIGATION_BAR_HIDE_SHOW, 0);
+                show = Settings.Global.getInt(mAppContext.getContentResolver(), IMMERSION_MIUI_NAVIGATION_BAR_HIDE_SHOW, 0);
             } else if (OSUtils.isEMUI()) {
                 if (OSUtils.isEMUI3_x() || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    show = Settings.System.getInt(context.getContentResolver(), IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW, 0);
+                    show = Settings.System.getInt(mAppContext.getContentResolver(), IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW, 0);
                 } else {
-                    show = Settings.Global.getInt(context.getContentResolver(), IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW, 0);
+                    show = Settings.Global.getInt(mAppContext.getContentResolver(), IMMERSION_EMUI_NAVIGATION_BAR_HIDE_SHOW, 0);
                 }
             }
             for (OnNavigationBarListener onNavigationBarListener : mListeners) {
