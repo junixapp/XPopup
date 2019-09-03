@@ -97,6 +97,7 @@ public final class NavigationBarObserver extends ContentObserver {
             context.getContentResolver().unregisterContentObserver(this);
             mIsRegister = false;
         }
+        this.context = null;
         if (listener == null || mListeners == null) {
             return;
         }
