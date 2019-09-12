@@ -39,7 +39,7 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
             public void onClick(View v) {
 //                dismiss();
 
-                new XPopup.Builder(getContext()).atView(v).asAttachList(new String[]{"aa", "bbb"}, null, null).show();
+//                new XPopup.Builder(getContext()).atView(v).asAttachList(new String[]{"aa", "bbb"}, null, null).show();
             }
         });
     }
