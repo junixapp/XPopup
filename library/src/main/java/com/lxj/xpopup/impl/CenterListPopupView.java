@@ -93,7 +93,7 @@ public class CenterListPopupView extends CenterPopupView {
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }
                 if(position==(data.length-1)){
-                    holder.getView(R.id.xpopup_divider).setVisibility(GONE);
+                    holder.getView(R.id.xpopup_divider).setVisibility(INVISIBLE);
                 }
             }
         };

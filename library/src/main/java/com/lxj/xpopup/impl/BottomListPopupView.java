@@ -95,7 +95,7 @@ public class BottomListPopupView extends BottomPopupView {
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }
                 if(position==(data.length-1)){
-                    holder.getView(R.id.xpopup_divider).setVisibility(GONE);
+                    holder.getView(R.id.xpopup_divider).setVisibility(INVISIBLE);
                 }
             }
         };
