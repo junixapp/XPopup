@@ -77,7 +77,7 @@ Detailed usage is in wiki，enjoy it:
 
 
 
-## Who are use XPopup
+## Who are using XPopup
 
 I prefer you can [click here to provide](https://github.com/li-xiaojun/XPopup/issues/93)your App name，which will give me more passion to maintain this library。
 
@@ -94,6 +94,9 @@ Base on information provided by some friends，they are using Xpopup:
 - 密籍(下载地址：https://www.coolapk.com/apk/com.rair.unikey)
 - 万话筒
 - 易果无忧
+- Moo日记， 下载地址 https://www.wandoujia.com/apps/8044755
+- 智华泊位(重庆即停科技有限公司)
+
 
 
 ## Buy me a coffee
