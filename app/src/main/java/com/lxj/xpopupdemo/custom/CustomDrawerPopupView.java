@@ -1,14 +1,13 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lxj.xpopup.core.DrawerPopupView;
+import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.R;
 
 import java.util.Random;

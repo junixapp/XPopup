@@ -5,7 +5,7 @@
     android:background="@drawable/bg_round"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_round">
@@ -17,7 +17,7 @@
             android:text="全部1344条评论"
             android:textColor="#000"
             android:textSize="20sp" />
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.lxj.xpopup.widget.VerticalRecyclerView
         android:id="@+id/recyclerView"

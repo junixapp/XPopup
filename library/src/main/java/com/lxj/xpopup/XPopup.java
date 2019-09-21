@@ -567,7 +567,7 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, false, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
+            return asImageViewer(srcView, currentPosition, urls, false,false, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
         }
 
         /**
@@ -577,6 +577,7 @@ public class XPopup {
          * @param currentPosition       指定显示图片的位置
          * @param urls                  图片url集合
          * @param isInfinite            是否需要无限滚动，默认为false
+         * @param isShowPlaceHolder     是否显示默认的占位View，默认为false
          * @param placeholderColor      占位View的填充色，默认为-1
          * @param placeholderStroke     占位View的边框色，默认为-1
          * @param placeholderRadius     占位View的圆角大小，默认为-1
@@ -585,7 +586,7 @@ public class XPopup {
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
-                                                  boolean isInfinite,
+                                                  boolean isInfinite, boolean isShowPlaceHolder,
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius, boolean isShowSaveBtn,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
             popupType(PopupType.ImageViewer);
@@ -593,6 +594,7 @@ public class XPopup {
                     .setSrcView(srcView, currentPosition)
                     .setImageUrls(urls)
                     .isInfinite(isInfinite)
+                    .isShowPlaceholder(isShowPlaceHolder)
                     .setPlaceholderColor(placeholderColor)
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)

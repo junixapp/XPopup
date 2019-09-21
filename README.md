@@ -64,9 +64,9 @@
 
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.8'
+implementation 'com.lxj:xpopup:1.8.10'
 //for androidx.
-implementation 'com.lxj:xpopup:1.8.8-x'
+implementation 'com.lxj:xpopup:1.8.10-x'
 ```
 
 必须添加的依赖库：
@@ -110,11 +110,16 @@ implementation 'com.android.support:design:28.0.0'
 - 马自达汽车检测（主要是一个汽车厂商工作人员使用的汽车检测APP）
 - 变福侠App
 - 进境肉牛检疫追溯系统(App端)
-- 太极 (app名, 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
+- 太极 (app名,维术大神作品，VirtualXposed作者， 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 - 爱勘(ican)App
 - 医美消费指南(https://www.pgyer.com/yimeiandroid)
 - 蜜尚（APP名，广州时尚商业城有限公司（时尚集团））
 - 关爱岛
+- 密籍(下载地址：https://www.coolapk.com/apk/com.rair.unikey)
+- 万话筒
+- 易果无忧
+- Moo日记， 下载地址 https://www.wandoujia.com/apps/8044755
+- 智华泊位(重庆即停科技有限公司)
 
 
 

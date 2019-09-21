@@ -1,12 +1,11 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -176,7 +175,7 @@ public class ImageViewerDemo extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     new XPopup.Builder(getContext())
-                            .asImageViewer(imageView, position, list, true, -1, -1, -1, true, new OnSrcViewUpdateListener() {
+                            .asImageViewer(imageView, position, list, true,false, -1, -1, -1, true, new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
                             //1.pager更新当前显示的图片

@@ -40,9 +40,9 @@ If the qrcode is invisible，[click me to download Demo.apk](https://fir.im/2q63
 
 First, you need add gradle dependency：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.8'
+implementation 'com.lxj:xpopup:1.8.10'
 //for androidx.
-implementation 'com.lxj:xpopup:1.8.8-x'
+implementation 'com.lxj:xpopup:1.8.10-x'
 ```
 
 Second, you also need these：
@@ -77,7 +77,7 @@ Detailed usage is in wiki，enjoy it:
 
 
 
-## Who are use XPopup
+## Who are using XPopup
 
 I prefer you can [click here to provide](https://github.com/li-xiaojun/XPopup/issues/93)your App name，which will give me more passion to maintain this library。
 
@@ -91,6 +91,12 @@ Base on information provided by some friends，they are using Xpopup:
 - 医美消费指南(https://www.pgyer.com/yimeiandroid)
 - 蜜尚（APP名，广州时尚商业城有限公司（时尚集团））
 - 关爱岛
+- 密籍(下载地址：https://www.coolapk.com/apk/com.rair.unikey)
+- 万话筒
+- 易果无忧
+- Moo日记， 下载地址 https://www.wandoujia.com/apps/8044755
+- 智华泊位(重庆即停科技有限公司)
+
 
 
 ## Buy me a coffee

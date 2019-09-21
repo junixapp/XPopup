@@ -1,8 +1,8 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.lxj.easyadapter.EasyAdapter;
@@ -11,6 +11,7 @@ import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.widget.VerticalRecyclerView;
 
 import java.util.Arrays;
 
@@ -19,7 +20,7 @@ import java.util.Arrays;
  * Create by dance, at 2018/12/12
  */
 public class AttachListPopupView extends AttachPopupView {
-    RecyclerView recyclerView;
+    VerticalRecyclerView recyclerView;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
 
@@ -58,6 +59,7 @@ public class AttachListPopupView extends AttachPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setupDivider();
         final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
@@ -68,6 +70,7 @@ public class AttachListPopupView extends AttachPopupView {
                 } else {
                     holder.getView(R.id.iv_image).setVisibility(GONE);
                 }
+                holder.getView(R.id.xpopup_divider).setVisibility(GONE);
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener() {

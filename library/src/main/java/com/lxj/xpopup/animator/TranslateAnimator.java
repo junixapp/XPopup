@@ -1,6 +1,6 @@
 package com.lxj.xpopup.animator;
 
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;

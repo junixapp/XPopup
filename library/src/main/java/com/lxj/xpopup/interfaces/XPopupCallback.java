@@ -10,6 +10,12 @@ public interface XPopupCallback {
      * 弹窗的onCreate方法执行完调用
      */
     void onCreated();
+
+    /**
+     * 在show之前执行，由于onCreated只执行一次，如果想多次更新数据可以在该方法中
+     */
+    void beforeShow();
+
     /**
      * 完全显示的时候执行
      */

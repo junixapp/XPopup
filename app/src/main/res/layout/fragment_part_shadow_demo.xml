@@ -5,7 +5,7 @@
     android:background="#f2f2f2"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -81,7 +81,7 @@
                 android:textColor="#000"
                 android:textSize="16sp" />
         </LinearLayout>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
    <FrameLayout
        android:layout_width="match_parent"
@@ -114,7 +114,7 @@
            android:layout_height="wrap_content" />
    </FrameLayout>
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -129,5 +129,5 @@
             android:text="选择优惠券"
             android:textColor="#111"
             android:textSize="17sp" />
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 </LinearLayout>

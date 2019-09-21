@@ -111,7 +111,7 @@ public class XPopupUtils {
                 int w = content.getMeasuredWidth();
                 // response impl view wrap_content params.
                 if (implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT) {
-                    w = Math.min(w, implView.getMeasuredWidth());
+//                    w = Math.min(w, implView.getMeasuredWidth());
                 }
                 if (maxWidth != 0) {
                     params.width = Math.min(w, maxWidth);

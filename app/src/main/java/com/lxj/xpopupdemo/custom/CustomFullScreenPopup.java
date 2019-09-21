@@ -1,8 +1,10 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.lxj.easyadapter.EasyAdapter;
+import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopupdemo.R;
 
