@@ -110,7 +110,7 @@ implementation 'com.android.support:design:28.0.0'
 - 马自达汽车检测（主要是一个汽车厂商工作人员使用的汽车检测APP）
 - 变福侠App
 - 进境肉牛检疫追溯系统(App端)
-- 太极 (app名,维术大神作品，VirtualXposed作者， 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
+- 太极 (,维术大神作品，VirtualXposed作者， 下载地址：https://www.coolapk.com/apk/me.weishu.exp)
 - 爱勘(ican)App
 - 医美消费指南(https://www.pgyer.com/yimeiandroid)
 - 蜜尚（APP名，广州时尚商业城有限公司（时尚集团））
@@ -120,6 +120,10 @@ implementation 'com.android.support:design:28.0.0'
 - 易果无忧
 - Moo日记， 下载地址 https://www.wandoujia.com/apps/8044755
 - 智华泊位(重庆即停科技有限公司)
+- 中英互译（梅州小白科技有限责任公司 https://sj.qq.com/myapp/detail.htm?apkName=com.messi.languagehelper）
+- 采蘑菇（https://a.app.qq.com/o/simple.jsp?pkgname=com.lx.cmg）
+- 蜂鸟屋APP，蜂鸟屋SAAS 平板
+- 茶臻选（https://android.myapp.com/myapp/detail.htm?apkName=com.aiso.tea&ADTAG=mobile）
 
 
 
