@@ -64,7 +64,7 @@
 
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.10'
+implementation 'com.lxj:xpopup:1.8.11'
 //for androidx.
 implementation 'com.lxj:xpopup:1.8.10-x'
 ```
@@ -124,6 +124,8 @@ implementation 'com.android.support:design:28.0.0'
 - 采蘑菇（https://a.app.qq.com/o/simple.jsp?pkgname=com.lx.cmg）
 - 蜂鸟屋APP，蜂鸟屋SAAS 平板
 - 茶臻选（https://android.myapp.com/myapp/detail.htm?apkName=com.aiso.tea&ADTAG=mobile）
+- 风扇屏客户端app
+- EdifierConnect 漫步者耳机产品APP
 
 
 

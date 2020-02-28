@@ -15,9 +15,9 @@ public class XPopupApp extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return;
+//        }
+//        LeakCanary.install(this);
     }
 }

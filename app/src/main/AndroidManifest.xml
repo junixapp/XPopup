@@ -20,14 +20,14 @@
         tools:replace="android:appComponentFactory"
         android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4" />
-        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustResize"
+        <activity android:name="com.lxj.xpopupdemo.MainActivity" android:windowSoftInputMode="adjustResize"
             android:configChanges="screenSize|screenLayout|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DemoActivity"/>
+        <activity android:name="com.lxj.xpopupdemo.DemoActivity"/>
     </application>
 
 </manifest>

@@ -466,7 +466,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * 消失
      */
     public void dismiss() {
-        if (popupStatus == PopupStatus.Dismissing) return;
+        if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
         if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         clearFocus();
