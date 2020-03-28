@@ -20,7 +20,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     OnCancelListener cancelListener;
     OnConfirmListener confirmListener;
     TextView tv_title, tv_content, tv_cancel, tv_confirm;
-    String title, content, hint, cancelText, confirmText;
+    CharSequence title, content, hint, cancelText, confirmText;
     boolean isHideCancel = false;
 
     public ConfirmPopupView(@NonNull Context context) {
@@ -86,19 +86,19 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         return this;
     }
 
-    public ConfirmPopupView setTitleContent(String title, String content, String hint) {
+    public ConfirmPopupView setTitleContent(CharSequence title, CharSequence content, CharSequence hint) {
         this.title = title;
         this.content = content;
         this.hint = hint;
         return this;
     }
 
-    public ConfirmPopupView setCancelText(String cancelText) {
+    public ConfirmPopupView setCancelText(CharSequence cancelText) {
         this.cancelText = cancelText;
         return this;
     }
 
-    public ConfirmPopupView setConfirmText(String confirmText) {
+    public ConfirmPopupView setConfirmText(CharSequence confirmText) {
         this.confirmText = confirmText;
         return this;
     }

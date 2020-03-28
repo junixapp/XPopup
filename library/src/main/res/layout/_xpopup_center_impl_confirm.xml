@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/_xpopup_round3_bg"
-    android:padding="20dp"
+    android:paddingTop="16dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="10dp"
     android:orientation="vertical">
 
     <TextView
@@ -11,8 +14,8 @@
         style="@style/XPopupTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="22dp"
-        android:text="" />
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="22dp" />
 
     <TextView
         android:id="@+id/tv_content"
@@ -42,24 +45,23 @@
             android:textSize="16sp"
             android:text="@string/cancel"
             android:background="?android:attr/selectableItemBackground"
-            android:layout_marginRight="20dp"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <TextView
             android:textSize="16sp"
             android:id="@+id/tv_confirm"
             android:text="@string/ok"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:background="?android:attr/selectableItemBackground"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

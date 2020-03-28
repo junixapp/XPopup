@@ -120,11 +120,11 @@ public class BottomListPopupView extends BottomPopupView {
         recyclerView.setAdapter(adapter);
     }
 
-    String title;
+    CharSequence title;
     String[] data;
     int[] iconIds;
 
-    public BottomListPopupView setStringData(String title, String[] data, int[] iconIds) {
+    public BottomListPopupView setStringData(CharSequence title, String[] data, int[] iconIds) {
         this.title = title;
         this.data = data;
         this.iconIds = iconIds;

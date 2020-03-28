@@ -45,8 +45,8 @@ public class LoadingPopupView extends CenterPopupView {
         }
     }
 
-    private String title;
-    public LoadingPopupView setTitle(String title){
+    private CharSequence title;
+    public LoadingPopupView setTitle(CharSequence title){
         this.title = title;
         setup();
         return this;

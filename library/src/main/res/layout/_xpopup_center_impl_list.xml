@@ -10,6 +10,7 @@
         android:textColor="@color/_xpopup_title_color"
         android:paddingTop="14dp"
         android:paddingLeft="18dp"
+        android:gravity="center"
         android:paddingBottom="14dp"
         android:paddingRight="18dp"
         android:maxLines="1"

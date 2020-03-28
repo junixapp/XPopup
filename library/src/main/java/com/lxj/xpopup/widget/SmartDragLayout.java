@@ -4,16 +4,22 @@ import android.content.Context;
 import android.graphics.Rect;
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.ViewCompat;
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.OverScroller;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
+import com.lxj.xpopup.util.MyFastOutSlowInInterpolator;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**
@@ -187,7 +193,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         post(new Runnable() {
             @Override
             public void run() {
-                smoothScroll(maxY - getScrollY());
+                smoothScroll(maxY - getScrollY(), true);
             }
         });
     }
@@ -198,16 +204,16 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         post(new Runnable() {
             @Override
             public void run() {
-                smoothScroll(minY - getScrollY());
+                smoothScroll(minY - getScrollY(), false);
             }
         });
     }
 
-    public void smoothScroll(final int dy) {
+    public void smoothScroll(final int dy, final boolean isOpen) {
         post(new Runnable() {
             @Override
             public void run() {
-                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, XPopup.getAnimationDuration());
+                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, (int)(isOpen ? XPopup.getAnimationDuration() : XPopup.getAnimationDuration()*0.8f));
                 ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
             }
         });

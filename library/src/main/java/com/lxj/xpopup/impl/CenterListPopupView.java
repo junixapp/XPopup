@@ -114,11 +114,11 @@ public class CenterListPopupView extends CenterPopupView {
         recyclerView.setAdapter(adapter);
     }
 
-    String title;
+    CharSequence title;
     String[] data;
     int[] iconIds;
 
-    public CenterListPopupView setStringData(String title, String[] data, int[] iconIds) {
+    public CenterListPopupView setStringData(CharSequence title, String[] data, int[] iconIds) {
         this.title = title;
         this.data = data;
         this.iconIds = iconIds;

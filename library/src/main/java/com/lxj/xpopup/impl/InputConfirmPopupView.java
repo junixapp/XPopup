@@ -34,7 +34,7 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     }
 
     AppCompatEditText et_input;
-    public String inputContent;
+    public CharSequence inputContent;
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
