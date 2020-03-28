@@ -21,29 +21,19 @@
 
         <TextView
             android:id="@+id/tv_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
             android:textColor="@color/_xpopup_title_color"
             android:textSize="15sp" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <com.lxj.xpopup.widget.CheckView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/check_view"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:visibility="gone" />
-        </FrameLayout>
+        <com.lxj.xpopup.widget.CheckView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/check_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
     </LinearLayout>
     <include layout="@layout/_xpopup_divider"/>
 </LinearLayout>
