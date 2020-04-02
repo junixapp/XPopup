@@ -24,6 +24,8 @@
     <com.lxj.xpopup.widget.VerticalRecyclerView
         android:orientation="vertical"
         android:id="@+id/recyclerView"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never" />

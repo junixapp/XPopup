@@ -61,7 +61,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         if (!TextUtils.isEmpty(title)) {
             tv_title.setText(title);
         } else {
-            tv_title.setVisibility(GONE);
+            tv_title.setVisibility(INVISIBLE);
         }
 
         if (!TextUtils.isEmpty(content)) {
@@ -82,7 +82,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     }
 
     protected void applyPrimaryColor() {
-        tv_cancel.setTextColor(XPopup.getPrimaryColor());
+//        tv_cancel.setTextColor(XPopup.getPrimaryColor());
         tv_confirm.setTextColor(XPopup.getPrimaryColor());
     }
 
@@ -93,6 +93,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_content.setTextColor(getResources().getColor(R.color._xpopup_white_color));
         tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_white_color));
         tv_confirm.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        findViewById(R.id.xpopup_divider).setBackgroundColor(getResources().getColor(R.color._xpopup_dark_color));
+        findViewById(R.id.xpopup_divider_h).setBackgroundColor(getResources().getColor(R.color._xpopup_dark_color));
         ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_dark_bg);
     }
 
