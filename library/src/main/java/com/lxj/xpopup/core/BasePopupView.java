@@ -378,7 +378,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      */
     protected void onCreate() {
     }
-
+    protected void applyDarkTheme() {
+    }
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
      * 背景动画由父类实现，Content由子类实现

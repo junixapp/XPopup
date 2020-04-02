@@ -2,8 +2,11 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;
@@ -73,11 +76,24 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
             tv_confirm.setText(confirmText);
         }
         if (isHideCancel) tv_cancel.setVisibility(GONE);
+        if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
+            applyDarkTheme();
+        }
     }
 
     protected void applyPrimaryColor() {
         tv_cancel.setTextColor(XPopup.getPrimaryColor());
         tv_confirm.setTextColor(XPopup.getPrimaryColor());
+    }
+
+    @Override
+    protected void applyDarkTheme() {
+        super.applyDarkTheme();
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        tv_content.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        tv_confirm.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_dark_bg);
     }
 
     public ConfirmPopupView setListener(OnConfirmListener confirmListener, OnCancelListener cancelListener) {

@@ -322,6 +322,17 @@ public class XPopup {
         }
 
         /**
+         * 是否让使用暗色主题，默认是false。
+         *
+         * @param isDarkTheme
+         * @return
+         */
+        public Builder isDarkTheme(boolean isDarkTheme) {
+            this.popupInfo.isDarkTheme = isDarkTheme;
+            return this;
+        }
+
+        /**
          * 是否点击弹窗背景时将点击事件透传到Activity下，默认是不透传，目前会引发很多不可控的问题，暂时关闭。
          *
          * @param isClickThrough

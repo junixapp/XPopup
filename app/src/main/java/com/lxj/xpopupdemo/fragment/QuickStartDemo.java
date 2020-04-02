@@ -185,6 +185,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowCenterList: //在中间弹出的List列表弹窗
                 new XPopup.Builder(getContext())
 //                        .maxWidth(600)
+                        .isDarkTheme(true)
                         .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
                                 new OnSelectListener() {
                                     @Override
@@ -223,6 +224,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
+                        .isDarkTheme(true)
 //                        .enableDrag(false)
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                 new OnSelectListener() {
@@ -262,6 +264,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 new XPopup.Builder(getContext())
                         .hasShadowBg(false)
+//                        .isDarkTheme(true)
 //                        .popupAnimation(PopupAnimation.NoAnimation) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-10)

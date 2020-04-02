@@ -40,6 +40,7 @@ public class PopupInfo {
     public boolean isRequestFocus = true; //弹窗是否强制抢占焦点
     public boolean autoFocusEditText = true; //是否让输入框自动获取焦点
 //    public boolean isClickThrough = true;//是否点击透传，默认弹背景点击是拦截的
+    public boolean isDarkTheme = false; //是否是暗色调主题
 
     public View getAtView() {
         return atView;

@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
@@ -59,7 +60,7 @@ public class AttachListPopupView extends AttachPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setupDivider();
+        recyclerView.setupDivider(popupInfo.isDarkTheme);
         final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
@@ -70,7 +71,9 @@ public class AttachListPopupView extends AttachPopupView {
                 } else {
                     holder.getView(R.id.iv_image).setVisibility(GONE);
                 }
-                holder.getView(R.id.xpopup_divider).setVisibility(GONE);
+                if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
+                    holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                }
             }
         };
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener() {
@@ -83,6 +86,15 @@ public class AttachListPopupView extends AttachPopupView {
             }
         });
         recyclerView.setAdapter(adapter);
+        if (bindLayoutId==0 && popupInfo.isDarkTheme){
+            applyDarkTheme();
+        }
+    }
+
+    @Override
+    protected void applyDarkTheme() {
+        super.applyDarkTheme();
+        recyclerView.setBackgroundColor(getResources().getColor(R.color._xpopup_dark_color));
     }
 
     String[] data;

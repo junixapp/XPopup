@@ -31,11 +31,11 @@ public class VerticalRecyclerView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    public void setupDivider(){
+    public void setupDivider(Boolean isDark){
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setColor(getResources().getColor(R.color._xpopup_list_divider));
+        drawable.setColor(getResources().getColor(isDark ? R.color._xpopup_list_dark_divider : R.color._xpopup_list_divider));
         drawable.setSize(10, XPopupUtils.dp2px(getContext(), .4f));
         decoration.setDrawable(drawable);
         addItemDecoration(decoration);

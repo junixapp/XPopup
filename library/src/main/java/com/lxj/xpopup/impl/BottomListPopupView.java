@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lxj.easyadapter.EasyAdapter;
@@ -15,6 +16,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.widget.CheckView;
+import com.lxj.xpopup.widget.VerticalRecyclerView;
 
 import java.util.Arrays;
 
@@ -23,7 +25,7 @@ import java.util.Arrays;
  * Create by dance, at 2018/12/16
  */
 public class BottomListPopupView extends BottomPopupView {
-    RecyclerView recyclerView;
+    VerticalRecyclerView recyclerView;
     TextView tv_title;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
@@ -63,6 +65,7 @@ public class BottomListPopupView extends BottomPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setupDivider(popupInfo.isDarkTheme);
         tv_title = findViewById(R.id.tv_title);
 
         if(tv_title!=null){
@@ -74,7 +77,7 @@ public class BottomListPopupView extends BottomPopupView {
             }
         }
 
-        final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
+        final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text_match : bindItemLayoutId) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
@@ -94,8 +97,8 @@ public class BottomListPopupView extends BottomPopupView {
                     holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }
-                if(position==(data.length-1)){
-                    holder.getView(R.id.xpopup_divider).setVisibility(INVISIBLE);
+                if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
+                    holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
                 }
             }
         };
@@ -118,6 +121,18 @@ public class BottomListPopupView extends BottomPopupView {
             }
         });
         recyclerView.setAdapter(adapter);
+        if (bindLayoutId==0 && popupInfo.isDarkTheme){
+            applyDarkTheme();
+        }
+    }
+    @Override
+    protected void applyDarkTheme() {
+        super.applyDarkTheme();
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_dark_bg);
+        findViewById(R.id.xpopup_divider).setBackgroundColor(
+                getResources().getColor(R.color._xpopup_list_dark_divider)
+        );
     }
 
     CharSequence title;
