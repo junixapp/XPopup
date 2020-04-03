@@ -429,7 +429,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * @return
      */
     protected int getMaxWidth() {
-        return 0;
+        return popupInfo.maxWidth;
     }
 
     /**
