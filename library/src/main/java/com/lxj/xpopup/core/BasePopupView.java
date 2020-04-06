@@ -522,8 +522,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 } else {
                     // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
                     View needFocusView = ((Activity) getContext()).findViewById(android.R.id.content);
-                    needFocusView.setFocusable(true);
-                    needFocusView.setFocusableInTouchMode(true);
+                    if(needFocusView!=null){
+                        needFocusView.setFocusable(true);
+                        needFocusView.setFocusableInTouchMode(true);
+                    }
                 }
             }
 
