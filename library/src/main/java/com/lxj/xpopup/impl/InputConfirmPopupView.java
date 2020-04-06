@@ -56,16 +56,17 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
 
     protected void applyPrimary(){
         super.applyPrimaryColor();
-        XPopupUtils.setCursorDrawableColor(et_input, XPopup.getPrimaryColor());
-        et_input.post(new Runnable() {
-            @Override
-            public void run() {
-                BitmapDrawable defaultDrawable = XPopupUtils.createBitmapDrawable(getResources(), et_input.getMeasuredWidth(), Color.parseColor("#888888"));
-                BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getResources(), et_input.getMeasuredWidth(), XPopup.getPrimaryColor());
-                et_input.setBackgroundDrawable(XPopupUtils.createSelector(defaultDrawable, focusDrawable));
-            }
-        });
-
+        if(bindItemLayoutId==0){
+            XPopupUtils.setCursorDrawableColor(et_input, XPopup.getPrimaryColor());
+            et_input.post(new Runnable() {
+                @Override
+                public void run() {
+                    BitmapDrawable defaultDrawable = XPopupUtils.createBitmapDrawable(getResources(), et_input.getMeasuredWidth(), Color.parseColor("#888888"));
+                    BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getResources(), et_input.getMeasuredWidth(), XPopup.getPrimaryColor());
+                    et_input.setBackgroundDrawable(XPopupUtils.createSelector(defaultDrawable, focusDrawable));
+                }
+            });
+        }
     }
 
     OnCancelListener cancelListener;
