@@ -64,7 +64,7 @@
 
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.8.13' //就是androidx版本
+implementation 'com.lxj:xpopup:1.8.17' //就是androidx版本
 //从1.8.12开始，包变为androidx版本，且只提供androidx版本。
 //从1.8.12开始，包变为androidx版本，且只提供androidx版本。
 //从1.8.12开始，包变为androidx版本，且只提供androidx版本。
