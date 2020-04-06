@@ -386,8 +386,10 @@ public class XPopupUtils {
                                     mainHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(mContext, "已保存到相册！", Toast.LENGTH_SHORT).show();
-                                            mContext = null;
+                                            if(mContext!=null){
+                                                Toast.makeText(mContext, "已保存到相册！", Toast.LENGTH_SHORT).show();
+                                                mContext = null;
+                                            }
                                         }
                                     });
                                 }
