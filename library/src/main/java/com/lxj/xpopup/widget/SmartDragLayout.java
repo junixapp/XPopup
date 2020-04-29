@@ -2,24 +2,20 @@ package com.lxj.xpopup.widget;
 
 import android.content.Context;
 import android.graphics.Rect;
-import androidx.core.view.NestedScrollingParent;
-import androidx.core.view.ViewCompat;
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.OverScroller;
+
+import androidx.core.view.NestedScrollingParent;
+import androidx.core.view.ViewCompat;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
-import com.lxj.xpopup.util.MyFastOutSlowInInterpolator;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**

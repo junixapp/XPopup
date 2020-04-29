@@ -3,12 +3,6 @@ package com.lxj.xpopup.core;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,11 +11,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.EmptyAnimator;
@@ -34,12 +32,15 @@ import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
+import com.lxj.xpopup.util.RomUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.util.navbar.NavigationBarObserver;
 import com.lxj.xpopup.util.navbar.OnNavigationBarListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
 
 /**
@@ -125,8 +126,9 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     private boolean hasMoveUp = false;
-    private void collectAnimator(){
-        if(popupContentAnimator==null){
+
+    private void collectAnimator() {
+        if (popupContentAnimator == null) {
             // 优先使用自定义的动画器
             if (popupInfo.customAnimator != null) {
                 popupContentAnimator = popupInfo.customAnimator;
@@ -149,13 +151,14 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     @Override
     public void onNavigationBarChange(boolean show) {
-        if(!show){
+        if (!show) {
             applyFull();
-        }else {
+        } else {
             applySize(true);
         }
     }
-    protected void applyFull(){
+
+    protected void applyFull() {
         FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
         params.topMargin = 0;
         params.leftMargin = 0;
@@ -163,7 +166,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         params.rightMargin = 0;
         setLayoutParams(params);
     }
-    protected void applySize(boolean isShowNavBar){
+
+    protected void applySize(boolean isShowNavBar) {
         FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
         int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
         boolean isNavBarShown = isShowNavBar || XPopupUtils.isNavBarVisible(getContext());
@@ -207,8 +211,21 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 if (getParent() != null) {
                     ((ViewGroup) getParent()).removeView(BasePopupView.this);
                 }
-                popupInfo.decorView.addView(BasePopupView.this, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT));
+                if (RomUtils.isSamsung()){      //判断是否是三星
+                    popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
+                            XPopupUtils.getAppScreenHeight(getContext())));
+                } else if (RomUtils.isMIUI12()){      //判断是否是MIUI12
+                    if (XPopupUtils.isNavBarVisible(getContext())){     //如果底部导航栏显示
+                        popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
+                                XPopupUtils.getAppScreenHeight(getContext())));
+                    }else {     //如果底部导航栏不显示
+                        popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
+                                LayoutParams.MATCH_PARENT));
+                    }
+                } else {   //其它情况
+                    popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
+                            LayoutParams.MATCH_PARENT));
+                }
 
                 //2. do init，game start.
                 init();
@@ -246,7 +263,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         }
         // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
         setOnKeyListener(new BackPressListener());
-        if(!popupInfo.autoFocusEditText) showSoftInput(this);
+        if (!popupInfo.autoFocusEditText) showSoftInput(this);
 
         //let all EditText can process back pressed.
         ArrayList<EditText> list = new ArrayList<>();
@@ -263,7 +280,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         }
     }
 
-    protected void showSoftInput(View focusView){
+    protected void showSoftInput(View focusView) {
         if (popupInfo.autoOpenSoftInput) {
             if (showSoftInputTask == null) {
                 showSoftInputTask = new ShowSoftInputTask(focusView);
@@ -382,9 +399,14 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * do init.
      */
     protected void onCreate() {
+        //阻断事件
+//        popupInfo.
+
     }
+
     protected void applyDarkTheme() {
     }
+
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
      * 背景动画由父类实现，Content由子类实现
@@ -522,7 +544,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 } else {
                     // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
                     View needFocusView = ((Activity) getContext()).findViewById(android.R.id.content);
-                    if(needFocusView!=null){
+                    if (needFocusView != null) {
                         needFocusView.setFocusable(true);
                         needFocusView.setFocusableInTouchMode(true);
                     }
@@ -567,13 +589,13 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         //在弹窗内嵌入Fragment的场景中，当弹窗消失后，由于Fragment被Activity的FragmentManager缓存，
         //会导致弹窗重新创建的时候，Fragment会命中缓存，生命周期不再执行。为了处理这种情况，只需重写：
         // getInternalFragmentNames() 方法，返回嵌入的Fragment名称，XPopup会自动移除Fragment。
-        if(getContext() instanceof FragmentActivity){
+        if (getContext() instanceof FragmentActivity) {
             FragmentManager manager = ((FragmentActivity) getContext()).getSupportFragmentManager();
             List<Fragment> fragments = manager.getFragments();
-            if(fragments!=null && fragments.size()>0 && getInternalFragmentNames()!=null){
+            if (fragments != null && fragments.size() > 0 && getInternalFragmentNames() != null) {
                 for (int i = 0; i < fragments.size(); i++) {
                     String name = fragments.get(i).getClass().getSimpleName();
-                    if(getInternalFragmentNames().contains(name)){
+                    if (getInternalFragmentNames().contains(name)) {
                         manager.beginTransaction()
                                 .remove(fragments.get(i))
                                 .commitAllowingStateLoss();
@@ -583,7 +605,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         }
     }
 
-    protected List<String> getInternalFragmentNames(){
+    protected List<String> getInternalFragmentNames() {
         return null;
     }
 
@@ -607,7 +629,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     private float x, y;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件,如果是，则dismiss

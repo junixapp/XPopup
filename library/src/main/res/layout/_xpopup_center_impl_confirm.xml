@@ -7,8 +7,11 @@
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/XPopupTitle"
         android:paddingTop="16dp"
+        android:textSize="20sp"
+        android:textColor="@color/_xpopup_title_color"
+        android:lines="1"
+        android:ellipsize="end"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -25,7 +28,7 @@
         android:layout_height="wrap_content"
         android:text="" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <EditText
         android:id="@+id/et_input"
         android:visibility="gone"
         android:textSize="16sp"

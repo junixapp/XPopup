@@ -29,9 +29,6 @@ import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.lxj.xpermission.PermissionConstants;
-import com.lxj.xpermission.XPermission;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
@@ -39,6 +36,8 @@ import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.photoview.PhotoView;
+import com.lxj.xpopup.util.PermissionConstants;
+import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;

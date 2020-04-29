@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
@@ -33,7 +33,7 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         return this;
     }
 
-    AppCompatEditText et_input;
+    EditText et_input;
     public CharSequence inputContent;
     @Override
     protected void initPopupContent() {
@@ -50,7 +50,7 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         applyPrimary();
     }
 
-    public AppCompatEditText getEditText() {
+    public EditText getEditText() {
         return et_input;
     }
 
