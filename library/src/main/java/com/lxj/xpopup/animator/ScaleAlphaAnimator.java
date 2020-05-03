@@ -16,12 +16,14 @@ public class ScaleAlphaAnimator extends PopupAnimator {
     public ScaleAlphaAnimator(View target, PopupAnimation popupAnimation) {
         super(target, popupAnimation);
     }
-
+    public static float fromScaleX = 0.7f;
+    public static float fromScaleY = 0.7f;
+    public static float fromAlpha = 0.1f;
     @Override
     public void initAnimator() {
-        targetView.setScaleX(0f);
-        targetView.setScaleY(0f);
-        targetView.setAlpha(0);
+        targetView.setScaleX(fromScaleX);
+        targetView.setScaleY(fromScaleY);
+        targetView.setAlpha(fromAlpha);
 
         // 设置动画参考点
         targetView.post(new Runnable() {
@@ -71,7 +73,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
 
     @Override
     public void animateDismiss() {
-        targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(XPopup.getAnimationDuration())
+        targetView.animate().scaleX(fromScaleX).scaleY(fromScaleY).alpha(0f).setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new FastOutSlowInInterpolator()).start();
     }
 
