@@ -2,14 +2,16 @@ package com.lxj.xpopup.widget;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.GradientDrawable;
+import android.util.AttributeSet;
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description:
@@ -27,9 +29,16 @@ public class VerticalRecyclerView extends RecyclerView {
     public VerticalRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setLayoutManager(new LinearLayoutManager(getContext()));
-        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+    }
 
-        decoration.setDrawable(new ColorDrawable(getResources().getColor(R.color._xpopup_list_divider)));
+    public void setupDivider(Boolean isDark){
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setColor(getResources().getColor(isDark ? R.color._xpopup_list_dark_divider : R.color._xpopup_list_divider));
+        drawable.setSize(10, XPopupUtils.dp2px(getContext(), .4f));
+        decoration.setDrawable(drawable);
         addItemDecoration(decoration);
     }
+
 }

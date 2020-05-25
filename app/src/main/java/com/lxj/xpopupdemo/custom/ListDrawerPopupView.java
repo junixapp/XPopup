@@ -1,15 +1,14 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
-import com.lxj.easyadapter.CommonAdapter;
+import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.DrawerPopupView;
-import com.lxj.xpopup.widget.PopupDrawerLayout;
 import com.lxj.xpopupdemo.R;
 
 import java.util.ArrayList;
@@ -30,25 +29,22 @@ public class ListDrawerPopupView extends DrawerPopupView {
     }
     final ArrayList<String> data = new ArrayList<>();
     @Override
-    protected void initPopupContent() {
-        setDrawerPosition(PopupDrawerLayout.Position.Right);
-        super.initPopupContent();
+    protected void onCreate() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         for (int i = 0; i < 50; i++) {
             data.add(""+i);
         }
 
-        final CommonAdapter<String> commonAdapter = new CommonAdapter<String>(android.R.layout.simple_list_item_1, data) {
+        final EasyAdapter<String> commonAdapter = new EasyAdapter<String>(data, android.R.layout.simple_list_item_1) {
             @Override
-            protected void convert(@NonNull ViewHolder holder, @NonNull String s, int position) {
+            protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(android.R.id.text1, s);
             }
         };
-        recyclerView.setAdapter(commonAdapter);
 
+        recyclerView.setAdapter(commonAdapter);
         findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,5 +52,6 @@ public class ListDrawerPopupView extends DrawerPopupView {
                 commonAdapter.notifyDataSetChanged();
             }
         });
+
     }
 }

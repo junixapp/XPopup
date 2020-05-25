@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="我是全屏弹窗，可以设置任意的动画器。我看起来就像一个从底部弹出的Activity，可以用来做一些登录，选择界面。"
+            android:textColor="#333"
+            android:textSize="18sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="测试软键盘交互" />
+
+        <View
+            android:background="#ccc"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="测试软键盘交互" />
+
+        <View
+            android:background="#9C27B0"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            android:hint="测试软键盘交互" />
+        <View
+            android:background="#AC5959"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

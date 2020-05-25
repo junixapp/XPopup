@@ -33,4 +33,7 @@ public enum PopupAnimation {
     ScrollAlphaFromRightBottom,
     ScrollAlphaFromBottom,
     ScrollAlphaFromLeftBottom,
+
+    //禁用动画
+    NoAnimation
 }

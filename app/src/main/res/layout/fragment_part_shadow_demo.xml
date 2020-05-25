@@ -5,7 +5,7 @@
     android:background="#f2f2f2"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -24,7 +24,7 @@
                 android:id="@+id/tv_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
+                android:background="?android:attr/selectableItemBackground"
                 android:drawableRight="@mipmap/dropdown"
                 android:drawablePadding="8dp"
                 android:padding="15dp"
@@ -41,7 +41,7 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
+                android:background="?android:attr/selectableItemBackground"
                 android:drawableRight="@mipmap/dropdown"
                 android:drawablePadding="8dp"
                 android:padding="15dp"
@@ -58,7 +58,7 @@
                 android:id="@+id/tv_sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
+                android:background="?android:attr/selectableItemBackground"
                 android:drawableRight="@mipmap/dropdown"
                 android:drawablePadding="8dp"
                 android:padding="15dp"
@@ -70,23 +70,58 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="3" />
+            <TextView
+                android:id="@+id/tv_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawablePadding="8dp"
+                android:padding="15dp"
+                android:text="筛选"
+                android:textColor="#000"
+                android:textSize="16sp" />
         </LinearLayout>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <com.lxj.xpopup.widget.VerticalRecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_weight="1"
+       android:layout_height="0dp">
+       <com.lxj.xpopup.widget.VerticalRecyclerView
+           android:id="@+id/recyclerView"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent" />
+       <TextView
+           android:background="#f0caac"
+           android:id="@+id/tvCenter"
+           android:text="指定在上方显示"
+           android:textColor="#111"
+           android:textSize="15sp"
+           android:padding="15dp"
+           android:layout_gravity="center_vertical"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
 
-    <android.support.design.widget.AppBarLayout
+       <TextView
+           android:background="#f0caac"
+           android:id="@+id/tvCenter2"
+           android:text="指定在下方显示2"
+           android:textColor="#111"
+           android:textSize="15sp"
+           android:padding="15dp"
+           android:layout_gravity="center_vertical|right"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+   </FrameLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_select"
-            android:background="?selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@mipmap/arrow"
@@ -94,5 +129,5 @@
             android:text="选择优惠券"
             android:textColor="#111"
             android:textSize="17sp" />
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 </LinearLayout>

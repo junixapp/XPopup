@@ -41,7 +41,7 @@ public class BlankView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        rect = new RectF(0, 0, w, h);
+        rect = new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight());
     }
 
     @Override
@@ -53,5 +53,6 @@ public class BlankView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(strokeColor);
         canvas.drawRoundRect(rect, radius, radius, paint);
+        paint.setStyle(Paint.Style.FILL);
     }
 }

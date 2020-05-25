@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <View xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/xpopup_divider"
     android:background="@color/_xpopup_list_divider"
-    android:layout_height=".5dp"/>
+    android:layout_height=".45dp"/>

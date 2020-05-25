@@ -1,13 +1,19 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
+
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.util.XPopupUtils;
+
+import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 
 /**
  * Description: 在中间显示的Popup
@@ -15,12 +21,11 @@ import com.lxj.xpopup.util.XPopupUtils;
  */
 public class CenterPopupView extends BasePopupView {
     protected FrameLayout centerPopupContainer;
-
+    protected int bindLayoutId;
+    protected int bindItemLayoutId;
     public CenterPopupView(@NonNull Context context) {
         super(context);
         centerPopupContainer = findViewById(R.id.centerPopupContainer);
-        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), centerPopupContainer, false);
-        centerPopupContainer.addView(contentView);
     }
 
     @Override
@@ -31,7 +36,19 @@ public class CenterPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        XPopupUtils.widthAndHeight(getPopupContentView(), getMaxWidth(), getMaxHeight());
+        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), centerPopupContainer, false);
+        LayoutParams params = (LayoutParams) contentView.getLayoutParams();
+        params.gravity = Gravity.CENTER;
+        centerPopupContainer.addView(contentView, params);
+        getPopupContentView().setTranslationX(popupInfo.offsetX);
+        getPopupContentView().setTranslationY(popupInfo.offsetY);
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setTranslationY(0);
     }
 
     /**
@@ -48,4 +65,8 @@ public class CenterPopupView extends BasePopupView {
                 : popupInfo.maxWidth;
     }
 
+    @Override
+    protected PopupAnimator getPopupAnimator() {
+        return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
+    }
 }

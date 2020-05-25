@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel">cancel</string>
+    <string name="ok">ok</string>
+    <string name="save">save</string>
+</resources>
