@@ -100,7 +100,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             onCreate();
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated();
         }
-        postDelayed(new Runnable() {
+        popupInfo.decorView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
@@ -236,7 +236,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     protected void doAfterShow() {
         removeCallbacks(doAfterShowTask);
-        postDelayed(doAfterShowTask, getAnimationDuration());
+        popupInfo.decorView.postDelayed(doAfterShowTask, getAnimationDuration());
     }
 
     private Runnable doAfterShowTask = new Runnable() {
@@ -287,7 +287,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             } else {
                 removeCallbacks(showSoftInputTask);
             }
-            postDelayed(showSoftInputTask, 10);
+            popupInfo.decorView.postDelayed(showSoftInputTask, 10);
         }
     }
 
@@ -504,7 +504,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     public void delayDismiss(long delay) {
         if (delay < 0) delay = 0;
-        postDelayed(new Runnable() {
+        popupInfo.decorView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 dismiss();
@@ -520,7 +520,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     protected void doAfterDismiss() {
         if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         removeCallbacks(doAfterDismissTask);
-        postDelayed(doAfterDismissTask, getAnimationDuration());
+        popupInfo.decorView.postDelayed(doAfterDismissTask, getAnimationDuration());
     }
 
     private Runnable doAfterDismissTask = new Runnable() {
