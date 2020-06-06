@@ -61,10 +61,10 @@
 
 
 ## Gradle
-
+![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)
 首先需要添加Gradle依赖：
 ```groovy
-implementation 'com.lxj:xpopup:1.9.0' //就是androidx版本
+implementation 'com.lxj:xpopup:最新版本' //就是androidx版本
 //从1.8.12开始，包变为androidx版本，且只提供androidx版本。
 //从1.8.12开始，包变为androidx版本，且只提供androidx版本。
 //从1.8.12开始，包变为androidx版本，且只提供androidx版本。
