@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -96,6 +97,10 @@ public class BottomListPopupView extends BottomPopupView {
                     }
                     holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
+                }else {
+                    holder.getView(R.id.check_view).setVisibility(GONE);
+                    //如果没有选择，则文字居中
+                    holder.<TextView>getView(R.id.tv_text).setGravity(Gravity.CENTER);
                 }
                 if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
                     holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));

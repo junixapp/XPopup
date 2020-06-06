@@ -53,7 +53,7 @@
         <TextView
             android:id="@+id/tv_cancel"
             android:textSize="16sp"
-            android:text="@string/cancel"
+            android:text="@string/xpopup_cancel"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:paddingTop="10dp"
@@ -71,7 +71,7 @@
         <TextView
             android:textSize="16sp"
             android:id="@+id/tv_confirm"
-            android:text="@string/ok"
+            android:text="@string/xpopup_ok"
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"

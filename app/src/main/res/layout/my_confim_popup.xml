@@ -59,7 +59,7 @@
                 android:layout_marginRight="20dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center"
-                android:text="@string/cancel"
+                android:text="@string/xpopup_cancel"
                 android:textSize="16sp" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center"
-                android:text="@string/ok"
+                android:text="@string/xpopup_ok"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
