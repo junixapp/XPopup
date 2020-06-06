@@ -21,7 +21,7 @@ import java.util.Arrays;
  * Create by dance, at 2018/12/12
  */
 public class AttachListPopupView extends AttachPopupView {
-    VerticalRecyclerView recyclerView;
+    RecyclerView recyclerView;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
 
@@ -60,7 +60,9 @@ public class AttachListPopupView extends AttachPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setupDivider(popupInfo.isDarkTheme);
+        if(recyclerView instanceof VerticalRecyclerView){
+            ((VerticalRecyclerView)recyclerView).setupDivider(popupInfo.isDarkTheme);
+        }
         final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
