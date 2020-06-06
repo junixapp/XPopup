@@ -30,9 +30,9 @@ Powerful，material UI，elegant interaction general popup！can absolutely repl
 ## Download Apk
 
 Scan qrcode to download Demo.apk：
-![](screenshot/download.png)
+![](screenshot/download.jpeg)
 
-If the qrcode is invisible，[click me to download Demo.apk](https://fir.im/2q63)
+如果二维码图片不可见，[点我下载Demo体验](http://d.7short.com/2q63)
 
 
 

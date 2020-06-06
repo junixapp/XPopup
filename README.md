@@ -54,9 +54,9 @@
 ## 快速体验
 
 扫描二维码下载Demo：
-![](screenshot/download.png)
+![](screenshot/download.jpeg)
 
-如果二维码图片不可见，[点我下载Demo体验](https://fir.im/2q63)
+如果二维码图片不可见，[点我下载Demo体验](http://d.7short.com/2q63)
 
 
 
@@ -136,6 +136,9 @@ implementation 'com.android.support:design:28.0.0'
 - 万码（深圳市靠谱软件有限公司）
 - 爱多路（常州玺拓软件有限公司 https://a.app.qq.com/o/simple.jsp?pkgname=com.hitotech.idoru）
 - 有播（公司：浙江有播科技有限公司 https://android.myapp.com/myapp/detail.htm?apkName=com.haibaoshow.youbo）
+- 微寻互助（app）
+- 米袋出行、米袋汽车(上海米袋投资集团有限公司（米袋集团）)
+- 悦动圈(下载地址：https://www.51yund.com/down?from=default&type=android)
 
 
 ## 打个赏
