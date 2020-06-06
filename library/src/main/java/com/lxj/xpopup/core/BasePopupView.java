@@ -168,21 +168,28 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     protected void applySize(boolean isShowNavBar) {
-        FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
+        //获取屏幕高度
+        int height = XPopupUtils.getPhoneScreenHeight(getContext());
+        //获取应用内屏幕可用高度
+        if (popupInfo.decorView.getChildCount() > 0) {
+            height = popupInfo.decorView.getChildAt(0).getMeasuredHeight();
+        }
+        LayoutParams params = (LayoutParams) getLayoutParams();
         int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-        boolean isNavBarShown = isShowNavBar || XPopupUtils.isNavBarVisible(getContext());
+        boolean isNavBarShown = XPopupUtils.isNavBarVisible(getContext());
+        //设置margin为屏幕高度减去应用可用高度
         if (rotation == 0) {
             params.leftMargin = 0;
             params.rightMargin = 0;
-            params.bottomMargin = isNavBarShown ? XPopupUtils.getNavBarHeight() : 0;
+            params.bottomMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(getContext()) - height : 0;
         } else if (rotation == 1) {
             params.bottomMargin = 0;
-            params.rightMargin = isNavBarShown ? XPopupUtils.getNavBarHeight() : 0;
+            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(getContext()) - height : 0;
             params.leftMargin = 0;
         } else if (rotation == 3) {
             params.bottomMargin = 0;
             params.leftMargin = 0;
-            params.rightMargin = isNavBarShown ? XPopupUtils.getNavBarHeight() : 0;
+            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(getContext()) - height : 0;
         }
         setLayoutParams(params);
     }
@@ -211,22 +218,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 if (getParent() != null) {
                     ((ViewGroup) getParent()).removeView(BasePopupView.this);
                 }
-                if (RomUtils.isSamsung()){      //判断是否是三星
-                    popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
-                            XPopupUtils.getAppScreenHeight(getContext())));
-                } else if (RomUtils.isMIUI12()){      //判断是否是MIUI12
-                    if (XPopupUtils.isNavBarVisible(getContext())){     //如果底部导航栏显示
-                        popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
-                                XPopupUtils.getAppScreenHeight(getContext())));
-                    }else {     //如果底部导航栏不显示
-                        popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
-                                LayoutParams.MATCH_PARENT));
-                    }
-                } else {   //其它情况
-                    popupInfo.decorView.addView(BasePopupView.this, new LayoutParams(LayoutParams.MATCH_PARENT,
-                            LayoutParams.MATCH_PARENT));
-                }
-
+                popupInfo.decorView.addView(BasePopupView.this, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT));
                 //2. do init，game start.
                 init();
             }

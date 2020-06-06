@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -458,5 +459,11 @@ public class XPopupUtils {
             }
         }
     }
-
+    //获取应用可用的屏幕高度
+    public static int getPhoneScreenHeight(Context context){
+        Activity ac = (Activity) context;
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        ac.getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
+        return  outMetrics.heightPixels;
+    }
 }

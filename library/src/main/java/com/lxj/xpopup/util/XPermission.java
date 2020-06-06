@@ -17,6 +17,8 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -193,10 +195,6 @@ public final class XPermission {
         if(sInstance == null) return new XPermission(context, permissions);
         sInstance.prepare(permissions);
         return sInstance;
-    }
-
-    public static XPermission create(Context context) {
-        return create(context, null);
     }
 
     private boolean isIntentAvailable(final Intent intent) {

@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
