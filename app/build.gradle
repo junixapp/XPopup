@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 6
-        versionName "1.8.10"
+        versionName xpopup_version
     }
     buildTypes {
         release {
