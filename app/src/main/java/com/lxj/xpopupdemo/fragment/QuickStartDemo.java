@@ -225,7 +225,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
                         .isDarkTheme(true)
-//                        .enableDrag(false)
+                        .enableDrag(false)
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                 new OnSelectListener() {
                                     @Override
@@ -250,6 +250,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnCustomBottomPopup: //自定义的底部弹窗
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                        .enableDrag(false)
                         .asCustom(new ZhihuCommentPopup(getContext())/*.enableDrag(false)*/)
                         .show();
                 break;

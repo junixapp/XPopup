@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.TranslateAnimator;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -102,7 +104,7 @@ public class BottomPopupView extends BasePopupView {
     @Override
     protected PopupAnimator getPopupAnimator() {
         // 移除默认的动画器
-        return popupInfo.enableDrag ? null : super.getPopupAnimator();
+        return popupInfo.enableDrag ? null : new TranslateAnimator(getPopupContentView(), PopupAnimation.TranslateFromBottom);
     }
 
     @Override
