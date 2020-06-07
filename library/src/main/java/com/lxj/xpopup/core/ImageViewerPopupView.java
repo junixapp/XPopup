@@ -100,7 +100,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         photoViewContainer.setOnDragChangeListener(this);
         pager = findViewById(R.id.pager);
         pager.setAdapter(new PhotoViewAdapter());
-        pager.setOffscreenPageLimit(urls.size());
+//        pager.setOffscreenPageLimit(urls.size());
         pager.setCurrentItem(position);
         pager.setVisibility(INVISIBLE);
         addOrUpdateSnapshot();

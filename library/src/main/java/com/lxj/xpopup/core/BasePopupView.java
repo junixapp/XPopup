@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,13 +13,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -32,11 +29,9 @@ import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
-import com.lxj.xpopup.util.RomUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.util.navbar.NavigationBarObserver;
 import com.lxj.xpopup.util.navbar.OnNavigationBarListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -496,6 +491,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     public void delayDismiss(long delay) {
+        if(popupInfo==null || popupInfo.decorView==null)return;
         if (delay < 0) delay = 0;
         popupInfo.decorView.postDelayed(new Runnable() {
             @Override
@@ -511,6 +507,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     protected void doAfterDismiss() {
+        if(popupInfo==null || popupInfo.decorView==null)return;
         if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         removeCallbacks(doAfterDismissTask);
         popupInfo.decorView.postDelayed(doAfterDismissTask, getAnimationDuration());
@@ -614,7 +611,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         stack.clear();
         removeCallbacks(doAfterShowTask);
         removeCallbacks(doAfterDismissTask);
-        KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
+        if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
         if (showSoftInputTask != null) removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
