@@ -139,6 +139,10 @@ implementation 'com.android.support:design:28.0.0'
 - 微寻互助（app）
 - 米袋出行、米袋汽车(上海米袋投资集团有限公司（米袋集团）)
 - 悦动圈(下载地址：https://www.51yund.com/down?from=default&type=android)
+- 路马帮App
+- 椰子姐姐App(学习英语的App)
+- 橙杏健康App，橙杏守护App（北京橙杏有道有限公司）
+- 红星直播（红星美凯龙旗下的直播App）
 
 
 ## 打个赏
