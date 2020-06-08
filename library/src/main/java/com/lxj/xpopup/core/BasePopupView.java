@@ -286,7 +286,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             KeyboardUtils.hideSoftInput(BasePopupView.this);
     }
 
-    class ShowSoftInputTask implements Runnable {
+    static class ShowSoftInputTask implements Runnable {
         View focusView;
         boolean isDone = false;
 
@@ -611,6 +611,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         stack.clear();
         removeCallbacks(doAfterShowTask);
         removeCallbacks(doAfterDismissTask);
+        NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
         if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
         if (showSoftInputTask != null) removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;

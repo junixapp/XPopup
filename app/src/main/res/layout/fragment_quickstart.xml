@@ -191,7 +191,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="横向Attach弹窗2"
+                android:text="自定义Attach弹窗"
                 android:textAllCaps="false" />
         </LinearLayout>
         <Button

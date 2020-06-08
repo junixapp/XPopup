@@ -19,5 +19,6 @@ public class XPopupApp extends Application {
 //            return;
 //        }
 //        LeakCanary.install(this);
+//        DoraemonKit.install(this,null,"1a9957a93afcd0ea7e8e9fa17c02406e");
     }
 }

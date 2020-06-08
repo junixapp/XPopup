@@ -91,9 +91,9 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             // atView在上半部分，PartShadow应该显示在它下方，计算atView之下的高度
             params.height = getMeasuredHeight() - rect.bottom;
             // 防止伸到导航栏下面
-            if(XPopupUtils.isNavBarVisible(getContext())){
-                params.height -= XPopupUtils.getNavBarHeight();
-            }
+//            if(XPopupUtils.isNavBarVisible(getContext())){
+//                params.height -= XPopupUtils.getNavBarHeight();
+//            }
             isShowUp = false;
             params.topMargin = rect.bottom + defaultOffsetY;
 
