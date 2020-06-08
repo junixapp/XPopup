@@ -352,7 +352,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 return new ScrollScaleAnimator(getPopupContentView(), popupInfo.popupAnimation);
 
             case NoAnimation:
-                return new EmptyAnimator();
+                return new EmptyAnimator(getPopupContentView());
         }
         return null;
     }
@@ -401,7 +401,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      */
     protected void doShowAnimation() {
         if (popupInfo.hasShadowBg) {
-            shadowBgAnimator.isZeroDuration = (popupInfo.popupAnimation == NoAnimation);
             shadowBgAnimator.animateShow();
         }
         if (popupContentAnimator != null)
