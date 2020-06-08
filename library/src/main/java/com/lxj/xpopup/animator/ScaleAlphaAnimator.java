@@ -74,7 +74,8 @@ public class ScaleAlphaAnimator extends PopupAnimator {
     public void animateDismiss() {
         targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .withLayer().start();
+                .withLayer()
+                .start();
     }
 
 }

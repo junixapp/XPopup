@@ -58,7 +58,7 @@ public class TranslateAnimator extends PopupAnimator {
     public void animateShow() {
         targetView.animate().translationX(initTranslationX).translationY(initTranslationY)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(XPopup.getAnimationDuration()).start();
+                .setDuration(XPopup.getAnimationDuration()).withLayer().start();
     }
 
     @Override
@@ -81,6 +81,6 @@ public class TranslateAnimator extends PopupAnimator {
 
         targetView.animate().translationX(startTranslationX).translationY(startTranslationY)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(XPopup.getAnimationDuration()).start();
+                .setDuration(XPopup.getAnimationDuration()).withLayer().start();
     }
 }

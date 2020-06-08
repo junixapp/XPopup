@@ -19,12 +19,11 @@ public class EmptyAnimator extends PopupAnimator {
 
     @Override
     public void animateShow() {
-        targetView.animate().alpha(1f).setDuration(XPopup.getAnimationDuration()).start();
+        targetView.animate().alpha(1f).setDuration(XPopup.getAnimationDuration()).withLayer().start();
     }
 
     @Override
     public void animateDismiss() {
-        targetView.animate().alpha(0f).setDuration(XPopup.getAnimationDuration()).start();
-
+        targetView.animate().alpha(0f).setDuration(XPopup.getAnimationDuration()).withLayer().start();
     }
 }
