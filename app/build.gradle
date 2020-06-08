@@ -8,6 +8,10 @@ android {
         targetSdkVersion 26
         versionCode 6
         versionName xpopup_version
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi-v7a' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
     signingConfigs {
         release {
@@ -59,5 +63,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.2.0-alpha05'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.tencent.bugly:crashreport:latest.release'
 }
 

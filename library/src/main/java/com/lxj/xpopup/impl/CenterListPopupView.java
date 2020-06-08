@@ -96,7 +96,7 @@ public class CenterListPopupView extends CenterPopupView {
                     holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }else {
-                    holder.getView(R.id.check_view).setVisibility(GONE);
+                    if(holder.getView(R.id.check_view)!=null) holder.getView(R.id.check_view).setVisibility(GONE);
                     //如果没有选择，则文字居中
                     holder.<TextView>getView(R.id.tv_text).setGravity(Gravity.CENTER);
                 }
