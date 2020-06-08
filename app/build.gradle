@@ -9,16 +9,40 @@ android {
         versionCode 6
         versionName xpopup_version
     }
+    signingConfigs {
+        release {
+            storeFile file('xpopup.keystore')
+            storePassword 'xpopup'
+            keyAlias 'xpopup'
+            keyPassword 'xpopup'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
     buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
         release {
             shrinkResources true
             minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+    gradle.projectsEvaluated {
+        android.applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                outputFileName = "XPopup-" + xpopup_version +"-" + new Date().format('yyyyMMdd') + ".apk"
+                // 指定apk生成目录
+                //variant.packageApplication.outputDirectory = new File("./apk")
+            }
+        }
     }
 }
 
