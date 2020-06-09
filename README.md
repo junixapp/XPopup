@@ -143,6 +143,7 @@ implementation 'com.android.support:design:28.0.0'
 - 椰子姐姐App(学习英语的App)
 - 橙杏健康App，橙杏守护App（北京橙杏有道有限公司）
 - 红星直播（红星美凯龙旗下的直播App）
+- 花生代理App (http://www.appchina.com/app/com.qi.earthnutproxy)
 
 
 ## 打个赏
