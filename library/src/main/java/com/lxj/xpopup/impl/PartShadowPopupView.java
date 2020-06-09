@@ -128,7 +128,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         if(popupInfo.isDismissOnTouchOutside){
             dismiss();
         }
-        return !popupInfo.isDismissOnTouchOutside;
+        return popupInfo.isDismissOnTouchOutside;
     }
 
     @Override
