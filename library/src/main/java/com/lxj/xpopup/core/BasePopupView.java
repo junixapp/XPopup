@@ -380,20 +380,14 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     /**
      * 请使用onCreate，主要给弹窗内部用，不要去重写。
      */
-    protected void initPopupContent() {
-    }
+    protected void initPopupContent() { }
 
     /**
      * do init.
      */
-    protected void onCreate() {
-        //阻断事件
-//        popupInfo.
+    protected void onCreate() { }
 
-    }
-
-    protected void applyDarkTheme() {
-    }
+    protected void applyDarkTheme() { }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；

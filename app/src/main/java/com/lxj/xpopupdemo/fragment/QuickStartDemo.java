@@ -193,6 +193,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         toast("click " + text);
                                     }
                                 })
+//                        .bindLayout(R.layout.my_custom_attach_popup) //自定义布局
                         .show();
                 break;
             case R.id.btnShowCenterListWithCheck: //在中间弹出的List列表弹窗，带选中效果
@@ -205,6 +206,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         toast("click " + text);
                                     }
                                 })
+//                        .bindLayout(R.layout.my_custom_attach_popup) //自定义布局
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框

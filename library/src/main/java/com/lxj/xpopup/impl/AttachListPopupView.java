@@ -1,11 +1,11 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
@@ -13,7 +13,6 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
-
 import java.util.Arrays;
 
 /**
@@ -32,7 +31,7 @@ public class AttachListPopupView extends AttachPopupView {
     /**
      * 传入自定义的布局，对布局中的id有要求
      *
-     * @param layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
+     * @param layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView
      * @return
      */
     public AttachListPopupView bindLayout(int layoutId) {
@@ -62,6 +61,8 @@ public class AttachListPopupView extends AttachPopupView {
         recyclerView = findViewById(R.id.recyclerView);
         if(recyclerView instanceof VerticalRecyclerView){
             ((VerticalRecyclerView)recyclerView).setupDivider(popupInfo.isDarkTheme);
+        }else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
         final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
             @Override

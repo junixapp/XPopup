@@ -2,6 +2,7 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -26,7 +27,7 @@ import java.util.Arrays;
  * Create by dance, at 2018/12/16
  */
 public class CenterListPopupView extends CenterPopupView {
-    VerticalRecyclerView recyclerView;
+    RecyclerView recyclerView;
     TextView tv_title;
 
     public CenterListPopupView(@NonNull Context context) {
@@ -64,7 +65,11 @@ public class CenterListPopupView extends CenterPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setupDivider(popupInfo.isDarkTheme);
+        if(recyclerView instanceof VerticalRecyclerView){
+            ((VerticalRecyclerView)recyclerView).setupDivider(popupInfo.isDarkTheme);
+        }else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
         tv_title = findViewById(R.id.tv_title);
 
         if (tv_title != null) {
