@@ -13,6 +13,7 @@
 4. 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
 5. 通用性，项目需求复杂多变，产品经理天马行空，XPopup力求做到交互和动画通用；至于弹窗的UI和逻辑可能需要你自定义
 6. 易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后在`onCreate`方法写逻辑即可
+7. XPopup现在支持覆盖到Dialog上面拉！！！
 
 
 **编写本库的初衷有以下几点**：
@@ -65,7 +66,7 @@
 首先需要添加Gradle依赖，类库是androidx编写：
 ```groovy
 //注意：不带dialog的版本不支持覆盖到dialog上面，两者API完全一样；等dialog版本稳定后后面会把两者合到一块
-implementation 'com.lxj:xpopup:最新版本'  //不支持覆盖到dialog上
+implementation 'com.lxj:xpopup:最新版本'         //不支持覆盖到dialog上
 implementation 'com.lxj:xpopup:dialog-最新版本'  //支持覆盖到dialog上面
 ```
 
