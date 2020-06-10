@@ -214,11 +214,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="水平居中的自由定位Position弹窗"
-            android:layout_marginBottom="180dp"
             android:textAllCaps="false" />
-        <EditText
+        <Button
+            android:id="@+id/btnMultiPopup"
+            android:text="测试多弹窗显示"
+            android:layout_marginBottom="180dp"
+            android:textAllCaps="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
