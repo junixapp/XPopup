@@ -59,7 +59,7 @@ public class BottomListPopupView extends BottomPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return bindLayoutId == 0 ? R.layout._xpopup_center_impl_list : bindLayoutId;
+        return bindLayoutId == 0 ? R.layout._xpopup_bottom_impl_list : bindLayoutId;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class BottomListPopupView extends BottomPopupView {
     protected void applyDarkTheme() {
         super.applyDarkTheme();
         tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
-        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_dark_bg);
+        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_top_dark_bg);
         findViewById(R.id.xpopup_divider).setBackgroundColor(
                 getResources().getColor(R.color._xpopup_list_dark_divider)
         );

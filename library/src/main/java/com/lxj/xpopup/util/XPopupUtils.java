@@ -203,7 +203,10 @@ public class XPopupUtils {
 
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
         if (!pv.popupInfo.isMoveUpToKeyboard) return;
-        if (pv instanceof PositionPopupView) return;
+        //暂时忽略PartShadow弹窗和AttachPopupView
+        if (pv instanceof PositionPopupView ||  pv.getClass().getSimpleName().equals("AttachPopupView")){
+            return;
+        }
         //判断是否盖住输入框
         ArrayList<EditText> allEts = new ArrayList<>();
         findAllEditText(allEts, pv);
@@ -232,8 +235,6 @@ public class XPopupUtils {
             focusBottom = focusEtTop + focusEt.getMeasuredHeight();
         }
 
-        //暂时忽略PartShadow弹窗和AttachPopupView
-        if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
         //执行上移
         if (pv instanceof FullScreenPopupView ||
                 (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&

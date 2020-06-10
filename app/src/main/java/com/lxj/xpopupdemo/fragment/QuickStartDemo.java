@@ -1,5 +1,8 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +18,7 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
+import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
@@ -60,6 +64,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv1).setOnClickListener(this);
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
+        view.findViewById(R.id.btnMultiPopup).setOnClickListener(this);
+        view.findViewById(R.id.btnCoverDialog).setOnClickListener(this);
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
         final XPopup.Builder builder = new XPopup.Builder(getContext())
@@ -344,7 +350,37 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
                 break;
+            case R.id.btnMultiPopup:
+                startActivity(new Intent(getContext(), DemoActivity.class));
+                break;
+            case R.id.btnCoverDialog:
+                new AlertDialog.Builder(getContext()).setTitle("我是系统对话框")
+                        .setMessage("现在XPopup可以覆盖对话框拉！！！")
+                        .setPositiveButton("点击我弹出XPopup弹窗！", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+               delayShow();
+                break;
         }
+    }
+
+    public void delayShow(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new XPopup.Builder(getContext()).autoDismiss(true).
+                        asConfirm("我是XPopup的弹窗", "我可以覆盖系统的Dialog拉！！！",
+                                new OnConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+
+                                    }
+                                }).show();
+            }
+        }, 600);
     }
 
 

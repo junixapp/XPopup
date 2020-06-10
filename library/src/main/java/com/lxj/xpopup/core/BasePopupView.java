@@ -2,14 +2,20 @@ package com.lxj.xpopup.core;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -28,6 +34,7 @@ import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
+import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.util.navbar.NavigationBarObserver;
@@ -60,14 +67,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         // 事先隐藏，等测量完毕恢复，避免View影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
-    }
 
-    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
     }
 
     /**
@@ -111,10 +111,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 doShowAnimation();
 
                 doAfterShow();
-
-                //目前全屏弹窗快速弹出输入法有问题，暂时用这个方案
-                if (!(BasePopupView.this instanceof FullScreenPopupView))
-                    focusAndProcessBackPress();
             }
         }, 50);
 
@@ -176,7 +172,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         if (rotation == 0) {
             params.leftMargin = 0;
             params.rightMargin = 0;
-            params.bottomMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(getContext()) - height : 0;
+//            params.bottomMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(getContext()) - height : 0;
+            params.bottomMargin = 0;
         } else if (rotation == 1) {
             params.bottomMargin = 0;
             params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(getContext()) - height : 0;
@@ -189,11 +186,11 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         setLayoutParams(params);
     }
 
-    public BasePopupView show() {
-        if (getParent() != null) return this;
+    public BasePopupView  show() {
+        if(dialog!=null && dialog.isShowing())return BasePopupView.this;
         final Activity activity = (Activity) getContext();
         popupInfo.decorView = (ViewGroup) activity.getWindow().getDecorView();
-        KeyboardUtils.registerSoftInputChangedListener(activity, this, new KeyboardUtils.OnSoftInputChangedListener() {
+        KeyboardUtils.registerSoftInputChangedListener(activity, BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
             @Override
             public void onSoftInputChanged(int height) {
                 if (height == 0) { // 说明对话框隐藏
@@ -201,25 +198,38 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                     hasMoveUp = false;
                 } else {
                     //when show keyboard, move up
+                    //全屏弹窗特殊处理，等show之后再移动
+                    if(BasePopupView.this instanceof FullScreenPopupView && popupStatus==PopupStatus.Showing){
+                        return;
+                    }
+                    if(BasePopupView.this instanceof PartShadowPopupView && popupStatus==PopupStatus.Showing){
+                        return;
+                    }
                     XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
                     hasMoveUp = true;
                 }
             }
         });
-        // 1. add PopupView to its decorView after measured.
+
         popupInfo.decorView.post(new Runnable() {
             @Override
             public void run() {
-                if (getParent() != null) {
-                    ((ViewGroup) getParent()).removeView(BasePopupView.this);
-                }
-                popupInfo.decorView.addView(BasePopupView.this, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT));
+                // 1. add PopupView to its dialog.
+                attachDialog();
                 //2. do init，game start.
                 init();
             }
         });
         return this;
+    }
+
+    FullScreenDialog dialog;
+    private void attachDialog(){
+        if(dialog==null){
+            dialog = new FullScreenDialog(getContext())
+                    .setContent(this);
+        }
+        dialog.show();
     }
 
     protected void doAfterShow() {
@@ -232,9 +242,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         public void run() {
             popupStatus = PopupStatus.Show;
             onShow();
-            if (BasePopupView.this instanceof FullScreenPopupView) focusAndProcessBackPress();
+            focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow();
+            //再次检测移动距离
             if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0 && !hasMoveUp) {
                 XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()), BasePopupView.this);
             }
@@ -428,7 +439,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     public int getAnimationDuration() {
-        return popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration();
+        return popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration()+10;
     }
 
     /**
@@ -477,7 +488,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     public void dismiss() {
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
-        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+//        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         clearFocus();
         doDismissAnimation();
         doAfterDismiss();
@@ -501,7 +512,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     protected void doAfterDismiss() {
         if(popupInfo==null || popupInfo.decorView==null)return;
-        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+        // PartShadowPopupView要等到完全关闭再关闭输入法，不然有问题
+        if (popupInfo.autoOpenSoftInput && !(this instanceof PartShadowPopupView)) KeyboardUtils.hideSoftInput(this);
         removeCallbacks(doAfterDismissTask);
         popupInfo.decorView.postDelayed(doAfterDismissTask, getAnimationDuration());
     }
@@ -509,6 +521,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     private Runnable doAfterDismissTask = new Runnable() {
         @Override
         public void run() {
+            if (popupInfo.autoOpenSoftInput && BasePopupView.this instanceof PartShadowPopupView) KeyboardUtils.hideSoftInput(BasePopupView.this);
             onDismiss();
             if (popupInfo != null && popupInfo.xPopupCallback != null) {
                 popupInfo.xPopupCallback.onDismiss();
@@ -536,7 +549,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
             // 移除弹窗，GameOver
             if (popupInfo.decorView != null) {
-                popupInfo.decorView.removeView(BasePopupView.this);
+                dialog.dismiss();
                 KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
             }
         }
