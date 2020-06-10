@@ -62,15 +62,11 @@
 
 ## Gradle
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)
-首先需要添加Gradle依赖：
+首先需要添加Gradle依赖，类库是androidx编写：
 ```groovy
-implementation 'com.lxj:xpopup:最新版本' //就是androidx版本
-//从1.8.12开始，包变为androidx版本，且只提供androidx版本。
-//从1.8.12开始，包变为androidx版本，且只提供androidx版本。
-//从1.8.12开始，包变为androidx版本，且只提供androidx版本。
-
-//for androidx.
-//implementation 'com.lxj:xpopup:1.8.10-x'  //从1.8.12开始，没有-x版本了
+//注意：不带dialog的版本不支持覆盖到dialog上面，两者API完全一样；等dialog版本稳定后后面会把两者合到一块
+implementation 'com.lxj:xpopup:最新版本'  //不支持覆盖到dialog上
+implementation 'com.lxj:xpopup:dialog-最新版本'  //支持覆盖到dialog上面
 ```
 
 必须添加的依赖库：
