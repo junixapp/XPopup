@@ -3,7 +3,6 @@ package com.lxj.xpopup.core;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +26,7 @@ import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
+import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.util.navbar.NavigationBarObserver;
@@ -60,14 +59,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         // 事先隐藏，等测量完毕恢复，避免View影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
-    }
-
-    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public BasePopupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
     }
 
     /**
@@ -113,7 +104,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 doAfterShow();
 
                 //目前全屏弹窗快速弹出输入法有问题，暂时用这个方案
-                if (!(BasePopupView.this instanceof FullScreenPopupView))
+                if (!(BasePopupView.this instanceof FullScreenPopupView) && !(BasePopupView.this instanceof PartShadowPopupView))
                     focusAndProcessBackPress();
             }
         }, 50);
@@ -200,6 +191,9 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                     XPopupUtils.moveDown(BasePopupView.this);
                     hasMoveUp = false;
                 } else {
+                    if(BasePopupView.this instanceof PartShadowPopupView && popupStatus==PopupStatus.Showing){
+                        return;
+                    }
                     //when show keyboard, move up
                     XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
                     hasMoveUp = true;
@@ -232,7 +226,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         public void run() {
             popupStatus = PopupStatus.Show;
             onShow();
-            if (BasePopupView.this instanceof FullScreenPopupView) focusAndProcessBackPress();
+            if (BasePopupView.this instanceof FullScreenPopupView || BasePopupView.this instanceof PartShadowPopupView) focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow();
             if (XPopupUtils.getDecorViewInvisibleHeight((Activity) getContext()) > 0 && !hasMoveUp) {
@@ -428,7 +422,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     public int getAnimationDuration() {
-        return popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration();
+        return popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration()+10;
     }
 
     /**
@@ -477,7 +471,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     public void dismiss() {
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
-        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         clearFocus();
         doDismissAnimation();
         doAfterDismiss();
@@ -501,7 +494,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     protected void doAfterDismiss() {
         if(popupInfo==null || popupInfo.decorView==null)return;
-        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+        // PartShadowPopupView要等到完全关闭再关闭输入法，不然有问题
+        if (popupInfo.autoOpenSoftInput && !(this instanceof PartShadowPopupView)) KeyboardUtils.hideSoftInput(this);
         removeCallbacks(doAfterDismissTask);
         popupInfo.decorView.postDelayed(doAfterDismissTask, getAnimationDuration());
     }
@@ -509,6 +503,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     private Runnable doAfterDismissTask = new Runnable() {
         @Override
         public void run() {
+            if (popupInfo.autoOpenSoftInput && BasePopupView.this instanceof PartShadowPopupView) KeyboardUtils.hideSoftInput(BasePopupView.this);
             onDismiss();
             if (popupInfo != null && popupInfo.xPopupCallback != null) {
                 popupInfo.xPopupCallback.onDismiss();
