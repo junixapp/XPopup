@@ -90,26 +90,27 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             onCreate();
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated();
         }
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
-                applySize(false);
-                getPopupContentView().setAlpha(1f);
-
-                //2. 收集动画执行器
-                collectAnimator();
-
-                if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow();
-
-                //3. 执行动画
-                doShowAnimation();
-
-                doAfterShow();
-            }
-        }, 50);
-
+        handler.postDelayed(initTask, 50);
     }
+
+    private Runnable initTask = new Runnable() {
+        @Override
+        public void run() {
+            // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
+            applySize(false);
+            getPopupContentView().setAlpha(1f);
+
+            //2. 收集动画执行器
+            collectAnimator();
+
+            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow();
+
+            //3. 执行动画
+            doShowAnimation();
+
+            doAfterShow();
+        }
+    };
 
     private boolean hasMoveUp = false;
 
@@ -186,41 +187,43 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         popupStatus = PopupStatus.Showing;
         if(dialog!=null && dialog.isShowing())return BasePopupView.this;
 
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                // 1. add PopupView to its dialog.
-                attachDialog();
-
-                //2. 注册对话框监听器
-                popupInfo.decorView = (ViewGroup) dialog.getWindow().getDecorView();
-                KeyboardUtils.registerSoftInputChangedListener(dialog.getWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
-                    @Override
-                    public void onSoftInputChanged(int height) {
-                        if (height == 0) { // 说明对话框隐藏
-                            XPopupUtils.moveDown(BasePopupView.this);
-                            hasMoveUp = false;
-                        } else {
-                            //when show keyboard, move up
-                            //全屏弹窗特殊处理，等show之后再移动
-                            if(BasePopupView.this instanceof FullScreenPopupView && popupStatus==PopupStatus.Showing){
-                                return;
-                            }
-                            if(BasePopupView.this instanceof PartShadowPopupView && popupStatus==PopupStatus.Showing){
-                                return;
-                            }
-                            XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
-                            hasMoveUp = true;
-                        }
-                    }
-                });
-
-                // 3. do init，game start.
-                init();
-            }
-        });
+        handler.post(attachTask);
         return this;
     }
+
+    private Runnable attachTask = new Runnable() {
+        @Override
+        public void run() {
+            // 1. add PopupView to its dialog.
+            attachDialog();
+
+            //2. 注册对话框监听器
+            popupInfo.decorView = (ViewGroup) dialog.getWindow().getDecorView();
+            KeyboardUtils.registerSoftInputChangedListener(dialog.getWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
+                @Override
+                public void onSoftInputChanged(int height) {
+                    if (height == 0) { // 说明对话框隐藏
+                        XPopupUtils.moveDown(BasePopupView.this);
+                        hasMoveUp = false;
+                    } else {
+                        //when show keyboard, move up
+                        //全屏弹窗特殊处理，等show之后再移动
+                        if(BasePopupView.this instanceof FullScreenPopupView && popupStatus==PopupStatus.Showing){
+                            return;
+                        }
+                        if(BasePopupView.this instanceof PartShadowPopupView && popupStatus==PopupStatus.Showing){
+                            return;
+                        }
+                        XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
+                        hasMoveUp = true;
+                    }
+                }
+            });
+
+            // 3. do init，game start.
+            init();
+        }
+    };
 
     protected FullScreenDialog dialog;
     private void attachDialog(){
@@ -486,10 +489,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * 消失
      */
     public void dismiss() {
-        handler.removeCallbacksAndMessages(null);
+        handler.removeCallbacks(attachTask);
+        handler.removeCallbacks(initTask);
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
-//        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
         clearFocus();
         doDismissAnimation();
         doAfterDismiss();
@@ -629,11 +632,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         super.onDetachedFromWindow();
         stack.clear();
         handler.removeCallbacksAndMessages(null);
-//        removeCallbacks(doAfterShowTask);
-//        removeCallbacks(doAfterDismissTask);
         NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
         if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
-//        if (showSoftInputTask != null) removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
         hasMoveUp = false;
