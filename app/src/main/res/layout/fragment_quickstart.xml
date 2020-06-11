@@ -224,6 +224,11 @@
         <Button
             android:text="测试弹窗覆盖Dialog"
             android:id="@+id/btnCoverDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:text="在应用后台弹出XPopup"
+            android:id="@+id/btnShowInBackground"
             android:layout_marginBottom="180dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

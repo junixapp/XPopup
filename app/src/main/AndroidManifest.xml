@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,6 +20,7 @@
         <meta-data android:name="android.max_aspect" android:value="2.4" />
         <activity android:name="com.lxj.xpopupdemo.MainActivity" android:windowSoftInputMode="adjustResize"
             android:configChanges="screenSize|screenLayout|navigation" android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +28,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.lxj.xpopupdemo.DemoActivity" android:windowSoftInputMode="adjustNothing"/>
+
+        <service android:name=".DialogService" />
     </application>
 
 </manifest>

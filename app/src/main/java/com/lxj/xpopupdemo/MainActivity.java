@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(actionBar.getTitle() + BuildConfig.VERSION_NAME);
+        actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
@@ -86,4 +86,5 @@ public class MainActivity extends AppCompatActivity {
         viewPager = null;
         pageInfos = null;
     }
+
 }

@@ -3,11 +3,17 @@ package com.lxj.xpopupdemo.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
+
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -18,7 +24,9 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
+import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopupdemo.DemoActivity;
+import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
@@ -66,6 +74,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv3).setOnClickListener(this);
         view.findViewById(R.id.btnMultiPopup).setOnClickListener(this);
         view.findViewById(R.id.btnCoverDialog).setOnClickListener(this);
+        view.findViewById(R.id.btnShowInBackground).setOnClickListener(this);
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
         final XPopup.Builder builder = new XPopup.Builder(getContext())
@@ -90,6 +99,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
     CustomDrawerPopupView drawerPopupView;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -223,6 +233,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     @Override
                     public void run() { loadingPopup.setTitle("正在加载中啊啊啊"); }
                 },1000);
+//                loadingPopup.smartDismiss();
+//                loadingPopup.dismiss();
                 loadingPopup.delayDismissWith(3000,new Runnable() {
                     @Override
                     public void run() {
@@ -363,6 +375,33 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             }
                         }).show();
                delayShow();
+                break;
+            case R.id.btnShowInBackground:
+                //申请悬浮窗权限
+                XPopup.requestOverlayPermission(getContext(), new XPermission.SimpleCallback() {
+                    @Override
+                    public void onGranted() {
+                        ToastUtils.showShort("等待2秒后弹出XPopup！！！");
+                        ActivityUtils.startHomeActivity();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                new XPopup.Builder(getContext())
+                                        .enableShowWhenAppBackground(true)  //运行在应用后台弹出
+                                        .asConfirm("XPopup牛逼", "XPopup支持直接在后台弹出！", new OnConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        startActivity(new Intent(getContext(), MainActivity.class));
+                                    }
+                                }).show();
+                            }
+                        }, 2000);
+                    }
+                    @Override
+                    public void onDenied() {
+                        ToastUtils.showShort("权限拒绝需要申请悬浮窗权限！");
+                    }
+                });
                 break;
         }
     }

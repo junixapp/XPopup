@@ -2,12 +2,12 @@ package com.lxj.xpopup.core;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
+
 
 public class FullScreenDialog extends Dialog {
     public FullScreenDialog(@NonNull Context context) {
@@ -17,6 +17,13 @@ public class FullScreenDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(contentView!=null && contentView.popupInfo.enableShowWhenAppBackground){
+            if(Build.VERSION.SDK_INT>=26){
+                getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+            }else {
+                getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            }
+        }
         getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         setContentView(contentView);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -27,8 +34,8 @@ public class FullScreenDialog extends Dialog {
         super.onWindowAttributesChanged(params);
     }
 
-    View contentView;
-    public FullScreenDialog setContent(View view){
+    BasePopupView contentView;
+    public FullScreenDialog setContent(BasePopupView view){
         this.contentView = view;
         return  this;
     }

@@ -13,6 +13,8 @@
 4. 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
 5. 通用性，项目需求复杂多变，产品经理天马行空，XPopup力求做到交互和动画通用；至于弹窗的UI和逻辑可能需要你自定义
 6. 易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后在`onCreate`方法写逻辑即可
+7. 能覆盖在Dialog上面
+8. 能在应用后台弹出（需要申请悬浮窗权限，一行代码即可）
 
 
 **编写本库的初衷有以下几点**：
@@ -49,7 +51,7 @@
 
 ![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
-![](screenshot/position.gif)
+![](screenshot/position.gif)  ![](screenshot/background.gif)
 
 ## 快速体验
 

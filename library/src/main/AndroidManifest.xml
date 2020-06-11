@@ -1,4 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lxj.xpopup" >
-
+    <!-- 显示系统窗口权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- 在 屏幕最顶部显示addview-->
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <application>
+    <meta-data android:name="android.notch_support" android:value="true"/>
+    <!--<meta-data android:name="android.max_aspect" android:value="2.4" />-->
+    <!--PermissonActivity-->
+    <activity android:name=".util.XPermission$PermissionActivity"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+</application>
 </manifest>

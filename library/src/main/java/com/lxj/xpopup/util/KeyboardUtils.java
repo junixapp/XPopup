@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -30,8 +31,8 @@ public final class KeyboardUtils {
 
     private static int sDecorViewDelta = 0;
 
-    private static int getDecorViewInvisibleHeight(final Activity activity) {
-        final View decorView = activity.getWindow().getDecorView();
+    private static int getDecorViewInvisibleHeight(final Window window) {
+        final View decorView = window.getDecorView();
         if (decorView == null) return sDecorViewInvisibleHeightPre;
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
@@ -46,21 +47,21 @@ public final class KeyboardUtils {
     /**
      * Register soft input changed listener.
      *
-     * @param activity The activity.
+     * @param window The activity.
      * @param listener The soft input changed listener.
      */
-    public static void registerSoftInputChangedListener(final Activity activity, final BasePopupView popupView, final OnSoftInputChangedListener listener) {
-        final int flags = activity.getWindow().getAttributes().flags;
+    public static void registerSoftInputChangedListener(final Window window, final BasePopupView popupView, final OnSoftInputChangedListener listener) {
+        final int flags = window.getAttributes().flags;
         if ((flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0) {
-            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
-        final FrameLayout contentView = activity.findViewById(android.R.id.content);
-        sDecorViewInvisibleHeightPre = getDecorViewInvisibleHeight(activity);
+        final FrameLayout contentView = window.findViewById(android.R.id.content);
+        sDecorViewInvisibleHeightPre = getDecorViewInvisibleHeight(window);
         listenerMap.put(popupView, listener);
         ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                    int height = getDecorViewInvisibleHeight(activity);
+                    int height = getDecorViewInvisibleHeight(window);
                     if (sDecorViewInvisibleHeightPre != height) {
                         //通知所有弹窗的监听器输入法高度变化了
                         for (OnSoftInputChangedListener  changedListener: listenerMap.values()) {
