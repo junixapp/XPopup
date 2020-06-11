@@ -13,7 +13,8 @@
 4. 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
 5. 通用性，项目需求复杂多变，产品经理天马行空，XPopup力求做到交互和动画通用；至于弹窗的UI和逻辑可能需要你自定义
 6. 易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后在`onCreate`方法写逻辑即可
-7. XPopup现在支持覆盖到Dialog上面拉！！！
+7. 支持覆盖在Dialog上面
+8. 支持在应用后台弹出（需要申请悬浮窗权限，一行代码即可）
 
 
 **编写本库的初衷有以下几点**：
@@ -50,7 +51,7 @@
 
 ![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
 
-![](screenshot/position.gif)
+![](screenshot/position.gif)  ![](screenshot/background.gif)
 
 ## 快速体验
 
@@ -91,6 +92,7 @@ implementation 'com.android.support:design:28.0.0'
 - [常用设置](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
 - [常见问题](https://github.com/li-xiaojun/XPopup/wiki/6.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
 - [也许你想要这些效果](https://github.com/li-xiaojun/XPopup/wiki/7.-%E4%B9%9F%E8%AE%B8%E4%BD%A0%E6%83%B3%E8%A6%81%E8%BF%99%E4%BA%9B%E6%95%88%E6%9E%9C)
+- [一行代码在应用后台弹出弹窗](https://github.com/li-xiaojun/XPopup/wiki/8.-%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%9C%A8%E5%BA%94%E7%94%A8%E5%90%8E%E5%8F%B0%E5%BC%B9%E5%87%BA%E5%BC%B9%E7%AA%97)
 
 
 

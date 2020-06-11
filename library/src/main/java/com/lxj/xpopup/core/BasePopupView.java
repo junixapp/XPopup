@@ -3,6 +3,8 @@ package com.lxj.xpopup.core;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -49,6 +51,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     private int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
     private boolean isCreated = false;
+    protected Handler handler = new Handler(Looper.getMainLooper());
 
     public BasePopupView(@NonNull Context context) {
         super(context);
@@ -65,8 +68,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * 执行初始化
      */
     protected void init() {
-        if (popupStatus == PopupStatus.Showing) return;
-        popupStatus = PopupStatus.Showing;
         NavigationBarObserver.getInstance().register(getContext());
         NavigationBarObserver.getInstance().addOnNavigationBarListener(this);
 
@@ -86,7 +87,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             onCreate();
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated();
         }
-        popupInfo.decorView.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
@@ -181,6 +182,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     public BasePopupView show() {
+        if (popupStatus == PopupStatus.Showing) return this;
+        popupStatus = PopupStatus.Showing;
         if (getParent() != null) return this;
         final Activity activity = (Activity) getContext();
         popupInfo.decorView = (ViewGroup) activity.getWindow().getDecorView();
@@ -201,7 +204,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             }
         });
         // 1. add PopupView to its decorView after measured.
-        popupInfo.decorView.post(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 if (getParent() != null) {
@@ -217,8 +220,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     protected void doAfterShow() {
-        removeCallbacks(doAfterShowTask);
-        popupInfo.decorView.postDelayed(doAfterShowTask, getAnimationDuration());
+        handler.removeCallbacks(doAfterShowTask);
+        handler.postDelayed(doAfterShowTask, getAnimationDuration());
     }
 
     private Runnable doAfterShowTask = new Runnable() {
@@ -267,9 +270,9 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             if (showSoftInputTask == null) {
                 showSoftInputTask = new ShowSoftInputTask(focusView);
             } else {
-                removeCallbacks(showSoftInputTask);
+                handler.removeCallbacks(showSoftInputTask);
             }
-            popupInfo.decorView.postDelayed(showSoftInputTask, 10);
+            handler.postDelayed(showSoftInputTask, 10);
         }
     }
 
@@ -476,10 +479,22 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         doAfterDismiss();
     }
 
+    /**
+     * 会等待弹窗show动画执行完毕再消失
+     */
+    public void smartDismiss() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                delayDismiss(XPopup.getAnimationDuration()+50);
+            }
+        });
+    }
+
     public void delayDismiss(long delay) {
         if(popupInfo==null || popupInfo.decorView==null)return;
         if (delay < 0) delay = 0;
-        popupInfo.decorView.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 dismiss();
@@ -496,8 +511,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         if(popupInfo==null || popupInfo.decorView==null)return;
         // PartShadowPopupView要等到完全关闭再关闭输入法，不然有问题
         if (popupInfo.autoOpenSoftInput && !(this instanceof PartShadowPopupView)) KeyboardUtils.hideSoftInput(this);
-        removeCallbacks(doAfterDismissTask);
-        popupInfo.decorView.postDelayed(doAfterDismissTask, getAnimationDuration());
+        handler.removeCallbacks(doAfterDismissTask);
+        handler.postDelayed(doAfterDismissTask, getAnimationDuration());
     }
 
     private Runnable doAfterDismissTask = new Runnable() {
@@ -597,11 +612,9 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         stack.clear();
-        removeCallbacks(doAfterShowTask);
-        removeCallbacks(doAfterDismissTask);
+        handler.removeCallbacksAndMessages(null);
         NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
         if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
-        if (showSoftInputTask != null) removeCallbacks(showSoftInputTask);
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
         hasMoveUp = false;

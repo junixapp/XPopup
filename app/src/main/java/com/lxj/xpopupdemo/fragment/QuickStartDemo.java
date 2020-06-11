@@ -216,6 +216,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
                         .asLoading("正在加载中")
                         .show();
+//                loadingPopup.smartDismiss();
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
                     public void run() { loadingPopup.setTitle("正在加载中啊啊啊"); }
