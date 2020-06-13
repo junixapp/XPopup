@@ -21,12 +21,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.transition.ChangeBounds;
+import androidx.transition.ChangeClipBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeTransform;
+import androidx.transition.Fade;
 import androidx.transition.Transition;
 import androidx.transition.TransitionListenerAdapter;
 import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
+import androidx.transition.Visibility;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.lxj.xpopup.R;
@@ -181,8 +184,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             return;
         }
         photoViewContainer.isReleasing = true;
-        snapshotView.setVisibility(VISIBLE);
         if (customView != null) customView.setVisibility(VISIBLE);
+        snapshotView.setVisibility(VISIBLE);
         snapshotView.post(new Runnable() {
             @Override
             public void run() {
@@ -243,47 +246,53 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         tv_pager_indicator.setVisibility(INVISIBLE);
         tv_save.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
-        snapshotView.setVisibility(VISIBLE);
         photoViewContainer.isReleasing = true;
-        TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                .setDuration(XPopup.getAnimationDuration())
-                .addTransition(new ChangeBounds())
-                .addTransition(new ChangeTransform())
-                .addTransition(new ChangeImageTransform())
-                .setInterpolator(new FastOutSlowInInterpolator())
-                .addListener(new TransitionListenerAdapter() {
-                    @Override
-                    public void onTransitionEnd(@NonNull Transition transition) {
-                        doAfterDismiss();
-                        pager.setVisibility(INVISIBLE);
-                        snapshotView.setVisibility(VISIBLE);
-                        pager.setScaleX(1f);
-                        pager.setScaleY(1f);
-                        snapshotView.setScaleX(1f);
-                        snapshotView.setScaleY(1f);
-                        placeholderView.setVisibility(INVISIBLE);
-                    }
-                }));
+        snapshotView.setVisibility(VISIBLE);
+        snapshotView.post(new Runnable() {
+            @Override
+            public void run() {
+                TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
+                        .setDuration(XPopup.getAnimationDuration())
+                        .addTransition(new ChangeBounds())
+                        .addTransition(new ChangeTransform())
+                        .addTransition(new ChangeImageTransform())
+                        .setInterpolator(new FastOutSlowInInterpolator())
+                        .addListener(new TransitionListenerAdapter() {
+                            @Override
+                            public void onTransitionEnd(@NonNull Transition transition) {
+                                doAfterDismiss();
+                                pager.setVisibility(INVISIBLE);
+                                snapshotView.setVisibility(VISIBLE);
+                                pager.setScaleX(1f);
+                                pager.setScaleY(1f);
+                                snapshotView.setScaleX(1f);
+                                snapshotView.setScaleY(1f);
+                                placeholderView.setVisibility(INVISIBLE);
+                            }
+                        }));
 
-        snapshotView.setTranslationY(rect.top);
-        snapshotView.setTranslationX(rect.left);
-        snapshotView.setScaleX(1f);
-        snapshotView.setScaleY(1f);
-        snapshotView.setScaleType(srcView.getScaleType());
-        XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
+                snapshotView.setScaleX(1f);
+                snapshotView.setScaleY(1f);
+                snapshotView.setTranslationY(rect.top);
+                snapshotView.setTranslationX(rect.left);
+                snapshotView.setScaleType(srcView.getScaleType());
+                XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
 
-        // do shadow anim.
-        animateShadowBg(Color.TRANSPARENT);
-        if (customView != null)
-            customView.animate().alpha(0f).setDuration(XPopup.getAnimationDuration())
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            if (customView != null) customView.setVisibility(INVISIBLE);
-                        }
-                    })
-                    .start();
+                // do shadow anim.
+                animateShadowBg(Color.TRANSPARENT);
+                if (customView != null)
+                    customView.animate().alpha(0f).setDuration(XPopup.getAnimationDuration())
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    if (customView != null) customView.setVisibility(INVISIBLE);
+                                }
+                            })
+                            .start();
+            }
+        });
+
     }
 
     @Override
@@ -301,6 +310,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             if (current != null) {
                 Matrix matrix = new Matrix();
                 current.getSuppMatrix(matrix);
+                snapshotView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 snapshotView.setSuppMatrix(matrix);
             }
         }
@@ -418,6 +428,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (customView != null) customView.setAlpha(1 - fraction);
         if (isShowSaveBtn) tv_save.setAlpha(1 - fraction);
         photoViewContainer.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, bgColor, Color.TRANSPARENT));
+//        snapshotView.setScaleX(photoViewContainer.viewPager.getScaleX());
+//        snapshotView.setScaleY(photoViewContainer.viewPager.getScaleY());
     }
 
     @Override
