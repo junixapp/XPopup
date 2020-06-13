@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PartShadowContainer;
@@ -54,6 +55,6 @@ public class PositionPopupView extends BasePopupView {
 
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return new ScrollScaleAnimator(getPopupContentView(), ScaleAlphaFromCenter);
+        return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
     }
 }
