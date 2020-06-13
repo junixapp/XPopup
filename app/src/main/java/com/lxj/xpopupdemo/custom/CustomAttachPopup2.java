@@ -26,10 +26,4 @@ public class CustomAttachPopup2 extends AttachPopupView {
         super.onCreate();
 
     }
-
-    //如果要自定义弹窗的背景，不要给布局设置背景图片，重写这个方法返回一个Drawable即可
-    @Override
-    protected Drawable getPopupBackground() {
-        return getResources().getDrawable(R.drawable.shadow_bg);
-    }
 }

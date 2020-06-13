@@ -2,9 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import androidx.annotation.NonNull;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
@@ -26,14 +24,6 @@ public class HorizontalAttachPopupView extends AttachPopupView {
         super.initPopupContent();
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetX;
-        if (!popupInfo.hasShadowBg) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                if(getPopupBackground()==null){
-                    defaultOffsetX -= bgDrawableMargin;
-                    defaultOffsetY -= bgDrawableMargin;
-                }
-            }
-        }
     }
 
     /**

@@ -5,8 +5,10 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,22 +60,27 @@ public abstract class AttachPopupView extends BasePopupView {
         attachPopupContainer.setTranslationX(popupInfo.offsetX);
         attachPopupContainer.setTranslationY(popupInfo.offsetY);
         if (!popupInfo.hasShadowBg) {
+            //实现shadow
+            Drawable newDrawable = getPopupImplView().getBackground().mutate().getConstantState().newDrawable();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ////优先使用implView的背景
-                if(getPopupBackground()==null){
+                //优先使用implView的背景
+                if (getPopupImplView().getBackground() != null) {
+                    //复制一份
+                    attachPopupContainer.setBackground(newDrawable);
+                    getPopupImplView().setBackground(null);
+                } else {
                     attachPopupContainer.setBackgroundColor(Color.WHITE);
-                }else {
-                    attachPopupContainer.setBackgroundDrawable(getPopupBackground());
                 }
-                attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 10));
+                attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
             } else {
                 //优先使用implView的背景
-                if(getPopupImplView().getBackground()==null){
+                if (getPopupImplView().getBackground() == null) {
                     defaultOffsetX -= bgDrawableMargin;
                     defaultOffsetY -= bgDrawableMargin;
                     attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
-                }else {
-                    attachPopupContainer.setBackgroundDrawable(getPopupBackground());
+                } else {
+                    getPopupImplView().setBackground(null);
+                    attachPopupContainer.setBackground(newDrawable);
                 }
             }
         }
@@ -127,7 +134,7 @@ public abstract class AttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
-                    translationX = (isShowLeft ? popupInfo.touchPoint.x : maxX) + (isShowLeft ? defaultOffsetX: -defaultOffsetX);
+                    translationX = (isShowLeft ? popupInfo.touchPoint.x : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
                     if (popupInfo.isCenterHorizontal) {
                         //水平居中
                         if (isShowLeft)
@@ -187,7 +194,7 @@ public abstract class AttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
-                    translationX = (isShowLeft ? rect.left : maxX) + (isShowLeft ? defaultOffsetX: -defaultOffsetX);
+                    translationX = (isShowLeft ? rect.left : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
                     if (popupInfo.isCenterHorizontal) {
                         //水平居中
                         if (isShowLeft)
@@ -235,13 +242,4 @@ public abstract class AttachPopupView extends BasePopupView {
         }
         return animator;
     }
-
-    /**
-     * 如果Attach弹窗的子类想自定义弹窗的背景，不能去直接给布局设置背景，那样效果不好；需要实现这个方法返回一个Drawable
-     * @return
-     */
-    protected Drawable getPopupBackground(){
-        return null;
-    }
-
 }

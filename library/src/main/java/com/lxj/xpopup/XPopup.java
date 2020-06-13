@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,7 +47,7 @@ public class XPopup {
      * 全局弹窗的设置
      **/
     private static int primaryColor = Color.parseColor("#121212");
-    private static int animationDuration = 1300;
+    private static int animationDuration = 300;
     public static int statusBarShadowColor = Color.parseColor("#55000000");
     private static int shadowBgColor = Color.parseColor("#9F000000");
 
