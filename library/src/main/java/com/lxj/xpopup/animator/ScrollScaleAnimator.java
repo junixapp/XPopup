@@ -3,11 +3,8 @@ package com.lxj.xpopup.animator;
 import android.animation.FloatEvaluator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
-
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-
 import android.view.View;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
@@ -20,7 +17,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
     private FloatEvaluator floatEvaluator = new FloatEvaluator();
     private IntEvaluator intEvaluator = new IntEvaluator();
     private int startScrollX, startScrollY;
-    private float startAlpha = .2f;
+    private float startAlpha = 0f;
     private float startScale = 0f;
 
     public boolean isOnlyScaleX = false;
@@ -110,12 +107,11 @@ public class ScrollScaleAnimator extends PopupAnimator{
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float fraction = animation.getAnimatedFraction();
-                targetView.setAlpha(floatEvaluator.evaluate(fraction, startAlpha, 1f));
+                targetView.setAlpha(fraction);
                 targetView.scrollTo(intEvaluator.evaluate(fraction, startScrollX, 0),
                         intEvaluator.evaluate(fraction, startScrollY, 0));
-                float scale = floatEvaluator.evaluate(fraction, startScale, 1f);
-                targetView.setScaleX(scale);
-                if(!isOnlyScaleX)targetView.setScaleY(scale);
+                targetView.setScaleX(fraction);
+                if(!isOnlyScaleX)targetView.setScaleY(fraction);
                 if(fraction>=.9f && targetView.getBackground()!=null) {
                     float alphaFraction = (fraction - .9f) / .1f;
                     targetView.getBackground().setAlpha((int) (alphaFraction*255));
@@ -133,13 +129,12 @@ public class ScrollScaleAnimator extends PopupAnimator{
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float fraction = animation.getAnimatedFraction();
-                targetView.setAlpha(floatEvaluator.evaluate(fraction, 1f, startAlpha));
+                targetView.setAlpha(1-fraction);
                 targetView.scrollTo(intEvaluator.evaluate(fraction, 0, startScrollX),
                         intEvaluator.evaluate(fraction, 0, startScrollY));
-                float scale = floatEvaluator.evaluate(fraction, 1f, startScale);
-                targetView.setScaleX(scale);
-                if(!isOnlyScaleX)targetView.setScaleY(scale);
-                if(targetView.getBackground()!=null)targetView.getBackground().setAlpha((int) (fraction*255));
+                targetView.setScaleX(1-fraction);
+                if(!isOnlyScaleX)targetView.setScaleY(1-fraction);
+                if(targetView.getBackground()!=null)targetView.getBackground().setAlpha((int) ((1-fraction)*255));
             }
         });
         animator.setDuration(XPopup.getAnimationDuration())

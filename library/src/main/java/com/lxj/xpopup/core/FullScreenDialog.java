@@ -8,7 +8,9 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 
-
+/**
+ * 所有弹窗的宿主
+ */
 public class FullScreenDialog extends Dialog {
     public FullScreenDialog(@NonNull Context context) {
         super(context, R.style._XPopup_TransparentDialog);
@@ -24,6 +26,8 @@ public class FullScreenDialog extends Dialog {
                 getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             }
         }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         setContentView(contentView);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

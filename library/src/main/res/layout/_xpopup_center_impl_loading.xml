@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
     android:gravity="center"
-    android:padding="15dp"
+    android:padding="20dp"
     android:background="@drawable/_xpopup_round3_dark_bg"
     android:orientation="horizontal"
     android:layout_width="wrap_content"

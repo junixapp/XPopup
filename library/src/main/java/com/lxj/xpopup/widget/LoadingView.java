@@ -56,6 +56,7 @@ public class LoadingView extends View {
         paint.setStrokeWidth(stokeWidth);
         startX = centerX + radiusOffset;
         endX = startX + radius / 3f;
+        removeCallbacks(increaseTask);
     }
 
     @Override
