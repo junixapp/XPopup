@@ -26,14 +26,6 @@ public class HorizontalAttachPopupView extends AttachPopupView {
         super.initPopupContent();
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetX;
-        if (!popupInfo.hasShadowBg) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                if(getPopupBackground()==null){
-                    defaultOffsetX -= bgDrawableMargin;
-                    defaultOffsetY -= bgDrawableMargin;
-                }
-            }
-        }
     }
 
     /**
