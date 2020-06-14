@@ -7,7 +7,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
@@ -19,19 +18,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.transition.ChangeBounds;
-import androidx.transition.ChangeClipBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeTransform;
-import androidx.transition.Fade;
 import androidx.transition.Transition;
 import androidx.transition.TransitionListenerAdapter;
 import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
-import androidx.transition.Visibility;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.lxj.xpopup.R;
@@ -48,6 +43,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
+
 import java.util.ArrayList;
 import java.util.List;
 
