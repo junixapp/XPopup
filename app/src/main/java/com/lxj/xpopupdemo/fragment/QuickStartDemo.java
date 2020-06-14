@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
