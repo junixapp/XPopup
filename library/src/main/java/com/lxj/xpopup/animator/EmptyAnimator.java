@@ -1,7 +1,6 @@
 package com.lxj.xpopup.animator;
 
 import android.view.View;
-
 import com.lxj.xpopup.XPopup;
 
 /**

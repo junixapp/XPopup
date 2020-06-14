@@ -2,10 +2,8 @@ package com.lxj.xpopup.animator;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
-import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 平移动画
@@ -32,8 +30,6 @@ public class TranslateAlphaAnimator extends PopupAnimator {
     }
 
     private void applyTranslation() {
-        int halfWidthOffset = XPopupUtils.getWindowWidth(targetView.getContext())/2 - targetView.getMeasuredWidth()/2;
-        int halfHeightOffset = XPopupUtils.getWindowHeight(targetView.getContext())/2 - targetView.getMeasuredHeight()/2;
         switch (popupAnimation){
             case TranslateAlphaFromLeft:
                 targetView.setTranslationX(-(targetView.getMeasuredWidth()/* + halfWidthOffset*/));

@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <application>
     <meta-data android:name="android.notch_support" android:value="true"/>
-    <!--<meta-data android:name="android.max_aspect" android:value="2.4" />-->
     <!--PermissonActivity-->
     <activity android:name=".util.XPermission$PermissionActivity"
         android:theme="@android:style/Theme.Translucent.NoTitleBar"/>

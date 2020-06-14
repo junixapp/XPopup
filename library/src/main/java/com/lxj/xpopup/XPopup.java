@@ -471,6 +471,7 @@ public class XPopup {
             popupType(PopupType.Center);
             LoadingPopupView popupView = new LoadingPopupView(this.context)
                     .setTitle(title);
+            this.popupInfo.isDismissOnTouchOutside = false; //Loading弹窗点击外部不消失
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
