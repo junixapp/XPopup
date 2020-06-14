@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.lxj.xpopupdemo.DemoActivity" android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name="com.lxj.xpopupdemo.DemoActivity" />
 
         <service android:name=".DialogService" />
     </application>
