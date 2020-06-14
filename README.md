@@ -2,7 +2,7 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-15-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
-### 2.0.0版本重磅来袭！！！
+### 2.0.0版本重磅来袭，底层改为Dialog实现，并带来可观的动画性能优化和交互细节的提升！！！
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
 
@@ -14,7 +14,7 @@
 - 交互优雅，实现了优雅的手势交互，智能的嵌套滚动，智能的输入法交互，具体看Demo
 - 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
 - 自动监听Activity生命周期，自动释放资源。在Activity直接finish的场景也避免了内存泄漏
-- 易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后像Activity那样，在`onCreate`方法写逻辑即可
+- 很好的易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后像Activity那样，在`onCreate`方法写逻辑即可
 - 性能优异，动画流畅；精心优化的动画，让你很难遇到卡顿场景
 - 能在应用后台弹出（需要申请悬浮窗权限，一行代码即可）
 - 支持androidx
