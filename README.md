@@ -2,84 +2,102 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-15-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
+### 2.0.0版本重磅来袭！！！
+
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
 
 功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner等组件，自带十几种效果良好的动画，
 支持完全的UI和动画自定义！它有这样几个特点：
-1. 功能强大，内部封装了常用的弹窗，内置十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果。
+- 功能强大，内部封装了常用的弹窗，内置十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果。
    内置弹窗的UI是固定的，但允许你使用项目已有的布局或者自己的布局，同时还能用上XPopup提供的动画，交互和逻辑封装。
-2. UI和动画简洁，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化；或者说是模拟系统组件的动画，具体可以从Demo中感受
-3. 交互优雅，实现了优雅的手势交互以及智能的嵌套滚动，具体看Demo
-4. 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
-5. 通用性，项目需求复杂多变，产品经理天马行空，XPopup力求做到交互和动画通用；至于弹窗的UI和逻辑可能需要你自定义
-6. 易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后在`onCreate`方法写逻辑即可
-7. 能覆盖在Dialog上面
-8. 能在应用后台弹出（需要申请悬浮窗权限，一行代码即可）
-
-
-**编写本库的初衷有以下几点**：
-1. 项目有这样常见需求：中间和底部弹出甚至可拖拽的对话框，指定位置的PopupMenu或者PopupWindow，指定区域阴影的弹出层效果
-2. 市面上已有的类库要么功能不足够，要么交互效果不完美，有着普遍的缺点，就像BottomSheet存在的问题一样。比如：窗体消失的动画和背景渐变动画不一致，窗体消失后半透明背景仍然停留一会儿
-
+- UI和动画简洁，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化；或者说是模拟系统组件的动画，具体可以从Demo中感受
+- 交互优雅，实现了优雅的手势交互，智能的嵌套滚动，智能的输入法交互，具体看Demo
+- 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
+- 自动监听Activity生命周期，自动释放资源。在Activity直接finish的场景也避免了内存泄漏
+- 易用性，所有的自定义弹窗只需继承对应的类，实现你的布局，然后像Activity那样，在`onCreate`方法写逻辑即可
+- 性能优异，动画流畅；精心优化的动画，让你很难遇到卡顿场景
+- 能在应用后台弹出（需要申请悬浮窗权限，一行代码即可）
+- 支持androidx
 
 **设计思路**：
 综合常见的弹窗场景，我将其分为几类：
-1. Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
-2. Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表，我内部会处理好手势拖拽和嵌套滚动
-3. Attach类型，就是弹窗的位置需要依附于某个View或者某个触摸点，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差，淘宝的商品列表筛选的下拉弹窗也属于这种，微信的朋友圈点赞弹窗也是这种。
-4. DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
-5. 大图浏览类型，就像掘金那样的图片浏览弹窗，带有良好的拖拽交互体验，内部嵌入了改良的PhotoView
-6. 全屏弹窗，弹窗是全屏的，就像Activity那样，可以设置任意的动画器；适合用来实现登录，选择性的界面效果。
-7. 自由定位弹窗(Position)，弹窗是自由的，你可放在屏幕左上角，右下角，或者任意地方，结合强大的动画器，可以实现各种效果。
+- Center类型，就是在中间弹出的弹窗，比如确认和取消弹窗，Loading弹窗
+- Bottom类型，就是从页面底部弹出，比如从底部弹出的分享窗体，知乎的从底部弹出的评论列表，我内部会处理好手势拖拽和嵌套滚动
+- Attach类型，就是弹窗的位置需要依附于某个View或者某个触摸点，就像系统的PopupMenu效果一样，但PopupMenu的自定义性很差，淘宝的商品列表筛选的下拉弹窗也属于这种，微信的朋友圈点赞弹窗也是这种。
+- DrawerLayout类型，就是从窗体的坐边或者右边弹出，并支持手势拖拽；好处是与界面解耦，可以在任何界面显示DrawerLayout
+- ImageViewer大图浏览类型，就像掘金那样的图片浏览弹窗，带有良好的拖拽交互体验，内部嵌入了改良的PhotoView
+- 全屏弹窗，弹窗是全屏的，就像Activity那样，可以设置任意的动画器；适合用来实现登录，选择性的界面效果。
+- Position自由定位弹窗，弹窗是自由的，你可放在屏幕左上角，右下角，或者任意地方，结合强大的动画器，可以实现各种效果。
 
 
-## ScreenShot
+## 演示
+|内置弹窗（支持复用已有布局）|列表Center弹窗|
+|:---:|:---:|
+|![](screenshot/inset1.gif)|![](screenshot/inset2.gif)|
 
-![](screenshot/preview.gif) ![](screenshot/preview_bottom.gif)
+|Bottom列表弹窗(手势拖拽，横竖滚动) | 自定义Bottom弹窗（天然支持嵌套滚动，多层弹窗）|
+|:---:|:---:|
+|![](screenshot/bottom1.gif)|![](screenshot/bottom2.gif)|
 
-![](screenshot/preview_attach.gif) ![](screenshot/preview_drawer.gif)
+|Attach弹窗(动画优雅，智能定位，长按支持) | 自定义Attach弹窗（任意方向支持，灵活易用）|
+|:---:|:---:|
+|![](screenshot/attach1.gif)|![](screenshot/attach2.gif)|
 
-![](screenshot/bottom_edit.gif) ![](screenshot/fullscreen.gif) 
+|Drawer弹窗(手势拖拽，状态栏阴影) | 全屏弹窗（可作为Activity替代品，搭配十几个动画使用更佳）|
+|:---:|:---:|
+|![](screenshot/drawer.gif)|![](screenshot/full.gif)|
 
-![](screenshot/horizontal_attach.gif) ![](screenshot/preview_part.gif) 
+|Position自由定位弹窗(放在屏幕任意地方) | 自定义贴在输入法之上的弹窗|
+|:---:|:---:|
+|![](screenshot/position.gif)|![](screenshot/input.gif)|
 
-![](screenshot/image_viewer1.gif) ![](screenshot/image_viewer2.gif) 
+|PartShadow局部阴影弹窗 | 向上向下都可以|
+|:---:|:---:|
+|![](screenshot/partshadow1.gif)|![](screenshot/partshadow2.gif)|
 
-![](screenshot/image_viewer3.gif) ![](screenshot/preview2.gif) 
+|ImageViewer大图浏览弹窗（拖拽自然，如丝般顺滑） | 超长图片支持（图像渐变过渡，优雅从容）|
+|:---:|:---:|
+|![](screenshot/imageviewer1.gif)|![](screenshot/imageviewer2.gif)|
 
-![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
+|大图浏览弹窗，支持界面自定义 | 配合ViewPager使用|
+|:---:|:---:|
+|![](screenshot/imageviewer3.gif)|![](screenshot/imageviewer4.gif)|
 
-![](screenshot/comment_edit.gif) ![](screenshot/bottom_pager.gif)
+|自定义弹窗和自定义动画 | 内置优雅美观的动画器，可搭配弹窗结合使用|
+|:---:|:---:|
+|![](screenshot/custom.gif)|![](screenshot/animators.gif)|
 
-![](screenshot/position.gif)  ![](screenshot/background.gif)
+|应用后台弹出（一行代码实现权限申请） | 联想搜索实现，轻而易举|
+|:---:|:---:|
+|![](screenshot/background.gif)|![](screenshot/search.gif)|
+
 
 ## 快速体验
 
-扫描二维码下载Demo：
+Gif录制的优点卡顿，真机预览效果更佳。扫描二维码下载Demo：
 ![](screenshot/download.jpeg)
 
 如果二维码图片不可见，[点我下载Demo体验](http://d.7short.com/2q63)
 
-
-
 ## Gradle
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)
-首先需要添加Gradle依赖，类库是androidx编写：
 ```groovy
-//注意：不带dialog的版本不支持覆盖到dialog上面，两者API完全一样；等dialog版本稳定后后面会把两者合到一块
-implementation 'com.lxj:xpopup:最新版本'  //不支持覆盖到dialog上
-implementation 'com.lxj:xpopup:dialog-最新版本'  //支持覆盖到dialog上面
+implementation 'com.lxj:xpopup:最新版本'
 ```
 
 必须添加的依赖库：
 ```groovy
-//版本号在26以及以上即可
+//版本号在26以及以上即可，版本不用和我一致
 implementation 'com.android.support:appcompat-v7:28.0.0'
 implementation 'com.android.support:recyclerview-v7:28.0.0'
 implementation 'com.android.support:design:28.0.0'
 ```
-
-
+如果你是androidx，则上面三个对应的androidx依赖是，版本不用和我一致：
+```groovy
+implementation 'androidx.appcompat:appcompat:1.1.0'
+implementation 'com.google.android.material:material:1.3.0-alpha01'
+implementation 'androidx.recyclerview:recyclerview:1.1.0'
+```
 
 ## 使用文档
 
@@ -92,7 +110,6 @@ implementation 'com.android.support:design:28.0.0'
 - [常见问题](https://github.com/li-xiaojun/XPopup/wiki/6.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
 - [也许你想要这些效果](https://github.com/li-xiaojun/XPopup/wiki/7.-%E4%B9%9F%E8%AE%B8%E4%BD%A0%E6%83%B3%E8%A6%81%E8%BF%99%E4%BA%9B%E6%95%88%E6%9E%9C)
 - [一行代码在应用后台弹出弹窗](https://github.com/li-xiaojun/XPopup/wiki/8.-%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%9C%A8%E5%BA%94%E7%94%A8%E5%90%8E%E5%8F%B0%E5%BC%B9%E5%87%BA%E5%BC%B9%E7%AA%97)
-
 
 
 ## 混淆

@@ -3,4 +3,4 @@
     android:layout_width="match_parent"
     android:id="@+id/xpopup_divider"
     android:background="@color/_xpopup_list_divider"
-    android:layout_height=".45dp"/>
+    android:layout_height=".5dp"/>
