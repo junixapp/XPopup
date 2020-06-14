@@ -2,7 +2,6 @@ package com.lxj.xpopup.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;

@@ -30,7 +30,6 @@
         </activity>
         <activity android:name="com.lxj.xpopupdemo.DemoActivity" />
 
-        <service android:name=".DialogService" />
     </application>
 
 </manifest>
