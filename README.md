@@ -101,11 +101,10 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 ## 使用文档
 
 具体使用方法全在WIKI中，请查看下面各个章节：
-- [介绍](https://github.com/li-xiaojun/XPopup/wiki/1.-%E4%BB%8B%E7%BB%8D)
 - [如何使用内置的弹窗](https://github.com/li-xiaojun/XPopup/wiki/2.-%E5%86%85%E7%BD%AE%E7%9A%84%E5%BC%B9%E7%AA%97%E5%AE%9E%E7%8E%B0)
 - [如何自定义弹窗](https://github.com/li-xiaojun/XPopup/wiki/3.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%B9%E7%AA%97)
 - [如何自定义动画](https://github.com/li-xiaojun/XPopup/wiki/4.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB)
-- [常用设置](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
+- [弹窗常用设置](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
 - [常见问题](https://github.com/li-xiaojun/XPopup/wiki/6.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
 - [也许你想要这些效果](https://github.com/li-xiaojun/XPopup/wiki/7.-%E4%B9%9F%E8%AE%B8%E4%BD%A0%E6%83%B3%E8%A6%81%E8%BF%99%E4%BA%9B%E6%95%88%E6%9E%9C)
 - [一行代码在应用后台弹出弹窗](https://github.com/li-xiaojun/XPopup/wiki/8.-%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%9C%A8%E5%BA%94%E7%94%A8%E5%90%8E%E5%8F%B0%E5%BC%B9%E5%87%BA%E5%BC%B9%E7%AA%97)
