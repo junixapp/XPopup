@@ -2,6 +2,8 @@ package com.lxj.xpopupdemo;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.blankj.utilcode.util.ScreenUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     public ViewPager viewPager;
 
+    LoadingPopupView loadingPopupView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 //        XPopup.setAnimationDuration(1000);
 //        XPopup.setPrimaryColor(Color.RED);
+//        ScreenUtils.setLandscape(this);
+        loadingPopupView = new XPopup.Builder(this).asLoading("嘻嘻嘻嘻嘻");
+        loadingPopupView.show();
+        loadingPopupView.delayDismiss(1000);
     }
 
     @Override

@@ -18,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.EmptyAnimator;
@@ -45,7 +48,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
  * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
-public abstract class BasePopupView extends FrameLayout implements OnNavigationBarListener {
+public abstract class BasePopupView extends FrameLayout implements OnNavigationBarListener, LifecycleObserver {
     private static Stack<BasePopupView> stack = new Stack<>(); //静态存储所有弹窗对象
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
@@ -196,6 +199,9 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         public void run() {
             // 1. add PopupView to its dialog.
             attachDialog();
+            if(getContext() instanceof FragmentActivity){
+                ((FragmentActivity)getContext()).getLifecycle().addObserver(BasePopupView.this);
+            }
 
             //2. 注册对话框监听器
             popupInfo.decorView = (ViewGroup) dialog.getWindow().getDecorView();
@@ -511,7 +517,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     public void delayDismiss(long delay) {
-        if(popupInfo==null || popupInfo.decorView==null)return;
         if (delay < 0) delay = 0;
         handler.postDelayed(new Runnable() {
             @Override
@@ -572,7 +577,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     };
 
     Runnable dismissWithRunnable;
-
     public void dismissWith(Runnable runnable) {
         this.dismissWithRunnable = runnable;
         dismiss();
@@ -625,6 +629,16 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * 显示动画执行完毕后执行
      */
     protected void onShow() {
+    }
+
+    @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
+    public void onDestroy(){
+        destroy();
+    }
+
+    public void destroy(){
+        if(dialog!=null)dialog.dismiss();
+        onDetachedFromWindow();
     }
 
     @Override

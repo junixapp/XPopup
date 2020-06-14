@@ -18,8 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4" />
+<!--        android:configChanges="screenSize|screenLayout|navigation"-->
         <activity android:name="com.lxj.xpopupdemo.MainActivity" android:windowSoftInputMode="adjustResize"
-            android:configChanges="screenSize|screenLayout|navigation" android:hardwareAccelerated="true"
+             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
             >
             <intent-filter>

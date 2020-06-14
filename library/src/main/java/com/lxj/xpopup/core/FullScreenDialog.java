@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
@@ -33,14 +34,10 @@ public class FullScreenDialog extends Dialog {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    @Override
-    public void onWindowAttributesChanged(WindowManager.LayoutParams params) {
-        super.onWindowAttributesChanged(params);
-    }
-
     BasePopupView contentView;
     public FullScreenDialog setContent(BasePopupView view){
         this.contentView = view;
         return  this;
     }
+
 }
