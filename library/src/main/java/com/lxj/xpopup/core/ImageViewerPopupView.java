@@ -7,7 +7,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,7 @@ import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+import com.lxj.xpopup.photoview.OnMatrixChangedListener;
 import com.lxj.xpopup.photoview.PhotoView;
 import com.lxj.xpopup.util.PermissionConstants;
 import com.lxj.xpopup.util.XPermission;
@@ -190,7 +193,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             @Override
             public void run() {
                 TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                        .setDuration(XPopup.getAnimationDuration())
+                        .setDuration(getDuration())
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeTransform())
                         .addTransition(new ChangeImageTransform())
@@ -213,7 +216,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 // do shadow anim.
                 animateShadowBg(bgColor);
                 if (customView != null)
-                    customView.animate().alpha(1f).setDuration(XPopup.getAnimationDuration()).start();
+                    customView.animate().alpha(1f).setDuration(getDuration()).start();
             }
         });
 
@@ -229,11 +232,15 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         start, endColor));
             }
         });
-        animator.setDuration(XPopup.getAnimationDuration())
+        animator.setDuration(getDuration())
                 .setInterpolator(new LinearInterpolator());
         animator.start();
     }
 
+    private int getDuration(){
+        return XPopup.getAnimationDuration() + 60;
+    } 
+    
     @Override
     public void doDismissAnimation() {
         if (srcView == null) {
@@ -252,7 +259,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             @Override
             public void run() {
                 TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                        .setDuration(XPopup.getAnimationDuration())
+                        .setDuration(getDuration())
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeTransform())
                         .addTransition(new ChangeImageTransform())
@@ -281,7 +288,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 // do shadow anim.
                 animateShadowBg(Color.TRANSPARENT);
                 if (customView != null)
-                    customView.animate().alpha(0f).setDuration(XPopup.getAnimationDuration())
+                    customView.animate().alpha(0f).setDuration(getDuration())
                             .setListener(new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
@@ -304,16 +311,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public void dismiss() {
         if (popupStatus != PopupStatus.Show) return;
         popupStatus = PopupStatus.Dismissing;
-        if (srcView != null) {
-            //snapshotView拥有当前pager中photoView的样子(matrix)
-            PhotoView current = (PhotoView) pager.getChildAt(pager.getCurrentItem());
-            if (current != null) {
-                Matrix matrix = new Matrix();
-                current.getSuppMatrix(matrix);
-                snapshotView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                snapshotView.setSuppMatrix(matrix);
-            }
-        }
         doDismissAnimation();
     }
 
@@ -428,8 +425,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (customView != null) customView.setAlpha(1 - fraction);
         if (isShowSaveBtn) tv_save.setAlpha(1 - fraction);
         photoViewContainer.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, bgColor, Color.TRANSPARENT));
-//        snapshotView.setScaleX(photoViewContainer.viewPager.getScaleX());
-//        snapshotView.setScaleY(photoViewContainer.viewPager.getScaleY());
     }
 
     @Override
@@ -482,6 +477,14 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             if (imageLoader != null)
                 imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView);
 
+            photoView.setOnMatrixChangeListener(new OnMatrixChangedListener() {
+                @Override
+                public void onMatrixChanged(RectF rect) {
+                Matrix matrix = new Matrix();
+                    photoView.getSuppMatrix(matrix);
+                    snapshotView.setSuppMatrix(matrix);
+                }
+            });
             container.addView(photoView);
             photoView.setOnClickListener(new OnClickListener() {
                 @Override
