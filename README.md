@@ -85,9 +85,8 @@ Gif录制的优点卡顿，真机预览效果更佳。扫描二维码下载Demo�
 implementation 'com.lxj:xpopup:最新版本'
 ```
 
-必须添加的依赖库：
+必须添加的依赖库，版本号在26以及以上即可，版本不用和我一致：
 ```groovy
-//版本号在26以及以上即可，版本不用和我一致
 implementation 'com.android.support:appcompat-v7:28.0.0'
 implementation 'com.android.support:recyclerview-v7:28.0.0'
 implementation 'com.android.support:design:28.0.0'
