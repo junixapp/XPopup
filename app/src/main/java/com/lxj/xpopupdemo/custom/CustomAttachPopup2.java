@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.AttachPopupView;
@@ -25,5 +26,4 @@ public class CustomAttachPopup2 extends AttachPopupView {
         super.onCreate();
 
     }
-
 }

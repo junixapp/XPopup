@@ -3,10 +3,12 @@ package com.lxj.xpopup;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.util.Log;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.RequiresApi;
 
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
@@ -32,6 +34,7 @@ import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+import com.lxj.xpopup.util.XPermission;
 
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class XPopup {
      * 全局弹窗的设置
      **/
     private static int primaryColor = Color.parseColor("#121212");
-    private static int animationDuration = 300;
+    private static int animationDuration = 350;
     public static int statusBarShadowColor = Color.parseColor("#55000000");
     private static int shadowBgColor = Color.parseColor("#9F000000");
 
@@ -345,6 +348,17 @@ public class XPopup {
 //        }
 
         /**
+         * 是否允许应用在后台的时候也能弹出弹窗，默认是false。注意如果开启这个开关，需要申请悬浮窗权限才能生效。
+         *
+         * @param enableShowWhenAppBackground
+         * @return
+         */
+        public Builder enableShowWhenAppBackground(boolean enableShowWhenAppBackground) {
+            this.popupInfo.enableShowWhenAppBackground = enableShowWhenAppBackground;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          *
          * @param xPopupCallback
@@ -633,5 +647,15 @@ public class XPopup {
             return popupView;
         }
 
+    }
+
+    /**
+     * 跳转申请悬浮窗权限界面
+     * @param context
+     * @param callback
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void requestOverlayPermission(Context context, XPermission.SimpleCallback callback){
+        XPermission.create(context).requestDrawOverlays(callback);
     }
 }

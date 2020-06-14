@@ -2,7 +2,6 @@ package com.lxj.xpopup.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -141,16 +140,6 @@ public final class XPermission {
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean isGrantedDrawOverlays() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AppOpsManager aom = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-            if (aom == null) return false;
-            int mode = aom.checkOpNoThrow(
-                    "android:system_alert_window",
-                    android.os.Process.myUid(),
-                    context.getPackageName()
-            );
-            return mode == AppOpsManager.MODE_ALLOWED || mode == AppOpsManager.MODE_IGNORED;
-        }
         return Settings.canDrawOverlays(context);
     }
 

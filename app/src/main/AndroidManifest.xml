@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,14 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4" />
+<!--        android:configChanges="screenSize|screenLayout|navigation"-->
         <activity android:name="com.lxj.xpopupdemo.MainActivity" android:windowSoftInputMode="adjustResize"
-            android:configChanges="screenSize|screenLayout|navigation" android:hardwareAccelerated="true">
+             android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.lxj.xpopupdemo.DemoActivity"/>
+        <activity android:name="com.lxj.xpopupdemo.DemoActivity" />
+
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
@@ -180,17 +181,17 @@ public class XPopupUtils {
     /**
      * Return whether soft input is visible.
      *
-     * @param activity The activity.
+     * @param window The activity.
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isSoftInputVisible(final Activity activity) {
-        return getDecorViewInvisibleHeight(activity) > 0;
+    public static boolean isSoftInputVisible(Window window) {
+        return getDecorViewInvisibleHeight(window) > 0;
     }
 
     private static int sDecorViewDelta = 0;
 
-    public static int getDecorViewInvisibleHeight(final Activity activity) {
-        final View decorView = activity.getWindow().getDecorView();
+    public static int getDecorViewInvisibleHeight(final Window window) {
+        final View decorView = window.getDecorView();
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
@@ -204,7 +205,7 @@ public class XPopupUtils {
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
         if (!pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PositionPopupView ||  pv.getClass().getSimpleName().equals("AttachPopupView")){
+        if (pv instanceof PositionPopupView ||  pv instanceof AttachPopupView){
             return;
         }
         //判断是否盖住输入框
@@ -319,14 +320,14 @@ public class XPopupUtils {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isNavBarVisible(Context context) {
+    public static boolean isNavBarVisible(Window window) {
         boolean isVisible = false;
-        ViewGroup decorView = (ViewGroup) ((Activity) context).getWindow().getDecorView();
+        ViewGroup decorView = (ViewGroup) window.getDecorView();
         for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
             final View child = decorView.getChildAt(i);
             final int id = child.getId();
             if (id != View.NO_ID) {
-                String resourceEntryName = context
+                String resourceEntryName = decorView.getContext()
                         .getResources()
                         .getResourceEntryName(id);
                 if ("navigationBarBackground".equals(resourceEntryName)
@@ -461,10 +462,9 @@ public class XPopupUtils {
         }
     }
     //获取应用可用的屏幕高度
-    public static int getPhoneScreenHeight(Context context){
-        Activity ac = (Activity) context;
+    public static int getPhoneScreenHeight(Window window){
         DisplayMetrics outMetrics = new DisplayMetrics();
-        ac.getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
+        window.getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
         return  outMetrics.heightPixels;
     }
 }

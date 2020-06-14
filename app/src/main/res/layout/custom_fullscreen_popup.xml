@@ -11,9 +11,18 @@
         android:padding="0dp">
 
         <TextView
+            android:textSize="20sp"
+            android:textColor="#111"
+            android:text="全屏弹窗"
+            android:gravity="center"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:padding="10dp"
             android:text="我是全屏弹窗，可以设置任意的动画器。我看起来就像一个从底部弹出的Activity，可以用来做一些登录，选择界面。"
             android:textColor="#333"
             android:textSize="18sp" />

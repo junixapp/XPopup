@@ -63,7 +63,6 @@ public class BottomPopupView extends BasePopupView {
         });
     }
 
-
     @Override
     protected void doAfterShow() {
         if(popupInfo.enableDrag){

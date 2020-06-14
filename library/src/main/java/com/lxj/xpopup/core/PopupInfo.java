@@ -41,6 +41,7 @@ public class PopupInfo {
     public boolean autoFocusEditText = true; //是否让输入框自动获取焦点
 //    public boolean isClickThrough = true;//是否点击透传，默认弹背景点击是拦截的
     public boolean isDarkTheme = false; //是否是暗色调主题
+    public boolean enableShowWhenAppBackground = false; //是否允许应用在后台的时候也能弹出弹窗
 
     public View getAtView() {
         return atView;

@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.transition.ChangeBounds;
@@ -44,6 +43,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -183,8 +183,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             return;
         }
         photoViewContainer.isReleasing = true;
-        snapshotView.setVisibility(VISIBLE);
         if (customView != null) customView.setVisibility(VISIBLE);
+        snapshotView.setVisibility(VISIBLE);
         snapshotView.post(new Runnable() {
             @Override
             public void run() {
@@ -235,8 +235,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     private int getDuration(){
         return XPopup.getAnimationDuration() + 60;
-    }
-
+    } 
+    
     @Override
     public void doDismissAnimation() {
         if (srcView == null) {
@@ -249,47 +249,53 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         tv_pager_indicator.setVisibility(INVISIBLE);
         tv_save.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
-        snapshotView.setVisibility(VISIBLE);
         photoViewContainer.isReleasing = true;
-        TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                .setDuration(getDuration())
-                .addTransition(new ChangeBounds())
-                .addTransition(new ChangeTransform())
-                .addTransition(new ChangeImageTransform())
-                .setInterpolator(new FastOutSlowInInterpolator())
-                .addListener(new TransitionListenerAdapter() {
-                    @Override
-                    public void onTransitionEnd(@NonNull Transition transition) {
-                        doAfterDismiss();
-                        pager.setVisibility(INVISIBLE);
-                        snapshotView.setVisibility(VISIBLE);
-                        pager.setScaleX(1f);
-                        pager.setScaleY(1f);
-                        snapshotView.setScaleX(1f);
-                        snapshotView.setScaleY(1f);
-                        placeholderView.setVisibility(INVISIBLE);
-                    }
-                }));
+        snapshotView.setVisibility(VISIBLE);
+        snapshotView.post(new Runnable() {
+            @Override
+            public void run() {
+                TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
+                        .setDuration(getDuration())
+                        .addTransition(new ChangeBounds())
+                        .addTransition(new ChangeTransform())
+                        .addTransition(new ChangeImageTransform())
+                        .setInterpolator(new FastOutSlowInInterpolator())
+                        .addListener(new TransitionListenerAdapter() {
+                            @Override
+                            public void onTransitionEnd(@NonNull Transition transition) {
+                                doAfterDismiss();
+                                pager.setVisibility(INVISIBLE);
+                                snapshotView.setVisibility(VISIBLE);
+                                pager.setScaleX(1f);
+                                pager.setScaleY(1f);
+                                snapshotView.setScaleX(1f);
+                                snapshotView.setScaleY(1f);
+                                placeholderView.setVisibility(INVISIBLE);
+                            }
+                        }));
 
-        snapshotView.setTranslationY(rect.top);
-        snapshotView.setTranslationX(rect.left);
-        snapshotView.setScaleX(1f);
-        snapshotView.setScaleY(1f);
-        snapshotView.setScaleType(srcView.getScaleType());
-        XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
+                snapshotView.setScaleX(1f);
+                snapshotView.setScaleY(1f);
+                snapshotView.setTranslationY(rect.top);
+                snapshotView.setTranslationX(rect.left);
+                snapshotView.setScaleType(srcView.getScaleType());
+                XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
 
-        // do shadow anim.
-        animateShadowBg(Color.TRANSPARENT);
-        if (customView != null)
-            customView.animate().alpha(0f).setDuration(getDuration())
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            if (customView != null) customView.setVisibility(INVISIBLE);
-                        }
-                    })
-                    .start();
+                // do shadow anim.
+                animateShadowBg(Color.TRANSPARENT);
+                if (customView != null)
+                    customView.animate().alpha(0f).setDuration(getDuration())
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    if (customView != null) customView.setVisibility(INVISIBLE);
+                                }
+                            })
+                            .start();
+            }
+        });
+
     }
 
     @Override

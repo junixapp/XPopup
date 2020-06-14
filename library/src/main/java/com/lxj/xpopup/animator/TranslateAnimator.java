@@ -1,6 +1,9 @@
 package com.lxj.xpopup.animator;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
+import android.animation.ValueAnimator;
+import android.util.Log;
 import android.view.View;
 
 import com.lxj.xpopup.XPopup;
@@ -78,9 +81,10 @@ public class TranslateAnimator extends PopupAnimator {
                 startTranslationY += targetView.getMeasuredHeight() - oldHeight;
                 break;
         }
-
         targetView.animate().translationX(startTranslationX).translationY(startTranslationY)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(XPopup.getAnimationDuration()).withLayer().start();
+                .setDuration(XPopup.getAnimationDuration())
+                .withLayer()
+                .start();
     }
 }

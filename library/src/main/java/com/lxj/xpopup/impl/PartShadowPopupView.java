@@ -2,6 +2,7 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,13 +56,8 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         shadowBgAnimator.targetView = getPopupContentView();
 
         //1. apply width and height
-        int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
-        if(rotation==0){
-            params.width = getMeasuredWidth(); // 满宽
-        }else if(rotation==1 || rotation==3){
-            params.width = getMeasuredWidth() - (XPopupUtils.isNavBarVisible(getContext()) ? XPopupUtils.getNavBarHeight() : 0);
-        }
+        params.width = getMeasuredWidth();
 
         //水平居中
         if(popupInfo.isCenterHorizontal && getPopupImplView()!=null){
@@ -90,10 +86,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         } else {
             // atView在上半部分，PartShadow应该显示在它下方，计算atView之下的高度
             params.height = getMeasuredHeight() - rect.bottom;
-            // 防止伸到导航栏下面
-//            if(XPopupUtils.isNavBarVisible(getContext())){
-//                params.height -= XPopupUtils.getNavBarHeight();
-//            }
+
             isShowUp = false;
             params.topMargin = rect.bottom + defaultOffsetY;
 

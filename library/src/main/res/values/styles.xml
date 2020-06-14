@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="_XPopup_TransparentDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <!--去掉dialog的content默认灰色背景,如果给@null在某些SDK会设置默认的颜色，所以指明透明色-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--去掉dialog的默认灰色阴影层, 默认是带有灰色-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+</resources>
