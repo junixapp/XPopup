@@ -7,18 +7,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.viewpager.widget.ViewPager;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;

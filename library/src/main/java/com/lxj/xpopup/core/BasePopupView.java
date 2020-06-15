@@ -67,7 +67,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         // 事先隐藏，等测量完毕恢复，避免View影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
-
     }
 
     /**

@@ -205,7 +205,7 @@ public class XPopupUtils {
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
         if (!pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PositionPopupView ||  pv instanceof AttachPopupView){
+        if (pv instanceof PositionPopupView ||  (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView) )){
             return;
         }
         //判断是否盖住输入框
