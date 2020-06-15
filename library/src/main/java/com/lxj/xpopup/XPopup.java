@@ -140,7 +140,7 @@ public class XPopup {
         }
 
         /**
-         * 设置弹窗依附的View
+         * 设置弹窗依附的View，Attach弹窗必须设置这个
          *
          * @param atView
          * @return
@@ -315,7 +315,7 @@ public class XPopup {
         }
 
         /**
-         * 是否让弹窗内的输入框自动获取焦点，默认是true。
+         * 是否让弹窗内的输入框自动获取焦点，默认是true。弹窗内有输入法的情况下该设置才有效
          *
          * @param autoFocusEditText
          * @return

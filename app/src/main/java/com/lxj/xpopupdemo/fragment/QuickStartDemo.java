@@ -7,16 +7,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-
 import androidx.annotation.RequiresApi;
-
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.KeyboardUtils;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -37,7 +31,6 @@ import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
-
 
 /**
  * Description:
@@ -108,6 +101,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
+//                        .isLightStatusBar(true)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onCreated() {
@@ -231,7 +225,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
-                    public void run() { loadingPopup.setTitle("正在加载中啊啊啊"); }
+                    public void run() { loadingPopup.setTitle("正在加载长度变化了"); }
                 },1000);
 //                loadingPopup.smartDismiss();
 //                loadingPopup.dismiss();
