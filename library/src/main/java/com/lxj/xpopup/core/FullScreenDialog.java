@@ -1,13 +1,12 @@
 package com.lxj.xpopup.core;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
@@ -47,9 +46,18 @@ public class FullScreenDialog extends Dialog {
             setWindowFlag( WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
-
-        setLightStatusBar(contentView.popupInfo.isLightStatusBar);
+        //自动设置状态色调，亮色还是暗色
+        autoSetStatusBarMode();
         setContentView(contentView);
+    }
+
+    public boolean isActivityStatusBarLightMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = ((Activity) contentView.getContext()).getWindow().getDecorView();
+            int vis = decorView.getSystemUiVisibility();
+            return (vis & View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR) != 0;
+        }
+        return false;
     }
 
     public void setWindowFlag(final int bits, boolean on) {
@@ -66,10 +74,11 @@ public class FullScreenDialog extends Dialog {
      * 是否是亮色调状态栏
      * @return
      */
-    public void setLightStatusBar(boolean isLightMode) {
+    public void autoSetStatusBarMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
             int vis = decorView.getSystemUiVisibility();
+            boolean isLightMode = isActivityStatusBarLightMode();
             if (isLightMode) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             } else {

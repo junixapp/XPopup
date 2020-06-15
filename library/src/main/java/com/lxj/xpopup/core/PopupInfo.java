@@ -42,7 +42,6 @@ public class PopupInfo {
 //    public boolean isClickThrough = true;//是否点击透传，默认弹背景点击是拦截的
     public boolean isDarkTheme = false; //是否是暗色调主题
     public boolean enableShowWhenAppBackground = false; //是否允许应用在后台的时候也能弹出弹窗
-    public boolean isLightStatusBar = false; //是否是亮色状态栏，这个影响到状态栏的字体颜色；亮色状态栏，字体是黑色；反之，是白色
 
     public View getAtView() {
         return atView;

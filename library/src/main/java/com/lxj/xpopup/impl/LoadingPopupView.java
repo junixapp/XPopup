@@ -1,26 +1,15 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
-
+import android.view.ViewGroup;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.transition.ChangeBounds;
-import androidx.transition.ChangeImageTransform;
-import androidx.transition.ChangeTransform;
-import androidx.transition.Transition;
-import androidx.transition.TransitionListenerAdapter;
 import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
-
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.core.ImageViewerPopupView;
-import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 加载对话框
@@ -57,13 +46,18 @@ public class LoadingPopupView extends CenterPopupView {
     }
     protected void setup() {
         if (title != null && title.length()!=0 && tv_title != null) {
-            if (title.length() != 0) {
-                TransitionManager.beginDelayedTransition((ViewGroup) tv_title.getParent(), new TransitionSet()
-                        .setDuration(XPopup.getAnimationDuration())
-                        .addTransition(new ChangeBounds()));
-            }
-            tv_title.setVisibility(VISIBLE);
-            tv_title.setText(title);
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    if (tv_title.getText().length() != 0) {
+                        TransitionManager.beginDelayedTransition((ViewGroup) tv_title.getParent(), new TransitionSet()
+                                .setDuration(XPopup.getAnimationDuration())
+                                .addTransition(new ChangeBounds()));
+                    }
+                    tv_title.setVisibility(VISIBLE);
+                    tv_title.setText(title);
+                }
+            });
         }
     }
 
