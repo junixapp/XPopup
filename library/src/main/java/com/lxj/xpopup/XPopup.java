@@ -359,6 +359,19 @@ public class XPopup {
         }
 
         /**
+         * 是否使用亮色状态栏，默认是false。这个设置影响的是状态栏的字体颜色：
+         * 亮色状态栏模式下，状态栏字体是黑色；暗色状态栏模式下，状态栏字体是白色。
+         * 根据需要设置，默认是暗色状态栏
+         *
+         * @param isLightStatusBar
+         * @return
+         */
+        public Builder isLightStatusBar(boolean isLightStatusBar) {
+            this.popupInfo.isLightStatusBar = isLightStatusBar;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          *
          * @param xPopupCallback

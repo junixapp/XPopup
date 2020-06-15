@@ -5,7 +5,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
@@ -45,6 +47,8 @@ public class FullScreenDialog extends Dialog {
             setWindowFlag( WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+
+        setLightStatusBar(contentView.popupInfo.isLightStatusBar);
         setContentView(contentView);
     }
 
@@ -56,6 +60,23 @@ public class FullScreenDialog extends Dialog {
             winParams.flags &= ~bits;
         }
         getWindow().setAttributes(winParams);
+    }
+
+    /**
+     * 是否是亮色调状态栏
+     * @return
+     */
+    public void setLightStatusBar(boolean isLightMode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            int vis = decorView.getSystemUiVisibility();
+            if (isLightMode) {
+                vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+                vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+            decorView.setSystemUiVisibility(vis);
+        }
     }
 
     BasePopupView contentView;

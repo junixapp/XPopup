@@ -6,6 +6,9 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -59,12 +62,14 @@ public class ImageViewerDemo extends BaseFragment {
     RecyclerView recyclerView;
     ImageView image1, image2;
     ViewPager pager;
+    ViewPager2 pager2;
     Button btn_custom;
     @Override
     public void init(final View view) {
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
         pager = view.findViewById(R.id.pager);
+        pager2 = view.findViewById(R.id.pager2);
         btn_custom = view.findViewById(R.id.btn_custom);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -112,6 +117,8 @@ public class ImageViewerDemo extends BaseFragment {
                         .show();
             }
         });
+
+        pager2.setAdapter(new ImageAdapter2());
     }
 
     public static class ImageAdapter extends EasyAdapter<Object> {
@@ -140,6 +147,48 @@ public class ImageViewerDemo extends BaseFragment {
                             popupView.updateSrcView((ImageView)rv.getChildAt(position));
                         }
                     }, new ImageLoader())
+                            .show();
+                }
+            });
+        }
+    }
+
+    //ViewPager2的adapter
+    public class ImageAdapter2 extends EasyAdapter<Object> {
+        public ImageAdapter2() {
+            super(list, R.layout.adapter_image2);
+        }
+
+        @Override
+        protected void bind(@NonNull final ViewHolder holder, @NonNull final Object s, final int position) {
+            final ImageView imageView = holder.<ImageView>getView(R.id.image);
+            //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
+            // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
+            Glide.with(imageView).load(s).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round)
+                    .override(Target.SIZE_ORIGINAL))
+                    .into(imageView);
+
+            //2. 设置点击
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new XPopup.Builder(holder.itemView.getContext()).asImageViewer(imageView, position, list,
+                            new OnSrcViewUpdateListener() {
+                                @Override
+                                public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
+                                    pager2.setCurrentItem(position, false);
+                                    //一定要post，因为setCurrentItem内部实现是RecyclerView.scrollTo()，这个是异步的
+                                    pager2.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //由于ViewPager2内部是包裹了一个RecyclerView，而RecyclerView始终维护一个子View
+                                            RecyclerView rv = (RecyclerView) pager2.getChildAt(0);
+                                            //再拿子View，就是ImageView
+                                            popupView.updateSrcView((ImageView)rv.getChildAt(0));
+                                        }
+                                    });
+                                }
+                            }, new ImageLoader())
                             .show();
                 }
             });
@@ -204,7 +253,6 @@ public class ImageViewerDemo extends BaseFragment {
             //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
             Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL)).into(imageView);
         }
-
         @Override
         public File getImageFile(@NonNull Context context, @NonNull Object uri) {
             try {

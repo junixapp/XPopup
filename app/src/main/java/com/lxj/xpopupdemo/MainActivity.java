@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.BarUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BarUtils.setStatusBarLightMode(this, true);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
