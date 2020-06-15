@@ -140,7 +140,8 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 智华泊位(重庆即停科技有限公司)
 - 中英互译（梅州小白科技有限责任公司 https://sj.qq.com/myapp/detail.htm?apkName=com.messi.languagehelper）
 - 采蘑菇（https://a.app.qq.com/o/simple.jsp?pkgname=com.lx.cmg）
-- 蜂鸟屋APP，蜂鸟屋SAAS 平板
+- 蜂鸟屋APP
+- 蜂鸟屋SAAS 平板
 - 茶臻选（https://android.myapp.com/myapp/detail.htm?apkName=com.aiso.tea&ADTAG=mobile）
 - 风扇屏客户端app
 - EdifierConnect 漫步者耳机产品APP
@@ -151,13 +152,17 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 爱多路（常州玺拓软件有限公司 https://a.app.qq.com/o/simple.jsp?pkgname=com.hitotech.idoru）
 - 有播（公司：浙江有播科技有限公司 https://android.myapp.com/myapp/detail.htm?apkName=com.haibaoshow.youbo）
 - 微寻互助（app）
-- 米袋出行、米袋汽车(上海米袋投资集团有限公司（米袋集团）)
+- 米袋出行(上海米袋投资集团有限公司（米袋集团）)
+- 米袋汽车(上海米袋投资集团有限公司（米袋集团）)
 - 悦动圈(下载地址：https://www.51yund.com/down?from=default&type=android)
 - 路马帮App
 - 椰子姐姐App(学习英语的App)
 - 橙杏健康App，橙杏守护App（北京橙杏有道有限公司）
 - 红星直播（红星美凯龙旗下的直播App）
 - 花生代理App (http://www.appchina.com/app/com.qi.earthnutproxy)
+- 小鹅通商家助手APP
+- 小鹅通课堂助手APP
+- 小鹅通助手APP
 
 
 ## 打个赏
