@@ -478,9 +478,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             photoView.setOnMatrixChangeListener(new OnMatrixChangedListener() {
                 @Override
                 public void onMatrixChanged(RectF rect) {
-                Matrix matrix = new Matrix();
-                    photoView.getSuppMatrix(matrix);
-                    snapshotView.setSuppMatrix(matrix);
+                    if(snapshotView!=null){
+                        Matrix matrix = new Matrix();
+                        photoView.getSuppMatrix(matrix);
+                        snapshotView.setSuppMatrix(matrix);
+                    }
                 }
             });
             container.addView(photoView);
