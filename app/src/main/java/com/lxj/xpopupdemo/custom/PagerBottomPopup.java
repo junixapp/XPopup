@@ -20,7 +20,7 @@ import com.lxj.xpopupdemo.R;
 
 
 /**
- * Description:
+ * Description: 自定义带有ViewPager的Bottom弹窗
  * Create by dance, at 2019/5/5
  */
 public class PagerBottomPopup extends BottomPopupView {

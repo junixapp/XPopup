@@ -9,7 +9,7 @@ import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.XPopupApp;
 
 /**
- * Description:
+ * Description: 自定义Attach弹窗，水平方向的
  * Create by lxj, at 2019/3/13
  */
 public class CustomAttachPopup extends HorizontalAttachPopupView {

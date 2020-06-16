@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     implementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation 'com.lxj:statelayout:1.0.8'
+    implementation 'com.lxj:statelayout:1.0.9'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.3.0-alpha01'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

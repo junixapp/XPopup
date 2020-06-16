@@ -8,7 +8,7 @@ import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopupdemo.R;
 
 /**
- * Description:
+ * Description: 自定义背景的Attach弹窗
  * Create by lxj, at 2019/3/13
  */
 public class CustomAttachPopup2 extends AttachPopupView {

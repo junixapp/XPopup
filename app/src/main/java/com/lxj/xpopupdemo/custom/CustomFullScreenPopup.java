@@ -9,7 +9,7 @@ import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopupdemo.R;
 
 /**
- * Description:
+ * Description: 自定义全屏弹窗
  * Create by lxj, at 2019/3/12
  */
 public class CustomFullScreenPopup extends FullScreenPopupView {

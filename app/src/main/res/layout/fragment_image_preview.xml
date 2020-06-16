@@ -56,7 +56,7 @@
             android:layout_height="160dp"/>
 
         <TextView
-            android:text="以下是ViewPager2的使用场景，它的效果和ViewPager一致，但是代码略有区别："
+            android:text="以下是ViewPager2的使用场景，它的效果和ViewPager一致，但是代码略有区别，具体看Demo："
             android:textSize="18sp"
             android:textColor="#222"
             android:padding="14dp"

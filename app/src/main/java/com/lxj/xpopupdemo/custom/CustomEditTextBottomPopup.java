@@ -8,7 +8,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopupdemo.R;
 
 /**
- * Description: 带有输入框的Bottom弹窗
+ * Description: 自定义带有输入框的Bottom弹窗
  * Create by dance, at 2019/2/27
  */
 public class CustomEditTextBottomPopup extends BottomPopupView {
