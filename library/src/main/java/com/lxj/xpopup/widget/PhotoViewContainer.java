@@ -59,26 +59,29 @@ public class PhotoViewContainer extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touchX = ev.getX();
-                touchY = ev.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float dx = ev.getX() - touchX;
-                float dy = ev.getY() - touchY;
-                viewPager.dispatchTouchEvent(ev);
-                isVertical = (Math.abs(dy) > Math.abs(dx));
-                touchX = ev.getX();
-                touchY = ev.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                touchX = 0;
-                touchY = 0;
-                isVertical = false;
-                break;
-        }
+        if (ev.getPointerCount() > 1 ) return super.dispatchTouchEvent(ev);
+        try {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    touchX = ev.getX();
+                    touchY = ev.getY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    float dx = ev.getX() - touchX;
+                    float dy = ev.getY() - touchY;
+                    viewPager.dispatchTouchEvent(ev);
+                    isVertical = (Math.abs(dy) > Math.abs(dx));
+                    touchX = ev.getX();
+                    touchY = ev.getY();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    touchX = 0;
+                    touchY = 0;
+                    isVertical = false;
+                    break;
+            }
+        }catch (Exception e){ }
         return super.dispatchTouchEvent(ev);
     }
 
