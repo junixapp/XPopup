@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 import android.widget.OverScroller;
-
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.ViewCompat;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
@@ -28,10 +26,11 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     OverScroller scroller;
     VelocityTracker tracker;
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
-    boolean enableDrag = true;//是否启用手势
+    boolean enableDrag = true;//是否启用手势拖拽
     boolean dismissOnTouchOutside = true;
     boolean hasShadowBg = true;
     boolean isUserClose = false;
+    boolean isThreeDrag = false;  //是否开启三段拖拽
     LayoutStatus status = LayoutStatus.Close;
     public SmartDragLayout(Context context) {
         this(context, null);
@@ -68,8 +67,13 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
             // horizontal center
             child.layout(l, getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight() + maxY);
             if (status == LayoutStatus.Open) {
-                //通过scroll上移
-                scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
+                if(isThreeDrag){
+                    //通过scroll上移
+                    scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
+                }else {
+                    //通过scroll上移
+                    scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
+                }
             }
         } else {
             // like bottom gravity
@@ -118,10 +122,12 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                     if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
                         performClick();
                     }
+                }else {
+
                 }
                 if (enableDrag) {
                     float yVelocity = tracker.getYVelocity();
-                    if (yVelocity > 1500) {
+                    if (yVelocity > 1500 && !isThreeDrag) {
                         close();
                     } else {
                         finishScroll();
@@ -140,6 +146,18 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         if (enableDrag) {
             int threshold = isScrollUp ? (maxY - minY) / 3 : (maxY - minY) * 2 / 3;
             int dy = (getScrollY() > threshold ? maxY : minY) - getScrollY();
+            if(isThreeDrag){
+                int per = maxY/3;
+                if(getScrollY()>per*2.5f) {
+                    dy = maxY-getScrollY();
+                }else if(getScrollY() <= per*2.5f && getScrollY()>per*1.5f){
+                    dy = per*2-getScrollY();
+                }else if(getScrollY() >per){
+                    dy = per-getScrollY();
+                }else {
+                    dy = minY-getScrollY();
+                }
+            }
             scroller.startScroll(getScrollX(), getScrollY(), 0, dy, XPopup.getAnimationDuration());
             ViewCompat.postInvalidateOnAnimation(this);
         }
@@ -189,7 +207,8 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         post(new Runnable() {
             @Override
             public void run() {
-                smoothScroll(maxY - getScrollY(), true);
+                int dy = maxY - getScrollY();
+                smoothScroll(isThreeDrag ? dy/3 : dy, true);
             }
         });
     }
@@ -251,7 +270,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
         boolean isDragging = getScrollY() > minY && getScrollY() < maxY;
-        if (isDragging && velocityY < -1500) {
+        if (isDragging && velocityY < -1500 && !isThreeDrag) {
             close();
         }
         return false;
@@ -265,6 +284,10 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     @Override
     public int getNestedScrollAxes() {
         return ViewCompat.SCROLL_AXIS_VERTICAL;
+    }
+
+    public void isThreeDrag(boolean isThreeDrag) {
+        this.isThreeDrag = isThreeDrag;
     }
 
     public void enableDrag(boolean enableDrag) {

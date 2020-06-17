@@ -359,6 +359,17 @@ public class XPopup {
         }
 
         /**
+         * 是否开启三阶拖拽效果，想高德地图上面的弹窗那样可以拖拽的效果
+         *
+         * @param isThreeDrag
+         * @return
+         */
+        public Builder isThreeDrag(boolean isThreeDrag) {
+            this.popupInfo.isThreeDrag = isThreeDrag;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          *
          * @param xPopupCallback

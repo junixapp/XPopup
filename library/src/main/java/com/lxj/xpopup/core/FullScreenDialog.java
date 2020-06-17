@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
@@ -94,4 +95,17 @@ public class FullScreenDialog extends Dialog {
         return  this;
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event){
+//        if (contentView!=null && contentView.getContext() instanceof Activity){
+//            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
+//        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    public void passClick(MotionEvent event){
+        if (contentView!=null && contentView.getContext() instanceof Activity){
+            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
+        }
+    }
 }
