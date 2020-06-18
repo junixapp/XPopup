@@ -10,7 +10,7 @@ android {
         versionName xpopup_version
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi-v7a', 'x86', 'x86_64' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi-v7a' //'x86', 'x86_64' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
     }
     signingConfigs {
@@ -56,7 +56,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation project(':library')
     implementation 'com.blankj:utilcode:1.29.0'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.lxj:statelayout:1.0.9'
     implementation 'androidx.appcompat:appcompat:1.1.0'

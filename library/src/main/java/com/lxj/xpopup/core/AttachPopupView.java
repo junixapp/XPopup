@@ -5,15 +5,10 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
@@ -61,11 +56,11 @@ public abstract class AttachPopupView extends BasePopupView {
         attachPopupContainer.setTranslationY(popupInfo.offsetY);
         if (!popupInfo.hasShadowBg) {
             //实现shadow
-            Drawable newDrawable = getPopupImplView().getBackground().mutate().getConstantState().newDrawable();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 //优先使用implView的背景
                 if (getPopupImplView().getBackground() != null) {
                     //复制一份
+                    Drawable newDrawable = getPopupImplView().getBackground().mutate().getConstantState().newDrawable();
                     attachPopupContainer.setBackground(newDrawable);
                     getPopupImplView().setBackground(null);
                 } else {
@@ -79,6 +74,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     defaultOffsetY -= bgDrawableMargin;
                     attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
                 } else {
+                    Drawable newDrawable = getPopupImplView().getBackground().mutate().getConstantState().newDrawable();
                     getPopupImplView().setBackground(null);
                     attachPopupContainer.setBackground(newDrawable);
                 }
