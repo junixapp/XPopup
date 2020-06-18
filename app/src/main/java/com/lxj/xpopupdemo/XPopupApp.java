@@ -19,9 +19,9 @@ public class XPopupApp extends Application {
         CrashReport.initCrashReport(getApplicationContext(), "e494d36dcc", false);
 
 
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            return;
-//        }
-//        LeakCanary.install(this);
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
     }
 }

@@ -20,7 +20,7 @@ public class LoadingView extends View {
     // 不是固定不变的，当width为30dp时，它为2dp，当宽度变大，这个也会相应的变大
     private float stokeWidth = 2f;
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    private int startColor = Color.parseColor("#CCCCCC");
+    private int startColor = Color.parseColor("#DDDDDD");
     private int endColor = Color.parseColor("#333333");
     int lineCount = 12; // 共12条线
     float avgAngle = 360f / lineCount;

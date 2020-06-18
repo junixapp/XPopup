@@ -1,6 +1,8 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -42,6 +44,10 @@ public class LoadingPopupView extends CenterPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         tv_title = findViewById(R.id.tv_title);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getPopupImplView().setElevation(10f);
+        }
+
         setup();
     }
     protected void setup() {

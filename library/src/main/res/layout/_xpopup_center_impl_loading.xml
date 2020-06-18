@@ -3,12 +3,14 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:padding="20dp"
-    android:background="@drawable/_xpopup_round3_dark_bg"
+    android:background="@drawable/_xpopup_loading_bg"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <com.lxj.xpopup.widget.LoadingView
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:layout_width="30dp"
         android:layout_height="30dp" />
     <TextView
@@ -17,9 +19,9 @@
         android:visibility="gone"
         android:ellipsize="end"
         android:textSize="15sp"
-        android:textColor="#DDDDDD"
-        android:paddingLeft="8dp"
-        android:paddingRight="18dp"
+        android:textColor="#EEEEEE"
+        android:paddingLeft="5dp"
+        android:paddingRight="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

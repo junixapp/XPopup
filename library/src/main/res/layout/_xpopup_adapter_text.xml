@@ -6,9 +6,9 @@
     android:orientation="vertical">
     <LinearLayout
         android:gravity="center_vertical"
-        android:paddingLeft="18dp"
+        android:paddingLeft="20dp"
         android:paddingTop="12dp"
-        android:paddingRight="18dp"
+        android:paddingRight="20dp"
         android:paddingBottom="12dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -35,5 +35,4 @@
             android:layout_width="30dp"
             android:layout_height="30dp"/>
     </LinearLayout>
-<!--    <include layout="@layout/_xpopup_divider"/>-->
 </LinearLayout>

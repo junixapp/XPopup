@@ -429,6 +429,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected void onDismiss() {
         super.onDismiss();
         srcView = null;
+        srcViewUpdateListener = null;
     }
 
     @Override
