@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -188,7 +189,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         if (popupStatus == PopupStatus.Showing) return this;
         popupStatus = PopupStatus.Showing;
         if(dialog!=null && dialog.isShowing())return BasePopupView.this;
-
         handler.post(attachTask);
         return this;
     }
@@ -568,9 +568,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             }
 
             // 移除弹窗，GameOver
-            if (popupInfo.decorView != null) {
+            if (popupInfo!=null && popupInfo.decorView != null) {
                 dialog.dismiss();
-                KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
             }
         }
     };
@@ -650,7 +649,15 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         stack.clear();
         handler.removeCallbacksAndMessages(null);
         NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
-        if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
+        if(popupInfo!=null) {
+            if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
+            if(popupInfo.isDestroyOnDismiss){ //如果开启isDestroyOnDismiss，强制释放资源
+                popupInfo.atView = null;
+                popupInfo.watchView = null;
+                popupInfo.xPopupCallback = null;
+                popupInfo = null;
+            }
+        }
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
         hasMoveUp = false;

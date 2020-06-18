@@ -370,6 +370,17 @@ public class XPopup {
         }
 
         /**
+         * 是否在弹窗消失后就立即释放资源，仅仅适用于弹窗只用一次的场景，默认为false。
+         * 如果你的弹窗对象需要用多次，不要开启这个设置
+         * @param isDestroyOnDismiss
+         * @return
+         */
+        public Builder isDestroyOnDismiss(boolean isDestroyOnDismiss) {
+            this.popupInfo.isDestroyOnDismiss = isDestroyOnDismiss;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          *
          * @param xPopupCallback

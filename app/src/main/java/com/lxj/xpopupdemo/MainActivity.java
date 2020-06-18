@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         loadingPopupView = new XPopup.Builder(this).asLoading("嘻嘻嘻嘻嘻");
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1000);
+
+
     }
 
     class MainAdapter extends FragmentPagerAdapter {
