@@ -7,8 +7,6 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,6 +27,8 @@ import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.lxj.xpopupdemo.Constants.list;
+
 /**
  * Description:
  * Create by lxj, at 2019/1/22
@@ -42,8 +42,6 @@ public class ImageViewerDemo extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_image_preview;
     }
-
-    public static ArrayList<Object> list = new ArrayList<>();
 
     static {
         list.clear();
