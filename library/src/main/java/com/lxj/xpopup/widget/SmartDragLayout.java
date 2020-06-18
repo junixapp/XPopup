@@ -208,7 +208,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
             @Override
             public void run() {
                 int dy = maxY - getScrollY();
-                smoothScroll(isThreeDrag ? dy/3 : dy, true);
+                smoothScroll( enableDrag && isThreeDrag ? dy/3 : dy, true);
             }
         });
     }
