@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        BarUtils.setStatusBarLightMode(this, true);
+//        BarUtils.setNavBarColor(this, Color.RED);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
