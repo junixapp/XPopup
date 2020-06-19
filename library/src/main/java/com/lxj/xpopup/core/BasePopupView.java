@@ -1,10 +1,11 @@
 package com.lxj.xpopup.core;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -22,8 +22,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
-
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.animator.BlurAnimator;
 import com.lxj.xpopup.animator.EmptyAnimator;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
@@ -38,11 +38,9 @@ import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.util.navbar.NavigationBarObserver;
 import com.lxj.xpopup.util.navbar.OnNavigationBarListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
 
 /**
@@ -54,6 +52,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
+    protected BlurAnimator blurAnimator;
     private int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
     private boolean isCreated = false;
@@ -132,7 +131,13 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             }
 
             //3. 初始化动画执行器
-            shadowBgAnimator.initAnimator();
+            if(popupInfo.hasShadowBg && !popupInfo.hasBlurBg){
+                shadowBgAnimator.initAnimator();
+            }else if(popupInfo.hasBlurBg) {
+                blurAnimator = new BlurAnimator(this);
+                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap(((Activity)getContext()).getWindow().getDecorView());
+                blurAnimator.initAnimator();
+            }
             if (popupContentAnimator != null) {
                 popupContentAnimator.initAnimator();
             }
@@ -201,7 +206,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             if(getContext() instanceof FragmentActivity){
                 ((FragmentActivity)getContext()).getLifecycle().addObserver(BasePopupView.this);
             }
-
             //2. 注册对话框监听器
             popupInfo.decorView = (ViewGroup) dialog.getWindow().getDecorView();
             KeyboardUtils.registerSoftInputChangedListener(dialog.getWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
@@ -413,8 +417,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * 背景动画由父类实现，Content由子类实现
      */
     protected void doShowAnimation() {
-        if (popupInfo.hasShadowBg) {
+        if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg) {
             shadowBgAnimator.animateShow();
+        }else if (popupInfo.hasBlurBg && blurAnimator!=null) {
+            blurAnimator.animateShow();
         }
         if (popupContentAnimator != null)
             popupContentAnimator.animateShow();
@@ -425,9 +431,12 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * 背景动画由父类实现，Content由子类实现
      */
     protected void doDismissAnimation() {
-        if (popupInfo.hasShadowBg) {
+        if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg) {
             shadowBgAnimator.animateDismiss();
+        } else if(popupInfo.hasBlurBg && blurAnimator!=null){
+            blurAnimator.animateDismiss();
         }
+
         if (popupContentAnimator != null)
             popupContentAnimator.animateDismiss();
     }
@@ -661,6 +670,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
         hasMoveUp = false;
+        if(blurAnimator!=null && blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
+            blurAnimator.decorBitmap.recycle();
+            blurAnimator.decorBitmap = null;
+        }
     }
 
     private float x, y;

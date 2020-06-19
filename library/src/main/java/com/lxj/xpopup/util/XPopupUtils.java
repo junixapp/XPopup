@@ -1,6 +1,5 @@
 package com.lxj.xpopup.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,8 +15,11 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
+import androidx.annotation.FloatRange;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -38,7 +40,6 @@ import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -467,4 +468,69 @@ public class XPopupUtils {
         window.getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
         return  outMetrics.heightPixels;
     }
+
+    public static Bitmap renderScriptBlur(Context context, final Bitmap src,
+                                          @FloatRange(
+                                                  from = 0, to = 25, fromInclusive = false
+                                          ) final float radius,
+                                          final boolean recycle) {
+        RenderScript rs = null;
+        Bitmap ret = recycle ? src : src.copy(src.getConfig(), true);
+        try {
+            rs = RenderScript.create(context);
+            rs.setMessageHandler(new RenderScript.RSMessageHandler());
+            Allocation input = Allocation.createFromBitmap(rs,
+                    ret,
+                    Allocation.MipmapControl.MIPMAP_NONE,
+                    Allocation.USAGE_SCRIPT);
+            Allocation output = Allocation.createTyped(rs, input.getType());
+            ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            blurScript.setInput(input);
+            blurScript.setRadius(radius);
+            blurScript.forEach(output);
+            output.copyTo(ret);
+        } finally {
+            if (rs != null) {
+                rs.destroy();
+            }
+        }
+        return ret;
+    }
+    /**
+     * View to bitmap.
+     *
+     * @param view The view.
+     * @return bitmap
+     */
+    public static Bitmap view2Bitmap(final View view) {
+        if (view == null) return null;
+        boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
+        boolean willNotCacheDrawing = view.willNotCacheDrawing();
+        view.setDrawingCacheEnabled(true);
+        view.setWillNotCacheDrawing(false);
+        Bitmap drawingCache = view.getDrawingCache();
+        Bitmap bitmap;
+        if (null == drawingCache) {
+            view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+            view.buildDrawingCache();
+            drawingCache = view.getDrawingCache();
+            if (drawingCache != null) {
+                bitmap = Bitmap.createBitmap(drawingCache);
+            } else {
+                bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                view.draw(canvas);
+            }
+        } else {
+            bitmap = Bitmap.createBitmap(drawingCache);
+        }
+        view.destroyDrawingCache();
+        view.setWillNotCacheDrawing(willNotCacheDrawing);
+        view.setDrawingCacheEnabled(drawingCacheEnabled);
+        return bitmap;
+    }
+
+
 }

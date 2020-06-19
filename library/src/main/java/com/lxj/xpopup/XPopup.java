@@ -138,6 +138,16 @@ public class XPopup {
             this.popupInfo.hasShadowBg = hasShadowBg;
             return this;
         }
+        /**
+         * 是否设置背景为高斯模糊背景，不能和hasShadowBg同时设置，同时设置只有hasBlurBg生效。默认为false
+         * @param hasBlurBg
+         * @return
+         */
+        public Builder hasBlurBg(boolean hasBlurBg) {
+            this.popupInfo.hasBlurBg = hasBlurBg;
+            return this;
+        }
+
 
         /**
          * 设置弹窗依附的View，Attach弹窗必须设置这个

@@ -98,6 +98,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 new XPopup.Builder(getContext())
+                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
@@ -239,6 +240,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
                         .isDarkTheme(true)
+                        .hasShadowBg(false)
 //                        .enableDrag(false)
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                 new OnSelectListener() {
