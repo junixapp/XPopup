@@ -60,7 +60,7 @@ public class FullScreenPopupView extends CenterPopupView {
         int actualNabBarHeight = isShowNavBar||XPopupUtils.isNavBarVisible(dialog.getWindow()) ? XPopupUtils.getNavBarHeight() : 0;
         if (rotation == 0) {
             contentView.setPadding(contentView.getPaddingLeft(), contentView.getPaddingTop(), contentView.getPaddingRight(),
-                    actualNabBarHeight);
+                    0);
         } else if (rotation == 1 || rotation == 3) {
             contentView.setPadding(contentView.getPaddingLeft(), contentView.getPaddingTop(), contentView.getPaddingRight(), 0);
         }
