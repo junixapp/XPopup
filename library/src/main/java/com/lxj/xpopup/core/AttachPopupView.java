@@ -74,7 +74,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     defaultOffsetY -= bgDrawableMargin;
                     attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
                 } else {
-                    Drawable newDrawable = getPopupImplView().getBackground().mutate().getConstantState().newDrawable();
+                    Drawable newDrawable = getPopupImplView().getBackground().getConstantState().newDrawable();
                     getPopupImplView().setBackground(null);
                     attachPopupContainer.setBackground(newDrawable);
                 }
