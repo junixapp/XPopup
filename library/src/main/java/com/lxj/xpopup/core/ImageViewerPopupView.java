@@ -10,7 +10,6 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -398,7 +397,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     public ImageViewerPopupView setSrcView(ImageView srcView, int position) {
         this.srcView = srcView;
         this.position = position;
-        Log.e("tag", "srcView " + srcView);
         if (srcView != null) {
             int[] locations = new int[2];
             this.srcView.getLocationInWindow(locations);

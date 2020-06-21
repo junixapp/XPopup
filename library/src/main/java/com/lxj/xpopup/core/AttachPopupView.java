@@ -60,7 +60,7 @@ public abstract class AttachPopupView extends BasePopupView {
                 //优先使用implView的背景
                 if (getPopupImplView().getBackground() != null) {
                     //复制一份
-                    Drawable newDrawable = getPopupImplView().getBackground().mutate().getConstantState().newDrawable();
+                    Drawable newDrawable = getPopupImplView().getBackground().getConstantState().newDrawable();
                     attachPopupContainer.setBackground(newDrawable);
                     getPopupImplView().setBackground(null);
                 } else {
