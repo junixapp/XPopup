@@ -61,7 +61,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         if (!TextUtils.isEmpty(title)) {
             tv_title.setText(title);
         } else {
-            tv_title.setVisibility(INVISIBLE);
+            tv_title.setVisibility(GONE);
         }
 
         if (!TextUtils.isEmpty(content)) {

@@ -2,25 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="16dp"
     android:background="@drawable/_xpopup_round3_bg"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
-        android:paddingTop="16dp"
         android:textSize="20sp"
         android:textColor="@color/_xpopup_title_color"
         android:lines="1"
         android:ellipsize="end"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="22dp" />
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/tv_content"
+        android:paddingTop="15dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:paddingBottom="5dp"
         android:textColor="@color/_xpopup_content_color"
         android:textSize="16sp"
         android:gravity="center"
@@ -34,13 +35,15 @@
         android:textSize="16sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:singleLine="true"
         android:textColor="@color/_xpopup_content_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <View
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:id="@+id/xpopup_divider"
         android:background="@color/_xpopup_list_divider"

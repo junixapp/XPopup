@@ -186,7 +186,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
                         .isRequestFocus(false)
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
-                        .asInputConfirm("我是标题", "请输入内容。", "啊啊啊啊", "我是默认Hint文字",
+                        .asInputConfirm("我是标题", null, null, "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override
                                     public void onConfirm(String text) {
