@@ -3,9 +3,10 @@ package com.lxj.xpopup.animator;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -20,12 +21,15 @@ public class BlurAnimator extends PopupAnimator {
         super(target);
     }
     public Bitmap decorBitmap;
+    public boolean hasShadowBg = false;
 
     public BlurAnimator() {}
     @Override
     public void initAnimator() {
-        Bitmap blurBmp = XPopupUtils.renderScriptBlur(targetView.getContext(), decorBitmap,  25,false);
-        targetView.setBackground(new BitmapDrawable(targetView.getResources(), blurBmp));
+        Bitmap blurBmp = XPopupUtils.renderScriptBlur(targetView.getContext(), decorBitmap,  25, true);
+        BitmapDrawable drawable = new BitmapDrawable(targetView.getResources(), blurBmp);
+        if(hasShadowBg) drawable.setColorFilter(XPopup.getShadowBgColor(), PorterDuff.Mode.SRC_OVER);
+        targetView.setBackground(drawable);
     }
 
     @Override

@@ -131,10 +131,12 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             }
 
             //3. 初始化动画执行器
-            if(popupInfo.hasShadowBg && !popupInfo.hasBlurBg){
+            if(popupInfo.hasShadowBg){
                 shadowBgAnimator.initAnimator();
-            }else if(popupInfo.hasBlurBg) {
+            }
+            if(popupInfo.hasBlurBg) {
                 blurAnimator = new BlurAnimator(this);
+                blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
                 blurAnimator.decorBitmap = XPopupUtils.view2Bitmap(((Activity)getContext()).getWindow().getDecorView());
                 blurAnimator.initAnimator();
             }
