@@ -554,23 +554,16 @@ public class XPopup {
          *
          * @param data           显示的文本数据
          * @param iconIds        图标的id数组，可以为null
-         * @param offsetX        x方向偏移量
-         * @param offsetY        y方向偏移量
          * @param selectListener 选中条目的监听器
          * @return
          */
-        public AttachListPopupView asAttachList(String[] data, int[] iconIds, int offsetX, int offsetY, OnSelectListener selectListener) {
+        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
             popupType(PopupType.AttachView);
             AttachListPopupView popupView = new AttachListPopupView(this.context)
                     .setStringData(data, iconIds)
-                    .setOffsetXAndY(offsetX, offsetY)
                     .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
-        }
-
-        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
-            return asAttachList(data, iconIds, 0, 0, selectListener);
         }
 
         /**
