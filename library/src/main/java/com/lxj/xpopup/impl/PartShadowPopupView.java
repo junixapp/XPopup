@@ -2,12 +2,10 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -121,6 +119,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         if(popupInfo.isDismissOnTouchOutside){
             dismiss();
         }
+        if(dialog!=null)dialog.passClick(event);
         return popupInfo.isDismissOnTouchOutside;
     }
 
