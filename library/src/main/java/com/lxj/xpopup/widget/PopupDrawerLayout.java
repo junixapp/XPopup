@@ -12,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.viewpager.widget.ViewPager;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
@@ -163,7 +161,7 @@ public class PopupDrawerLayout extends FrameLayout {
     ViewDragHelper.Callback callback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View view, int i) {
-            return !dragHelper.continueSettling(true) && enableDrag;
+            return !dragHelper.continueSettling(true);
         }
         @Override
         public int getViewHorizontalDragRange(@NonNull View child) {
@@ -288,6 +286,7 @@ public class PopupDrawerLayout extends FrameLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         status = null;
+        hasLayout = false;
         fraction = 0f;
         setTranslationY(ty);
     }

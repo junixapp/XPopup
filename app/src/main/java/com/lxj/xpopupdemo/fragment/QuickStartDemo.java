@@ -316,7 +316,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .asCustom(new CustomDrawerPopupView(getContext()))
 //                        .hasShadowBg(false)
-//                        .enableDrag(false)
                         .asCustom(new PagerDrawerPopup(getContext()))
 //                        .asCustom(new ListDrawerPopupView(getContext()))
                         .show();

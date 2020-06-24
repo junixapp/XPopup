@@ -37,7 +37,6 @@ public class CustomDrawerPopupView extends DrawerPopupView {
                 dismiss();
             }
         });
-        text.setText(new Random().nextInt()+"");
 
         //通过设置topMargin，可以让Drawer弹窗进行局部阴影展示
 //        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
@@ -47,6 +46,7 @@ public class CustomDrawerPopupView extends DrawerPopupView {
     @Override
     protected void onShow() {
         super.onShow();
+        text.setText(new Random().nextInt()+"");
         Log.e("tag", "CustomDrawerPopupView onShow");
     }
 

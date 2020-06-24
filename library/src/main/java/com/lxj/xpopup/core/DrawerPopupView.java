@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.enums.PopupStatus;
+import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 
 /**
@@ -41,12 +43,10 @@ public abstract class DrawerPopupView extends BasePopupView {
             public void onClose() {
                 doAfterDismiss();
             }
-
             @Override
             public void onOpen() {
                 DrawerPopupView.super.doAfterShow();
             }
-
             @Override
             public void onDismissing(float fraction) {
                 drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
@@ -74,11 +74,20 @@ public abstract class DrawerPopupView extends BasePopupView {
 
     @Override
     public void doDismissAnimation() {
-        drawerLayout.close();
+    }
+
+    @Override
+    public int getAnimationDuration() {
+        return 0;
     }
 
     @Override
     public void dismiss() {
+        if (popupStatus == PopupStatus.Dismissing) return;
+        popupStatus = PopupStatus.Dismissing;
+        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+        clearFocus();
+        // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
         drawerLayout.close();
         super.dismiss();
     }
