@@ -6,7 +6,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.TranslateAnimator;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.enums.PopupStatus;
+import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 
 /**
@@ -38,7 +43,7 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerLayout.setOnCloseListener(new PopupDrawerLayout.OnCloseListener() {
             @Override
             public void onClose() {
-                DrawerPopupView.super.dismiss();
+                doAfterDismiss();
             }
 
             @Override
@@ -54,17 +59,22 @@ public abstract class DrawerPopupView extends BasePopupView {
         getPopupImplView().setTranslationX(popupInfo.offsetX);
         getPopupImplView().setTranslationY(popupInfo.offsetY);
         drawerLayout.setDrawerPosition(popupInfo.popupPosition == null ? PopupPosition.Left : popupInfo.popupPosition);
+        drawerLayout.enableDrag = popupInfo.enableDrag;
         drawerLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.close();
+                dismiss();
             }
         });
     }
 
     @Override
     protected void doAfterShow() {
-        //do nothing self.
+        if(popupInfo.enableDrag){
+            //do nothing self.
+        }else {
+            super.doAfterShow();
+        }
     }
 
     @Override
@@ -77,22 +87,15 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerLayout.close();
     }
 
-    /**
-     * 动画是跟随手势发生的，所以不需要额外的动画器，因此动画时间也清零
-     *
-     * @return
-     */
-    @Override
-    public int getAnimationDuration() {
-        return 0;
-    }
-
     @Override
     public void dismiss() {
-        // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
         drawerLayout.close();
+        super.dismiss();
     }
-
+    @Override
+    protected PopupAnimator getPopupAnimator() {
+        return null;
+    }
     @Override
     protected View getTargetSizeView() {
         return getPopupImplView();

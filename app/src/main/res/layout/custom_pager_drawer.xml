@@ -7,7 +7,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_marginTop="150dp"
-        app:tabIndicator="@color/colorAccent"
+        app:tabIndicator="@color/colorPrimary"
         app:tabIndicatorHeight="3dp"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="#fff"
