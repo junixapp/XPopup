@@ -163,7 +163,7 @@ public class PopupDrawerLayout extends FrameLayout {
     ViewDragHelper.Callback callback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View view, int i) {
-            return !dragHelper.continueSettling(true);
+            return !dragHelper.continueSettling(true) && enableDrag;
         }
         @Override
         public int getViewHorizontalDragRange(@NonNull View child) {

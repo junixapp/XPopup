@@ -7,11 +7,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
-import com.lxj.xpopup.animator.TranslateAnimator;
-import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
-import com.lxj.xpopup.enums.PopupStatus;
-import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.widget.PopupDrawerLayout;
 
 /**
@@ -69,13 +65,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     }
 
     @Override
-    protected void doAfterShow() {
-        if(popupInfo.enableDrag){
-            //do nothing self.
-        }else {
-            super.doAfterShow();
-        }
-    }
+    protected void doAfterShow() { }
 
     @Override
     public void doShowAnimation() {
