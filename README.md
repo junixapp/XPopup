@@ -2,6 +2,10 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-28-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-19-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
+<a href="https://tracking.gitads.io/?repo=XPopup"><img src="https://images.gitads.io/XPopup" style="width: 80%;height:auto"/></a>
+
+### 欢迎请点击上面的广告来支持一下！！！
+
 ### 2.0.0版本重磅来袭，底层改为Dialog实现，并带来可观的动画性能优化和交互细节的提升！！！
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
