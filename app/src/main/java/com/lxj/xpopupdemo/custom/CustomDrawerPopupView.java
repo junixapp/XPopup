@@ -2,6 +2,9 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -9,6 +12,8 @@ import android.widget.TextView;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
+import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 
 import java.util.Random;
 
@@ -25,7 +30,6 @@ public class CustomDrawerPopupView extends DrawerPopupView {
     protected int getImplLayoutId() {
         return R.layout.custom_drawer_popup;
     }
-
     @Override
     protected void onCreate() {
         super.onCreate();
