@@ -6,8 +6,6 @@
 
 ### 欢迎请点击上面的广告来支持一下！！！
 
-### 2.0.0版本重磅来袭，底层改为Dialog实现，并带来可观的动画性能优化和交互细节的提升！！！
-
 ### 2.0版本重磅来袭，底层改为Dialog实现，并带来可观的动画性能优化和交互细节的提升，数十个Bug修复！！！
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
