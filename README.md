@@ -168,6 +168,7 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 小鹅通商家助手APP
 - 小鹅通课堂助手APP
 - 小鹅通助手APP
+- 豌豆掌管
 
 
 ## 打个赏
