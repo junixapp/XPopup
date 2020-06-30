@@ -648,9 +648,11 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     public void destroy(){
         if(dialog!=null)dialog.dismiss();
         onDetachedFromWindow();
-        popupInfo.atView = null;
-        popupInfo.watchView = null;
-        popupInfo.xPopupCallback = null;
+        if(popupInfo!=null){
+            popupInfo.atView = null;
+            popupInfo.watchView = null;
+            popupInfo.xPopupCallback = null;
+        }
         popupInfo = null;
     }
 

@@ -103,7 +103,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .isLightStatusBar(true)
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onCreated() {
@@ -139,33 +138,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .setPopupCallback(new SimpleCallback() {
-                            @Override
-                            public void onCreated() {
-                                Log.e("tag", "弹窗创建了，每个弹窗的对象的onCreate只会执行一次");
-                            }
 
-                            @Override
-                            public void beforeShow() {
-                                super.beforeShow();
-                                Log.e("tag", "beforeShow，在每次show之前都会执行，可以用来进行多次的数据更新。");
-                            }
-
-                            @Override
-                            public void onShow() {
-                                Log.e("tag", "onShow");
-                            }
-                            @Override
-                            public void onDismiss() {
-                                Log.e("tag", "onDismiss");
-                            }
-                            //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
-                            @Override
-                            public boolean onBackPressed() {
-                                ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
-                                return true;
-                            }
-                        }).asConfirm("复用项目已有布局", "您可以复用项目已有布局，来使用XPopup强大的交互能力和逻辑封装，弹窗的布局完全由你自己控制。\n" +
+                        .isDestroyOnDismiss(true)
+                        .asConfirm("复用项目已有布局", "您可以复用项目已有布局，来使用XPopup强大的交互能力和逻辑封装，弹窗的布局完全由你自己控制。\n" +
                                 "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。",
                         "关闭", "XPopup牛逼",
                         new OnConfirmListener() {
