@@ -1,6 +1,7 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -33,6 +34,15 @@ public abstract class PartShadowPopupView extends AttachPopupView {
 
         getPopupImplView().setTranslationX(popupInfo.offsetX);
         getPopupImplView().setTranslationY(popupInfo.offsetY);
+
+        // 指定阴影动画的目标View
+        if(popupInfo.hasShadowBg){
+            shadowBgAnimator.targetView = getPopupContentView();
+        }
+    }
+
+    @Override
+    protected void applyBg() {
     }
 
     @Override
@@ -49,9 +59,6 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     protected void doAttach() {
         if (popupInfo.getAtView() == null)
             throw new IllegalArgumentException("atView must not be null for PartShadowPopupView！");
-
-        // 指定阴影动画的目标View
-        shadowBgAnimator.targetView = getPopupContentView();
 
         //1. apply width and height
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();

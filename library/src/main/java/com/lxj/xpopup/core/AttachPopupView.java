@@ -54,6 +54,17 @@ public abstract class AttachPopupView extends BasePopupView {
 
         attachPopupContainer.setTranslationX(popupInfo.offsetX);
         attachPopupContainer.setTranslationY(popupInfo.offsetY);
+        applyBg();
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
+            @Override
+            public void run() {
+                doAttach();
+            }
+        });
+
+    }
+
+    protected void applyBg(){
         if (!popupInfo.hasShadowBg) {
             //实现shadow
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -80,13 +91,6 @@ public abstract class AttachPopupView extends BasePopupView {
                 }
             }
         }
-        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
-            @Override
-            public void run() {
-                doAttach();
-            }
-        });
-
     }
 
     /**
