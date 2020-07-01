@@ -346,15 +346,15 @@ public class XPopup {
         }
 
         /**
-         * 是否点击弹窗背景时将点击事件透传到Activity下，默认是不透传，目前会引发很多不可控的问题，暂时关闭。
+         * 是否点击弹窗背景时将点击事件透传到Activity下，默认是不透传。由于容易引发其他问题，目前只对PartShadow弹窗有效。
          *
          * @param isClickThrough
          * @return
          */
-//        public Builder isClickThrough(boolean isClickThrough) {
-//            this.popupInfo.isClickThrough = isClickThrough;
-//            return this;
-//        }
+        public Builder isClickThrough(boolean isClickThrough) {
+            this.popupInfo.isClickThrough = isClickThrough;
+            return this;
+        }
 
         /**
          * 是否允许应用在后台的时候也能弹出弹窗，默认是false。注意如果开启这个开关，需要申请悬浮窗权限才能生效。

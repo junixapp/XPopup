@@ -126,8 +126,8 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         if(popupInfo.isDismissOnTouchOutside){
             dismiss();
         }
-        if(dialog!=null)dialog.passClick(event);
-        return popupInfo.isDismissOnTouchOutside;
+        if(dialog!=null && popupInfo.isClickThrough)dialog.passClick(event);
+        return popupInfo.isClickThrough;
     }
 
     @Override
