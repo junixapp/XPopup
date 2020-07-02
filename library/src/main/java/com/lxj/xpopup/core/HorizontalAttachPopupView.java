@@ -53,7 +53,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
 
             isShowLeft = centerX > XPopupUtils.getWindowWidth(getContext()) / 2;
 
-            translationX = isShowLeftToTarget() ? (rect.left - w + defaultOffsetX) : (rect.right + defaultOffsetX);
+            translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
             translationY = rect.top + (rect.height()-h)/2 + defaultOffsetY;
         }
         getPopupContentView().setTranslationX(translationX);
