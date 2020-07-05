@@ -169,6 +169,11 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 小鹅通课堂助手APP
 - 小鹅通助手APP
 - 豌豆掌管
+- 干货集中营(下载地址：https://juejin.im/post/5ef7fdbaf265da22be0d6ab3)
+- 运动指南针(http://app.mi.com/details?id=com.lx.yundong&ref=search)
+- 我惠省钱(http://app.mi.com/details?id=com.lx.whsq&ref=search)
+- 中航人商城(http://app.mi.com/details?id=com.lx.zhrshop&ref=search)
+- 求职墙(https://www.pgyer.com/zhaopin 密码 000000)
 
 
 ## 打个赏
