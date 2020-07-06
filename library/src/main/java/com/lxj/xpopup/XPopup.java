@@ -269,6 +269,28 @@ public class XPopup {
         }
 
         /**
+         * 设置是否显示状态栏，默认是显示的
+         *
+         * @param hasStatusBar
+         * @return
+         */
+        public Builder hasStatusBar(boolean hasStatusBar) {
+            this.popupInfo.hasStatusBar = hasStatusBar;
+            return this;
+        }
+
+        /**
+         * 设置是否显示导航栏，默认是显示的
+         *
+         * @param hasNavigationBar
+         * @return
+         */
+        public Builder hasNavigationBar(boolean hasNavigationBar) {
+            this.popupInfo.hasNavigationBar = hasNavigationBar;
+            return this;
+        }
+
+        /**
          * 弹窗在x方向的偏移量，对所有弹窗生效，单位是px
          *
          * @param offsetX

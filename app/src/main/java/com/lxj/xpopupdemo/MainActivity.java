@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.blankj.utilcode.util.BarUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         loadingPopupView = new XPopup.Builder(this).asLoading("嘻嘻嘻嘻嘻");
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1000);
+
+//        BarUtils.setStatusBarVisibility(this, false);
+//        BarUtils.setNavBarVisibility(this, false);
     }
 
     class MainAdapter extends FragmentPagerAdapter {
