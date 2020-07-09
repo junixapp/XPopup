@@ -703,6 +703,10 @@ public class XPopup {
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void requestOverlayPermission(Context context, XPermission.SimpleCallback callback){
-        XPermission.create(context).requestDrawOverlays(callback);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            XPermission.create(context).requestDrawOverlays(callback);
+        }else {
+            callback.onGranted();
+        }
     }
 }
