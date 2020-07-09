@@ -126,8 +126,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
                                 return true;
                             }
-                        }).asConfirm("我是标题", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
-                        "取消", "确定",
+                        }).asConfirm("", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+                        "取消Q1", "确定",
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {

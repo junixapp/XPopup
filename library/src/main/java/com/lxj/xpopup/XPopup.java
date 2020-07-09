@@ -442,7 +442,7 @@ public class XPopup {
             popupView.setCancelText(cancelBtnText);
             popupView.setConfirmText(confirmBtnText);
             popupView.setListener(confirmListener, cancelListener);
-            if (isHideCancel) popupView.hideCancelBtn();
+            popupView.isHideCancel = isHideCancel;
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }

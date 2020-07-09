@@ -24,7 +24,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     OnConfirmListener confirmListener;
     TextView tv_title, tv_content, tv_cancel, tv_confirm;
     CharSequence title, content, hint, cancelText, confirmText;
-    boolean isHideCancel = false;
+    public boolean isHideCancel = false;
 
     public ConfirmPopupView(@NonNull Context context) {
         super(context);
@@ -75,7 +75,11 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         if (!TextUtils.isEmpty(confirmText)) {
             tv_confirm.setText(confirmText);
         }
-        if (isHideCancel) tv_cancel.setVisibility(GONE);
+        if (isHideCancel) {
+            tv_cancel.setVisibility(GONE);
+            View divider = findViewById(R.id.xpopup_divider_h);
+            if(divider!=null) divider.setVisibility(GONE);
+        }
         if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
             applyDarkTheme();
         }
@@ -120,11 +124,6 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
 
     public ConfirmPopupView setConfirmText(CharSequence confirmText) {
         this.confirmText = confirmText;
-        return this;
-    }
-
-    public ConfirmPopupView hideCancelBtn() {
-        isHideCancel = true;
         return this;
     }
 

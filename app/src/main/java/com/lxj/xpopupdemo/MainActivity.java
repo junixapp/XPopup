@@ -93,9 +93,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.removeAllViews();
         viewPager = null;
         pageInfos = null;
-        loadingPopupView = new XPopup.Builder(this).asLoading("嘻嘻嘻嘻嘻");
-        loadingPopupView.show();
-        loadingPopupView.delayDismiss(1000);
     }
 
 }
