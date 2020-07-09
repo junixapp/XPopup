@@ -193,6 +193,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     public BasePopupView  show() {
+        Activity activity = (Activity) getContext();
+        if(activity==null || activity.isFinishing()){
+            return this;
+        }
         if (popupStatus == PopupStatus.Showing) return this;
         popupStatus = PopupStatus.Showing;
         if(dialog!=null && dialog.isShowing())return BasePopupView.this;
