@@ -103,6 +103,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .isLightStatusBar(true)
+//                        .hasNavigationBar(false)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onCreated() {
@@ -138,8 +139,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-
-                        .isDestroyOnDismiss(true)
                         .asConfirm("复用项目已有布局", "您可以复用项目已有布局，来使用XPopup强大的交互能力和逻辑封装，弹窗的布局完全由你自己控制。\n" +
                                 "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。",
                         "关闭", "XPopup牛逼",

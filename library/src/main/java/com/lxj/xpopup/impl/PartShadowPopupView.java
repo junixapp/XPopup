@@ -29,11 +29,11 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
-        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
+        defaultOffsetY = popupInfo.offsetY == 0 ? defaultOffsetY : popupInfo.offsetY;
+        defaultOffsetX = popupInfo.offsetX == 0 ? defaultOffsetX : popupInfo.offsetX;
 
-        getPopupImplView().setTranslationX(popupInfo.offsetX);
-        getPopupImplView().setTranslationY(popupInfo.offsetY);
+//        getPopupImplView().setTranslationX(popupInfo.offsetX);
+//        getPopupImplView().setTranslationY(popupInfo.offsetY);
 
         // 指定阴影动画的目标View
         if(popupInfo.hasShadowBg){
@@ -79,7 +79,6 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
             params.height = rect.top;
             isShowUp = true;
-            params.topMargin = -defaultOffsetY;
             // 同时自定义的impl View应该Gravity居于底部
             View implView = ((ViewGroup)getPopupContentView()).getChildAt(0);
             FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
@@ -87,14 +86,11 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             if(getMaxHeight()!=0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
             implView.setLayoutParams(implParams);
-
         } else {
             // atView在上半部分，PartShadow应该显示在它下方，计算atView之下的高度
             params.height = getMeasuredHeight() - rect.bottom;
-
             isShowUp = false;
-            params.topMargin = rect.bottom + defaultOffsetY;
-
+            params.topMargin = rect.bottom;
             // 同时自定义的impl View应该Gravity居于顶部
             View implView = ((ViewGroup)getPopupContentView()).getChildAt(0);
             FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();

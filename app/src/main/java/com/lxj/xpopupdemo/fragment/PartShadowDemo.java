@@ -98,7 +98,8 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
 //                    .dismissOnTouchOutside(false)
 //                    .isCenterHorizontal(true)
                     .autoOpenSoftInput(true)
-//                    .offsetX(200)
+//                    .offsetY(100)
+//                    .offsetX(100)
 //                .dismissOnTouchOutside(false)
                     .setPopupCallback(new SimpleCallback() {
                         @Override
