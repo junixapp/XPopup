@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
+            android:textAlignment="viewStart"
             android:textColor="@color/_xpopup_title_color"
             android:textSize="15sp" />
 
