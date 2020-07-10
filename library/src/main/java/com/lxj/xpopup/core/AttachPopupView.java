@@ -16,6 +16,7 @@ import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PartShadowContainer;
+import java.util.Arrays;
 
 /**
  * Description: 依附于某个View的弹窗，弹窗会出现在目标的上方或下方，如果你想要出现在目标的左边或者右边，请使用HorizontalAttachPopupView。
@@ -40,7 +41,6 @@ public abstract class AttachPopupView extends BasePopupView {
     public boolean isShowUp;
     boolean isShowLeft;
     protected int bgDrawableMargin = 6;
-
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
@@ -102,10 +102,12 @@ public abstract class AttachPopupView extends BasePopupView {
     float maxX = 0; // 显示在右边时候的最大值
 
     protected void doAttach() {
+        final boolean isRTL = XPopupUtils.isLayoutRtl(this);
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
             // 依附于指定点
-            maxX = Math.max(popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth(), 0);
+            maxX = isRTL ? Math.min(-(XPopupUtils.getWindowWidth(getContext()) - popupInfo.touchPoint.x), 0)
+                    :Math.max(popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth(), 0);
             // 尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
             boolean isTallerThanWindowHeight = (popupInfo.touchPoint.y + getPopupContentView().getMeasuredHeight()) > maxY;
@@ -134,13 +136,28 @@ public abstract class AttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
-                    translationX = (isShowLeft ? popupInfo.touchPoint.x : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
+                    if(isRTL){
+                        translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth())
+                                : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x);
+                    }else {
+                        translationX = (isShowLeft ? popupInfo.touchPoint.x : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
+                    }
                     if (popupInfo.isCenterHorizontal) {
                         //水平居中
-                        if (isShowLeft)
-                            translationX -= getPopupContentView().getMeasuredWidth() / 2f;
-                        else
-                            translationX += getPopupContentView().getMeasuredWidth() / 2f;
+                        if (isShowLeft){
+                            if(isRTL){
+                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
+                            }else {
+                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
+                            }
+                        }
+                        else {
+                            if(isRTL){
+                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
+                            }else {
+                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
+                            }
+                        }
                     }
                     if (isShowUpToTarget()) {
                         // 应显示在point上方
@@ -161,9 +178,9 @@ public abstract class AttachPopupView extends BasePopupView {
             popupInfo.getAtView().getLocationOnScreen(locations);
             final Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
                     locations[1] + popupInfo.getAtView().getMeasuredHeight());
-
-            maxX = Math.max(rect.right - getPopupContentView().getMeasuredWidth(), 0);
-            int centerX = (rect.left + rect.right) / 2;
+            //RTL模式下最右边是0，往左是负数
+            maxX = isRTL ? Math.min(-(XPopupUtils.getWindowWidth(getContext()) - rect.right), 0) : Math.max(rect.right - getPopupContentView().getMeasuredWidth(), 0);
+            final int centerX = (rect.left + rect.right) / 2;
 
             // 尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
@@ -174,8 +191,7 @@ public abstract class AttachPopupView extends BasePopupView {
             } else {
                 isShowUp = false;
             }
-            isShowLeft = centerX < XPopupUtils.getWindowWidth(getContext()) / 2;
-
+            isShowLeft = centerX < XPopupUtils.getWindowWidth(getContext()) / 2 ;
             //修正高度，弹窗的高有可能超出window区域
             if (isShowUpToTarget()) {
                 if (getPopupContentView().getMeasuredHeight() > rect.top) {
@@ -194,13 +210,27 @@ public abstract class AttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
-                    translationX = (isShowLeft ? rect.left : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
+                    if(isRTL) {
+                        translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left-getPopupContentView().getMeasuredWidth())
+                                : -(XPopupUtils.getWindowWidth(getContext())-rect.right);
+                    }else {
+                        translationX = (isShowLeft ? rect.left : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
+                    }
                     if (popupInfo.isCenterHorizontal) {
                         //水平居中
                         if (isShowLeft)
-                            translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-                        else
-                            translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+                            if (isRTL){
+                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+                            }else {
+                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+                            }
+                        else{
+                            if(isRTL){
+                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+                            }else {
+                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+                            }
+                        }
                     }
                     if (isShowUpToTarget()) {
                         //说明上面的空间比较大，应显示在atView上方

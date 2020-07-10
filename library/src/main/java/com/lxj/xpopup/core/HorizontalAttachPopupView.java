@@ -30,6 +30,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
      * 执行附着逻辑
      */
     protected void doAttach() {
+        final boolean isRTL = XPopupUtils.isLayoutRtl(this);
         float translationX = 0, translationY = 0;
         int w = getPopupContentView().getMeasuredWidth();
         int h = getPopupContentView().getMeasuredHeight();
@@ -39,7 +40,12 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getWindowWidth(getContext()) / 2;
 
             // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
-            translationX = isShowLeftToTarget() ? (popupInfo.touchPoint.x - w - defaultOffsetX) : (popupInfo.touchPoint.x + defaultOffsetX);
+            if(isRTL){
+                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x)
+                        : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth());
+            }else {
+                translationX = isShowLeftToTarget() ? (popupInfo.touchPoint.x - w - defaultOffsetX) : (popupInfo.touchPoint.x + defaultOffsetX);
+            }
             translationY = popupInfo.touchPoint.y - h * .5f + defaultOffsetY;
         } else {
             // 依附于指定View
@@ -52,8 +58,12 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             int centerX = (rect.left + rect.right) / 2;
 
             isShowLeft = centerX > XPopupUtils.getWindowWidth(getContext()) / 2;
-
-            translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
+            if(isRTL){
+                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left)
+                        : -(XPopupUtils.getWindowWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth());
+            }else {
+                translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
+            }
             translationY = rect.top + (rect.height()-h)/2 + defaultOffsetY;
         }
         getPopupContentView().setTranslationX(translationX);

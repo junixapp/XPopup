@@ -532,5 +532,7 @@ public class XPopupUtils {
         return bitmap;
     }
 
-
+    public static boolean isLayoutRtl(View view) {
+        return View.LAYOUT_DIRECTION_RTL == view.getLayoutDirection();
+    }
 }

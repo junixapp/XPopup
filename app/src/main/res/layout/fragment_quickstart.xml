@@ -39,7 +39,7 @@
                 android:id="@+id/btnShowCenterList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:text="显示Center类型的List弹窗"
                 android:textAllCaps="false" />
@@ -69,7 +69,7 @@
                 android:id="@+id/btnShowBottomList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:text="显示Bottom类型的List弹窗"
                 android:textAllCaps="false" />
@@ -118,7 +118,7 @@
             android:id="@+id/tv3"
             android:layout_width="70dp"
             android:layout_height="40dp"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="点我看看"
@@ -146,7 +146,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_marginRight="55dp"
+                android:layout_marginEnd="55dp"
                 android:layout_height="wrap_content"
                 android:text="横向Attach弹窗1"
                 android:textAllCaps="false" />
@@ -171,7 +171,7 @@
                 android:id="@+id/btnShowDrawerLeft"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:text="显示左边Drawer弹窗"
                 android:textAllCaps="false" />
