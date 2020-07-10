@@ -10,6 +10,11 @@
 
 Powerful，material UI，elegant interaction general popup！can absolutely replace Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner. With built-in many beautiful animation，you can custom your UI and logic！
 
+## Feature
+- support Androidx
+- support RTL layout
+- beautiful animation and strong customization
+- you will love it !
 
 ## ScreenShot
 
