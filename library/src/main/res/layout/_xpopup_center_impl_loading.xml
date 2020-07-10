@@ -9,8 +9,8 @@
     android:layout_height="wrap_content">
 
     <com.lxj.xpopup.widget.LoadingView
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:layout_width="30dp"
         android:layout_height="30dp" />
     <TextView
@@ -20,8 +20,8 @@
         android:ellipsize="end"
         android:textSize="15sp"
         android:textColor="#EEEEEE"
-        android:paddingLeft="5dp"
-        android:paddingRight="14dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
