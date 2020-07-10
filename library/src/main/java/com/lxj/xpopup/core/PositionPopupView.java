@@ -40,7 +40,8 @@ public class PositionPopupView extends BasePopupView {
             @Override
             public void run() {
                 if (popupInfo.isCenterHorizontal) {
-                    float left = (XPopupUtils.getWindowWidth(getContext())-attachPopupContainer.getMeasuredWidth())/2f;
+                    float left = !XPopupUtils.isLayoutRtl(PositionPopupView.this) ? (XPopupUtils.getWindowWidth(getContext())-attachPopupContainer.getMeasuredWidth())/2f
+                    : -( XPopupUtils.getWindowWidth(getContext())-attachPopupContainer.getMeasuredWidth())/2f;
                     attachPopupContainer.setTranslationX(left);
                 }else {
                     attachPopupContainer.setTranslationX(popupInfo.offsetX);
