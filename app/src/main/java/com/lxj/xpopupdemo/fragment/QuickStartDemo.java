@@ -270,6 +270,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupAnimation(PopupAnimation.NoAnimation) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-60)
+//                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
                         .asAttachList(new String[]{"分享", "编辑编辑编辑编辑", "不带icon"},
@@ -312,7 +313,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-//                        .offsetX(-10) //往左偏移10
+//                        .offsetX(50) //偏移10
 //                        .offsetY(10)  //往下偏移10
 //                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
                         .hasShadowBg(false) // 去掉半透明背景

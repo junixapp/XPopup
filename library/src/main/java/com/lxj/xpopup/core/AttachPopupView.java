@@ -6,6 +6,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import androidx.annotation.NonNull;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,6 @@ import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.PartShadowContainer;
-import java.util.Arrays;
 
 /**
  * Description: 依附于某个View的弹窗，弹窗会出现在目标的上方或下方，如果你想要出现在目标的左边或者右边，请使用HorizontalAttachPopupView。
@@ -50,10 +51,11 @@ public abstract class AttachPopupView extends BasePopupView {
             throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
 
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetY;
-        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetX;
+        defaultOffsetX = popupInfo.offsetX;
 
         attachPopupContainer.setTranslationX(popupInfo.offsetX);
         attachPopupContainer.setTranslationY(popupInfo.offsetY);
+        Log.e("tag", "defaultOffsetX: "+defaultOffsetX);
         applyBg();
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
             @Override
@@ -61,7 +63,6 @@ public abstract class AttachPopupView extends BasePopupView {
                 doAttach();
             }
         });
-
     }
 
     protected void applyBg(){
@@ -137,8 +138,8 @@ public abstract class AttachPopupView extends BasePopupView {
                 @Override
                 public void run() {
                     if(isRTL){
-                        translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth())
-                                : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x);
+                        translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()- defaultOffsetX)
+                                : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x + defaultOffsetX);
                     }else {
                         translationX = (isShowLeft ? popupInfo.touchPoint.x : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
                     }
@@ -211,8 +212,8 @@ public abstract class AttachPopupView extends BasePopupView {
                 @Override
                 public void run() {
                     if(isRTL) {
-                        translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left-getPopupContentView().getMeasuredWidth())
-                                : -(XPopupUtils.getWindowWidth(getContext())-rect.right);
+                        translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left-getPopupContentView().getMeasuredWidth() - defaultOffsetX)
+                                : -(XPopupUtils.getWindowWidth(getContext())-rect.right + defaultOffsetX);
                     }else {
                         translationX = (isShowLeft ? rect.left : maxX) + (isShowLeft ? defaultOffsetX : -defaultOffsetX);
                     }

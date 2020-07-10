@@ -22,7 +22,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 0) : popupInfo.offsetY;
+        defaultOffsetY = popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetX;
     }
 
@@ -41,8 +41,8 @@ public class HorizontalAttachPopupView extends AttachPopupView {
 
             // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
             if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x)
-                        : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth());
+                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x+defaultOffsetX)
+                        : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
             }else {
                 translationX = isShowLeftToTarget() ? (popupInfo.touchPoint.x - w - defaultOffsetX) : (popupInfo.touchPoint.x + defaultOffsetX);
             }
@@ -59,8 +59,8 @@ public class HorizontalAttachPopupView extends AttachPopupView {
 
             isShowLeft = centerX > XPopupUtils.getWindowWidth(getContext()) / 2;
             if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left)
-                        : -(XPopupUtils.getWindowWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth());
+                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left + defaultOffsetX)
+                        : -(XPopupUtils.getWindowWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
             }else {
                 translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
             }
