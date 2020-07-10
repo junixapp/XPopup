@@ -64,12 +64,12 @@ public class XPopupUtils {
     public static int getWindowHeight(Context context) {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
     }
-    public static int getAppScreenHeight(Context context) {
+    public static int getAppScreenWidth(Context context) {
         WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         if (wm == null) return -1;
         Rect point = new Rect();
         wm.getDefaultDisplay().getRectSize(point);
-        return point.bottom;
+        return point.right;
     }
     public static int dp2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

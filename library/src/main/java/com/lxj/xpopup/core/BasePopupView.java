@@ -182,12 +182,14 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             params.bottomMargin = 0;
         } else if (rotation == 1) {
             params.bottomMargin = 0;
-            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(dialog.getWindow()) - height : 0;
+//            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(dialog.getWindow()) - height : 0;
+            params.rightMargin = 0;
             params.leftMargin = 0;
         } else if (rotation == 3) {
             params.bottomMargin = 0;
             params.leftMargin = 0;
-            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(dialog.getWindow()) - height : 0;
+//            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(dialog.getWindow()) - height : 0;
+            params.rightMargin = 0;
         }
         setLayoutParams(params);
     }
