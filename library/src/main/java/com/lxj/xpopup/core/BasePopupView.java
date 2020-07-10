@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -136,7 +135,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             if(popupInfo.hasBlurBg) {
                 blurAnimator = new BlurAnimator(this);
                 blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap(((Activity)getContext()).getWindow().getDecorView());
+                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
                 blurAnimator.initAnimator();
             }
             if (popupContentAnimator != null) {
@@ -194,7 +193,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     public BasePopupView  show() {
-        Activity activity = (Activity) getContext();
+        Activity activity = XPopupUtils.context2Activity(this);
         if(activity==null || activity.isFinishing()){
             return this;
         }

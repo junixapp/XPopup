@@ -1,6 +1,8 @@
 package com.lxj.xpopup.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -534,5 +536,16 @@ public class XPopupUtils {
 
     public static boolean isLayoutRtl(View view) {
         return View.LAYOUT_DIRECTION_RTL == view.getLayoutDirection();
+    }
+
+    public static Activity context2Activity(View view){
+        Context context = view.getContext();
+        if (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return null;
     }
 }
