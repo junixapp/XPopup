@@ -75,7 +75,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                builder.asAttachList(new String[]{"置顶", "复制", "删除"}, null,
+                builder.asAttachList(new String[]{"置顶", "复制", "删除", "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
+                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
+                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
+                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
+                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
+                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
+                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
+                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"}, null,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
@@ -273,7 +280,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑编辑编辑编辑", "不带icon"},
+                        .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑", "不带icon","分享", "编辑编辑编辑编辑", "不带icon","分享", "编辑编辑编辑编辑", "不带icon","分享", "编辑编辑编辑编辑", "不带icon"},
                                 new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                 new OnSelectListener() {
                                     @Override
