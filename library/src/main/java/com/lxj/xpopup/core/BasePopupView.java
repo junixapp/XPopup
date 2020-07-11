@@ -163,33 +163,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     protected void applySize(boolean isShowNavBar) {
-        //获取屏幕高度
-        int height = XPopupUtils.getPhoneScreenHeight(dialog.getWindow());
-        //获取应用内屏幕可用高度
-        if (popupInfo.decorView.getChildCount() > 0) {
-            height = popupInfo.decorView.getChildAt(0).getMeasuredHeight();
-        }
-        LayoutParams params = (LayoutParams) getLayoutParams();
-        int rotation = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-        boolean isNavBarShown = XPopupUtils.isNavBarVisible(dialog.getWindow());
-        //设置margin为屏幕高度减去应用可用高度
-        if (rotation == 0) {
-            params.leftMargin = 0;
-            params.rightMargin = 0;
-//            params.bottomMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(getContext()) - height : 0;
-            params.bottomMargin = 0;
-        } else if (rotation == 1) {
-            params.bottomMargin = 0;
-//            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(dialog.getWindow()) - height : 0;
-            params.rightMargin = 0;
-            params.leftMargin = 0;
-        } else if (rotation == 3) {
-            params.bottomMargin = 0;
-            params.leftMargin = 0;
-//            params.rightMargin = isNavBarShown ? XPopupUtils.getPhoneScreenHeight(dialog.getWindow()) - height : 0;
-            params.rightMargin = 0;
-        }
-        setLayoutParams(params);
     }
 
     public BasePopupView  show() {
