@@ -688,6 +688,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                     break;
             }
         }
+        if(dialog!=null && popupInfo.isClickThrough) dialog.passClick(event);
         return true;
     }
 

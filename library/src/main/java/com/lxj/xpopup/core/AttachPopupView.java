@@ -113,6 +113,7 @@ public abstract class AttachPopupView extends BasePopupView {
             }
             isShowLeft = popupInfo.touchPoint.x < XPopupUtils.getWindowWidth(getContext()) / 2;
 
+            //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
             int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
                                 : (XPopupUtils.getWindowHeight(getContext()) - popupInfo.touchPoint.y - overflow));

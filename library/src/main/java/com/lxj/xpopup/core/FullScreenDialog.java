@@ -52,6 +52,7 @@ public class FullScreenDialog extends Dialog {
         if(Build.VERSION.SDK_INT == 19){ //解决4.4上状态栏闪烁的问题
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+
         //隐藏导航栏
         if (!contentView.popupInfo.hasNavigationBar) {
             hideNavigationBar();
@@ -121,7 +122,7 @@ public class FullScreenDialog extends Dialog {
         }
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE ,
-                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_FULLSCREEN |
