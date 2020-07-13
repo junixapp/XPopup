@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
-    android:paddingLeft="16dp"
+    android:paddingLeft="18dp"
     android:paddingRight="12dp"
     android:background="@drawable/shadow_bg"
     android:layout_height="wrap_content"

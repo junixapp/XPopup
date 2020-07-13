@@ -27,6 +27,11 @@ public interface XPopupCallback {
     void onDismiss();
 
     /**
+     * 准备消失的时候执行
+     */
+    void beforeDismiss();
+
+    /**
      * 暴漏返回按键的处理，如果返回true，XPopup不会处理；如果返回false，XPopup会处理，
      * @return
      */

@@ -487,6 +487,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
         clearFocus();
+        if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss();
+        beforeDismiss();
         doDismissAnimation();
         doAfterDismiss();
     }
@@ -606,6 +608,11 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             }
         }
     }
+
+    /**
+     * 开始消失的时候执行一次
+     */
+    protected void beforeDismiss(){}
 
     protected List<String> getInternalFragmentNames() {
         return null;

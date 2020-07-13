@@ -22,6 +22,12 @@ public class SimpleCallback implements XPopupCallback {
     public void onDismiss() {
 
     }
+
+    @Override
+    public void beforeDismiss() {
+
+    }
+
     @Override
     public boolean onBackPressed() {
         return false;

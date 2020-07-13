@@ -75,14 +75,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                builder.asAttachList(new String[]{"置顶", "复制", "删除", "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
-                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
-                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
-                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
-                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
-                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
-                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"
-                                , "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑"}, null,
+                builder.asAttachList(new String[]{"置顶", "复制", "删除", "编辑编辑编辑编辑编辑编辑编"
+                                }, null,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
@@ -127,6 +121,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 Log.e("tag", "onDismiss");
                             }
 
+                            @Override
+                            public void beforeDismiss() {
+                                super.beforeDismiss();
+                                Log.e("tag", "准备消失的时候执行");
+                            }
+
                             //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
                             @Override
                             public boolean onBackPressed() {
@@ -134,7 +134,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 return true;
                             }
                         }).asConfirm("", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
-                        "取消Q1", "确定",
+                        "取消", "确定",
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
@@ -280,7 +280,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑编辑", "不带icon","分享", "编辑编辑编辑编辑", "不带icon","分享", "编辑编辑编辑编辑", "不带icon","分享", "编辑编辑编辑编辑", "不带icon"},
+                        .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编", "不带icon","分享"},
                                 new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                 new OnSelectListener() {
                                     @Override
