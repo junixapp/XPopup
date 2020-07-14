@@ -540,11 +540,12 @@ public class XPopupUtils {
 
     public static Activity context2Activity(View view){
         Context context = view.getContext();
-        if (context instanceof ContextWrapper) {
+        while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
-                return (Activity) context;
+                return ((Activity) context);
+            } else {
+                context = ((ContextWrapper) context).getBaseContext();
             }
-            context = ((ContextWrapper) context).getBaseContext();
         }
         return null;
     }

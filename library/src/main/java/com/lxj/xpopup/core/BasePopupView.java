@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -167,6 +168,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     public BasePopupView  show() {
         Activity activity = XPopupUtils.context2Activity(this);
+        Log.e("tag", "activity： " + activity);
         if(activity==null || activity.isFinishing()){
             return this;
         }
