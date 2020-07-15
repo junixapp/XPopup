@@ -96,12 +96,6 @@ implementation 'com.android.support:appcompat-v7:28.0.0'
 implementation 'com.android.support:recyclerview-v7:28.0.0'
 implementation 'com.android.support:design:28.0.0'
 ```
-如果你是androidx，则上面三个对应的androidx依赖是，版本不用和我一致：
-```groovy
-implementation 'androidx.appcompat:appcompat:1.1.0'
-implementation 'com.google.android.material:material:1.3.0-alpha01'
-implementation 'androidx.recyclerview:recyclerview:1.1.0'
-```
 
 ## 使用文档
 
@@ -181,12 +175,13 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 ## 打个赏
 
 如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏（打赏时可以附上自己的大名和Github地址），金额随意，以表支持。
+![](screenshot/pay.png)
+
 | 名字   | Github地址 |
 | ------ | ---------- |
 | Alfred | 无         |
 | LOPER7       |   https://github.com/loperSeven         |
 
-![](screenshot/pay.png)
 
 
 ## 阿里云链接
