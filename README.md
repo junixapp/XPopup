@@ -180,7 +180,11 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
 ## 打个赏
 
-如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏（打赏时可以附上自己的大名和Github地址），金额随意，以表支持。[打赏名单](https://github.com/li-xiaojun/XPopup/blob/master/reward-list.md)
+如果你觉得我帮助到了你，节省了你的时间，可以对我进行打赏（打赏时可以附上自己的大名和Github地址），金额随意，以表支持。
+| 名字   | Github地址 |
+| ------ | ---------- |
+| Alfred | 无         |
+| LOPER7       |   https://github.com/loperSeven         |
 
 ![](screenshot/pay.png)
 
