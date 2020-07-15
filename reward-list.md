@@ -5,7 +5,7 @@
 | 名字   | Github地址 |
 | ------ | ---------- |
 | Alfred | 无         |
-|        |            |
+| LOPER7       |   https://github.com/loperSeven         |
 |        |            |
 |        |            |
 
