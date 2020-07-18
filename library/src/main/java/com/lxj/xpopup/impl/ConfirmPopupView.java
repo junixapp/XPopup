@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_content = findViewById(R.id.tv_content);
         tv_cancel = findViewById(R.id.tv_cancel);
         tv_confirm = findViewById(R.id.tv_confirm);
-
+        tv_content.setMovementMethod(LinkMovementMethod.getInstance());
         if(bindLayoutId==0) applyPrimaryColor();
 
         tv_cancel.setOnClickListener(this);
@@ -92,6 +93,21 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         }
     }
 
+    public TextView getTitleTextView(){
+        return tv_title;
+    }
+
+    public TextView getContentTextView(){
+        return tv_content;
+    }
+
+    public TextView getCancelTextView(){
+        return tv_cancel;
+    }
+
+    public TextView getConfirmTextView(){
+        return tv_confirm;
+    }
     @Override
     protected void applyDarkTheme() {
         super.applyDarkTheme();

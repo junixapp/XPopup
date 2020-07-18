@@ -11,6 +11,7 @@ import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -52,11 +53,11 @@ public class ZhihuCommentPopup extends BottomPopupView {
 //                        .hasShadowBg(false)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
-                            public void onShow() {
+                            public void onShow(BasePopupView popupView) {
                             }
 
                             @Override
-                            public void onDismiss() {
+                            public void onDismiss(BasePopupView popupView) {
                                 String comment = textBottomPopup.getComment();
                                 if (!comment.isEmpty()) {
                                     data.add(0, comment);

@@ -1,35 +1,37 @@
 package com.lxj.xpopup.interfaces;
 
+import com.lxj.xpopup.core.BasePopupView;
+
 /**
  * Description:
  * Create by dance, at 2019/6/13
  */
 public class SimpleCallback implements XPopupCallback {
     @Override
-    public void onCreated() {
+    public void onCreated(BasePopupView popupView) {
 
     }
     @Override
-    public void beforeShow() {
-
-    }
-
-    @Override
-    public void onShow() {
-
-    }
-    @Override
-    public void onDismiss() {
+    public void beforeShow(BasePopupView popupView) {
 
     }
 
     @Override
-    public void beforeDismiss() {
+    public void onShow(BasePopupView popupView) {
+
+    }
+    @Override
+    public void onDismiss(BasePopupView popupView) {
 
     }
 
     @Override
-    public boolean onBackPressed() {
+    public void beforeDismiss(BasePopupView popupView) {
+
+    }
+
+    @Override
+    public boolean onBackPressed(BasePopupView popupView) {
         return false;
     }
 }

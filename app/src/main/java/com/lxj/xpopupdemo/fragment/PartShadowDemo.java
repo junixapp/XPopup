@@ -13,6 +13,7 @@ import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
@@ -103,11 +104,11 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
 //                .dismissOnTouchOutside(false)
                     .setPopupCallback(new SimpleCallback() {
                         @Override
-                        public void onShow() {
+                        public void onShow(BasePopupView popupView) {
                             toast("显示了");
                         }
                         @Override
-                        public void onDismiss() {
+                        public void onDismiss(BasePopupView popupView) {
                         }
                     })
                     .asCustom(new CustomPartShadowPopupView(getContext()));

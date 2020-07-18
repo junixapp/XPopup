@@ -89,7 +89,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         if (!isCreated) {
             isCreated = true;
             onCreate();
-            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated();
+            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
         }
         handler.postDelayed(initTask, 50);
     }
@@ -104,7 +104,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             //2. 收集动画执行器
             collectAnimator();
 
-            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow();
+            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
 
             //3. 执行动画
             doShowAnimation();
@@ -160,11 +160,20 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         params.leftMargin = 0;
         params.bottomMargin = 0;
         params.rightMargin = 0;
-        if(dialog!=null) params.height = XPopupUtils.getPhoneScreenHeight(dialog.getWindow());
         setLayoutParams(params);
     }
 
     protected void applySize(boolean isShowNavBar) {
+        FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
+        params.topMargin = 0;
+        params.leftMargin = 0;
+        params.bottomMargin = 0;
+        params.rightMargin = 0;
+        Activity activity = XPopupUtils.context2Activity(this);
+        if(activity!=null){
+            params.height = XPopupUtils.getPhoneScreenHeight(activity.getWindow());
+        }
+        setLayoutParams(params);
     }
 
     public BasePopupView  show() {
@@ -236,7 +245,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             onShow();
             focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
-                popupInfo.xPopupCallback.onShow();
+                popupInfo.xPopupCallback.onShow(BasePopupView.this);
             //再次检测移动距离
             if(dialog==null)return;
             if (XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()) > 0 && !hasMoveUp) {
@@ -312,7 +321,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                 if (popupInfo.isDismissOnBackPressed &&
-                        (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed()))
+                        (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this)))
                     dismissOrHideSoftInput();
                 return true;
             }
@@ -489,7 +498,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
         clearFocus();
-        if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss();
+        if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(this);
         beforeDismiss();
         doDismissAnimation();
         doAfterDismiss();
@@ -536,7 +545,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             if (popupInfo.autoOpenSoftInput && BasePopupView.this instanceof PartShadowPopupView) KeyboardUtils.hideSoftInput(BasePopupView.this);
             onDismiss();
             if (popupInfo != null && popupInfo.xPopupCallback != null) {
-                popupInfo.xPopupCallback.onDismiss();
+                popupInfo.xPopupCallback.onDismiss(BasePopupView.this);
             }
             if (dismissWithRunnable != null) {
                 dismissWithRunnable.run();

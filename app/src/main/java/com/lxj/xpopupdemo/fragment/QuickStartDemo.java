@@ -7,10 +7,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+
 import androidx.annotation.RequiresApi;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -107,33 +110,31 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasNavigationBar(false)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
-                            public void onCreated() {
+                            public void onCreated(BasePopupView popupView) {
                                 Log.e("tag", "弹窗创建了");
                             }
-
                             @Override
-                            public void onShow() {
+                            public void onShow(BasePopupView popupView) {
                                 Log.e("tag", "onShow");
                             }
 
                             @Override
-                            public void onDismiss() {
+                            public void onDismiss(BasePopupView popupView) {
                                 Log.e("tag", "onDismiss");
                             }
 
                             @Override
-                            public void beforeDismiss() {
-                                super.beforeDismiss();
+                            public void beforeDismiss(BasePopupView popupView) {
                                 Log.e("tag", "准备消失的时候执行");
                             }
 
                             //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
                             @Override
-                            public boolean onBackPressed() {
+                            public boolean onBackPressed(BasePopupView popupView) {
                                 ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
                                 return true;
                             }
-                        }).asConfirm("", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+                        }).asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
                         "取消", "确定",
                         new OnConfirmListener() {
                             @Override
