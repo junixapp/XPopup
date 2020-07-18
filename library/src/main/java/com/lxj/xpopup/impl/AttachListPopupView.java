@@ -24,30 +24,17 @@ public class AttachListPopupView extends AttachPopupView {
     protected int bindLayoutId;
     protected int bindItemLayoutId;
 
-    public AttachListPopupView(@NonNull Context context) {
+    /**
+     *
+     * @param context
+     * @param bindLayoutId layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView
+     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     */
+    public AttachListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId) {
         super(context);
-    }
-
-    /**
-     * 传入自定义的布局，对布局中的id有要求
-     *
-     * @param layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView
-     * @return
-     */
-    public AttachListPopupView bindLayout(int layoutId) {
-        this.bindLayoutId = layoutId;
-        return this;
-    }
-
-    /**
-     * 传入自定义的 item布局
-     *
-     * @param itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
-     * @return
-     */
-    public AttachListPopupView bindItemLayout(int itemLayoutId) {
-        this.bindItemLayoutId = itemLayoutId;
-        return this;
+        this.bindLayoutId = bindLayoutId;
+        this.bindItemLayoutId = bindItemLayoutId;
+        addInnerContent();
     }
 
     @Override

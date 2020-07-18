@@ -3,6 +3,7 @@ package com.lxj.xpopupdemo.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
+import com.lxj.xpopup.impl.ConfirmPopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
@@ -101,7 +103,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
-                new XPopup.Builder(getContext())
+                ConfirmPopupView popupView = new XPopup.Builder(getContext())
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
@@ -141,8 +143,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             public void onConfirm() {
                                 toast("click confirm");
                             }
-                        }, null, false)
-                        .show();
+                        }, null, false);
+                popupView.getContentTextView().setTextColor(Color.RED);
+                popupView.show();
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
                 new XPopup.Builder(getContext())
@@ -155,8 +158,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             public void onConfirm() {
                                 toast("click confirm");
                             }
-                        }, null, false)
-                        .bindLayout(R.layout.my_confim_popup) //绑定已有布局
+                        }, null, false, R.layout.my_confim_popup) //最后一个参数绑定已有布局
 //                        .bindItemLayout() //带列表的弹窗还会有这样一个方法
                         .show();
                 break;

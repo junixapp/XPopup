@@ -23,9 +23,17 @@ public class CenterPopupView extends BasePopupView {
     protected FrameLayout centerPopupContainer;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
+    protected View contentView;
     public CenterPopupView(@NonNull Context context) {
         super(context);
         centerPopupContainer = findViewById(R.id.centerPopupContainer);
+    }
+
+    protected void addInnerContent(){
+        contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), centerPopupContainer, false);
+        LayoutParams params = (LayoutParams) contentView.getLayoutParams();
+        params.gravity = Gravity.CENTER;
+        centerPopupContainer.addView(contentView, params);
     }
 
     @Override
@@ -36,10 +44,7 @@ public class CenterPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), centerPopupContainer, false);
-        LayoutParams params = (LayoutParams) contentView.getLayoutParams();
-        params.gravity = Gravity.CENTER;
-        centerPopupContainer.addView(contentView, params);
+        if(centerPopupContainer.getChildCount()==0)addInnerContent();
         getPopupContentView().setTranslationX(popupInfo.offsetX);
         getPopupContentView().setTranslationY(popupInfo.offsetY);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());

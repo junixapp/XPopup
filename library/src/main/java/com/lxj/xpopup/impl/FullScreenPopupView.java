@@ -27,6 +27,7 @@ public class FullScreenPopupView extends CenterPopupView {
     public ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     public FullScreenPopupView(@NonNull Context context) {
         super(context);
+        addInnerContent();
     }
     @Override
     protected int getMaxWidth() {

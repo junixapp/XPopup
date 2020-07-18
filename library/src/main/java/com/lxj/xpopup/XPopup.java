@@ -138,8 +138,10 @@ public class XPopup {
             this.popupInfo.hasShadowBg = hasShadowBg;
             return this;
         }
+
         /**
          * 是否设置背景为高斯模糊背景。默认为false
+         *
          * @param hasBlurBg
          * @return
          */
@@ -403,6 +405,7 @@ public class XPopup {
         /**
          * 是否在弹窗消失后就立即释放资源，杜绝内存泄漏，仅仅适用于弹窗只用一次的场景，默认为false。
          * 如果你的弹窗对象需要用多次，千万不要开启这个设置
+         *
          * @param isDestroyOnDismiss
          * @return
          */
@@ -433,11 +436,13 @@ public class XPopup {
          * @param confirmListener 点击确认的监听器
          * @param cancelListener  点击取消的监听器
          * @param isHideCancel    是否隐藏取消按钮
+         * @param bindLayoutId    自定义的布局Id，没有则传0
          * @return
          */
-        public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel) {
+        public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel,
+                                          int bindLayoutId) {
             popupType(PopupType.Center);
-            ConfirmPopupView popupView = new ConfirmPopupView(this.context);
+            ConfirmPopupView popupView = new ConfirmPopupView(this.context, bindLayoutId);
             popupView.setTitleContent(title, content, null);
             popupView.setCancelText(cancelBtnText);
             popupView.setConfirmText(confirmBtnText);
@@ -447,12 +452,16 @@ public class XPopup {
             return popupView;
         }
 
+        public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel) {
+            return asConfirm(title, content, cancelBtnText, confirmBtnText, confirmListener, cancelListener, isHideCancel, 0);
+        }
+
         public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
-            return asConfirm(title, content, null, null, confirmListener, cancelListener, false);
+            return asConfirm(title, content, null, null, confirmListener, cancelListener, false, 0);
         }
 
         public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, OnConfirmListener confirmListener) {
-            return asConfirm(title, content, null, null, confirmListener, null, false);
+            return asConfirm(title, content, null, null, confirmListener, null, false, 0);
         }
 
         /**
@@ -466,9 +475,9 @@ public class XPopup {
          * @param cancelListener  点击取消的监听器
          * @return
          */
-        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener) {
+        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener, int bindLayoutId) {
             popupType(PopupType.Center);
-            InputConfirmPopupView popupView = new InputConfirmPopupView(this.context);
+            InputConfirmPopupView popupView = new InputConfirmPopupView(this.context, bindLayoutId);
             popupView.setTitleContent(title, content, hint);
             popupView.inputContent = inputContent;
             popupView.setListener(confirmListener, cancelListener);
@@ -477,34 +486,41 @@ public class XPopup {
         }
 
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, inputContent, hint, confirmListener, null);
+            return asInputConfirm(title, content, inputContent, hint, confirmListener, null, 0);
         }
 
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence hint, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, null, hint, confirmListener, null);
+            return asInputConfirm(title, content, null, hint, confirmListener, null, 0);
         }
 
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, null, null, confirmListener, null);
+            return asInputConfirm(title, content, null, null, confirmListener, null, 0);
         }
 
         /**
          * 显示在中间的列表Popup
          *
-         * @param title          标题，可以不传，不传则不显示
-         * @param data           显示的文本数据
-         * @param iconIds        图标的id数组，可以没有
-         * @param selectListener 选中条目的监听器
+         * @param title            标题，可以不传，不传则不显示
+         * @param data             显示的文本数据
+         * @param iconIds          图标的id数组，可以没有
+         * @param selectListener   选中条目的监听器
+         * @param bindLayoutId     自定义布局的id
+         * @param bindItemLayoutId 自定义列表的item布局
          * @return
          */
-        public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
+        public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
+                                                int bindItemLayoutId) {
             popupType(PopupType.Center);
-            CenterListPopupView popupView = new CenterListPopupView(this.context)
+            CenterListPopupView popupView = new CenterListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
                     .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
+        }
+
+        public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
+            return asCenterList(title, data, iconIds, checkedPosition, selectListener, 0, 0);
         }
 
         public CenterListPopupView asCenterList(CharSequence title, String[] data, OnSelectListener selectListener) {
@@ -518,14 +534,20 @@ public class XPopup {
         /**
          * 显示在中间加载的弹窗
          *
+         * @param title        加载中的文字
+         * @param bindLayoutId 自定义布局id
          * @return
          */
-        public LoadingPopupView asLoading(CharSequence title) {
+        public LoadingPopupView asLoading(CharSequence title, int bindLayoutId) {
             popupType(PopupType.Center);
-            LoadingPopupView popupView = new LoadingPopupView(this.context)
+            LoadingPopupView popupView = new LoadingPopupView(this.context, bindLayoutId)
                     .setTitle(title);
             popupView.popupInfo = this.popupInfo;
             return popupView;
+        }
+
+        public LoadingPopupView asLoading(CharSequence title) {
+            return asLoading(title, 0);
         }
 
         public LoadingPopupView asLoading() {
@@ -535,21 +557,28 @@ public class XPopup {
         /**
          * 显示在底部的列表Popup
          *
-         * @param title           标题，可以不传，不传则不显示
-         * @param data            显示的文本数据
-         * @param iconIds         图标的id数组，可以没有
-         * @param checkedPosition 选中的位置，传-1为不选中
-         * @param selectListener  选中条目的监听器
+         * @param title            标题，可以不传，不传则不显示
+         * @param data             显示的文本数据
+         * @param iconIds          图标的id数组，可以没有
+         * @param checkedPosition  选中的位置，传-1为不选中
+         * @param selectListener   选中条目的监听器
+         * @param bindLayoutId     自定义布局的id
+         * @param bindItemLayoutId 自定义列表的item布局
          * @return
          */
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener) {
+        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener, int bindLayoutId,
+                                                int bindItemLayoutId) {
             popupType(PopupType.Bottom);
-            BottomListPopupView popupView = new BottomListPopupView(this.context)
+            BottomListPopupView popupView = new BottomListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
                     .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
+        }
+
+        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener) {
+            return asBottomList(title, data, iconIds, checkedPosition, enableDrag, selectListener, 0, 0);
         }
 
         public BottomListPopupView asBottomList(CharSequence title, String[] data, OnSelectListener selectListener) {
@@ -572,18 +601,25 @@ public class XPopup {
         /**
          * 显示依附于某View的列表，必须调用atView()方法，指定依附的View
          *
-         * @param data           显示的文本数据
-         * @param iconIds        图标的id数组，可以为null
-         * @param selectListener 选中条目的监听器
+         * @param data             显示的文本数据
+         * @param iconIds          图标的id数组，可以为null
+         * @param selectListener   选中条目的监听器
+         * @param bindLayoutId     自定义布局的id
+         * @param bindItemLayoutId 自定义列表的item布局
          * @return
          */
-        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
+        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
+                                                int bindItemLayoutId) {
             popupType(PopupType.AttachView);
-            AttachListPopupView popupView = new AttachListPopupView(this.context)
+            AttachListPopupView popupView = new AttachListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(data, iconIds)
                     .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
+        }
+
+        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
+            return asAttachList(data, iconIds, selectListener, 0, 0);
         }
 
         /**
@@ -639,7 +675,7 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, false,false, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
+            return asImageViewer(srcView, currentPosition, urls, false, false, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
         }
 
         /**
@@ -697,14 +733,15 @@ public class XPopup {
 
     /**
      * 跳转申请悬浮窗权限界面
+     *
      * @param context
      * @param callback
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void requestOverlayPermission(Context context, XPermission.SimpleCallback callback){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+    public static void requestOverlayPermission(Context context, XPermission.SimpleCallback callback) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             XPermission.create(context).requestDrawOverlays(callback);
-        }else {
+        } else {
             callback.onGranted();
         }
     }

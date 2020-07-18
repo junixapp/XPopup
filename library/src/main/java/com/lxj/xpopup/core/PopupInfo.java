@@ -47,7 +47,6 @@ public class PopupInfo {
     public boolean enableShowWhenAppBackground = false; //是否允许应用在后台的时候也能弹出弹窗
     public boolean isThreeDrag = false; //是否开启三阶拖拽
     public boolean isDestroyOnDismiss = false; //是否关闭后进行资源释放
-
     public View getAtView() {
         return atView;
     }

@@ -30,30 +30,17 @@ public class CenterListPopupView extends CenterPopupView {
     RecyclerView recyclerView;
     TextView tv_title;
 
-    public CenterListPopupView(@NonNull Context context) {
+    /**
+     *
+     * @param context
+     * @param bindLayoutId  要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
+     * @param bindItemLayoutId  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     */
+    public CenterListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId) {
         super(context);
-    }
-
-    /**
-     * 传入自定义的布局，对布局中的id有要求
-     *
-     * @param layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
-     * @return
-     */
-    public CenterListPopupView bindLayout(int layoutId) {
-        this.bindLayoutId = layoutId;
-        return this;
-    }
-
-    /**
-     * 传入自定义的 item布局
-     *
-     * @param itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
-     * @return
-     */
-    public CenterListPopupView bindItemLayout(int itemLayoutId) {
-        this.bindItemLayoutId = itemLayoutId;
-        return this;
+        this.bindLayoutId = bindLayoutId;
+        this.bindItemLayoutId = bindItemLayoutId;
+        addInnerContent();
     }
 
     @Override

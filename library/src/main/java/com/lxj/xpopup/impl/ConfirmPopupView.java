@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 
@@ -27,18 +28,15 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     CharSequence title, content, hint, cancelText, confirmText;
     public boolean isHideCancel = false;
 
-    public ConfirmPopupView(@NonNull Context context) {
-        super(context);
-    }
-
     /**
-     * 绑定已有布局
-     * @param layoutId 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
-     * @return
+     *
+     * @param context
+     * @param bindLayoutId layoutId 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
      */
-    public ConfirmPopupView bindLayout(int layoutId){
-        bindLayoutId = layoutId;
-        return this;
+    public ConfirmPopupView(@NonNull Context context, int bindLayoutId) {
+        super(context);
+        this.bindLayoutId = bindLayoutId;
+        addInnerContent();
     }
 
     @Override
@@ -94,19 +92,19 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     }
 
     public TextView getTitleTextView(){
-        return tv_title;
+        return findViewById(R.id.tv_title);
     }
 
     public TextView getContentTextView(){
-        return tv_content;
+        return findViewById(R.id.tv_content);
     }
 
     public TextView getCancelTextView(){
-        return tv_cancel;
+        return findViewById(R.id.tv_cancel);
     }
 
     public TextView getConfirmTextView(){
-        return tv_confirm;
+        return findViewById(R.id.tv_confirm);
     }
     @Override
     protected void applyDarkTheme() {

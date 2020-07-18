@@ -1,7 +1,6 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -31,9 +30,6 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         super.initPopupContent();
         defaultOffsetY = popupInfo.offsetY == 0 ? defaultOffsetY : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? defaultOffsetX : popupInfo.offsetX;
-
-//        getPopupImplView().setTranslationX(popupInfo.offsetX);
-//        getPopupImplView().setTranslationY(popupInfo.offsetY);
 
         // 指定阴影动画的目标View
         if(popupInfo.hasShadowBg){

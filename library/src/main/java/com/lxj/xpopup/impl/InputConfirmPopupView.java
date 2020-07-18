@@ -19,18 +19,13 @@ import com.lxj.xpopup.util.XPopupUtils;
  */
 public class InputConfirmPopupView extends ConfirmPopupView implements View.OnClickListener{
 
-    public InputConfirmPopupView(@NonNull Context context) {
-        super(context);
-    }
-
     /**
-     * 绑定已有布局
-     * @param layoutId 在Confirm弹窗基础上需要增加一个id为et_input的EditText
-     * @return
+     *
+     * @param context
+     * @param bindLayoutId  在Confirm弹窗基础上需要增加一个id为et_input的EditText
      */
-    public InputConfirmPopupView bindLayout(int layoutId){
-        bindLayoutId = layoutId;
-        return this;
+    public InputConfirmPopupView(@NonNull Context context, int bindLayoutId) {
+        super(context, bindLayoutId);
     }
 
     EditText et_input;

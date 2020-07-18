@@ -32,6 +32,11 @@ public abstract class AttachPopupView extends BasePopupView {
         attachPopupContainer = findViewById(R.id.attachPopupContainer);
     }
 
+    protected void addInnerContent(){
+        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), attachPopupContainer, false);
+        attachPopupContainer.addView(contentView);
+    }
+
     @Override
     protected int getPopupLayoutId() {
         return R.layout._xpopup_attach_popup_view;
@@ -43,8 +48,7 @@ public abstract class AttachPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), attachPopupContainer, false);
-        attachPopupContainer.addView(contentView);
+        if(attachPopupContainer.getChildCount()==0) addInnerContent();
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
 
