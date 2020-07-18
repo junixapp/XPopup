@@ -160,6 +160,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         params.leftMargin = 0;
         params.bottomMargin = 0;
         params.rightMargin = 0;
+        if(dialog!=null) params.height = XPopupUtils.getPhoneScreenHeight(dialog.getWindow());
         setLayoutParams(params);
     }
 
@@ -168,7 +169,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     public BasePopupView  show() {
         Activity activity = XPopupUtils.context2Activity(this);
-        Log.e("tag", "activity： " + activity);
         if(activity==null || activity.isFinishing()){
             return this;
         }
