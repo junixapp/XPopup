@@ -122,8 +122,12 @@ public abstract class AttachPopupView extends BasePopupView {
             int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
                                 : (XPopupUtils.getWindowHeight(getContext()) - popupInfo.touchPoint.y - overflow));
             int maxWidth = (int) (isShowLeft ? (XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-overflow) : (popupInfo.touchPoint.x-overflow));
-            params.height = Math.min(getPopupContentView().getMeasuredHeight(), maxHeight);
-            params.width = Math.min(getPopupContentView().getMeasuredWidth(), maxWidth);
+            if(getPopupContentView().getMeasuredHeight() > maxHeight){
+                params.height = maxHeight;
+            }
+            if(getPopupContentView().getMeasuredWidth() > maxWidth){
+                params.width = maxWidth;
+            }
             getPopupContentView().setLayoutParams(params);
 
             getPopupContentView().post(new Runnable() {
@@ -189,8 +193,12 @@ public abstract class AttachPopupView extends BasePopupView {
             int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
                     : (XPopupUtils.getWindowHeight(getContext()) - rect.bottom - overflow);
             int maxWidth = isShowLeft ? (XPopupUtils.getWindowWidth(getContext())-rect.left-overflow) : (rect.right-overflow);
-            params.height = Math.min(getPopupContentView().getMeasuredHeight(), maxHeight);
-            params.width = Math.min(getPopupContentView().getMeasuredWidth(), maxWidth);
+            if(getPopupContentView().getMeasuredHeight() > maxHeight){
+                params.height = maxHeight;
+            }
+            if(getPopupContentView().getMeasuredWidth() > maxWidth){
+                params.width = maxWidth;
+            }
             getPopupContentView().setLayoutParams(params);
 
             getPopupContentView().post(new Runnable() {

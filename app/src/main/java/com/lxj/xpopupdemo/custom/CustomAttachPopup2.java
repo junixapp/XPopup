@@ -2,6 +2,9 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.AttachPopupView;
@@ -24,6 +27,13 @@ public class CustomAttachPopup2 extends AttachPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-
+        final TextView tv = findViewById(R.id.tv);
+        tv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                tv.setText(tv.getText() + "\n 啊哈哈哈啊哈");
+//                tv.setText("\n 啊哈哈哈啊哈");
+            }
+        });
     }
 }

@@ -181,6 +181,7 @@ implementation 'com.android.support:design:28.0.0'
 | ------ | ---------- |
 | Alfred | 无         |
 | LOPER7       |   https://github.com/loperSeven         |
+| microshow(RxFFmpeg作者)       |   https://github.com/microshow         |
 
 
 
