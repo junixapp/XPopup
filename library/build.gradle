@@ -29,12 +29,14 @@ dependencies {
 }
 
 publish {
-    userOrg = 'li-xiaojun'
-    groupId = 'com.lxj'
+    userOrg = 'moster1h'
+    groupId = 'com.lxj.moster1h'
     artifactId = 'xpopup'
     publishVersion = xpopup_version
-    repoName = 'jrepo'
+    repoName = 'maven'
     desc = '功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout等组件，自带十几种效果良好的动画， 支持完全的UI和动画自定义！'
     website = 'https://github.com/li-xiaojun/XPopup'
 }
+
+//gradlew clean build bintrayUpload -PbintrayUser=moster1h -PbintrayKey=d2b54f491e4bc04970a9baef8405dc1f7673d060 -PdryRun=false
 

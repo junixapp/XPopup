@@ -10,11 +10,6 @@
 
 Powerful，material UI，elegant interaction general popup！can absolutely replace Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner. With built-in many beautiful animation，you can custom your UI and logic！
 
-## Feature
-- support Androidx
-- support RTL layout
-- beautiful animation and strong customization
-- you will love it !
 
 ## ScreenShot
 
@@ -22,13 +17,13 @@ Powerful，material UI，elegant interaction general popup！can absolutely repl
 
 ![](screenshot/preview_attach.gif) ![](screenshot/preview_drawer.gif)
 
-![](screenshot/bottom_edit.gif) ![](screenshot/fullscreen.gif) 
+![](screenshot/bottom_edit.gif) ![](screenshot/fullscreen.gif)
 
-![](screenshot/horizontal_attach.gif) ![](screenshot/preview_part.gif) 
+![](screenshot/horizontal_attach.gif) ![](screenshot/preview_part.gif)
 
-![](screenshot/image_viewer1.gif) ![](screenshot/image_viewer2.gif) 
+![](screenshot/image_viewer1.gif) ![](screenshot/image_viewer2.gif)
 
-![](screenshot/image_viewer3.gif) ![](screenshot/preview2.gif) 
+![](screenshot/image_viewer3.gif) ![](screenshot/preview2.gif)
 
 ![](screenshot/preview3.gif) ![](screenshot/preview4.gif)
 
@@ -49,7 +44,7 @@ Scan qrcode to download Demo.apk：
 
 First, you need add gradle dependency：
 ```groovy
-implementation 'com.lxj:xpopup:1.9.0'
+implementation 'com.lxj.moster1h:xpopup:1.9.0'
 ```
 
 Second, you also need these：
@@ -78,8 +73,8 @@ Detailed usage is in wiki，enjoy it:
 ## Proguard
 
 ```
--dontwarn com.lxj.xpopup.widget.**
--keep class com.lxj.xpopup.widget.**{*;}
+-dontwarn com.lxj.moster1h.xpopup.widget.**
+-keep class com.lxj.moster1h.xpopup.widget.**{*;}
 ```
 
 
