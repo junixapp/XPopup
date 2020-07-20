@@ -1,12 +1,11 @@
 package com.lxj.xpopup.animator;
 
 import android.animation.FloatEvaluator;
-import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.util.XPopupUtils;
 

@@ -5,14 +5,12 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
@@ -163,18 +161,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         setLayoutParams(params);
     }
 
-    protected void applySize(boolean isShowNavBar) {
-        FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
-        params.topMargin = 0;
-        params.leftMargin = 0;
-        params.bottomMargin = 0;
-        params.rightMargin = 0;
-        Activity activity = XPopupUtils.context2Activity(this);
-        if(activity!=null){
-            params.height = XPopupUtils.getPhoneScreenHeight(activity.getWindow());
-        }
-        setLayoutParams(params);
-    }
+    protected void applySize(boolean isShowNavBar) { }
 
     public BasePopupView  show() {
         Activity activity = XPopupUtils.context2Activity(this);
