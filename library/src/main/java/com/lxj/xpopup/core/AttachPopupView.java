@@ -73,9 +73,12 @@ public abstract class AttachPopupView extends BasePopupView {
                 //优先使用implView的背景
                 if (getPopupImplView().getBackground() != null) {
                     //复制一份
-                    Drawable newDrawable = getPopupImplView().getBackground().getConstantState().newDrawable();
-                    attachPopupContainer.setBackground(newDrawable);
-                    getPopupImplView().setBackground(null);
+                    Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
+                    if(constantState!=null){
+                        Drawable newDrawable = constantState.newDrawable();
+                        attachPopupContainer.setBackground(newDrawable);
+                        getPopupImplView().setBackground(null);
+                    }
                 } else {
                     attachPopupContainer.setBackgroundColor(Color.WHITE);
                 }
@@ -87,9 +90,12 @@ public abstract class AttachPopupView extends BasePopupView {
                     defaultOffsetY -= bgDrawableMargin;
                     attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
                 } else {
-                    Drawable newDrawable = getPopupImplView().getBackground().getConstantState().newDrawable();
-                    getPopupImplView().setBackground(null);
-                    attachPopupContainer.setBackground(newDrawable);
+                    Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
+                    if(constantState!=null){
+                        Drawable newDrawable = constantState.newDrawable();
+                        attachPopupContainer.setBackground(newDrawable);
+                        getPopupImplView().setBackground(null);
+                    }
                 }
             }
         }
