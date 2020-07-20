@@ -23,6 +23,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 public abstract class PartShadowPopupView extends AttachPopupView {
     public PartShadowPopupView(@NonNull Context context) {
         super(context);
+        addInnerContent();
     }
 
     @Override
