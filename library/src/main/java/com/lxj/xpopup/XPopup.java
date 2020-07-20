@@ -436,7 +436,7 @@ public class XPopup {
          * @param confirmListener 点击确认的监听器
          * @param cancelListener  点击取消的监听器
          * @param isHideCancel    是否隐藏取消按钮
-         * @param bindLayoutId    自定义的布局Id，没有则传0
+         * @param bindLayoutId    自定义的布局Id，没有则传0；要求自定义布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
          * @return
          */
         public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel,
@@ -473,6 +473,7 @@ public class XPopup {
          * @param hint            输入框默认文字
          * @param confirmListener 点击确认的监听器
          * @param cancelListener  点击取消的监听器
+         * @param bindLayoutId   自定义布局的id，没有传0。 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
          * @return
          */
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener, int bindLayoutId) {
@@ -504,8 +505,8 @@ public class XPopup {
          * @param data             显示的文本数据
          * @param iconIds          图标的id数组，可以没有
          * @param selectListener   选中条目的监听器
-         * @param bindLayoutId     自定义布局的id
-         * @param bindItemLayoutId 自定义列表的item布局
+         * @param bindLayoutId     自定义布局的id 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
+         * @param bindItemLayoutId 自定义列表的item布局 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
          * @return
          */
         public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
@@ -535,7 +536,7 @@ public class XPopup {
          * 显示在中间加载的弹窗
          *
          * @param title        加载中的文字
-         * @param bindLayoutId 自定义布局id
+         * @param bindLayoutId 自定义布局id 如果要显示标题，则要求必须有id为tv_title的TextView，否则无任何要求
          * @return
          */
         public LoadingPopupView asLoading(CharSequence title, int bindLayoutId) {
@@ -562,8 +563,8 @@ public class XPopup {
          * @param iconIds          图标的id数组，可以没有
          * @param checkedPosition  选中的位置，传-1为不选中
          * @param selectListener   选中条目的监听器
-         * @param bindLayoutId     自定义布局的id
-         * @param bindItemLayoutId 自定义列表的item布局
+         * @param bindLayoutId     自定义布局的id  要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
+         * @param bindItemLayoutId 自定义列表的item布局  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
          * @return
          */
         public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener, int bindLayoutId,
@@ -604,8 +605,8 @@ public class XPopup {
          * @param data             显示的文本数据
          * @param iconIds          图标的id数组，可以为null
          * @param selectListener   选中条目的监听器
-         * @param bindLayoutId     自定义布局的id
-         * @param bindItemLayoutId 自定义列表的item布局
+         * @param bindLayoutId     自定义布局的id  要求layoutId中必须有一个id为recyclerView的RecyclerView
+         * @param bindItemLayoutId 自定义列表的item布局  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
          * @return
          */
         public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
