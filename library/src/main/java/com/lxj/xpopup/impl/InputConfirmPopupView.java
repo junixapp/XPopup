@@ -51,7 +51,7 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
 
     protected void applyPrimary(){
         super.applyPrimaryColor();
-        if(bindItemLayoutId==0){
+        if(bindLayoutId==0){
             XPopupUtils.setCursorDrawableColor(et_input, XPopup.getPrimaryColor());
             et_input.post(new Runnable() {
                 @Override
