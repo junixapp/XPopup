@@ -166,6 +166,11 @@ implementation 'com.android.support:design:28.0.0'
 - 中航人商城(http://app.mi.com/details?id=com.lx.zhrshop&ref=search)
 - 求职墙(https://www.pgyer.com/zhaopin 密码 000000)
 - 多问律师（广州多问科技公司）
+- 薪公章-公章柜(类似丰巢的一款硬件设备) 博纳德科技
+- 消防云：消防物联网（应用宝搜索就可以下载）- 消防云（上海）科技有限公司
+- 《标学教育》 一款给大学生提供优质教育服务的平台型APP  https://www.tongkao100.com/
+- 慧孕育，啵咿呀
+- 领财猫：一款领取周边红包的APP，https://android.myapp.com/myapp/detail.htm?apkName=com.zwcs.cat
 
 
 ## 打个赏
