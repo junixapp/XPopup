@@ -52,7 +52,13 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_cancel = findViewById(R.id.tv_cancel);
         tv_confirm = findViewById(R.id.tv_confirm);
         tv_content.setMovementMethod(LinkMovementMethod.getInstance());
-        if(bindLayoutId==0) applyPrimaryColor();
+        if(bindLayoutId==0) {
+            if(popupInfo.isDarkTheme){
+                applyDarkTheme();
+            }else {
+                applyPrimaryColor();
+            }
+        }
 
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
@@ -79,16 +85,12 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
             View divider = findViewById(R.id.xpopup_divider_h);
             if(divider!=null) divider.setVisibility(GONE);
         }
-        if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
-            applyDarkTheme();
-        }
     }
 
     protected void applyPrimaryColor() {
 //        tv_cancel.setTextColor(XPopup.getPrimaryColor());
-        if(bindItemLayoutId==0){
-            tv_confirm.setTextColor(XPopup.getPrimaryColor());
-        }
+        tv_confirm.setTextColor(XPopup.getPrimaryColor());
+
     }
 
     public TextView getTitleTextView(){

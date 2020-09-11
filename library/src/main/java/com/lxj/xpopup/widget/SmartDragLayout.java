@@ -85,26 +85,33 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         isUserClose = true;
+        if (enableDrag && !scroller.isFinished()) {
+            touchX = 0;
+            touchY = 0;
+            return true;
+        }
         return super.dispatchTouchEvent(ev);
     }
 
     float touchX, touchY;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (scroller.computeScrollOffset()) {
+        if (enableDrag && !scroller.isFinished()) {
             touchX = 0;
             touchY = 0;
-            return false;
+            return true;
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (enableDrag)
+                if (enableDrag){
+                    if(tracker!=null)tracker.clear();
                     tracker = VelocityTracker.obtain();
+                }
                 touchX = event.getX();
                 touchY = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (enableDrag) {
+                if (enableDrag && tracker!=null) {
                     tracker.addMovement(event);
                     tracker.computeCurrentVelocity(1000);
                     int dy = (int) (event.getY() - touchY);
@@ -125,7 +132,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                 }else {
 
                 }
-                if (enableDrag) {
+                if (enableDrag && tracker!=null) {
                     float yVelocity = tracker.getYVelocity();
                     if (yVelocity > 1500 && !isThreeDrag) {
                         close();

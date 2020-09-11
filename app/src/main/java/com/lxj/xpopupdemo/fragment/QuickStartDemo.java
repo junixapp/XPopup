@@ -82,7 +82,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             @Override
             public boolean onLongClick(View v) {
                 builder.asAttachList(new String[]{"置顶", "复制", "删除", "编辑编辑编辑编辑编辑编辑编"
-                                }, null,
+                        }, null,
                         new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
@@ -99,12 +99,15 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
     CustomDrawerPopupView drawerPopupView;
     AttachPopupView attachPopupView;
+    BasePopupView popup;
+    ConfirmPopupView popupView;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
-                ConfirmPopupView popupView = new XPopup.Builder(getContext())
+                popupView = new XPopup.Builder(getContext())
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
@@ -113,9 +116,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasNavigationBar(false)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
-                            public void onCreated(BasePopupView popupView) {
+                            public void onCreated(BasePopupView pv) {
                                 Log.e("tag", "弹窗创建了");
+
+                                popupView.getContentTextView().setTextColor(Color.RED);
+                                popupView.getConfirmTextView().setTextColor(Color.RED);
                             }
+
                             @Override
                             public void onShow(BasePopupView popupView) {
                                 Log.e("tag", "onShow");
@@ -138,28 +145,27 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 return true;
                             }
                         }).asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
-                        "取消", "确定",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                toast("click confirm");
-                            }
-                        }, null, false);
-                popupView.getContentTextView().setTextColor(Color.RED);
+                                "取消", "确定",
+                                new OnConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        toast("click confirm");
+                                    }
+                                }, null, false);
                 popupView.show();
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .asConfirm("复用项目已有布局", "您可以复用项目已有布局，来使用XPopup强大的交互能力和逻辑封装，弹窗的布局完全由你自己控制。\n" +
-                                "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。",
-                        "关闭", "XPopup牛逼",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                toast("click confirm");
-                            }
-                        }, null, false, R.layout.my_confim_popup) //最后一个参数绑定已有布局
+                                        "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。",
+                                "关闭", "XPopup牛逼",
+                                new OnConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        toast("click confirm");
+                                    }
+                                }, null, false, R.layout.my_confim_popup) //最后一个参数绑定已有布局
 //                        .bindItemLayout() //带列表的弹窗还会有这样一个方法
                         .show();
                 break;
@@ -216,11 +222,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
-                    public void run() { loadingPopup.setTitle("正在加载长度变化了"); }
-                },1000);
+                    public void run() {
+                        loadingPopup.setTitle("正在加载长度变化了");
+                    }
+                }, 1000);
 //                loadingPopup.smartDismiss();
 //                loadingPopup.dismiss();
-                loadingPopup.delayDismissWith(3000,new Runnable() {
+                loadingPopup.delayDismissWith(3000, new Runnable() {
                     @Override
                     public void run() {
                         toast("我消失了！！！");
@@ -274,7 +282,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-                if(attachPopupView==null){
+                if (attachPopupView == null) {
                     attachPopupView = new XPopup.Builder(getContext())
                             .hasShadowBg(false)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
@@ -285,7 +293,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
                             .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                            .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编", "不带icon","分享"},
+                            .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编", "不带icon", "分享"},
                                     new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                     new OnSelectListener() {
                                         @Override
@@ -295,8 +303,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                     });
 //                        .bindLayout(R.layout.my_custom_attach_popup)
 //                        .bindItemLayout(R.layout.my_custom_attach_popup)
+                    ;
                 }
                 attachPopupView.show();
+
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
                 new XPopup.Builder(getContext())
@@ -335,12 +345,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnAttachPopup2:
-                new XPopup.Builder(getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .atView(v)
-                        .hasShadowBg(false) // 去掉半透明背景
-                        .asCustom(new CustomAttachPopup2(getContext()))
-                        .show();
+                if (popup == null) {
+                    popup = new XPopup.Builder(getContext())
+//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                            .atView(v)
+                            .hasShadowBg(false) // 去掉半透明背景
+                            .asCustom(new CustomAttachPopup2(getContext()));
+                }
+                popup.show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
                 new XPopup.Builder(getContext())
@@ -376,7 +388,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
                             }
                         }).show();
-               delayShow();
+                delayShow();
                 break;
             case R.id.btnShowInBackground:
                 //申请悬浮窗权限
@@ -392,14 +404,15 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                                         .enableShowWhenAppBackground(true)  //运行在应用后台弹出
                                         .asConfirm("XPopup牛逼", "XPopup支持直接在后台弹出！", new OnConfirmListener() {
-                                    @Override
-                                    public void onConfirm() {
-                                        startActivity(new Intent(getContext(), MainActivity.class));
-                                    }
-                                }).show();
+                                            @Override
+                                            public void onConfirm() {
+                                                startActivity(new Intent(getContext(), MainActivity.class));
+                                            }
+                                        }).show();
                             }
                         }, 2000);
                     }
+
                     @Override
                     public void onDenied() {
                         ToastUtils.showShort("权限拒绝需要申请悬浮窗权限！");
@@ -409,7 +422,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         }
     }
 
-    public void delayShow(){
+    public void delayShow() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
