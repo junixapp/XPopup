@@ -53,7 +53,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     protected BlurAnimator blurAnimator;
     private int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
-    private boolean isCreated = false;
+    protected boolean isCreated = false;
     private Handler handler = new Handler(Looper.getMainLooper());
     public BasePopupView(@NonNull Context context) {
         super(context);
@@ -74,7 +74,9 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         NavigationBarObserver.getInstance().addOnNavigationBarListener(this);
 
         //1. 初始化Popup
-        if (!isCreated) {
+        if(this instanceof AttachPopupView){
+            initPopupContent();
+        } else if (!isCreated) {
             initPopupContent();
         }
         //apply size dynamic
@@ -126,20 +128,24 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                     popupContentAnimator = getPopupAnimator();
                 }
             }
+        }else {
+            if(this instanceof AttachPopupView && !(this instanceof PartShadowPopupView)){
+                popupContentAnimator = getPopupAnimator();
+            }
+        }
 
-            //3. 初始化动画执行器
-            if(popupInfo.hasShadowBg){
-                shadowBgAnimator.initAnimator();
-            }
-            if(popupInfo.hasBlurBg) {
-                blurAnimator = new BlurAnimator(this);
-                blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
-                blurAnimator.initAnimator();
-            }
-            if (popupContentAnimator != null) {
-                popupContentAnimator.initAnimator();
-            }
+        //3. 初始化动画执行器
+        if(popupInfo.hasShadowBg){
+            shadowBgAnimator.initAnimator();
+        }
+        if(popupInfo.hasBlurBg) {
+            blurAnimator = new BlurAnimator(this);
+            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
+            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
+            blurAnimator.initAnimator();
+        }
+        if (popupContentAnimator != null) {
+            popupContentAnimator.initAnimator();
         }
     }
 

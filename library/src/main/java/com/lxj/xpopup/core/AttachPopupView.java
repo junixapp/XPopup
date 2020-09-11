@@ -6,6 +6,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import androidx.annotation.NonNull;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +110,7 @@ public abstract class AttachPopupView extends BasePopupView {
     // 弹窗显示的位置不能超越Window高度
     float maxY = XPopupUtils.getWindowHeight(getContext());
     int overflow = 10;
-    protected void doAttach() {
+    public void doAttach() {
         overflow = XPopupUtils.dp2px(getContext(), overflow);
         final boolean isRTL = XPopupUtils.isLayoutRtl(this);
         //0. 判断是依附于某个点还是某个View
@@ -124,17 +126,19 @@ public abstract class AttachPopupView extends BasePopupView {
             isShowLeft = popupInfo.touchPoint.x < XPopupUtils.getWindowWidth(getContext()) / 2;
 
             //限制最大宽高
-            ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
-                                : (XPopupUtils.getWindowHeight(getContext()) - popupInfo.touchPoint.y - overflow));
-            int maxWidth = (int) (isShowLeft ? (XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-overflow) : (popupInfo.touchPoint.x-overflow));
-            if(getPopupContentView().getMeasuredHeight() > maxHeight){
-                params.height = maxHeight;
+            if(!isCreated){
+                ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
+                int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
+                        : (XPopupUtils.getWindowHeight(getContext()) - popupInfo.touchPoint.y - overflow));
+                int maxWidth = (int) (isShowLeft ? (XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-overflow) : (popupInfo.touchPoint.x-overflow));
+                if(getPopupContentView().getMeasuredHeight() > maxHeight){
+                    params.height = maxHeight;
+                }
+                if(getPopupContentView().getMeasuredWidth() > maxWidth){
+                    params.width = maxWidth;
+                }
+                getPopupContentView().setLayoutParams(params);
             }
-            if(getPopupContentView().getMeasuredWidth() > maxWidth){
-                params.width = maxWidth;
-            }
-            getPopupContentView().setLayoutParams(params);
 
             getPopupContentView().post(new Runnable() {
                 @Override
@@ -195,17 +199,19 @@ public abstract class AttachPopupView extends BasePopupView {
             isShowLeft = centerX < XPopupUtils.getWindowWidth(getContext()) / 2 ;
 
             //修正高度，弹窗的高有可能超出window区域
-            ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
-                    : (XPopupUtils.getWindowHeight(getContext()) - rect.bottom - overflow);
-            int maxWidth = isShowLeft ? (XPopupUtils.getWindowWidth(getContext())-rect.left-overflow) : (rect.right-overflow);
-            if(getPopupContentView().getMeasuredHeight() > maxHeight){
-                params.height = maxHeight;
+            if(!isCreated){
+                ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
+                int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
+                        : (XPopupUtils.getWindowHeight(getContext()) - rect.bottom - overflow);
+                int maxWidth = isShowLeft ? (XPopupUtils.getWindowWidth(getContext())-rect.left-overflow) : (rect.right-overflow);
+                if(getPopupContentView().getMeasuredHeight() > maxHeight){
+                    params.height = maxHeight;
+                }
+                if(getPopupContentView().getMeasuredWidth() > maxWidth){
+                    params.width = maxWidth;
+                }
+                getPopupContentView().setLayoutParams(params);
             }
-            if(getPopupContentView().getMeasuredWidth() > maxWidth){
-                params.width = maxWidth;
-            }
-            getPopupContentView().setLayoutParams(params);
 
             getPopupContentView().post(new Runnable() {
                 @Override
@@ -254,6 +260,7 @@ public abstract class AttachPopupView extends BasePopupView {
 
     @Override
     protected PopupAnimator getPopupAnimator() {
+        Log.e("tag", "xxxxxxxxxxx");
         PopupAnimator animator;
         if (isShowUpToTarget()) {
             // 在上方展示

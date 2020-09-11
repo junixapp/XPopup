@@ -29,7 +29,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
     /**
      * 执行附着逻辑
      */
-    protected void doAttach() {
+    public void doAttach() {
         final boolean isRTL = XPopupUtils.isLayoutRtl(this);
         float translationX = 0, translationY = 0;
         int w = getPopupContentView().getMeasuredWidth();

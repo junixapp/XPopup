@@ -53,7 +53,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     }
 
     @Override
-    protected void doAttach() {
+    public void doAttach() {
         if (popupInfo.getAtView() == null)
             throw new IllegalArgumentException("atView must not be null for PartShadowPopupView！");
 

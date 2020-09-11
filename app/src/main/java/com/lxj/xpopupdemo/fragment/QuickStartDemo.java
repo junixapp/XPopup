@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
@@ -97,7 +98,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     }
 
     CustomDrawerPopupView drawerPopupView;
-
+    AttachPopupView attachPopupView;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
@@ -273,27 +274,29 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-                new XPopup.Builder(getContext())
-                        .hasShadowBg(false)
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                if(attachPopupView==null){
+                    attachPopupView = new XPopup.Builder(getContext())
+                            .hasShadowBg(false)
+//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
 //                        .popupAnimation(PopupAnimation.NoAnimation) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-60)
 //                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
-                        .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编", "不带icon","分享"},
-                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
-                                new OnSelectListener() {
-                                    @Override
-                                    public void onSelect(int position, String text) {
-                                        toast("click " + text);
-                                    }
-                                })
+                            .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
+                            .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编", "不带icon","分享"},
+                                    new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
+                                    new OnSelectListener() {
+                                        @Override
+                                        public void onSelect(int position, String text) {
+                                            toast("click " + text);
+                                        }
+                                    });
 //                        .bindLayout(R.layout.my_custom_attach_popup)
 //                        .bindItemLayout(R.layout.my_custom_attach_popup)
-                        .show();
+                }
+                attachPopupView.show();
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
                 new XPopup.Builder(getContext())
