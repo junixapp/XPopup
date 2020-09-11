@@ -2,6 +2,7 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -113,11 +114,13 @@ public class ZhihuCommentPopup extends BottomPopupView {
     @Override
     protected void onShow() {
         super.onShow();
+        Log.e("tag", "知乎评论 onShow");
     }
 
     //完全消失执行
     @Override
     protected void onDismiss() {
+        Log.e("tag", "知乎评论 onDismiss");
 
     }
 

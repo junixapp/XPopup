@@ -210,23 +210,23 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     }
 
     public void open() {
-        status = LayoutStatus.Opening;
         post(new Runnable() {
             @Override
             public void run() {
                 int dy = maxY - getScrollY();
                 smoothScroll( enableDrag && isThreeDrag ? dy/3 : dy, true);
+                status = LayoutStatus.Opening;
             }
         });
     }
 
     public void close() {
         isUserClose = true;
-        status = LayoutStatus.Closing;
         post(new Runnable() {
             @Override
             public void run() {
                 smoothScroll(minY - getScrollY(), false);
+                status = LayoutStatus.Closing;
             }
         });
     }

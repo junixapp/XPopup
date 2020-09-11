@@ -2,6 +2,8 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +60,7 @@ public class BottomPopupView extends BasePopupView {
             }
             @Override
             public void onOpen() {
+                Log.e("tag", "onOpen");
                 BottomPopupView.super.doAfterShow();
             }
         });
