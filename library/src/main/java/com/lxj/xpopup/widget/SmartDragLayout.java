@@ -85,18 +85,18 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         isUserClose = true;
-        if (enableDrag && !scroller.isFinished()) {
-            touchX = 0;
-            touchY = 0;
-            return true;
-        }
+//        if (enableDrag && scroller.computeScrollOffset()) {
+//            touchX = 0;
+//            touchY = 0;
+//            return true;
+//        }
         return super.dispatchTouchEvent(ev);
     }
 
     float touchX, touchY;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (enableDrag && !scroller.isFinished()) {
+        if (enableDrag && scroller.computeScrollOffset()) {
             touchX = 0;
             touchY = 0;
             return true;
@@ -221,6 +221,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     }
 
     public void close() {
+        if(!scroller.isFinished())return;
         isUserClose = true;
         post(new Runnable() {
             @Override
