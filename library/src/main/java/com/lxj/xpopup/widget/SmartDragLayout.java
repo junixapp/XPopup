@@ -85,11 +85,6 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         isUserClose = true;
-//        if (enableDrag && scroller.computeScrollOffset()) {
-//            touchX = 0;
-//            touchY = 0;
-//            return true;
-//        }
         return super.dispatchTouchEvent(ev);
     }
 
