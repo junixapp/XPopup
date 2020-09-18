@@ -134,9 +134,8 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                     } else {
                         finishScroll();
                     }
-
-                    tracker.clear();
                     tracker.recycle();
+                    tracker = null;
                 }
 
                 break;
@@ -216,11 +215,11 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
     }
 
     public void close() {
-        if(!scroller.isFinished())return;
         isUserClose = true;
         post(new Runnable() {
             @Override
             public void run() {
+                scroller.abortAnimation();
                 smoothScroll(minY - getScrollY(), false);
                 status = LayoutStatus.Closing;
             }
