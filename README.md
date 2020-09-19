@@ -86,11 +86,11 @@ Gif录制的有些卡顿，真机预览效果更佳。扫描二维码下载Demo�
 implementation 'com.lxj:xpopup:最新版本'
 ```
 
-必须添加的依赖库，版本号在26以及以上即可，版本不用和我一致：
+必须添加的依赖库，版本不用和我一致：
 ```groovy
-implementation 'com.android.support:appcompat-v7:28.0.0'
-implementation 'com.android.support:recyclerview-v7:28.0.0'
-implementation 'com.android.support:design:28.0.0'
+implementation 'androidx.appcompat:appcompat:1.1.0'
+implementation 'com.google.android.material:material:1.3.0-alpha01'
+implementation 'androidx.recyclerview:recyclerview:1.1.0'
 ```
 
 ## 使用文档
