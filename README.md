@@ -169,8 +169,9 @@ implementation 'com.android.support:design:28.0.0'
 - 薪公章-公章柜(类似丰巢的一款硬件设备) 博纳德科技
 - 消防云：消防物联网（应用宝搜索就可以下载）- 消防云（上海）科技有限公司
 - 《标学教育》 一款给大学生提供优质教育服务的平台型APP  https://www.tongkao100.com/
-- 慧孕育，啵咿呀
-- 领财猫：一款领取周边红包的APP，https://android.myapp.com/myapp/detail.htm?apkName=com.zwcs.cat
+- 慧孕育，啵咿呀(中联信息产业公司)
+- 领财猫(湖南中纵联联信息科技有限公司)一款领取周边红包的APP，https://android.myapp.com/myapp/detail.htm?apkName=com.zwcs.cat
+- NewsClapper（下载地址：https://play.google.com/store/apps/details?id=com.newsclapper.video）
 
 
 ## 打个赏
