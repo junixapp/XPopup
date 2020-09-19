@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.util.FuckRomUtils;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * 所有弹窗的宿主
@@ -34,13 +36,20 @@ public class FullScreenDialog extends Dialog {
             }
         }
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        getWindow().getDecorView().setPadding(0, 0, 0, 0);
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        //尝试兼容部分手机上的状态栏空白问题
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        //处理VIVO手机8.0以上系统的状态栏问题和弹窗下移问题
+        if(FuckRomUtils.isVivo() && Build.VERSION.SDK_INT >= 26 ){
+            getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
+            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, XPopupUtils.getPhoneScreenHeight(getWindow()));
+        }else {
+            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        }
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         getWindow().getDecorView().setSystemUiVisibility(option);
 
@@ -68,6 +77,12 @@ public class FullScreenDialog extends Dialog {
         //自动设置状态色调，亮色还是暗色
         autoSetStatusBarMode();
         setContentView(contentView);
+
+//        ViewGroup.LayoutParams params = contentView.getLayoutParams();
+//        params.height = XPopupUtils.getPhoneScreenHeight(getWindow());
+//        contentView.setLayoutParams(params);
+//
+
     }
 
     public boolean isActivityStatusBarLightMode() {
@@ -153,6 +168,7 @@ public class FullScreenDialog extends Dialog {
         this.contentView = view;
         return this;
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
