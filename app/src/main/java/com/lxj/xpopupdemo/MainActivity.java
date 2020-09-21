@@ -10,9 +10,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
+import com.lxj.xpopup.util.FuckRomUtils;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        BarUtils.setStatusBarVisibility(this, false);
 //        BarUtils.setNavBarVisibility(this, false);
+
+//        ToastUtils.showLong(FuckRomUtils.getRomInfo().getName() + FuckRomUtils.getRomInfo().getVersion());
+//        ToastUtils.showLong(android.os.Build.MODEL);
     }
 
     class MainAdapter extends FragmentPagerAdapter {

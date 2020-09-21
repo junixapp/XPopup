@@ -43,10 +43,11 @@ public class FullScreenDialog extends Dialog {
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        //处理VIVO手机8.0以上系统的状态栏问题和弹窗下移问题
-        if(FuckRomUtils.isVivo() && Build.VERSION.SDK_INT >= 26 ){
+        //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
+        if(isFuckVIVORoom()){
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
-            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, XPopupUtils.getPhoneScreenHeight(getWindow()));
+            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getPhoneScreenHeight(getWindow()),
+                    XPopupUtils.getWindowHeight(getContext())));
         }else {
             getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         }
@@ -78,11 +79,12 @@ public class FullScreenDialog extends Dialog {
         autoSetStatusBarMode();
         setContentView(contentView);
 
-//        ViewGroup.LayoutParams params = contentView.getLayoutParams();
-//        params.height = XPopupUtils.getPhoneScreenHeight(getWindow());
-//        contentView.setLayoutParams(params);
-//
+    }
 
+    public boolean isFuckVIVORoom(){
+        //vivo的X开头的8.0和8.1系统特殊，不需要处理
+        boolean isXModel = android.os.Build.MODEL.contains("X") || android.os.Build.MODEL.contains("x") ;
+        return FuckRomUtils.isVivo() && (Build.VERSION.SDK_INT == 26 || Build.VERSION.SDK_INT == 27) && !isXModel;
     }
 
     public boolean isActivityStatusBarLightMode() {
@@ -175,6 +177,9 @@ public class FullScreenDialog extends Dialog {
 //        if (contentView!=null && contentView.getContext() instanceof Activity){
 //            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
 //        }
+        if(isFuckVIVORoom()){
+            event.setLocation(event.getX(), event.getY()+XPopupUtils.getStatusBarHeight());
+        }
         return super.dispatchTouchEvent(event);
     }
 
