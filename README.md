@@ -8,11 +8,9 @@
 本人提供全行业（即时通讯，直播，商城等）的软件外包服务，网站和系统定制，APP开发，微信小程序和公众号开发等。公司官网：https://lixiaojun.xin/
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
-
-功能强大，UI简洁，交互优雅的通用弹窗，可能是Android平台最好的弹窗库！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner等组件！它有这样几个特点：
-- 功能强大，内部封装了常用的弹窗，内置十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果。
+- 内置几种了常用的弹窗，十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果。
   内置弹窗允许你使用项目已有的布局，同时还能用上XPopup提供的动画，交互和逻辑封装。
-- UI和动画简洁，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化；或者说是模拟系统组件的动画，具体可以从Demo中感受
+- UI动画简洁，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化
 - 交互优雅，实现了优雅的手势交互，智能的嵌套滚动，智能的输入法交互，具体看Demo
 - 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
 - 自动监听Activity生命周期，自动释放资源。在Activity直接finish的场景也避免了内存泄漏
