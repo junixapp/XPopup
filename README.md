@@ -4,6 +4,9 @@
 
 ### 2.0版本重磅来袭，底层改为Dialog实现，并带来可观的动画性能优化和交互细节的提升，数十个Bug修复！！！
 
+### 软件外包服务
+本人提供全行业（即时通讯，直播，商城等）的软件外包服务，网站和系统定制，APP开发，微信小程序和公众号开发等。公司官网：https://lixiaojun.xin/
+
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
 
 功能强大，UI简洁，交互优雅的通用弹窗，可能是Android平台最好的弹窗库！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner等组件！它有这样几个特点：
