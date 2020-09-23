@@ -293,6 +293,17 @@ public class XPopup {
         }
 
         /**
+         * 设置导航栏的颜色，如果你想自定义弹窗的导航栏颜色就设置这个
+         *
+         * @param navigationBarColor
+         * @return
+         */
+        public Builder navigationBarColor(int navigationBarColor) {
+            this.popupInfo.navigationBarColor = navigationBarColor;
+            return this;
+        }
+
+        /**
          * 弹窗在x方向的偏移量，对所有弹窗生效，单位是px
          *
          * @param offsetX
