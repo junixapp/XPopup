@@ -24,6 +24,7 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
+import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.MainActivity;
@@ -177,6 +178,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
                         .isRequestFocus(false)
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
+                        .setPopupCallback(new SimpleCallback(){
+                            @Override
+                            public boolean onBackPressed(BasePopupView popupView) {
+                                ToastUtils.showLong("试试");
+                                popupView.dismiss();
+                                return true;
+                            }
+                        })
                         .asInputConfirm("我是标题", null, null, "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override
@@ -238,7 +247,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
                         .isDarkTheme(true)
-                        .hasShadowBg(false)
+//                        .hasShadowBg(true)
+//                        .hasBlurBg(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .enableDrag(false)
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
@@ -282,7 +292,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-                if (attachPopupView == null) {
+//                if (attachPopupView == null) {
                     attachPopupView = new XPopup.Builder(getContext())
                             .hasShadowBg(false)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
@@ -304,7 +314,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .bindLayout(R.layout.my_custom_attach_popup)
 //                        .bindItemLayout(R.layout.my_custom_attach_popup)
                     ;
-                }
+//                }
                 attachPopupView.show();
 
                 break;

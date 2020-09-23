@@ -1,5 +1,6 @@
 package com.lxj.xpopup.core;
 
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class PopupInfo {
     public Boolean hasStatusBarShadow = false; //是否显示状态栏阴影
     public Boolean hasStatusBar = true; //是否显示状态栏
     public Boolean hasNavigationBar = true; //是否显示导航栏
+    public int navigationBarColor = Color.TRANSPARENT; //是否显示导航栏
     public int offsetX, offsetY;//x，y方向的偏移量
     public Boolean enableDrag = true;//是否启用拖拽
     public boolean isCenterHorizontal = false;//是否水平居中
