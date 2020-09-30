@@ -25,10 +25,7 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
-
 import java.io.File;
-import java.util.ArrayList;
-
 import static com.lxj.xpopupdemo.Constants.list;
 
 /**

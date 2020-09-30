@@ -61,7 +61,8 @@ public class AttachListPopupView extends AttachPopupView {
                 } else {
                     holder.getView(R.id.iv_image).setVisibility(GONE);
                 }
-                View check = holder.getView(R.id.check_view);
+
+                View check = holder.getView2(R.id.check_view);
                 if (check!=null) check.setVisibility(GONE);
 
                 if(bindItemLayoutId==0 && popupInfo.isDarkTheme){

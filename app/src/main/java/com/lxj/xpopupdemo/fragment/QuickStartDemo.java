@@ -311,9 +311,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         public void onSelect(int position, String text) {
                                             toast("click " + text);
                                         }
-                                    });
-//                        .bindLayout(R.layout.my_custom_attach_popup)
-//                        .bindItemLayout(R.layout.my_custom_attach_popup)
+                                    },0, 0);
                     ;
 //                }
                 attachPopupView.show();
