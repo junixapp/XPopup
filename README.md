@@ -2,7 +2,7 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-28-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-19-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
-### 2.0版本重磅来袭，底层改为Dialog实现，并带来可观的动画性能优化和交互细节的提升，数十个Bug修复！！！
+国内Gitee镜像地址：https://gitee.com/lxj_gitee/XPopup
 
 ### 承接软件外包服务
 本公司提供全行业（即时通讯，直播，商城等）的软件外包服务，网站和系统定制，APP开发，微信小程序和公众号开发等，价格美丽。公司官网：https://lixiaojun.xin/
