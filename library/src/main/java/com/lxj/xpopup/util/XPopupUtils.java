@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -50,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -65,13 +68,6 @@ public class XPopupUtils {
 
     public static int getWindowHeight(Context context) {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
-    }
-    public static int getAppScreenWidth(Context context) {
-        WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-        if (wm == null) return -1;
-        Rect point = new Rect();
-        wm.getDefaultDisplay().getRectSize(point);
-        return point.right;
     }
     public static int dp2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -534,8 +530,17 @@ public class XPopupUtils {
         return bitmap;
     }
 
-    public static boolean isLayoutRtl(View view) {
-        return View.LAYOUT_DIRECTION_RTL == view.getLayoutDirection();
+    public static boolean isLayoutRtl(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Locale primaryLocale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                primaryLocale = context.getResources().getConfiguration().getLocales().get(0);
+            } else {
+                primaryLocale = context.getResources().getConfiguration().locale;
+            }
+            return TextUtils.getLayoutDirectionFromLocale(primaryLocale) == View.LAYOUT_DIRECTION_RTL;
+        }
+        return false;
     }
 
     public static Activity context2Activity(View view){

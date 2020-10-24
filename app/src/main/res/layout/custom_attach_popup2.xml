@@ -6,13 +6,13 @@
     android:paddingBottom="15dp"
     android:paddingLeft="18dp"
     android:paddingRight="12dp"
-    android:background="#222"
+    android:background="@drawable/shadow_bg"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv"
-        android:textColor="#fff"
+        android:textColor="#333"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="床前明月光，\n疑是地上霜，\n举头望明月，\n低头思故乡。" />

@@ -116,7 +116,7 @@ public abstract class AttachPopupView extends BasePopupView {
 
     public void doAttach() {
         overflow = XPopupUtils.dp2px(getContext(), overflow);
-        final boolean isRTL = XPopupUtils.isLayoutRtl(this);
+        final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
             // 依附于指定点,尽量优先放在下方，当不够的时候在显示在上方
