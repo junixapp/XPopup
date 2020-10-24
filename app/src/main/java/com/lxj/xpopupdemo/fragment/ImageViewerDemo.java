@@ -70,7 +70,6 @@ public class ImageViewerDemo extends BaseFragment {
         btn_custom = view.findViewById(R.id.btn_custom);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-
         recyclerView.setAdapter(new ImageAdapter());
 
 
@@ -80,6 +79,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true)
                         .asImageViewer(image1, url1, true, -1, -1, 50, false,new ImageLoader())
                         .show();
             }
@@ -110,6 +110,7 @@ public class ImageViewerDemo extends BaseFragment {
 //                viewerPopup.isShowPlaceholder(false);//是否显示白色占位块
 //                viewerPopup.isShowSaveButton(false);//是否显示保存按钮
                 new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true)
                         .asCustom(viewerPopup)
                         .show();
             }

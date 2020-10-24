@@ -107,17 +107,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         pager.setVisibility(INVISIBLE);
         addOrUpdateSnapshot();
         if (isInfinite) pager.setOffscreenPageLimit(urls.size() / 2);
-        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int i) {
-                position = i;
-                showPagerIndicator();
-                //更新srcView
-                if (srcViewUpdateListener != null) {
-                    srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, i);
-                }
-            }
-        });
+        pager.addOnPageChangeListener(onPageChangeListener);
         if (!isShowIndicator) tv_pager_indicator.setVisibility(GONE);
         if (!isShowSaveBtn) {
             tv_save.setVisibility(GONE);
@@ -125,6 +115,18 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             tv_save.setOnClickListener(this);
         }
     }
+
+    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int i) {
+            position = i;
+            showPagerIndicator();
+            //更新srcView
+            if (srcViewUpdateListener != null) {
+                srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, i);
+            }
+        }
+    };
 
     private void setupPlaceholder() {
         placeholderView.setVisibility(isShowPlaceholder ? VISIBLE : INVISIBLE);
@@ -438,6 +440,14 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     @Override
     public void onClick(View v) {
         if (v == tv_save) save();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        pager.removeOnPageChangeListener(onPageChangeListener);
+        imageLoader = null;
+        urls.clear();
     }
 
     /**
