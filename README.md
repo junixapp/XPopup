@@ -209,8 +209,6 @@ ECS-4核8G40G硬盘5M带宽 ： 1046元/年
 
 Android开发交流群：**783659607**
 
-Gmail: lxj16167479@gmail.com
-
 QQ Email: 16167479@qq.com
 
 QQ: 16167479
