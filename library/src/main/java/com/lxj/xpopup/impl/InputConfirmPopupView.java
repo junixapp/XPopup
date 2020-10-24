@@ -42,7 +42,6 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
             et_input.setText(inputContent);
             et_input.setSelection(inputContent.length());
         }
-        applyPrimary();
     }
 
     public EditText getEditText() {
