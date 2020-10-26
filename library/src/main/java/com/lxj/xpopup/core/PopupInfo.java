@@ -29,6 +29,7 @@ public class PopupInfo {
     public PointF touchPoint = null; // 触摸的点
     public int maxWidth; // 最大宽度
     public int maxHeight; // 最大高度
+    public int borderRadius; // 圆角
     public Boolean autoOpenSoftInput = false;//是否自动打开输入法
     public XPopupCallback xPopupCallback;
 

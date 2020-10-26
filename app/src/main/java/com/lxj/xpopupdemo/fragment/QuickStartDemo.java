@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
@@ -248,6 +249,19 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
                         .isDarkTheme(true)
+                        .setPopupCallback(new SimpleCallback(){
+                            @Override
+                            public void beforeShow(BasePopupView popupView) {
+                                super.beforeShow(popupView);
+                                LogUtils.e("beforeShow");
+                            }
+
+                            @Override
+                            public void beforeDismiss(BasePopupView popupView) {
+                                super.beforeDismiss(popupView);
+                                LogUtils.e("beforeDismiss");
+                            }
+                        })
 //                        .hasShadowBg(true)
 //                        .hasBlurBg(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
