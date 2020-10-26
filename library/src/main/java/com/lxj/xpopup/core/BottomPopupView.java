@@ -35,6 +35,7 @@ public class BottomPopupView extends BasePopupView {
         return R.layout._xpopup_bottom_popup_view;
     }
 
+
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
@@ -54,6 +55,8 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override
             public void onClose() {
+                beforeDismiss();
+                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(BottomPopupView.this);
                 doAfterDismiss();
             }
             @Override
@@ -65,8 +68,6 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                beforeDismiss();
-                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(BottomPopupView.this);
                 dismiss();
             }
         });

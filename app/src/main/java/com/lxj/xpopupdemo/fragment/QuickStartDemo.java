@@ -261,6 +261,18 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 super.beforeDismiss(popupView);
                                 LogUtils.e("beforeDismiss");
                             }
+
+                            @Override
+                            public void onDismiss(BasePopupView popupView) {
+                                super.onDismiss(popupView);
+                                LogUtils.e("onDismiss");
+                            }
+
+                            @Override
+                            public void onShow(BasePopupView popupView) {
+                                super.onShow(popupView);
+                                LogUtils.e("onShow");
+                            }
                         })
 //                        .hasShadowBg(true)
 //                        .hasBlurBg(true)

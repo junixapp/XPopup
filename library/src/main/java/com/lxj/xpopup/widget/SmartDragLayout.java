@@ -134,7 +134,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                     } else {
                         finishScroll();
                     }
-                    tracker.recycle();
+//                    tracker.recycle();
                     tracker = null;
                 }
 
