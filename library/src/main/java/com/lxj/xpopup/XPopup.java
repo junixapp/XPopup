@@ -37,8 +37,7 @@ import java.util.List;
 
 
 public class XPopup {
-    private XPopup() {
-    }
+    private XPopup() { }
 
     /**
      * 全局弹窗的设置
@@ -46,7 +45,7 @@ public class XPopup {
     private static int primaryColor = Color.parseColor("#121212");
     private static int animationDuration = 350;
     public static int statusBarShadowColor = Color.parseColor("#55000000");
-    private static int shadowBgColor = Color.parseColor("#9F000000");
+    private static int shadowBgColor = Color.parseColor("#6F000000");
 
     public static void setShadowBgColor(int color) {
         shadowBgColor = color;

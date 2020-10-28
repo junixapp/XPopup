@@ -1,6 +1,7 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -41,6 +42,8 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerLayout.setOnCloseListener(new PopupDrawerLayout.OnCloseListener() {
             @Override
             public void onClose() {
+                beforeDismiss();
+                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(DrawerPopupView.this);
                 doAfterDismiss();
             }
             @Override
@@ -89,7 +92,7 @@ public abstract class DrawerPopupView extends BasePopupView {
         clearFocus();
         // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
         drawerLayout.close();
-        super.dismiss();
+//        super.dismiss();
     }
     @Override
     protected PopupAnimator getPopupAnimator() {

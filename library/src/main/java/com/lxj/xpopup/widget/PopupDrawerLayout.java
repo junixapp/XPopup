@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +98,7 @@ public class PopupDrawerLayout extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (!enableDrag) return super.onInterceptTouchEvent(ev);
+        if (dragHelper.continueSettling(true) || status==LayoutStatus.Close) return true;
         isToLeft = ev.getX() < x;
         x = ev.getX();
         y = ev.getY();
@@ -161,7 +163,7 @@ public class PopupDrawerLayout extends FrameLayout {
     ViewDragHelper.Callback callback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View view, int i) {
-            return !dragHelper.continueSettling(true);
+            return !dragHelper.continueSettling(true) && status!=LayoutStatus.Close;
         }
         @Override
         public int getViewHorizontalDragRange(@NonNull View child) {
@@ -261,7 +263,7 @@ public class PopupDrawerLayout extends FrameLayout {
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if (dragHelper.continueSettling(false)) {
+        if (dragHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -310,11 +312,12 @@ public class PopupDrawerLayout extends FrameLayout {
      * 关闭Drawer
      */
     public void close() {
-        if (dragHelper.continueSettling(true)) return;
+//        if (dragHelper.continueSettling(true)) return;
         if (!isCanClose) return;
         post(new Runnable() {
             @Override
             public void run() {
+                dragHelper.abort();
                 dragHelper.smoothSlideViewTo(mChild, position == PopupPosition.Left ? -mChild.getMeasuredWidth() : getMeasuredWidth(), 0);
                 ViewCompat.postInvalidateOnAnimation(PopupDrawerLayout.this);
             }

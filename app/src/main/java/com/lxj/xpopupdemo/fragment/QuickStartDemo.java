@@ -437,8 +437,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         }
 
         @Override
-        public void onKeyBoardStateChanged(int height) {
-            super.onKeyBoardStateChanged(height);
+        public void onKeyBoardStateChanged(BasePopupView popupView, int height) {
+            super.onKeyBoardStateChanged(popupView, height);
             Log.e("tag", "onKeyBoardStateChanged height: " + height);
         }
     };

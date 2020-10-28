@@ -36,5 +36,5 @@ public class SimpleCallback implements XPopupCallback {
     }
 
     @Override
-    public void onKeyBoardStateChanged(int height){}
+    public void onKeyBoardStateChanged(BasePopupView popupView, int height){}
 }

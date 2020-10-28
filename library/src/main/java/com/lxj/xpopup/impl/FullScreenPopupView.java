@@ -37,7 +37,6 @@ public class FullScreenPopupView extends CenterPopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        popupInfo.hasShadowBg = false;
     }
 
     @Override

@@ -235,7 +235,7 @@
         <Button
             android:text="在应用后台弹出XPopup"
             android:id="@+id/btnShowInBackground"
-            android:layout_marginBottom="380dp"
+            android:layout_marginBottom="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

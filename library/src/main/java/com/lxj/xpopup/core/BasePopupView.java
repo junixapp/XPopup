@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -114,7 +115,16 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
 
     private void collectAnimator() {
         if(this instanceof AttachPopupView && !(this instanceof PartShadowPopupView)){
-            popupContentAnimator = getPopupAnimator();
+            if (popupInfo.customAnimator != null) {
+                popupContentAnimator = popupInfo.customAnimator;
+                popupContentAnimator.targetView = getPopupContentView();
+            } else {
+                // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
+                popupContentAnimator = genAnimatorByPopupType();
+                if (popupContentAnimator == null) {
+                    popupContentAnimator = getPopupAnimator();
+                }
+            }
 
             //3. 初始化动画执行器
             if(popupInfo.hasShadowBg){
@@ -204,7 +214,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 @Override
                 public void onSoftInputChanged(int height) {
                     if(popupInfo!=null && popupInfo.xPopupCallback!=null) {
-                        popupInfo.xPopupCallback.onKeyBoardStateChanged(height);
+                        popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this,height);
                     }
                     if (height == 0) { // 说明对话框隐藏
                         XPopupUtils.moveDown(BasePopupView.this);
@@ -539,9 +549,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     protected void doAfterDismiss() {
-        if(popupInfo==null || popupInfo.decorView==null)return;
         // PartShadowPopupView要等到完全关闭再关闭输入法，不然有问题
-        if (popupInfo.autoOpenSoftInput && !(this instanceof PartShadowPopupView)) KeyboardUtils.hideSoftInput(this);
+        if (popupInfo!=null && popupInfo.autoOpenSoftInput && !(this instanceof PartShadowPopupView)) KeyboardUtils.hideSoftInput(this);
         handler.removeCallbacks(doAfterDismissTask);
         handler.postDelayed(doAfterDismissTask, getAnimationDuration());
     }
@@ -567,18 +576,18 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                     stack.get(stack.size() - 1).focusAndProcessBackPress();
                 } else {
                     // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
-                    View needFocusView = popupInfo.decorView.findViewById(android.R.id.content);
-                    if (needFocusView != null) {
-                        needFocusView.setFocusable(true);
-                        needFocusView.setFocusableInTouchMode(true);
+                    if(popupInfo.decorView!=null){
+                        View needFocusView = popupInfo.decorView.findViewById(android.R.id.content);
+                        if (needFocusView != null) {
+                            needFocusView.setFocusable(true);
+                            needFocusView.setFocusableInTouchMode(true);
+                        }
                     }
                 }
             }
 
             // 移除弹窗，GameOver
-            if (popupInfo!=null && popupInfo.decorView != null) {
-                dialog.dismiss();
-            }
+            if(dialog!=null)dialog.dismiss();
         }
     };
 

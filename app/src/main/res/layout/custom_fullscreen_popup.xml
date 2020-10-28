@@ -11,6 +11,7 @@
         android:padding="0dp">
 
         <TextView
+            android:layout_marginTop="40dp"
             android:textSize="20sp"
             android:textColor="#111"
             android:text="全屏弹窗"

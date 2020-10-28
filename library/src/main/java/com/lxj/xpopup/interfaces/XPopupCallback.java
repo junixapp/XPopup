@@ -44,5 +44,5 @@ public interface XPopupCallback {
      * @param height
      * @return
      */
-    void onKeyBoardStateChanged(int height);
+    void onKeyBoardStateChanged(BasePopupView popupView, int height);
 }
