@@ -3,9 +3,11 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
@@ -13,6 +15,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
+
 import java.util.Arrays;
 
 /**
@@ -59,7 +62,6 @@ public class AttachListPopupView extends AttachPopupView {
                 } else {
                     holder.getView(R.id.iv_image).setVisibility(GONE);
                 }
-
                 View check = holder.getView2(R.id.check_view);
                 if (check!=null) check.setVisibility(GONE);
 
