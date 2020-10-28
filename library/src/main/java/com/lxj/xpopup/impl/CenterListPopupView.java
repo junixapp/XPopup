@@ -52,9 +52,7 @@ public class CenterListPopupView extends CenterPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        if(recyclerView instanceof VerticalRecyclerView){
-            ((VerticalRecyclerView)recyclerView).setupDivider(popupInfo.isDarkTheme);
-        }else {
+        if(bindLayoutId!=0){
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
         tv_title = findViewById(R.id.tv_title);
@@ -92,8 +90,12 @@ public class CenterListPopupView extends CenterPopupView {
                     //如果没有选择，则文字居中
                     holder.<TextView>getView(R.id.tv_text).setGravity(Gravity.CENTER);
                 }
-                if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
-                    holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                if(bindItemLayoutId==0){
+                    if(popupInfo.isDarkTheme){
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                    }else {
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+                    }
                 }
             }
         };
@@ -112,17 +114,24 @@ public class CenterListPopupView extends CenterPopupView {
             }
         });
         recyclerView.setAdapter(adapter);
-        if (bindLayoutId==0 && popupInfo.isDarkTheme){
-            applyDarkTheme();
-        }
+        applyTheme();
     }
     @Override
     protected void applyDarkTheme() {
         super.applyDarkTheme();
+        ((VerticalRecyclerView)recyclerView).setupDivider(true);
         tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
-        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_dark_bg);
         findViewById(R.id.xpopup_divider).setBackgroundColor(getResources().getColor(R.color._xpopup_list_dark_divider));
     }
+
+    @Override
+    protected void applyLightTheme() {
+        super.applyLightTheme();
+        ((VerticalRecyclerView)recyclerView).setupDivider(false);
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+        findViewById(R.id.xpopup_divider).setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
+    }
+
     CharSequence title;
     String[] data;
     int[] iconIds;

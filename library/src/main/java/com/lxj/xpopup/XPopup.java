@@ -7,9 +7,7 @@ import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-
 import androidx.annotation.RequiresApi;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -35,7 +33,6 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.util.XPermission;
-
 import java.util.List;
 
 
@@ -422,6 +419,17 @@ public class XPopup {
          */
         public Builder isDestroyOnDismiss(boolean isDestroyOnDismiss) {
             this.popupInfo.isDestroyOnDismiss = isDestroyOnDismiss;
+            return this;
+        }
+
+        /**
+         * 设置圆角，对所有内置弹窗有效
+         *
+         * @param borderRadius
+         * @return
+         */
+        public Builder borderRadius(float borderRadius) {
+            this.popupInfo.borderRadius = borderRadius;
             return this;
         }
 

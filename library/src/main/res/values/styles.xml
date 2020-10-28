@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="_XPopup_TransparentDialog" parent="Theme.AppCompat.Dialog">
+    <style name="_XPopup_TransparentDialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowContentOverlay">@null</item>

@@ -2,6 +2,7 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.CheckView;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 
@@ -26,7 +28,7 @@ import java.util.Arrays;
  * Create by dance, at 2018/12/16
  */
 public class BottomListPopupView extends BottomPopupView {
-    VerticalRecyclerView recyclerView;
+    RecyclerView recyclerView;
     TextView tv_title;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
@@ -53,7 +55,9 @@ public class BottomListPopupView extends BottomPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setupDivider(popupInfo.isDarkTheme);
+        if(bindLayoutId!=0){
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
         tv_title = findViewById(R.id.tv_title);
 
         if(tv_title!=null){
@@ -89,8 +93,12 @@ public class BottomListPopupView extends BottomPopupView {
                     //如果没有选择，则文字居中
                     holder.<TextView>getView(R.id.tv_text).setGravity(Gravity.CENTER);
                 }
-                if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
-                    holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                if(bindItemLayoutId==0){
+                    if(popupInfo.isDarkTheme){
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                    }else {
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+                    }
                 }
             }
         };
@@ -113,18 +121,7 @@ public class BottomListPopupView extends BottomPopupView {
             }
         });
         recyclerView.setAdapter(adapter);
-        if (bindLayoutId==0 && popupInfo.isDarkTheme){
-            applyDarkTheme();
-        }
-    }
-    @Override
-    protected void applyDarkTheme() {
-        super.applyDarkTheme();
-        tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
-        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_top_dark_bg);
-        findViewById(R.id.xpopup_divider).setBackgroundColor(
-                getResources().getColor(R.color._xpopup_list_dark_divider)
-        );
+        applyTheme();
     }
 
     CharSequence title;
@@ -157,6 +154,36 @@ public class BottomListPopupView extends BottomPopupView {
         this.checkedPosition = position;
         return this;
     }
+    protected void applyTheme(){
+        if(bindLayoutId==0) {
+            if(popupInfo.isDarkTheme){
+                applyDarkTheme();
+            }else {
+                applyLightTheme();
+            }
+        }
+    }
 
+    @Override
+    protected void applyDarkTheme() {
+        super.applyDarkTheme();
+        ((VerticalRecyclerView)recyclerView).setupDivider(true);
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        findViewById(R.id.xpopup_divider).setBackgroundColor(
+                getResources().getColor(R.color._xpopup_list_dark_divider)
+        );
+        getPopupImplView().setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_dark_color),
+                popupInfo.borderRadius, popupInfo.borderRadius, 0,0));
+    }
+
+    @Override
+    protected void applyLightTheme() {
+        super.applyLightTheme();
+        ((VerticalRecyclerView)recyclerView).setupDivider(false);
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+        findViewById(R.id.xpopup_divider).setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
+        getPopupImplView().setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_light_color),
+                popupInfo.borderRadius, popupInfo.borderRadius, 0,0));
+    }
 
 }

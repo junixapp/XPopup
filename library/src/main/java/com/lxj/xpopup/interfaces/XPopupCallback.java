@@ -38,4 +38,11 @@ public interface XPopupCallback {
      * @return
      */
     boolean onBackPressed(BasePopupView popupView);
+
+    /**
+     * 当软键盘高度改变时调用，比如打开和关闭软键盘
+     * @param height
+     * @return
+     */
+    void onKeyBoardStateChanged(int height);
 }

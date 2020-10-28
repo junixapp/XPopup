@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lxj.xpopup.R;
@@ -16,6 +17,7 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 确定和取消的对话框
@@ -26,6 +28,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     OnConfirmListener confirmListener;
     TextView tv_title, tv_content, tv_cancel, tv_confirm;
     CharSequence title, content, hint, cancelText, confirmText;
+    EditText et_input;
+    View divider1, divider2;
     public boolean isHideCancel = false;
 
     /**
@@ -52,13 +56,9 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_cancel = findViewById(R.id.tv_cancel);
         tv_confirm = findViewById(R.id.tv_confirm);
         tv_content.setMovementMethod(LinkMovementMethod.getInstance());
-        if(bindLayoutId==0) {
-            if(popupInfo.isDarkTheme){
-                applyDarkTheme();
-            }else {
-                applyPrimaryColor();
-            }
-        }
+        et_input = findViewById(R.id.et_input);
+        divider1 = findViewById(R.id.xpopup_divider1);
+        divider2 = findViewById(R.id.xpopup_divider2);
 
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
@@ -82,15 +82,19 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         }
         if (isHideCancel) {
             tv_cancel.setVisibility(GONE);
-            View divider = findViewById(R.id.xpopup_divider_h);
-            if(divider!=null) divider.setVisibility(GONE);
+            if(divider2!=null) divider2.setVisibility(GONE);
         }
+        applyTheme();
     }
 
-    protected void applyPrimaryColor() {
+    protected void applyLightTheme() {
+        super.applyLightTheme();
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_content_color));
+        tv_content.setTextColor(getResources().getColor(R.color._xpopup_content_color));
         tv_cancel.setTextColor(Color.parseColor("#666666"));
         tv_confirm.setTextColor(XPopup.getPrimaryColor());
-
+        divider1.setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
+        divider2.setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
     }
 
     public TextView getTitleTextView(){
@@ -115,9 +119,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_content.setTextColor(getResources().getColor(R.color._xpopup_white_color));
         tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_white_color));
         tv_confirm.setTextColor(getResources().getColor(R.color._xpopup_white_color));
-        findViewById(R.id.xpopup_divider).setBackgroundColor(getResources().getColor(R.color._xpopup_dark_color));
-        findViewById(R.id.xpopup_divider_h).setBackgroundColor(getResources().getColor(R.color._xpopup_dark_color));
-        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_dark_bg);
+        divider1.setBackgroundColor(getResources().getColor(R.color._xpopup_list_dark_divider));
+        divider2.setBackgroundColor(getResources().getColor(R.color._xpopup_list_dark_divider));
     }
 
     public ConfirmPopupView setListener(OnConfirmListener confirmListener, OnCancelListener cancelListener) {

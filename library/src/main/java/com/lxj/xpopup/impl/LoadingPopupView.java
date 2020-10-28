@@ -12,6 +12,7 @@ import androidx.transition.TransitionSet;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
 
 /**
  * Description: 加载对话框
@@ -42,6 +43,9 @@ public class LoadingPopupView extends CenterPopupView {
         tv_title = findViewById(R.id.tv_title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getPopupImplView().setElevation(10f);
+        }
+        if(bindLayoutId==0){
+            getPopupImplView().setBackground(XPopupUtils.createDrawable(Color.parseColor("#1f1f1f"), popupInfo.borderRadius));
         }
         setup();
     }

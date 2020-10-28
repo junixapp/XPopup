@@ -3,16 +3,12 @@ package com.lxj.xpopupdemo.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-
 import androidx.annotation.RequiresApi;
-
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
@@ -25,7 +21,6 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
-import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.MainActivity;
@@ -110,6 +105,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 popupView = new XPopup.Builder(getContext())
+                        .isRequestFocus(false)
 //                        .navigationBarColor(Color.BLUE)
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
@@ -117,37 +113,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .isLightStatusBar(true)
 //                        .hasNavigationBar(false)
-                        .setPopupCallback(new SimpleCallback() {
-                            @Override
-                            public void onCreated(BasePopupView pv) {
-                                Log.e("tag", "弹窗创建了");
-
-                                popupView.getContentTextView().setTextColor(Color.RED);
-                                popupView.getConfirmTextView().setTextColor(Color.RED);
-                            }
-
-                            @Override
-                            public void onShow(BasePopupView popupView) {
-                                Log.e("tag", "onShow");
-                            }
-
-                            @Override
-                            public void onDismiss(BasePopupView popupView) {
-                                Log.e("tag", "onDismiss");
-                            }
-
-                            @Override
-                            public void beforeDismiss(BasePopupView popupView) {
-                                Log.e("tag", "准备消失的时候执行");
-                            }
-
-                            //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
-                            @Override
-                            public boolean onBackPressed(BasePopupView popupView) {
-                                ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
-                                return true;
-                            }
-                        }).asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+//                        .setPopupCallback(new DemoXPopupListener())
+                        .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
                                 "取消", "确定",
                                 new OnConfirmListener() {
                                     @Override
@@ -169,7 +136,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         toast("click confirm");
                                     }
                                 }, null, false, R.layout.my_confim_popup) //最后一个参数绑定已有布局
-//                        .bindItemLayout() //带列表的弹窗还会有这样一个方法
                         .show();
                 break;
             case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗
@@ -177,17 +143,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         //.dismissOnBackPressed(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
+                        .isDarkTheme(true)
+                        .setPopupCallback(new DemoXPopupListener())
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
-                        .isRequestFocus(false)
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
-                        .setPopupCallback(new SimpleCallback(){
-                            @Override
-                            public boolean onBackPressed(BasePopupView popupView) {
-                                ToastUtils.showLong("试试");
-                                popupView.dismiss();
-                                return true;
-                            }
-                        })
                         .asInputConfirm("我是标题", null, null, "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override
@@ -224,7 +183,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         toast("click " + text);
                                     }
                                 })
-//                        .bindLayout(R.layout.my_custom_attach_popup) //自定义布局
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
@@ -249,31 +207,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 new XPopup.Builder(getContext())
                         .isDarkTheme(true)
-                        .setPopupCallback(new SimpleCallback(){
-                            @Override
-                            public void beforeShow(BasePopupView popupView) {
-                                super.beforeShow(popupView);
-                                LogUtils.e("beforeShow");
-                            }
-
-                            @Override
-                            public void beforeDismiss(BasePopupView popupView) {
-                                super.beforeDismiss(popupView);
-                                LogUtils.e("beforeDismiss");
-                            }
-
-                            @Override
-                            public void onDismiss(BasePopupView popupView) {
-                                super.onDismiss(popupView);
-                                LogUtils.e("onDismiss");
-                            }
-
-                            @Override
-                            public void onShow(BasePopupView popupView) {
-                                super.onShow(popupView);
-                                LogUtils.e("onShow");
-                            }
-                        })
 //                        .hasShadowBg(true)
 //                        .hasBlurBg(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
@@ -290,7 +223,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .asBottomList("", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
+                        .asBottomList("标题可以没有", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                 null, 2,
                                 new OnSelectListener() {
                                     @Override
@@ -423,7 +356,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
                             }
                         }).show();
-                delayShow();
+//                delayShow();
                 break;
             case R.id.btnShowInBackground:
                 //申请悬浮窗权限
@@ -472,8 +405,42 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                     }
                                 }).show();
             }
-        }, 600);
+        }, 1600);
     }
 
+    class DemoXPopupListener extends SimpleCallback {
+        @Override
+        public void onCreated(BasePopupView pv) {
+            Log.e("tag", "弹窗创建了");
+        }
+
+        @Override
+        public void onShow(BasePopupView popupView) {
+            Log.e("tag", "onShow");
+        }
+
+        @Override
+        public void onDismiss(BasePopupView popupView) {
+            Log.e("tag", "onDismiss");
+        }
+
+        @Override
+        public void beforeDismiss(BasePopupView popupView) {
+            Log.e("tag", "准备消失的时候执行");
+        }
+
+        //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
+        @Override
+        public boolean onBackPressed(BasePopupView popupView) {
+            ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
+            return true;
+        }
+
+        @Override
+        public void onKeyBoardStateChanged(int height) {
+            super.onKeyBoardStateChanged(height);
+            Log.e("tag", "onKeyBoardStateChanged height: " + height);
+        }
+    };
 
 }

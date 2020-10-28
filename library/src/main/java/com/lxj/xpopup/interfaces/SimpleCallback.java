@@ -34,4 +34,7 @@ public class SimpleCallback implements XPopupCallback {
     public boolean onBackPressed(BasePopupView popupView) {
         return false;
     }
+
+    @Override
+    public void onKeyBoardStateChanged(int height){}
 }

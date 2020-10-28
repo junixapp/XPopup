@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="16dp"
-    android:background="@drawable/_xpopup_round3_bg"
     android:orientation="vertical">
 
     <TextView
@@ -46,7 +45,7 @@
     <View
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:id="@+id/xpopup_divider"
+        android:id="@+id/xpopup_divider1"
         android:background="@color/_xpopup_list_divider"
         android:layout_height=".5dp"/>
     <LinearLayout
@@ -69,7 +68,7 @@
 
         <View
             android:layout_width=".5dp"
-            android:id="@+id/xpopup_divider_h"
+            android:id="@+id/xpopup_divider2"
             android:background="@color/_xpopup_list_divider"
             android:layout_height="match_parent"/>
 

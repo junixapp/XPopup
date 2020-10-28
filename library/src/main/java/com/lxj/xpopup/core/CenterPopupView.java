@@ -49,6 +49,29 @@ public class CenterPopupView extends BasePopupView {
         getPopupContentView().setTranslationY(popupInfo.offsetY);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
     }
+    protected void applyTheme(){
+        if(bindLayoutId==0) {
+            if(popupInfo.isDarkTheme){
+                applyDarkTheme();
+            }else {
+                applyLightTheme();
+            }
+        }
+    }
+
+    @Override
+    protected void applyDarkTheme() {
+        super.applyDarkTheme();
+        centerPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_dark_color),
+                popupInfo.borderRadius));
+    }
+
+    @Override
+    protected void applyLightTheme() {
+        super.applyLightTheme();
+        centerPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_light_color),
+                popupInfo.borderRadius));
+    }
 
     @Override
     protected void onDetachedFromWindow() {

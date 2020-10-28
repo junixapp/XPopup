@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -553,5 +554,26 @@ public class XPopupUtils {
             }
         }
         return null;
+    }
+
+    public static GradientDrawable createDrawable(int color, float radius){
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setColor(color);
+        drawable.setCornerRadius(radius);
+        return drawable;
+    }
+
+    public static GradientDrawable createDrawable(int color, float tlRadius, float trRadius, float brRadius,
+                                                  float blRadius){
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setColor(color);
+        drawable.setCornerRadii(new float[]{
+                tlRadius,tlRadius,
+                trRadius,trRadius,
+                brRadius,brRadius,
+                blRadius,blRadius});
+        return drawable;
     }
 }

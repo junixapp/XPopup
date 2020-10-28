@@ -46,9 +46,7 @@ public class AttachListPopupView extends AttachPopupView {
     protected void onCreate() {
         super.onCreate();
         recyclerView = findViewById(R.id.recyclerView);
-        if(recyclerView instanceof VerticalRecyclerView){
-            ((VerticalRecyclerView)recyclerView).setupDivider(popupInfo.isDarkTheme);
-        }else {
+        if(bindLayoutId!=0){
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
         final EasyAdapter<String> adapter = new EasyAdapter<String>(Arrays.asList(data), bindItemLayoutId == 0 ? R.layout._xpopup_adapter_text : bindItemLayoutId) {
@@ -65,8 +63,12 @@ public class AttachListPopupView extends AttachPopupView {
                 View check = holder.getView2(R.id.check_view);
                 if (check!=null) check.setVisibility(GONE);
 
-                if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
-                    holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                if(bindItemLayoutId==0 ){
+                    if(popupInfo.isDarkTheme){
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                    }else {
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+                    }
                 }
             }
         };
@@ -80,15 +82,29 @@ public class AttachListPopupView extends AttachPopupView {
             }
         });
         recyclerView.setAdapter(adapter);
-        if (bindLayoutId==0 && popupInfo.isDarkTheme){
-            applyDarkTheme();
+        applyTheme();
+    }
+
+    protected void applyTheme(){
+        if(bindLayoutId==0) {
+            if(popupInfo.isDarkTheme){
+                applyDarkTheme();
+            }else {
+                applyLightTheme();
+            }
         }
     }
 
     @Override
     protected void applyDarkTheme() {
         super.applyDarkTheme();
-        recyclerView.setBackgroundColor(getResources().getColor(R.color._xpopup_dark_color));
+        ((VerticalRecyclerView)recyclerView).setupDivider(true);
+    }
+
+    @Override
+    protected void applyLightTheme() {
+        super.applyLightTheme();
+        ((VerticalRecyclerView)recyclerView).setupDivider(false);
     }
 
     String[] data;

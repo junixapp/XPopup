@@ -3,7 +3,6 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:padding="20dp"
-    android:background="@drawable/_xpopup_loading_bg"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">

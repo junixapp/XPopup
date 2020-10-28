@@ -49,20 +49,25 @@ public class FullScreenDialog extends Dialog {
             getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getPhoneScreenHeight(getWindow()),
                     XPopupUtils.getWindowHeight(getContext())));
         }else {
-//            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
             getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getPhoneScreenHeight(getWindow()),
                     XPopupUtils.getWindowHeight(getContext())));
         }
+        //设置全屏
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         getWindow().getDecorView().setSystemUiVisibility(option);
+
+        if(!contentView.popupInfo.isRequestFocus){
+            //不获取焦点
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        }
 
         //remove status bar shadow
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, true);
         }
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
+//        if (Build.VERSION.SDK_INT >= 19) {
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//        }
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -172,7 +177,6 @@ public class FullScreenDialog extends Dialog {
         this.contentView = view;
         return this;
     }
-
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {

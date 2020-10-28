@@ -203,6 +203,9 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             KeyboardUtils.registerSoftInputChangedListener(dialog.getWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
                 public void onSoftInputChanged(int height) {
+                    if(popupInfo!=null && popupInfo.xPopupCallback!=null) {
+                        popupInfo.xPopupCallback.onKeyBoardStateChanged(height);
+                    }
                     if (height == 0) { // 说明对话框隐藏
                         XPopupUtils.moveDown(BasePopupView.this);
                         hasMoveUp = false;
@@ -249,9 +252,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow(BasePopupView.this);
             //再次检测移动距离
-            if(dialog==null)return;
-            if (XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()) > 0 && !hasMoveUp) {
-                XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()), BasePopupView.this);
+            if(dialog!=null){
+                if (XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()) > 0 && !hasMoveUp) {
+                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()), BasePopupView.this);
+                }
             }
         }
     };
@@ -263,22 +267,22 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             setFocusableInTouchMode(true);
             requestFocus();
             if (!stack.contains(this)) stack.push(this);
-        }
-        // 此处焦点可能被内容的EditText抢走，也需要给EditText也设置返回按下监听
-        setOnKeyListener(new BackPressListener());
-        if (!popupInfo.autoFocusEditText) showSoftInput(this);
+            // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
+            setOnKeyListener(new BackPressListener());
+            if (!popupInfo.autoFocusEditText) showSoftInput(this);
 
-        //let all EditText can process back pressed.
-        ArrayList<EditText> list = new ArrayList<>();
-        XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
-        for (int i = 0; i < list.size(); i++) {
-            final EditText et = list.get(i);
-            et.setOnKeyListener(new BackPressListener());
-            if (i == 0 && popupInfo.autoFocusEditText) {
-                et.setFocusable(true);
-                et.setFocusableInTouchMode(true);
-                et.requestFocus();
-                showSoftInput(et);
+            //let all EditText can process back pressed.
+            ArrayList<EditText> list = new ArrayList<>();
+            XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
+            for (int i = 0; i < list.size(); i++) {
+                final EditText et = list.get(i);
+                et.setOnKeyListener(new BackPressListener());
+                if (i == 0 && popupInfo.autoFocusEditText) {
+                    et.setFocusable(true);
+                    et.setFocusableInTouchMode(true);
+                    et.requestFocus();
+                    showSoftInput(et);
+                }
             }
         }
     }
@@ -403,6 +407,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     protected void onCreate() { }
 
     protected void applyDarkTheme() { }
+    protected void applyLightTheme() { }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；

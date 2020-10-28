@@ -1,18 +1,13 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-
-import androidx.annotation.NonNull;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
@@ -72,7 +67,7 @@ public abstract class AttachPopupView extends BasePopupView {
     }
 
     protected void applyBg() {
-        if (!popupInfo.hasShadowBg && !isCreated) {
+        if (!isCreated) {
             //实现shadow
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 //优先使用implView的背景
@@ -85,15 +80,19 @@ public abstract class AttachPopupView extends BasePopupView {
                         getPopupImplView().setBackground(null);
                     }
                 } else {
-                    attachPopupContainer.setBackgroundColor(Color.WHITE);
+                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
+                            : R.color._xpopup_light_color), popupInfo.borderRadius));
                 }
                 attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
+
             } else {
                 //优先使用implView的背景
                 if (getPopupImplView().getBackground() == null) {
                     defaultOffsetX -= bgDrawableMargin;
                     defaultOffsetY -= bgDrawableMargin;
-                    attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
+                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
+                            : R.color._xpopup_light_color), popupInfo.borderRadius));
+//                    attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
                 } else {
                     Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
                     if (constantState != null) {
