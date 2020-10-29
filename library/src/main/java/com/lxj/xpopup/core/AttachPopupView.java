@@ -112,12 +112,14 @@ public abstract class AttachPopupView extends BasePopupView {
     // 弹窗显示的位置不能超越Window高度
     float maxY = XPopupUtils.getWindowHeight(getContext());
     int overflow = 10;
+    float centerY = 0;
 
     public void doAttach() {
         overflow = XPopupUtils.dp2px(getContext(), overflow);
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
+            centerY = popupInfo.touchPoint.y;
             // 依附于指定点,尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
             boolean isTallerThanWindowHeight = (popupInfo.touchPoint.y + getPopupContentView().getMeasuredHeight()) > maxY;
@@ -190,8 +192,8 @@ public abstract class AttachPopupView extends BasePopupView {
             // 尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
             boolean isTallerThanWindowHeight = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY;
+            centerY = (rect.top + rect.bottom) / 2;
             if (isTallerThanWindowHeight) {
-                int centerY = (rect.top + rect.bottom) / 2;
                 isShowUp = centerY > XPopupUtils.getWindowHeight(getContext()) / 2;
             } else {
                 isShowUp = false;
@@ -253,7 +255,13 @@ public abstract class AttachPopupView extends BasePopupView {
         }
     }
 
+    //是否显示在目标上方
     protected boolean isShowUpToTarget() {
+        if(popupInfo.positionByWindowCenter){
+            //目标在屏幕上半方，弹窗显示在下；反之，则在上
+            return centerY > XPopupUtils.getWindowHeight(getContext())/2;
+        }
+        //默认是根据Material规范定位，优先显示在目标下方，下方距离不足才显示在上方
         return (isShowUp || popupInfo.popupPosition == PopupPosition.Top)
                 && popupInfo.popupPosition != PopupPosition.Bottom;
     }
