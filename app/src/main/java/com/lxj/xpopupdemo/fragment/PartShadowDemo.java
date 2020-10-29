@@ -92,14 +92,14 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
     }
 
     private void showPartShadow(final View v){
-        if(popupView==null){
+//        if(popupView==null){
             popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                     .atView(v)
-//                    .isClickThrough(true)
+                    .isClickThrough(true)
 //                    .dismissOnTouchOutside(false)
 //                    .isCenterHorizontal(true)
                     .autoOpenSoftInput(true)
-//                    .offsetY(100)
+//                    .offsetY(-150)
 //                    .offsetX(100)
 //                .dismissOnTouchOutside(false)
                     .setPopupCallback(new SimpleCallback() {
@@ -112,7 +112,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         }
                     })
                     .asCustom(new CustomPartShadowPopupView(getContext()));
-        }
+//        }
 
         popupView.show();
     }

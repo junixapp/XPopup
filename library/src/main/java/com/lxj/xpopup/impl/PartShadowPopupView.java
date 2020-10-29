@@ -30,7 +30,10 @@ public abstract class PartShadowPopupView extends AttachPopupView {
 
     @Override
     protected void initPopupContent() {
-        super.initPopupContent();
+        if (attachPopupContainer.getChildCount() == 0) addInnerContent();
+        if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
+            throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
+
         defaultOffsetY = popupInfo.offsetY == 0 ? defaultOffsetY : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? defaultOffsetX : popupInfo.offsetX;
 
@@ -38,6 +41,12 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();
         }
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
+            @Override
+            public void run() {
+                doAttach();
+            }
+        });
     }
 
     @Override
@@ -62,16 +71,27 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
         params.width = getMeasuredWidth();
 
-        //水平居中
-        if (popupInfo.isCenterHorizontal && getPopupImplView() != null) {
-            getPopupImplView().setTranslationX(XPopupUtils.getWindowWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
-        }
-
         //1. 获取atView在屏幕上的位置
         int[] locations = new int[2];
         popupInfo.getAtView().getLocationOnScreen(locations);
         Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
                 locations[1] + popupInfo.getAtView().getMeasuredHeight());
+
+        //水平居中
+        if (popupInfo.isCenterHorizontal && getPopupImplView() != null) {
+//            getPopupImplView().setTranslationX(XPopupUtils.getWindowWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
+            //参考目标View居中，而不是屏幕居中
+            int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
+            getPopupImplView().setTranslationX(tx);
+        }else {
+            int tx = rect.left + defaultOffsetX;
+            if(tx + getPopupImplView().getMeasuredWidth() > XPopupUtils.getWindowWidth(getContext())){
+                //右边超出屏幕了，往左移动
+                tx -= (tx + getPopupImplView().getMeasuredWidth()-XPopupUtils.getWindowWidth(getContext()));
+            }
+            getPopupImplView().setTranslationX(tx);
+        }
+
         int centerY = rect.top + rect.height() / 2;
         if ((centerY > getMeasuredHeight() / 2 || popupInfo.popupPosition == PopupPosition.Top) && popupInfo.popupPosition != PopupPosition.Bottom) {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
@@ -98,6 +118,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             implView.setLayoutParams(implParams);
         }
         getPopupContentView().setLayoutParams(params);
+        getPopupImplView().setTranslationY(defaultOffsetY);
 
         attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
             @Override

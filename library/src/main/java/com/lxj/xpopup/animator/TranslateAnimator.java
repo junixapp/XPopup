@@ -15,7 +15,7 @@ public class TranslateAnimator extends PopupAnimator {
     private float startTranslationX, startTranslationY;
     private int oldWidth, oldHeight;
     private float initTranslationX, initTranslationY;
-    private boolean hasInitDefTranslation = false;
+    public boolean hasInitDefTranslation = false;
 
     public TranslateAnimator(View target, PopupAnimation popupAnimation) {
         super(target, popupAnimation);
