@@ -3,6 +3,8 @@ package com.lxj.xpopup.animator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
+import android.util.Log;
 import android.view.View;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
@@ -99,20 +101,26 @@ public class ScrollScaleAnimator extends PopupAnimator{
 
     @Override
     public void animateShow() {
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        targetView.post(new Runnable() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float fraction = animation.getAnimatedFraction();
-                targetView.setAlpha(fraction);
-                targetView.scrollTo(intEvaluator.evaluate(fraction, startScrollX, 0),
-                        intEvaluator.evaluate(fraction, startScrollY, 0));
-                targetView.setScaleX(fraction);
-                if(!isOnlyScaleX)targetView.setScaleY(fraction);
+            public void run() {
+                ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float fraction = animation.getAnimatedFraction();
+                        targetView.setAlpha(fraction);
+                        targetView.scrollTo(intEvaluator.evaluate(fraction, startScrollX, 0),
+                                intEvaluator.evaluate(fraction, startScrollY, 0));
+                        targetView.setScaleX(fraction);
+                        if(!isOnlyScaleX)targetView.setScaleY(fraction);
+                    }
+                });
+                animator.setDuration(XPopup.getAnimationDuration()).setInterpolator(new FastOutSlowInInterpolator());
+                animator.start();
             }
         });
-        animator.setDuration(XPopup.getAnimationDuration()).setInterpolator(new FastOutSlowInInterpolator());
-        animator.start();
+
     }
 
     @Override
