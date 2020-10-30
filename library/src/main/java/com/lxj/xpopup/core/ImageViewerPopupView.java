@@ -459,10 +459,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 .callback(new XPermission.SimpleCallback() {
                     @Override
                     public void onGranted() {
-                        //save bitmap to album.
                         XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(isInfinite ? position % urls.size() : position));
                     }
-
                     @Override
                     public void onDenied() {
                         Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
