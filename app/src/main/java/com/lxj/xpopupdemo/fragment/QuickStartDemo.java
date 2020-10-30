@@ -105,7 +105,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 popupView = new XPopup.Builder(getContext())
-                        .isRequestFocus(false)
+//                        .dismissOnBackPressed(false)
 //                        .navigationBarColor(Color.BLUE)
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
@@ -187,6 +187,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
                 final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
+                        .dismissOnBackPressed(false)
                         .asLoading("正在加载中")
                         .show();
                 loadingPopup.postDelayed(new Runnable() {

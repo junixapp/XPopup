@@ -103,6 +103,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             collectAnimator();
 
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
+            focusAndProcessBackPress();
 
             //3. 执行动画
             doShowAnimation();
@@ -258,7 +259,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         public void run() {
             popupStatus = PopupStatus.Show;
             onShow();
-            focusAndProcessBackPress();
+//            focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow(BasePopupView.this);
             //再次检测移动距离
