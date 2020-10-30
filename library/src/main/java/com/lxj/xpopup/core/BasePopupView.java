@@ -273,7 +273,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     private ShowSoftInputTask showSoftInputTask;
 
     public void focusAndProcessBackPress() {
-        if (popupInfo.isRequestFocus) {
+        if (popupInfo!=null && popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             requestFocus();
             if (!stack.contains(this)) stack.push(this);
@@ -335,7 +335,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     class BackPressListener implements OnKeyListener {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo!=null) {
                 if (popupInfo.isDismissOnBackPressed &&
                         (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this)))
                     dismissOrHideSoftInput();
@@ -515,7 +515,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
         clearFocus();
-        if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(this);
+        if(popupInfo!=null && popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(this);
         beforeDismiss();
         doDismissAnimation();
         doAfterDismiss();
@@ -558,9 +558,10 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     private Runnable doAfterDismissTask = new Runnable() {
         @Override
         public void run() {
+            if(popupInfo==null)return;
             if (popupInfo.autoOpenSoftInput && BasePopupView.this instanceof PartShadowPopupView) KeyboardUtils.hideSoftInput(BasePopupView.this);
             onDismiss();
-            if (popupInfo != null && popupInfo.xPopupCallback != null) {
+            if (popupInfo.xPopupCallback != null) {
                 popupInfo.xPopupCallback.onDismiss(BasePopupView.this);
             }
             if (dismissWithRunnable != null) {
@@ -571,7 +572,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
 
             if (!stack.isEmpty()) stack.pop();
-            if (popupInfo != null && popupInfo.isRequestFocus) {
+            if (popupInfo.isRequestFocus) {
                 if (!stack.isEmpty()) {
                     stack.get(stack.size() - 1).focusAndProcessBackPress();
                 } else {
@@ -693,7 +694,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                     break;
             }
         }
-        if(dialog!=null && popupInfo.isClickThrough) dialog.passClick(event);
+        if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
         return true;
     }
 
