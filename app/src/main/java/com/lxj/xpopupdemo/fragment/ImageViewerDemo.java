@@ -129,8 +129,7 @@ public class ImageViewerDemo extends BaseFragment {
         @Override
         protected void bind(@NonNull final ViewHolder holder, @NonNull final Object s, final int position) {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
-            //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
-            // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
+            //1. 加载图片
             Glide.with(imageView).load(s).into(imageView);
 
             //2. 设置点击
@@ -161,8 +160,7 @@ public class ImageViewerDemo extends BaseFragment {
         @Override
         protected void bind(@NonNull final ViewHolder holder, @NonNull final Object s, final int position) {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
-            //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
-            // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
+            //1. 加载图片
             Glide.with(imageView).load(s).into(imageView);
 
             //2. 设置点击
