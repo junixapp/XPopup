@@ -7,6 +7,8 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -73,14 +75,14 @@ public class ImageViewerDemo extends BaseFragment {
         recyclerView.setAdapter(new ImageAdapter());
 
 
-        Glide.with(this).load(url1).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL).transform(new RoundedCorners(50))).into(image1);
+        Glide.with(this).load(url1).into(image1);
         Glide.with(this).load(url2).into(image2);
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
-                        .asImageViewer(image1, url1, true, -1, -1, 50, false,new ImageLoader())
+                        .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0, false,new ImageLoader())
                         .show();
             }
         });
@@ -129,9 +131,7 @@ public class ImageViewerDemo extends BaseFragment {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
             //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
             // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
-            Glide.with(imageView).load(s).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round)
-                    .override(Target.SIZE_ORIGINAL))
-                    .into(imageView);
+            Glide.with(imageView).load(s).into(imageView);
 
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -163,9 +163,7 @@ public class ImageViewerDemo extends BaseFragment {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
             //1. 加载图片, 由于ImageView是centerCrop，必须指定Target.SIZE_ORIGINAL，禁止Glide裁剪图片；
             // 这样我就能拿到原始图片的Matrix，才能有完美的过渡效果
-            Glide.with(imageView).load(s).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round)
-                    .override(Target.SIZE_ORIGINAL))
-                    .into(imageView);
+            Glide.with(imageView).load(s).into(imageView);
 
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -213,8 +211,7 @@ public class ImageViewerDemo extends BaseFragment {
             container.addView(imageView);
 
             //1. 加载图片
-            Glide.with(imageView).load(list.get(position)).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL))
-                    .into(imageView);
+            Glide.with(imageView).load(list.get(position)).into(imageView);
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -250,7 +247,7 @@ public class ImageViewerDemo extends BaseFragment {
         @Override
         public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
             //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
-            Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL)).into(imageView);
+            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
         }
         @Override
         public File getImageFile(@NonNull Context context, @NonNull Object uri) {
