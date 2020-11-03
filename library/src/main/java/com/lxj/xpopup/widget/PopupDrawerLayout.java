@@ -206,7 +206,7 @@ public class PopupDrawerLayout extends FrameLayout {
             }
             if (enableShadow) setBackgroundColor(bgAnimator.calculateBgColor(fraction));
             if (listener != null) {
-                listener.onDismissing(fraction);
+                listener.onDrag(left, fraction);
                 if (fraction == 1f && status != LayoutStatus.Open) {
                     status = LayoutStatus.Open;
                     listener.onOpen();
@@ -340,6 +340,6 @@ public class PopupDrawerLayout extends FrameLayout {
          *
          * @param fraction 关闭的百分比
          */
-        void onDismissing(float fraction);
+        void onDrag(int x,float fraction);
     }
 }

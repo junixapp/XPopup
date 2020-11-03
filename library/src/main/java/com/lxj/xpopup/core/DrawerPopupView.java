@@ -1,7 +1,6 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -51,8 +50,10 @@ public abstract class DrawerPopupView extends BasePopupView {
                 DrawerPopupView.super.doAfterShow();
             }
             @Override
-            public void onDismissing(float fraction) {
+            public void onDrag(int x, float fraction) {
                 drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
+                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
+                        x, fraction);
             }
         });
         getPopupImplView().setTranslationX(popupInfo.offsetX);

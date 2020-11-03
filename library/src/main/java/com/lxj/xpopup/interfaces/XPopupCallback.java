@@ -45,4 +45,12 @@ public interface XPopupCallback {
      * @return
      */
     void onKeyBoardStateChanged(BasePopupView popupView, int height);
+
+    /**
+     * 弹窗被拖拽时执行
+     * @param popupView
+     * @param value  拖拽的距离
+     * @param percent  拖拽的百分比
+     */
+    void onDrag(BasePopupView popupView, int value, float percent);
 }

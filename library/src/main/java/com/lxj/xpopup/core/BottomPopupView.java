@@ -59,6 +59,12 @@ public class BottomPopupView extends BasePopupView {
                 if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(BottomPopupView.this);
                 doAfterDismiss();
             }
+
+            @Override
+            public void onDrag(int value, float percent) {
+                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(BottomPopupView.this, value, percent);
+            }
+
             @Override
             public void onOpen() {
                 BottomPopupView.super.doAfterShow();
