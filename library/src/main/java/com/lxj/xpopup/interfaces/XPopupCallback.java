@@ -47,7 +47,7 @@ public interface XPopupCallback {
     void onKeyBoardStateChanged(BasePopupView popupView, int height);
 
     /**
-     * 弹窗被拖拽时执行
+     * 弹窗被拖拽时执行，适用于能拖拽的弹窗
      * @param popupView
      * @param value  拖拽的距离
      * @param percent  拖拽的百分比
