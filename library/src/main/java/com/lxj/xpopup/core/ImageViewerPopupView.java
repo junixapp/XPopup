@@ -448,7 +448,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         super.destroy();
         pager.removeOnPageChangeListener(onPageChangeListener);
         imageLoader = null;
-        urls.clear();
     }
 
     /**

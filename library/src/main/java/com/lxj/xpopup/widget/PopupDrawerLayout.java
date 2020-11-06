@@ -183,13 +183,13 @@ public class PopupDrawerLayout extends FrameLayout {
                 placeHolder.layout(0, 0, placeHolder.getMeasuredWidth(), placeHolder.getMeasuredHeight());
                 int newLeft = fixLeft(mChild.getLeft() + dx);
                 mChild.layout(newLeft, mChild.getTop(), newLeft + mChild.getMeasuredWidth(), mChild.getBottom());
-                calcFraction(newLeft);
+                calcFraction(newLeft, dx);
             } else {
-                calcFraction(left);
+                calcFraction(left,dx);
             }
         }
 
-        private void calcFraction(int left) {
+        private void calcFraction(int left,int dx) {
             // fraction = (now - start) * 1f / (end - start)
             if (position == PopupPosition.Left) {
                 fraction = (left + mChild.getMeasuredWidth()) * 1f / mChild.getMeasuredWidth();
@@ -206,7 +206,7 @@ public class PopupDrawerLayout extends FrameLayout {
             }
             if (enableShadow) setBackgroundColor(bgAnimator.calculateBgColor(fraction));
             if (listener != null) {
-                listener.onDrag(left, fraction);
+                listener.onDrag(left, fraction, dx<0);
                 if (fraction == 1f && status != LayoutStatus.Open) {
                     status = LayoutStatus.Open;
                     listener.onOpen();
@@ -340,6 +340,6 @@ public class PopupDrawerLayout extends FrameLayout {
          *
          * @param fraction 关闭的百分比
          */
-        void onDrag(int x,float fraction);
+        void onDrag(int x,float fraction, boolean isToLeft);
     }
 }

@@ -182,7 +182,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
                 status = LayoutStatus.Open;
                 listener.onOpen();
             }
-            listener.onDrag(y, fraction);
+            listener.onDrag(y, fraction, isScrollUp);
         }
         super.scrollTo(x, y);
     }
@@ -313,7 +313,7 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
 
     public interface OnCloseListener {
         void onClose();
-        void onDrag(int y, float percent);
+        void onDrag(int y, float percent, boolean isScrollUp);
         void onOpen();
     }
 }

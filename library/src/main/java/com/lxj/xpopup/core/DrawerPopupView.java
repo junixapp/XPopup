@@ -50,10 +50,10 @@ public abstract class DrawerPopupView extends BasePopupView {
                 DrawerPopupView.super.doAfterShow();
             }
             @Override
-            public void onDrag(int x, float fraction) {
+            public void onDrag(int x, float fraction, boolean isToLeft) {
                 drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
                 if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
-                        x, fraction);
+                        x, fraction,isToLeft);
             }
         });
         getPopupImplView().setTranslationX(popupInfo.offsetX);

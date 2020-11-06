@@ -51,6 +51,7 @@ public interface XPopupCallback {
      * @param popupView
      * @param value  拖拽的距离
      * @param percent  拖拽的百分比
+     * @param upOrLeft 是否是向上或者向左
      */
-    void onDrag(BasePopupView popupView, int value, float percent);
+    void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft);
 }

@@ -61,8 +61,8 @@ public class BottomPopupView extends BasePopupView {
             }
 
             @Override
-            public void onDrag(int value, float percent) {
-                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(BottomPopupView.this, value, percent);
+            public void onDrag(int value, float percent, boolean isScrollUp) {
+                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(BottomPopupView.this, value, percent,isScrollUp);
             }
 
             @Override

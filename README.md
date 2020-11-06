@@ -86,6 +86,10 @@ Gif录制的有些卡顿，真机预览效果更佳。扫描二维码下载Demo�
 ```groovy
 implementation 'com.lxj:xpopup:最新版本'
 ```
+其中编译版本必须 >= 29：
+```
+compileSdkVersion 29
+```
 
 必须添加的依赖库，版本不用和我一致：
 ```groovy
