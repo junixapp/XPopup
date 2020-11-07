@@ -32,6 +32,7 @@ import com.lxj.xpopupdemo.custom.CustomCenterPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
+import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
@@ -293,7 +294,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .popupPosition(PopupPosition.Right)//右边
                         .hasStatusBarShadow(true) //启用状态栏阴影
-                        .asCustom(drawerPopupView)
+                        .asCustom(new ListDrawerPopupView(getContext()))
                         .show();
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity

@@ -10,7 +10,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**
- * Description: 背景Shadow动画器，负责执行半透明的渐入渐出动画
+ * Description: 背景模糊动画器
  * Create by dance, at 2018/12/9
  */
 public class BlurAnimator extends PopupAnimator {
@@ -33,6 +33,7 @@ public class BlurAnimator extends PopupAnimator {
 
     @Override
     public void animateShow() {
+        //有性能问题
 //        ValueAnimator animator = ValueAnimator.ofFloat(0,1);
 //        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 //            @Override

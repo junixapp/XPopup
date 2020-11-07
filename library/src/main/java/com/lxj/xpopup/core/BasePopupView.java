@@ -229,7 +229,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                         if(BasePopupView.this instanceof PartShadowPopupView && popupStatus==PopupStatus.Showing){
                             return;
                         }
-                        XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
+                        XPopupUtils.moveUpToKeyboard(height, BasePopupView.this, dialog.getWindow());
                         hasMoveUp = true;
                     }
                 }
@@ -265,7 +265,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             //再次检测移动距离
             if(dialog!=null){
                 if (XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()) > 0 && !hasMoveUp) {
-                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()), BasePopupView.this);
+                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()), BasePopupView.this,dialog.getWindow());
                 }
             }
         }

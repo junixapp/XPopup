@@ -25,6 +25,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -197,7 +198,7 @@ public class XPopupUtils {
         return delta - sDecorViewDelta;
     }
 
-    public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
+    public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv, Window window) {
         if (!pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView || (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView))) {
@@ -221,7 +222,8 @@ public class XPopupUtils {
             popupHeight = Math.min(popupHeight, pv.getPopupImplView().getMeasuredHeight());
             popupWidth = Math.min(popupWidth, pv.getPopupImplView().getMeasuredWidth());
         }
-        int windowHeight = getWindowHeight(pv.getContext());
+//        int windowHeight = getWindowHeight(pv.getContext());
+        int windowHeight = getPhoneScreenHeight(window);
         int focusEtTop = 0;
         int focusBottom = 0;
         if (focusEt != null) {
@@ -260,6 +262,8 @@ public class XPopupUtils {
             }
         } else if (isBottomPartShadow(pv) || pv instanceof DrawerPopupView) {
             int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
+            Log.e("tag", "focusBottom: " + focusBottom + "   keyboardHeight: "+keyboardHeight + "  windowHeight: "+ windowHeight
+            + "   overflowHeight: "+overflowHeight);
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
