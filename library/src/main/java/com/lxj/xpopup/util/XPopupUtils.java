@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,7 +26,6 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +35,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
 import androidx.annotation.FloatRange;
-
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -71,8 +69,17 @@ public class XPopupUtils {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
     }
 
+    public static int getAppScreenHeight(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) return -1;
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point.y;
+    }
     public static int getWindowHeight(Context context) {
-        return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRealMetrics(outMetrics);
+        return outMetrics.heightPixels;
     }
 
     public static int dp2px(Context context, float dipValue) {
@@ -198,7 +205,7 @@ public class XPopupUtils {
         return delta - sDecorViewDelta;
     }
 
-    public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv, Window window) {
+    public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
         if (!pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView || (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView))) {
@@ -222,8 +229,7 @@ public class XPopupUtils {
             popupHeight = Math.min(popupHeight, pv.getPopupImplView().getMeasuredHeight());
             popupWidth = Math.min(popupWidth, pv.getPopupImplView().getMeasuredWidth());
         }
-//        int windowHeight = getWindowHeight(pv.getContext());
-        int windowHeight = getPhoneScreenHeight(window);
+        int windowHeight = getWindowHeight(pv.getContext());
         int focusEtTop = 0;
         int focusBottom = 0;
         if (focusEt != null) {
@@ -236,7 +242,7 @@ public class XPopupUtils {
         //执行上移
         if (pv instanceof FullScreenPopupView ||
                 (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
-                        popupHeight == (XPopupUtils.getWindowHeight(pv.getContext()) + XPopupUtils.getStatusBarHeight()))
+                        popupHeight == windowHeight)
         ) {
             // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动。
             if (focusBottom + keyboardHeight < windowHeight) {
@@ -244,13 +250,14 @@ public class XPopupUtils {
             }
         }
         if (pv instanceof FullScreenPopupView) {
-            int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
+            int navHeight = isNavBarVisible(pv.dialog.getWindow()) ? getNavBarHeight() : 0;
+            int overflowHeight = focusBottom + keyboardHeight + navHeight - windowHeight;
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
         } else if (pv instanceof CenterPopupView) {
-            int targetY = keyboardHeight - (windowHeight - popupHeight + getStatusBarHeight()) / 2; //上移到下边贴着输入法的高度
-
+            int popupBottom = (windowHeight + popupHeight)/2;
+            int targetY = popupBottom + keyboardHeight + getStatusBarHeight() - windowHeight;
             if (focusEt != null && focusEtTop - targetY < 0) {
                 targetY += focusEtTop - targetY - getStatusBarHeight();//限制不能被状态栏遮住
             }
@@ -262,8 +269,6 @@ public class XPopupUtils {
             }
         } else if (isBottomPartShadow(pv) || pv instanceof DrawerPopupView) {
             int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
-            Log.e("tag", "focusBottom: " + focusBottom + "   keyboardHeight: "+keyboardHeight + "  windowHeight: "+ windowHeight
-            + "   overflowHeight: "+overflowHeight);
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
@@ -302,13 +307,10 @@ public class XPopupUtils {
         if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
         if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) {
             pv.getPopupImplView().animate().translationY(0)
-                    .setInterpolator(new OvershootInterpolator(0))
-                    .setDuration(200).start();
+                    .setDuration(100).start();
         } else {
             pv.getPopupContentView().animate().translationY(0)
-                    .setInterpolator(new OvershootInterpolator(0))
-                    .setDuration(200).start();
-
+                    .setDuration(100).start();
         }
     }
 

@@ -1,23 +1,19 @@
 package com.lxj.xpopup.widget;
 
-import android.animation.ArgbEvaluator;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
+
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.viewpager.widget.ViewPager;
-import com.lxj.xpopup.XPopup;
+
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.enums.PopupPosition;
@@ -35,8 +31,6 @@ public class PopupDrawerLayout extends FrameLayout {
     View placeHolder, mChild;
     public PopupPosition position = PopupPosition.Left;
     ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
-    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    int defaultColor = Color.TRANSPARENT;
     public boolean isDrawStatusBarShadow = false;
     float fraction = 0f;
     public boolean enableShadow = true;
@@ -265,22 +259,6 @@ public class PopupDrawerLayout extends FrameLayout {
         super.computeScroll();
         if (dragHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
-        }
-    }
-
-    Paint paint;
-    Rect shadowRect;
-
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-        if (isDrawStatusBarShadow) {
-            if (paint == null) {
-                paint = new Paint();
-                shadowRect = new Rect(0, 0, getMeasuredHeight(), XPopupUtils.getStatusBarHeight());
-            }
-            paint.setColor((Integer) argbEvaluator.evaluate(fraction, defaultColor, XPopup.statusBarShadowColor));
-            canvas.drawRect(shadowRect, paint);
         }
     }
 

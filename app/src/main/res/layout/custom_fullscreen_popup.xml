@@ -60,6 +60,11 @@
             android:layout_width="match_parent"
             android:layout_height="150dp" />
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            android:hint="测试软键盘交互55" />
 
     </LinearLayout>
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -229,7 +228,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                         if(BasePopupView.this instanceof PartShadowPopupView && popupStatus==PopupStatus.Showing){
                             return;
                         }
-                        XPopupUtils.moveUpToKeyboard(height, BasePopupView.this, dialog.getWindow());
+                        XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
                         hasMoveUp = true;
                     }
                 }
@@ -240,7 +239,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         }
     };
 
-    protected FullScreenDialog dialog;
+    public FullScreenDialog dialog;
     private void attachDialog(){
         if(dialog==null){
             dialog = new FullScreenDialog(getContext())
@@ -265,7 +264,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
             //再次检测移动距离
             if(dialog!=null){
                 if (XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()) > 0 && !hasMoveUp) {
-                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()), BasePopupView.this,dialog.getWindow());
+                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()), BasePopupView.this);
                 }
             }
         }
