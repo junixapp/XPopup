@@ -34,7 +34,9 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
 import androidx.annotation.FloatRange;
+
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -45,6 +47,7 @@ import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,6 +73,7 @@ public class XPopupUtils {
     public static int getWindowHeight(Context context) {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
     }
+
     public static int dp2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
@@ -118,10 +122,11 @@ public class XPopupUtils {
                 // 假设默认Content宽是match，高是wrap
                 int w = content.getMeasuredWidth();
                 // response impl view wrap_content params.
-                if (implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT) {
+//                if (implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT) {
 //                    w = Math.min(w, implView.getMeasuredWidth());
-                }
+//                }
                 if (maxWidth != 0) {
+                    //指定了最大宽度，就限制最大宽度
                     params.width = Math.min(w, maxWidth);
                 }
 
@@ -178,16 +183,6 @@ public class XPopupUtils {
         return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 
-    /**
-     * Return whether soft input is visible.
-     *
-     * @param window The activity.
-     * @return {@code true}: yes<br>{@code false}: no
-     */
-    public static boolean isSoftInputVisible(Window window) {
-        return getDecorViewInvisibleHeight(window) > 0;
-    }
-
     private static int sDecorViewDelta = 0;
 
     public static int getDecorViewInvisibleHeight(final Window window) {
@@ -205,7 +200,7 @@ public class XPopupUtils {
     public static void moveUpToKeyboard(int keyboardHeight, BasePopupView pv) {
         if (!pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PositionPopupView ||  (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView) )){
+        if (pv instanceof PositionPopupView || (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView))) {
             return;
         }
         //判断是否盖住输入框
@@ -268,12 +263,12 @@ public class XPopupUtils {
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
-        }else if(isTopPartShadow(pv)){
+        } else if (isTopPartShadow(pv)) {
             int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
-            if(dy!=0){
+            if (dy != 0) {
                 pv.getPopupImplView().animate().translationY(-dy)
                         .setDuration(200)
                         .setInterpolator(new OvershootInterpolator(0))
@@ -305,7 +300,7 @@ public class XPopupUtils {
             pv.getPopupImplView().animate().translationY(0)
                     .setInterpolator(new OvershootInterpolator(0))
                     .setDuration(200).start();
-        }else {
+        } else {
             pv.getPopupContentView().animate().translationY(0)
                     .setInterpolator(new OvershootInterpolator(0))
                     .setDuration(200).start();
@@ -395,7 +390,7 @@ public class XPopupUtils {
                                     mainHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            if(mContext!=null){
+                                            if (mContext != null) {
                                                 Toast.makeText(mContext, "已保存到相册！", Toast.LENGTH_SHORT).show();
                                                 mContext = null;
                                             }
@@ -461,11 +456,12 @@ public class XPopupUtils {
             }
         }
     }
+
     //获取应用可用的屏幕高度
-    public static int getPhoneScreenHeight(Window window){
+    public static int getPhoneScreenHeight(Window window) {
         DisplayMetrics outMetrics = new DisplayMetrics();
         window.getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
-        return  outMetrics.heightPixels;
+        return outMetrics.heightPixels;
     }
 
     public static Bitmap renderScriptBlur(Context context, final Bitmap src,
@@ -495,6 +491,7 @@ public class XPopupUtils {
         }
         return ret;
     }
+
     /**
      * View to bitmap.
      *
@@ -544,7 +541,7 @@ public class XPopupUtils {
         return false;
     }
 
-    public static Activity context2Activity(View view){
+    public static Activity context2Activity(View view) {
         Context context = view.getContext();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
@@ -556,7 +553,7 @@ public class XPopupUtils {
         return null;
     }
 
-    public static GradientDrawable createDrawable(int color, float radius){
+    public static GradientDrawable createDrawable(int color, float radius) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setColor(color);
@@ -565,15 +562,15 @@ public class XPopupUtils {
     }
 
     public static GradientDrawable createDrawable(int color, float tlRadius, float trRadius, float brRadius,
-                                                  float blRadius){
+                                                  float blRadius) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setColor(color);
         drawable.setCornerRadii(new float[]{
-                tlRadius,tlRadius,
-                trRadius,trRadius,
-                brRadius,brRadius,
-                blRadius,blRadius});
+                tlRadius, tlRadius,
+                trRadius, trRadius,
+                brRadius, brRadius,
+                blRadius, blRadius});
         return drawable;
     }
 }

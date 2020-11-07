@@ -62,10 +62,12 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     protected void applyLightTheme() {
         super.applyLightTheme();
         et_input.setHintTextColor(Color.parseColor("#888888"));
+        et_input.setTextColor(Color.parseColor("#333333"));
     }
     protected void applyDarkTheme() {
         super.applyDarkTheme();
         et_input.setHintTextColor(Color.parseColor("#888888"));
+        et_input.setTextColor(Color.parseColor("#dddddd"));
     }
 
     OnCancelListener cancelListener;

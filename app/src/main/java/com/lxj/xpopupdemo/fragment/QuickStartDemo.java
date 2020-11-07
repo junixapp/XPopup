@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.impl.ConfirmPopupView;
@@ -27,6 +28,7 @@ import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
+import com.lxj.xpopupdemo.custom.CustomCenterPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
@@ -97,7 +99,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     CustomDrawerPopupView drawerPopupView;
     AttachPopupView attachPopupView;
     BasePopupView popup;
-    ConfirmPopupView popupView;
+    BasePopupView popupView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -357,7 +359,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
                             }
                         }).show();
-//                delayShow();
+                delayShow();
                 break;
             case R.id.btnShowInBackground:
                 //申请悬浮窗权限
