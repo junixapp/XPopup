@@ -1,31 +1,43 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
-
+import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
-import com.lxj.xpopup.core.AttachPopupView;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnClickOutsideListener;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.PartShadowContainer;
 
 /**
  * Description: 局部阴影的弹窗，类似于淘宝商品列表的下拉筛选弹窗
  * Create by dance, at 2018/12/21
  */
-public abstract class PartShadowPopupView extends AttachPopupView {
+public abstract class PartShadowPopupView extends BasePopupView {
+    protected PartShadowContainer attachPopupContainer;
     public PartShadowPopupView(@NonNull Context context) {
         super(context);
-        addInnerContent();
+        attachPopupContainer = findViewById(R.id.attachPopupContainer);
+    }
+
+    @Override
+    protected int getPopupLayoutId() {
+        return R.layout._xpopup_partshadow_popup_view;
+    }
+    protected void addInnerContent() {
+        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), attachPopupContainer, false);
+        attachPopupContainer.addView(contentView);
     }
 
     @Override
@@ -34,13 +46,11 @@ public abstract class PartShadowPopupView extends AttachPopupView {
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
 
-        defaultOffsetY = popupInfo.offsetY == 0 ? defaultOffsetY : popupInfo.offsetY;
-        defaultOffsetX = popupInfo.offsetX == 0 ? defaultOffsetX : popupInfo.offsetX;
-
         // 指定阴影动画的目标View
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();
         }
+        attachPopupContainer.setBackgroundColor(Color.RED);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
             @Override
             public void run() {
@@ -50,20 +60,17 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     }
 
     @Override
-    protected void applyBg() { }
-
-    @Override
-    public void onNavigationBarChange(boolean show) {
-        super.onNavigationBarChange(show);
-//        if (!show) {
-//            FrameLayout.LayoutParams params = (LayoutParams) getPopupContentView().getLayoutParams();
-//            params.height = XPopupUtils.getWindowHeight(getContext());
-//            getPopupContentView().setLayoutParams(params);
-//        }
-        doAttach();
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                doAttach();
+            }
+        });
     }
 
-    @Override
+    public boolean isShowUp;
     public void doAttach() {
         if (popupInfo.getAtView() == null)
             throw new IllegalArgumentException("atView must not be null for PartShadowPopupView！");
@@ -85,7 +92,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
             getPopupImplView().setTranslationX(tx);
         }else {
-            int tx = rect.left + defaultOffsetX;
+            int tx = rect.left + popupInfo.offsetX;
             if(tx + getPopupImplView().getMeasuredWidth() > XPopupUtils.getWindowWidth(getContext())){
                 //右边超出屏幕了，往左移动
                 tx -= (tx + getPopupImplView().getMeasuredWidth()-XPopupUtils.getWindowWidth(getContext()));
@@ -119,7 +126,7 @@ public abstract class PartShadowPopupView extends AttachPopupView {
             implView.setLayoutParams(implParams);
         }
         getPopupContentView().setLayoutParams(params);
-        getPopupImplView().setTranslationY(defaultOffsetY);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
 
         attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
             @Override

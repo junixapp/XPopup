@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,7 +32,6 @@ import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.lxj.xpopup.util.navbar.NavigationBarObserver;
 import com.lxj.xpopup.util.navbar.OnNavigationBarListener;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -68,8 +66,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
      * 执行初始化
      */
     protected void init() {
-        NavigationBarObserver.getInstance().register(getContext());
-        NavigationBarObserver.getInstance().addOnNavigationBarListener(this);
+//        NavigationBarObserver.getInstance().register(getContext());
+//        NavigationBarObserver.getInstance().addOnNavigationBarListener(this);
 
         //1. 初始化Popup
         if(this instanceof AttachPopupView){
@@ -180,7 +178,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     protected void applyFull() {
-        Log.e("tag", "applyFull: ");
     }
 
     protected void applySize(boolean isShowNavBar) {
@@ -568,7 +565,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 dismissWithRunnable = null;//no cache, avoid some bad edge effect.
             }
             popupStatus = PopupStatus.Dismiss;
-            NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
+//            NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
 
             if (!stack.isEmpty()) stack.pop();
             if (popupInfo.isRequestFocus) {
@@ -650,7 +647,7 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         super.onDetachedFromWindow();
         stack.clear();
         handler.removeCallbacksAndMessages(null);
-        NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
+//        NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
         if(popupInfo!=null) {
             if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
             if(popupInfo.isDestroyOnDismiss){ //如果开启isDestroyOnDismiss，强制释放资源
