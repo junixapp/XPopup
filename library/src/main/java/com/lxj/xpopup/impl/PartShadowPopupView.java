@@ -55,11 +55,12 @@ public abstract class PartShadowPopupView extends AttachPopupView {
     @Override
     public void onNavigationBarChange(boolean show) {
         super.onNavigationBarChange(show);
-        if (!show) {
-            FrameLayout.LayoutParams params = (LayoutParams) getPopupContentView().getLayoutParams();
-            params.height = XPopupUtils.getWindowHeight(getContext());
-            getPopupContentView().setLayoutParams(params);
-        }
+//        if (!show) {
+//            FrameLayout.LayoutParams params = (LayoutParams) getPopupContentView().getLayoutParams();
+//            params.height = XPopupUtils.getWindowHeight(getContext());
+//            getPopupContentView().setLayoutParams(params);
+//        }
+        doAttach();
     }
 
     @Override

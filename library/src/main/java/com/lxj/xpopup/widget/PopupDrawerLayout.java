@@ -69,10 +69,9 @@ public class PopupDrawerLayout extends FrameLayout {
     }
 
     boolean hasLayout = false;
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        placeHolder.layout(0, 0, placeHolder.getMeasuredWidth(), placeHolder.getMeasuredHeight());
+        placeHolder.layout(0, 0, getMeasuredWidth(), getMeasuredHeight());
         if (!hasLayout) {
             if (position == PopupPosition.Left) {
                 mChild.layout(-mChild.getMeasuredWidth(), 0, 0, getMeasuredHeight());
@@ -81,7 +80,7 @@ public class PopupDrawerLayout extends FrameLayout {
             }
             hasLayout = true;
         } else {
-            mChild.layout(mChild.getLeft(), mChild.getTop(), mChild.getRight(), mChild.getBottom());
+            mChild.layout(mChild.getLeft(), mChild.getTop(), mChild.getRight(), mChild.getMeasuredHeight());
         }
     }
 

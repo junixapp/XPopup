@@ -2,7 +2,6 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

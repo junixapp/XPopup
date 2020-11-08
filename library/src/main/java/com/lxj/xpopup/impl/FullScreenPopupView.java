@@ -7,15 +7,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
+import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
-import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -23,39 +23,28 @@ import com.lxj.xpopup.util.XPopupUtils;
  * Description: 宽高撑满的全屏弹窗
  * Create by lxj, at 2019/2/1
  */
-public class FullScreenPopupView extends CenterPopupView {
+public class FullScreenPopupView extends BasePopupView {
     public ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    protected View contentView;
+    protected FrameLayout fullPopupContainer;
     public FullScreenPopupView(@NonNull Context context) {
         super(context);
-        addInnerContent();
+        fullPopupContainer = findViewById(R.id.fullPopupContainer);
     }
     @Override
-    protected int getMaxWidth() {
-        return 0;
+    protected int getPopupLayoutId() {
+        return R.layout._xpopup_fullscreen_popup_view;
     }
-
+    protected void addInnerContent(){
+        contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), fullPopupContainer, false);
+        fullPopupContainer.addView(contentView);
+    }
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-    }
-
-    @Override
-    public void onNavigationBarChange(boolean show) {
-        if(!show){
-            applyFull();
-            getPopupContentView().setPadding(0,0,0,0);
-        }else {
-            applySize(true);
-        }
-    }
-
-    @Override
-    protected void applySize(boolean isShowNavBar) {
-        View contentView = getPopupContentView();
-        FrameLayout.LayoutParams params = (LayoutParams) contentView.getLayoutParams();
-        params.gravity = Gravity.TOP;
-        contentView.setLayoutParams(params);
-        contentView.setPadding(contentView.getPaddingLeft(), contentView.getPaddingTop(), contentView.getPaddingRight(), 0);
+        if(fullPopupContainer.getChildCount()==0)addInnerContent();
+        getPopupContentView().setTranslationX(popupInfo.offsetX);
+        getPopupContentView().setTranslationY(popupInfo.offsetY);
     }
 
     Paint paint = new Paint();

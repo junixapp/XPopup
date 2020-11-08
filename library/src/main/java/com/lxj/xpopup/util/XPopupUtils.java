@@ -268,7 +268,8 @@ public class XPopupUtils {
                 dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
             }
         } else if (isBottomPartShadow(pv) || pv instanceof DrawerPopupView) {
-            int overflowHeight = (focusBottom + keyboardHeight) - windowHeight;
+            int navHeight = isNavBarVisible(pv.dialog.getWindow()) ? getNavBarHeight() : 0;
+            int overflowHeight = (focusBottom + keyboardHeight + navHeight) - windowHeight;
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }

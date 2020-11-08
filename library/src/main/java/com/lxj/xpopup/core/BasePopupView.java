@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -95,7 +96,8 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         @Override
         public void run() {
             // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
-            applySize(false);
+            if(dialog==null || dialog.getWindow()==null)return;
+            applySize(XPopupUtils.isNavBarVisible(dialog.getWindow()));
             getPopupContentView().setAlpha(1f);
 
             //2. 收集动画执行器
@@ -178,15 +180,12 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
     }
 
     protected void applyFull() {
-        FrameLayout.LayoutParams params = (LayoutParams) getLayoutParams();
-        params.topMargin = 0;
-        params.leftMargin = 0;
-        params.bottomMargin = 0;
-        params.rightMargin = 0;
-        setLayoutParams(params);
+        Log.e("tag", "applyFull: ");
     }
 
-    protected void applySize(boolean isShowNavBar) { }
+    protected void applySize(boolean isShowNavBar) {
+
+    }
 
     public BasePopupView  show() {
         Activity activity = XPopupUtils.context2Activity(this);
