@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 //        ScreenUtils.setLandscape(this);
         loadingPopupView = new XPopup.Builder(this).asLoading("嘻嘻嘻嘻嘻");
         loadingPopupView.show();
-        loadingPopupView.delayDismiss(1000);
+        loadingPopupView.delayDismiss(1200);
 
 //        BarUtils.setStatusBarVisibility(this, false);
 //        BarUtils.setNavBarVisibility(this, false);

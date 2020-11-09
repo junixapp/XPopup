@@ -201,7 +201,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 }, 1000);
 //                loadingPopup.smartDismiss();
 //                loadingPopup.dismiss();
-                loadingPopup.delayDismissWith(3000, new Runnable() {
+                loadingPopup.delayDismissWith(4000, new Runnable() {
                     @Override
                     public void run() {
                         toast("我消失了！！！");

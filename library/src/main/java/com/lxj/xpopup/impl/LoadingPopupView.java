@@ -45,7 +45,7 @@ public class LoadingPopupView extends CenterPopupView {
             getPopupImplView().setElevation(10f);
         }
         if(bindLayoutId==0){
-            getPopupImplView().setBackground(XPopupUtils.createDrawable(Color.parseColor("#1f1f1f"), popupInfo.borderRadius));
+            getPopupImplView().setBackground(XPopupUtils.createDrawable(Color.parseColor("#dd111111"), popupInfo.borderRadius));
         }
         setup();
     }

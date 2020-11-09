@@ -71,7 +71,7 @@ public class FullScreenDialog extends Dialog {
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(contentView.popupInfo.navigationBarColor);
+            if(contentView.popupInfo.navigationBarColor!=0)getWindow().setNavigationBarColor(contentView.popupInfo.navigationBarColor);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); //尝试兼容部分手机上的状态栏空白问题
         }
         if(Build.VERSION.SDK_INT == 19){ //解决4.4上状态栏闪烁的问题
