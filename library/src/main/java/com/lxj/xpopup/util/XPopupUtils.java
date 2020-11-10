@@ -3,6 +3,7 @@ package com.lxj.xpopup.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -560,7 +562,7 @@ public class XPopupUtils {
         return null;
     }
 
-    public static GradientDrawable createDrawable(int color, float radius) {
+    public static Drawable createDrawable(int color, float radius) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setColor(color);
@@ -568,7 +570,7 @@ public class XPopupUtils {
         return drawable;
     }
 
-    public static GradientDrawable createDrawable(int color, float tlRadius, float trRadius, float brRadius,
+    public static Drawable createDrawable(int color, float tlRadius, float trRadius, float brRadius,
                                                   float blRadius) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
@@ -580,4 +582,5 @@ public class XPopupUtils {
                 blRadius, blRadius});
         return drawable;
     }
+
 }

@@ -50,7 +50,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();
         }
-        attachPopupContainer.setBackgroundColor(Color.RED);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
             @Override
             public void run() {

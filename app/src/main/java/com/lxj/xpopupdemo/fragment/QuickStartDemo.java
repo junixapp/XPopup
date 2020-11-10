@@ -16,7 +16,6 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
-import com.lxj.xpopup.impl.ConfirmPopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
@@ -28,7 +27,6 @@ import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
-import com.lxj.xpopupdemo.custom.CustomCenterPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
@@ -267,7 +265,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
                             .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                            .asAttachList(new String[]{"分享", "编辑编辑编辑编辑编", "不带icon", "分享"},
+                            .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享"},
                                     new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                     new OnSelectListener() {
                                         @Override

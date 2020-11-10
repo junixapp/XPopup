@@ -178,6 +178,8 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 领财猫(湖南中纵联联信息科技有限公司)一款领取周边红包的APP，https://android.myapp.com/myapp/detail.htm?apkName=com.zwcs.cat
 - NewsClapper（下载地址：https://play.google.com/store/apps/details?id=com.newsclapper.video）
 - 情侣签App-千万级用户情侣恋爱记录产品 （下载地址：http://app.mi.com/details?id=com.ymstudio.loversign&ref=search）
+- 我爱赚钱(下载地址: https://sj.qq.com/myapp/detail.htm?apkName=me.tx.taskhunter&info=532BB35B65D9FFA7F497DEFA6E27F663)
+- 海信智学平台
 
 
 ## 打个赏
