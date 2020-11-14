@@ -86,6 +86,7 @@ public class PopupDrawerLayout extends FrameLayout {
 
     boolean isIntercept = false;
     float x, y;
+    float downX, downY;
     boolean isToLeft, canChildScrollLeft;
 
     @Override
@@ -95,12 +96,31 @@ public class PopupDrawerLayout extends FrameLayout {
         isToLeft = ev.getX() < x;
         x = ev.getX();
         y = ev.getY();
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dx = Math.abs(x - downX);
+                float dy = Math.abs(y - downY);
+                if(dy > dx){
+                    //垂直方向滑动
+                    return false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                x = 0;
+                y = 0;
+                break;
+        }
 //        boolean canChildScrollRight = canScroll(this, ev.getX(), ev.getY(), -1);
         canChildScrollLeft = canScroll(this, ev.getX(), ev.getY(), 1);
-        if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
-            x = 0;
-            y = 0;
-        }
+//        if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
+//            x = 0;
+//            y = 0;
+//        }
         isIntercept = dragHelper.shouldInterceptTouchEvent(ev);
         if (isToLeft && !canChildScrollLeft) {
             return isIntercept;

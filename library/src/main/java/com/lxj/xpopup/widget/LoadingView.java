@@ -22,7 +22,7 @@ public class LoadingView extends View {
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private int startColor = Color.parseColor("#EEEEEE");
     private int endColor = Color.parseColor("#111111");
-    int lineCount = 12; // 共12条线
+    int lineCount = 10; // 共12条线
     float avgAngle = 360f / lineCount;
     int time = 0; // 重复次数
     float centerX, centerY; // 中心x，y
