@@ -32,7 +32,6 @@ import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.lxj.xpopup.util.navbar.OnNavigationBarListener;
 import java.util.ArrayList;
 import java.util.Stack;
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
@@ -41,7 +40,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
  * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
-public abstract class BasePopupView extends FrameLayout implements OnNavigationBarListener, LifecycleObserver {
+public abstract class BasePopupView extends FrameLayout implements  LifecycleObserver {
     private static Stack<BasePopupView> stack = new Stack<>(); //静态存储所有弹窗对象
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
@@ -95,7 +94,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
         public void run() {
             // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
             if(dialog==null || dialog.getWindow()==null)return;
-            applySize(XPopupUtils.isNavBarVisible(dialog.getWindow()));
             getPopupContentView().setAlpha(1f);
 
             //2. 收集动画执行器
@@ -166,22 +164,6 @@ public abstract class BasePopupView extends FrameLayout implements OnNavigationB
                 popupContentAnimator.initAnimator();
             }
         }
-    }
-
-    @Override
-    public void onNavigationBarChange(boolean show) {
-        if (!show) {
-            applyFull();
-        } else {
-            applySize(true);
-        }
-    }
-
-    protected void applyFull() {
-    }
-
-    protected void applySize(boolean isShowNavBar) {
-
     }
 
     public BasePopupView  show() {

@@ -12,12 +12,10 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -240,17 +238,6 @@ public final class XPermission {
      */
     public XPermission callback(final FullCallback callback) {
         mFullCallback = callback;
-        return this;
-    }
-
-    /**
-     * Set the theme callback.
-     *
-     * @param callback The theme callback.
-     * @return the single {@link com.lxj.xpermission.XPermission} instance
-     */
-    public XPermission theme(final ThemeCallback callback) {
-        mThemeCallback = callback;
         return this;
     }
 
