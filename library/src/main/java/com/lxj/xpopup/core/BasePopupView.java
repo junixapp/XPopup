@@ -1,6 +1,7 @@
 package com.lxj.xpopup.core;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -52,6 +53,10 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     private Handler handler = new Handler(Looper.getMainLooper());
     public BasePopupView(@NonNull Context context) {
         super(context);
+        if(context instanceof Application){
+            throw new IllegalArgumentException("XPopup的Context必须是Activity类型！");
+        }
+
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         shadowBgAnimator = new ShadowBgAnimator(this);
         //  添加Popup窗体内容View
@@ -65,9 +70,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
      * 执行初始化
      */
     protected void init() {
-//        NavigationBarObserver.getInstance().register(getContext());
-//        NavigationBarObserver.getInstance().addOnNavigationBarListener(this);
-
         //1. 初始化Popup
         if(this instanceof AttachPopupView){
             initPopupContent();
@@ -547,7 +549,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 dismissWithRunnable = null;//no cache, avoid some bad edge effect.
             }
             popupStatus = PopupStatus.Dismiss;
-//            NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
 
             if (!stack.isEmpty()) stack.pop();
             if (popupInfo.isRequestFocus) {
@@ -629,7 +630,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         super.onDetachedFromWindow();
         stack.clear();
         handler.removeCallbacksAndMessages(null);
-//        NavigationBarObserver.getInstance().removeOnNavigationBarListener(BasePopupView.this);
         if(popupInfo!=null) {
             if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
             if(popupInfo.isDestroyOnDismiss){ //如果开启isDestroyOnDismiss，强制释放资源
