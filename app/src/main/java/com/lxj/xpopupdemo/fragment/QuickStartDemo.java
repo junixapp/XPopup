@@ -79,8 +79,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                v.setTag("xpopup");
-                Log.e("tag", "quickstart  v: " +v + "  tag: "+ v.getTag());
+                v.setTag("xpopup");//能保证弹窗弹出后，下层的View无法滑动
                 builder.asAttachList(new String[]{"置顶", "复制", "删除", "编辑编辑编辑编辑编辑编辑编"
                         }, null,
                         new OnSelectListener() {
