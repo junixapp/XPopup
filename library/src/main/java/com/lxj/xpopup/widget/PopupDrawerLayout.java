@@ -231,7 +231,7 @@ public class PopupDrawerLayout extends FrameLayout {
         public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
             if (releasedChild == placeHolder && xvel == 0) {
-                close();
+                if(isDismissOnTouchOutside) close();
                 return;
             }
             if (releasedChild == mChild && isToLeft && !canChildScrollLeft && xvel < -500) {
@@ -303,14 +303,12 @@ public class PopupDrawerLayout extends FrameLayout {
         });
     }
 
-    public boolean isCanClose = true;
+    public boolean isDismissOnTouchOutside = true;
 
     /**
      * 关闭Drawer
      */
     public void close() {
-//        if (dragHelper.continueSettling(true)) return;
-        if (!isCanClose) return;
         post(new Runnable() {
             @Override
             public void run() {

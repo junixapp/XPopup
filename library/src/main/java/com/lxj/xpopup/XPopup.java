@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -168,8 +169,9 @@ public class XPopup {
             this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (popupInfo.touchPoint == null || event.getAction() == MotionEvent.ACTION_DOWN)
+                    if (popupInfo.touchPoint == null || event.getAction() == MotionEvent.ACTION_DOWN){
                         popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
+                    }
                     return false;
                 }
             });

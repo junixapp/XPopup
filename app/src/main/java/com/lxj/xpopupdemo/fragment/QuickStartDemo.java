@@ -88,7 +88,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             }
                         })
                         .show();
-                return false;
+                return true;
             }
         });
 
@@ -289,6 +289,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowDrawerRight:
                 new XPopup.Builder(getContext())
+                        .dismissOnTouchOutside(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .popupPosition(PopupPosition.Right)//右边
                         .hasStatusBarShadow(true) //启用状态栏阴影

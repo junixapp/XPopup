@@ -45,7 +45,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         drawerLayout.enableShadow = popupInfo.hasShadowBg;
-        drawerLayout.isCanClose = popupInfo.isDismissOnTouchOutside;
+        drawerLayout.isDismissOnTouchOutside = popupInfo.isDismissOnTouchOutside;
         drawerLayout.setOnCloseListener(new PopupDrawerLayout.OnCloseListener() {
             @Override
             public void onClose() {
@@ -70,12 +70,6 @@ public abstract class DrawerPopupView extends BasePopupView {
         getPopupImplView().setTranslationY(popupInfo.offsetY);
         drawerLayout.setDrawerPosition(popupInfo.popupPosition == null ? PopupPosition.Left : popupInfo.popupPosition);
         drawerLayout.enableDrag = popupInfo.enableDrag;
-        drawerLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
     }
 
     Paint paint = new Paint();
@@ -137,7 +131,6 @@ public abstract class DrawerPopupView extends BasePopupView {
         doStatusBarColorTransform(false);
         // 关闭Drawer，由于Drawer注册了关闭监听，会自动调用dismiss
         drawerLayout.close();
-//        super.dismiss();
     }
     @Override
     protected PopupAnimator getPopupAnimator() {
