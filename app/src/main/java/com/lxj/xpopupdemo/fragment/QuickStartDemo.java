@@ -47,7 +47,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     }
 
     @Override
-    public void init(View view) {
+    public void init(final View view) {
         view.findViewById(R.id.btnShowConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnBindLayout).setOnClickListener(this);
         view.findViewById(R.id.btnShowPosition1).setOnClickListener(this);
@@ -79,6 +79,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+//                v.setTag("xpopup");
+                Log.e("tag", "quickstart  v: " +v + "  tag: "+ v.getTag());
                 builder.asAttachList(new String[]{"置顶", "复制", "删除", "编辑编辑编辑编辑编辑编辑编"
                         }, null,
                         new OnSelectListener() {
@@ -259,7 +261,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             .hasShadowBg(false)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
-//                        .popupAnimation(PopupAnimation.TranslateFromLeft) //NoAnimation表示禁用动画
+//                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
 //                        .offsetY(-60)
 //                        .offsetX(80)

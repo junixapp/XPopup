@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.RequiresApi;
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -171,6 +172,15 @@ public class XPopup {
                 public boolean onTouch(View v, MotionEvent event) {
                     if (popupInfo.touchPoint == null || event.getAction() == MotionEvent.ACTION_DOWN){
                         popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
+                    }
+                    if("xpopup".equals(v.getTag()) && event.getAction()==MotionEvent.ACTION_MOVE){
+                        //长按发送，阻断父View拦截
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                    }
+                    if(event.getAction()==MotionEvent.ACTION_UP){
+                        //长按结束，恢复阻断
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        v.setTag(null);
                     }
                     return false;
                 }
