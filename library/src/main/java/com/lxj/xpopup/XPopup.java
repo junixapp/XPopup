@@ -75,6 +75,14 @@ public class XPopup {
         }
     }
 
+    /**
+     * 在长按弹出弹窗后，能保证下层View不在滑动
+     * @param v
+     */
+    public static void fixLongClick(View v){
+        v.setTag("xpopup");
+    }
+
     public static int getAnimationDuration() {
         return animationDuration;
     }
