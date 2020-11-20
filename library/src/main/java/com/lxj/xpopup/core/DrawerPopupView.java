@@ -25,7 +25,7 @@ import com.lxj.xpopup.widget.PopupDrawerLayout;
  * Create by dance, at 2018/12/20
  */
 public abstract class DrawerPopupView extends BasePopupView {
-    PopupDrawerLayout drawerLayout;
+    protected PopupDrawerLayout drawerLayout;
     protected FrameLayout drawerContentContainer;
     float mFraction = 0f;
     public DrawerPopupView(@NonNull Context context) {
@@ -34,6 +34,11 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerContentContainer = findViewById(R.id.drawerContentContainer);
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), drawerContentContainer, false);
         drawerContentContainer.addView(contentView);
+    }
+
+    @Override
+    public View getPopupImplView() {
+        return drawerContentContainer.getChildAt(0);
     }
 
     @Override
