@@ -1,30 +1,19 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.graphics.Color;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
-import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.databinding.CustomDrawerPopup2Binding;
-import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
-import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Description: 自定义抽屉弹窗
@@ -45,7 +34,7 @@ public class CustomDrawerPopupView extends DrawerPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        CustomDrawerPopup2Binding.bind(getPopupImplView());
+//        CustomDrawerPopup2Binding.bind(getPopupImplView());
         Log.e("tag", "CustomDrawerPopupView onCreate");
 //        text = findViewById(R.id.text);
 //        findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
