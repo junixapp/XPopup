@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,15 +153,15 @@ public class FullScreenDialog extends Dialog {
             }
         }
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE ,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE ,
+//                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_FULLSCREEN |
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_IMMERSIVE |
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN ;
-        decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
+//                View.SYSTEM_UI_FLAG_FULLSCREEN |
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                View.SYSTEM_UI_FLAG_IMMERSIVE |View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                ;
+//        decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
     }
     private  String getResNameById(int id) {
         try {
@@ -181,9 +180,6 @@ public class FullScreenDialog extends Dialog {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-//        if (contentView!=null && contentView.getContext() instanceof Activity){
-//            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
-//        }
         if(isFuckVIVORoom()){
             event.setLocation(event.getX(), event.getY()+XPopupUtils.getStatusBarHeight());
         }

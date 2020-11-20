@@ -114,7 +114,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .isLightStatusBar(true)
-//                        .hasNavigationBar(false)
+                        .hasNavigationBar(false)
 //                        .setPopupCallback(new DemoXPopupListener())
                         .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
                                 "取消", "确定",

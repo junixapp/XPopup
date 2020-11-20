@@ -80,6 +80,21 @@ public class XPopup {
      * @param v
      */
     public static void fixLongClick(View v){
+        v.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if("xpopup".equals(v.getTag()) && event.getAction()==MotionEvent.ACTION_MOVE){
+                    //长按发送，阻断父View拦截
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    //长按结束，恢复阻断
+                    v.getParent().requestDisallowInterceptTouchEvent(false);
+                    v.setTag(null);
+                }
+                return false;
+            }
+        });
         v.setTag("xpopup");
     }
 
@@ -179,15 +194,6 @@ public class XPopup {
                 public boolean onTouch(View v, MotionEvent event) {
                     if (popupInfo.touchPoint == null || event.getAction() == MotionEvent.ACTION_DOWN){
                         popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
-                    }
-                    if("xpopup".equals(v.getTag()) && event.getAction()==MotionEvent.ACTION_MOVE){
-                        //长按发送，阻断父View拦截
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                    }
-                    if(event.getAction()==MotionEvent.ACTION_UP){
-                        //长按结束，恢复阻断
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        v.setTag(null);
                     }
                     return false;
                 }
