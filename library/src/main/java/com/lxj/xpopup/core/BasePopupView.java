@@ -325,6 +325,11 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         }
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
     /**
      * 根据PopupInfo的popupAnimation字段来生成对应的内置的动画执行器
      */

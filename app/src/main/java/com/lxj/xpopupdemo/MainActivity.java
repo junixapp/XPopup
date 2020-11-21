@@ -1,6 +1,10 @@
 package com.lxj.xpopupdemo;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.WindowManager;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,17 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.KeyboardUtils;
-import com.blankj.utilcode.util.PhoneUtils;
-import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.RomUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
-import com.lxj.xpopup.util.FuckRomUtils;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
@@ -71,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
 
 //        ToastUtils.showLong(FuckRomUtils.getRomInfo().getName() + FuckRomUtils.getRomInfo().getVersion());
 //        ToastUtils.showLong(android.os.Build.MODEL);
+//        String str = RomUtils.getRomInfo().toString() + " " + "nav可见：" + XPopupUtils.isNavBarVisible(getWindow()) + "  navHeight: "+ XPopupUtils.getNavBarHeight();
+        int windowHeight = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
+        String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(this)
+                + "  getAppHeight: "+ XPopupUtils.getAppHeight(this)
+                + "  statusHeight: "+ XPopupUtils.getStatusBarHeight()
+                + "  navHeight: "+ XPopupUtils.getNavBarHeight()
+                + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
+//        ToastUtils.showLong(str);
+        Log.e("tag", str);
+//        KeyboardUtils
     }
 
     class MainAdapter extends FragmentPagerAdapter {

@@ -43,9 +43,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         if (attachPopupContainer.getChildCount() == 0) addInnerContent();
-        if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
-            throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
-
         // 指定阴影动画的目标View
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
@@ -110,21 +111,23 @@ public abstract class AttachPopupView extends BasePopupView {
      */
     float translationX = 0, translationY = 0;
     // 弹窗显示的位置不能超越Window高度
-    float maxY = XPopupUtils.getWindowHeight(getContext());
+    float maxY = XPopupUtils.getScreenHeight(getContext());
     int overflow = 10;
     float centerY = 0;
 
     public void doAttach() {
         overflow = XPopupUtils.dp2px(getContext(), overflow);
+        maxY = getMeasuredHeight() - overflow;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
+            if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
             centerY = popupInfo.touchPoint.y;
             // 依附于指定点,尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
             boolean isTallerThanWindowHeight = (popupInfo.touchPoint.y + getPopupContentView().getMeasuredHeight()) > maxY;
             if (isTallerThanWindowHeight) {
-                isShowUp = popupInfo.touchPoint.y > XPopupUtils.getWindowHeight(getContext()) / 2;
+                isShowUp = popupInfo.touchPoint.y > XPopupUtils.getScreenHeight(getContext()) / 2;
             } else {
                 isShowUp = false;
             }
@@ -133,7 +136,7 @@ public abstract class AttachPopupView extends BasePopupView {
             //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
             int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
-                    : (XPopupUtils.getWindowHeight(getContext()) - popupInfo.touchPoint.y - overflow));
+                    : (XPopupUtils.getScreenHeight(getContext()) - popupInfo.touchPoint.y - overflow));
             int maxWidth = (int) (isShowLeft ? (XPopupUtils.getWindowWidth(getContext()) - popupInfo.touchPoint.x - overflow) : (popupInfo.touchPoint.x - overflow));
             if (getPopupContentView().getMeasuredHeight() > maxHeight) {
                 params.height = maxHeight;
@@ -194,7 +197,9 @@ public abstract class AttachPopupView extends BasePopupView {
             boolean isTallerThanWindowHeight = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY;
             centerY = (rect.top + rect.bottom) / 2;
             if (isTallerThanWindowHeight) {
-                isShowUp = centerY > XPopupUtils.getWindowHeight(getContext()) / 2;
+                //超出可用大小就显示在上方
+                isShowUp = true;
+//                isShowUp = centerY > XPopupUtils.getScreenHeight(getContext()) / 2;
             } else {
                 isShowUp = false;
             }
@@ -204,7 +209,7 @@ public abstract class AttachPopupView extends BasePopupView {
             if (!isCreated) {
                 ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
                 int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
-                        : (XPopupUtils.getWindowHeight(getContext()) - rect.bottom - overflow);
+                        : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow);
                 int maxWidth = isShowLeft ? (XPopupUtils.getWindowWidth(getContext()) - rect.left - overflow) : (rect.right - overflow);
                 if (getPopupContentView().getMeasuredHeight() > maxHeight) {
                     params.height = maxHeight;
@@ -259,7 +264,7 @@ public abstract class AttachPopupView extends BasePopupView {
     protected boolean isShowUpToTarget() {
         if(popupInfo.positionByWindowCenter){
             //目标在屏幕上半方，弹窗显示在下；反之，则在上
-            return centerY > XPopupUtils.getWindowHeight(getContext())/2;
+            return centerY > XPopupUtils.getScreenHeight(getContext())/2;
         }
         //默认是根据Material规范定位，优先显示在目标下方，下方距离不足才显示在上方
         return (isShowUp || popupInfo.popupPosition == PopupPosition.Top)

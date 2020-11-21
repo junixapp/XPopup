@@ -36,4 +36,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="150dp"
         android:layout_height="wrap_content" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="测试底部输入框交互" />
 </LinearLayout>

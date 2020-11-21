@@ -46,11 +46,11 @@ public class FullScreenDialog extends Dialog {
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
         if(isFuckVIVORoom()){
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
-            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getPhoneScreenHeight(getWindow()),
-                    XPopupUtils.getWindowHeight(getContext())));
+            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
+                    XPopupUtils.getScreenHeight(getContext())));
         }else {
-            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getPhoneScreenHeight(getWindow()),
-                    XPopupUtils.getWindowHeight(getContext())));
+            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
+                    XPopupUtils.getScreenHeight(getContext())));
         }
         //设置全屏
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -177,7 +177,6 @@ public class FullScreenDialog extends Dialog {
         this.contentView = view;
         return this;
     }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if(isFuckVIVORoom()){

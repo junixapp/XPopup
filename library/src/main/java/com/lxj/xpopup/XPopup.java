@@ -79,10 +79,14 @@ public class XPopup {
      * 在长按弹出弹窗后，能保证下层View不在滑动
      * @param v
      */
+    public static PointF longClickPoint = null;
     public static void fixLongClick(View v){
         v.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_DOWN){
+                    longClickPoint = new PointF(event.getRawX(), event.getRawY());
+                }
                 if("xpopup".equals(v.getTag()) && event.getAction()==MotionEvent.ACTION_MOVE){
                     //长按发送，阻断父View拦截
                     v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -192,7 +196,7 @@ public class XPopup {
             this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (popupInfo.touchPoint == null || event.getAction() == MotionEvent.ACTION_DOWN){
+                    if (event.getAction() == MotionEvent.ACTION_DOWN){
                         popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
                     }
                     return false;
