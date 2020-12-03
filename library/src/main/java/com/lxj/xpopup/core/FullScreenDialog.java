@@ -58,7 +58,8 @@ public class FullScreenDialog extends Dialog {
 
         if(!contentView.popupInfo.isRequestFocus){
             //不获取焦点
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+            int flag = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            getWindow().setFlags(flag,flag);
         }
 
         //remove status bar shadow
@@ -159,7 +160,8 @@ public class FullScreenDialog extends Dialog {
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
-                View.SYSTEM_UI_FLAG_IMMERSIVE |View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                View.SYSTEM_UI_FLAG_IMMERSIVE |
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 ;
         decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
     }

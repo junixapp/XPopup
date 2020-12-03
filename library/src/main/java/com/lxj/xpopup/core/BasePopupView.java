@@ -546,6 +546,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             if(popupInfo==null)return;
             if (popupInfo.autoOpenSoftInput && BasePopupView.this instanceof PartShadowPopupView) KeyboardUtils.hideSoftInput(BasePopupView.this);
             onDismiss();
+            XPopup.longClickPoint = null;
             if (popupInfo.xPopupCallback != null) {
                 popupInfo.xPopupCallback.onDismiss(BasePopupView.this);
             }

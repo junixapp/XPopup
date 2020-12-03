@@ -111,13 +111,12 @@ public abstract class AttachPopupView extends BasePopupView {
      */
     float translationX = 0, translationY = 0;
     // 弹窗显示的位置不能超越Window高度
-    float maxY = XPopupUtils.getScreenHeight(getContext());
-    int overflow = 10;
+    float maxY = XPopupUtils.getAppHeight(getContext());
+    int overflow = XPopupUtils.dp2px(getContext(), 10);
     float centerY = 0;
 
     public void doAttach() {
-        overflow = XPopupUtils.dp2px(getContext(), overflow);
-        maxY = getMeasuredHeight() - overflow;
+        maxY = XPopupUtils.getAppHeight(getContext()) - overflow;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
