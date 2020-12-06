@@ -1,21 +1,16 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-
 import androidx.annotation.RequiresApi;
-
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
-import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -72,7 +67,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv2).setOnClickListener(this);
         view.findViewById(R.id.tv3).setOnClickListener(this);
         view.findViewById(R.id.btnMultiPopup).setOnClickListener(this);
-        view.findViewById(R.id.btnCoverDialog).setOnClickListener(this);
         view.findViewById(R.id.btnShowInBackground).setOnClickListener(this);
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
@@ -111,12 +105,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 if(popupView==null)popupView = new XPopup.Builder(getContext())
 //                        .dismissOnBackPressed(false)
 //                        .navigationBarColor(Color.BLUE)
-                        .hasBlurBg(true)
+//                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .isLightStatusBar(true)
-//                        .hasNavigationBar(false)
 //                        .setPopupCallback(new DemoXPopupListener())
                         .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
                                 "取消", "确定",
@@ -144,6 +137,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗
                 new XPopup.Builder(getContext())
+                        .hasStatusBarShadow(false)
                         //.dismissOnBackPressed(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
@@ -351,17 +345,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnMultiPopup:
                 startActivity(new Intent(getContext(), DemoActivity.class));
                 break;
-            case R.id.btnCoverDialog:
-                new AlertDialog.Builder(getContext()).setTitle("我是系统对话框")
-                        .setMessage("现在XPopup可以覆盖对话框拉！！！")
-                        .setPositiveButton("XPopup弹窗牛逼！", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
-                delayShow();
-                break;
             case R.id.btnShowInBackground:
                 //申请悬浮窗权限
                 XPopup.requestOverlayPermission(getContext(), new XPermission.SimpleCallback() {
@@ -394,23 +377,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         }
     }
 
-    public void delayShow() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new XPopup.Builder(getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .autoDismiss(true).
-                        asConfirm("我是XPopup的弹窗", "我可以覆盖系统的Dialog拉！！！",
-                                new OnConfirmListener() {
-                                    @Override
-                                    public void onConfirm() {
-
-                                    }
-                                }).show();
-            }
-        }, 1600);
-    }
 
     class DemoXPopupListener extends SimpleCallback {
         @Override

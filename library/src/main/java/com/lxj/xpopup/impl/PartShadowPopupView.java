@@ -140,14 +140,14 @@ public abstract class PartShadowPopupView extends BasePopupView {
     }
 
     //让触摸透过
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (popupInfo.isDismissOnTouchOutside) {
-            dismiss();
-        }
-        if (dialog != null && popupInfo.isClickThrough) dialog.passClick(event);
-        return popupInfo.isClickThrough;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (popupInfo.isDismissOnTouchOutside) {
+//            dismiss();
+//        }
+//        if (dialog != null && popupInfo.isClickThrough) dialog.passClick(event);
+//        return popupInfo.isClickThrough;
+//    }
 
     @Override
     protected PopupAnimator getPopupAnimator() {

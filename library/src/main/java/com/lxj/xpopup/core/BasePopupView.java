@@ -659,26 +659,32 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     public boolean onTouchEvent(MotionEvent event) {
         // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件,如果是，则dismiss
         Rect rect = new Rect();
+        Rect rect2 = new Rect();
         getPopupContentView().getGlobalVisibleRect(rect);
         if (!XPopupUtils.isInRect(event.getX(), event.getY(), rect)) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();
                     y = event.getY();
+                    if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
                     break;
                 case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
                     if (distance < touchSlop && popupInfo.isDismissOnTouchOutside) {
                         dismiss();
+                        getPopupImplView().getGlobalVisibleRect(rect2);
+                        if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)){
+                            if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
+                        }
                     }
                     x = 0;
                     y = 0;
                     break;
             }
         }
-        if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
         return true;
     }
 

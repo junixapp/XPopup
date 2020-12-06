@@ -46,7 +46,7 @@ public class XPopup {
     private static int primaryColor = Color.parseColor("#121212");
     private static int animationDuration = 350;
     public static int statusBarShadowColor = Color.parseColor("#55000000");
-    private static int shadowBgColor = Color.parseColor("#6F000000");
+    private static int shadowBgColor = Color.parseColor("#7F000000");
 
     public static void setShadowBgColor(int color) {
         shadowBgColor = color;
@@ -76,7 +76,7 @@ public class XPopup {
     }
 
     /**
-     * 在长按弹出弹窗后，能保证下层View不在滑动
+     * 在长按弹出弹窗后，能保证下层View不能滑动
      * @param v
      */
     public static PointF longClickPoint = null;
@@ -284,8 +284,7 @@ public class XPopup {
         }
 
         /**
-         * 设置是否给StatusBar添加阴影，目前对Drawer弹窗生效。如果你的Drawer的背景是白色，建议设置为true，因为状态栏文字的颜色也往往
-         * 是白色，会导致状态栏文字看不清；如果Drawer的背景色不是白色，则忽略即可
+         * 设置是否给StatusBar添加阴影，目前对Drawer弹窗和全屏弹窗生效生效。
          *
          * @param hasStatusBarShadow
          * @return
@@ -296,7 +295,8 @@ public class XPopup {
         }
 
         /**
-         * 设置是否显示状态栏，默认是显示的
+         * 设置是否显示状态栏，默认是显示的。如果你的APP主动隐藏状态栏，你可能需要设置为false，不然看起来
+         * 会有点不和谐
          *
          * @param hasStatusBar
          * @return
@@ -307,7 +307,8 @@ public class XPopup {
         }
 
         /**
-         * 设置是否显示导航栏，默认是显示的
+         * 设置是否显示导航栏，默认是显示的。如果你的APP主动隐藏了导航栏，你需要设置为false，不然看起来
+         * 会有点不和谐
          *
          * @param hasNavigationBar
          * @return
@@ -318,7 +319,7 @@ public class XPopup {
         }
 
         /**
-         * 设置导航栏的颜色，如果你想自定义弹窗的导航栏颜色就设置这个
+         * 设置导航栏的颜色，如果你想自定义弹窗的导航栏颜色就设置这个。默认情况下不需要
          *
          * @param navigationBarColor
          * @return
@@ -395,7 +396,7 @@ public class XPopup {
         }
 
         /**
-         * 是否让使用暗色主题，默认是false。
+         * 是否使用暗色主题，默认是false。对所有内置弹窗生效。
          *
          * @param isDarkTheme
          * @return
@@ -406,7 +407,8 @@ public class XPopup {
         }
 
         /**
-         * 是否点击弹窗背景时将点击事件透传到Activity下，默认是不透传。由于容易引发其他问题，目前只对PartShadow弹窗有效。
+         * 是否点击弹窗背景时将点击事件透传到Activity下，默认是false。目前对Center弹窗，Attach弹窗，
+         * Position弹窗，PartShadow弹窗生效。
          *
          * @param isClickThrough
          * @return
