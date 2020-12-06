@@ -25,8 +25,6 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,9 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
 import androidx.annotation.FloatRange;
+
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -47,6 +47,7 @@ import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -217,7 +218,6 @@ public class XPopupUtils {
     //监听到的keyboardHeight有一定几率是错误的，比如在同时显示导航栏和弹出输入法的时候，有一定几率会算上导航栏的高度，
     //这个不是必现的，暂时无解
     private static int correctKeyboardHeight = 0;
-
     public static void moveUpToKeyboard(final int keyboardHeight, final BasePopupView pv) {
         if (correctKeyboardHeight == 0) correctKeyboardHeight = keyboardHeight;
         else if (keyboardHeight != 0)
@@ -342,6 +342,7 @@ public class XPopupUtils {
         return pv instanceof PartShadowPopupView && !((PartShadowPopupView) pv).isShowUp;
     }
 
+//    public static HashMap
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView) return;

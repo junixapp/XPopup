@@ -51,7 +51,9 @@ public abstract class AttachPopupView extends BasePopupView {
         super.initPopupContent();
         if (attachPopupContainer.getChildCount() == 0) addInnerContent();
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
-            throw new IllegalArgumentException("atView() or touchPoint must not be null for AttachPopupView ！");
+            throw new IllegalArgumentException("atView() or watchView() must be call for AttachPopupView before show()！");
+
+//        popupInfo.getAtView().set
 
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;

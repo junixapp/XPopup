@@ -33,7 +33,6 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.util.XPermission;
-
 import java.util.List;
 
 
@@ -408,7 +407,7 @@ public class XPopup {
 
         /**
          * 是否点击弹窗背景时将点击事件透传到Activity下，默认是false。目前对Center弹窗，Attach弹窗，
-         * Position弹窗，PartShadow弹窗生效。
+         * Position弹窗，PartShadow弹窗生效；对Drawer弹窗，FullScreen弹窗，Bottom弹窗不生效（未开放功能）
          *
          * @param isClickThrough
          * @return
@@ -420,7 +419,7 @@ public class XPopup {
 
         /**
          * 是否允许应用在后台的时候也能弹出弹窗，默认是false。注意如果开启这个开关，需要申请悬浮窗权限才能生效。
-         *
+         * 直接使用 XPopup.requestOverlayPermission()即可申请
          * @param enableShowWhenAppBackground
          * @return
          */

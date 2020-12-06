@@ -66,9 +66,7 @@ public class FullScreenDialog extends Dialog {
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, true);
         }
-//        if (Build.VERSION.SDK_INT >= 19) {
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//        }
+
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -86,7 +84,6 @@ public class FullScreenDialog extends Dialog {
         //自动设置状态色调，亮色还是暗色
         autoSetStatusBarMode();
         setContentView(contentView);
-
     }
 
     public boolean isFuckVIVORoom(){

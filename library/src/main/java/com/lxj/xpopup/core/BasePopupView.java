@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
@@ -95,7 +96,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         @Override
         public void run() {
             // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
-            if(dialog==null || dialog.getWindow()==null)return;
+            if(dialog==null || getHostWindow()==null)return;
             getPopupContentView().setAlpha(1f);
 
             //2. 收集动画执行器
@@ -183,14 +184,10 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     private Runnable attachTask = new Runnable() {
         @Override
         public void run() {
-            // 1. add PopupView to its dialog.
-            attachDialog();
-            if(getContext() instanceof FragmentActivity){
-                ((FragmentActivity)getContext()).getLifecycle().addObserver(BasePopupView.this);
-            }
+            // 1. add PopupView to its host.
+            attachToHost();
             //2. 注册对话框监听器
-            popupInfo.decorView = (ViewGroup) dialog.getWindow().getDecorView();
-            KeyboardUtils.registerSoftInputChangedListener(dialog.getWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
+            KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
                 public void onSoftInputChanged(int height) {
                     if(popupInfo!=null && popupInfo.xPopupCallback!=null) {
@@ -220,12 +217,21 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     };
 
     public FullScreenDialog dialog;
-    private void attachDialog(){
+    private void attachToHost(){
         if(dialog==null){
             dialog = new FullScreenDialog(getContext())
                     .setContent(this);
         }
         dialog.show();
+        popupInfo.decorView = (ViewGroup) getHostWindow().getDecorView();
+    }
+
+    private void detachFromHost(){
+        if(dialog!=null)dialog.dismiss();
+    }
+
+    public Window getHostWindow(){
+        return dialog.getWindow();
     }
 
     protected void doAfterShow() {
@@ -242,10 +248,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow(BasePopupView.this);
             //再次检测移动距离
-            if(dialog!=null){
-                if (XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()) > 0 && !hasMoveUp) {
-                    XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(dialog.getWindow()), BasePopupView.this);
-                }
+            if (XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()) > 0 && !hasMoveUp) {
+                XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()), BasePopupView.this);
             }
         }
     };
@@ -573,7 +577,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             }
 
             // 移除弹窗，GameOver
-            if(dialog!=null)dialog.dismiss();
+            detachFromHost();
+
         }
     };
 
@@ -621,7 +626,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     public void destroy(){
-        if(dialog!=null)dialog.dismiss();
         onDetachedFromWindow();
         if(popupInfo!=null){
             popupInfo.atView = null;
@@ -654,6 +658,10 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         hasMoveUp = false;
     }
 
+    private void passClickThrough(MotionEvent event){
+        if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
+    }
+
     private float x, y;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -666,7 +674,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();
                     y = event.getY();
-                    if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
+                    passClickThrough(event);
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -677,7 +685,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                         dismiss();
                         getPopupImplView().getGlobalVisibleRect(rect2);
                         if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)){
-                            if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
+                            passClickThrough(event);
                         }
                     }
                     x = 0;

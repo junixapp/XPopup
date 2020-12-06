@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
+import com.lxj.xpopupdemo.custom.LoginPopup;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
