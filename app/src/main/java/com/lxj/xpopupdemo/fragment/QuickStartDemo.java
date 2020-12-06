@@ -108,10 +108,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
-                popupView = new XPopup.Builder(getContext())
+                if(popupView==null)popupView = new XPopup.Builder(getContext())
 //                        .dismissOnBackPressed(false)
 //                        .navigationBarColor(Color.BLUE)
-//                        .hasBlurBg(true)
+                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)

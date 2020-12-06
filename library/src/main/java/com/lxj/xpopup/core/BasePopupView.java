@@ -643,15 +643,15 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 popupInfo.watchView = null;
                 popupInfo.xPopupCallback = null;
                 popupInfo = null;
+                if(blurAnimator!=null && blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
+                    blurAnimator.decorBitmap.recycle();
+                    blurAnimator.decorBitmap = null;
+                }
             }
         }
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
         hasMoveUp = false;
-        if(blurAnimator!=null && blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
-            blurAnimator.decorBitmap.recycle();
-            blurAnimator.decorBitmap = null;
-        }
     }
 
     private float x, y;
