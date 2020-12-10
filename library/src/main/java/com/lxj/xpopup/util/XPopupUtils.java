@@ -34,9 +34,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
 import androidx.annotation.FloatRange;
-
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -47,7 +45,6 @@ import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -231,7 +228,7 @@ public class XPopupUtils {
     }
 
     private static void moveUpToKeyboardInternal(int keyboardHeight, BasePopupView pv) {
-        if (!pv.popupInfo.isMoveUpToKeyboard) return;
+        if (pv.popupInfo==null || !pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView || (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView))) {
             return;

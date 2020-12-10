@@ -16,6 +16,7 @@
         android:name=".XPopupApp"
         android:supportsRtl="true"
         android:resizeableActivity="true"
+        android:supportsPictureInPicture="true"
         android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4" />
         <meta-data android:name="android.notch_support" android:value="true" />

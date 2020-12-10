@@ -178,7 +178,7 @@ public class FullScreenDialog extends Dialog {
     }
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if(isFuckVIVORoom()){
+        if(isFuckVIVORoom()){ //VIVO的部分机型需要做特殊处理，Fuck
             event.setLocation(event.getX(), event.getY()+XPopupUtils.getStatusBarHeight());
         }
         return super.dispatchTouchEvent(event);
