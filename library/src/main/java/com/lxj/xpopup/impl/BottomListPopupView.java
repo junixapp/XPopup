@@ -82,14 +82,14 @@ public class BottomListPopupView extends BottomPopupView {
 
                 // 对勾View
                 if (checkedPosition != -1) {
-                    if(holder.getView2(R.id.check_view)!=null){
+                    if(holder.getViewOrNull(R.id.check_view)!=null){
                         holder.getView(R.id.check_view).setVisibility(position == checkedPosition ? VISIBLE : GONE);
                         holder.<CheckView>getView(R.id.check_view).setColor(XPopup.getPrimaryColor());
                     }
                     holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
                 }else {
-                    if(holder.getView2(R.id.check_view)!=null)holder.getView(R.id.check_view).setVisibility(GONE);
+                    if(holder.getViewOrNull(R.id.check_view)!=null)holder.getView(R.id.check_view).setVisibility(GONE);
                     //如果没有选择，则文字居中
                     holder.<TextView>getView(R.id.tv_text).setGravity(Gravity.CENTER);
                 }
