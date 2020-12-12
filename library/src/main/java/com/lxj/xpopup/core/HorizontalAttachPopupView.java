@@ -71,6 +71,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
         }
         getPopupContentView().setTranslationX(translationX);
         getPopupContentView().setTranslationY(translationY);
+        initAndStartAnimation();
     }
 
     private boolean isShowLeftToTarget() {

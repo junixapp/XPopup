@@ -25,6 +25,7 @@ import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
+import com.lxj.xpopupdemo.custom.CustomCenterPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
@@ -122,6 +123,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                     }
                                 }, null, false);
                 popupView.show();
+
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
                 new XPopup.Builder(getContext())
@@ -253,7 +255,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-//                if (attachPopupView == null) {
                 attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
@@ -263,6 +264,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetY(-60)
 //                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
+//                        .popupWidth(500)
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
                         .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享"},
                                 new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
@@ -273,9 +275,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                     }
                                 }, 0, 0);
                 ;
-//                }
                 attachPopupView.show();
-
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
                 new XPopup.Builder(getContext())

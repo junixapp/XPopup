@@ -21,14 +21,11 @@ import com.lxj.xpopup.util.XPopupUtils;
  * Create by dance, at 2018/12/23
  */
 public class SmartDragLayout extends FrameLayout implements NestedScrollingParent {
-    private static final String TAG = "SmartDragLayout";
     private View child;
     OverScroller scroller;
     VelocityTracker tracker;
-    ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
     boolean enableDrag = true;//是否启用手势拖拽
     boolean dismissOnTouchOutside = true;
-    boolean hasShadowBg = true;
     boolean isUserClose = false;
     boolean isThreeDrag = false;  //是否开启三段拖拽
     LayoutStatus status = LayoutStatus.Close;
@@ -172,8 +169,6 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
         if (y < minY) y = minY;
         float fraction = (y - minY) * 1f / (maxY - minY);
         isScrollUp = y > getScrollY();
-        if (hasShadowBg)
-            setBackgroundColor(bgAnimator.calculateBgColor(fraction));
         if (listener != null) {
             if (isUserClose && fraction == 0f && status != LayoutStatus.Close) {
                 status = LayoutStatus.Close;
@@ -299,10 +294,6 @@ public class SmartDragLayout extends FrameLayout implements NestedScrollingParen
 
     public void dismissOnTouchOutside(boolean dismissOnTouchOutside) {
         this.dismissOnTouchOutside = dismissOnTouchOutside;
-    }
-
-    public void hasShadowBg(boolean hasShadowBg) {
-        this.hasShadowBg = hasShadowBg;
     }
 
     private OnCloseListener listener;

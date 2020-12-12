@@ -46,7 +46,8 @@ public class CenterPopupView extends BasePopupView {
         if(centerPopupContainer.getChildCount()==0)addInnerContent();
         getPopupContentView().setTranslationX(popupInfo.offsetX);
         getPopupContentView().setTranslationY(popupInfo.offsetY);
-        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
+                getPopupWidth(), getPopupHeight(),null);
     }
     protected void applyTheme(){
         if(bindLayoutId==0) {

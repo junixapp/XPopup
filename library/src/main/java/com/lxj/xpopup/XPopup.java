@@ -46,11 +46,9 @@ public class XPopup {
     private static int animationDuration = 350;
     public static int statusBarShadowColor = Color.parseColor("#55000000");
     private static int shadowBgColor = Color.parseColor("#7F000000");
-
     public static void setShadowBgColor(int color) {
         shadowBgColor = color;
     }
-
     public static int getShadowBgColor() {
         return shadowBgColor;
     }
@@ -227,6 +225,28 @@ public class XPopup {
         }
 
         /**
+         * 设置高度，如果重写了弹窗的getPopupHeight，则以重写的为准
+         * 并且受最大高度限制
+         * @param height
+         * @return
+         */
+        public Builder popupHeight(int height) {
+            this.popupInfo.popupHeight = height;
+            return this;
+        }
+
+        /**
+         * 设置宽度，如果重写了弹窗的getPopupWidth，则以重写的为准
+         * 并且受最大宽度限制
+         * @param width
+         * @return
+         */
+        public Builder popupWidth(int width) {
+            this.popupInfo.popupWidth = width;
+            return this;
+        }
+
+        /**
          * 设置最大宽度，如果重写了弹窗的getMaxWidth，则以重写的为准
          *
          * @param maxWidth
@@ -247,6 +267,7 @@ public class XPopup {
             this.popupInfo.maxHeight = maxHeight;
             return this;
         }
+
 
         /**
          * 是否自动打开输入法，当弹窗包含输入框时很有用，默认为false
@@ -362,7 +383,7 @@ public class XPopup {
         }
 
         /**
-         * 是否水平居中，默认情况下Attach弹窗依靠着目标的左边或者右边，如果isCenterHorizontal为true，则与目标水平居中对齐
+         * 是否与目标水平居中，比如：默认情况下Attach弹窗依靠着目标的左边或者右边，如果isCenterHorizontal为true，则与目标水平居中对齐
          *
          * @param isCenterHorizontal
          * @return

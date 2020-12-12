@@ -43,7 +43,7 @@ public abstract class AttachPopupView extends BasePopupView {
     }
 
     public boolean isShowUp;
-    boolean isShowLeft;
+    public boolean isShowLeft;
     protected int bgDrawableMargin = 6;
 
     @Override
@@ -53,15 +53,14 @@ public abstract class AttachPopupView extends BasePopupView {
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or watchView() must be call for AttachPopupView before show()！");
 
-//        popupInfo.getAtView().set
-
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;
 
         attachPopupContainer.setTranslationX(popupInfo.offsetX);
         attachPopupContainer.setTranslationY(popupInfo.offsetY);
         applyBg();
-        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
+                getPopupWidth(),getPopupHeight(), new Runnable() {
             @Override
             public void run() {
                 doAttach();
@@ -95,7 +94,6 @@ public abstract class AttachPopupView extends BasePopupView {
                     defaultOffsetY -= bgDrawableMargin;
                     attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
                             : R.color._xpopup_light_color), popupInfo.borderRadius));
-//                    attachPopupContainer.setBackgroundResource(R.drawable._xpopup_shadow);
                 } else {
                     Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
                     if (constantState != null) {
@@ -181,6 +179,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     }
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
+                    initAndStartAnimation();
                 }
             });
 
@@ -255,17 +254,24 @@ public abstract class AttachPopupView extends BasePopupView {
                     }
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
+                    initAndStartAnimation();
                 }
             });
 
         }
     }
 
+    protected void initAndStartAnimation(){
+        initAnimator();
+        doShowAnimation();
+        doAfterShow();
+    }
+
     //是否显示在目标上方
     protected boolean isShowUpToTarget() {
         if(popupInfo.positionByWindowCenter){
             //目标在屏幕上半方，弹窗显示在下；反之，则在上
-            return centerY > XPopupUtils.getScreenHeight(getContext())/2;
+            return centerY > XPopupUtils.getAppHeight(getContext())/2;
         }
         //默认是根据Material规范定位，优先显示在目标下方，下方距离不足才显示在上方
         return (isShowUp || popupInfo.popupPosition == PopupPosition.Top)

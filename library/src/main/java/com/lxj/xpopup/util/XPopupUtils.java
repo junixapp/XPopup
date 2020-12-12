@@ -32,7 +32,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 import androidx.annotation.FloatRange;
 import com.lxj.xpopup.core.AttachPopupView;
@@ -123,11 +122,8 @@ public class XPopupUtils {
         target.setLayoutParams(params);
     }
 
-    public static void applyPopupSize(ViewGroup content, int maxWidth, int maxHeight) {
-        applyPopupSize(content, maxWidth, maxHeight, null);
-    }
-
-    public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight, final Runnable afterApplySize) {
+    public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight,
+                                      final int popupWidth, final int popupHeight, final Runnable afterApplySize) {
         content.post(new Runnable() {
             @Override
             public void run() {
@@ -137,35 +133,40 @@ public class XPopupUtils {
                 // 假设默认Content宽是match，高是wrap
                 int w = content.getMeasuredWidth();
                 // response impl view wrap_content params.
-//                if (implParams.width == FrameLayout.LayoutParams.WRAP_CONTENT) {
-//                    w = Math.min(w, implView.getMeasuredWidth());
-//                }
-                if (maxWidth != 0) {
+                if (maxWidth > 0) {
                     //指定了最大宽度，就限制最大宽度
                     params.width = Math.min(w, maxWidth);
+                    if (popupWidth > 0) {
+                        params.width = Math.min(popupWidth, maxWidth);
+                        implParams.width = Math.min(popupWidth, maxWidth);
+                    }
+                } else if (popupWidth > 0) {
+                    params.width = popupWidth;
+                    implParams.width = popupWidth;
                 }
 
                 int h = content.getMeasuredHeight();
-                // response impl view match_parent params.
-                if (implParams.height == FrameLayout.LayoutParams.MATCH_PARENT) {
-                    h = ((ViewGroup) content.getParent()).getMeasuredHeight();
-                    params.height = h;
-                }
-                if (maxHeight != 0) {
-                    // 如果content的高为match，则maxHeight限制impl
-                    if (params.height == FrameLayout.LayoutParams.MATCH_PARENT ||
-                            params.height == getScreenHeight(content.getContext())) {
-                        implParams.height = Math.min(implView.getMeasuredHeight(), maxHeight);
-                        implView.setLayoutParams(implParams);
-                    } else {
-                        params.height = Math.min(h, maxHeight);
+                if (maxHeight > 0) {
+                    params.height = Math.min(h, maxHeight);
+                    if (popupHeight > 0) {
+                        params.height = Math.min(popupHeight, maxHeight);
+                        implParams.height = Math.min(popupHeight, maxHeight);
                     }
+                } else if(popupHeight > 0) {
+                    params.height = popupHeight;
+                    implParams.height = popupHeight;
                 }
+                implView.setLayoutParams(implParams);
                 content.setLayoutParams(params);
+                content.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (afterApplySize != null) {
+                            afterApplySize.run();
+                        }
+                    }
+                });
 
-                if (afterApplySize != null) {
-                    afterApplySize.run();
-                }
             }
         });
     }
@@ -215,6 +216,7 @@ public class XPopupUtils {
     //监听到的keyboardHeight有一定几率是错误的，比如在同时显示导航栏和弹出输入法的时候，有一定几率会算上导航栏的高度，
     //这个不是必现的，暂时无解
     private static int correctKeyboardHeight = 0;
+
     public static void moveUpToKeyboard(final int keyboardHeight, final BasePopupView pv) {
         if (correctKeyboardHeight == 0) correctKeyboardHeight = keyboardHeight;
         else if (keyboardHeight != 0)
@@ -228,7 +230,7 @@ public class XPopupUtils {
     }
 
     private static void moveUpToKeyboardInternal(int keyboardHeight, BasePopupView pv) {
-        if (pv.popupInfo==null || !pv.popupInfo.isMoveUpToKeyboard) return;
+        if (pv.popupInfo == null || !pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView || (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView))) {
             return;
@@ -339,7 +341,7 @@ public class XPopupUtils {
         return pv instanceof PartShadowPopupView && !((PartShadowPopupView) pv).isShowUp;
     }
 
-//    public static HashMap
+    //    public static HashMap
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView) return;
@@ -352,6 +354,7 @@ public class XPopupUtils {
                     .setDuration(100).start();
         }
     }
+
     public static boolean isNavBarVisible(Window window) {
         boolean isVisible = false;
         ViewGroup decorView = (ViewGroup) window.getDecorView();

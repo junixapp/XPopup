@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
@@ -20,6 +21,8 @@ import com.lxj.xpopup.widget.SmartDragLayout;
  */
 public class BottomPopupView extends BasePopupView {
     protected SmartDragLayout bottomPopupContainer;
+
+    ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
     public BottomPopupView(@NonNull Context context) {
         super(context);
         bottomPopupContainer = findViewById(R.id.bottomPopupContainer);
@@ -44,13 +47,13 @@ public class BottomPopupView extends BasePopupView {
         }
         bottomPopupContainer.enableDrag(popupInfo.enableDrag);
         bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
-        bottomPopupContainer.hasShadowBg(popupInfo.hasShadowBg);
         bottomPopupContainer.isThreeDrag(popupInfo.isThreeDrag);
 
         getPopupImplView().setTranslationX(popupInfo.offsetX);
         getPopupImplView().setTranslationY(popupInfo.offsetY);
 
-        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight());
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight()
+        ,getPopupWidth(), getPopupHeight(), null);
 
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override
@@ -63,6 +66,7 @@ public class BottomPopupView extends BasePopupView {
             @Override
             public void onDrag(int value, float percent, boolean isScrollUp) {
                 if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(BottomPopupView.this, value, percent,isScrollUp);
+                if (popupInfo.hasShadowBg) setBackgroundColor(bgAnimator.calculateBgColor(percent));
             }
 
             @Override

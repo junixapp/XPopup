@@ -35,7 +35,8 @@ public class PositionPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(), new Runnable() {
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
+                getPopupWidth(), getPopupHeight(),new Runnable() {
             @Override
             public void run() {
                 if (popupInfo.isCenterHorizontal) {

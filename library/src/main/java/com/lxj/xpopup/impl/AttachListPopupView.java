@@ -1,7 +1,9 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,8 +61,6 @@ public class AttachListPopupView extends AttachPopupView {
                 } else {
                     holder.getView(R.id.iv_image).setVisibility(GONE);
                 }
-                View check = holder.getViewOrNull(R.id.check_view);
-                if (check!=null) check.setVisibility(GONE);
 
                 if(bindItemLayoutId==0 ){
                     if(popupInfo.isDarkTheme){

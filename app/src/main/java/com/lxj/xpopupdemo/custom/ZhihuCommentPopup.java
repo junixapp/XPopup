@@ -106,7 +106,6 @@ public class ZhihuCommentPopup extends BottomPopupView {
 
             }
         });
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(commonAdapter);
     }
 
@@ -121,12 +120,10 @@ public class ZhihuCommentPopup extends BottomPopupView {
     @Override
     protected void onDismiss() {
         Log.e("tag", "知乎评论 onDismiss");
-
     }
 
     @Override
     protected int getMaxHeight() {
-//        return XPopupUtils.getWindowHeight(getContext());
         return (int) (XPopupUtils.getScreenHeight(getContext()) * .7f);
     }
 }

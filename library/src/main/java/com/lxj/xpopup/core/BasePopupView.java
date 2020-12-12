@@ -57,7 +57,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         if(context instanceof Application){
             throw new IllegalArgumentException("XPopup的Context必须是Activity类型！");
         }
-
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         shadowBgAnimator = new ShadowBgAnimator(this);
         //  添加Popup窗体内容View
@@ -77,95 +76,61 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         } else if (!isCreated) {
             initPopupContent();
         }
-        //apply size dynamic
-        if (!(this instanceof FullScreenPopupView) && !(this instanceof ImageViewerPopupView)) {
-            XPopupUtils.setWidthHeight(getTargetSizeView(),
-                    (getMaxWidth() != 0 && getPopupWidth() > getMaxWidth()) ? getMaxWidth() : getPopupWidth(),
-                    (getMaxHeight() != 0 && getPopupHeight() > getMaxHeight()) ? getMaxHeight() : getPopupHeight()
-            );
-        }
         if (!isCreated) {
             isCreated = true;
             onCreate();
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
         }
-        handler.postDelayed(initTask, 50);
+        handler.postDelayed(initTask, 10);
     }
 
     private Runnable initTask = new Runnable() {
         @Override
         public void run() {
-            // 如果有导航栏，则不能覆盖导航栏，判断各种屏幕方向
             if(dialog==null || getHostWindow()==null)return;
-            getPopupContentView().setAlpha(1f);
-
-            //2. 收集动画执行器
-            collectAnimator();
-
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
             focusAndProcessBackPress();
 
-            //3. 执行动画
-            doShowAnimation();
+            //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
+            if(!(BasePopupView.this instanceof AttachPopupView)){
+                //2. 收集动画执行器
+                initAnimator();
 
-            doAfterShow();
+                //3. 执行动画
+                doShowAnimation();
+
+                doAfterShow();
+            }
         }
     };
 
     private boolean hasMoveUp = false;
+    protected void initAnimator() {
+        getPopupContentView().setAlpha(1f);
+        // 优先使用自定义的动画器
+        if (popupInfo.customAnimator != null) {
+            popupContentAnimator = popupInfo.customAnimator;
+            popupContentAnimator.targetView = getPopupContentView();
+        } else {
+            // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
+            popupContentAnimator = genAnimatorByPopupType();
+            if (popupContentAnimator == null) {
+                popupContentAnimator = getPopupAnimator();
+            }
+        }
 
-    private void collectAnimator() {
-        if(this instanceof AttachPopupView && !(this instanceof PartShadowPopupView)){
-            if (popupInfo.customAnimator != null) {
-                popupContentAnimator = popupInfo.customAnimator;
-                popupContentAnimator.targetView = getPopupContentView();
-            } else {
-                // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
-                popupContentAnimator = genAnimatorByPopupType();
-                if (popupContentAnimator == null) {
-                    popupContentAnimator = getPopupAnimator();
-                }
-            }
-
-            //3. 初始化动画执行器
-            if(popupInfo.hasShadowBg){
-                shadowBgAnimator.initAnimator();
-            }
-            if(popupInfo.hasBlurBg) {
-                blurAnimator = new BlurAnimator(this);
-                blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
-                blurAnimator.initAnimator();
-            }
-            if (popupContentAnimator != null) {
-                popupContentAnimator.initAnimator();
-            }
-        }else if (popupContentAnimator == null) {
-            // 优先使用自定义的动画器
-            if (popupInfo.customAnimator != null) {
-                popupContentAnimator = popupInfo.customAnimator;
-                popupContentAnimator.targetView = getPopupContentView();
-            } else {
-                // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
-                popupContentAnimator = genAnimatorByPopupType();
-                if (popupContentAnimator == null) {
-                    popupContentAnimator = getPopupAnimator();
-                }
-            }
-
-            //3. 初始化动画执行器
-            if(popupInfo.hasShadowBg){
-                shadowBgAnimator.initAnimator();
-            }
-            if(popupInfo.hasBlurBg) {
-                blurAnimator = new BlurAnimator(this);
-                blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
-                blurAnimator.initAnimator();
-            }
-            if (popupContentAnimator != null) {
-                popupContentAnimator.initAnimator();
-            }
+        //3. 初始化动画执行器
+        if(popupInfo.hasShadowBg){
+            shadowBgAnimator.initAnimator();
+        }
+        if(popupInfo.hasBlurBg) {
+            blurAnimator = new BlurAnimator(this);
+            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
+            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
+            blurAnimator.initAnimator();
+        }
+        if (popupContentAnimator != null) {
+            popupContentAnimator.initAnimator();
         }
     }
 
@@ -465,17 +430,17 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     /**
-     * 弹窗的最大宽度，一般用来限制布局宽度为wrap或者match时的最大宽度
-     *
+     * 弹窗的最大宽度，用来限制弹窗的最大宽度
+     * 返回0表示不限制，默认为0
      * @return
      */
     protected int getMaxWidth() {
-        return 0;
+        return popupInfo.maxWidth;
     }
 
     /**
-     * 弹窗的最大高度，一般用来限制布局高度为wrap或者match时的最大宽度
-     *
+     * 弹窗的最大高度，用来限制弹窗的最大高度
+     * 返回0表示不限制，默认为0
      * @return
      */
     protected int getMaxHeight() {
@@ -484,20 +449,20 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
 
     /**
      * 弹窗的宽度，用来动态设定当前弹窗的宽度，受getMaxWidth()限制
-     *
+     * 返回0表示不设置，默认为0
      * @return
      */
     protected int getPopupWidth() {
-        return 0;
+        return popupInfo.popupWidth;
     }
 
     /**
      * 弹窗的高度，用来动态设定当前弹窗的高度，受getMaxHeight()限制
-     *
+     * 返回0表示不设置，默认为0
      * @return
      */
     protected int getPopupHeight() {
-        return 0;
+        return popupInfo.popupHeight;
     }
 
     protected View getTargetSizeView() {
