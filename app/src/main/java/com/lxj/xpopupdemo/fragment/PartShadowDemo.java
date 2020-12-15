@@ -37,7 +37,6 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         return R.layout.fragment_part_shadow_demo;
     }
 
-    CustomPartShadowPopupView2 customPartShadowPopupView2;
     @Override
     public void init(View view) {
         ll_container = view.findViewById(R.id.ll_container);
@@ -62,23 +61,17 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(android.R.id.text1, "长按我试试 - " + position);
                 //必须要在事件发生之前就watch
-                final XPopup.Builder builder = new XPopup.Builder(getContext()).watchView(holder.itemView);
+                final XPopup.Builder builder = new XPopup.Builder(getContext())
+                        .hasShadowBg(false).watchView(holder.itemView);
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        if(customPartShadowPopupView2==null){
-                            customPartShadowPopupView2 = (CustomPartShadowPopupView2) new XPopup.Builder(getContext())
-                                    .atView(v).asCustom(new CustomPartShadowPopupView2(getContext()));
-                        }else {
-//                            customPartShadowPopupView2.updatePosition();
-                        }
-                        customPartShadowPopupView2.show();
-//                        builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null, new OnSelectListener() {
-//                            @Override
-//                            public void onSelect(int position, String text) {
-//                                toast(text);
-//                            }
-//                        }).show();
+                        builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null, new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                toast(text);
+                            }
+                        }).show();
                         return true;
                     }
                 });
@@ -94,7 +87,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
     }
 
     private void showPartShadow(final View v){
-//        if(popupView==null){
+        if(popupView==null){
             popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                     .atView(v)
                     .isClickThrough(true)
@@ -114,9 +107,9 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         }
                     })
                     .asCustom(new CustomPartShadowPopupView(getContext()));
-//        }
+        }
 
-        popupView.show();
+        popupView.toggle();
     }
 
     @Override

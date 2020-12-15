@@ -1,11 +1,9 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -56,6 +54,12 @@ public abstract class PartShadowPopupView extends BasePopupView {
         });
     }
 
+
+    protected void initAndStartAnimation(){
+        initAnimator();
+        doShowAnimation();
+        doAfterShow();
+    }
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -138,18 +142,8 @@ public abstract class PartShadowPopupView extends BasePopupView {
                 if (popupInfo.isDismissOnTouchOutside) dismiss();
             }
         });
+        initAndStartAnimation();
     }
-
-    //让触摸透过
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if (popupInfo.isDismissOnTouchOutside) {
-//            dismiss();
-//        }
-//        if (dialog != null && popupInfo.isClickThrough) dialog.passClick(event);
-//        return popupInfo.isClickThrough;
-//    }
-
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new TranslateAnimator(getPopupImplView(), isShowUp ?

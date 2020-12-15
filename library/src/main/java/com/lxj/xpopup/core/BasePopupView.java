@@ -71,7 +71,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
      */
     protected void init() {
         //1. 初始化Popup
-        if(this instanceof AttachPopupView){
+        if(this instanceof AttachPopupView || this instanceof PartShadowPopupView){
             initPopupContent();
         } else if (!isCreated) {
             initPopupContent();
