@@ -20,6 +20,7 @@ import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -139,7 +140,10 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                 if (mHorizontalScrollEdge == HORIZONTAL_EDGE_BOTH && isLongImage && isHorizontal) {
                     //长图左右滑动
                     parent.requestDisallowInterceptTouchEvent(false);
-                }else{
+                }else if((mHorizontalScrollEdge == HORIZONTAL_EDGE_RIGHT ||
+                        mHorizontalScrollEdge == HORIZONTAL_EDGE_LEFT) && !isLongImage && !isHorizontal){
+                    parent.requestDisallowInterceptTouchEvent(false);
+                }else {
                     parent.requestDisallowInterceptTouchEvent(true);
                 }
             }
