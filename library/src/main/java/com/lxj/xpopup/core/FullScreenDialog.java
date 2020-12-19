@@ -56,12 +56,6 @@ public class FullScreenDialog extends Dialog {
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         getWindow().getDecorView().setSystemUiVisibility(option);
 
-        if(!contentView.popupInfo.isRequestFocus){
-            //不获取焦点
-            int flag = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-            getWindow().setFlags(flag,flag);
-        }
-
         //remove status bar shadow
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, true);
@@ -81,6 +75,12 @@ public class FullScreenDialog extends Dialog {
         if (!contentView.popupInfo.hasNavigationBar) {
             hideNavigationBar();
         }
+        if(!contentView.popupInfo.isRequestFocus){
+            //不获取焦点
+            int flag = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            getWindow().setFlags(flag,flag);
+        }
+
         //自动设置状态色调，亮色还是暗色
         autoSetStatusBarMode();
         setContentView(contentView);
@@ -138,7 +138,7 @@ public class FullScreenDialog extends Dialog {
     }
 
     public void hideNavigationBar() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return;
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return;
         final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
         for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
             final View child = decorView.getChildAt(i);
@@ -151,14 +151,16 @@ public class FullScreenDialog extends Dialog {
             }
         }
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE ,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH ,
+//                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
         final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                View.SYSTEM_UI_FLAG_FULLSCREEN |
+//                View.SYSTEM_UI_FLAG_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
                 View.SYSTEM_UI_FLAG_IMMERSIVE |
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY|
+                View.SYSTEM_UI_FLAG_VISIBLE;
+//                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 ;
         decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
     }
