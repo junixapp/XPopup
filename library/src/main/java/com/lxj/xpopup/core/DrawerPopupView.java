@@ -141,8 +141,4 @@ public abstract class DrawerPopupView extends BasePopupView {
     protected PopupAnimator getPopupAnimator() {
         return null;
     }
-    @Override
-    protected View getTargetSizeView() {
-        return getPopupImplView();
-    }
 }

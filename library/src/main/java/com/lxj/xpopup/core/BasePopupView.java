@@ -134,7 +134,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         }
     }
 
-    public BasePopupView  show() {
+    public BasePopupView show() {
         Activity activity = XPopupUtils.context2Activity(this);
         if(activity==null || activity.isFinishing()){
             return this;
@@ -191,6 +191,9 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             ((FragmentActivity)getContext()).getLifecycle().addObserver(this);
         }
         dialog.show();
+        if(popupInfo==null){
+            throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
+        }
         popupInfo.decorView = (ViewGroup) getHostWindow().getDecorView();
         if (!stack.contains(this)) stack.push(this);
     }
@@ -301,11 +304,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             }
             return false;
         }
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
     }
 
     /**
@@ -465,10 +463,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         return popupInfo.popupHeight;
     }
 
-    protected View getTargetSizeView() {
-        return getPopupContentView();
-    }
-
     /**
      * 消失
      */
@@ -605,8 +599,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             popupInfo.atView = null;
             popupInfo.watchView = null;
             popupInfo.xPopupCallback = null;
+            if(popupInfo.isDestroyOnDismiss) popupInfo = null;
         }
-        popupInfo = null;
     }
 
     @Override
