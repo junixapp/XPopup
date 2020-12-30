@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.RomUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 //        BarUtils.setStatusBarLightMode(this, true);
 //        BarUtils.setNavBarColor(this, Color.RED);
 
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
 
@@ -78,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
 //        ToastUtils.showLong(str);
         Log.e("tag", str);
-//        KeyboardUtils
     }
 
     class MainAdapter extends FragmentPagerAdapter {

@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.lxj.xpopupdemo.DemoActivity" />
+        <activity android:name="com.lxj.xpopupdemo.DemoActivity" android:screenOrientation="portrait"/>
 
     </application>
 

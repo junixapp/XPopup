@@ -210,7 +210,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 });
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
-                if(popupView==null)popupView=new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
                             .isDarkTheme(true)
 //                            .hasShadowBg(false)
 //                        .hasBlurBg(true)
@@ -222,8 +222,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         public void onSelect(int position, String text) {
                                             toast("click " + text);
                                         }
-                                    });
-                            popupView.show();
+                                    }).show();
                 break;
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())

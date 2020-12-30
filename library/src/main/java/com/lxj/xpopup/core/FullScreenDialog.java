@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,18 +139,17 @@ public class FullScreenDialog extends Dialog {
     }
 
     public void hideNavigationBar() {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return;
         final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
-        for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
-            final View child = decorView.getChildAt(i);
-            final int id = child.getId();
-            if (id != View.NO_ID) {
-                String resourceEntryName = getResNameById(id);
-                if ("navigationBarBackground".equals(resourceEntryName)) {
-                    child.setVisibility(View.INVISIBLE);
-                }
-            }
-        }
+//        for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
+//            final View child = decorView.getChildAt(i);
+//            final int id = child.getId();
+//            if (id != View.NO_ID) {
+//                String resourceEntryName = getResNameById(id);
+//                if ("navigationBarBackground".equals(resourceEntryName)) {
+//                    child.setVisibility(View.INVISIBLE);
+//                }
+//            }
+//        }
 
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH ,
 //                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
@@ -159,7 +159,7 @@ public class FullScreenDialog extends Dialog {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
                 View.SYSTEM_UI_FLAG_IMMERSIVE |
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY|
-                View.SYSTEM_UI_FLAG_VISIBLE;
+                View.SYSTEM_UI_FLAG_VISIBLE
 //                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 ;
         decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);

@@ -25,7 +25,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(getLayoutId(), container, false);
-            stateLayout = new StateLayout(getContext()).wrap(view).showLoading(false);
+            stateLayout = new StateLayout(getContext()).wrap(view).showLoading();
         }
         return stateLayout;
     }
