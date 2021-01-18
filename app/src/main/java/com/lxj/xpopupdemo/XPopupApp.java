@@ -14,6 +14,6 @@ public class XPopupApp extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        CrashReport.initCrashReport(getApplicationContext(), "e494d36dcc", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "e494d36dcc", false);
     }
 }
