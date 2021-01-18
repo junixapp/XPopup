@@ -109,6 +109,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .dismissOnBackPressed(true)
                         .dismissOnTouchOutside(true)
                         .hasNavigationBar(false)
+                        .isDestroyOnDismiss(true)
 //                        .navigationBarColor(Color.BLUE)
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
@@ -199,7 +200,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     public void run() {
                         loadingPopup.setTitle("正在加载长度变化了");
                     }
-                }, 1000);
+                }, 2000);
 //                loadingPopup.smartDismiss();
 //                loadingPopup.dismiss();
                 loadingPopup.delayDismissWith(4000, new Runnable() {
@@ -214,7 +215,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             .isDarkTheme(true)
 //                            .hasShadowBg(false)
 //                        .hasBlurBg(true)
-//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                             .enableDrag(true)
                             .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                     new OnSelectListener() {
@@ -258,7 +259,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
-//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
@@ -317,7 +318,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnAttachPopup2:
                 popup = (AttachPopupView) new XPopup.Builder(getContext())
-//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomAttachPopup2(getContext()));
@@ -326,6 +327,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .asCustom(new CustomEditTextBottomPopup(getContext()))
                         .show();
                 break;

@@ -35,7 +35,6 @@ import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import java.util.ArrayList;
-import java.util.Stack;
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
 
 /**
@@ -43,7 +42,6 @@ import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
  * Create by lxj, at 2018/12/7
  */
 public abstract class BasePopupView extends FrameLayout implements  LifecycleObserver {
-    private static Stack<BasePopupView> stack = new Stack<>(); //静态存储所有弹窗对象
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
@@ -195,7 +193,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
         }
         popupInfo.decorView = (ViewGroup) getHostWindow().getDecorView();
-        if (!stack.contains(this)) stack.push(this);
     }
 
     private void detachFromHost(){
@@ -265,11 +262,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
 
     public void dismissOrHideSoftInput() {
         if (KeyboardUtils.sDecorViewInvisibleHeightPre == 0){
-            if(!stack.isEmpty() && stack.lastElement()!= BasePopupView.this && !stack.lastElement().popupInfo.isRequestFocus){
-                stack.lastElement().dismissOrHideSoftInput();
-            }else {
-                dismiss();
-            }
+            dismiss();
         }
         else
             KeyboardUtils.hideSoftInput(BasePopupView.this);
@@ -528,24 +521,18 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             }
             popupStatus = PopupStatus.Dismiss;
 
-            if (!stack.isEmpty()) stack.pop();
             if (popupInfo.isRequestFocus) {
-                if (!stack.isEmpty()) {
-                    stack.get(stack.size() - 1).focusAndProcessBackPress();
-                } else {
-                    // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
-                    if(popupInfo.decorView!=null){
-                        View needFocusView = popupInfo.decorView.findViewById(android.R.id.content);
-                        if (needFocusView != null) {
-                            needFocusView.setFocusable(true);
-                            needFocusView.setFocusableInTouchMode(true);
-                        }
+                // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
+                if(popupInfo.decorView!=null){
+                    View needFocusView = popupInfo.decorView.findViewById(android.R.id.content);
+                    if (needFocusView != null) {
+                        needFocusView.setFocusable(true);
+                        needFocusView.setFocusableInTouchMode(true);
                     }
                 }
             }
             // 移除弹窗，GameOver
             detachFromHost();
-
         }
     };
 
@@ -599,7 +586,12 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             popupInfo.atView = null;
             popupInfo.watchView = null;
             popupInfo.xPopupCallback = null;
+            popupInfo.decorView = null;
+            dialog = null;
             if(popupInfo.isDestroyOnDismiss) popupInfo = null;
+        }
+        if(getContext()!=null && getContext() instanceof FragmentActivity){
+            ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
         }
     }
 
@@ -613,7 +605,12 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 popupInfo.atView = null;
                 popupInfo.watchView = null;
                 popupInfo.xPopupCallback = null;
+                popupInfo.decorView = null;
                 popupInfo = null;
+                dialog = null;
+                if(getContext() instanceof FragmentActivity){
+                    ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
+                }
                 if(blurAnimator!=null && blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
                     blurAnimator.decorBitmap.recycle();
                     blurAnimator.decorBitmap = null;

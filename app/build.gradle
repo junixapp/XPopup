@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation project(':library')
     implementation 'com.blankj:utilcode:1.30.5'
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.lxj:statelayout:1.1.8'
     implementation 'androidx.appcompat:appcompat:1.1.0'

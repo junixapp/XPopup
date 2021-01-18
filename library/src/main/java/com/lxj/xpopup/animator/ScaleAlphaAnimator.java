@@ -15,10 +15,11 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         super(target, popupAnimation);
     }
 
+    float startScale = .75f;
     @Override
     public void initAnimator() {
-        targetView.setScaleX(0f);
-        targetView.setScaleY(0f);
+        targetView.setScaleX(startScale);
+        targetView.setScaleY(startScale);
         targetView.setAlpha(0);
 
         // 设置动画参考点
@@ -75,7 +76,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
 
     @Override
     public void animateDismiss() {
-        targetView.animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(XPopup.getAnimationDuration())
+        targetView.animate().scaleX(startScale).scaleY(startScale).alpha(0f).setDuration(XPopup.getAnimationDuration())
                 .setInterpolator(new FastOutSlowInInterpolator())
 //                .withLayer() 在部分6.0系统会引起crash
                 .start();

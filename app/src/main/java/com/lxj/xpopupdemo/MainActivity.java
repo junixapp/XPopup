@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setAnimationDuration(1000);
 //        XPopup.setPrimaryColor(Color.RED);
 //        ScreenUtils.setLandscape(this);
-        loadingPopupView = new XPopup.Builder(this).asLoading("嘻嘻嘻嘻嘻");
+        loadingPopupView = new XPopup.Builder(this)
+                .isDestroyOnDismiss(true)
+                .asLoading("嘻嘻嘻嘻嘻");
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1200);
 
