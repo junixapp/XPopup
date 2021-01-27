@@ -28,8 +28,8 @@ public class FullScreenDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getWindow() == null) return;
-        if (contentView != null && contentView.popupInfo.enableShowWhenAppBackground) {
+        if (getWindow() == null  || contentView==null || contentView.popupInfo==null) return;
+        if (contentView.popupInfo.enableShowWhenAppBackground) {
             if (Build.VERSION.SDK_INT >= 26) {
                 getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
             } else {
