@@ -193,14 +193,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
                 final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
                         .dismissOnBackPressed(false)
-                        .asLoading("正在加载中")
+                        .asLoading("")
                         .show();
-                loadingPopup.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingPopup.setTitle("正在加载长度变化了");
-                    }
-                }, 2000);
+//                loadingPopup.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        loadingPopup.setTitle("正在加载长度变化了");
+//                    }
+//                }, 2000);
 //                loadingPopup.smartDismiss();
 //                loadingPopup.dismiss();
                 loadingPopup.delayDismissWith(4000, new Runnable() {
@@ -214,9 +214,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 popupView = new XPopup.Builder(getContext())
                             .isDarkTheme(true)
 //                            .hasShadowBg(false)
-//                        .hasBlurBg(true)
+                        .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                            .enableDrag(false)
                             .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                     new OnSelectListener() {
                                         @Override
