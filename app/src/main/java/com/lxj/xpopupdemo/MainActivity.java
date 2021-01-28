@@ -2,6 +2,7 @@ package com.lxj.xpopupdemo;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -76,13 +77,23 @@ public class MainActivity extends AppCompatActivity {
 //        ToastUtils.showLong(android.os.Build.MODEL);
 //        String str = RomUtils.getRomInfo().toString() + " " + "nav可见：" + XPopupUtils.isNavBarVisible(getWindow()) + "  navHeight: "+ XPopupUtils.getNavBarHeight();
         int windowHeight = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
-        String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(this)
-                + "  getAppHeight: "+ XPopupUtils.getAppHeight(this)
-                + "  statusHeight: "+ XPopupUtils.getStatusBarHeight()
-                + "  navHeight: "+ XPopupUtils.getNavBarHeight()
-                + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
+                        + "  getAppHeight: "+ XPopupUtils.getAppHeight(MainActivity.this)
+                        + "  statusHeight: "+ XPopupUtils.getStatusBarHeight()
+                        + "  navHeight: "+ XPopupUtils.getNavBarHeight()
+                        + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
 //        ToastUtils.showLong(str);
-        Log.e("tag", str);
+                Log.e("tag", str);
+            }
+        });
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
     }
 
     class MainAdapter extends FragmentPagerAdapter {

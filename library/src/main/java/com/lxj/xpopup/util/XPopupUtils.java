@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -218,9 +219,10 @@ public class XPopupUtils {
     private static int correctKeyboardHeight = 0;
 
     public static void moveUpToKeyboard(final int keyboardHeight, final BasePopupView pv) {
-        if (correctKeyboardHeight == 0) correctKeyboardHeight = keyboardHeight;
-        else if (keyboardHeight != 0)
-            correctKeyboardHeight = Math.min(correctKeyboardHeight, keyboardHeight);
+        correctKeyboardHeight = keyboardHeight;
+//        if (correctKeyboardHeight == 0) correctKeyboardHeight = keyboardHeight;
+//        else if (keyboardHeight != 0)
+//            correctKeyboardHeight = Math.min(correctKeyboardHeight, keyboardHeight);
         pv.post(new Runnable() {
             @Override
             public void run() {
@@ -316,23 +318,6 @@ public class XPopupUtils {
                 .start();
     }
 
-
-    /**
-     * app可用高度是否包含状态栏的高度
-     *
-     * @param context
-     * @return
-     */
-    private static boolean isAppHeightContainStatusBar(Context context) {
-        int appHeight = getAppHeight(context);
-        int screenHeight = getScreenHeight(context);
-        int statusBarHeight = getStatusBarHeight();
-        int navHeight = getNavBarHeight();
-        if (screenHeight == (appHeight + statusBarHeight) ||
-                screenHeight == (appHeight + navHeight + statusBarHeight)) return false;
-        return true;
-    }
-
     private static boolean isBottomPartShadow(BasePopupView pv) {
         return pv instanceof PartShadowPopupView && ((PartShadowPopupView) pv).isShowUp;
     }
@@ -362,9 +347,7 @@ public class XPopupUtils {
             final View child = decorView.getChildAt(i);
             final int id = child.getId();
             if (id != View.NO_ID) {
-                String resourceEntryName = decorView.getContext()
-                        .getResources()
-                        .getResourceEntryName(id);
+                String resourceEntryName = window.getContext().getResources().getResourceEntryName(id);
                 if ("navigationBarBackground".equals(resourceEntryName)
                         && child.getVisibility() == View.VISIBLE) {
                     isVisible = true;
@@ -373,9 +356,22 @@ public class XPopupUtils {
             }
         }
         if (isVisible) {
+            // 对于三星手机，android10以下非OneUI2的版本，比如 s8，note8 等设备上，
+            // 导航栏显示存在bug："当用户隐藏导航栏时显示输入法的时候导航栏会跟随显示"，会导致隐藏输入法之后判断错误
+            // 这个问题在 OneUI 2 & android 10 版本已修复
+            if (FuckRomUtils.isSamsung()
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1
+                    && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                try {
+                    return Settings.Global.getInt(window.getContext().getContentResolver(), "navigationbar_hide_bar_enabled") == 0;
+                } catch (Exception ignore) {
+                }
+            }
+
             int visibility = decorView.getSystemUiVisibility();
             isVisible = (visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0;
         }
+
         return isVisible;
     }
 
@@ -490,13 +486,6 @@ public class XPopupUtils {
             }
         }
     }
-
-    //获取应用可用的屏幕高度
-//    public static int getPhoneScreenHeight(Window window) {
-//        DisplayMetrics outMetrics = new DisplayMetrics();
-//        window.getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
-//        return outMetrics.heightPixels;
-//    }
 
     public static Bitmap renderScriptBlur(Context context, final Bitmap src,
                                           @FloatRange(

@@ -122,6 +122,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                         XPopupUtils.moveDown(BasePopupView.this);
                         hasMoveUp = false;
                     } else {
+                        if(hasMoveUp)return;
                         //when show keyboard, move up
                         //全屏弹窗特殊处理，等show之后再移动
                         if(BasePopupView.this instanceof FullScreenPopupView && popupStatus==PopupStatus.Showing){
