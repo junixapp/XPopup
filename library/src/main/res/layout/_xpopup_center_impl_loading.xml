@@ -2,25 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
     android:gravity="center"
-    android:paddingTop="30dp"
-    android:paddingBottom="30dp"
-    android:paddingLeft="34dp"
-    android:paddingRight="34dp"
+    android:paddingTop="28dp"
+    android:paddingBottom="28dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <com.lxj.xpopup.widget.LoadingView
-        android:layout_width="38dp"
-        android:layout_height="38dp" />
+        android:layout_width="34dp"
+        android:layout_height="34dp" />
     <TextView
         android:id="@+id/tv_title"
         android:maxLines="1"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:visibility="gone"
         android:ellipsize="end"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textColor="#EEEEEE"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
