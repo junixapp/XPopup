@@ -47,10 +47,16 @@ public class PositionPopupView extends BasePopupView {
                     attachPopupContainer.setTranslationX(popupInfo.offsetX);
                 }
                 attachPopupContainer.setTranslationY(popupInfo.offsetY);
+                initAndStartAnimation();
             }
         });
     }
 
+    protected void initAndStartAnimation(){
+        initAnimator();
+        doShowAnimation();
+        doAfterShow();
+    }
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);

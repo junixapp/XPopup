@@ -64,44 +64,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         addView(contentView);
     }
 
-    /**
-     * 执行初始化
-     */
-    protected void init() {
-        //1. 初始化Popup
-        if(this instanceof AttachPopupView || this instanceof PartShadowPopupView){
-            initPopupContent();
-        } else if (!isCreated) {
-            initPopupContent();
-        }
-        if (!isCreated) {
-            isCreated = true;
-            onCreate();
-            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
-        }
-        handler.postDelayed(initTask, 10);
-    }
-
-    private Runnable initTask = new Runnable() {
-        @Override
-        public void run() {
-            if(dialog==null || getHostWindow()==null)return;
-            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
-            focusAndProcessBackPress();
-
-            //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
-            if(!(BasePopupView.this instanceof AttachPopupView)){
-                //2. 收集动画执行器
-                initAnimator();
-
-                //3. 执行动画
-                doShowAnimation();
-
-                doAfterShow();
-            }
-        }
-    };
-
     private boolean hasMoveUp = false;
     protected void initAnimator() {
         getPopupContentView().setAlpha(1f);
@@ -194,6 +156,44 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         }
         popupInfo.decorView = (ViewGroup) getHostWindow().getDecorView();
     }
+
+    /**
+     * 执行初始化
+     */
+    protected void init() {
+        //1. 初始化Popup
+        if(this instanceof AttachPopupView || this instanceof PartShadowPopupView){
+            initPopupContent();
+        } else if (!isCreated) {
+            initPopupContent();
+        }
+        if (!isCreated) {
+            isCreated = true;
+            onCreate();
+            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
+        }
+        handler.postDelayed(initTask, 10);
+    }
+
+    private Runnable initTask = new Runnable() {
+        @Override
+        public void run() {
+            if(dialog==null || getHostWindow()==null)return;
+            if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
+            focusAndProcessBackPress();
+
+            //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
+            if(!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)){
+                //2. 收集动画执行器
+                initAnimator();
+
+                //3. 执行动画
+                doShowAnimation();
+
+                doAfterShow();
+            }
+        }
+    };
 
     private void detachFromHost(){
         if(dialog!=null)dialog.dismiss();

@@ -263,7 +263,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .isDarkTheme(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
-//                        .offsetY(-60)
+//                        .offsetY(60)
 //                        .offsetX(80)
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
 //                        .popupWidth(500)
@@ -335,6 +335,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .offsetY(300)
+                        .offsetX(-100)
                         .popupAnimation(PopupAnimation.TranslateFromLeft)
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
