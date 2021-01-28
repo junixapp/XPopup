@@ -24,6 +24,7 @@
         <activity android:name="com.lxj.xpopupdemo.MainActivity"
              android:hardwareAccelerated="true"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustNothing"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

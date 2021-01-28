@@ -115,6 +115,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
                 public void onSoftInputChanged(int height) {
+                    onKeyboardHeightChange(height);
                     if(popupInfo!=null && popupInfo.xPopupCallback!=null) {
                         popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this,height);
                     }
@@ -184,7 +185,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             focusAndProcessBackPress();
 
             //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
-            if(!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)){
+            if(!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)
+            && !(BasePopupView.this instanceof PartShadowPopupView)){
                 //2. 收集动画执行器
                 initAnimator();
 
@@ -573,6 +575,10 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
      * 显示动画执行完毕后执行
      */
     protected void onShow() {
+    }
+
+    protected void onKeyboardHeightChange(int height){
+
     }
 
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)

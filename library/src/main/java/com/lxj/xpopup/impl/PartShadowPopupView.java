@@ -45,21 +45,23 @@ public abstract class PartShadowPopupView extends BasePopupView {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();
         }
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(), getPopupHeight(), new Runnable() {
             @Override
             public void run() {
                 doAttach();
+                initAndStartAnimation();
             }
         });
     }
 
-
-    protected void initAndStartAnimation(){
+    private void initAndStartAnimation(){
         initAnimator();
         doShowAnimation();
         doAfterShow();
     }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -102,33 +104,27 @@ public abstract class PartShadowPopupView extends BasePopupView {
         }
 
         int centerY = rect.top + rect.height() / 2;
+        View implView = ((ViewGroup) getPopupContentView()).getChildAt(0);
+        FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
         if ((centerY > getMeasuredHeight() / 2 || popupInfo.popupPosition == PopupPosition.Top) && popupInfo.popupPosition != PopupPosition.Bottom) {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
             params.height = rect.top;
             isShowUp = true;
-            // 同时自定义的impl View应该Gravity居于底部
-            View implView = ((ViewGroup) getPopupContentView()).getChildAt(0);
-            FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
             implParams.gravity = Gravity.BOTTOM;
             if (getMaxHeight() != 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
-            implView.setLayoutParams(implParams);
         } else {
             // atView在上半部分，PartShadow应该显示在它下方，计算atView之下的高度
             params.height = getMeasuredHeight() - rect.bottom;
             isShowUp = false;
             params.topMargin = rect.bottom;
-            // 同时自定义的impl View应该Gravity居于顶部
-            View implView = ((ViewGroup) getPopupContentView()).getChildAt(0);
-            FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
             implParams.gravity = Gravity.TOP;
             if (getMaxHeight() != 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
             implView.setLayoutParams(implParams);
         }
         getPopupContentView().setLayoutParams(params);
-        getPopupImplView().setTranslationY(popupInfo.offsetY);
-
+        implView.setLayoutParams(implParams);
         attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -142,7 +138,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
                 if (popupInfo.isDismissOnTouchOutside) dismiss();
             }
         });
-        initAndStartAnimation();
     }
     @Override
     protected PopupAnimator getPopupAnimator() {
@@ -150,4 +145,8 @@ public abstract class PartShadowPopupView extends BasePopupView {
                 PopupAnimation.TranslateFromBottom : PopupAnimation.TranslateFromTop);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
 }

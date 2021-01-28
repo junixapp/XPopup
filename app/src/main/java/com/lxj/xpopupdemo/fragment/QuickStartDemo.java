@@ -108,7 +108,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 /*if(popupView==null)*/popupView = new XPopup.Builder(getContext())
                         .dismissOnBackPressed(true)
                         .dismissOnTouchOutside(true)
-                        .hasNavigationBar(false)
+//                        .hasNavigationBar(false)
                         .isDestroyOnDismiss(true)
 //                        .navigationBarColor(Color.BLUE)
 //                        .hasBlurBg(true)
