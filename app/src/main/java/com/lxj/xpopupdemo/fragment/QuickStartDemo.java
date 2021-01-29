@@ -339,13 +339,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowPosition1:
-                new XPopup.Builder(getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                if(popupView==null)popupView = new XPopup.Builder(getContext())
+//                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .offsetY(300)
                         .offsetX(-100)
                         .popupAnimation(PopupAnimation.TranslateFromLeft)
-                        .asCustom(new QQMsgPopup(getContext()))
-                        .show();
+                        .asCustom(new QQMsgPopup(getContext()));
+                popupView.show();
                 break;
             case R.id.btnShowPosition2:
                 new XPopup.Builder(getContext())
