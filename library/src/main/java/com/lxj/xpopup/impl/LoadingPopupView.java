@@ -58,43 +58,27 @@ public class LoadingPopupView extends CenterPopupView {
 
     protected void setup() {
         if (tv_title == null) return;
-        if (title != null && title.length() != 0) {
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    if(tv_title.getVisibility()== View.VISIBLE){
-                        TransitionManager.beginDelayedTransition(centerPopupContainer, new TransitionSet()
-                                .setDuration(XPopup.getAnimationDuration())
-                                .addTransition(new Fade())
-                                .addTransition(new ChangeBounds()));
-                    }
+        post(new Runnable() {
+            @Override
+            public void run() {
+                TransitionManager.beginDelayedTransition(centerPopupContainer, new TransitionSet()
+                        .setDuration(XPopup.getAnimationDuration())
+                        .addTransition(new Fade())
+                        .addTransition(new ChangeBounds()));
+                if (title == null || title.length() == 0) {
+                    tv_title.setVisibility(GONE);
+                } else {
                     tv_title.setVisibility(VISIBLE);
                     tv_title.setText(title);
                 }
-            });
-        } else {
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    if(tv_title.getVisibility()== View.VISIBLE){
-                        TransitionManager.beginDelayedTransition(centerPopupContainer, new TransitionSet()
-                                .setDuration(XPopup.getAnimationDuration())
-                                .addTransition(new Fade())
-                                .addTransition(new ChangeBounds()));
-                    }
-                    tv_title.setVisibility(GONE);
-                }
-            });
-        }
+            }
+        });
     }
 
     private CharSequence title;
 
     public LoadingPopupView setTitle(CharSequence title) {
         this.title = title;
-        if(tv_title!=null && tv_title.getText().toString()!=this.title){
-
-        }
         setup();
         return this;
     }

@@ -204,6 +204,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     @Override
                     public void run() {
                         loadingPopup.setTitle("加载中长度变化啊");
+                        ToastUtils.showShort("sssss");
 
                         loadingPopup.postDelayed(new Runnable() {
                             @Override
