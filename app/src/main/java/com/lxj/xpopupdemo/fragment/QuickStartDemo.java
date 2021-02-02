@@ -99,6 +99,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     AttachPopupView attachPopupView;
     AttachPopupView popup;
     BasePopupView popupView;
+    LoadingPopupView loadingPopup;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -191,10 +192,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
-                final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
-                        .dismissOnBackPressed(false)
-                        .asLoading("加载中")
-                        .show();
+                if(loadingPopup==null){
+                    loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
+                            .dismissOnBackPressed(false)
+                            .asLoading("加载中")
+                            .show();
+                }else {
+                    loadingPopup.show();
+                }
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
                     public void run() {

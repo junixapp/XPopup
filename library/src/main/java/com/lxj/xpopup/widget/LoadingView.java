@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -57,8 +58,13 @@ public class LoadingView extends View {
         paint.setStrokeWidth(stokeWidth);
         startX = centerX + radiusOffset;
         endX = startX + radius / 3f;
-        removeCallbacks(increaseTask);
-        postDelayed(increaseTask, 80);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        Log.e("tag", "onWindowFocusChanged");
+        start();
     }
 
     @Override
@@ -80,6 +86,10 @@ public class LoadingView extends View {
             canvas.drawCircle(endX, centerY, stokeWidth / 2, paint);
             canvas.rotate(avgAngle, centerX, centerY);
         }
+    }
+    public void start(){
+        removeCallbacks(increaseTask);
+        postDelayed(increaseTask, 80);
     }
 
     private Runnable increaseTask = new Runnable() {

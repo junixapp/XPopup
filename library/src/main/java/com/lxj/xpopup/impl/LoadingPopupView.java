@@ -19,6 +19,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.LoadingView;
 
 /**
  * Description: 加载对话框
@@ -91,7 +92,18 @@ public class LoadingPopupView extends CenterPopupView {
 
     public LoadingPopupView setTitle(CharSequence title) {
         this.title = title;
+        if(tv_title!=null && tv_title.getText().toString()!=this.title){
+
+        }
         setup();
         return this;
+    }
+
+    @Override
+    protected void onDismiss() {
+        super.onDismiss();
+        if (tv_title == null) return;
+        tv_title.setText("");
+        tv_title.setVisibility(GONE);
     }
 }
