@@ -84,7 +84,25 @@ public class FullScreenDialog extends Dialog {
 
         //自动设置状态色调，亮色还是暗色
         autoSetStatusBarMode();
+        initListener();
         setContentView(contentView);
+    }
+
+    private void initListener() {
+        final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (!contentView.popupInfo.hasNavigationBar) {
+                    hideNavigationBar();
+                }
+                if (!contentView.popupInfo.hasStatusBar) {
+                    getWindow().setFlags(
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }
+            }
+        });
     }
 
     public boolean isFuckVIVORoom(){
