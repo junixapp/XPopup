@@ -662,6 +662,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                     y = 0;
                     break;
             }
+        } else {
+            passClickThrough(event);
         }
         return true;
     }

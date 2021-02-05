@@ -235,7 +235,10 @@ public class XPopupUtils {
     //此处修改correctKeyboardHeight是为了修复打开其他弹窗时键盘高度不对导致遮挡输入框问题
     public static void moveUpToKeyboardNow(final int keyboardHeight, final BasePopupView pv) {
         correctKeyboardHeight = keyboardHeight;
-        moveUpToKeyboardInternal(correctKeyboardHeight, pv);
+        pv.getPopupContentView().animate().translationY(-keyboardHeight)
+                .setDuration(200)
+                .setInterpolator(new OvershootInterpolator(0))
+                .start();
     }
 
     private static void moveUpToKeyboardInternal(int keyboardHeight, BasePopupView pv) {
