@@ -215,7 +215,8 @@ public class XPopupUtils {
 
     //监听到的keyboardHeight有一定几率是错误的，比如在同时显示导航栏和弹出输入法的时候，有一定几率会算上导航栏的高度，
     //这个不是必现的，暂时无解
-    private static int correctKeyboardHeight = 0;
+    //为了方便用户修改键盘高度和获取当前键盘高度
+    static int correctKeyboardHeight = 0;
 
     public static void moveUpToKeyboard(final int keyboardHeight, final BasePopupView pv) {
         if (correctKeyboardHeight == 0) correctKeyboardHeight = keyboardHeight;
@@ -227,6 +228,17 @@ public class XPopupUtils {
                 moveUpToKeyboardInternal(correctKeyboardHeight, pv);
             }
         });
+    }
+
+    //如果变化键盘高度，需要调整弹窗，请使用SimpleCallback，重写onKeyBoardStateChanged，在onKeyBoardStateChanged中调用XPopupUtils.moveUpToKeyboardNow
+    //或者重写popupView中的onKeyboardHeightChanged
+    //此处修改correctKeyboardHeight是为了修复打开其他弹窗时键盘高度不对导致遮挡输入框问题
+    public static void moveUpToKeyboardNow(final int keyboardHeight, final BasePopupView pv) {
+        correctKeyboardHeight = keyboardHeight;
+        pv.getPopupContentView().animate().translationY(-keyboardHeight)
+                .setDuration(200)
+                .setInterpolator(new OvershootInterpolator(0))
+                .start();
     }
 
     private static void moveUpToKeyboardInternal(int keyboardHeight, BasePopupView pv) {

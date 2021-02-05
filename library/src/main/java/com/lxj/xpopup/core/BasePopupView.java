@@ -115,6 +115,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
                 public void onSoftInputChanged(int height) {
+                    onKeyboardHeightChanged(height);
                     if(popupInfo!=null && popupInfo.xPopupCallback!=null) {
                         popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this,height);
                     }
@@ -574,6 +575,11 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     protected void onShow() {
     }
 
+    /**
+     * 当键盘高度改变时调用
+     */
+    protected void onKeyboardHeightChanged(int height) {}
+
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     public void onDestroy(){
         destroy();
@@ -656,6 +662,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                     y = 0;
                     break;
             }
+        } else {
+            passClickThrough(event);
         }
         return true;
     }
