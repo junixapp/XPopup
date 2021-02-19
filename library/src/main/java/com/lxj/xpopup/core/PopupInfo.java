@@ -1,6 +1,5 @@
 package com.lxj.xpopup.core;
 
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.view.View;
 import android.view.ViewGroup;

@@ -311,12 +311,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
-                new XPopup.Builder(getContext())
+                if (popupView==null)popupView = new XPopup.Builder(getContext())
                         .hasStatusBarShadow(true)
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
-                        .asCustom(new CustomFullScreenPopup(getContext()))
-                        .show();
+                        .asCustom(new CustomFullScreenPopup(getContext()));
+                popupView.show();
                 break;
             case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
                 new XPopup.Builder(getContext())
@@ -338,11 +338,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
-                new XPopup.Builder(getContext())
+                if (popupView==null)popupView = new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .asCustom(new CustomEditTextBottomPopup(getContext()))
-                        .show();
+                        //.isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .asCustom(new CustomEditTextBottomPopup(getContext()));
+                        popupView.show();
                 break;
             case R.id.btnShowPosition1:
                 new XPopup.Builder(getContext())

@@ -63,7 +63,6 @@ public class LoadingView extends View {
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-        Log.e("tag", "onWindowFocusChanged");
         start();
     }
 

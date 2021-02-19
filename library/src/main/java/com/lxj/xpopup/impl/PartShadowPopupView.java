@@ -145,8 +145,4 @@ public abstract class PartShadowPopupView extends BasePopupView {
                 PopupAnimation.TranslateFromBottom : PopupAnimation.TranslateFromTop);
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-    }
 }

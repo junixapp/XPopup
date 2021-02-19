@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -57,9 +58,9 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         }
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         shadowBgAnimator = new ShadowBgAnimator(this);
-        //  添加Popup窗体内容View
+        // 添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
-        // 事先隐藏，等测量完毕恢复，避免View影子跳动现象。
+        // 事先隐藏，等测量完毕恢复，避免影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
     }
@@ -182,7 +183,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         public void run() {
             if(dialog==null || getHostWindow()==null)return;
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
-            focusAndProcessBackPress();
+            if(!(BasePopupView.this instanceof FullScreenPopupView))focusAndProcessBackPress();
 
             //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
             if(!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)
@@ -216,7 +217,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         public void run() {
             popupStatus = PopupStatus.Show;
             onShow();
-//            focusAndProcessBackPress();
+            if(BasePopupView.this instanceof FullScreenPopupView) focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow(BasePopupView.this);
             //再次检测移动距离
@@ -242,7 +243,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             for (int i = 0; i < list.size(); i++) {
                 final EditText et = list.get(i);
                 et.setOnKeyListener(new BackPressListener());
-                if (i == 0 && popupInfo.autoFocusEditText) {
+                if (i == 0 && popupInfo.autoFocusEditText && !et.hasFocus()) {
                     et.setFocusable(true);
                     et.setFocusableInTouchMode(true);
                     et.requestFocus();
@@ -523,7 +524,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 dismissWithRunnable = null;//no cache, avoid some bad edge effect.
             }
             popupStatus = PopupStatus.Dismiss;
-
             if (popupInfo.isRequestFocus) {
                 // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
                 if(popupInfo.decorView!=null){
@@ -612,9 +612,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         handler.removeCallbacksAndMessages(null);
         if(popupInfo!=null) {
             if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
-            if(popupInfo.isDestroyOnDismiss){ //如果开启isDestroyOnDismiss，强制释放资源
-                destroy();
-            }
+            if(popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
         }
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;

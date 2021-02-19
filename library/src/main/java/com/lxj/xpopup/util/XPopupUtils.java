@@ -26,6 +26,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -234,7 +235,7 @@ public class XPopupUtils {
     private static void moveUpToKeyboardInternal(int keyboardHeight, BasePopupView pv) {
         if (pv.popupInfo == null || !pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PositionPopupView || (pv instanceof AttachPopupView && !(pv instanceof PartShadowPopupView))) {
+        if (pv instanceof PositionPopupView || pv instanceof AttachPopupView ) {
             return;
         }
         //判断是否盖住输入框
@@ -270,7 +271,7 @@ public class XPopupUtils {
                 (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
                         popupHeight == screenHeight)
         ) {
-            // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动。
+            // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动
             if (focusBottom + keyboardHeight < screenHeight) {
                 return;
             }

@@ -137,8 +137,9 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     new XPopup.Builder(holder.itemView.getContext()).asImageViewer(imageView, position, list,
+                            true, true, -1, -1, -1, true,
+                            Color.rgb(32, 36, 46),
                             new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
