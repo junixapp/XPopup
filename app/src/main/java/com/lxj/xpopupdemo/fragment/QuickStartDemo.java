@@ -1,12 +1,13 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+
 import androidx.annotation.RequiresApi;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
@@ -25,12 +26,10 @@ import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
-import com.lxj.xpopupdemo.custom.CustomCenterPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
-import com.lxj.xpopupdemo.custom.LoginPopup;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
@@ -123,11 +122,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 new OnConfirmListener() {
                                     @Override
                                     public void onConfirm() {
-                                        toast("click confirm");
+                                        ToastUtils.showShort("click confirm");
                                     }
                                 }, null, false);
                 popupView.show();
-
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
                 new XPopup.Builder(getContext())
@@ -210,6 +208,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             @Override
                             public void run() {
                                 loadingPopup.setTitle("");
+                                ToastUtils.showShort("安达市多大所多所");
                             }
                         }, 2000);
                     }
@@ -397,7 +396,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     }
 
 
-    class DemoXPopupListener extends SimpleCallback {
+    static class DemoXPopupListener extends SimpleCallback {
         @Override
         public void onCreated(BasePopupView pv) {
             Log.e("tag", "弹窗创建了");

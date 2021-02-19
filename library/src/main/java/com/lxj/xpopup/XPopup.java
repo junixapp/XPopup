@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -691,20 +692,27 @@ public class XPopup {
          * @param selectListener   选中条目的监听器
          * @param bindLayoutId     自定义布局的id  要求layoutId中必须有一个id为recyclerView的RecyclerView
          * @param bindItemLayoutId 自定义列表的item布局  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+         * @param contentGravity   列表的居中位置。默认是居中
          * @return
          */
         public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
-                                                int bindItemLayoutId) {
+                                                int bindItemLayoutId, int contentGravity) {
             popupType(PopupType.AttachView);
             AttachListPopupView popupView = new AttachListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(data, iconIds)
+                    .setContentGravity(contentGravity)
                     .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
 
+        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
+                                                int bindItemLayoutId) {
+            return asAttachList(data, iconIds, selectListener, bindLayoutId, bindItemLayoutId, Gravity.CENTER);
+        }
+
         public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
-            return asAttachList(data, iconIds, selectListener, 0, 0);
+            return asAttachList(data, iconIds, selectListener, 0, 0, Gravity.CENTER);
         }
 
         /**
