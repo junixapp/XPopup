@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
@@ -287,7 +288,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                     public void onSelect(int position, String text) {
                                         toast("click " + text);
                                     }
-                                }, 0, 0);
+                                }, 0, 0/*, Gravity.LEFT*/);
                 ;
                 attachPopupView.show();
                 break;
@@ -329,12 +330,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnAttachPopup2:
-                popup = (AttachPopupView) new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
                             .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
                         .hasShadowBg(false) // 去掉半透明背景
-                        .asCustom(new CustomAttachPopup2(getContext()));
-                popup.show();
+                        .asCustom(new CustomAttachPopup2(getContext()))
+                        .show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
                 new XPopup.Builder(getContext())
@@ -344,13 +345,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowPosition1:
-                if(popupView==null)popupView = new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .offsetY(300)
                         .offsetX(-100)
                         .popupAnimation(PopupAnimation.TranslateFromLeft)
-                        .asCustom(new QQMsgPopup(getContext()));
-                popupView.show();
+                        .asCustom(new QQMsgPopup(getContext()))
+                        .show();
                 break;
             case R.id.btnShowPosition2:
                 new XPopup.Builder(getContext())

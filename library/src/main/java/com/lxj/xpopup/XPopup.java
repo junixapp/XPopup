@@ -740,10 +740,11 @@ public class XPopup {
          * @param placeholderStroke 占位View的边框色，默认为-1
          * @param placeholderRadius 占位View的圆角大小，默认为-1
          * @param isShowSaveBtn     是否显示保存按钮，默认显示
+         * @param bgColor           背景颜色
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, boolean isInfinite, int placeholderColor, int placeholderStroke, int placeholderRadius,
-                                                  boolean isShowSaveBtn, XPopupImageLoader imageLoader) {
+                                                  boolean isShowSaveBtn, int bgColor, XPopupImageLoader imageLoader) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSingleSrcView(srcView, url)
@@ -752,6 +753,7 @@ public class XPopup {
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)
                     .isShowSaveButton(isShowSaveBtn)
+                    .setBgColor(bgColor)
                     .setXPopupImageLoader(imageLoader);
             popupView.popupInfo = this.popupInfo;
             return popupView;
@@ -768,7 +770,8 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, false, true, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
+            return asImageViewer(srcView, currentPosition, urls, false, true, -1, -1, -1, true,
+                    Color.rgb(32, 36, 46),srcViewUpdateListener, imageLoader);
         }
 
         /**
@@ -789,7 +792,7 @@ public class XPopup {
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   boolean isInfinite, boolean isShowPlaceHolder,
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius, boolean isShowSaveBtn,
-                                                  OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
+                                                  int bgColor,OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSrcView(srcView, currentPosition)
@@ -800,6 +803,7 @@ public class XPopup {
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)
                     .isShowSaveButton(isShowSaveBtn)
+                    .setBgColor(bgColor)
                     .setSrcViewUpdateListener(srcViewUpdateListener)
                     .setXPopupImageLoader(imageLoader);
             popupView.popupInfo = this.popupInfo;

@@ -583,22 +583,26 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
 
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     public void onDestroy(){
+        detachFromHost();
+        onDetachedFromWindow();
         destroy();
     }
 
     public void destroy(){
-        detachFromHost();
-        onDetachedFromWindow();
         if(popupInfo!=null){
             popupInfo.atView = null;
             popupInfo.watchView = null;
             popupInfo.xPopupCallback = null;
             popupInfo.decorView = null;
-            dialog = null;
             if(popupInfo.isDestroyOnDismiss) popupInfo = null;
+            dialog = null;
         }
         if(getContext()!=null && getContext() instanceof FragmentActivity){
             ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
+        }
+        if(blurAnimator!=null && blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
+            blurAnimator.decorBitmap.recycle();
+            blurAnimator.decorBitmap = null;
         }
     }
 
@@ -609,19 +613,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         if(popupInfo!=null) {
             if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
             if(popupInfo.isDestroyOnDismiss){ //如果开启isDestroyOnDismiss，强制释放资源
-                popupInfo.atView = null;
-                popupInfo.watchView = null;
-                popupInfo.xPopupCallback = null;
-                popupInfo.decorView = null;
-                popupInfo = null;
-                dialog = null;
-                if(getContext() instanceof FragmentActivity){
-                    ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
-                }
-                if(blurAnimator!=null && blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
-                    blurAnimator.decorBitmap.recycle();
-                    blurAnimator.decorBitmap = null;
-                }
+                destroy();
             }
         }
         popupStatus = PopupStatus.Dismiss;

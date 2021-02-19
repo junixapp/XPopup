@@ -82,7 +82,8 @@ public class ImageViewerDemo extends BaseFragment {
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
-                        .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0, false,new ImageLoader())
+                        .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
+                                ,false, Color.BLACK, new ImageLoader())
                         .show();
             }
         });
@@ -215,7 +216,7 @@ public class ImageViewerDemo extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     new XPopup.Builder(getContext())
-                            .asImageViewer(imageView, position, list, true,false, -1, -1, -1, true, new OnSrcViewUpdateListener() {
+                            .asImageViewer(imageView, position, list, true,false, -1, -1, -1, true, Color.BLACK,  new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
                             //1.pager更新当前显示的图片
@@ -227,7 +228,7 @@ public class ImageViewerDemo extends BaseFragment {
                             //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
                             popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
                         }
-                    }, new ImageLoader())
+                    },new ImageLoader())
                             .show();
                 }
             });
