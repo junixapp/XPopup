@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -61,12 +60,6 @@ public class LoadingView extends View {
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        start();
-    }
-
-    @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
         // 1 2 3 4 5
@@ -86,6 +79,7 @@ public class LoadingView extends View {
             canvas.rotate(avgAngle, centerX, centerY);
         }
     }
+
     public void start(){
         removeCallbacks(increaseTask);
         postDelayed(increaseTask, 80);
@@ -99,6 +93,12 @@ public class LoadingView extends View {
             postDelayed(increaseTask, 80);
         }
     };
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        start();
+    }
 
     @Override
     protected void onDetachedFromWindow() {

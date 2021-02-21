@@ -311,12 +311,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
-                if (popupView==null)popupView = new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
                         .hasStatusBarShadow(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
-                        .asCustom(new CustomFullScreenPopup(getContext()));
-                popupView.show();
+                        .asCustom(new CustomFullScreenPopup(getContext()))
+                        .show();
                 break;
             case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
                 new XPopup.Builder(getContext())
@@ -338,11 +338,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
-                if (popupView==null)popupView = new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
                         //.isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .asCustom(new CustomEditTextBottomPopup(getContext()));
-                        popupView.show();
+                        .asCustom(new CustomEditTextBottomPopup(getContext()))
+                        .show();
                 break;
             case R.id.btnShowPosition1:
                 new XPopup.Builder(getContext())
@@ -400,7 +400,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     static class DemoXPopupListener extends SimpleCallback {
         @Override
         public void onCreated(BasePopupView pv) {
-            Log.e("tag", "弹窗创建了");
+            Log.e("tag", "onCreated");
         }
 
         @Override
@@ -415,13 +415,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
         @Override
         public void beforeDismiss(BasePopupView popupView) {
-            Log.e("tag", "准备消失的时候执行");
+            Log.e("tag", "beforeDismiss");
         }
 
         //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
         @Override
         public boolean onBackPressed(BasePopupView popupView) {
-            ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
+            Log.e("tag", "拦截的返回按键，按返回键XPopup不会关闭了");
             return true;
         }
 

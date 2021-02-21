@@ -174,6 +174,9 @@ public class FullScreenDialog extends Dialog {
     BasePopupView contentView;
 
     public FullScreenDialog setContent(BasePopupView view) {
+        if(view.getParent()!=null){
+            ((ViewGroup)view.getParent()).removeView(view);
+        }
         this.contentView = view;
         return this;
     }
