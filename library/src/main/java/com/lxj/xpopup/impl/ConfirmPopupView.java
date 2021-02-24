@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import android.graphics.Color;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -31,6 +32,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     EditText et_input;
     View divider1, divider2;
     public boolean isHideCancel = false;
+    public int et_input_type = InputType.TYPE_NULL;
 
     /**
      *
@@ -40,6 +42,17 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     public ConfirmPopupView(@NonNull Context context, int bindLayoutId) {
         super(context);
         this.bindLayoutId = bindLayoutId;
+        addInnerContent();
+    }
+    /**
+     * @param context
+     * @param bindLayoutId layoutId 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
+     * @param inputType
+     */
+    public ConfirmPopupView(@NonNull Context context, int bindLayoutId, int inputType) {
+        super(context);
+        this.bindLayoutId = bindLayoutId;
+        this.et_input_type = inputType;
         addInnerContent();
     }
 
@@ -59,6 +72,10 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         et_input = findViewById(R.id.et_input);
         divider1 = findViewById(R.id.xpopup_divider1);
         divider2 = findViewById(R.id.xpopup_divider2);
+        /**
+         *输入类型
+         */
+        et_input.setInputType(et_input_type);
 
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);

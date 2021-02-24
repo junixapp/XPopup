@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.RequiresApi;
@@ -152,7 +153,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .setPopupCallback(new DemoXPopupListener())
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
-                        .asInputConfirm("我是标题", null, null, "我是默认Hint文字",
+                        .asInputConfirm("我是标题", null, null, "我是默认Hint文字", InputType.TYPE_CLASS_NUMBER,
                                 new OnInputConfirmListener() {
                                     @Override
                                     public void onConfirm(String text) {
