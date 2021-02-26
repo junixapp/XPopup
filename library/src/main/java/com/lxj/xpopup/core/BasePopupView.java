@@ -512,6 +512,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     private Runnable doAfterDismissTask = new Runnable() {
         @Override
         public void run() {
+            popupStatus = PopupStatus.Dismiss;
             if(popupInfo==null)return;
             if (popupInfo.autoOpenSoftInput && BasePopupView.this instanceof PartShadowPopupView) KeyboardUtils.hideSoftInput(BasePopupView.this);
             onDismiss();
@@ -523,7 +524,6 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 dismissWithRunnable.run();
                 dismissWithRunnable = null;//no cache, avoid some bad edge effect.
             }
-            popupStatus = PopupStatus.Dismiss;
             if (popupInfo.isRequestFocus) {
                 // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
                 if(popupInfo.decorView!=null){
