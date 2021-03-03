@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-
 import androidx.annotation.RequiresApi;
-
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
@@ -203,13 +200,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     @Override
                     public void run() {
                         loadingPopup.setTitle("加载中长度变化啊");
-                        ToastUtils.showShort("sssss");
-
                         loadingPopup.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 loadingPopup.setTitle("");
-                                ToastUtils.showShort("安达市多大所多所");
                             }
                         }, 2000);
                     }

@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     public ViewPager viewPager;
 
-    LoadingPopupView loadingPopupView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setAnimationDuration(1000);
 //        XPopup.setPrimaryColor(Color.RED);
 //        ScreenUtils.setLandscape(this);
-        loadingPopupView = new XPopup.Builder(this)
+        LoadingPopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)
                 .asLoading("嘻嘻嘻嘻嘻");
         loadingPopupView.show();

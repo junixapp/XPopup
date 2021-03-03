@@ -33,7 +33,6 @@ public class PopupInfo {
     public Boolean autoOpenSoftInput = false;//是否自动打开输入法
     public XPopupCallback xPopupCallback;
 
-    public ViewGroup decorView; //每个弹窗所属的DecorView
     public Boolean isMoveUpToKeyboard = true; //是否移动到软键盘上面，默认弹窗会移到软键盘上面
     public PopupPosition popupPosition = null; //弹窗出现在目标的什么位置
     public Boolean hasStatusBarShadow = false; //是否显示状态栏阴影
