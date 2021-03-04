@@ -4,8 +4,12 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
+
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.fragment.QuickStartDemo;
 
 /**
  * Description: 自定义带有输入框的Bottom弹窗

@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        BarUtils.setStatusBarLightMode(this, true);
 //        BarUtils.setNavBarColor(this, Color.RED);
-
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
