@@ -97,8 +97,8 @@ public class FullScreenPopupView extends BasePopupView {
 
     @Override
     protected void onDetachedFromWindow() {
-        getPopupContentView().setTranslationX(popupInfo.offsetX);
-        getPopupContentView().setTranslationY(popupInfo.offsetY);
+        if(popupInfo!=null)getPopupContentView().setTranslationX(popupInfo.offsetX);
+        if(popupInfo!=null)getPopupContentView().setTranslationY(popupInfo.offsetY);
         super.onDetachedFromWindow();
     }
 }

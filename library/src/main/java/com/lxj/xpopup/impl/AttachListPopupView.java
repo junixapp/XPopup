@@ -123,12 +123,6 @@ public class AttachListPopupView extends AttachPopupView {
         return this;
     }
 
-//    public AttachListPopupView setOffsetXAndY(int offsetX, int offsetY) {
-//        this.defaultOffsetX += offsetX;
-//        this.defaultOffsetY += offsetY;
-//        return this;
-//    }
-
     private OnSelectListener selectListener;
 
     public AttachListPopupView setOnSelectListener(OnSelectListener selectListener) {

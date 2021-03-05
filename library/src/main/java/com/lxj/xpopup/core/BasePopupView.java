@@ -208,7 +208,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     public Window getHostWindow(){
-        return dialog.getWindow();
+        return dialog==null ? null : dialog.getWindow();
     }
 
     protected void doAfterShow() {
@@ -225,7 +225,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow(BasePopupView.this);
             //再次检测移动距离
-            if (XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()) > 0 && !hasMoveUp) {
+            if (getHostWindow()!=null && XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()) > 0 && !hasMoveUp) {
                 XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()), BasePopupView.this);
             }
         }
