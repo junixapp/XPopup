@@ -217,10 +217,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 });
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
-                popupView = new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
                             .isDarkTheme(true)
-//                            .hasShadowBg(false)
-//                        .hasBlurBg(true)
+                            .hasShadowBg(true)
+//                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                             .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                     new OnSelectListener() {
@@ -228,8 +228,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         public void onSelect(int position, String text) {
                                             toast("click " + text);
                                         }
-                                    });
-                popupView.show();
+                                    }).show();
                 break;
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())

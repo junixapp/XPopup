@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -84,10 +83,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         if(popupInfo.hasShadowBg){
             shadowBgAnimator.initAnimator();
         }
-        if(popupInfo.hasBlurBg) {
-            blurAnimator = new BlurAnimator(this);
-            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
+        if(popupInfo.hasBlurBg && blurAnimator!=null) {
             blurAnimator.initAnimator();
         }
         if (popupContentAnimator != null) {
@@ -168,6 +164,13 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
      * 执行初始化
      */
     protected void init() {
+        //2. 收集动画执行器
+        if(popupInfo.hasBlurBg) {
+            blurAnimator = new BlurAnimator(this);
+            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
+            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
+        }
+
         //1. 初始化Popup
         if(this instanceof AttachPopupView || this instanceof PartShadowPopupView || this instanceof PositionPopupView){
             initPopupContent();
@@ -192,9 +195,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
             if(!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)
             && !(BasePopupView.this instanceof PartShadowPopupView)){
-                //2. 收集动画执行器
                 initAnimator();
-
                 //3. 执行动画
                 doShowAnimation();
 
