@@ -262,9 +262,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-                if(attachPopupView==null)attachPopupView = new XPopup.Builder(getContext())
+                attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
-                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
