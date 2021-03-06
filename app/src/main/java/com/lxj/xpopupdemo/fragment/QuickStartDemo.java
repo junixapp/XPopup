@@ -262,7 +262,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-                attachPopupView = new XPopup.Builder(getContext())
+                if(attachPopupView==null)attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
                             .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
@@ -273,8 +273,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
 //                        .popupWidth(500)
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享"},
-                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
+                        .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享",
+//                                        "分享", "编辑", "不带icon", "分享",
+//                                        "分享", "编辑", "不带icon", "分享",
+//                                        "分享", "编辑", "不带icon", "分享"
+                                },
+                                null,
+//                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                 new OnSelectListener() {
                                     @Override
                                     public void onSelect(int position, String text) {

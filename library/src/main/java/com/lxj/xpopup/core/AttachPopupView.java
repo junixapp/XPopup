@@ -206,7 +206,7 @@ public abstract class AttachPopupView extends BasePopupView {
             isShowLeft = centerX < XPopupUtils.getWindowWidth(getContext()) / 2;
 
             //修正高度，弹窗的高有可能超出window区域
-            if (!isCreated) {
+//            if (!isCreated) {
                 ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
                 int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
                         : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow);
@@ -218,7 +218,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     params.width = maxWidth;
                 }
                 getPopupContentView().setLayoutParams(params);
-            }
+//            }
 
             getPopupContentView().post(new Runnable() {
                 @Override
