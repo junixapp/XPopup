@@ -1,7 +1,6 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -25,12 +24,10 @@ import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
-import com.lxj.xpopupdemo.custom.CustomCenterPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
-import com.lxj.xpopupdemo.custom.LoginPopup;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
@@ -99,6 +96,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     AttachPopupView attachPopupView;
     AttachPopupView popup;
     BasePopupView popupView;
+    LoadingPopupView loadingPopup;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -108,7 +106,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 /*if(popupView==null)*/popupView = new XPopup.Builder(getContext())
                         .dismissOnBackPressed(true)
                         .dismissOnTouchOutside(true)
-                        .hasNavigationBar(false)
+//                        .hasNavigationBar(false)
                         .isDestroyOnDismiss(true)
 //                        .navigationBarColor(Color.BLUE)
 //                        .hasBlurBg(true)
@@ -122,11 +120,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 new OnConfirmListener() {
                                     @Override
                                     public void onConfirm() {
-                                        toast("click confirm");
+                                        ToastUtils.showShort("click confirm");
                                     }
                                 }, null, false);
                 popupView.show();
-
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
                 new XPopup.Builder(getContext())
@@ -156,7 +153,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 new OnInputConfirmListener() {
                                     @Override
                                     public void onConfirm(String text) {
-                                        toast("input text: " + text);
 //                                new XPopup.Builder(getContext()).asLoading().show();
                                     }
                                 })
@@ -191,15 +187,18 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
-                final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
-                        .dismissOnBackPressed(false)
-                        .asLoading("加载中")
-                        .show();
+                if(loadingPopup==null){
+                    loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
+                            .dismissOnBackPressed(false)
+                            .asLoading("加载中")
+                            .show();
+                }else {
+                    loadingPopup.show();
+                }
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         loadingPopup.setTitle("加载中长度变化啊");
-
                         loadingPopup.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -218,10 +217,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 });
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
-                popupView = new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
                             .isDarkTheme(true)
-//                            .hasShadowBg(false)
-//                        .hasBlurBg(true)
+                            .hasShadowBg(true)
+//                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                             .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                     new OnSelectListener() {
@@ -229,8 +228,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         public void onSelect(int position, String text) {
                                             toast("click " + text);
                                         }
-                                    });
-                popupView.show();
+                                    }).show();
                 break;
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())
@@ -266,7 +264,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
-                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop) //NoAnimation表示禁用动画
 //                        .isCenterHorizontal(true) //是否与目标水平居中对齐
@@ -275,14 +273,19 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
 //                        .popupWidth(500)
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享"},
-                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
+                        .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享",
+//                                        "分享", "编辑", "不带icon", "分享",
+//                                        "分享", "编辑", "不带icon", "分享",
+//                                        "分享", "编辑", "不带icon", "分享"
+                                },
+                                null,
+//                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                 new OnSelectListener() {
                                     @Override
                                     public void onSelect(int position, String text) {
                                         toast("click " + text);
                                     }
-                                }, 0, 0);
+                                }, 0, 0/*, Gravity.LEFT*/);
                 ;
                 attachPopupView.show();
                 break;
@@ -307,7 +310,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
                 new XPopup.Builder(getContext())
                         .hasStatusBarShadow(true)
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
                         .show();
@@ -324,23 +327,23 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnAttachPopup2:
-                popup = (AttachPopupView) new XPopup.Builder(getContext())
+                new XPopup.Builder(getContext())
                             .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
                         .hasShadowBg(false) // 去掉半透明背景
-                        .asCustom(new CustomAttachPopup2(getContext()));
-                popup.show();
+                        .asCustom(new CustomAttachPopup2(getContext()))
+                        .show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        //.isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .asCustom(new CustomEditTextBottomPopup(getContext()))
                         .show();
                 break;
             case R.id.btnShowPosition1:
                 new XPopup.Builder(getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .offsetY(300)
                         .offsetX(-100)
                         .popupAnimation(PopupAnimation.TranslateFromLeft)
@@ -391,10 +394,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     }
 
 
-    class DemoXPopupListener extends SimpleCallback {
+    static class DemoXPopupListener extends SimpleCallback {
         @Override
         public void onCreated(BasePopupView pv) {
-            Log.e("tag", "弹窗创建了");
+            Log.e("tag", "onCreated");
         }
 
         @Override
@@ -409,13 +412,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
         @Override
         public void beforeDismiss(BasePopupView popupView) {
-            Log.e("tag", "准备消失的时候执行");
+            Log.e("tag", "beforeDismiss");
         }
 
         //如果你自己想拦截返回按键事件，则重写这个方法，返回true即可
         @Override
         public boolean onBackPressed(BasePopupView popupView) {
-            ToastUtils.showShort("我拦截的返回按键，按返回键XPopup不会关闭了");
+            Log.e("tag", "拦截的返回按键，按返回键XPopup不会关闭了");
             return true;
         }
 

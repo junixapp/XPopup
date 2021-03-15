@@ -25,6 +25,7 @@ public class AttachListPopupView extends AttachPopupView {
     RecyclerView recyclerView;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
+    protected int contentGravity = Gravity.CENTER;
 
     /**
      *
@@ -68,6 +69,8 @@ public class AttachListPopupView extends AttachPopupView {
                     }else {
                         holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_dark_color));
                     }
+                    LinearLayout linearLayout = holder.getView(R.id._ll_temp);
+                    linearLayout.setGravity(contentGravity);
                 }
             }
         };
@@ -115,11 +118,10 @@ public class AttachListPopupView extends AttachPopupView {
         return this;
     }
 
-//    public AttachListPopupView setOffsetXAndY(int offsetX, int offsetY) {
-//        this.defaultOffsetX += offsetX;
-//        this.defaultOffsetY += offsetY;
-//        return this;
-//    }
+    public AttachListPopupView setContentGravity(int gravity) {
+        this.contentGravity = gravity;
+        return this;
+    }
 
     private OnSelectListener selectListener;
 

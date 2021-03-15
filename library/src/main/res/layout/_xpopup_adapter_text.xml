@@ -5,6 +5,7 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
     <LinearLayout
+        android:id="@+id/_ll_temp"
         android:gravity="center"
         android:paddingStart="25dp"
         android:paddingTop="13dp"

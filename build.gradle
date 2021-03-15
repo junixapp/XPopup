@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.xpopup_version = "2.2.16"
+    ext.xpopup_version = "2.2.23"
     repositories {
         google()
         jcenter()

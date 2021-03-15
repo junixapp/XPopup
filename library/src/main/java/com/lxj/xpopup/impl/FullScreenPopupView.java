@@ -91,13 +91,14 @@ public class FullScreenPopupView extends BasePopupView {
     }
 
     @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        paint = null;
+    protected PopupAnimator getPopupAnimator() {
+        return new TranslateAnimator(getPopupContentView(), PopupAnimation.TranslateFromBottom);
     }
 
     @Override
-    protected PopupAnimator getPopupAnimator() {
-        return new TranslateAnimator(getPopupContentView(), PopupAnimation.TranslateFromBottom);
+    protected void onDetachedFromWindow() {
+        if(popupInfo!=null)getPopupContentView().setTranslationX(popupInfo.offsetX);
+        if(popupInfo!=null)getPopupContentView().setTranslationY(popupInfo.offsetY);
+        super.onDetachedFromWindow();
     }
 }

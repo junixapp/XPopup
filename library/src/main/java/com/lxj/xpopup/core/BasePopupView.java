@@ -57,9 +57,9 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         }
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         shadowBgAnimator = new ShadowBgAnimator(this);
-        //  添加Popup窗体内容View
+        // 添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
-        // 事先隐藏，等测量完毕恢复，避免View影子跳动现象。
+        // 事先隐藏，等测量完毕恢复，避免影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
     }
@@ -83,10 +83,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         if(popupInfo.hasShadowBg){
             shadowBgAnimator.initAnimator();
         }
-        if(popupInfo.hasBlurBg) {
-            blurAnimator = new BlurAnimator(this);
-            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
+        if(popupInfo.hasBlurBg && blurAnimator!=null) {
             blurAnimator.initAnimator();
         }
         if (popupContentAnimator != null) {
@@ -115,6 +112,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
                 public void onSoftInputChanged(int height) {
+                    onKeyboardHeightChange(height);
                     if(popupInfo!=null && popupInfo.xPopupCallback!=null) {
                         popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this,height);
                     }
@@ -122,6 +120,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                         XPopupUtils.moveDown(BasePopupView.this);
                         hasMoveUp = false;
                     } else {
+                        if(hasMoveUp)return;
                         //when show keyboard, move up
                         //全屏弹窗特殊处理，等show之后再移动
                         if(BasePopupView.this instanceof FullScreenPopupView && popupStatus==PopupStatus.Showing){
@@ -154,15 +153,26 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         if(popupInfo==null){
             throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
         }
-        popupInfo.decorView = (ViewGroup) getHostWindow().getDecorView();
+    }
+
+    protected View getWindowDecorView(){
+        if(getHostWindow()==null) return null;
+        return (ViewGroup) getHostWindow().getDecorView();
     }
 
     /**
      * 执行初始化
      */
     protected void init() {
+        //2. 收集动画执行器
+        if(popupInfo.hasBlurBg) {
+            blurAnimator = new BlurAnimator(this);
+            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
+            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
+        }
+
         //1. 初始化Popup
-        if(this instanceof AttachPopupView || this instanceof PartShadowPopupView){
+        if(this instanceof AttachPopupView || this instanceof PartShadowPopupView || this instanceof PositionPopupView){
             initPopupContent();
         } else if (!isCreated) {
             initPopupContent();
@@ -180,13 +190,12 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         public void run() {
             if(dialog==null || getHostWindow()==null)return;
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
-            focusAndProcessBackPress();
+            if(!(BasePopupView.this instanceof FullScreenPopupView))focusAndProcessBackPress();
 
             //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
-            if(!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)){
-                //2. 收集动画执行器
+            if(!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)
+            && !(BasePopupView.this instanceof PartShadowPopupView)){
                 initAnimator();
-
                 //3. 执行动画
                 doShowAnimation();
 
@@ -200,7 +209,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     public Window getHostWindow(){
-        return dialog.getWindow();
+        return dialog==null ? null : dialog.getWindow();
     }
 
     protected void doAfterShow() {
@@ -213,11 +222,11 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         public void run() {
             popupStatus = PopupStatus.Show;
             onShow();
-//            focusAndProcessBackPress();
+            if(BasePopupView.this instanceof FullScreenPopupView) focusAndProcessBackPress();
             if (popupInfo != null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.onShow(BasePopupView.this);
             //再次检测移动距离
-            if (XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()) > 0 && !hasMoveUp) {
+            if (getHostWindow()!=null && XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()) > 0 && !hasMoveUp) {
                 XPopupUtils.moveUpToKeyboard(XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()), BasePopupView.this);
             }
         }
@@ -239,7 +248,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             for (int i = 0; i < list.size(); i++) {
                 final EditText et = list.get(i);
                 et.setOnKeyListener(new BackPressListener());
-                if (i == 0 && popupInfo.autoFocusEditText) {
+                if (i == 0 && popupInfo.autoFocusEditText && !et.hasFocus()) {
                     et.setFocusable(true);
                     et.setFocusableInTouchMode(true);
                     et.requestFocus();
@@ -508,6 +517,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     private Runnable doAfterDismissTask = new Runnable() {
         @Override
         public void run() {
+            popupStatus = PopupStatus.Dismiss;
             if(popupInfo==null)return;
             if (popupInfo.autoOpenSoftInput && BasePopupView.this instanceof PartShadowPopupView) KeyboardUtils.hideSoftInput(BasePopupView.this);
             onDismiss();
@@ -519,12 +529,10 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 dismissWithRunnable.run();
                 dismissWithRunnable = null;//no cache, avoid some bad edge effect.
             }
-            popupStatus = PopupStatus.Dismiss;
-
             if (popupInfo.isRequestFocus) {
                 // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
-                if(popupInfo.decorView!=null){
-                    View needFocusView = popupInfo.decorView.findViewById(android.R.id.content);
+                if(getWindowDecorView()!=null){
+                    View needFocusView = getWindowDecorView().findViewById(android.R.id.content);
                     if (needFocusView != null) {
                         needFocusView.setFocusable(true);
                         needFocusView.setFocusableInTouchMode(true);
@@ -574,24 +582,40 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     protected void onShow() {
     }
 
+    protected void onKeyboardHeightChange(int height){
+
+    }
+
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     public void onDestroy(){
+        onDetachedFromWindow();
         destroy();
+        detachFromHost();
     }
 
     public void destroy(){
-        detachFromHost();
-        onDetachedFromWindow();
         if(popupInfo!=null){
             popupInfo.atView = null;
             popupInfo.watchView = null;
             popupInfo.xPopupCallback = null;
-            popupInfo.decorView = null;
-            dialog = null;
+            if(popupInfo.customAnimator!=null && popupInfo.customAnimator.targetView!=null){
+                popupInfo.customAnimator.targetView.animate().cancel();
+            }
             if(popupInfo.isDestroyOnDismiss) popupInfo = null;
         }
-        if(getContext()!=null && getContext() instanceof FragmentActivity){
-            ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
+        if(dialog!=null){
+            dialog.contentView = null;
+            dialog = null;
+        }
+        if(shadowBgAnimator!=null && shadowBgAnimator.targetView!=null){
+            shadowBgAnimator.targetView.animate().cancel();
+        }
+        if(blurAnimator!=null && blurAnimator.targetView!=null){
+            blurAnimator.targetView.animate().cancel();
+            if(blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
+                blurAnimator.decorBitmap.recycle();
+                blurAnimator.decorBitmap = null;
+            }
         }
     }
 
@@ -600,22 +624,14 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         super.onDetachedFromWindow();
         handler.removeCallbacksAndMessages(null);
         if(popupInfo!=null) {
-            if(popupInfo.decorView!=null) KeyboardUtils.removeLayoutChangeListener(popupInfo.decorView, BasePopupView.this);
-            if(popupInfo.isDestroyOnDismiss){ //如果开启isDestroyOnDismiss，强制释放资源
-                popupInfo.atView = null;
-                popupInfo.watchView = null;
-                popupInfo.xPopupCallback = null;
-                popupInfo.decorView = null;
-                popupInfo = null;
-                dialog = null;
-                if(getContext() instanceof FragmentActivity){
-                    ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
-                }
-                if(blurAnimator!=null && blurAnimator.decorBitmap!=null && !blurAnimator.decorBitmap.isRecycled()){
-                    blurAnimator.decorBitmap.recycle();
-                    blurAnimator.decorBitmap = null;
-                }
-            }
+            if(getWindowDecorView()!=null) KeyboardUtils.removeLayoutChangeListener(getWindowDecorView(), BasePopupView.this);
+            if(popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
+        }
+        if(dialog!=null && dialog.isShowing()){
+            dialog.dismiss();
+        }
+        if(getContext()!=null && getContext() instanceof FragmentActivity){
+            ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
         }
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
