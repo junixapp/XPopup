@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.lxj.xpopupdemo"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 6
         versionName xpopup_version

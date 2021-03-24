@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
@@ -17,8 +18,15 @@ import com.lxj.xpopup.R;
  * 所有弹窗的宿主
  */
 public class FullScreenDialog extends Dialog {
+    private int mNavigationColor=-1;
     public FullScreenDialog(@NonNull Context context) {
         super(context, R.style._XPopup_TransparentDialog);
+        if (context!=null&&context instanceof Activity) {
+            Window window = ((Activity) context).getWindow();
+            if (window!=null) {
+                mNavigationColor= window.getNavigationBarColor();
+            }
+        }
     }
 
     @Override
@@ -47,7 +55,11 @@ public class FullScreenDialog extends Dialog {
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            if (mNavigationColor!=-1) {
+                getWindow().setNavigationBarColor(mNavigationColor);
+            }else {
+                getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            }
         }
         if(Build.VERSION.SDK_INT == 19){ //解决4.4上状态栏闪烁的问题
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -99,8 +111,14 @@ public class FullScreenDialog extends Dialog {
             boolean isLightMode = isActivityStatusBarLightMode();
             if (isLightMode) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vis |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                }
             } else {
                 vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vis &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                }
             }
             decorView.setSystemUiVisibility(vis);
         }
