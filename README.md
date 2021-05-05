@@ -199,7 +199,8 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 海信智学平台
 - 饭友视频聊天交友(下载地址：https://android.myapp.com/myapp/detail.htm?apkName=com.quanmai.findu&info=519DFF1F69A45EAF33B4D2C51A7AC2D3)
 - 皮皮陪玩 游戏陪玩语音直播app https://app.apeiwan.com/
-
+- 你我有谱（app名）
+- Bookista(https://play.google.com/store/apps/details?id=com.latinoriente.bookista)
 
 ## 打个赏
 
