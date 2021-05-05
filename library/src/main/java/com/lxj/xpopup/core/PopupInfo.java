@@ -2,7 +2,6 @@ package com.lxj.xpopup.core;
 
 import android.graphics.PointF;
 import android.view.View;
-import android.view.ViewGroup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;

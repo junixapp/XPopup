@@ -419,6 +419,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         @Override
         public boolean onBackPressed(BasePopupView popupView) {
             Log.e("tag", "拦截的返回按键，按返回键XPopup不会关闭了");
+            ToastUtils.showShort("onBackPressed返回true，拦截了返回按键，按返回键XPopup不会关闭了");
             return true;
         }
 
@@ -428,7 +429,4 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             Log.e("tag", "onKeyBoardStateChanged height: " + height);
         }
     }
-
-    ;
-
 }

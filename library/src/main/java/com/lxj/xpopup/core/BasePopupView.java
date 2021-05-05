@@ -52,6 +52,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     private Handler handler = new Handler(Looper.getMainLooper());
     public BasePopupView(@NonNull Context context) {
         super(context);
+        if(context==null)return;
         if(context instanceof Application){
             throw new IllegalArgumentException("XPopup的Context必须是Activity类型！");
         }

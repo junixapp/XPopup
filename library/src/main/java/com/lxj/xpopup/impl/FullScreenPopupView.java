@@ -54,7 +54,7 @@ public class FullScreenPopupView extends BasePopupView {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (popupInfo.hasStatusBarShadow) {
+        if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             paint.setColor(currColor);
             shadowRect = new Rect(0, 0, getMeasuredWidth(), XPopupUtils.getStatusBarHeight());
             canvas.drawRect(shadowRect, paint);
