@@ -40,6 +40,8 @@ public class DemoActivity extends AppCompatActivity {
 
         final BasePopupView popupView = new XPopup.Builder(this)
                 .atView(editText)
+                .isClickThrough(true)
+                .dismissOnTouchOutside(false)
                 .isRequestFocus(false) //要设置这个，否则Activity内的输入框会无法获取焦点
                 .hasShadowBg(false)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)

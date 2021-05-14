@@ -1,21 +1,15 @@
 package com.lxj.xpopupdemo;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.WindowManager;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.RomUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
@@ -69,13 +63,6 @@ public class MainActivity extends AppCompatActivity {
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1200);
 
-//        BarUtils.setStatusBarVisibility(this, false);
-//        BarUtils.setNavBarVisibility(this, false);
-
-//        ToastUtils.showLong(FuckRomUtils.getRomInfo().getName() + FuckRomUtils.getRomInfo().getVersion());
-//        ToastUtils.showLong(android.os.Build.MODEL);
-//        String str = RomUtils.getRomInfo().toString() + " " + "nav可见：" + XPopupUtils.isNavBarVisible(getWindow()) + "  navHeight: "+ XPopupUtils.getNavBarHeight();
-        int windowHeight = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -88,11 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("tag", str);
             }
         });
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
     }
 
     class MainAdapter extends FragmentPagerAdapter {
