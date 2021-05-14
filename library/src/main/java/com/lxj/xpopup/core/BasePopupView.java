@@ -615,9 +615,9 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     /**
-     * 在弹窗内嵌入Fragment的场景中，当弹窗消失后，由于Fragment被Activity的FragmentManager缓存，
+     *  在弹窗内嵌入Fragment的场景中，当弹窗消失后，由于Fragment被Activity的FragmentManager缓存，
      *  会导致弹窗重新创建的时候，Fragment会命中缓存，生命周期不再执行。为了处理这种情况，只需重写：
-     *  getInternalFragmentNames() 方法，返回嵌入的Fragment名称，XPopup会自动移除Fragment。
+     *  getInternalFragmentNames() 方法，返回嵌入的Fragment名称，XPopup会自动移除Fragment缓存。
      *  名字是: Fragment.getClass().getSimpleName()
      * @return
      */
