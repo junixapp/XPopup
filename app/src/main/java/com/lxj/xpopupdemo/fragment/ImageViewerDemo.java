@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,7 +34,9 @@ import com.bumptech.glide.request.transition.Transition;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
@@ -49,7 +52,7 @@ import static com.lxj.xpopupdemo.Constants.list;
  */
 public class ImageViewerDemo extends BaseFragment {
 
-    String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548777981087&di=0618a101655e57c675c7c21b4ef55f00&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1504%2F06%2Fc70%2F5014635_1428321310010_mthumb.jpg";
+    String url1 = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2279952540,2544282724&fm=26&gp=0.jpg";
     String url2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549382334&di=332b0aa1ec4ccd293f176164d998e5ab&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D121ef3421a38534398c28f62fb7ada0b%2Ffaf2b2119313b07eedb4502606d7912397dd8c96.jpg";
 
     @Override
@@ -102,7 +105,12 @@ public class ImageViewerDemo extends BaseFragment {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
-                                , false, Color.BLACK, new ImageLoader())
+                                , false, Color.BLACK, new ImageLoader(), new OnImageViewerLongPressListener() {
+                                    @Override
+                                    public void onLongPressed(BasePopupView popupView, int position) {
+                                        ToastUtils.showShort("长按了第" + position +"个图片");
+                                    }
+                                })
                         .show();
             }
         });
@@ -165,7 +173,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                     popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                 }
-                            }, new ImageLoader())
+                            }, new ImageLoader(), null)
                             .show();
                 }
             });
@@ -248,7 +256,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
                                     popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
                                 }
-                            }, new ImageLoader())
+                            }, new ImageLoader(), null)
                             .show();
                 }
             });

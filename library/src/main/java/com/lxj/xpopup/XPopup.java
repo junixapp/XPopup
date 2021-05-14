@@ -28,6 +28,7 @@ import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
@@ -759,10 +760,11 @@ public class XPopup {
          * @param placeholderRadius 占位View的圆角大小，默认为-1
          * @param isShowSaveBtn     是否显示保存按钮，默认显示
          * @param bgColor           背景颜色
+         * @param longPressListener 当图片长按的时候执行
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, boolean isInfinite, int placeholderColor, int placeholderStroke, int placeholderRadius,
-                                                  boolean isShowSaveBtn, int bgColor, XPopupImageLoader imageLoader) {
+                                                  boolean isShowSaveBtn, int bgColor, XPopupImageLoader imageLoader, OnImageViewerLongPressListener longPressListener) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSingleSrcView(srcView, url)
@@ -772,7 +774,8 @@ public class XPopup {
                     .setPlaceholderRadius(placeholderRadius)
                     .isShowSaveButton(isShowSaveBtn)
                     .setBgColor(bgColor)
-                    .setXPopupImageLoader(imageLoader);
+                    .setXPopupImageLoader(imageLoader)
+                    .setLongPressListener(longPressListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
@@ -789,7 +792,7 @@ public class XPopup {
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
             return asImageViewer(srcView, currentPosition, urls, false, true, -1, -1, -1, true,
-                    Color.rgb(32, 36, 46),srcViewUpdateListener, imageLoader);
+                    Color.rgb(32, 36, 46),srcViewUpdateListener, imageLoader, null);
         }
 
         /**
@@ -805,12 +808,14 @@ public class XPopup {
          * @param placeholderRadius     占位View的圆角大小，默认为-1
          * @param isShowSaveBtn         是否显示保存按钮，默认显示
          * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
+         * @param longPressListener     当图片长按的时候执行
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   boolean isInfinite, boolean isShowPlaceHolder,
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius, boolean isShowSaveBtn,
-                                                  int bgColor,OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
+                                                  int bgColor,OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader,
+                                                  OnImageViewerLongPressListener longPressListener) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSrcView(srcView, currentPosition)
@@ -823,7 +828,8 @@ public class XPopup {
                     .isShowSaveButton(isShowSaveBtn)
                     .setBgColor(bgColor)
                     .setSrcViewUpdateListener(srcViewUpdateListener)
-                    .setXPopupImageLoader(imageLoader);
+                    .setXPopupImageLoader(imageLoader)
+                    .setLongPressListener(longPressListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
