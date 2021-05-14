@@ -16,19 +16,14 @@
 package com.lxj.xpopup.photoview;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.RecordingCanvas;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
-import android.widget.Toast;
-;
+import androidx.appcompat.widget.AppCompatImageView;
+
 
 /**
  * A modified version for https://github.com/chrisbanes/PhotoView.
@@ -38,6 +33,7 @@ public class PhotoView extends AppCompatImageView {
 
     public PhotoViewAttacher attacher;
     private ScaleType pendingScaleType;
+    final int MAX_BITMAP_SIZE = 100 * 1024 * 1024; // 100 MB
 
     public PhotoView(Context context) {
         this(context, null);
@@ -107,6 +103,7 @@ public class PhotoView extends AppCompatImageView {
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
+
         // setImageBitmap calls through to this method
         if (attacher != null) {
             attacher.update();

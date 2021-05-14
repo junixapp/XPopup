@@ -1,20 +1,31 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.blankj.utilcode.util.LogUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
@@ -23,6 +34,8 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import static com.lxj.xpopupdemo.Constants.list;
 
@@ -245,11 +258,44 @@ public class ImageViewerDemo extends BaseFragment {
     }
 
     public static class ImageLoader implements XPopupImageLoader {
+
+        private RequestOptions buildOptions(){
+            return new RequestOptions()
+                    .dontAnimate()
+                    .dontTransform()
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+        }
+
         @Override
-        public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
-            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
-//            Glide.with(imageView).load(url).into(imageView);
-            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+        public void loadImage(final int position, @NonNull final Object url, @NonNull final ImageView imageView) {
+            //如果你确定你的图片没有超级大的，直接这样写就行
+//            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+
+            //下面的写法，可以加载超级大图
+            Glide.with(imageView).load(url).apply(buildOptions()).into(new CustomTarget<Drawable>() {
+                @Override
+                public void onResourceReady(@NonNull  Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                    if(resource!=null && resource instanceof BitmapDrawable){
+                        BitmapDrawable bd = (BitmapDrawable) resource;
+                        int unit10M = 10 * 1024 * 1024;
+                        int r = bd.getBitmap().getByteCount() / unit10M;
+                        if(r >= 1){
+                            int w = resource.getIntrinsicWidth()/r;
+                            int h = resource.getIntrinsicHeight()/r;
+                            Glide.with(imageView).load(url).apply(buildOptions().override(w, h)).into(imageView);
+                        }else {
+                            imageView.setImageDrawable(resource);
+                        }
+                    }else {
+                        imageView.setImageDrawable(resource);
+                    }
+                }
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                }
+            });
         }
         @Override
         public File getImageFile(@NonNull Context context, @NonNull Object uri) {
