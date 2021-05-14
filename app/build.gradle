@@ -57,7 +57,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.github.li-xiaojun:EasyAdapter:1.2.4'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation project(':library')
     implementation 'com.blankj:utilcode:1.30.6'
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
@@ -68,5 +68,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.tencent.bugly:crashreport:3.2.3'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+
 }
 

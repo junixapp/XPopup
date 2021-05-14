@@ -33,8 +33,6 @@ public class PhotoView extends AppCompatImageView {
 
     public PhotoViewAttacher attacher;
     private ScaleType pendingScaleType;
-    final int MAX_BITMAP_SIZE = 100 * 1024 * 1024; // 100 MB
-
     public PhotoView(Context context) {
         this(context, null);
     }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
@@ -45,6 +46,7 @@ public class DemoActivity extends AppCompatActivity {
                 .isRequestFocus(false) //不强制焦点
                 .isClickThrough(true)  //点击透传
                 .hasShadowBg(false)
+                .positionByWindowCenter(true)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
                 .asAttachList(new String[]{"联想到的内容 - 1", "联想到的内容 - 2", "联想到的内容 - 333"}, null, new OnSelectListener() {
                     @Override
