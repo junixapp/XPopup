@@ -17,7 +17,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -36,6 +38,8 @@ import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 import java.util.ArrayList;
+import java.util.List;
+
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
 
 /**
@@ -491,6 +495,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
      * 消失
      */
     public void dismiss() {
+        if(popupInfo!=null && popupInfo.isViewMode)tryRemoveFragments();
         handler.removeCallbacks(attachTask);
         handler.removeCallbacks(initTask);
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
@@ -589,6 +594,38 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     /**
+     * 尝试移除弹窗内的Fragment，如果提供了Fragment的名字
+     */
+    protected void tryRemoveFragments(){
+            if (getContext() instanceof FragmentActivity) {
+                FragmentManager manager = ((FragmentActivity) getContext()).getSupportFragmentManager();
+                List<Fragment> fragments = manager.getFragments();
+                List<String> internalFragmentNames = getInternalFragmentNames();
+                if (fragments != null && fragments.size() > 0 && internalFragmentNames != null) {
+                    for (int i = 0; i < fragments.size(); i++) {
+                        String name = fragments.get(i).getClass().getSimpleName();
+                        if (internalFragmentNames.contains(name)) {
+                            manager.beginTransaction()
+                                    .remove(fragments.get(i))
+                                    .commitAllowingStateLoss();
+                        }
+                    }
+                }
+            }
+    }
+
+    /**
+     * 在弹窗内嵌入Fragment的场景中，当弹窗消失后，由于Fragment被Activity的FragmentManager缓存，
+     *  会导致弹窗重新创建的时候，Fragment会命中缓存，生命周期不再执行。为了处理这种情况，只需重写：
+     *  getInternalFragmentNames() 方法，返回嵌入的Fragment名称，XPopup会自动移除Fragment。
+     *  名字是: Fragment.getClass().getSimpleName()
+     * @return
+     */
+    protected List<String> getInternalFragmentNames(){
+        return null;
+    }
+
+    /**
      * 消失动画执行完毕后执行
      */
     protected void onDismiss() { }
@@ -647,12 +684,10 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         handler.removeCallbacksAndMessages(null);
         if(popupInfo!=null) {
             if(getWindowDecorView()!=null) KeyboardUtils.removeLayoutChangeListener(getWindowDecorView(), BasePopupView.this);
-            if(!popupInfo.isViewMode && dialog!=null && dialog.isShowing()){
-                dialog.dismiss();
-                if(hasModifySoftMode){ //还原WindowSoftMode
-                    getHostWindow().setSoftInputMode(preSoftMode);
-                    hasModifySoftMode = false;
-                }
+            if(popupInfo.isViewMode && hasModifySoftMode){
+                //还原WindowSoftMode
+                getHostWindow().setSoftInputMode(preSoftMode);
+                hasModifySoftMode = false;
             }
             if(popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
         }
@@ -670,7 +705,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                 //需要从DecorView分发，并且要排除自己，否则死循环
                 ViewGroup decorView = (ViewGroup) ((Activity)getContext()).getWindow().getDecorView();
                 for (int i = 0; i < decorView.getChildCount(); i++) {
-                    if(decorView.getChildAt(i)!=this) decorView.getChildAt(i).dispatchTouchEvent(event);
+                    View view = decorView.getChildAt(i);
+                    if(view!=this) view.dispatchTouchEvent(event);
                 }
             }else {
                 ((Activity)getContext()).dispatchTouchEvent(event);
@@ -698,12 +734,12 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+                    if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)){
+                        passClickThrough(event);
+                    }
                     if (distance < touchSlop && popupInfo.isDismissOnTouchOutside) {
                         dismiss();
                         getPopupImplView().getGlobalVisibleRect(rect2);
-                    }
-                    if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)){
-                        passClickThrough(event);
                     }
                     x = 0;
                     y = 0;

@@ -94,9 +94,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
     CustomDrawerPopupView drawerPopupView;
     AttachPopupView attachPopupView;
-    AttachPopupView popup;
     BasePopupView popupView;
     LoadingPopupView loadingPopup;
+    CustomAttachPopup2 customAttach2;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -264,7 +264,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
-                        .isViewMode(true)
                         .isClickThrough(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
@@ -291,6 +290,27 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 ;
                 attachPopupView.show();
                 break;
+            case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
+                new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .offsetX(50) //偏移10
+//                        .offsetY(10)  //往下偏移10
+//                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .atView(v)
+                        .asCustom(new CustomAttachPopup(getContext()))
+                        .show();
+                break;
+            case R.id.btnAttachPopup2:
+                if(customAttach2==null) customAttach2 = new CustomAttachPopup2(getContext());
+                new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .atView(v)
+                        .isViewMode(true)
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .asCustom(customAttach2)
+                        .show();
+                break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
@@ -315,25 +335,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
-                        .show();
-                break;
-            case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
-                new XPopup.Builder(getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-//                        .offsetX(50) //偏移10
-//                        .offsetY(10)  //往下偏移10
-//                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
-                        .hasShadowBg(false) // 去掉半透明背景
-                        .atView(v)
-                        .asCustom(new CustomAttachPopup(getContext()))
-                        .show();
-                break;
-            case R.id.btnAttachPopup2:
-                new XPopup.Builder(getContext())
-                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .atView(v)
-                        .hasShadowBg(false) // 去掉半透明背景
-                        .asCustom(new CustomAttachPopup2(getContext()))
                         .show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
