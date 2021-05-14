@@ -188,9 +188,9 @@ public class FullScreenDialog extends Dialog {
         return super.dispatchTouchEvent(event);
     }
 
-    public void passClick(MotionEvent event) {
-        if (contentView != null && contentView.getContext() instanceof Activity) {
-            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
-        }
-    }
+//    public void passClick(MotionEvent event) {
+//        if (contentView != null && contentView.getContext() instanceof Activity) {
+//            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
+//        }
+//    }
 }

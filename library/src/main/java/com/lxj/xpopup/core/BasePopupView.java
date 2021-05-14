@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,8 +14,11 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
@@ -49,6 +53,8 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     private int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
     protected boolean isCreated = false;
+    private boolean hasModifySoftMode = false;
+    private int preSoftMode = -1;
     private Handler handler = new Handler(Looper.getMainLooper());
     public BasePopupView(@NonNull Context context) {
         super(context);
@@ -99,7 +105,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         }
         if (popupStatus == PopupStatus.Showing) return this;
         popupStatus = PopupStatus.Showing;
-        if(dialog!=null && dialog.isShowing())return BasePopupView.this;
+        if(!popupInfo.isViewMode && dialog!=null && dialog.isShowing())return BasePopupView.this;
         handler.post(attachTask);
         return this;
     }
@@ -143,14 +149,21 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
 
     public FullScreenDialog dialog;
     private void attachToHost(){
-        if(dialog==null){
-            dialog = new FullScreenDialog(getContext())
-                    .setContent(this);
-        }
         if(getContext() instanceof FragmentActivity){
             ((FragmentActivity)getContext()).getLifecycle().addObserver(this);
         }
-        dialog.show();
+        if(popupInfo.isViewMode){
+            //view实现
+            ViewGroup decorView = (ViewGroup) ((Activity)getContext()).getWindow().getDecorView();
+            decorView.addView(this);
+        }else {
+            //dialog实现
+            if(dialog==null){
+                dialog = new FullScreenDialog(getContext())
+                        .setContent(this);
+            }
+            dialog.show();
+        }
         if(popupInfo==null){
             throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
         }
@@ -189,7 +202,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     private Runnable initTask = new Runnable() {
         @Override
         public void run() {
-            if(dialog==null || getHostWindow()==null)return;
+            if(getHostWindow()==null)return;
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
             if(!(BasePopupView.this instanceof FullScreenPopupView))focusAndProcessBackPress();
 
@@ -206,10 +219,16 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     };
 
     private void detachFromHost(){
-        if(dialog!=null)dialog.dismiss();
+        if(popupInfo.isViewMode){
+            ViewGroup decorView = (ViewGroup)getParent();
+            if(decorView!=null)decorView.removeView(this);
+        }else {
+            if(dialog!=null)dialog.dismiss();
+        }
     }
 
     public Window getHostWindow(){
+        if(popupInfo.isViewMode) return ((Activity)getContext()).getWindow();
         return dialog==null ? null : dialog.getWindow();
     }
 
@@ -246,6 +265,11 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
             XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
+            if(list.size()>0) {
+                preSoftMode = getHostWindow().getAttributes().softInputMode;
+                getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                hasModifySoftMode = true;
+            }
             for (int i = 0; i < list.size(); i++) {
                 final EditText et = list.get(i);
                 et.setOnKeyListener(new BackPressListener());
@@ -626,10 +650,14 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         handler.removeCallbacksAndMessages(null);
         if(popupInfo!=null) {
             if(getWindowDecorView()!=null) KeyboardUtils.removeLayoutChangeListener(getWindowDecorView(), BasePopupView.this);
+            if(!popupInfo.isViewMode && dialog!=null && dialog.isShowing()){
+                dialog.dismiss();
+                if(hasModifySoftMode){ //还原WindowSoftMode
+                    getHostWindow().setSoftInputMode(preSoftMode);
+                    hasModifySoftMode = false;
+                }
+            }
             if(popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
-        }
-        if(dialog!=null && dialog.isShowing()){
-            dialog.dismiss();
         }
         if(getContext()!=null && getContext() instanceof FragmentActivity){
             ((FragmentActivity)getContext()).getLifecycle().removeObserver(this);
@@ -640,7 +668,17 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     private void passClickThrough(MotionEvent event){
-        if(dialog!=null && popupInfo!=null && popupInfo.isClickThrough) dialog.passClick(event);
+        if(popupInfo!=null && popupInfo.isClickThrough ){
+            if(popupInfo.isViewMode){
+                //需要从DecorView分发，并且要排除自己，否则死循环
+                ViewGroup decorView = (ViewGroup) ((Activity)getContext()).getWindow().getDecorView();
+                for (int i = 0; i < decorView.getChildCount(); i++) {
+                    if(decorView.getChildAt(i)!=this) decorView.getChildAt(i).dispatchTouchEvent(event);
+                }
+            }else {
+                ((Activity)getContext()).dispatchTouchEvent(event);
+            }
+        }
     }
 
     private float x, y;
@@ -657,6 +695,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                     y = event.getY();
                     passClickThrough(event);
                     break;
+                case MotionEvent.ACTION_MOVE:
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     float dx = event.getX() - x;
@@ -665,9 +704,9 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                     if (distance < touchSlop && popupInfo.isDismissOnTouchOutside) {
                         dismiss();
                         getPopupImplView().getGlobalVisibleRect(rect2);
-                        if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)){
-                            passClickThrough(event);
-                        }
+                    }
+                    if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)){
+                        passClickThrough(event);
                     }
                     x = 0;
                     y = 0;

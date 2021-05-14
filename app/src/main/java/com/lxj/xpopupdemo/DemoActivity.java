@@ -40,9 +40,9 @@ public class DemoActivity extends AppCompatActivity {
 
         final BasePopupView popupView = new XPopup.Builder(this)
                 .atView(editText)
-                .isClickThrough(true)
-                .dismissOnTouchOutside(false)
-                .isRequestFocus(false) //要设置这个，否则Activity内的输入框会无法获取焦点
+                .isViewMode(true)      //开启View实现
+                .isRequestFocus(false) //不强制焦点
+                .isClickThrough(true)  //点击透传
                 .hasShadowBg(false)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
                 .asAttachList(new String[]{"联想到的内容 - 1", "联想到的内容 - 2", "联想到的内容 - 333"}, null, new OnSelectListener() {

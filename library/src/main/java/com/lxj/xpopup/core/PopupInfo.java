@@ -49,6 +49,7 @@ public class PopupInfo {
     public boolean isThreeDrag = false; //是否开启三阶拖拽
     public boolean isDestroyOnDismiss = false; //是否关闭后进行资源释放
     public boolean positionByWindowCenter = false; //是否已屏幕中心进行定位，默认根据Material范式进行定位
+    public boolean isViewMode = false; //是否是View实现，默认是Dialog实现
     public View getAtView() {
         return atView;
     }

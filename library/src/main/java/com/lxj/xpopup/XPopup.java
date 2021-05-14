@@ -500,6 +500,22 @@ public class XPopup {
         }
 
         /**
+         * XPopup的弹窗默认是Dialog实现，该方法设置为true则切换为View实现，两者区别如下：
+         * 1. Dialog实现，独立Window渲染，性能是View实现的2倍以上，但部分与输入法交互效果无法做到，
+         *    比如根据输入进行联想搜索的场景，因为输入法也是一个Dialog；Android中无法实现2个Dialog同时获取焦点；
+         *    而设置为View模式即可轻松实现
+         * 2. View实现本质是把弹窗挂载到Activity的decorView上面，由于还是View，所以很多与输入法的交互都能实现；
+         *    缺点是和Activity相同渲染线程，性能比Dialog低
+         *
+         * @param viewMode 是否是View实现，默认是false
+         * @return
+         */
+        public Builder isViewMode(boolean viewMode) {
+            this.popupInfo.isViewMode = viewMode;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          *
          * @param xPopupCallback

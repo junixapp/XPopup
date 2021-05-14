@@ -264,6 +264,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
+                        .isViewMode(true)
+                        .isClickThrough(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop) //NoAnimation表示禁用动画
