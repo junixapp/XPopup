@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,8 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
@@ -103,14 +100,14 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         if(activity==null || activity.isFinishing()){
             return this;
         }
-        if (popupStatus == PopupStatus.Showing) return this;
+        if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing) return this;
         popupStatus = PopupStatus.Showing;
         if(!popupInfo.isViewMode && dialog!=null && dialog.isShowing())return BasePopupView.this;
         handler.post(attachTask);
         return this;
     }
 
-    private Runnable attachTask = new Runnable() {
+    private final Runnable attachTask = new Runnable() {
         @Override
         public void run() {
             // 1. add PopupView to its host.
@@ -199,7 +196,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
         handler.postDelayed(initTask, 10);
     }
 
-    private Runnable initTask = new Runnable() {
+    private final Runnable initTask = new Runnable() {
         @Override
         public void run() {
             if(getHostWindow()==null)return;
