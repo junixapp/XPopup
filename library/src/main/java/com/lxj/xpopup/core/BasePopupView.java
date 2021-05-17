@@ -220,7 +220,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     };
 
     private void detachFromHost(){
-        if(popupInfo.isViewMode){
+        if(popupInfo!=null && popupInfo.isViewMode){
             ViewGroup decorView = (ViewGroup)getParent();
             if(decorView!=null)decorView.removeView(this);
         }else {
@@ -229,7 +229,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     public Window getHostWindow(){
-        if(popupInfo.isViewMode) return ((Activity)getContext()).getWindow();
+        if(popupInfo!=null && popupInfo.isViewMode) return ((Activity)getContext()).getWindow();
         return dialog==null ? null : dialog.getWindow();
     }
 
@@ -285,7 +285,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     protected void showSoftInput(View focusView) {
-        if (popupInfo.autoOpenSoftInput) {
+        if (popupInfo!=null && popupInfo.autoOpenSoftInput) {
             if (showSoftInputTask == null) {
                 showSoftInputTask = new ShowSoftInputTask(focusView);
             } else {
@@ -413,6 +413,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
      * 背景动画由父类实现，Content由子类实现
      */
     protected void doShowAnimation() {
+        if(popupInfo==null)return;
         if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg) {
             shadowBgAnimator.animateShow();
         }else if (popupInfo.hasBlurBg && blurAnimator!=null) {
@@ -427,6 +428,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
      * 背景动画由父类实现，Content由子类实现
      */
     protected void doDismissAnimation() {
+        if(popupInfo==null)return;
         if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg) {
             shadowBgAnimator.animateDismiss();
         } else if(popupInfo.hasBlurBg && blurAnimator!=null){
@@ -452,7 +454,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     }
 
     public int getAnimationDuration() {
-        return popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration()+10;
+        return popupInfo!=null && popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration()+10;
     }
 
     /**
@@ -649,11 +651,11 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     public void onDestroy(){
         onDetachedFromWindow();
         destroy();
-        detachFromHost();
     }
 
     public void destroy(){
         if(popupInfo!=null){
+            detachFromHost();
             popupInfo.atView = null;
             popupInfo.watchView = null;
             popupInfo.xPopupCallback = null;
@@ -737,7 +739,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
                     if(!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)){
                         passClickThrough(event);
                     }
-                    if (distance < touchSlop && popupInfo.isDismissOnTouchOutside) {
+                    if (distance < touchSlop && popupInfo!=null && popupInfo.isDismissOnTouchOutside) {
                         dismiss();
                         getPopupImplView().getGlobalVisibleRect(rect2);
                     }
