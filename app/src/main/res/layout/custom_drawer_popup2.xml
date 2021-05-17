@@ -9,7 +9,7 @@
     <Button
         android:layout_marginTop="50dp"
         android:id="@+id/btnMe"
-        android:text="Click Me"
+        android:text="Logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <com.lxj.xpopup.widget.VerticalRecyclerView

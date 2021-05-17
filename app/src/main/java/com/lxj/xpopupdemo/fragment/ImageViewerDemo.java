@@ -285,6 +285,7 @@ public class ImageViewerDemo extends BaseFragment {
             //如果你确定你的图片没有超级大的，直接这样写就行
 //            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
 
+            //如果你的图片可能存在超级大图，按下面这样写
             Glide.with(imageView).asBitmap().load(url).apply(buildOptions()).into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
