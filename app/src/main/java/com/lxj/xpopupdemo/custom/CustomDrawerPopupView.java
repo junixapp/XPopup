@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo.custom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -77,6 +78,7 @@ public class CustomDrawerPopupView extends DrawerPopupView {
                         .asConfirm("提示", "确定要退出吗？", new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
+                                ((Activity)getContext()).finish();
                                 dismiss();
                             }
                         }).show();

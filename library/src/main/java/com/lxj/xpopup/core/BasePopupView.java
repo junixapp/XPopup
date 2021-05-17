@@ -650,12 +650,12 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     public void onDestroy(){
         onDetachedFromWindow();
+        detachFromHost();
         destroy();
     }
 
     public void destroy(){
         if(popupInfo!=null){
-            detachFromHost();
             popupInfo.atView = null;
             popupInfo.watchView = null;
             popupInfo.xPopupCallback = null;
