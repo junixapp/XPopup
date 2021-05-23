@@ -101,7 +101,7 @@ public abstract class BasePopupView extends FrameLayout implements  LifecycleObs
 
     public BasePopupView show() {
         Activity activity = XPopupUtils.context2Activity(this);
-        if(activity==null || activity.isFinishing()){
+        if(activity==null || activity.isFinishing() || popupInfo==null){
             return this;
         }
         if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing) return this;
