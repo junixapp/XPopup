@@ -8,7 +8,9 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+
 import androidx.annotation.RequiresApi;
+
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -35,11 +37,13 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.util.XPermission;
+
 import java.util.List;
 
 
 public class XPopup {
-    private XPopup() { }
+    private XPopup() {
+    }
 
     /**
      * 全局弹窗的设置
@@ -48,9 +52,11 @@ public class XPopup {
     private static int animationDuration = 350;
     public static int statusBarShadowColor = Color.parseColor("#55000000");
     private static int shadowBgColor = Color.parseColor("#7F000000");
+
     public static void setShadowBgColor(int color) {
         shadowBgColor = color;
     }
+
     public static int getShadowBgColor() {
         return shadowBgColor;
     }
@@ -76,21 +82,23 @@ public class XPopup {
 
     /**
      * 在长按弹出弹窗后，能保证下层View不能滑动
+     *
      * @param v
      */
     public static PointF longClickPoint = null;
-    public static void fixLongClick(View v){
+
+    public static void fixLongClick(View v) {
         v.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     longClickPoint = new PointF(event.getRawX(), event.getRawY());
                 }
-                if("xpopup".equals(v.getTag()) && event.getAction()==MotionEvent.ACTION_MOVE){
+                if ("xpopup".equals(v.getTag()) && event.getAction() == MotionEvent.ACTION_MOVE) {
                     //长按发送，阻断父View拦截
                     v.getParent().requestDisallowInterceptTouchEvent(true);
                 }
-                if(event.getAction()==MotionEvent.ACTION_UP){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     //长按结束，恢复阻断
                     v.getParent().requestDisallowInterceptTouchEvent(false);
                     v.setTag(null);
@@ -195,7 +203,7 @@ public class XPopup {
             this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN){
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         popupInfo.touchPoint = new PointF(event.getRawX(), event.getRawY());
                     }
                     return false;
@@ -229,6 +237,7 @@ public class XPopup {
         /**
          * 设置高度，如果重写了弹窗的getPopupHeight，则以重写的为准
          * 并且受最大高度限制
+         *
          * @param height
          * @return
          */
@@ -240,6 +249,7 @@ public class XPopup {
         /**
          * 设置宽度，如果重写了弹窗的getPopupWidth，则以重写的为准
          * 并且受最大宽度限制
+         *
          * @param width
          * @return
          */
@@ -443,6 +453,7 @@ public class XPopup {
         /**
          * 是否允许应用在后台的时候也能弹出弹窗，默认是false。注意如果开启这个开关，需要申请悬浮窗权限才能生效。
          * 直接使用 XPopup.requestOverlayPermission()即可申请
+         *
          * @param enableShowWhenAppBackground
          * @return
          */
@@ -488,9 +499,9 @@ public class XPopup {
         /**
          * 是否已屏幕中心进行定位，默认是false，为false时根据Material范式进行定位，主要影响Attach系列弹窗
          * Material范式下是：
-         *      弹窗优先显示在目标下方，下方距离不够才显示在上方
+         * 弹窗优先显示在目标下方，下方距离不够才显示在上方
          * 已屏幕中心进行定位：
-         *      目标在屏幕上半方弹窗显示在目标下面，目标在屏幕下半方则弹窗显示在目标上面
+         * 目标在屏幕上半方弹窗显示在目标下面，目标在屏幕下半方则弹窗显示在目标上面
          *
          * @param positionByWindowCenter
          * @return
@@ -577,7 +588,7 @@ public class XPopup {
          * @param hint            输入框默认文字
          * @param confirmListener 点击确认的监听器
          * @param cancelListener  点击取消的监听器
-         * @param bindLayoutId   自定义布局的id，没有传0。 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
+         * @param bindLayoutId    自定义布局的id，没有传0。 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
          * @return
          */
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener, int bindLayoutId) {
@@ -590,16 +601,51 @@ public class XPopup {
             return popupView;
         }
 
+        /**
+         * 可以选择ediText输入类型inputType
+         */
+        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, int inputType, OnInputConfirmListener confirmListener, OnCancelListener cancelListener, int bindLayoutId) {
+            popupType(PopupType.Center);
+            InputConfirmPopupView popupView = new InputConfirmPopupView(this.context, bindLayoutId, inputType);
+            popupView.setTitleContent(title, content, hint);
+            popupView.inputContent = inputContent;
+            popupView.setListener(confirmListener, cancelListener);
+            popupView.popupInfo = this.popupInfo;
+            return popupView;
+        }
+
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener) {
             return asInputConfirm(title, content, inputContent, hint, confirmListener, null, 0);
+        }
+
+        /**
+         * 支持inputType
+         */
+        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, int inputType, OnInputConfirmListener confirmListener) {
+            return asInputConfirm(title, content, inputContent, hint, inputType, confirmListener, null, 0);
         }
 
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence hint, OnInputConfirmListener confirmListener) {
             return asInputConfirm(title, content, null, hint, confirmListener, null, 0);
         }
 
+        /**
+         * 支持inputType
+         */
+        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence hint, int inputType, OnInputConfirmListener confirmListener) {
+            return asInputConfirm(title, content, null, hint, inputType, confirmListener, null, 0);
+        }
+
+
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, OnInputConfirmListener confirmListener) {
             return asInputConfirm(title, content, null, null, confirmListener, null, 0);
+        }
+
+        /**
+         * 支持inputType
+         */
+        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, int inputType, OnInputConfirmListener confirmListener) {
+            return asInputConfirm(title, content, null, null, inputType, confirmListener, null, 0);
         }
 
         /**

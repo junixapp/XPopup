@@ -30,6 +30,15 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         super(context, bindLayoutId);
     }
 
+    /**
+     * @param context
+     * @param bindLayoutId 在Confirm弹窗基础上需要增加一个id为et_input的EditText
+     * @param inputType 输入类型
+     */
+    public InputConfirmPopupView(@NonNull Context context, int bindLayoutId, int inputType) {
+        super(context, bindLayoutId, inputType);
+    }
+
     public CharSequence inputContent;
 
     @Override
