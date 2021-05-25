@@ -202,6 +202,8 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 你我有谱（app名）
 - Bookista(https://play.google.com/store/apps/details?id=com.latinoriente.bookista)
 - 伊的家商城项目
+- 点点日记（常州市宏域网络有限公司）
+
 
 ## 打个赏
 
