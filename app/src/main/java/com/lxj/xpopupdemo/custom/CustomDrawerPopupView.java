@@ -1,15 +1,19 @@
 package com.lxj.xpopupdemo.custom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.DrawerPopupView;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import com.lxj.xpopupdemo.R;
 
@@ -65,6 +69,19 @@ public class CustomDrawerPopupView extends DrawerPopupView {
                     viewHolder.<TextView>getView(R.id.text).setBackgroundColor(Color.RED);
 
                 }
+            }
+        });
+        findViewById(R.id.btnMe).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new XPopup.Builder(getContext()).isDestroyOnDismiss(true)
+                        .asConfirm("提示", "确定要退出吗？", new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                ((Activity)getContext()).finish();
+                                dismiss();
+                            }
+                        }).show();
             }
         });
     }

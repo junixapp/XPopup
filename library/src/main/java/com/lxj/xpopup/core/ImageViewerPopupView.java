@@ -33,6 +33,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
+import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.photoview.OnMatrixChangedListener;
@@ -75,6 +76,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected boolean isInfinite = false;//是否需要无限滚动
     protected View customView;
     protected int bgColor = Color.rgb(32, 36, 46);//弹窗的背景颜色，可以自定义
+    protected OnImageViewerLongPressListener longPressListener;
 
     public ImageViewerPopupView(@NonNull Context context) {
         super(context);
@@ -381,6 +383,16 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
+    public ImageViewerPopupView setBgColor(int bgColor) {
+        this.bgColor = bgColor;
+        return this;
+    }
+
+    public ImageViewerPopupView setLongPressListener(OnImageViewerLongPressListener longPressListener){
+        this.longPressListener = longPressListener;
+        return this;
+    }
+
     /**
      * 设置单个使用的源View。单个使用的情况下，无需设置url集合和SrcViewUpdateListener
      *
@@ -459,10 +471,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 .callback(new XPermission.SimpleCallback() {
                     @Override
                     public void onGranted() {
+                        XPermission.getInstance().releaseContext();
                         XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(isInfinite ? position % urls.size() : position));
                     }
                     @Override
                     public void onDenied() {
+                        XPermission.getInstance().releaseContext();
                         Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
                     }
                 }).request();
@@ -481,7 +495,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
         @NonNull
         @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             final PhotoView photoView = new PhotoView(container.getContext());
             // call LoadImageListener
             if (imageLoader != null)
@@ -504,6 +518,15 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                     dismiss();
                 }
             });
+            if(longPressListener!=null){
+                photoView.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        longPressListener.onLongPressed(ImageViewerPopupView.this, position);
+                        return false;
+                    }
+                });
+            }
             return photoView;
         }
 

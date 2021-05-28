@@ -2,6 +2,7 @@ package com.lxj.xpopup.util;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -34,6 +35,8 @@ public final class KeyboardUtils {
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
+        if(XPopupUtils.isNavBarVisible(window)) delta-= XPopupUtils.getNavBarHeight();
+//        Log.e("tag", "delta: "+delta  + "  hasNav:   "+ XPopupUtils.isNavBarVisible(window));
         if (delta <= XPopupUtils.getNavBarHeight() + XPopupUtils.getStatusBarHeight()) {
             sDecorViewDelta = delta;
             return 0;
@@ -74,11 +77,11 @@ public final class KeyboardUtils {
 
     public static void removeLayoutChangeListener(View decorView, BasePopupView popupView){
         onGlobalLayoutListener = null;
+        listenerMap.remove(popupView);
         if(decorView==null)return;
         View contentView = decorView.findViewById(android.R.id.content);
         if(contentView==null)return;
         contentView.getViewTreeObserver().removeGlobalOnLayoutListener(onGlobalLayoutListener);
-        listenerMap.remove(popupView);
     }
 
     public static void showSoftInput(View view) {

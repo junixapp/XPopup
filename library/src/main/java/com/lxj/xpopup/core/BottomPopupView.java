@@ -60,8 +60,9 @@ public class BottomPopupView extends BasePopupView {
 
             @Override
             public void onDrag(int value, float percent, boolean isScrollUp) {
+                if(popupInfo==null)return;
                 if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(BottomPopupView.this, value, percent,isScrollUp);
-                if (popupInfo.hasShadowBg) setBackgroundColor(shadowBgAnimator.calculateBgColor(percent));
+                if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg) setBackgroundColor(shadowBgAnimator.calculateBgColor(percent));
             }
 
             @Override
@@ -83,11 +84,17 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     public void doShowAnimation() {
+        if (popupInfo.hasBlurBg && blurAnimator!=null) {
+            blurAnimator.animateShow();
+        }
         bottomPopupContainer.open();
     }
 
     @Override
     public void doDismissAnimation() {
+        if(popupInfo.hasBlurBg && blurAnimator!=null){
+            blurAnimator.animateDismiss();
+        }
         bottomPopupContainer.close();
     }
 

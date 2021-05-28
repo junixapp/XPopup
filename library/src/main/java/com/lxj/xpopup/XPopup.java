@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ import com.lxj.xpopup.impl.InputConfirmPopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
@@ -510,6 +512,24 @@ public class XPopup {
         }
 
         /**
+         * XPopup的弹窗默认是Dialog实现，该方法设置为true则切换为View实现，两者区别如下：
+         * 1. Dialog实现，独立Window渲染，性能是View实现的2倍以上，但部分与输入法交互效果无法做到，
+         *    比如根据输入进行联想搜索的场景，因为输入法也是一个Dialog，Android中无法实现2个Dialog同时获取焦点，
+         *    而设置为View模式即可轻松实现；
+         *    Dialog实现还有个缺陷是弹窗内部无法使用Fragment，这是Android的限制；
+         * 2. View实现本质是把弹窗挂载到Activity的decorView上面，由于还是View，所以很多与输入法的交互都能实现；
+         *    View实现内部完全可以使用Fragment；
+         *    缺点是和Activity相同渲染线程，性能比Dialog低
+         *
+         * @param viewMode 是否是View实现，默认是false
+         * @return
+         */
+        public Builder isViewMode(boolean viewMode) {
+            this.popupInfo.isViewMode = viewMode;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          *
          * @param xPopupCallback
@@ -737,20 +757,27 @@ public class XPopup {
          * @param selectListener   选中条目的监听器
          * @param bindLayoutId     自定义布局的id  要求layoutId中必须有一个id为recyclerView的RecyclerView
          * @param bindItemLayoutId 自定义列表的item布局  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+         * @param contentGravity   列表的居中位置。默认是居中
          * @return
          */
         public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
-                                                int bindItemLayoutId) {
+                                                int bindItemLayoutId, int contentGravity) {
             popupType(PopupType.AttachView);
             AttachListPopupView popupView = new AttachListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(data, iconIds)
+                    .setContentGravity(contentGravity)
                     .setOnSelectListener(selectListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
 
+        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
+                                                int bindItemLayoutId) {
+            return asAttachList(data, iconIds, selectListener, bindLayoutId, bindItemLayoutId, Gravity.CENTER);
+        }
+
         public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
-            return asAttachList(data, iconIds, selectListener, 0, 0);
+            return asAttachList(data, iconIds, selectListener, 0, 0, Gravity.CENTER);
         }
 
         /**
@@ -778,10 +805,12 @@ public class XPopup {
          * @param placeholderStroke 占位View的边框色，默认为-1
          * @param placeholderRadius 占位View的圆角大小，默认为-1
          * @param isShowSaveBtn     是否显示保存按钮，默认显示
+         * @param bgColor           背景颜色
+         * @param longPressListener 当图片长按的时候执行
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, boolean isInfinite, int placeholderColor, int placeholderStroke, int placeholderRadius,
-                                                  boolean isShowSaveBtn, XPopupImageLoader imageLoader) {
+                                                  boolean isShowSaveBtn, int bgColor, XPopupImageLoader imageLoader, OnImageViewerLongPressListener longPressListener) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSingleSrcView(srcView, url)
@@ -790,7 +819,9 @@ public class XPopup {
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)
                     .isShowSaveButton(isShowSaveBtn)
-                    .setXPopupImageLoader(imageLoader);
+                    .setBgColor(bgColor)
+                    .setXPopupImageLoader(imageLoader)
+                    .setLongPressListener(longPressListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
@@ -806,7 +837,8 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, false, true, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
+            return asImageViewer(srcView, currentPosition, urls, false, true, -1, -1, -1, true,
+                    Color.rgb(32, 36, 46),srcViewUpdateListener, imageLoader, null);
         }
 
         /**
@@ -822,12 +854,14 @@ public class XPopup {
          * @param placeholderRadius     占位View的圆角大小，默认为-1
          * @param isShowSaveBtn         是否显示保存按钮，默认显示
          * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
+         * @param longPressListener     当图片长按的时候执行
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   boolean isInfinite, boolean isShowPlaceHolder,
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius, boolean isShowSaveBtn,
-                                                  OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
+                                                  int bgColor,OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader,
+                                                  OnImageViewerLongPressListener longPressListener) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSrcView(srcView, currentPosition)
@@ -838,8 +872,10 @@ public class XPopup {
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)
                     .isShowSaveButton(isShowSaveBtn)
+                    .setBgColor(bgColor)
                     .setSrcViewUpdateListener(srcViewUpdateListener)
-                    .setXPopupImageLoader(imageLoader);
+                    .setXPopupImageLoader(imageLoader)
+                    .setLongPressListener(longPressListener);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }

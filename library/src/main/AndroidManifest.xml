@@ -1,14 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.lxj.xpopup" >
-    <!-- 显示系统窗口权限 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <!-- 在 屏幕最顶部显示addview-->
-    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <application android:requestLegacyExternalStorage="true"
-        tools:targetApi="q">
+    <application >
     <meta-data android:name="android.notch_support" android:value="true"/>
     <!--PermissonActivity-->
     <activity android:name=".util.XPermission$PermissionActivity"

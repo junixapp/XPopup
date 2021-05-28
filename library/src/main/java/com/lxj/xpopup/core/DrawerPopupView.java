@@ -85,7 +85,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (popupInfo.hasStatusBarShadow) {
+        if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             if (shadowRect == null) {
                 shadowRect = new Rect(0, 0, getMeasuredWidth(), XPopupUtils.getStatusBarHeight());
             }
@@ -94,7 +94,7 @@ public abstract class DrawerPopupView extends BasePopupView {
         }
     }
     public void doStatusBarColorTransform(boolean isShow){
-        if (popupInfo.hasStatusBarShadow) {
+        if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             //状态栏渐变动画
             ValueAnimator animator = ValueAnimator.ofObject(argbEvaluator,
                     isShow ? Color.TRANSPARENT : XPopup.statusBarShadowColor,
@@ -129,6 +129,7 @@ public abstract class DrawerPopupView extends BasePopupView {
 
     @Override
     public void dismiss() {
+        if(popupInfo==null)return;
         if (popupStatus == PopupStatus.Dismissing) return;
         popupStatus = PopupStatus.Dismissing;
         if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);

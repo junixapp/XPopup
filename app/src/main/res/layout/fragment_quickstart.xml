@@ -225,7 +225,7 @@
             android:textAllCaps="false" />
 
         <Button
-            android:text="测试多弹窗同时展示"
+            android:text="多弹窗同时展示和联想搜索效果"
             android:id="@+id/btnMultiPopup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

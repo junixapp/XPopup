@@ -4,6 +4,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -29,7 +31,8 @@ import java.util.Arrays;
  */
 public class BottomListPopupView extends BottomPopupView {
     RecyclerView recyclerView;
-    TextView tv_title;
+    TextView tv_title, tv_cancel;
+    View vv_divider;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
 
@@ -59,6 +62,16 @@ public class BottomListPopupView extends BottomPopupView {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
         tv_title = findViewById(R.id.tv_title);
+        tv_cancel = findViewById(R.id.tv_cancel);
+        vv_divider = findViewById(R.id.vv_divider);
+        if(tv_cancel!=null){
+            tv_cancel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
 
         if(tv_title!=null){
             if (TextUtils.isEmpty(title)) {
@@ -169,9 +182,11 @@ public class BottomListPopupView extends BottomPopupView {
         super.applyDarkTheme();
         ((VerticalRecyclerView)recyclerView).setupDivider(true);
         tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        if(tv_cancel!=null)tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_white_color));
         findViewById(R.id.xpopup_divider).setBackgroundColor(
                 getResources().getColor(R.color._xpopup_list_dark_divider)
         );
+        if(vv_divider!=null)vv_divider.setBackgroundColor(Color.parseColor("#1B1B1B"));
         getPopupImplView().setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_dark_color),
                 popupInfo.borderRadius, popupInfo.borderRadius, 0,0));
     }
@@ -181,7 +196,9 @@ public class BottomListPopupView extends BottomPopupView {
         super.applyLightTheme();
         ((VerticalRecyclerView)recyclerView).setupDivider(false);
         tv_title.setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+        if(tv_cancel!=null)tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_dark_color));
         findViewById(R.id.xpopup_divider).setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
+        if(vv_divider!=null)vv_divider.setBackgroundColor(getResources().getColor(R.color._xpopup_white_color));
         getPopupImplView().setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_light_color),
                 popupInfo.borderRadius, popupInfo.borderRadius, 0,0));
     }

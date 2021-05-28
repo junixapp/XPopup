@@ -1,10 +1,8 @@
 package com.lxj.xpopupdemo;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.WindowManager;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.RomUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
@@ -40,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     public ViewPager viewPager;
 
-    LoadingPopupView loadingPopupView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        BarUtils.setStatusBarLightMode(this, true);
 //        BarUtils.setNavBarColor(this, Color.RED);
-
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
@@ -63,26 +57,24 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setAnimationDuration(1000);
 //        XPopup.setPrimaryColor(Color.RED);
 //        ScreenUtils.setLandscape(this);
-        loadingPopupView = new XPopup.Builder(this)
+        LoadingPopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)
                 .asLoading("嘻嘻嘻嘻嘻");
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1200);
 
-//        BarUtils.setStatusBarVisibility(this, false);
-//        BarUtils.setNavBarVisibility(this, false);
-
-//        ToastUtils.showLong(FuckRomUtils.getRomInfo().getName() + FuckRomUtils.getRomInfo().getVersion());
-//        ToastUtils.showLong(android.os.Build.MODEL);
-//        String str = RomUtils.getRomInfo().toString() + " " + "nav可见：" + XPopupUtils.isNavBarVisible(getWindow()) + "  navHeight: "+ XPopupUtils.getNavBarHeight();
-        int windowHeight = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
-        String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(this)
-                + "  getAppHeight: "+ XPopupUtils.getAppHeight(this)
-                + "  statusHeight: "+ XPopupUtils.getStatusBarHeight()
-                + "  navHeight: "+ XPopupUtils.getNavBarHeight()
-                + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
+                        + "  getAppHeight: "+ XPopupUtils.getAppHeight(MainActivity.this)
+                        + "  statusHeight: "+ XPopupUtils.getStatusBarHeight()
+                        + "  navHeight: "+ XPopupUtils.getNavBarHeight()
+                        + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
 //        ToastUtils.showLong(str);
-        Log.e("tag", str);
+                Log.e("tag", str);
+            }
+        });
     }
 
     class MainAdapter extends FragmentPagerAdapter {

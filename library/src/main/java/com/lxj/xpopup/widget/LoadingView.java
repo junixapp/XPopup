@@ -57,8 +57,6 @@ public class LoadingView extends View {
         paint.setStrokeWidth(stokeWidth);
         startX = centerX + radiusOffset;
         endX = startX + radius / 3f;
-        removeCallbacks(increaseTask);
-        postDelayed(increaseTask, 80);
     }
 
     @Override
@@ -82,6 +80,11 @@ public class LoadingView extends View {
         }
     }
 
+    public void start(){
+        removeCallbacks(increaseTask);
+        postDelayed(increaseTask, 80);
+    }
+
     private Runnable increaseTask = new Runnable() {
         @Override
         public void run() {
@@ -90,6 +93,12 @@ public class LoadingView extends View {
             postDelayed(increaseTask, 80);
         }
     };
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        start();
+    }
 
     @Override
     protected void onDetachedFromWindow() {

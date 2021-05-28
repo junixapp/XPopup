@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
@@ -24,6 +25,7 @@ import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 public class DemoActivity extends AppCompatActivity {
     EditText editText;
     RecyclerView recyclerView;
+    BasePopupView attachPopup;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +40,13 @@ public class DemoActivity extends AppCompatActivity {
         });
         showMultiPopup();
 
-        final BasePopupView popupView = new XPopup.Builder(this)
+        attachPopup = new XPopup.Builder(this)
                 .atView(editText)
-                .isRequestFocus(false) //要设置这个，否则Activity内的输入框会无法获取焦点
+                .isViewMode(true)      //开启View实现
+                .isRequestFocus(false) //不强制焦点
+                .isClickThrough(true)  //点击透传
                 .hasShadowBg(false)
+                .positionByWindowCenter(true)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
                 .asAttachList(new String[]{"联想到的内容 - 1", "联想到的内容 - 2", "联想到的内容 - 333"}, null, new OnSelectListener() {
                     @Override
@@ -57,11 +62,11 @@ public class DemoActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if(s.toString().isEmpty()){
-                    popupView.dismiss();
+                    attachPopup.dismiss();
                     return;
                 }
-                if(popupView.isDismiss()){
-                    popupView.show();
+                if(attachPopup.isDismiss()){
+                    attachPopup.show();
                 }
             }
         });

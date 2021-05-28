@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,6 +174,9 @@ public class FullScreenDialog extends Dialog {
     BasePopupView contentView;
 
     public FullScreenDialog setContent(BasePopupView view) {
+        if(view.getParent()!=null){
+            ((ViewGroup)view.getParent()).removeView(view);
+        }
         this.contentView = view;
         return this;
     }
@@ -186,9 +188,9 @@ public class FullScreenDialog extends Dialog {
         return super.dispatchTouchEvent(event);
     }
 
-    public void passClick(MotionEvent event) {
-        if (contentView != null && contentView.getContext() instanceof Activity) {
-            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
-        }
-    }
+//    public void passClick(MotionEvent event) {
+//        if (contentView != null && contentView.getContext() instanceof Activity) {
+//            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
+//        }
+//    }
 }

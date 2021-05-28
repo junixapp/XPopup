@@ -54,7 +54,7 @@ public class FullScreenPopupView extends BasePopupView {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (popupInfo.hasStatusBarShadow) {
+        if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             paint.setColor(currColor);
             shadowRect = new Rect(0, 0, getMeasuredWidth(), XPopupUtils.getStatusBarHeight());
             canvas.drawRect(shadowRect, paint);
@@ -74,7 +74,7 @@ public class FullScreenPopupView extends BasePopupView {
     }
 
     public void doStatusBarColorTransform(boolean isShow){
-        if (popupInfo.hasStatusBarShadow) {
+        if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             //状态栏渐变动画
             ValueAnimator animator = ValueAnimator.ofObject(argbEvaluator,
                     isShow ? Color.TRANSPARENT : XPopup.statusBarShadowColor,
@@ -91,13 +91,14 @@ public class FullScreenPopupView extends BasePopupView {
     }
 
     @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        paint = null;
+    protected PopupAnimator getPopupAnimator() {
+        return new TranslateAnimator(getPopupContentView(), PopupAnimation.TranslateFromBottom);
     }
 
     @Override
-    protected PopupAnimator getPopupAnimator() {
-        return new TranslateAnimator(getPopupContentView(), PopupAnimation.TranslateFromBottom);
+    protected void onDetachedFromWindow() {
+        if(popupInfo!=null)getPopupContentView().setTranslationX(popupInfo.offsetX);
+        if(popupInfo!=null)getPopupContentView().setTranslationY(popupInfo.offsetY);
+        super.onDetachedFromWindow();
     }
 }

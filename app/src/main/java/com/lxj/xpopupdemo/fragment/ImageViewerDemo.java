@@ -1,29 +1,49 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
+
 import java.io.File;
+
 import static com.lxj.xpopupdemo.Constants.list;
 
 /**
@@ -32,7 +52,7 @@ import static com.lxj.xpopupdemo.Constants.list;
  */
 public class ImageViewerDemo extends BaseFragment {
 
-    String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548777981087&di=0618a101655e57c675c7c21b4ef55f00&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fitbbs%2F1504%2F06%2Fc70%2F5014635_1428321310010_mthumb.jpg";
+    String url1 = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2279952540,2544282724&fm=26&gp=0.jpg";
     String url2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549382334&di=332b0aa1ec4ccd293f176164d998e5ab&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D121ef3421a38534398c28f62fb7ada0b%2Ffaf2b2119313b07eedb4502606d7912397dd8c96.jpg";
 
     @Override
@@ -56,6 +76,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/92FA62C554C0A4B61251A5A2FCDD400B.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/7ECFF80AEDFF9D2771DAFB979D13513E.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/C12F6B62FF052BAB4844AB9A5A333F3C.jpg");
+        list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
     }
 
     RecyclerView recyclerView;
@@ -63,6 +84,7 @@ public class ImageViewerDemo extends BaseFragment {
     ViewPager pager;
     ViewPager2 pager2;
     Button btn_custom;
+
     @Override
     public void init(final View view) {
         image1 = view.findViewById(R.id.image1);
@@ -82,7 +104,13 @@ public class ImageViewerDemo extends BaseFragment {
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
-                        .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0, false,new ImageLoader())
+                        .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
+                                , false, Color.BLACK, new ImageLoader(), new OnImageViewerLongPressListener() {
+                                    @Override
+                                    public void onLongPressed(BasePopupView popupView, int position) {
+                                        ToastUtils.showShort("长按了第" + position +"个图片");
+                                    }
+                                })
                         .show();
             }
         });
@@ -136,15 +164,16 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     new XPopup.Builder(holder.itemView.getContext()).asImageViewer(imageView, position, list,
+                            true, true, -1, -1, -1, true,
+                            Color.rgb(32, 36, 46),
                             new OnSrcViewUpdateListener() {
-                        @Override
-                        public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
-                            RecyclerView rv = (RecyclerView) holder.itemView.getParent();
-                            popupView.updateSrcView((ImageView)rv.getChildAt(position));
-                        }
-                    }, new ImageLoader())
+                                @Override
+                                public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
+                                    RecyclerView rv = (RecyclerView) holder.itemView.getParent();
+                                    popupView.updateSrcView((ImageView) rv.getChildAt(position));
+                                }
+                            }, new ImageLoader(), null)
                             .show();
                 }
             });
@@ -179,7 +208,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             //由于ViewPager2内部是包裹了一个RecyclerView，而RecyclerView始终维护一个子View
                                             RecyclerView rv = (RecyclerView) pager2.getChildAt(0);
                                             //再拿子View，就是ImageView
-                                            popupView.updateSrcView((ImageView)rv.getChildAt(0));
+                                            popupView.updateSrcView((ImageView) rv.getChildAt(0));
                                         }
                                     });
                                 }
@@ -215,19 +244,19 @@ public class ImageViewerDemo extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     new XPopup.Builder(getContext())
-                            .asImageViewer(imageView, position, list, true,false, -1, -1, -1, true, new OnSrcViewUpdateListener() {
-                        @Override
-                        public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
-                            //1.pager更新当前显示的图片
-                            //当启用isInfinite时，position会无限增大，需要映射为当前ViewPager中的页
-                            int realPosi = position%list.size();
+                            .asImageViewer(imageView, position, list, true, false, -1, -1, -1, true, Color.BLACK, new OnSrcViewUpdateListener() {
+                                @Override
+                                public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
+                                    //1.pager更新当前显示的图片
+                                    //当启用isInfinite时，position会无限增大，需要映射为当前ViewPager中的页
+                                    int realPosi = position % list.size();
 //                            Log.e("tag", "position: "+realPosi + " list size: "+list.size());
-                            pager.setCurrentItem(realPosi, false);
-                            //2.更新弹窗的srcView，注意这里的position是list中的position，上面ViewPager设置了pageLimit数量，
-                            //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
-                            popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
-                        }
-                    }, new ImageLoader())
+                                    pager.setCurrentItem(realPosi, false);
+                                    //2.更新弹窗的srcView，注意这里的position是list中的position，上面ViewPager设置了pageLimit数量，
+                                    //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
+                                    popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
+                                }
+                            }, new ImageLoader(), null)
                             .show();
                 }
             });
@@ -242,11 +271,42 @@ public class ImageViewerDemo extends BaseFragment {
     }
 
     public static class ImageLoader implements XPopupImageLoader {
-        @Override
-        public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
-            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
-            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+
+        int unit10M = 10 * 1024 * 1024;
+
+        private RequestOptions buildOptions() {
+            return new RequestOptions()
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         }
+
+        @Override
+        public void loadImage(final int position, @NonNull final Object url, @NonNull final ImageView imageView) {
+            //如果你确定你的图片没有超级大的，直接这样写就行
+//            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+
+            //如果你的图片可能存在超级大图，按下面这样写
+            Glide.with(imageView).asBitmap().load(url).apply(buildOptions()).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    int r = resource.getByteCount() / unit10M;
+                    if (resource != null && r >= 1) {
+//                        BitmapDrawable bd = (BitmapDrawable) resource;
+//                        int r = bd.getBitmap().getByteCount() / unit10M;
+                        int w = resource.getWidth() / r;
+                        int h = resource.getHeight() / r;
+                        Glide.with(imageView).load(url).apply(buildOptions().override(w, h)).into(imageView);
+                    } else {
+                        Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+                    }
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+                }
+            });
+        }
+
         @Override
         public File getImageFile(@NonNull Context context, @NonNull Object uri) {
             try {

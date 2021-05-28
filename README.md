@@ -82,10 +82,27 @@ Gif录制的有些卡顿，真机预览效果更佳。扫描二维码下载Demo�
 如果二维码图片不可见，[点我下载Demo体验](http://d.7short.com/2q63)
 
 ## Gradle
+**由于jcenter跑路，从2.2.24版本开始，转为jitpack了。**
+[![](https://jitpack.io/v/li-xiaojun/XPopup.svg)](https://jitpack.io/#li-xiaojun/XPopup)
+```
+implementation 'com.github.li-xiaojun:XPopup:版本号看上面'
+```
+jitpack还要求在工程根目录的`build.gradle`中添加如下：
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+**2.2.23之前的地址请暂时使用下面的地址，但是jcenter只保证能用到2022年初**：
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)
 ```groovy
-implementation 'com.lxj:xpopup:最新版本'
+implementation 'com.lxj:xpopup:最新版本'  //jcenter跑路，预计到2022年初就无法访问
 ```
+
 其中编译版本必须 >= 29：
 ```
 compileSdkVersion 29
@@ -105,7 +122,7 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - [如何自定义弹窗](https://github.com/li-xiaojun/XPopup/wiki/3.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%B9%E7%AA%97)
 - [如何自定义动画](https://github.com/li-xiaojun/XPopup/wiki/4.-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB)
 - [弹窗常用设置](https://github.com/li-xiaojun/XPopup/wiki/5.-%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE)
-- [常见问题](https://github.com/li-xiaojun/XPopup/wiki/6.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
+- [常见问题（必看）](https://github.com/li-xiaojun/XPopup/wiki/6.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98(%E5%BF%85%E7%9C%8B))
 - [也许你想要这些效果](https://github.com/li-xiaojun/XPopup/wiki/7.-%E4%B9%9F%E8%AE%B8%E4%BD%A0%E6%83%B3%E8%A6%81%E8%BF%99%E4%BA%9B%E6%95%88%E6%9E%9C)
 - [一行代码在应用后台弹出弹窗](https://github.com/li-xiaojun/XPopup/wiki/8.-%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%9C%A8%E5%BA%94%E7%94%A8%E5%90%8E%E5%8F%B0%E5%BC%B9%E5%87%BA%E5%BC%B9%E7%AA%97)
 - [时间选择器和城市选择器](https://github.com/li-xiaojun/XPopup/wiki/9.-%E6%88%91%E6%83%B3%E8%A6%81%E6%97%B6%E9%97%B4%E9%80%89%E6%8B%A9%E5%99%A8%E6%88%96%E5%9F%8E%E5%B8%82%E9%80%89%E6%8B%A9%E5%99%A8%E5%BC%B9%E7%AA%97)
@@ -181,6 +198,11 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 我爱赚钱(下载地址: https://sj.qq.com/myapp/detail.htm?apkName=me.tx.taskhunter&info=532BB35B65D9FFA7F497DEFA6E27F663)
 - 海信智学平台
 - 饭友视频聊天交友(下载地址：https://android.myapp.com/myapp/detail.htm?apkName=com.quanmai.findu&info=519DFF1F69A45EAF33B4D2C51A7AC2D3)
+- 皮皮陪玩 游戏陪玩语音直播app https://app.apeiwan.com/
+- 你我有谱（app名）
+- Bookista(https://play.google.com/store/apps/details?id=com.latinoriente.bookista)
+- 伊的家商城项目
+- 点点日记（常州市宏域网络有限公司）
 
 
 ## 打个赏

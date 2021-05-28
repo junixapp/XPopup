@@ -38,6 +38,10 @@
             android:textColor="@color/_xpopup_content_color"
             android:textSize="16sp" />
 
+        <EditText
+            android:inputType="textPassword|textVisiblePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <View
             android:background="#ff0"
             android:layout_width="match_parent"
