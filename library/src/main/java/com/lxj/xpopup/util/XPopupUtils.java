@@ -404,7 +404,7 @@ public class XPopupUtils {
                     return;
                 }
                 //1. create path
-                String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_PICTURES;
+                String dirPath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
                 File dirFile = new File(dirPath);
                 if (!dirFile.exists()) dirFile.mkdirs();
                 try {
