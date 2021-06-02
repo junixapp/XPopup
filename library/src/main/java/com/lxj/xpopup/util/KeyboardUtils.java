@@ -4,11 +4,15 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.BasePopupView;
 
@@ -93,7 +97,22 @@ public final class KeyboardUtils {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
+    public static void hideSoftInput(@NonNull final Window window) {
+        View view = window.getCurrentFocus();
+        if (view == null) {
+            View decorView = window.getDecorView();
+            View focusView = decorView.findViewWithTag("keyboardTagView");
+            if (focusView == null) {
+                view = new EditText(window.getContext());
+                view.setTag("keyboardTagView");
+                ((ViewGroup) decorView).addView(view, 0, 0);
+            } else {
+                view = focusView;
+            }
+            view.requestFocus();
+        }
+        hideSoftInput(view);
+    }
     public interface OnSoftInputChangedListener {
         void onSoftInputChanged(int height);
     }

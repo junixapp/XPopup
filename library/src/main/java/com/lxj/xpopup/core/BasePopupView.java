@@ -112,6 +112,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing)
             return this;
         popupStatus = PopupStatus.Showing;
+        if(popupInfo.isRequestFocus)KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
             return BasePopupView.this;
         handler.post(attachTask);
