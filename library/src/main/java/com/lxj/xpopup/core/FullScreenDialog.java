@@ -43,6 +43,10 @@ public class FullScreenDialog extends Dialog {
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
+        //设置全屏
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        getWindow().getDecorView().setSystemUiVisibility(option);
+
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
         if(isFuckVIVORoom()){
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
@@ -52,9 +56,6 @@ public class FullScreenDialog extends Dialog {
             getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
                     XPopupUtils.getScreenHeight(getContext())));
         }
-        //设置全屏
-        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        getWindow().getDecorView().setSystemUiVisibility(option);
 
         //remove status bar shadow
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {

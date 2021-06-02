@@ -49,8 +49,8 @@ public class CenterListPopupView extends CenterPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         recyclerView = findViewById(R.id.recyclerView);
         if(bindLayoutId!=0){
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

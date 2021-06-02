@@ -49,8 +49,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         tv_title = findViewById(R.id.tv_title);
         tv_content = findViewById(R.id.tv_content);
         tv_cancel = findViewById(R.id.tv_cancel);

@@ -44,8 +44,8 @@ public class LoadingPopupView extends CenterPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         tv_title = findViewById(R.id.tv_title);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getPopupImplView().setElevation(10f);

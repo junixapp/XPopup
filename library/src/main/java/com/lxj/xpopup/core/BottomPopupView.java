@@ -48,7 +48,7 @@ public class BottomPopupView extends BasePopupView {
         getPopupImplView().setTranslationY(popupInfo.offsetY);
 
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight()
-        ,getPopupWidth(), getPopupHeight(), null);
+                , getPopupWidth(), getPopupHeight(), null);
 
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override

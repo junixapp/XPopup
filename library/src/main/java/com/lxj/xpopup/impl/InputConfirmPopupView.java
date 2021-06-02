@@ -33,8 +33,8 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
     public CharSequence inputContent;
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         et_input.setVisibility(VISIBLE);
         if (!TextUtils.isEmpty(hint)) {
             et_input.setHint(hint);
