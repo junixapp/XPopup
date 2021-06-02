@@ -55,7 +55,7 @@ public abstract class DrawerPopupView extends BasePopupView {
             @Override
             public void onClose() {
                 beforeDismiss();
-                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(DrawerPopupView.this);
+                if(popupInfo!=null && popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(DrawerPopupView.this);
                 doAfterDismiss();
             }
             @Override
@@ -65,7 +65,7 @@ public abstract class DrawerPopupView extends BasePopupView {
             @Override
             public void onDrag(int x, float fraction, boolean isToLeft) {
                 drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
-                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
+                if(popupInfo!=null && popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
                         x, fraction,isToLeft);
                 mFraction = fraction;
                 postInvalidate();
