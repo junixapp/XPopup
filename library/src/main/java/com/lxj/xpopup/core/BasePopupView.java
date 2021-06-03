@@ -16,7 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -24,7 +23,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.BlurAnimator;
 import com.lxj.xpopup.animator.EmptyAnimator;
@@ -59,7 +57,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     protected boolean isCreated = false;
     private boolean hasModifySoftMode = false;
     private int preSoftMode = -1;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    protected Handler handler = new Handler(Looper.getMainLooper());
 
     public BasePopupView(@NonNull Context context) {
         super(context);
@@ -69,7 +67,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         }
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         shadowBgAnimator = new ShadowBgAnimator(this);
-        // 添加Popup窗体内容View
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
         // 事先隐藏，等测量完毕恢复，避免影子跳动现象。
         contentView.setAlpha(0);
@@ -404,8 +401,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 请使用onCreate，主要给弹窗内部用，不要去重写。
      */
-    protected void initPopupContent() {
-    }
+    protected void initPopupContent() { }
 
     /**
      * do init.

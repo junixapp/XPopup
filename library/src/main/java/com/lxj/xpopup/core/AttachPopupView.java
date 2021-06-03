@@ -7,6 +7,8 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
@@ -25,7 +27,7 @@ import com.lxj.xpopup.widget.PartShadowContainer;
 public abstract class AttachPopupView extends BasePopupView {
     protected int defaultOffsetY = 0;
     protected int defaultOffsetX = 0;
-    protected PartShadowContainer attachPopupContainer;
+    protected FrameLayout attachPopupContainer;
 
     public AttachPopupView(@NonNull Context context) {
         super(context);
