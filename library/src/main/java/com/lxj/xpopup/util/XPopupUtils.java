@@ -1,6 +1,8 @@
 package com.lxj.xpopup.util;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Resources;
@@ -14,18 +16,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -35,21 +38,23 @@ import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.FloatRange;
+
+import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.core.PositionPopupView;
-import com.lxj.xpopup.enums.ImageType;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -129,6 +134,7 @@ public class XPopupUtils {
         content.post(new Runnable() {
             @Override
             public void run() {
+                Log.e("tag", "maxH: "+ maxHeight);
                 ViewGroup.LayoutParams params = content.getLayoutParams();
                 View implView = content.getChildAt(0);
                 ViewGroup.LayoutParams implParams = implView.getLayoutParams();
@@ -331,7 +337,7 @@ public class XPopupUtils {
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView) return;
-        if (!(pv instanceof PartShadowPopupView) && pv instanceof AttachPopupView) return;
+        if (pv instanceof AttachPopupView) return;
         if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) {
             pv.getPopupImplView().animate().translationY(0)
                     .setDuration(100).start();
@@ -398,71 +404,57 @@ public class XPopupUtils {
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "图片不存在！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.xpopup_image_not_exist), Toast.LENGTH_SHORT).show();
                         }
                     });
                     return;
                 }
-                //1. create path
-                String dirPath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
-                File dirFile = new File(dirPath);
-                if (!dirFile.exists()) dirFile.mkdirs();
                 try {
-                    ImageType type = ImageHeaderParser.getImageType(new FileInputStream(source));
-                    String ext = getFileExt(type);
-                    final File target = new File(dirPath, System.currentTimeMillis() + "." + ext);
-                    if (target.exists()) target.delete();
-                    target.createNewFile();
-                    //2. save
-                    writeFileFromIS(target, new FileInputStream(source));
-                    //3. notify
-                    MediaScannerConnection.scanFile(context, new String[]{target.getAbsolutePath()},
-                            new String[]{"image/" + ext}, new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(final String path, Uri uri) {
-                                    mainHandler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (context != null) {
-                                                Toast.makeText(context, "已保存到相册！", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    if(Build.VERSION.SDK_INT < 29){
+                        //android10以下直接insertImage
+                        MediaStore.Images.Media.insertImage(context.getContentResolver(),source.getAbsolutePath(),source.getName(),null);
+                    }else {
+                        //android10以上，增加了新字段，自己insert，因为RELATIVE_PATH，DATE_EXPIRES，IS_PENDING是29新增字段
+                        Long mImageTime = System.currentTimeMillis();
+                        final ContentValues values = new ContentValues();
+                        values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+                        values.put(MediaStore.MediaColumns.DISPLAY_NAME, source.getName());
+                        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/*");
+                        values.put(MediaStore.MediaColumns.DATE_ADDED, mImageTime / 1000);
+                        values.put(MediaStore.MediaColumns.DATE_MODIFIED, mImageTime / 1000);
+                        values.put(MediaStore.MediaColumns.DATE_EXPIRES, (mImageTime + DateUtils.DAY_IN_MILLIS) / 1000);
+                        values.put(MediaStore.MediaColumns.IS_PENDING, 1);
+
+                        ContentResolver resolver = context.getContentResolver();
+                        final Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                        try (OutputStream out = resolver.openOutputStream(uri)) {
+                            writeFileFromIS(out, new FileInputStream(source));
+                        }
+                        // Everything went well above, publish it!
+                        values.clear();
+                        values.put(MediaStore.MediaColumns.IS_PENDING, 0);
+                        values.putNull(MediaStore.MediaColumns.DATE_EXPIRES);
+                        resolver.update(uri, values, null, null);
+                    }
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
+                            if (context != null) {
+                                Toast.makeText(context, context.getString(R.string.xpopup_saved_to_gallery), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
     }
 
-    private static String getFileExt(ImageType type) {
-        switch (type) {
-            case GIF:
-                return "gif";
-            case PNG:
-            case PNG_A:
-                return "png";
-            case WEBP:
-            case WEBP_A:
-                return "webp";
-            case JPEG:
-                return "jpeg";
-        }
-        return "jpeg";
-    }
-
-    private static boolean writeFileFromIS(final File file, final InputStream is) {
+    private static boolean writeFileFromIS(final OutputStream fos, final InputStream is) {
         OutputStream os = null;
         try {
-            os = new BufferedOutputStream(new FileOutputStream(file));
+            os = new BufferedOutputStream(fos);
             byte data[] = new byte[8192];
             int len;
             while ((len = is.read(data, 0, 8192)) != -1) {

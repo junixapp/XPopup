@@ -17,7 +17,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.transition.ChangeBounds;
@@ -38,8 +38,6 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.photoview.OnMatrixChangedListener;
 import com.lxj.xpopup.photoview.PhotoView;
-import com.lxj.xpopup.util.PermissionConstants;
-import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
@@ -467,19 +465,19 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
      */
     protected void save() {
         //check permission
-        XPermission.create(getContext(), PermissionConstants.STORAGE)
-                .callback(new XPermission.SimpleCallback() {
-                    @Override
-                    public void onGranted() {
-                        XPermission.getInstance().releaseContext();
-                        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(isInfinite ? position % urls.size() : position));
-                    }
-                    @Override
-                    public void onDenied() {
-                        XPermission.getInstance().releaseContext();
-                        Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
-                    }
-                }).request();
+        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(isInfinite ? position % urls.size() : position));
+//        XPermission.create(getContext(), PermissionConstants.STORAGE)
+//                .callback(new XPermission.SimpleCallback() {
+//                    @Override
+//                    public void onGranted() {
+//                        XPermission.getInstance().releaseContext();
+//                    }
+//                    @Override
+//                    public void onDenied() {
+//                        XPermission.getInstance().releaseContext();
+//                        Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
+//                    }
+//                }).request();
     }
 
     public class PhotoViewAdapter extends PagerAdapter {

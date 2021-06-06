@@ -161,9 +161,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowCenterList: //在中间弹出的List列表弹窗
                 new XPopup.Builder(getContext())
 //                        .maxWidth(600)
+                        .maxHeight(800)
                         .isDarkTheme(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
+                        .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4",
+                                        "条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4",
+                                        "条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4",
+                                        "条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4",
+                                        "条目1", "条目2", "条目3", "条目4","条目1", "条目2", "条目3", "条目4",},
                                 new OnSelectListener() {
                                     @Override
                                     public void onSelect(int position, String text) {
@@ -274,7 +279,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
 //                        .popupWidth(500)
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享",
+                        .asAttachList(new String[]{"分享", "编辑","分享", "编辑", "分享", "编辑", "分享", "编辑", "分享", "编辑",  "不带icon不带icon", "分享分享分享",
 //                                        "分享", "编辑", "不带icon", "分享",
 //                                        "分享", "编辑", "不带icon", "分享",
 //                                        "分享", "编辑", "不带icon", "分享"
