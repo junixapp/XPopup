@@ -44,12 +44,12 @@ public class CustomAnimatorDemo extends BaseFragment {
         }
         @Override
         public void animateShow() {
-            targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(getDuration())
+            targetView.animate().rotation(0).scaleX(1).scaleY(1).alpha(1).setInterpolator(new FastOutSlowInInterpolator()).setDuration(340)
                     .start();
         }
         @Override
         public void animateDismiss() {
-            targetView.animate().rotation(720).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(getDuration())
+            targetView.animate().rotation(720).scaleX(0).scaleY(0).alpha(0).setInterpolator(new FastOutSlowInInterpolator()).setDuration(340)
                     .start();
         }
     }

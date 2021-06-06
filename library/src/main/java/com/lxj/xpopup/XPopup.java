@@ -48,6 +48,11 @@ public class XPopup {
     private static int animationDuration = 350;
     public static int statusBarShadowColor = Color.parseColor("#55000000");
     private static int shadowBgColor = Color.parseColor("#7F000000");
+
+    /**
+     * 设置全局的背景阴影颜色
+     * @param color
+     */
     public static void setShadowBgColor(int color) {
         shadowBgColor = color;
     }
@@ -68,10 +73,18 @@ public class XPopup {
         return primaryColor;
     }
 
+    /**
+     * 设置全局动画时长
+     * @param duration
+     */
     public static void setAnimationDuration(int duration) {
         if (duration >= 0) {
             animationDuration = duration;
         }
+    }
+
+    public static int getAnimationDuration() {
+        return animationDuration;
     }
 
     /**
@@ -99,10 +112,6 @@ public class XPopup {
             }
         });
         v.setTag("xpopup");
-    }
-
-    public static int getAnimationDuration() {
-        return animationDuration;
     }
 
     public static class Builder {
@@ -515,6 +524,26 @@ public class XPopup {
          */
         public Builder isViewMode(boolean viewMode) {
             this.popupInfo.isViewMode = viewMode;
+            return this;
+        }
+
+        /**
+         * 半透明阴影的颜色
+         * @param shadowBgColor
+         * @return
+         */
+        public Builder shadowBgColor(int shadowBgColor) {
+            this.popupInfo.shadowBgColor = shadowBgColor;
+            return this;
+        }
+
+        /**
+         * 动画时长
+         * @param animationDuration
+         * @return
+         */
+        public Builder animationDuration(int animationDuration) {
+            this.popupInfo.animationDuration = animationDuration;
             return this;
         }
 

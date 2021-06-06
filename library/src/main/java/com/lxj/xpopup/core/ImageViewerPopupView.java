@@ -192,7 +192,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             @Override
             public void run() {
                 TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                        .setDuration(getDuration())
+                        .setDuration(getAnimationDuration())
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeTransform())
                         .addTransition(new ChangeImageTransform())
@@ -215,7 +215,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 // do shadow anim.
                 animateShadowBg(bgColor);
                 if (customView != null)
-                    customView.animate().alpha(1f).setDuration(getDuration()).start();
+                    customView.animate().alpha(1f).setDuration(getAnimationDuration()).start();
             }
         });
 
@@ -231,14 +231,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         start, endColor));
             }
         });
-        animator.setDuration(getDuration())
+        animator.setDuration(getAnimationDuration())
                 .setInterpolator(new LinearInterpolator());
         animator.start();
     }
-
-    private int getDuration(){
-        return XPopup.getAnimationDuration() + 60;
-    } 
     
     @Override
     public void doDismissAnimation() {
@@ -258,7 +254,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             @Override
             public void run() {
                 TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
-                        .setDuration(getDuration())
+                        .setDuration(getAnimationDuration())
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeTransform())
                         .addTransition(new ChangeImageTransform())
@@ -287,7 +283,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 // do shadow anim.
                 animateShadowBg(Color.TRANSPARENT);
                 if (customView != null)
-                    customView.animate().alpha(0f).setDuration(getDuration())
+                    customView.animate().alpha(0f).setDuration(getAnimationDuration())
                             .setListener(new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
@@ -301,10 +297,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     }
 
-    @Override
-    public int getAnimationDuration() {
-        return 0;
-    }
+//    @Override
+//    public int getAnimationDuration() {
+//        return 0;
+//    }
 
     @Override
     public void dismiss() {
@@ -464,20 +460,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
      * 保存图片到相册，会自动检查是否有保存权限
      */
     protected void save() {
-        //check permission
         XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(isInfinite ? position % urls.size() : position));
-//        XPermission.create(getContext(), PermissionConstants.STORAGE)
-//                .callback(new XPermission.SimpleCallback() {
-//                    @Override
-//                    public void onGranted() {
-//                        XPermission.getInstance().releaseContext();
-//                    }
-//                    @Override
-//                    public void onDenied() {
-//                        XPermission.getInstance().releaseContext();
-//                        Toast.makeText(getContext(), "没有保存权限，保存功能无法使用！", Toast.LENGTH_SHORT).show();
-//                    }
-//                }).request();
     }
 
     public class PhotoViewAdapter extends PagerAdapter {

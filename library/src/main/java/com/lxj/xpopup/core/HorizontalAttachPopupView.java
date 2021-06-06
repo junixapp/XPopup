@@ -83,9 +83,9 @@ public class HorizontalAttachPopupView extends AttachPopupView {
     protected PopupAnimator getPopupAnimator() {
         ScrollScaleAnimator animator;
         if (isShowLeftToTarget()) {
-            animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromRight);
+            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromRight);
         } else {
-            animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromLeft);
+            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromLeft);
         }
         animator.isOnlyScaleX = true;
         return animator;

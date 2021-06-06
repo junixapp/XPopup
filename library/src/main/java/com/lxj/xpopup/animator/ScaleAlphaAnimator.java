@@ -11,8 +11,8 @@ import com.lxj.xpopup.enums.PopupAnimation;
  * Create by dance, at 2018/12/9
  */
 public class ScaleAlphaAnimator extends PopupAnimator {
-    public ScaleAlphaAnimator(View target, PopupAnimation popupAnimation) {
-        super(target, popupAnimation);
+    public ScaleAlphaAnimator(View target, int animationDuration, PopupAnimation popupAnimation) {
+        super(target, animationDuration, popupAnimation);
     }
 
     float startScale = .75f;
@@ -66,7 +66,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
             @Override
             public void run() {
                 targetView.animate().scaleX(1f).scaleY(1f).alpha(1f)
-                        .setDuration(XPopup.getAnimationDuration())
+                        .setDuration(animationDuration)
                         .setInterpolator(new OvershootInterpolator(1f))
 //                .withLayer() 在部分6.0系统会引起crash
                         .start();
@@ -76,8 +76,9 @@ public class ScaleAlphaAnimator extends PopupAnimator {
 
     @Override
     public void animateDismiss() {
-        targetView.animate().scaleX(startScale).scaleY(startScale).alpha(0f).setDuration(XPopup.getAnimationDuration())
-                .setInterpolator(new FastOutSlowInInterpolator())
+        if(animating)return;
+        observerAnimator(targetView.animate().scaleX(startScale).scaleY(startScale).alpha(0f).setDuration(animationDuration)
+                .setInterpolator(new FastOutSlowInInterpolator()))
 //                .withLayer() 在部分6.0系统会引起crash
                 .start();
     }

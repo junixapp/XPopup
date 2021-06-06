@@ -284,11 +284,11 @@ public abstract class AttachPopupView extends BasePopupView {
         PopupAnimator animator;
         if (isShowUpToTarget()) {
             // 在上方展示
-            animator = new ScrollScaleAnimator(getPopupContentView(), isShowLeft ? PopupAnimation.ScrollAlphaFromLeftBottom
+            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), isShowLeft ? PopupAnimation.ScrollAlphaFromLeftBottom
                     : PopupAnimation.ScrollAlphaFromRightBottom);
         } else {
             // 在下方展示
-            animator = new ScrollScaleAnimator(getPopupContentView(), isShowLeft ? PopupAnimation.ScrollAlphaFromLeftTop
+            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), isShowLeft ? PopupAnimation.ScrollAlphaFromLeftTop
                     : PopupAnimation.ScrollAlphaFromRightTop);
         }
         return animator;

@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.viewpager.widget.ViewPager;
 
+import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.enums.PopupPosition;
@@ -30,7 +31,7 @@ public class PopupDrawerLayout extends FrameLayout {
     ViewDragHelper dragHelper;
     View placeHolder, mChild;
     public PopupPosition position = PopupPosition.Left;
-    ShadowBgAnimator bgAnimator = new ShadowBgAnimator();
+    ShadowBgAnimator bgAnimator;
     public boolean isDrawStatusBarShadow = false;
     float fraction = 0f;
     public boolean enableShadow = true;
@@ -321,6 +322,9 @@ public class PopupDrawerLayout extends FrameLayout {
 
     private OnCloseListener listener;
 
+    public void setBgAnimator(ShadowBgAnimator animator){
+        this.bgAnimator = animator;
+    }
     public void setOnCloseListener(OnCloseListener listener) {
         this.listener = listener;
     }

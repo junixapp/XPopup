@@ -18,8 +18,8 @@ public class TranslateAnimator extends PopupAnimator {
     private float initTranslationX, initTranslationY;
     public boolean hasInitDefTranslation = false;
 
-    public TranslateAnimator(View target, PopupAnimation popupAnimation) {
-        super(target, popupAnimation);
+    public TranslateAnimator(View target, int animationDuration, PopupAnimation popupAnimation) {
+        super(target, animationDuration, popupAnimation);
     }
 
     @Override
@@ -77,13 +77,14 @@ public class TranslateAnimator extends PopupAnimator {
                 break;
         }
         if(animator!=null)animator.setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(XPopup.getAnimationDuration())
+                .setDuration(animationDuration)
                 .withLayer()
                 .start();
     }
 
     @Override
     public void animateDismiss() {
+        if(animating)return;
         ViewPropertyAnimator animator = null;
         switch (popupAnimation) {
             case TranslateFromLeft:
@@ -103,9 +104,9 @@ public class TranslateAnimator extends PopupAnimator {
                 animator = targetView.animate().translationY(startTranslationY);
                 break;
         }
-        if(animator!=null)animator.setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(XPopup.getAnimationDuration())
-                .withLayer()
+        if(animator!=null)observerAnimator(animator.setInterpolator(new FastOutSlowInInterpolator())
+                .setDuration(animationDuration)
+                .withLayer())
                 .start();
     }
 }

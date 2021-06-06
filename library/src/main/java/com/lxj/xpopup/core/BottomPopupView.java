@@ -40,6 +40,7 @@ public class BottomPopupView extends BasePopupView {
         if(bottomPopupContainer.getChildCount()==0){
             addInnerContent();
         }
+        bottomPopupContainer.setDuration(getAnimationDuration());
         bottomPopupContainer.enableDrag(popupInfo.enableDrag);
         bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
         bottomPopupContainer.isThreeDrag(popupInfo.isThreeDrag);
@@ -96,16 +97,6 @@ public class BottomPopupView extends BasePopupView {
             blurAnimator.animateDismiss();
         }
         bottomPopupContainer.close();
-    }
-
-    /**
-     * 动画是跟随手势发生的，所以不需要额外的动画器，因此动画时间也清零
-     *
-     * @return
-     */
-    @Override
-    public int getAnimationDuration() {
-        return 0;
     }
 
     @Override

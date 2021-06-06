@@ -50,6 +50,8 @@ public class PopupInfo {
     public boolean isDestroyOnDismiss = false; //是否关闭后进行资源释放
     public boolean positionByWindowCenter = false; //是否已屏幕中心进行定位，默认根据Material范式进行定位
     public boolean isViewMode = false; //是否是View实现，默认是Dialog实现
+    public int shadowBgColor = 0; //阴影背景的颜色
+    public int animationDuration = -1; //动画的时长
     public View getAtView() {
         return atView;
     }

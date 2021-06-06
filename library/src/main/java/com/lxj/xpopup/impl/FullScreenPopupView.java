@@ -86,13 +86,13 @@ public class FullScreenPopupView extends BasePopupView {
                     postInvalidate();
                 }
             });
-            animator.setDuration(XPopup.getAnimationDuration()).start();
+            animator.setDuration(getAnimationDuration()).start();
         }
     }
 
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return new TranslateAnimator(getPopupContentView(), PopupAnimation.TranslateFromBottom);
+        return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.TranslateFromBottom);
     }
 
     @Override

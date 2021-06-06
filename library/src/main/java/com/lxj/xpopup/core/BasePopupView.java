@@ -57,48 +57,19 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     protected boolean isCreated = false;
     private boolean hasModifySoftMode = false;
     private int preSoftMode = -1;
+    private boolean hasMoveUp = false;
     protected Handler handler = new Handler(Looper.getMainLooper());
 
     public BasePopupView(@NonNull Context context) {
         super(context);
-        if (context == null) return;
         if (context instanceof Application) {
             throw new IllegalArgumentException("XPopup的Context必须是Activity类型！");
         }
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        shadowBgAnimator = new ShadowBgAnimator(this);
         View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
         // 事先隐藏，等测量完毕恢复，避免影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
-    }
-
-    private boolean hasMoveUp = false;
-
-    protected void initAnimator() {
-        getPopupContentView().setAlpha(1f);
-        // 优先使用自定义的动画器
-        if (popupInfo.customAnimator != null) {
-            popupContentAnimator = popupInfo.customAnimator;
-            popupContentAnimator.targetView = getPopupContentView();
-        } else {
-            // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
-            popupContentAnimator = genAnimatorByPopupType();
-            if (popupContentAnimator == null) {
-                popupContentAnimator = getPopupAnimator();
-            }
-        }
-
-        //3. 初始化动画执行器
-        if (popupInfo.hasShadowBg) {
-            shadowBgAnimator.initAnimator();
-        }
-        if (popupInfo.hasBlurBg && blurAnimator != null) {
-            blurAnimator.initAnimator();
-        }
-        if (popupContentAnimator != null) {
-            popupContentAnimator.initAnimator();
-        }
     }
 
     public BasePopupView show() {
@@ -185,9 +156,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * 执行初始化
      */
     protected void init() {
-        //2. 收集动画执行器
+        if(shadowBgAnimator==null)shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
         if (popupInfo.hasBlurBg) {
-            blurAnimator = new BlurAnimator(this);
+            blurAnimator = new BlurAnimator(this, getShadowBgColor());
             blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
             blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
         }
@@ -218,13 +189,40 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             if (!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)
                     && !(BasePopupView.this instanceof PartShadowPopupView)) {
                 initAnimator();
-                //3. 执行动画
+
                 doShowAnimation();
 
                 doAfterShow();
             }
         }
     };
+
+    protected void initAnimator() {
+        getPopupContentView().setAlpha(1f);
+        // 优先使用自定义的动画器
+        if (popupInfo.customAnimator != null) {
+            popupContentAnimator = popupInfo.customAnimator;
+            popupContentAnimator.targetView = getPopupContentView();
+        } else {
+            // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
+            popupContentAnimator = genAnimatorByPopupType();
+            if (popupContentAnimator == null) {
+                popupContentAnimator = getPopupAnimator();
+            }
+        }
+
+        //3. 初始化动画执行器
+        if (popupInfo.hasShadowBg) {
+            shadowBgAnimator.initAnimator();
+        }
+        if (popupInfo.hasBlurBg && blurAnimator != null) {
+            blurAnimator.initAnimator();
+        }
+        if (popupContentAnimator != null) {
+            popupContentAnimator.initAnimator();
+        }
+    }
+
 
     private void detachFromHost() {
         if (popupInfo != null && popupInfo.isViewMode) {
@@ -348,19 +346,19 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             case ScaleAlphaFromRightTop:
             case ScaleAlphaFromLeftBottom:
             case ScaleAlphaFromRightBottom:
-                return new ScaleAlphaAnimator(getPopupContentView(), popupInfo.popupAnimation);
+                return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
 
             case TranslateAlphaFromLeft:
             case TranslateAlphaFromTop:
             case TranslateAlphaFromRight:
             case TranslateAlphaFromBottom:
-                return new TranslateAlphaAnimator(getPopupContentView(), popupInfo.popupAnimation);
+                return new TranslateAlphaAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
 
             case TranslateFromLeft:
             case TranslateFromTop:
             case TranslateFromRight:
             case TranslateFromBottom:
-                return new TranslateAnimator(getPopupContentView(), popupInfo.popupAnimation);
+                return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
 
             case ScrollAlphaFromLeft:
             case ScrollAlphaFromLeftTop:
@@ -370,10 +368,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             case ScrollAlphaFromRightBottom:
             case ScrollAlphaFromBottom:
             case ScrollAlphaFromLeftBottom:
-                return new ScrollScaleAnimator(getPopupContentView(), popupInfo.popupAnimation);
+                return new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), popupInfo.popupAnimation);
 
             case NoAnimation:
-                return new EmptyAnimator(getPopupContentView());
+                return new EmptyAnimator(getPopupContentView(), getAnimationDuration());
         }
         return null;
     }
@@ -461,7 +459,13 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public int getAnimationDuration() {
-        return popupInfo != null && popupInfo.popupAnimation == NoAnimation ? 10 : XPopup.getAnimationDuration() + 10;
+        if(popupInfo==null) return 0;
+        if(popupInfo.popupAnimation == NoAnimation) return 1;
+        return popupInfo.animationDuration >= 0 ? popupInfo.animationDuration : XPopup.getAnimationDuration() + 1;
+    }
+
+    public int getShadowBgColor(){
+        return popupInfo!=null && popupInfo.shadowBgColor!=0 ? popupInfo.shadowBgColor : XPopup.getShadowBgColor();
     }
 
     /**
@@ -528,7 +532,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         handler.post(new Runnable() {
             @Override
             public void run() {
-                delayDismiss(XPopup.getAnimationDuration() + 50);
+                delayDismiss(getAnimationDuration() + 50);
             }
         });
     }

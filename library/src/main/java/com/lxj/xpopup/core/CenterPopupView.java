@@ -95,6 +95,6 @@ public class CenterPopupView extends BasePopupView {
 
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
+        return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
     }
 }

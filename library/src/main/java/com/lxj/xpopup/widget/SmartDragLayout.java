@@ -28,6 +28,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
     boolean isUserClose = false;
     boolean isThreeDrag = false;  //是否开启三段拖拽
     LayoutStatus status = LayoutStatus.Close;
+    int duration = 400;
 
     public SmartDragLayout(Context context) {
         this(context, null);
@@ -150,7 +151,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
                     dy = minY - getScrollY();
                 }
             }
-            scroller.startScroll(getScrollX(), getScrollY(), 0, dy, XPopup.getAnimationDuration());
+            scroller.startScroll(getScrollX(), getScrollY(), 0, dy, duration);
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -220,7 +221,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
         post(new Runnable() {
             @Override
             public void run() {
-                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, (int) (isOpen ? XPopup.getAnimationDuration() : XPopup.getAnimationDuration() * 0.8f));
+                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, (int) (isOpen ? duration : duration * 0.8f));
                 ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
             }
         });
@@ -284,6 +285,10 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
 
     public void enableDrag(boolean enableDrag) {
         this.enableDrag = enableDrag;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public void dismissOnTouchOutside(boolean dismissOnTouchOutside) {

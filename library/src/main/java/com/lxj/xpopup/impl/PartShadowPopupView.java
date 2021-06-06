@@ -141,7 +141,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
     }
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return new TranslateAnimator(getPopupImplView(), isShowUp ?
+        return new TranslateAnimator(getPopupImplView(), getAnimationDuration(), isShowUp ?
                 PopupAnimation.TranslateFromBottom : PopupAnimation.TranslateFromTop);
     }
 

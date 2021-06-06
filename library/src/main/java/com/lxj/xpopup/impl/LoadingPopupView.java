@@ -62,7 +62,7 @@ public class LoadingPopupView extends CenterPopupView {
             @Override
             public void run() {
                 TransitionManager.beginDelayedTransition(centerPopupContainer, new TransitionSet()
-                        .setDuration(XPopup.getAnimationDuration())
+                        .setDuration(getAnimationDuration())
                         .addTransition(new Fade())
                         .addTransition(new ChangeBounds()));
                 if (title == null || title.length() == 0) {

@@ -19,8 +19,8 @@ public class ScrollScaleAnimator extends PopupAnimator{
     private float startScale = 0f;
 
     public boolean isOnlyScaleX = false;
-    public ScrollScaleAnimator(View target, PopupAnimation popupAnimation) {
-        super(target, popupAnimation);
+    public ScrollScaleAnimator(View target, int animationDuration, PopupAnimation popupAnimation) {
+        super(target, animationDuration, popupAnimation);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
                         if(!isOnlyScaleX)targetView.setScaleY(fraction);
                     }
                 });
-                animator.setDuration(XPopup.getAnimationDuration()).setInterpolator(new FastOutSlowInInterpolator());
+                animator.setDuration(animationDuration).setInterpolator(new FastOutSlowInInterpolator());
                 animator.start();
             }
         });
@@ -123,7 +123,9 @@ public class ScrollScaleAnimator extends PopupAnimator{
 
     @Override
     public void animateDismiss() {
+        if(animating)return;
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
+        observerAnimator(animator);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -135,7 +137,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
                 if(!isOnlyScaleX)targetView.setScaleY(1-fraction);
             }
         });
-        animator.setDuration(XPopup.getAnimationDuration())
+        animator.setDuration(animationDuration)
                 .setInterpolator(new FastOutSlowInInterpolator());
         animator.start();
     }

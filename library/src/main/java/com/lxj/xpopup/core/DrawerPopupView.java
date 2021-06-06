@@ -49,6 +49,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
+        drawerLayout.setBgAnimator(shadowBgAnimator);
         drawerLayout.enableShadow = popupInfo.hasShadowBg;
         drawerLayout.isDismissOnTouchOutside = popupInfo.isDismissOnTouchOutside;
         drawerLayout.setOnCloseListener(new PopupDrawerLayout.OnCloseListener() {
@@ -106,7 +107,7 @@ public abstract class DrawerPopupView extends BasePopupView {
                     postInvalidate();
                 }
             });
-            animator.setDuration(XPopup.getAnimationDuration()).start();
+            animator.setDuration(getAnimationDuration()).start();
         }
     }
     @Override
@@ -120,11 +121,6 @@ public abstract class DrawerPopupView extends BasePopupView {
 
     @Override
     public void doDismissAnimation() {
-    }
-
-    @Override
-    public int getAnimationDuration() {
-        return 0;
     }
 
     @Override
