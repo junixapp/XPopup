@@ -141,27 +141,24 @@ public class FullScreenDialog extends Dialog {
 
     public void hideNavigationBar() {
         final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
-//        for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
-//            final View child = decorView.getChildAt(i);
-//            final int id = child.getId();
-//            if (id != View.NO_ID) {
-//                String resourceEntryName = getResNameById(id);
-//                if ("navigationBarBackground".equals(resourceEntryName)) {
-//                    child.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//        }
-
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH ,
-//                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
-        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+        for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
+            final View child = decorView.getChildAt(i);
+            final int id = child.getId();
+            if (id != View.NO_ID) {
+                String resourceEntryName = getResNameById(id);
+                if ("navigationBarBackground".equals(resourceEntryName)) {
+                    child.setVisibility(View.INVISIBLE);
+                }
+            }
+        }
+        final int uiOptions =
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-//                View.SYSTEM_UI_FLAG_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
-                View.SYSTEM_UI_FLAG_IMMERSIVE |
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY|
-                View.SYSTEM_UI_FLAG_VISIBLE
-//                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                View.SYSTEM_UI_FLAG_IMMERSIVE |
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//               | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                View.SYSTEM_UI_FLAG_FULLSCREEN |
                 ;
         decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
     }
@@ -190,9 +187,4 @@ public class FullScreenDialog extends Dialog {
         return super.dispatchTouchEvent(event);
     }
 
-//    public void passClick(MotionEvent event) {
-//        if (contentView != null && contentView.getContext() instanceof Activity) {
-//            ((Activity) contentView.getContext()).dispatchTouchEvent(event);
-//        }
-//    }
 }
