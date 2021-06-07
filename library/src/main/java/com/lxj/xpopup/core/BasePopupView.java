@@ -243,7 +243,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         handler.postDelayed(doAfterShowTask, getAnimationDuration());
     }
 
-    private Runnable doAfterShowTask = new Runnable() {
+    protected Runnable doAfterShowTask = new Runnable() {
         @Override
         public void run() {
             popupStatus = PopupStatus.Show;
@@ -564,7 +564,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         handler.postDelayed(doAfterDismissTask, getAnimationDuration());
     }
 
-    private Runnable doAfterDismissTask = new Runnable() {
+    protected Runnable doAfterDismissTask = new Runnable() {
         @Override
         public void run() {
             popupStatus = PopupStatus.Dismiss;

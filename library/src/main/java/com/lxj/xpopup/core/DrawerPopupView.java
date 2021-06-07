@@ -61,7 +61,7 @@ public abstract class DrawerPopupView extends BasePopupView {
             }
             @Override
             public void onOpen() {
-                DrawerPopupView.super.doAfterShow();
+                doAfterShow();
             }
             @Override
             public void onDrag(int x, float fraction, boolean isToLeft) {
@@ -111,7 +111,10 @@ public abstract class DrawerPopupView extends BasePopupView {
         }
     }
     @Override
-    protected void doAfterShow() { }
+    protected void doAfterShow() {
+        handler.removeCallbacks(doAfterShowTask);
+        handler.postDelayed(doAfterShowTask, 0);
+    }
 
     @Override
     public void doShowAnimation() {
@@ -121,6 +124,13 @@ public abstract class DrawerPopupView extends BasePopupView {
 
     @Override
     public void doDismissAnimation() {
+    }
+
+    protected void doAfterDismiss() {
+        if (popupInfo != null && popupInfo.autoOpenSoftInput)
+            KeyboardUtils.hideSoftInput(this);
+        handler.removeCallbacks(doAfterDismissTask);
+        handler.postDelayed(doAfterDismissTask, 0);
     }
 
     @Override

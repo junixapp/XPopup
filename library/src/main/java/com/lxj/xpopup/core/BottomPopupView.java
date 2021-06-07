@@ -68,7 +68,7 @@ public class BottomPopupView extends BasePopupView {
 
             @Override
             public void onOpen() {
-                BottomPopupView.super.doAfterShow();
+                doAfterShow();
             }
         });
 
@@ -81,7 +81,10 @@ public class BottomPopupView extends BasePopupView {
     }
 
     @Override
-    protected void doAfterShow() { }
+    protected void doAfterShow() {
+        handler.removeCallbacks(doAfterShowTask);
+        handler.postDelayed(doAfterShowTask, 0);
+    }
 
     @Override
     public void doShowAnimation() {
@@ -97,6 +100,13 @@ public class BottomPopupView extends BasePopupView {
             blurAnimator.animateDismiss();
         }
         bottomPopupContainer.close();
+    }
+
+    protected void doAfterDismiss() {
+        if (popupInfo != null && popupInfo.autoOpenSoftInput)
+            KeyboardUtils.hideSoftInput(this);
+        handler.removeCallbacks(doAfterDismissTask);
+        handler.postDelayed(doAfterDismissTask, 0);
     }
 
     @Override

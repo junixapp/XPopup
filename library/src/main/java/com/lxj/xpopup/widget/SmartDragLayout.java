@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.OverScroller;
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.ViewCompat;
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -83,7 +82,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (enableDrag && scroller.computeScrollOffset()) {
+        if ((enableDrag && scroller.computeScrollOffset()) || status==LayoutStatus.Close) {
             touchX = 0;
             touchY = 0;
             return true;
