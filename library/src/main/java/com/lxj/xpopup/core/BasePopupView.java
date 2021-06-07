@@ -267,7 +267,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             requestFocus();
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
             setOnKeyListener(new BackPressListener());
-            if (!popupInfo.autoFocusEditText) showSoftInput(this);
 
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
@@ -276,16 +275,21 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 preSoftMode = getHostWindow().getAttributes().softInputMode;
                 getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 hasModifySoftMode = true;
-            }
-            for (int i = 0; i < list.size() && popupInfo.autoFocusEditText; i++) {
-                final EditText et = list.get(i);
-                et.setOnKeyListener(new BackPressListener());
-                if (i == 0 && !et.hasFocus()) {
-                    et.setFocusable(true);
-                    et.setFocusableInTouchMode(true);
-                    et.requestFocus();
-                    showSoftInput(et);
+                for (int i = 0; i < list.size(); i++) {
+                    final EditText et = list.get(i);
+                    if(popupInfo.autoFocusEditText){
+                        et.setFocusable(true);
+                        et.setFocusableInTouchMode(true);
+                        et.requestFocus();
+                        et.setOnKeyListener(new BackPressListener());
+                        if (popupInfo.autoOpenSoftInput) showSoftInput(et);
+                    }else {
+                        if (popupInfo.autoOpenSoftInput) showSoftInput(this);
+                    }
+                    break;
                 }
+            }else {
+                if (popupInfo.autoOpenSoftInput) showSoftInput(this);
             }
         }
     }
