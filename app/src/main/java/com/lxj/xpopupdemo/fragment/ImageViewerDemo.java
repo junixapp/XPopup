@@ -76,7 +76,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/92FA62C554C0A4B61251A5A2FCDD400B.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/7ECFF80AEDFF9D2771DAFB979D13513E.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/C12F6B62FF052BAB4844AB9A5A333F3C.jpg");
-        list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
+//        list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
     }
 
     RecyclerView recyclerView;
@@ -283,28 +283,28 @@ public class ImageViewerDemo extends BaseFragment {
         @Override
         public void loadImage(final int position, @NonNull final Object url, @NonNull final ImageView imageView) {
             //如果你确定你的图片没有超级大的，直接这样写就行
-//            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
 
             //如果你的图片可能存在超级大图，按下面这样写
-            Glide.with(imageView).asBitmap().load(url).apply(buildOptions()).into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                    int r = resource.getByteCount() / unit10M;
-                    if (resource != null && r >= 1) {
-//                        BitmapDrawable bd = (BitmapDrawable) resource;
-//                        int r = bd.getBitmap().getByteCount() / unit10M;
-                        int w = resource.getWidth() / r;
-                        int h = resource.getHeight() / r;
-                        Glide.with(imageView).load(url).apply(buildOptions().override(w, h)).into(imageView);
-                    } else {
-                        Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
-                    }
-                }
-
-                @Override
-                public void onLoadCleared(@Nullable Drawable placeholder) {
-                }
-            });
+//            Glide.with(imageView).asBitmap().load(url).apply(buildOptions()).into(new SimpleTarget<Bitmap>() {
+//                @Override
+//                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                    int r = resource.getByteCount() / unit10M;
+//                    if (resource != null && r >= 1) {
+////                        BitmapDrawable bd = (BitmapDrawable) resource;
+////                        int r = bd.getBitmap().getByteCount() / unit10M;
+//                        int w = resource.getWidth() / r;
+//                        int h = resource.getHeight() / r;
+//                        Glide.with(imageView).load(url).apply(buildOptions().override(w, h)).into(imageView);
+//                    } else {
+//                        Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
+//                    }
+//                }
+//
+//                @Override
+//                public void onLoadCleared(@Nullable Drawable placeholder) {
+//                }
+//            });
         }
 
         @Override

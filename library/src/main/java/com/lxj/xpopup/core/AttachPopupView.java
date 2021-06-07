@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
@@ -17,7 +16,6 @@ import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.lxj.xpopup.widget.PartShadowContainer;
 
 /**
  * Description: 依附于某个View的弹窗，弹窗会出现在目标的上方或下方，如果你想要出现在目标的左边或者右边，请使用HorizontalAttachPopupView。
@@ -53,7 +51,7 @@ public abstract class AttachPopupView extends BasePopupView {
         super.initPopupContent();
         if (attachPopupContainer.getChildCount() == 0) addInnerContent();
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
-            throw new IllegalArgumentException("atView() or watchView() must be call for AttachPopupView before show()！");
+            throw new IllegalArgumentException("atView() or watchView() must be called for AttachPopupView before show()！");
 
         defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;
@@ -76,30 +74,30 @@ public abstract class AttachPopupView extends BasePopupView {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 //优先使用implView的背景
                 if (getPopupImplView().getBackground() != null) {
-                    //复制一份
+                    //复制一份，为了阴影效果
                     Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
                     if (constantState != null) {
-                        Drawable newDrawable = constantState.newDrawable();
+                        Drawable newDrawable = constantState.newDrawable(getResources());
                         attachPopupContainer.setBackground(newDrawable);
                         getPopupImplView().setBackground(null);
                     }
                 } else {
-                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
-                            : R.color._xpopup_light_color), popupInfo.borderRadius));
+                    //不再设置默认背景
+//                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
+//                            : R.color._xpopup_light_color), popupInfo.borderRadius));
                 }
                 attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
-
             } else {
                 //优先使用implView的背景
                 if (getPopupImplView().getBackground() == null) {
-                    defaultOffsetX -= bgDrawableMargin;
-                    defaultOffsetY -= bgDrawableMargin;
-                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
-                            : R.color._xpopup_light_color), popupInfo.borderRadius));
+//                    defaultOffsetX -= bgDrawableMargin;
+//                    defaultOffsetY -= bgDrawableMargin;
+//                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
+//                            : R.color._xpopup_light_color), popupInfo.borderRadius));
                 } else {
                     Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
                     if (constantState != null) {
-                        Drawable newDrawable = constantState.newDrawable();
+                        Drawable newDrawable = constantState.newDrawable(getResources());
                         attachPopupContainer.setBackground(newDrawable);
                         getPopupImplView().setBackground(null);
                     }

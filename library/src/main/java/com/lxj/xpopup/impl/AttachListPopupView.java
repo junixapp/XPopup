@@ -14,6 +14,7 @@ import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import java.util.Arrays;
 
@@ -94,6 +95,8 @@ public class AttachListPopupView extends AttachPopupView {
             }else {
                 applyLightTheme();
             }
+            attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
+                            : R.color._xpopup_light_color), popupInfo.borderRadius));
         }
     }
 

@@ -88,10 +88,6 @@ public class CustomPopupDemo extends BaseFragment {
                 }
             });
         }
-        protected void onShow() {
-            super.onShow();
-        }
-
 //        @Override
 //        protected int getMaxHeight() {
 //            return 200;

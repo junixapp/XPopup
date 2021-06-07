@@ -339,7 +339,7 @@ public class XPopup {
 
         /**
          * 设置是否显示导航栏，默认是显示的。如果你的APP主动隐藏了导航栏，你需要设置为false，不然看起来
-         * 会有点不和谐
+         * 会有点不和谐；默认情况下不需要调用
          *
          * @param hasNavigationBar
          * @return
@@ -350,7 +350,8 @@ public class XPopup {
         }
 
         /**
-         * 设置导航栏的颜色，如果你想自定义弹窗的导航栏颜色就设置这个。默认情况下不需要
+         * 设置导航栏的颜色，如果你的APP修改了导航栏的颜色，你可能需要调用这个方法设置为相同的颜色；
+         * 否则弹窗的导航栏颜色会和App的导航颜色不一致；默认情况下不需要调用
          *
          * @param navigationBarColor
          * @return
