@@ -272,9 +272,11 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             ArrayList<EditText> list = new ArrayList<>();
             XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
             if(list.size()>0) {
-                preSoftMode = getHostWindow().getAttributes().softInputMode;
-                getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                hasModifySoftMode = true;
+                if(popupInfo.isViewMode){
+                    preSoftMode = getHostWindow().getAttributes().softInputMode;
+                    getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    hasModifySoftMode = true;
+                }
                 for (int i = 0; i < list.size(); i++) {
                     final EditText et = list.get(i);
                     if(popupInfo.autoFocusEditText){
@@ -580,7 +582,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 dismissWithRunnable.run();
                 dismissWithRunnable = null;//no cache, avoid some bad edge effect.
             }
-            if (popupInfo.isRequestFocus) {
+            if (popupInfo.isRequestFocus && popupInfo.isViewMode) {
                 // 让根布局拿焦点，避免布局内RecyclerView类似布局获取焦点导致布局滚动
                 if (getWindowDecorView() != null) {
                     View needFocusView = getWindowDecorView().findViewById(android.R.id.content);

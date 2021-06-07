@@ -1,7 +1,6 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -107,6 +106,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 /*if(popupView==null)*/popupView = new XPopup.Builder(getContext())
 //                        .hasNavigationBar(false)
                         .isDestroyOnDismiss(true)
+                        .autoOpenSoftInput(true)
 //                        .navigationBarColor(Color.BLUE)
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
