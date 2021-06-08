@@ -46,7 +46,8 @@ public class XPopup {
      **/
     private static int primaryColor = Color.parseColor("#121212");
     private static int animationDuration = 350;
-    public static int statusBarShadowColor = Color.parseColor("#55000000");
+    private static int statusBarBgColor = Color.parseColor("#55000000");
+    private static int navigationBarColor = 0;
     private static int shadowBgColor = Color.parseColor("#7F000000");
 
     /**
@@ -58,6 +59,32 @@ public class XPopup {
     }
     public static int getShadowBgColor() {
         return shadowBgColor;
+    }
+
+    /**
+     * 设置全局的状态栏背景颜色
+     *
+     * @param color
+     */
+    public static void setStatusBarBgColor(int color) {
+        statusBarBgColor = color;
+    }
+
+    public static int getStatusBarBgColor() {
+        return statusBarBgColor;
+    }
+
+    /**
+     * 设置全局的导航栏栏背景颜色
+     *
+     * @param color
+     */
+    public static void setNavigationBarColor(int color) {
+        navigationBarColor = color;
+    }
+
+    public static int getNavigationBarColor() {
+        return navigationBarColor;
     }
 
     /**
@@ -358,6 +385,17 @@ public class XPopup {
          */
         public Builder navigationBarColor(int navigationBarColor) {
             this.popupInfo.navigationBarColor = navigationBarColor;
+            return this;
+        }
+
+        /**
+         * 设置状态栏栏的颜色，目前只对全屏弹窗和Drawer弹窗有效，其他弹窗
+         * XPopup强制将状态栏设置为透明了
+         * @param statusBarBgColor
+         * @return
+         */
+        public Builder statusBarBgColor(int statusBarBgColor) {
+            this.popupInfo.statusBarBgColor = statusBarBgColor;
             return this;
         }
 

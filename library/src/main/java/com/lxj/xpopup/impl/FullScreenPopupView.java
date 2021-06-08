@@ -77,8 +77,8 @@ public class FullScreenPopupView extends BasePopupView {
         if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             //状态栏渐变动画
             ValueAnimator animator = ValueAnimator.ofObject(argbEvaluator,
-                    isShow ? Color.TRANSPARENT : XPopup.statusBarShadowColor,
-                    isShow ? XPopup.statusBarShadowColor : Color.TRANSPARENT);
+                    isShow ? Color.TRANSPARENT : getStatusBarBgColor(),
+                    isShow ? getStatusBarBgColor() : Color.TRANSPARENT);
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {

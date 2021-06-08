@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.util.FuckRomUtils;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -41,8 +42,7 @@ public class FullScreenDialog extends Dialog {
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-        |WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE );
 
         //设置全屏
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -66,7 +66,8 @@ public class FullScreenDialog extends Dialog {
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-            if(contentView.popupInfo.navigationBarColor!=0)getWindow().setNavigationBarColor(contentView.popupInfo.navigationBarColor);
+            int navigationBarColor = getNavigationBarColor();
+            if(navigationBarColor!=0)getWindow().setNavigationBarColor(navigationBarColor);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); //尝试兼容部分手机上的状态栏空白问题
         }
         if(Build.VERSION.SDK_INT == 19){ //解决4.4上状态栏闪烁的问题
@@ -86,6 +87,11 @@ public class FullScreenDialog extends Dialog {
         //自动设置状态色调，亮色还是暗色
         autoSetStatusBarMode();
         setContentView(contentView);
+    }
+
+    private int getNavigationBarColor(){
+        return contentView.popupInfo.navigationBarColor==0 ? XPopup.getNavigationBarColor()
+                : contentView.popupInfo.navigationBarColor;
     }
 
     public boolean isFuckVIVORoom(){

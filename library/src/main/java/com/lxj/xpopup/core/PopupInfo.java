@@ -52,6 +52,7 @@ public class PopupInfo {
     public boolean isViewMode = false; //是否是View实现，默认是Dialog实现
     public int shadowBgColor = 0; //阴影背景的颜色
     public int animationDuration = -1; //动画的时长
+    public int statusBarBgColor = 0; //状态栏阴影颜色
     public View getAtView() {
         return atView;
     }

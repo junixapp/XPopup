@@ -90,7 +90,7 @@ public abstract class DrawerPopupView extends BasePopupView {
             if (shadowRect == null) {
                 shadowRect = new Rect(0, 0, getMeasuredWidth(), XPopupUtils.getStatusBarHeight());
             }
-            paint.setColor((Integer) argbEvaluator.evaluate(mFraction, defaultColor, XPopup.statusBarShadowColor));
+            paint.setColor((Integer) argbEvaluator.evaluate(mFraction, defaultColor, getStatusBarBgColor()));
             canvas.drawRect(shadowRect, paint);
         }
     }
@@ -98,8 +98,8 @@ public abstract class DrawerPopupView extends BasePopupView {
         if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             //状态栏渐变动画
             ValueAnimator animator = ValueAnimator.ofObject(argbEvaluator,
-                    isShow ? Color.TRANSPARENT : XPopup.statusBarShadowColor,
-                    isShow ? XPopup.statusBarShadowColor : Color.TRANSPARENT);
+                    isShow ? Color.TRANSPARENT : getStatusBarBgColor(),
+                    isShow ? getStatusBarBgColor() : Color.TRANSPARENT);
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
