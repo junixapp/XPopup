@@ -3,8 +3,6 @@ package com.lxj.xpopup.animator;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
-
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**

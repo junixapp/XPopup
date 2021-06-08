@@ -60,9 +60,7 @@ public abstract class DrawerPopupView extends BasePopupView {
                 doAfterDismiss();
             }
             @Override
-            public void onOpen() {
-                doAfterShow();
-            }
+            public void onOpen() {}
             @Override
             public void onDrag(int x, float fraction, boolean isToLeft) {
                 drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
@@ -109,11 +107,6 @@ public abstract class DrawerPopupView extends BasePopupView {
             });
             animator.setDuration(getAnimationDuration()).start();
         }
-    }
-    @Override
-    protected void doAfterShow() {
-        handler.removeCallbacks(doAfterShowTask);
-        handler.postDelayed(doAfterShowTask, 0);
     }
 
     @Override

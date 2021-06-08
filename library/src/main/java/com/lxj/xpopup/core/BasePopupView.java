@@ -279,16 +279,17 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 }
                 for (int i = 0; i < list.size(); i++) {
                     final EditText et = list.get(i);
-                    if(popupInfo.autoFocusEditText){
-                        et.setFocusable(true);
-                        et.setFocusableInTouchMode(true);
-                        et.requestFocus();
-                        et.setOnKeyListener(new BackPressListener());
-                        if (popupInfo.autoOpenSoftInput) showSoftInput(et);
-                    }else {
-                        if (popupInfo.autoOpenSoftInput) showSoftInput(this);
+                    et.setOnKeyListener(new BackPressListener());
+                    if(i==0){
+                        if(popupInfo.autoFocusEditText){
+                            et.setFocusable(true);
+                            et.setFocusableInTouchMode(true);
+                            et.requestFocus();
+                            if (popupInfo.autoOpenSoftInput) showSoftInput(et);
+                        }else {
+                            if (popupInfo.autoOpenSoftInput) showSoftInput(this);
+                        }
                     }
-                    break;
                 }
             }else {
                 if (popupInfo.autoOpenSoftInput) showSoftInput(this);

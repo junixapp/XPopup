@@ -1,6 +1,7 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +68,7 @@ public class BottomPopupView extends BasePopupView {
             }
 
             @Override
-            public void onOpen() {
-                doAfterShow();
-            }
+            public void onOpen() { }
         });
 
         bottomPopupContainer.setOnClickListener(new OnClickListener() {
@@ -80,11 +79,11 @@ public class BottomPopupView extends BasePopupView {
         });
     }
 
-    @Override
-    protected void doAfterShow() {
-        handler.removeCallbacks(doAfterShowTask);
-        handler.postDelayed(doAfterShowTask, 0);
-    }
+//    @Override
+//    protected void doAfterShow() {
+//        handler.removeCallbacks(doAfterShowTask);
+//        handler.postDelayed(doAfterShowTask, 0);
+//    }
 
     @Override
     public void doShowAnimation() {

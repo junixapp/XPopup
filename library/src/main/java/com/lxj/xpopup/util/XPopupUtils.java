@@ -29,7 +29,6 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +37,7 @@ import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.FloatRange;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -51,7 +48,6 @@ import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -134,7 +130,6 @@ public class XPopupUtils {
         content.post(new Runnable() {
             @Override
             public void run() {
-                Log.e("tag", "maxH: "+ maxHeight);
                 ViewGroup.LayoutParams params = content.getLayoutParams();
                 View implView = content.getChildAt(0);
                 ViewGroup.LayoutParams implParams = implView.getLayoutParams();

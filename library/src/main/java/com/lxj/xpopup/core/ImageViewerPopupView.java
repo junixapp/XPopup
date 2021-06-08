@@ -17,7 +17,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.transition.ChangeBounds;
@@ -30,7 +29,6 @@ import androidx.transition.TransitionSet;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
@@ -42,7 +40,6 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,23 +168,19 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     }
 
     @Override
-    protected void doAfterShow() {
-        //do nothing self.
-    }
-
-    @Override
     public void doShowAnimation() {
         if (srcView == null) {
             photoViewContainer.setBackgroundColor(bgColor);
             pager.setVisibility(VISIBLE);
             showPagerIndicator();
             photoViewContainer.isReleasing = false;
-            ImageViewerPopupView.super.doAfterShow();
+            doAfterShow();
             return;
         }
         photoViewContainer.isReleasing = true;
         if (customView != null) customView.setVisibility(VISIBLE);
         snapshotView.setVisibility(VISIBLE);
+        doAfterShow();
         snapshotView.post(new Runnable() {
             @Override
             public void run() {
@@ -204,7 +197,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                                 snapshotView.setVisibility(INVISIBLE);
                                 showPagerIndicator();
                                 photoViewContainer.isReleasing = false;
-                                ImageViewerPopupView.super.doAfterShow();
                             }
                         }));
                 snapshotView.setTranslationY(0);
@@ -250,6 +242,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         pager.setVisibility(INVISIBLE);
         photoViewContainer.isReleasing = true;
         snapshotView.setVisibility(VISIBLE);
+        doAfterDismiss();
         snapshotView.post(new Runnable() {
             @Override
             public void run() {
@@ -262,7 +255,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         .addListener(new TransitionListenerAdapter() {
                             @Override
                             public void onTransitionEnd(@NonNull Transition transition) {
-                                doAfterDismiss();
                                 pager.setVisibility(INVISIBLE);
                                 snapshotView.setVisibility(VISIBLE);
                                 pager.setScaleX(1f);
@@ -296,11 +288,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         });
 
     }
-
-//    @Override
-//    public int getAnimationDuration() {
-//        return 0;
-//    }
 
     @Override
     public void dismiss() {
