@@ -127,10 +127,10 @@ public class FullScreenDialog extends Dialog {
     public void autoSetStatusBarMode() {
         //隐藏状态栏
         if (!contentView.popupInfo.hasStatusBar) {
-            getWindow().setFlags(
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            return;
+            final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+            final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|
+                        View.SYSTEM_UI_FLAG_FULLSCREEN;
+            getWindow().getDecorView().setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();

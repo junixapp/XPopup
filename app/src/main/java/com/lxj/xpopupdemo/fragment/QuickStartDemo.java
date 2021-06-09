@@ -335,7 +335,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
                 new XPopup.Builder(getContext())
-                        .hasStatusBarShadow(true)
+                        .hasStatusBar(false)
+                        .hasStatusBarShadow(false)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
