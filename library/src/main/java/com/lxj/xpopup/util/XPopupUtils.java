@@ -42,6 +42,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.core.BubbleAttachPopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopup.core.PositionPopupView;
@@ -236,7 +237,7 @@ public class XPopupUtils {
     private static void moveUpToKeyboardInternal(int keyboardHeight, BasePopupView pv) {
         if (pv.popupInfo == null || !pv.popupInfo.isMoveUpToKeyboard) return;
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PositionPopupView || pv instanceof AttachPopupView ) {
+        if (pv instanceof PositionPopupView || pv instanceof AttachPopupView || pv instanceof BubbleAttachPopupView) {
             return;
         }
         //判断是否盖住输入框
@@ -331,8 +332,7 @@ public class XPopupUtils {
     //    public static HashMap
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PositionPopupView) return;
-        if (pv instanceof AttachPopupView) return;
+        if (pv instanceof PositionPopupView || pv instanceof AttachPopupView || pv instanceof BubbleAttachPopupView) return;
         if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) {
             pv.getPopupImplView().animate().translationY(0)
                     .setDuration(100).start();

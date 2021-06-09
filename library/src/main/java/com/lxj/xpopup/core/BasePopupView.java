@@ -37,10 +37,8 @@ import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
 
 /**
@@ -52,7 +50,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
     protected BlurAnimator blurAnimator;
-    private int touchSlop;
+    private final int touchSlop;
     public PopupStatus popupStatus = PopupStatus.Dismiss;
     protected boolean isCreated = false;
     private boolean hasModifySoftMode = false;
@@ -164,7 +162,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         }
 
         //1. 初始化Popup
-        if (this instanceof AttachPopupView || this instanceof PartShadowPopupView || this instanceof PositionPopupView) {
+        if (this instanceof AttachPopupView || this instanceof BubbleAttachPopupView
+                || this instanceof PartShadowPopupView || this instanceof PositionPopupView) {
             initPopupContent();
         } else if (!isCreated) {
             initPopupContent();
@@ -185,8 +184,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
             if (!(BasePopupView.this instanceof FullScreenPopupView)) focusAndProcessBackPress();
 
-            //由于Attach弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
-            if (!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof PositionPopupView)
+            //由于部分弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
+            if (!(BasePopupView.this instanceof AttachPopupView) && !(BasePopupView.this instanceof BubbleAttachPopupView)
+                    && !(BasePopupView.this instanceof PositionPopupView)
                     && !(BasePopupView.this instanceof PartShadowPopupView)) {
                 initAnimator();
 

@@ -2,44 +2,41 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
-import com.lxj.xpopup.animator.ScrollScaleAnimator;
+import com.lxj.xpopup.animator.ScaleAlphaAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.BubbleLayout;
 
 /**
- * Description: 依附于某个View的弹窗，弹窗会出现在目标的上方或下方，如果你想要出现在目标的左边或者右边，请使用HorizontalAttachPopupView。
- * 支持通过popupPosition()方法手动指定想要出现在目标的上边还是下边，但是对Left和Right则不生效。
- * Create by dance, at 2018/12/11
+ * Description: 带气泡背景的Attach弹窗
  */
-public abstract class AttachPopupView extends BasePopupView {
+public abstract class BubbleAttachPopupView extends BasePopupView {
     protected int defaultOffsetY = 0;
     protected int defaultOffsetX = 0;
-    protected FrameLayout attachPopupContainer;
+    protected BubbleLayout bubbleContainer;
 
-    public AttachPopupView(@NonNull Context context) {
+    public BubbleAttachPopupView(@NonNull Context context) {
         super(context);
-        attachPopupContainer = findViewById(R.id.attachPopupContainer);
+        bubbleContainer = findViewById(R.id.bubbleContainer);
     }
 
     protected void addInnerContent() {
-        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), attachPopupContainer, false);
-        attachPopupContainer.addView(contentView);
+        View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), bubbleContainer, false);
+        bubbleContainer.addView(contentView);
     }
 
     @Override
     protected int getPopupLayoutId() {
-        return R.layout._xpopup_attach_popup_view;
+        return R.layout._xpopup_bubble_attach_popup_view;
     }
 
     public boolean isShowUp;
@@ -48,16 +45,16 @@ public abstract class AttachPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        if (attachPopupContainer.getChildCount() == 0) addInnerContent();
+        if (bubbleContainer.getChildCount() == 0) addInnerContent();
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
-            throw new IllegalArgumentException("atView() or watchView() must be called for AttachPopupView before show()！");
-
-        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 2) : popupInfo.offsetY;
+            throw new IllegalArgumentException("atView() or watchView() must be called for BubbleAttachPopupView before show()！");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            bubbleContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
+        }
+        defaultOffsetY = popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;
-
-        attachPopupContainer.setTranslationX(popupInfo.offsetX);
-        attachPopupContainer.setTranslationY(popupInfo.offsetY);
-        applyBg();
+        bubbleContainer.setTranslationX(popupInfo.offsetX);
+        bubbleContainer.setTranslationY(popupInfo.offsetY);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(),getPopupHeight(), new Runnable() {
             @Override
@@ -67,38 +64,6 @@ public abstract class AttachPopupView extends BasePopupView {
         });
     }
 
-    protected void applyBg() {
-        if (!isCreated) {
-            //实现shadow
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //优先使用implView的背景
-                if (getPopupImplView().getBackground() != null) {
-                    //复制一份，为了阴影效果
-                    Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
-                    if (constantState != null) {
-                        Drawable newDrawable = constantState.newDrawable(getResources());
-                        attachPopupContainer.setBackground(newDrawable);
-                        getPopupImplView().setBackground(null);
-                    }
-                } else {
-                    //不再设置默认背景
-//                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
-//                            : R.color._xpopup_light_color), popupInfo.borderRadius));
-                }
-                attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
-            } else {
-                //优先使用implView的背景
-                if (getPopupImplView().getBackground() != null) {
-                    Drawable.ConstantState constantState = getPopupImplView().getBackground().getConstantState();
-                    if (constantState != null) {
-                        Drawable newDrawable = constantState.newDrawable(getResources());
-                        attachPopupContainer.setBackground(newDrawable);
-                        getPopupImplView().setBackground(null);
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * 执行倚靠逻辑
@@ -171,6 +136,25 @@ public abstract class AttachPopupView extends BasePopupView {
                     } else {
                         translationY = popupInfo.touchPoint.y + defaultOffsetY;
                     }
+                    //设置气泡相关
+                    if(isShowUpToTarget()){
+                        bubbleContainer.setLook(BubbleLayout.Look.BOTTOM);
+                    }else {
+                        bubbleContainer.setLook(BubbleLayout.Look.TOP);
+                    }
+                    if(popupInfo.isCenterHorizontal){
+                        bubbleContainer.setLookPositionCenter(true);
+                    }else {
+                        if(isShowLeft){
+                            //在目标左边，箭头在最右边
+                            bubbleContainer.setLookPosition(XPopupUtils.dp2px(getContext(),1));
+                        }else {
+                            //在目标右边，箭头在最开始
+                            bubbleContainer.setLookPosition(bubbleContainer.getMeasuredWidth()-XPopupUtils.dp2px(getContext(),1));
+                        }
+                    }
+                    bubbleContainer.invalidate();
+
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
@@ -246,6 +230,21 @@ public abstract class AttachPopupView extends BasePopupView {
                     } else {
                         translationY = rect.bottom + defaultOffsetY;
                     }
+
+                    //设置气泡相关
+                    if(isShowUpToTarget()){
+                        bubbleContainer.setLook(BubbleLayout.Look.BOTTOM);
+                    }else {
+                        bubbleContainer.setLook(BubbleLayout.Look.TOP);
+                    }
+                    //箭头对着目标View的中心
+                    if(popupInfo.isCenterHorizontal){
+                        bubbleContainer.setLookPositionCenter(true);
+                    }else {
+                        bubbleContainer.setLookPosition(rect.left + rect.width()/2 - (int)translationX);
+                    }
+                    bubbleContainer.invalidate();
+
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
@@ -271,18 +270,52 @@ public abstract class AttachPopupView extends BasePopupView {
                 && popupInfo.popupPosition != PopupPosition.Bottom;
     }
 
+    /**
+     * 设置气泡背景颜色
+     * @param color
+     * @return
+     */
+    public BubbleAttachPopupView setBubbleBgColor(int color){
+        bubbleContainer.setBubbleColor(color);
+        bubbleContainer.invalidate();
+        return this;
+    }
+
+    /**
+     * 设置气泡背景圆角
+     * @param radius
+     * @return
+     */
+    public BubbleAttachPopupView setBubbleRadius(int radius){
+        bubbleContainer.setBubbleRadius(radius);
+        bubbleContainer.invalidate();
+        return this;
+    }
+
+    /**
+     * 设置气泡箭头的宽度
+     * @param width
+     * @return
+     */
+    public BubbleAttachPopupView setArrowWidth(int width){
+        bubbleContainer.setLookWidth(width);
+        bubbleContainer.invalidate();
+        return this;
+    }
+
+    /**
+     * 设置气泡箭头的高度
+     * @param height
+     * @return
+     */
+    public BubbleAttachPopupView setArrowHeight(int height){
+        bubbleContainer.setLookLength(height);
+        bubbleContainer.invalidate();
+        return this;
+    }
+
     @Override
     protected PopupAnimator getPopupAnimator() {
-        PopupAnimator animator;
-        if (isShowUpToTarget()) {
-            // 在上方展示
-            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), isShowLeft ? PopupAnimation.ScrollAlphaFromLeftBottom
-                    : PopupAnimation.ScrollAlphaFromRightBottom);
-        } else {
-            // 在下方展示
-            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), isShowLeft ? PopupAnimation.ScrollAlphaFromLeftTop
-                    : PopupAnimation.ScrollAlphaFromRightTop);
-        }
-        return animator;
+        return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(),PopupAnimation.ScaleAlphaFromCenter);
     }
 }

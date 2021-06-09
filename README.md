@@ -73,6 +73,10 @@
 |:---:|:---:|
 |![](screenshot/background.gif)|![](screenshot/search.gif)|
 
+|气泡弹窗，横向和竖向已准备好！|
+|:---:|:---:|
+|![](screenshot/bubble.gif)|
+
 
 ## 快速体验
 

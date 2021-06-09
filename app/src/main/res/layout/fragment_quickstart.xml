@@ -11,12 +11,13 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <EditText
-            android:hint="测试输入框交互"
-            android:layout_marginBottom="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            <EditText
+                android:textColorHint="#111"
+                android:textSize="14sp"
+                android:hint="测试输入框交互"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/btnShowConfirm"
             android:layout_width="match_parent"
@@ -166,6 +167,30 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="自定义Attach弹窗"
+                android:textAllCaps="false" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnBubbleAttachPopup1"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="55dp"
+                android:layout_height="wrap_content"
+                android:text="横向带气泡Attach弹窗"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnBubbleAttachPopup2"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="垂直带气泡Attach弹窗"
                 android:textAllCaps="false" />
         </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.graphics.Rect;
+
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.XPopup;
@@ -10,19 +11,19 @@ import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.BubbleLayout;
 
 /**
- * Description: 水平方向的依附于某个View或者某个点的弹窗，可以轻松实现微信朋友圈点赞的弹窗效果。
- * 支持通过popupPosition()方法手动指定想要出现在目标的左边还是右边，但是对Top和Bottom则不生效。
- * Create by lxj, at 2019/3/13
+ * Description: 水平方向带气泡的Attach弹窗
  */
-public class HorizontalAttachPopupView extends AttachPopupView {
-    public HorizontalAttachPopupView(@NonNull Context context) {
+public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
+    public BubbleHorizontalAttachPopupView(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected void initPopupContent() {
+        bubbleContainer.setLook(BubbleLayout.Look.LEFT); //解决高度不正确的问题
         super.initPopupContent();
         defaultOffsetY = popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 2) : popupInfo.offsetX;
@@ -67,8 +68,17 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             }else {
                 translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
             }
-            translationY = rect.top + (rect.height()-h)/2 + defaultOffsetY;
+            translationY = rect.top + (rect.height()-h)/2f + defaultOffsetY;
         }
+        //设置气泡相关
+        if(isShowLeftToTarget()){
+            bubbleContainer.setLook(BubbleLayout.Look.RIGHT);
+        }else {
+            bubbleContainer.setLook(BubbleLayout.Look.LEFT);
+        }
+        bubbleContainer.setLookPositionCenter(true);
+        bubbleContainer.invalidate();
+
         getPopupContentView().setTranslationX(translationX);
         getPopupContentView().setTranslationY(translationY);
         initAndStartAnimation();
@@ -77,17 +87,5 @@ public class HorizontalAttachPopupView extends AttachPopupView {
     private boolean isShowLeftToTarget() {
         return (isShowLeft || popupInfo.popupPosition == PopupPosition.Left)
                 && popupInfo.popupPosition != PopupPosition.Right;
-    }
-
-    @Override
-    protected PopupAnimator getPopupAnimator() {
-        ScrollScaleAnimator animator;
-        if (isShowLeftToTarget()) {
-            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromRight);
-        } else {
-            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromLeft);
-        }
-        animator.isOnlyScaleX = true;
-        return animator;
     }
 }

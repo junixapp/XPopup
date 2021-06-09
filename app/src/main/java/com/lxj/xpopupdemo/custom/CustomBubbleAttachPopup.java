@@ -4,22 +4,21 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import com.blankj.utilcode.util.ToastUtils;
-import com.lxj.xpopup.core.AttachPopupView;
+import com.lxj.xpopup.core.BubbleAttachPopupView;
 import com.lxj.xpopupdemo.R;
 
 /**
- * Description: 自定义背景的Attach弹窗
+ * Description: 自定义气泡Attach弹窗
  * Create by lxj, at 2019/3/13
  */
-public class CustomAttachPopup2 extends AttachPopupView {
-    public CustomAttachPopup2(@NonNull Context context) {
+public class CustomBubbleAttachPopup extends BubbleAttachPopupView {
+    public CustomBubbleAttachPopup(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.custom_attach_popup2;
+        return R.layout.custom_bubble_attach_popup;
     }
 
     @Override
@@ -31,13 +30,9 @@ public class CustomAttachPopup2 extends AttachPopupView {
             public void onClick(View v) {
 //                tv.setText(tv.getText() + "\n 啊哈哈哈啊哈");
 //                tv.setText("\n 啊哈哈哈啊哈");
+                dismiss();
             }
         });
     }
 
-    @Override
-    public void doAttach() {
-        super.doAttach();
-        ToastUtils.showShort(isShowUpToTarget() ? "显示在上" : "显示在下");
-    }
 }

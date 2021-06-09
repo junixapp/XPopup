@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -19,14 +20,17 @@ import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopup.util.XPermission;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
+import com.lxj.xpopupdemo.custom.CustomBubbleAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
+import com.lxj.xpopupdemo.custom.CustomHorizontalBubbleAttachPopup;
 import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
@@ -68,9 +72,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.tv3).setOnClickListener(this);
         view.findViewById(R.id.btnMultiPopup).setOnClickListener(this);
         view.findViewById(R.id.btnShowInBackground).setOnClickListener(this);
+        view.findViewById(R.id.btnBubbleAttachPopup1).setOnClickListener(this);
+        view.findViewById(R.id.btnBubbleAttachPopup2).setOnClickListener(this);
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
         final XPopup.Builder builder = new XPopup.Builder(getContext())
+                .isCenterHorizontal(true)
                 .watchView(view.findViewById(R.id.btnShowAttachPoint));
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -306,13 +313,35 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnAttachPopup2:
-                if(customAttach2==null) customAttach2 = new CustomAttachPopup2(getContext());
+                /*if(customAttach2==null)*/ customAttach2 = new CustomAttachPopup2(getContext());
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
                         .isViewMode(true)
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(customAttach2)
+                        .show();
+                break;
+            case R.id.btnBubbleAttachPopup1: //水平方向带气泡弹窗
+                new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .atView(v)
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .asCustom(new CustomHorizontalBubbleAttachPopup(getContext()))
+                        .show();
+                break;
+            case R.id.btnBubbleAttachPopup2: //垂直方向带气泡弹窗
+                new XPopup.Builder(getContext())
+//                        .isCenterHorizontal(true)
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .atView(v)
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .asCustom(new CustomBubbleAttachPopup(getContext())
+//                                .setBubbleBgColor(Color.RED)
+//                                .setArrowWidth(XPopupUtils.dp2px(getContext(), 20))
+//                                .setArrowHeight(XPopupUtils.dp2px(getContext(), 20))
+//                                .setBubbleRadius(100)
+                        )
                         .show();
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
