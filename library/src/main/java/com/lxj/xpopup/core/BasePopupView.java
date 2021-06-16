@@ -182,6 +182,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             if (getHostWindow() == null) return;
             if (popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
+            beforeShow();
             if (!(BasePopupView.this instanceof FullScreenPopupView)) focusAndProcessBackPress();
 
             //由于部分弹窗有个位置设置过程，需要在位置设置完毕自己开启动画
@@ -222,7 +223,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             popupContentAnimator.initAnimator();
         }
     }
-
 
     private void detachFromHost() {
         if (popupInfo != null && popupInfo.isViewMode) {
@@ -666,11 +666,15 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     /**
-     * 开始消失的时候执行一次
+     * onDismiss之前执行一次
      */
     protected void beforeDismiss() {
     }
-
+    /**
+     * onCreated之后，onShow之前执行
+     */
+    protected void beforeShow() {
+    }
     /**
      * 显示动画执行完毕后执行
      */
