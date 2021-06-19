@@ -121,15 +121,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .isLightStatusBar(true)
 //                        .setPopupCallback(new DemoXPopupListener())
-                    .asCustom(new LoginPopup(requireContext()));
-//                        .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
-//                                "取消", "确定",
-//                                new OnConfirmListener() {
-//                                    @Override
-//                                    public void onConfirm() {
-//                                        ToastUtils.showShort("click confirm");
-//                                    }
-//                                }, null, false);
+                        .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+                                "取消", "确定",
+                                new OnConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        ToastUtils.showShort("click confirm");
+                                    }
+                                }, null, false);
                 popupView.show();
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
@@ -268,7 +267,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnPagerBottomPopup: //自定义的底部弹窗
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                        .isViewMode(true)
                         .asCustom(new PagerBottomPopup(getContext()))
                         .show();
                 break;
@@ -351,6 +350,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .asCustom(new CustomDrawerPopupView(getContext()))
 //                        .hasShadowBg(false)
+                        .isViewMode(true) //使用了Fragment，必须开启View模式
                         .asCustom(new PagerDrawerPopup(getContext()))
 //                        .asCustom(new ListDrawerPopupView(getContext()))
                         .show();

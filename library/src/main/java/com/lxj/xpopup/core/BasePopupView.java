@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -542,7 +543,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * 消失
      */
     public void dismiss() {
-        if (popupInfo != null && popupInfo.isViewMode) tryRemoveFragments();
         handler.removeCallbacks(attachTask);
         handler.removeCallbacks(initTask);
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
@@ -680,28 +680,22 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 消失动画执行完毕后执行
      */
-    protected void onDismiss() {
-    }
+    protected void onDismiss() { }
 
     /**
      * onDismiss之前执行一次
      */
-    protected void beforeDismiss() {
-    }
+    protected void beforeDismiss() { }
     /**
      * onCreated之后，onShow之前执行
      */
-    protected void beforeShow() {
-    }
+    protected void beforeShow() { }
     /**
      * 显示动画执行完毕后执行
      */
-    protected void onShow() {
-    }
+    protected void onShow() { }
 
-    protected void onKeyboardHeightChange(int height) {
-
-    }
+    protected void onKeyboardHeightChange(int height) { }
 
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
@@ -748,6 +742,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 getHostWindow().setSoftInputMode(preSoftMode);
                 hasModifySoftMode = false;
             }
+            if (popupInfo.isViewMode) tryRemoveFragments();
             if (popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
         }
         if (getContext() != null && getContext() instanceof FragmentActivity) {
