@@ -259,14 +259,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     };
 
     private ShowSoftInputTask showSoftInputTask;
-
+    private BackPressListener2 backPressListener = new BackPressListener2();
     public void focusAndProcessBackPress() {
         if (popupInfo!=null && popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             setFocusable(true);
             requestFocus();
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
-            setOnKeyListener(new BackPressListener());
+//            setOnKeyListener(new BackPressListener());
+            removeOnUnhandledKeyEventListener(backPressListener);
+            addOnUnhandledKeyEventListener(backPressListener);
 
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
@@ -279,7 +281,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 }
                 for (int i = 0; i < list.size(); i++) {
                     final EditText et = list.get(i);
-                    et.setOnKeyListener(new BackPressListener());
+                    et.removeOnUnhandledKeyEventListener(backPressListener);
+                    et.addOnUnhandledKeyEventListener(backPressListener);
+//                    et.setOnKeyListener(new BackPressListener());
                     if(i==0){
                         if(popupInfo.autoFocusEditText){
                             et.setFocusable(true);
@@ -328,10 +332,24 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         }
     }
 
-    class BackPressListener implements OnKeyListener {
+//    class BackPressListener implements OnKeyListener {
+//        @Override
+//        public boolean onKey(View v, int keyCode, KeyEvent event) {
+//            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo != null) {
+//                if (popupInfo.isDismissOnBackPressed &&
+//                        (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this))) {
+//                    dismissOrHideSoftInput();
+//                }
+//                return true;
+//            }
+//            return false;
+//        }
+//    }
+
+    class BackPressListener2 implements OnUnhandledKeyEventListener {
         @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo != null) {
+        public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo != null) {
                 if (popupInfo.isDismissOnBackPressed &&
                         (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this))) {
                     dismissOrHideSoftInput();

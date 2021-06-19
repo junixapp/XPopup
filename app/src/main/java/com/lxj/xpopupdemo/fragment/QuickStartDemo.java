@@ -32,6 +32,7 @@ import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.CustomHorizontalBubbleAttachPopup;
 import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
+import com.lxj.xpopupdemo.custom.LoginPopup;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
@@ -120,14 +121,15 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .isLightStatusBar(true)
 //                        .setPopupCallback(new DemoXPopupListener())
-                        .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
-                                "取消", "确定",
-                                new OnConfirmListener() {
-                                    @Override
-                                    public void onConfirm() {
-                                        ToastUtils.showShort("click confirm");
-                                    }
-                                }, null, false);
+                    .asCustom(new LoginPopup(requireContext()));
+//                        .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+//                                "取消", "确定",
+//                                new OnConfirmListener() {
+//                                    @Override
+//                                    public void onConfirm() {
+//                                        ToastUtils.showShort("click confirm");
+//                                    }
+//                                }, null, false);
                 popupView.show();
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
