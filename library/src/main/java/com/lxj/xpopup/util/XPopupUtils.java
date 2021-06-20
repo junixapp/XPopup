@@ -55,6 +55,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -585,4 +587,23 @@ public class XPopupUtils {
         return drawable;
     }
 
+    public static boolean hasSetKeyListener(View view){
+        try {
+            Class viewClazz = Class.forName("android.view.View");
+            Method listenerInfoMethod = viewClazz.getDeclaredMethod("getListenerInfo");
+            if (!listenerInfoMethod.isAccessible()) {
+                listenerInfoMethod.setAccessible(true);
+            }
+            Object listenerInfoObj = listenerInfoMethod.invoke(view);
+            Class listenerInfoClazz = Class.forName("android.view.View$ListenerInfo");
+            Field mOnKeyListenerField = listenerInfoClazz.getDeclaredField("mOnKeyListener");
+            if (!mOnKeyListenerField.isAccessible()) {
+                mOnKeyListenerField.setAccessible(true);
+            }
+            Object keyListener = mOnKeyListenerField.get(listenerInfoObj);
+            return keyListener!=null;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

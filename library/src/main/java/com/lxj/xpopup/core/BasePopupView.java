@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -79,7 +79,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing)
             return this;
         popupStatus = PopupStatus.Showing;
-        if(popupInfo.isRequestFocus)KeyboardUtils.hideSoftInput(activity.getWindow());
+        if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
             return BasePopupView.this;
         handler.post(attachTask);
@@ -155,7 +155,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * 执行初始化
      */
     protected void init() {
-        if(shadowBgAnimator==null)shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
+        if (shadowBgAnimator == null)
+            shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
         if (popupInfo.hasBlurBg) {
             blurAnimator = new BlurAnimator(this, getShadowBgColor());
             blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
@@ -260,43 +261,58 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     };
 
     private ShowSoftInputTask showSoftInputTask;
-    private BackPressListener2 backPressListener = new BackPressListener2();
     public void focusAndProcessBackPress() {
-        if (popupInfo!=null && popupInfo.isRequestFocus) {
+        if (popupInfo != null && popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             setFocusable(true);
             requestFocus();
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
-//            setOnKeyListener(new BackPressListener());
-            removeOnUnhandledKeyEventListener(backPressListener);
-            addOnUnhandledKeyEventListener(backPressListener);
+            if (Build.VERSION.SDK_INT >= 28) {
+//                removeOnUnhandledKeyEventListener(backPressListener);
+                addOnUnhandledKeyEventListener(new OnUnhandledKeyEventListener() {
+                    @Override
+                    public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
+                        return processKeyEvent(event.getKeyCode(), event);
+                    }
+                });
+            } else {
+                setOnKeyListener(new BackPressListener());
+            }
 
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
             XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
-            if(list.size()>0) {
-                if(popupInfo.isViewMode){
+            if (list.size() > 0) {
+                if (popupInfo.isViewMode) {
                     preSoftMode = getHostWindow().getAttributes().softInputMode;
                     getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     hasModifySoftMode = true;
                 }
                 for (int i = 0; i < list.size(); i++) {
                     final EditText et = list.get(i);
-                    et.removeOnUnhandledKeyEventListener(backPressListener);
-                    et.addOnUnhandledKeyEventListener(backPressListener);
-//                    et.setOnKeyListener(new BackPressListener());
-                    if(i==0){
-                        if(popupInfo.autoFocusEditText){
+                    if (Build.VERSION.SDK_INT >= 28) {
+                        et.addOnUnhandledKeyEventListener(new OnUnhandledKeyEventListener() {
+                            @Override
+                            public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
+                                return processKeyEvent(event.getKeyCode(), event);
+                            }
+                        });
+                    }else {
+                        boolean hasSetKeyListener = XPopupUtils.hasSetKeyListener(et);
+                        if(!hasSetKeyListener) et.setOnKeyListener(new BackPressListener());
+                    }
+                    if (i == 0) {
+                        if (popupInfo.autoFocusEditText) {
                             et.setFocusable(true);
                             et.setFocusableInTouchMode(true);
                             et.requestFocus();
                             if (popupInfo.autoOpenSoftInput) showSoftInput(et);
-                        }else {
+                        } else {
                             if (popupInfo.autoOpenSoftInput) showSoftInput(this);
                         }
                     }
                 }
-            }else {
+            } else {
                 if (popupInfo.autoOpenSoftInput) showSoftInput(this);
             }
         }
@@ -322,42 +338,34 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
     static class ShowSoftInputTask implements Runnable {
         View focusView;
+
         public ShowSoftInputTask(View focusView) {
             this.focusView = focusView;
         }
+
         @Override
         public void run() {
-            if (focusView != null ) {
+            if (focusView != null) {
                 KeyboardUtils.showSoftInput(focusView);
             }
         }
     }
 
-//    class BackPressListener implements OnKeyListener {
-//        @Override
-//        public boolean onKey(View v, int keyCode, KeyEvent event) {
-//            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo != null) {
-//                if (popupInfo.isDismissOnBackPressed &&
-//                        (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this))) {
-//                    dismissOrHideSoftInput();
-//                }
-//                return true;
-//            }
-//            return false;
-//        }
-//    }
-
-    class BackPressListener2 implements OnUnhandledKeyEventListener {
-        @Override
-        public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
-            if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo != null) {
-                if (popupInfo.isDismissOnBackPressed &&
-                        (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this))) {
-                    dismissOrHideSoftInput();
-                }
-                return true;
+    protected boolean processKeyEvent(int keyCode, KeyEvent event){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo != null) {
+            if (popupInfo.isDismissOnBackPressed &&
+                    (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this))) {
+                dismissOrHideSoftInput();
             }
-            return false;
+            return true;
+        }
+        return false;
+    }
+
+    class BackPressListener implements OnKeyListener {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            return processKeyEvent(keyCode, event);
         }
     }
 
@@ -425,7 +433,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 请使用onCreate，主要给弹窗内部用，不要去重写。
      */
-    protected void initPopupContent() { }
+    protected void initPopupContent() {
+    }
 
     /**
      * do init.
@@ -485,17 +494,17 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public int getAnimationDuration() {
-        if(popupInfo==null) return 0;
-        if(popupInfo.popupAnimation == NoAnimation) return 1;
+        if (popupInfo == null) return 0;
+        if (popupInfo.popupAnimation == NoAnimation) return 1;
         return popupInfo.animationDuration >= 0 ? popupInfo.animationDuration : XPopup.getAnimationDuration() + 1;
     }
 
-    public int getShadowBgColor(){
-        return popupInfo!=null && popupInfo.shadowBgColor!=0 ? popupInfo.shadowBgColor : XPopup.getShadowBgColor();
+    public int getShadowBgColor() {
+        return popupInfo != null && popupInfo.shadowBgColor != 0 ? popupInfo.shadowBgColor : XPopup.getShadowBgColor();
     }
 
-    public int getStatusBarBgColor(){
-        return popupInfo!=null && popupInfo.statusBarBgColor!=0 ? popupInfo.statusBarBgColor : XPopup.getStatusBarBgColor();
+    public int getStatusBarBgColor() {
+        return popupInfo != null && popupInfo.statusBarBgColor != 0 ? popupInfo.statusBarBgColor : XPopup.getStatusBarBgColor();
     }
 
 
@@ -680,22 +689,29 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 消失动画执行完毕后执行
      */
-    protected void onDismiss() { }
+    protected void onDismiss() {
+    }
 
     /**
      * onDismiss之前执行一次
      */
-    protected void beforeDismiss() { }
+    protected void beforeDismiss() {
+    }
+
     /**
      * onCreated之后，onShow之前执行
      */
-    protected void beforeShow() { }
+    protected void beforeShow() {
+    }
+
     /**
      * 显示动画执行完毕后执行
      */
-    protected void onShow() { }
+    protected void onShow() {
+    }
 
-    protected void onKeyboardHeightChange(int height) { }
+    protected void onKeyboardHeightChange(int height) {
+    }
 
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
