@@ -207,6 +207,8 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - Bookista(https://play.google.com/store/apps/details?id=com.latinoriente.bookista)
 - 伊的家商城项目
 - 点点日记（常州市宏域网络有限公司）
+- 职小新
+- 指南帮
 
 
 ## 打个赏
