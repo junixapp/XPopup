@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -95,6 +96,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
                 public void onSoftInputChanged(int height) {
+                    Log.e("tag", "onSoftInputChanged: "+height);
                     onKeyboardHeightChange(height);
                     if (popupInfo != null && popupInfo.xPopupCallback != null) {
                         popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this, height);
@@ -454,7 +456,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      */
     protected void doShowAnimation() {
         if (popupInfo == null) return;
-        if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg) {
+        if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg && shadowBgAnimator!=null) {
             shadowBgAnimator.animateShow();
         } else if (popupInfo.hasBlurBg && blurAnimator != null) {
             blurAnimator.animateShow();

@@ -210,6 +210,8 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 职小新
 - 指南帮
 - FateU（https://fateu.com.cn/download/fateuApp.apk)
+- 皮皮有料（嘉兴市字符律动互联网科技有限责任公司 下载地址：https://www.pgyer.com/wakagaoxiao）
+
 
 
 ## 打个赏

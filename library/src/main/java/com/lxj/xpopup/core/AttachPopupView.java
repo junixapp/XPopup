@@ -112,6 +112,7 @@ public abstract class AttachPopupView extends BasePopupView {
     public void doAttach() {
         maxY = XPopupUtils.getAppHeight(getContext()) - overflow;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
+        if(popupInfo==null)return;
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
