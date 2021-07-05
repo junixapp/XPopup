@@ -36,7 +36,8 @@ public class FullScreenDialog extends Dialog {
                 getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             }
         }
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().setBackgroundDrawable(null);
+//        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         getWindow().getDecorView().setPadding(0, 0, 0, 0);
         getWindow().setFlags(
