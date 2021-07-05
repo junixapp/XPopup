@@ -30,7 +30,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getPopupLayoutId() {
+    protected int getInnerLayoutId() {
         return R.layout._xpopup_partshadow_popup_view;
     }
     protected void addInnerContent() {

@@ -38,7 +38,7 @@ public abstract class AttachPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getPopupLayoutId() {
+    protected int getInnerLayoutId() {
         return R.layout._xpopup_attach_popup_view;
     }
 

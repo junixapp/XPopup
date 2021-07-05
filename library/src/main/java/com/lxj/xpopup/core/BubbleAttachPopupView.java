@@ -35,7 +35,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getPopupLayoutId() {
+    protected int getInnerLayoutId() {
         return R.layout._xpopup_bubble_attach_popup_view;
     }
 

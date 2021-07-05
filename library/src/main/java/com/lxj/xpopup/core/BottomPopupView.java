@@ -30,7 +30,7 @@ public class BottomPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getPopupLayoutId() {
+    protected int getInnerLayoutId() {
         return R.layout._xpopup_bottom_popup_view;
     }
 

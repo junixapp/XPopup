@@ -65,7 +65,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             throw new IllegalArgumentException("XPopup的Context必须是Activity类型！");
         }
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        View contentView = LayoutInflater.from(context).inflate(getPopupLayoutId(), this, false);
+        View contentView = LayoutInflater.from(context).inflate(getInnerLayoutId(), this, false);
         // 事先隐藏，等测量完毕恢复，避免影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
@@ -410,7 +410,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         return null;
     }
 
-    protected abstract int getPopupLayoutId();
+    protected abstract int getInnerLayoutId();
 
     /**
      * 如果你自己继承BasePopupView来做，这个不用实现

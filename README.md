@@ -209,6 +209,7 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 点点日记（常州市宏域网络有限公司）
 - 职小新
 - 指南帮
+- FateU（https://fateu.com.cn/download/fateuApp.apk)
 
 
 ## 打个赏

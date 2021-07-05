@@ -31,7 +31,7 @@ public class FullScreenPopupView extends BasePopupView {
         fullPopupContainer = findViewById(R.id.fullPopupContainer);
     }
     @Override
-    protected int getPopupLayoutId() {
+    protected int getInnerLayoutId() {
         return R.layout._xpopup_fullscreen_popup_view;
     }
     protected void addInnerContent(){
