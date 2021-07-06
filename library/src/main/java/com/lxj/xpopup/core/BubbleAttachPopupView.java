@@ -51,6 +51,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             bubbleContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
         }
+        bubbleContainer.setShadowRadius(XPopupUtils.dp2px(getContext(), 3f));
         defaultOffsetY = popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;
         bubbleContainer.setTranslationX(popupInfo.offsetX);
