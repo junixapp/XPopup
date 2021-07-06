@@ -78,7 +78,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
         final XPopup.Builder builder = new XPopup.Builder(getContext())
-                .isCenterHorizontal(true)
+//                .isCenterHorizontal(true)
                 .watchView(view.findViewById(R.id.btnShowAttachPoint));
         view.findViewById(R.id.btnShowAttachPoint).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -275,7 +275,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-                attachPopupView = new XPopup.Builder(getContext())
+                AttachPopupView attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
                         .isClickThrough(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个

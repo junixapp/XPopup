@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -192,8 +193,14 @@ public abstract class AttachPopupView extends BasePopupView {
             boolean isTallerThanWindowHeight = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY;
             centerY = (rect.top + rect.bottom) / 2;
             if (isTallerThanWindowHeight) {
-                //超出可用大小就显示在上方
-                isShowUp = true;
+                //超出下方可用大小，但未超出上方可用区域就显示在上方
+                int upAvailableSpace = rect.top - XPopupUtils.getStatusBarHeight() - overflow;
+                if(getPopupContentView().getMeasuredHeight() > upAvailableSpace){
+                    //如果也超出了上方可用区域则哪里空间大显示在哪个方向
+                    isShowUp = upAvailableSpace > (maxY-rect.bottom) ;
+                }else {
+                    isShowUp = true;
+                }
 //                isShowUp = centerY > XPopupUtils.getScreenHeight(getContext()) / 2;
             } else {
                 isShowUp = false;
