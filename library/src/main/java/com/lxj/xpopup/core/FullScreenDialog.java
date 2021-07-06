@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -50,11 +49,9 @@ public class FullScreenDialog extends Dialog {
         getWindow().getDecorView().setSystemUiVisibility(option);
 
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         if(isFuckVIVORoom()){
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
-            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
-                    XPopupUtils.getScreenHeight(getContext())));
-        }else {
             getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
                     XPopupUtils.getScreenHeight(getContext())));
         }
@@ -66,10 +63,10 @@ public class FullScreenDialog extends Dialog {
 
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
             int navigationBarColor = getNavigationBarColor();
             if(navigationBarColor!=0)getWindow().setNavigationBarColor(navigationBarColor);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); //尝试兼容部分手机上的状态栏空白问题
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         if(Build.VERSION.SDK_INT == 19){ //解决4.4上状态栏闪烁的问题
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -96,9 +93,9 @@ public class FullScreenDialog extends Dialog {
     }
 
     public boolean isFuckVIVORoom(){
-        //vivo的X开头的8.0和8.1系统特殊，不需要处理
-        boolean isXModel = android.os.Build.MODEL.contains("X") || android.os.Build.MODEL.contains("x") ;
-        return FuckRomUtils.isVivo() && (Build.VERSION.SDK_INT == 26 || Build.VERSION.SDK_INT == 27) && !isXModel;
+        //vivo的Y开头的8.0和8.1系统特殊(y91 y85 y97)：dialog无法覆盖到状态栏，并且坐标系下移了一个状态栏的距离
+        boolean isYModel = android.os.Build.MODEL.contains("Y") || android.os.Build.MODEL.contains("y") ;
+        return FuckRomUtils.isVivo() && (Build.VERSION.SDK_INT == 26 || Build.VERSION.SDK_INT == 27) && isYModel;
     }
 
     public boolean isActivityStatusBarLightMode() {
