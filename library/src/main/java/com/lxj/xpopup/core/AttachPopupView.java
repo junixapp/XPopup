@@ -136,7 +136,7 @@ public abstract class AttachPopupView extends BasePopupView {
                 params.height = maxHeight;
             }
             if (getPopupContentView().getMeasuredWidth() > maxWidth) {
-                params.width = maxWidth;
+                params.width = Math.max(maxWidth, getPopupWidth());
             }
             getPopupContentView().setLayoutParams(params);
 
@@ -216,7 +216,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     params.height = maxHeight;
                 }
                 if (getPopupContentView().getMeasuredWidth() > maxWidth) {
-                    params.width = maxWidth;
+                    params.width = Math.max(maxWidth, getPopupWidth());
                 }
                 getPopupContentView().setLayoutParams(params);
 //            }

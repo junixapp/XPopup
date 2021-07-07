@@ -48,6 +48,10 @@ public class PagerBottomPopup extends BottomPopupView {
         pager = findViewById(R.id.pager);
         FragmentActivity activity = (FragmentActivity) getContext();
         pager.setAdapter(new PAdapter(activity.getSupportFragmentManager()));
+
+//        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
+//        params.bottomMargin = 200;
+//        getPopupContentView().setLayoutParams(params);
     }
 
     @Override

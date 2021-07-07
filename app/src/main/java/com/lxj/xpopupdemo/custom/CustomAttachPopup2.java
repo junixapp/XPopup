@@ -6,6 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.core.AttachPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -33,6 +34,8 @@ public class CustomAttachPopup2 extends AttachPopupView {
 //                tv.setText("\n 啊哈哈哈啊哈");
             }
         });
+
+
     }
 
     @Override
@@ -40,4 +43,10 @@ public class CustomAttachPopup2 extends AttachPopupView {
         super.doAttach();
         ToastUtils.showShort(isShowUpToTarget() ? "显示在上" : "显示在下");
     }
+
+//    @Override
+//    protected int getPopupWidth() {
+//        return XPopupUtils.getWindowWidth(getContext());
+//    }
+
 }
