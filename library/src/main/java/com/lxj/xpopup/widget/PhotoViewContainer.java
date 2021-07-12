@@ -91,7 +91,9 @@ public class PhotoViewContainer extends FrameLayout {
     }
 
     private PhotoView getCurrentPhotoView(){
-        return  (PhotoView) viewPager.getChildAt(viewPager.getCurrentItem());
+        FrameLayout fl = (FrameLayout) viewPager.getChildAt(viewPager.getCurrentItem());
+        if(fl==null) return null;
+        return  (PhotoView) fl.getChildAt(0);
     }
 
     @Override

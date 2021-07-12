@@ -1,36 +1,19 @@
 package com.lxj.xpopupdemo.fragment;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
-
-import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
@@ -38,11 +21,9 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
-import com.lxj.xpopup.interfaces.XPopupImageLoader;
+import com.lxj.xpopup.util.SmartGlideImageLoader;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
-
-import java.io.File;
 
 import static com.lxj.xpopupdemo.Constants.list;
 
@@ -76,7 +57,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/92FA62C554C0A4B61251A5A2FCDD400B.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/7ECFF80AEDFF9D2771DAFB979D13513E.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/C12F6B62FF052BAB4844AB9A5A333F3C.jpg");
-//        list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
+        list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
     }
 
     RecyclerView recyclerView;
@@ -87,6 +68,27 @@ public class ImageViewerDemo extends BaseFragment {
 
     @Override
     public void init(final View view) {
+        view.findViewById(R.id.btnClear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ThreadUtils.executeByCached(new ThreadUtils.Task<Object>() {
+                    @Override
+                    public Object doInBackground() throws Throwable {
+                        Glide.get(requireContext()).clearDiskCache();
+                        Glide.get(requireContext()).clearMemory();
+                        return true;
+                    }
+                    @Override
+                    public void onSuccess(Object result) {
+                        ToastUtils.showShort("清理完毕");
+                    }
+                    @Override
+                    public void onCancel() { }
+                    @Override
+                    public void onFail(Throwable t) { }
+                });
+            }
+        });
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
         pager = view.findViewById(R.id.pager);
@@ -105,7 +107,7 @@ public class ImageViewerDemo extends BaseFragment {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
-                                , false, Color.BLACK, new ImageLoader(), new OnImageViewerLongPressListener() {
+                                , false, Color.BLACK, new SmartGlideImageLoader(), new OnImageViewerLongPressListener() {
                                     @Override
                                     public void onLongPressed(BasePopupView popupView, int position) {
                                         ToastUtils.showShort("长按了第" + position +"个图片");
@@ -118,7 +120,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
-                        .asImageViewer(image2, url2, new ImageLoader())
+                        .asImageViewer(image2, url2, new SmartGlideImageLoader())
                         .show();
             }
         });
@@ -135,7 +137,7 @@ public class ImageViewerDemo extends BaseFragment {
                 //自定义的ImageViewer弹窗需要自己手动设置相应的属性，必须设置的有srcView，url和imageLoader。
                 viewerPopup.setSingleSrcView(image2, url2);
 //                viewerPopup.isInfinite(true);
-                viewerPopup.setXPopupImageLoader(new ImageLoader());
+                viewerPopup.setXPopupImageLoader(new SmartGlideImageLoader());
 //                viewerPopup.isShowIndicator(false);//是否显示页码指示器
 //                viewerPopup.isShowPlaceholder(false);//是否显示白色占位块
 //                viewerPopup.isShowSaveButton(false);//是否显示保存按钮
@@ -146,7 +148,7 @@ public class ImageViewerDemo extends BaseFragment {
             }
         });
 
-        pager2.setAdapter(new ImageAdapter2());
+        pager2.setAdapter(new ViewPager2Adapter());
     }
 
     public static class ImageAdapter extends EasyAdapter<Object> {
@@ -173,7 +175,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                     popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                 }
-                            }, new ImageLoader(), null)
+                            }, new SmartGlideImageLoader(), null)
                             .show();
                 }
             });
@@ -181,8 +183,8 @@ public class ImageViewerDemo extends BaseFragment {
     }
 
     //ViewPager2的adapter
-    public class ImageAdapter2 extends EasyAdapter<Object> {
-        public ImageAdapter2() {
+    public class ViewPager2Adapter extends EasyAdapter<Object> {
+        public ViewPager2Adapter() {
             super(list, R.layout.adapter_image2);
         }
 
@@ -212,7 +214,7 @@ public class ImageViewerDemo extends BaseFragment {
                                         }
                                     });
                                 }
-                            }, new ImageLoader())
+                            }, new SmartGlideImageLoader())
                             .show();
                 }
             });
@@ -239,6 +241,7 @@ public class ImageViewerDemo extends BaseFragment {
 
             //1. 加载图片
             Glide.with(imageView).load(list.get(position)).into(imageView);
+
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -256,7 +259,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
                                     popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
                                 }
-                            }, new ImageLoader(), null)
+                            }, new SmartGlideImageLoader(), null)
                             .show();
                 }
             });
@@ -270,52 +273,5 @@ public class ImageViewerDemo extends BaseFragment {
         }
     }
 
-    public static class ImageLoader implements XPopupImageLoader {
-
-        int unit10M = 10 * 1024 * 1024;
-
-        private RequestOptions buildOptions() {
-            return new RequestOptions()
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        }
-
-        @Override
-        public void loadImage(final int position, @NonNull final Object url, @NonNull final ImageView imageView) {
-            //如果你确定你的图片没有超级大的，直接这样写就行
-            Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
-
-            //如果你的图片可能存在超级大图，按下面这样写
-//            Glide.with(imageView).asBitmap().load(url).apply(buildOptions()).into(new SimpleTarget<Bitmap>() {
-//                @Override
-//                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                    int r = resource.getByteCount() / unit10M;
-//                    if (resource != null && r >= 1) {
-////                        BitmapDrawable bd = (BitmapDrawable) resource;
-////                        int r = bd.getBitmap().getByteCount() / unit10M;
-//                        int w = resource.getWidth() / r;
-//                        int h = resource.getHeight() / r;
-//                        Glide.with(imageView).load(url).apply(buildOptions().override(w, h)).into(imageView);
-//                    } else {
-//                        Glide.with(imageView).load(url).apply(new RequestOptions().override(Target.SIZE_ORIGINAL)).into(imageView);
-//                    }
-//                }
-//
-//                @Override
-//                public void onLoadCleared(@Nullable Drawable placeholder) {
-//                }
-//            });
-        }
-
-        @Override
-        public File getImageFile(@NonNull Context context, @NonNull Object uri) {
-            try {
-                return Glide.with(context).downloadOnly().load(uri).submit().get();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 }
 

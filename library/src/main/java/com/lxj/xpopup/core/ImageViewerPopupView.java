@@ -10,12 +10,14 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -162,9 +164,9 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             snapshotView.setTranslationY(rect.top);
             XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
         }
+        snapshotView.setTag(position);
         setupPlaceholder();
-//        snapshotView.setImageDrawable(srcView.getDrawable());
-        if(imageLoader!=null) imageLoader.loadImage(position, urls.get(position), snapshotView);
+        if(imageLoader!=null) imageLoader.loadImage(position, urls.get(position), snapshotView, null);
     }
 
     @Override
@@ -464,10 +466,25 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+            //1. build container
+            FrameLayout fl = buildContainer(container.getContext());
             final PhotoView photoView = new PhotoView(container.getContext());
+            fl.addView(photoView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            //2. build progressBar
+            ProgressBar progressBar = buildProgressBar(container.getContext());
+            fl.addView(progressBar);
+
             // call LoadImageListener
-            if (imageLoader != null)
-                imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView);
+            if(snapshotView!=null && snapshotView.getDrawable()!=null && ((int)snapshotView.getTag()) ==position){
+                progressBar.setVisibility(GONE);
+                photoView.setImageDrawable(snapshotView.getDrawable()); //try to use memory cache
+            }else {
+                if (imageLoader != null){
+                    progressBar.setVisibility(View.VISIBLE);
+                    imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView, progressBar);
+                }
+            }
 
             photoView.setOnMatrixChangeListener(new OnMatrixChangedListener() {
                 @Override
@@ -479,7 +496,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                     }
                 }
             });
-            container.addView(photoView);
             photoView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -495,7 +511,25 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                     }
                 });
             }
-            return photoView;
+
+            container.addView(fl);
+            return fl;
+        }
+
+        private FrameLayout buildContainer(Context context){
+            FrameLayout fl = new FrameLayout(context);
+            fl.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            return fl;
+        }
+
+        private ProgressBar buildProgressBar(Context context){
+            ProgressBar progressBar = new ProgressBar(context);
+            progressBar.setIndeterminate(true);
+            int size = XPopupUtils.dp2px(container.getContext(), 36f);
+            FrameLayout.LayoutParams params = new LayoutParams(size, size);
+            params.gravity = Gravity.CENTER;
+            progressBar.setLayoutParams(params);
+            return progressBar;
         }
 
         @Override
