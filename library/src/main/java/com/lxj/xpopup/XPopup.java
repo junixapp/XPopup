@@ -587,6 +587,16 @@ public class XPopup {
         }
 
         /**
+         * 是否保持屏幕常亮，默认false
+         * @param keepScreenOn
+         * @return
+         */
+        public Builder keepScreenOn(boolean keepScreenOn) {
+            this.popupInfo.keepScreenOn = keepScreenOn;
+            return this;
+        }
+
+        /**
          * 设置弹窗显示和隐藏的回调监听
          *
          * @param xPopupCallback

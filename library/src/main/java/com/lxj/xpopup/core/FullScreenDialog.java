@@ -35,8 +35,10 @@ public class FullScreenDialog extends Dialog {
                 getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             }
         }
+        if(contentView.popupInfo.keepScreenOn){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
         getWindow().setBackgroundDrawable(null);
-//        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         getWindow().getDecorView().setPadding(0, 0, 0, 0);
         getWindow().setFlags(

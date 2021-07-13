@@ -445,6 +445,14 @@ public class XPopupUtils {
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (context != null) {
+                                Toast.makeText(context, context.getString(R.string.xpopup_saved_fail), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
         });

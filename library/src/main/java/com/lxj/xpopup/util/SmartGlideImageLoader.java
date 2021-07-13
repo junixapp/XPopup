@@ -21,7 +21,7 @@ import java.io.File;
  */
 public class SmartGlideImageLoader implements XPopupImageLoader {
     int errorImg = 0;
-    int unit20M = 20 * 1024 * 1024; //以图片内存20M为限制进行采样，对超大超长图片有影响
+    int maxMemorySize = 10 * 1024 * 1024; //以图片内存10M为限制进行采样，对超大超长图片有影响
     public SmartGlideImageLoader(){ }
 
     /**
@@ -37,7 +37,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
      */
     public SmartGlideImageLoader(int memorySizeLimit,int errorImgRes){
         errorImg = errorImgRes;
-        unit20M = memorySizeLimit;
+        maxMemorySize = memorySizeLimit;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
             @Override
             public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                 if(progressBar!=null) progressBar.setVisibility(View.GONE);
-                int r = resource.getByteCount() / unit20M;
+                int r = resource.getByteCount() / maxMemorySize;
                 if (r >= 1) {
                     imageView.setImageBitmap(XPopupUtils.compressBySampleSize(resource, r));
                     return true;

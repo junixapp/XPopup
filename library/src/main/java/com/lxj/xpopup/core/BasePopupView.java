@@ -96,7 +96,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
                 public void onSoftInputChanged(int height) {
-                    Log.e("tag", "onSoftInputChanged: "+height);
                     onKeyboardHeightChange(height);
                     if (popupInfo != null && popupInfo.xPopupCallback != null) {
                         popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this, height);
