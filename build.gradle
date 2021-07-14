@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.xpopup_version = "2.4.8"
+    ext.xpopup_version = "2.4.9"
     repositories {
         google()
         mavenCentral()
