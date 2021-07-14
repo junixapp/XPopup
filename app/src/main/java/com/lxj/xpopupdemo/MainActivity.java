@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 .isDestroyOnDismiss(true)
                 .asLoading("嘻嘻嘻嘻嘻");
         loadingPopupView.show();
+//        loadingPopupView.dismiss();
         loadingPopupView.delayDismiss(1200);
 
         new Handler().post(new Runnable() {

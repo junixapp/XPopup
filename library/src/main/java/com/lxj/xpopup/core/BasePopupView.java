@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -470,7 +469,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      */
     protected void doDismissAnimation() {
         if (popupInfo == null) return;
-        if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg) {
+        if (popupInfo.hasShadowBg && !popupInfo.hasBlurBg && shadowBgAnimator!=null) {
             shadowBgAnimator.animateDismiss();
         } else if (popupInfo.hasBlurBg && blurAnimator != null) {
             blurAnimator.animateDismiss();
