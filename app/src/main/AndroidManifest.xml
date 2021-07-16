@@ -15,7 +15,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:name=".XPopupApp"
-        android:hardwareAccelerated="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4" />

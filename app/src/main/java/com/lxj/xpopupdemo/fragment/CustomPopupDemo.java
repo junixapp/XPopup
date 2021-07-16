@@ -49,7 +49,6 @@ public class CustomPopupDemo extends BaseFragment {
                 spinner.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
                         CustomPopup customPopup = new CustomPopup(getContext());
                         new XPopup.Builder(getContext())
                                 .popupAnimation(data[position])

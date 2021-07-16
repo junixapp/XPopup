@@ -45,13 +45,16 @@ public abstract class PartShadowPopupView extends BasePopupView {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();
         }
-        getPopupImplView().setTranslationY(popupInfo.offsetY);
+        getPopupContentView().setTranslationY(popupInfo.offsetY);
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(0f);
+        getPopupImplView().setVisibility(INVISIBLE);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(), getPopupHeight(), new Runnable() {
             @Override
             public void run() {
                 doAttach();
-                initAndStartAnimation();
+//                initAndStartAnimation();
             }
         });
     }
@@ -62,16 +65,16 @@ public abstract class PartShadowPopupView extends BasePopupView {
         doAfterShow();
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        post(new Runnable() {
-            @Override
-            public void run() {
-                doAttach();
-            }
-        });
-    }
+//    @Override
+//    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+//        super.onSizeChanged(w, h, oldw, oldh);
+//        post(new Runnable() {
+//            @Override
+//            public void run() {
+//                doAttach();
+//            }
+//        });
+//    }
 
     public boolean isShowUp;
     public void doAttach() {
@@ -125,6 +128,13 @@ public abstract class PartShadowPopupView extends BasePopupView {
         }
         getPopupContentView().setLayoutParams(params);
         implView.setLayoutParams(implParams);
+        getPopupContentView().post(new Runnable() {
+            @Override
+            public void run() {
+                initAndStartAnimation();
+                getPopupImplView().setVisibility(VISIBLE);
+            }
+        });
         attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
