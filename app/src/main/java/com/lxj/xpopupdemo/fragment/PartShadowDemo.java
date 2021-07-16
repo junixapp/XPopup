@@ -90,7 +90,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         if(popupView==null){
             popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                     .atView(v)
-                    .isClickThrough(true)
+//                    .isClickThrough(true)
 //                    .dismissOnTouchOutside(false)
 //                    .isCenterHorizontal(true)
                     .autoOpenSoftInput(true)
@@ -109,9 +109,10 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                     .asCustom(new CustomPartShadowPopupView(getContext()));
         }
 
-        popupView.toggle();
+        popupView.show();
     }
 
+    CustomPartShadowPopupView2 popupView2;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -142,10 +143,13 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.tvCenter2:
+                if(popupView2==null){
+                    popupView2 = new CustomPartShadowPopupView2(getContext());
+                }
                 new XPopup.Builder(getContext())
                         .atView(v)
-                        .popupPosition(PopupPosition.Bottom)
-                        .asCustom(new CustomPartShadowPopupView2(getContext()))
+                        .popupPosition(PopupPosition.Top)
+                        .asCustom(popupView2)
                         .show();
                 break;
         }

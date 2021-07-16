@@ -51,11 +51,10 @@ public class FullScreenDialog extends Dialog {
         getWindow().getDecorView().setSystemUiVisibility(option);
 
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
+                XPopupUtils.getScreenHeight(getContext())));
         if(isFuckVIVORoom()){
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
-            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
-                    XPopupUtils.getScreenHeight(getContext())));
         }
 
         //remove status bar shadow

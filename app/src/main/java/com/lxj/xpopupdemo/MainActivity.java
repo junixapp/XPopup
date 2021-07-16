@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.RomUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 //        BarUtils.setStatusBarLightMode(this, true);
 //        BarUtils.setNavBarColor(this, Color.RED);
 //        BarUtils.setStatusBarVisibility();
+
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         //最大分配内存
         int memory = activityManager.getMemoryClass();
