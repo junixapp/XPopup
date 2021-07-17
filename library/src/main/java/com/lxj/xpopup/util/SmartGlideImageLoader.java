@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.Transition;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import java.io.File;
@@ -45,7 +46,16 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                     public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
                         super.onResourceReady(resource, transition);
                         if(progressBar!=null)progressBar.setVisibility(View.GONE);
-                        imageView.setImageBitmap(XPopupUtils.getBitmap(resource, XPopupUtils.getWindowWidth(context)*2, XPopupUtils.getScreenHeight(context)*2));
+                        int maxW = XPopupUtils.getWindowWidth(context)*3;
+                        int maxH = XPopupUtils.getScreenHeight(context)*3;
+
+                        int[] size = XPopupUtils.getImageSize(resource);
+                        if(size[0] > maxW || size[1] > maxH){
+                            //认为是大图
+                            imageView.setImageBitmap(XPopupUtils.getBitmap(resource, maxW, maxH));
+                        }else {
+                            Glide.with(imageView).load(resource).apply(new RequestOptions().override(size[0], size[1])).into(imageView);
+                        }
                     }
                 });
     }

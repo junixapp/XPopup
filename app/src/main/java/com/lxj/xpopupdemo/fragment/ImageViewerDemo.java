@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
@@ -21,8 +24,8 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
+import com.lxj.xpopup.util.SmartGlideImageLoader;
 import com.lxj.xpopupdemo.R;
-import com.lxj.xpopupdemo.SmartGlideImageLoader2;
 import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
 
 import static com.lxj.xpopupdemo.Constants.list;
@@ -46,17 +49,15 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2279952540,2544282724&fm=26&gp=0.jpg");
         list.add("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=851052518,4050485518&fm=26&gp=0.jpg");
         list.add("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=174904559,2874238085&fm=26&gp=0.jpg");
+        list.add("https://image.flaticon.com/icons/png/512/910/910277.png");
         list.add("https://user-gold-cdn.xitu.io/2019/1/25/168839e977414cc1?imageView2/2/w/800/q/100");
         list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551692956639&di=8ee41e070c6a42addfc07522fda3b6c8&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160413%2F75659e9b05b04eb8adf5b52669394897.jpg");
-        list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/4B4E81902BF3B6285DFAC5EAD2C3A9F3.jpg");
+        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.love.tv%2F2017%2F10%2F15%2F23%2F3dc47bd3b80d4dfc89cfc8d74a0c44fe.gif&refer=http%3A%2F%2Fimg.love.tv&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1629129562&t=a4d5372a3e19d4d4ca851c7fe2864b44");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/B40CF2CA54715E64CF4AA3632FD4F70E.jpg");
-        list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/C2A333BA3CCCBE8290E2F9549385E0C1.jpg");
+        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.huabanimg.com%2F3fee54d0b2e0b7a132319a8e104f5fdc2edd3d35d03ee-93Jmdq_fw658&refer=http%3A%2F%2Fhbimg.huabanimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1629129562&t=2698f0e9276e50a9c1e3770c63be3222");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/3F8B1BFDCBA2559EB69BA1670915E912.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/5C50B56D6FC9C30562FE15716B02AA3E.jpg");
-        list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/E211145D8BA5CC519E9ED56D1AC57D2A.jpg");
-        list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/92FA62C554C0A4B61251A5A2FCDD400B.jpg");
-        list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/7ECFF80AEDFF9D2771DAFB979D13513E.jpg");
-        list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/C12F6B62FF052BAB4844AB9A5A333F3C.jpg");
+        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F9f569629c4dec5ed1b603982058c6853607b1f0af685e-PcenmQ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1629129562&t=b367c5af94169dd839192775081c6868");
         list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
     }
 
@@ -107,7 +108,7 @@ public class ImageViewerDemo extends BaseFragment {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
-                                , false, Color.BLACK, new SmartGlideImageLoader2(), new OnImageViewerLongPressListener() {
+                                , false, Color.BLACK, new SmartGlideImageLoader(), new OnImageViewerLongPressListener() {
                                     @Override
                                     public void onLongPressed(BasePopupView popupView, int position) {
                                         ToastUtils.showShort("长按了第" + position +"个图片");
@@ -120,7 +121,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
-                        .asImageViewer(image2, url2, new SmartGlideImageLoader2())
+                        .asImageViewer(image2, url2, new SmartGlideImageLoader())
                         .show();
             }
         });
@@ -137,7 +138,7 @@ public class ImageViewerDemo extends BaseFragment {
                 //自定义的ImageViewer弹窗需要自己手动设置相应的属性，必须设置的有srcView，url和imageLoader。
                 viewerPopup.setSingleSrcView(image2, url2);
 //                viewerPopup.isInfinite(true);
-                viewerPopup.setXPopupImageLoader(new SmartGlideImageLoader2());
+                viewerPopup.setXPopupImageLoader(new SmartGlideImageLoader());
 //                viewerPopup.isShowIndicator(false);//是否显示页码指示器
 //                viewerPopup.isShowPlaceholder(false);//是否显示白色占位块
 //                viewerPopup.isShowSaveButton(false);//是否显示保存按钮
@@ -166,7 +167,9 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new XPopup.Builder(holder.itemView.getContext()).asImageViewer(imageView, position, list,
+                    new XPopup.Builder(holder.itemView.getContext())
+                            .animationDuration(800)
+                            .asImageViewer(imageView, position, list,
                             true, true, -1, -1, -1, true,
                             Color.rgb(32, 36, 46),
                             new OnSrcViewUpdateListener() {
@@ -175,7 +178,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                     popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                 }
-                            }, new SmartGlideImageLoader2(R.mipmap.ic_launcher), null)
+                            }, new SmartGlideImageLoader(R.mipmap.ic_launcher), null)
                             .show();
                 }
             });
@@ -214,7 +217,7 @@ public class ImageViewerDemo extends BaseFragment {
                                         }
                                     });
                                 }
-                            }, new SmartGlideImageLoader2())
+                            }, new SmartGlideImageLoader())
                             .show();
                 }
             });
@@ -259,7 +262,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
                                     popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
                                 }
-                            }, new SmartGlideImageLoader2(), null)
+                            }, new SmartGlideImageLoader(), null)
                             .show();
                 }
             });

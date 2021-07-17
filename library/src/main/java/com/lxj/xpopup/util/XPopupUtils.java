@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,9 @@ import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.FloatRange;
+
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -50,10 +54,12 @@ import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -160,7 +166,7 @@ public class XPopupUtils {
                         params.height = Math.min(popupHeight, maxHeight);
                         implParams.height = Math.min(popupHeight, maxHeight);
                     }
-                } else if(popupHeight > 0) {
+                } else if (popupHeight > 0) {
                     params.height = popupHeight;
                     implParams.height = popupHeight;
                 }
@@ -336,7 +342,8 @@ public class XPopupUtils {
     //    public static HashMap
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
-        if (pv instanceof PositionPopupView || pv instanceof AttachPopupView || pv instanceof BubbleAttachPopupView) return;
+        if (pv instanceof PositionPopupView || pv instanceof AttachPopupView || pv instanceof BubbleAttachPopupView)
+            return;
         if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) {
             pv.getPopupImplView().animate().translationY(0)
                     .setDuration(100).start();
@@ -392,67 +399,142 @@ public class XPopupUtils {
         }
     }
 
+//    public static void saveBmpToAlbum(final Context context, final XPopupImageLoader imageLoader, final Object uri) {
+//        final Handler mainHandler = new Handler(Looper.getMainLooper());
+//        final ExecutorService executor = Executors.newSingleThreadExecutor();
+//        executor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                File source = imageLoader.getImageFile(context, uri);
+//                if (source == null) {
+//                    mainHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(context, context.getString(R.string.xpopup_image_not_exist), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                    return;
+//                }
+//                try {
+//                    if (Build.VERSION.SDK_INT < 29) {
+//                        //android10以下直接insertImage
+//                        MediaStore.Images.Media.insertImage(context.getContentResolver(), source.getAbsolutePath(), source.getName(), null);
+//                    } else {
+//                        //android10以上，增加了新字段，自己insert，因为RELATIVE_PATH，DATE_EXPIRES，IS_PENDING是29新增字段
+//                        Long mImageTime = System.currentTimeMillis();
+//                        final ContentValues values = new ContentValues();
+//                        values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+//                        values.put(MediaStore.MediaColumns.DISPLAY_NAME, source.getName());
+//                        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/*");
+//                        values.put(MediaStore.MediaColumns.DATE_ADDED, mImageTime / 1000);
+//                        values.put(MediaStore.MediaColumns.DATE_MODIFIED, mImageTime / 1000);
+//                        values.put(MediaStore.MediaColumns.DATE_EXPIRES, (mImageTime + DateUtils.DAY_IN_MILLIS) / 1000);
+//                        values.put(MediaStore.MediaColumns.IS_PENDING, 1);
+//
+//                        ContentResolver resolver = context.getContentResolver();
+//                        final Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+//                        try (OutputStream out = resolver.openOutputStream(uri)) {
+//                            writeFileFromIS(out, new FileInputStream(source));
+//                        }
+//                        // Everything went well above, publish it!
+//                        values.clear();
+//                        values.put(MediaStore.MediaColumns.IS_PENDING, 0);
+//                        values.putNull(MediaStore.MediaColumns.DATE_EXPIRES);
+//                        resolver.update(uri, values, null, null);
+//                    }
+//                    mainHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (context != null) {
+//                                Toast.makeText(context, context.getString(R.string.xpopup_saved_to_gallery), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    mainHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (context != null) {
+//                                Toast.makeText(context, context.getString(R.string.xpopup_saved_fail), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        });
+//    }
+
     public static void saveBmpToAlbum(final Context context, final XPopupImageLoader imageLoader, final Object uri) {
-        final Handler mainHandler = new Handler(Looper.getMainLooper());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 File source = imageLoader.getImageFile(context, uri);
                 if (source == null) {
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, context.getString(R.string.xpopup_image_not_exist), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    showToast(context, context.getString(R.string.xpopup_image_not_exist));
                     return;
                 }
                 try {
-                    if(Build.VERSION.SDK_INT < 29){
+                    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), context.getPackageName());
+                    if(!dir.exists()) dir.mkdirs();
+                    File destFile = new File(dir, System.currentTimeMillis() + "." + getImageType(source));
+                    if (Build.VERSION.SDK_INT < 29) {
+                        if(destFile.exists())destFile.delete();
+                        destFile.createNewFile();
                         //android10以下直接insertImage
-                        MediaStore.Images.Media.insertImage(context.getContentResolver(),source.getAbsolutePath(),source.getName(),null);
-                    }else {
+                        try (OutputStream out = new FileOutputStream(destFile)) {
+                            writeFileFromIS(out, new FileInputStream(source));
+                        }
+                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        intent.setData(Uri.parse("file://" + destFile.getAbsolutePath()));
+                        context.sendBroadcast(intent);
+                    } else {
                         //android10以上，增加了新字段，自己insert，因为RELATIVE_PATH，DATE_EXPIRES，IS_PENDING是29新增字段
-                        Long mImageTime = System.currentTimeMillis();
-                        final ContentValues values = new ContentValues();
-                        values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-                        values.put(MediaStore.MediaColumns.DISPLAY_NAME, source.getName());
-                        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/*");
-                        values.put(MediaStore.MediaColumns.DATE_ADDED, mImageTime / 1000);
-                        values.put(MediaStore.MediaColumns.DATE_MODIFIED, mImageTime / 1000);
-                        values.put(MediaStore.MediaColumns.DATE_EXPIRES, (mImageTime + DateUtils.DAY_IN_MILLIS) / 1000);
-                        values.put(MediaStore.MediaColumns.IS_PENDING, 1);
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, destFile.getName());
+                        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/*");
+                        Uri contentUri;
+                        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                        } else {
+                            contentUri = MediaStore.Images.Media.INTERNAL_CONTENT_URI;
+                        }
+                        contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + "/" + context.getPackageName());
+                        contentValues.put(MediaStore.MediaColumns.IS_PENDING, 1);
+                        Uri uri = context.getContentResolver().insert(contentUri, contentValues);
+                        if (uri == null) {
+                            showToast(context, context.getString(R.string.xpopup_saved_fail));
+                            return;
+                        }
 
                         ContentResolver resolver = context.getContentResolver();
-                        final Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                         try (OutputStream out = resolver.openOutputStream(uri)) {
                             writeFileFromIS(out, new FileInputStream(source));
                         }
                         // Everything went well above, publish it!
-                        values.clear();
-                        values.put(MediaStore.MediaColumns.IS_PENDING, 0);
-                        values.putNull(MediaStore.MediaColumns.DATE_EXPIRES);
-                        resolver.update(uri, values, null, null);
+                        contentValues.clear();
+                        contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0);
+//                            contentValues.putNull(MediaStore.MediaColumns.DATE_EXPIRES);
+                        resolver.update(uri, contentValues, null, null);
                     }
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (context != null) {
-                                Toast.makeText(context, context.getString(R.string.xpopup_saved_to_gallery), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    showToast(context, context.getString(R.string.xpopup_saved_to_gallery));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (context != null) {
-                                Toast.makeText(context, context.getString(R.string.xpopup_saved_fail), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    Log.e("tag", e.getMessage());
+                    showToast(context, context.getString(R.string.xpopup_saved_fail));
+                }
+            }
+        });
+    }
+
+    private static void showToast(final Context context, final String text) {
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (context != null) {
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -597,7 +679,7 @@ public class XPopupUtils {
         return drawable;
     }
 
-    public static boolean hasSetKeyListener(View view){
+    public static boolean hasSetKeyListener(View view) {
         try {
             Class viewClazz = Class.forName("android.view.View");
             Method listenerInfoMethod = viewClazz.getDeclaredMethod("getListenerInfo");
@@ -611,26 +693,10 @@ public class XPopupUtils {
                 mOnKeyListenerField.setAccessible(true);
             }
             Object keyListener = mOnKeyListenerField.get(listenerInfoObj);
-            return keyListener!=null;
-        }catch (Exception e){
+            return keyListener != null;
+        } catch (Exception e) {
             return false;
         }
-    }
-
-    /**
-     * Return the compressed bitmap using sample size.
-     *
-     * @param src        The source of bitmap.
-     * @param sampleSize The sample size.
-     * @return the compressed bitmap
-     */
-    public static Bitmap compressBySampleSize(final Bitmap src, final int sampleSize) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = sampleSize;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        src.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] bytes = baos.toByteArray();
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
     }
 
     public static int calculateInSampleSize(final BitmapFactory.Options options,
@@ -655,6 +721,69 @@ public class XPopupUtils {
         options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+    }
+
+    public static int[] getImageSize(File file) {
+        if (file == null) return new int[]{0, 0};
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getAbsolutePath(), opts);
+        return new int[]{opts.outWidth, opts.outHeight};
+    }
+
+    public static String getImageType(final File file) {
+        if (file == null) return "";
+        InputStream is = null;
+        try {
+            is = new FileInputStream(file);
+            byte[] bytes = new byte[12];
+            if(is.read(bytes)!=-1){
+                String type = bytes2HexString(bytes, true).toUpperCase();
+                if (type.contains("FFD8FF")) {
+                    return "jpg";
+                } else if (type.contains("89504E47")) {
+                    return "png";
+                } else if (type.contains("47494638")) {
+                    return "gif";
+                } else if (type.contains("49492A00") || type.contains("4D4D002A")) {
+                    return "tiff";
+                } else if (type.contains("424D")) {
+                    return "bmp";
+                } else if (type.startsWith("52494646") && type.endsWith("57454250")) {//524946461c57000057454250-12个字节
+                    return "webp";
+                } else if (type.contains("00000100") || type.contains("00000200")) {
+                    return "ico";
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
+
+    private static final char[] HEX_DIGITS_UPPER =
+            {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+    private static final char[] HEX_DIGITS_LOWER =
+            {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    public static String bytes2HexString(final byte[] bytes, boolean isUpperCase) {
+        if (bytes == null) return "";
+        char[] hexDigits = isUpperCase ? HEX_DIGITS_UPPER : HEX_DIGITS_LOWER;
+        int len = bytes.length;
+        if (len <= 0) return "";
+        char[] ret = new char[len << 1];
+        for (int i = 0, j = 0; i < len; i++) {
+            ret[j++] = hexDigits[bytes[i] >> 4 & 0x0f];
+            ret[j++] = hexDigits[bytes[i] & 0x0f];
+        }
+        return new String(ret);
     }
 
 }

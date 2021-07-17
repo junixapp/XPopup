@@ -105,7 +105,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         pager.setCurrentItem(position);
         pager.setVisibility(INVISIBLE);
         addOrUpdateSnapshot();
-        if (isInfinite) pager.setOffscreenPageLimit(urls.size() / 2);
+//        if (isInfinite) pager.setOffscreenPageLimit(urls.size() / 2);
         pager.addOnPageChangeListener(onPageChangeListener);
         if (!isShowIndicator) tv_pager_indicator.setVisibility(GONE);
         if (!isShowSaveBtn) {
@@ -122,7 +122,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             showPagerIndicator();
             //更新srcView
             if (srcViewUpdateListener != null) {
-                srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, i);
+                srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, getRealPosition());
             }
         }
     };
@@ -148,7 +148,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     private void showPagerIndicator() {
         if (urls.size() > 1) {
-            int posi = isInfinite ? position % urls.size() : position;
+            int posi = getRealPosition();
             tv_pager_indicator.setText((posi + 1) + "/" + urls.size());
         }
         if (isShowSaveBtn) tv_save.setVisibility(VISIBLE);
@@ -164,10 +164,13 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             snapshotView.setTranslationY(rect.top);
             XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
         }
-        snapshotView.setTag(position);
+        int realPosition = getRealPosition();
+        snapshotView.setTag(realPosition);
         setupPlaceholder();
-        if(imageLoader!=null) imageLoader.loadImage(position, urls.get(position), snapshotView, null);
+        if(imageLoader!=null) imageLoader.loadImage(realPosition, urls.get(realPosition), snapshotView, null);
     }
+
+
 
     @Override
     public void doShowAnimation() {
@@ -445,17 +448,21 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         imageLoader = null;
     }
 
+    protected int getRealPosition(){
+        return isInfinite ? position % urls.size() : position;
+    }
+
     /**
      * 保存图片到相册，会自动检查是否有保存权限
      */
     protected void save() {
-        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(isInfinite ? position % urls.size() : position));
+        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(getRealPosition()));
     }
 
     public class PhotoViewAdapter extends PagerAdapter {
         @Override
         public int getCount() {
-            return isInfinite ? Integer.MAX_VALUE / 2 : urls.size();
+            return isInfinite ? 100000 : urls.size();
         }
 
         @Override
@@ -477,11 +484,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             progressBar.setVisibility(GONE);
 
             // call LoadImageListener
-            if(snapshotView!=null && snapshotView.getDrawable()!=null && ((int)snapshotView.getTag()) ==position){
+            final int realPosition = isInfinite? position % urls.size() : position;
+            if(snapshotView!=null && snapshotView.getDrawable()!=null && ((int)snapshotView.getTag()) == (realPosition)){
                 photoView.setImageDrawable(snapshotView.getDrawable()); //try to use memory cache
             }else {
                 if (imageLoader != null){
-                    imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView, progressBar);
+                    imageLoader.loadImage(realPosition, urls.get(realPosition), photoView, progressBar);
                 }
             }
 
@@ -505,7 +513,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 photoView.setOnLongClickListener(new OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        longPressListener.onLongPressed(ImageViewerPopupView.this, position);
+                        longPressListener.onLongPressed(ImageViewerPopupView.this, realPosition);
                         return false;
                     }
                 });
