@@ -1,4 +1,4 @@
-package com.lxj.xpopup.util;
+package com.lxj.xpopupdemo;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -7,22 +7,24 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.blankj.utilcode.util.ImageUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.transition.Transition;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+import com.lxj.xpopup.util.XPopupUtils;
 import java.io.File;
 
 /**
  * 能加载超长，超大的图片
  */
-public class SmartGlideImageLoader implements XPopupImageLoader {
+public class SmartGlideImageLoader2 implements XPopupImageLoader {
     int errorImg = 0;
-    public SmartGlideImageLoader(){ }
+    public SmartGlideImageLoader2(){ }
 
     /**
      * @param errorImgRes 失败图片占位
      */
-    public SmartGlideImageLoader(int errorImgRes){
+    public SmartGlideImageLoader2(int errorImgRes){
         errorImg = errorImgRes;
     }
 
@@ -45,7 +47,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                     public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
                         super.onResourceReady(resource, transition);
                         if(progressBar!=null)progressBar.setVisibility(View.GONE);
-                        imageView.setImageBitmap(XPopupUtils.getBitmap(resource, XPopupUtils.getWindowWidth(context)*2, XPopupUtils.getScreenHeight(context)*2));
+                        imageView.setImageBitmap(ImageUtils.getBitmap(resource, XPopupUtils.getWindowWidth(context)*2, XPopupUtils.getScreenHeight(context)*2));
                     }
                 });
     }

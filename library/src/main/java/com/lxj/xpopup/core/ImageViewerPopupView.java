@@ -474,14 +474,13 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             //2. build progressBar
             ProgressBar progressBar = buildProgressBar(container.getContext());
             fl.addView(progressBar);
+            progressBar.setVisibility(GONE);
 
             // call LoadImageListener
             if(snapshotView!=null && snapshotView.getDrawable()!=null && ((int)snapshotView.getTag()) ==position){
-                progressBar.setVisibility(GONE);
                 photoView.setImageDrawable(snapshotView.getDrawable()); //try to use memory cache
             }else {
                 if (imageLoader != null){
-                    progressBar.setVisibility(View.VISIBLE);
                     imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView, progressBar);
                 }
             }

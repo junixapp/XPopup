@@ -632,4 +632,29 @@ public class XPopupUtils {
         byte[] bytes = baos.toByteArray();
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
     }
+
+    public static int calculateInSampleSize(final BitmapFactory.Options options,
+                                            final int maxWidth,
+                                            final int maxHeight) {
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+        while (height > maxHeight || width > maxWidth) {
+            height >>= 1;
+            width >>= 1;
+            inSampleSize <<= 1;
+        }
+        return inSampleSize;
+    }
+
+    public static Bitmap getBitmap(final File file, final int maxWidth, final int maxHeight) {
+        if (file == null) return null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+    }
+
 }

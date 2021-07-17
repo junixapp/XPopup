@@ -21,8 +21,8 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.interfaces.OnImageViewerLongPressListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
-import com.lxj.xpopup.util.SmartGlideImageLoader;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.SmartGlideImageLoader2;
 import com.lxj.xpopupdemo.custom.CustomImageViewerPopup;
 
 import static com.lxj.xpopupdemo.Constants.list;
@@ -107,7 +107,7 @@ public class ImageViewerDemo extends BaseFragment {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
-                                , false, Color.BLACK, new SmartGlideImageLoader(), new OnImageViewerLongPressListener() {
+                                , false, Color.BLACK, new SmartGlideImageLoader2(), new OnImageViewerLongPressListener() {
                                     @Override
                                     public void onLongPressed(BasePopupView popupView, int position) {
                                         ToastUtils.showShort("长按了第" + position +"个图片");
@@ -120,7 +120,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
-                        .asImageViewer(image2, url2, new SmartGlideImageLoader())
+                        .asImageViewer(image2, url2, new SmartGlideImageLoader2())
                         .show();
             }
         });
@@ -137,7 +137,7 @@ public class ImageViewerDemo extends BaseFragment {
                 //自定义的ImageViewer弹窗需要自己手动设置相应的属性，必须设置的有srcView，url和imageLoader。
                 viewerPopup.setSingleSrcView(image2, url2);
 //                viewerPopup.isInfinite(true);
-                viewerPopup.setXPopupImageLoader(new SmartGlideImageLoader());
+                viewerPopup.setXPopupImageLoader(new SmartGlideImageLoader2());
 //                viewerPopup.isShowIndicator(false);//是否显示页码指示器
 //                viewerPopup.isShowPlaceholder(false);//是否显示白色占位块
 //                viewerPopup.isShowSaveButton(false);//是否显示保存按钮
@@ -160,7 +160,7 @@ public class ImageViewerDemo extends BaseFragment {
         protected void bind(@NonNull final ViewHolder holder, @NonNull final Object s, final int position) {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
             //1. 加载图片
-            Glide.with(imageView).load(s).into(imageView);
+            Glide.with(imageView).load(s).error(R.mipmap.ic_launcher).into(imageView);
 
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +175,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                     popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                 }
-                            }, new SmartGlideImageLoader(), null)
+                            }, new SmartGlideImageLoader2(R.mipmap.ic_launcher), null)
                             .show();
                 }
             });
@@ -192,7 +192,7 @@ public class ImageViewerDemo extends BaseFragment {
         protected void bind(@NonNull final ViewHolder holder, @NonNull final Object s, final int position) {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
             //1. 加载图片
-            Glide.with(imageView).load(s).into(imageView);
+            Glide.with(imageView).load(s).error(R.mipmap.ic_launcher).into(imageView);
 
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -214,7 +214,7 @@ public class ImageViewerDemo extends BaseFragment {
                                         }
                                     });
                                 }
-                            }, new SmartGlideImageLoader())
+                            }, new SmartGlideImageLoader2())
                             .show();
                 }
             });
@@ -259,7 +259,7 @@ public class ImageViewerDemo extends BaseFragment {
                                     //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
                                     popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
                                 }
-                            }, new SmartGlideImageLoader(), null)
+                            }, new SmartGlideImageLoader2(), null)
                             .show();
                 }
             });
