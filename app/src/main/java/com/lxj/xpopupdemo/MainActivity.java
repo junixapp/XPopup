@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
-//        XPopup.setAnimationDuration(1000);
+//        XPopup.setAnimationDuration(800);
 //        XPopup.setPrimaryColor(Color.RED);
 //        XPopup.setNavigationBarColor(Color.RED);
 //        ScreenUtils.setLandscape(this);

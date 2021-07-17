@@ -7,9 +7,12 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.transition.ChangeBounds;
@@ -30,6 +34,9 @@ import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
@@ -38,10 +45,12 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.photoview.OnMatrixChangedListener;
 import com.lxj.xpopup.photoview.PhotoView;
+import com.lxj.xpopup.util.DisplayOptimizeListener;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +72,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected int position;
     protected Rect rect = null;
     protected ImageView srcView; //动画起始的View，如果为null，移动和过渡动画效果会没有，只有弹窗的缩放功能
-    protected PhotoView snapshotView;
+    protected View snapshotView;
+    protected boolean forBig = false;
     protected boolean isShowPlaceholder = true; //是否显示占位白色，当图片切换为大图时，原来的地方会有一个白色块
     protected int placeholderColor = Color.parseColor("#f1f1f1"); //占位View的颜色
     protected int placeholderStrokeColor = -1; // 占位View的边框色
@@ -157,16 +167,37 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     private void addOrUpdateSnapshot() {
         if (srcView == null) return;
         if (snapshotView == null) {
-            snapshotView = new PhotoView(getContext());
+            createSnapshotView();
             photoViewContainer.addView(snapshotView);
-            snapshotView.setScaleType(srcView.getScaleType());
             snapshotView.setTranslationX(rect.left);
             snapshotView.setTranslationY(rect.top);
             XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
         }
         snapshotView.setTag(position);
         setupPlaceholder();
-        if(imageLoader!=null) imageLoader.loadImage(position, urls.get(position), snapshotView, null);
+        if(imageLoader!=null) imageLoader.loadImage(position, urls.get(position), snapshotView);
+    }
+
+    private void createSnapshotView(){
+        if(forBig){
+            snapshotView = new SubsamplingScaleImageView(getContext());
+            SubsamplingScaleImageView ssiv = ((SubsamplingScaleImageView)snapshotView);
+            ssiv.setMinimumScaleType(convertScaleType(srcView.getScaleType()));
+//            ssiv.setImage(ImageSource.uri(Uri.fromFile(imageLoader.getImageFile(getContext(), urls.get(position)))));
+        }else {
+            snapshotView = new PhotoView(getContext());
+
+            ((PhotoView)snapshotView).setScaleType(srcView.getScaleType());
+            Log.e("tag", "createSnapshotView scaleType: " + srcView.getScaleType());
+        }
+    }
+
+    private int convertScaleType(ImageView.ScaleType scaleType){
+        if(scaleType== ImageView.ScaleType.CENTER_CROP) return SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP;
+        if(scaleType== ImageView.ScaleType.CENTER_INSIDE
+        || scaleType== ImageView.ScaleType.FIT_CENTER) return SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE;
+        if(scaleType== ImageView.ScaleType.FIT_START) return SubsamplingScaleImageView.SCALE_TYPE_START;
+        return SubsamplingScaleImageView.SCALE_TYPE_CUSTOM;
     }
 
     @Override
@@ -190,7 +221,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         .setDuration(getAnimationDuration())
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeTransform())
-                        .addTransition(new ChangeImageTransform())
+//                        .addTransition(new ChangeImageTransform())
                         .setInterpolator(new FastOutSlowInInterpolator())
                         .addListener(new TransitionListenerAdapter() {
                             @Override
@@ -203,7 +234,13 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         }));
                 snapshotView.setTranslationY(0);
                 snapshotView.setTranslationX(0);
-                snapshotView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                if(forBig){
+                    SubsamplingScaleImageView ssiv = ((SubsamplingScaleImageView)snapshotView);
+//                    ssiv.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+                }else {
+                    ((PhotoView)snapshotView).setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    Log.e("tag", "snapshotView setScaleType: FIT_CENTER" );
+                }
                 XPopupUtils.setWidthHeight(snapshotView, photoViewContainer.getWidth(), photoViewContainer.getHeight());
 
                 // do shadow anim.
@@ -229,7 +266,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 .setInterpolator(new LinearInterpolator());
         animator.start();
     }
-    
+
     @Override
     public void doDismissAnimation() {
         if (srcView == null) {
@@ -271,7 +308,12 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 snapshotView.setScaleY(1f);
                 snapshotView.setTranslationY(rect.top);
                 snapshotView.setTranslationX(rect.left);
-                snapshotView.setScaleType(srcView.getScaleType());
+                if(forBig){
+                    SubsamplingScaleImageView ssiv = ((SubsamplingScaleImageView)snapshotView);
+                    ssiv.setMinimumScaleType(convertScaleType(srcView.getScaleType()));
+                }else {
+                    ((PhotoView)snapshotView).setScaleType(srcView.getScaleType());
+                }
                 XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
 
                 // do shadow anim.
@@ -371,7 +413,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
-    public ImageViewerPopupView setLongPressListener(OnImageViewerLongPressListener longPressListener){
+    public ImageViewerPopupView setLongPressListener(OnImageViewerLongPressListener longPressListener) {
         this.longPressListener = longPressListener;
         return this;
     }
@@ -398,10 +440,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (srcView != null) {
             int[] locations = new int[2];
             this.srcView.getLocationInWindow(locations);
-            if(XPopupUtils.isLayoutRtl(getContext())){
+            if (XPopupUtils.isLayoutRtl(getContext())) {
                 int left = -(XPopupUtils.getWindowWidth(getContext()) - locations[0] - srcView.getWidth());
                 rect = new Rect(left, locations[1], left + srcView.getWidth(), locations[1] + srcView.getHeight());
-            }else {
+            } else {
                 rect = new Rect(locations[0], locations[1], locations[0] + srcView.getWidth(), locations[1] + srcView.getHeight());
             }
         }
@@ -468,30 +510,69 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             //1. build container
             FrameLayout fl = buildContainer(container.getContext());
-            final PhotoView photoView = new PhotoView(container.getContext());
-            fl.addView(photoView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            ProgressBar progressBar = buildProgressBar(container.getContext());
+
+//            View imageView = imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position));
+            fl.addView(forBig ? buildBigImageView(container.getContext()) : buildPhotoView(container.getContext()),
+                    new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+//            fl.addView(buildPhotoView(container.getContext(), progressBar), new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
             //2. build progressBar
-            ProgressBar progressBar = buildProgressBar(container.getContext());
             fl.addView(progressBar);
             progressBar.setVisibility(GONE);
 
+            container.addView(fl);
+            return fl;
+        }
+
+        private SubsamplingScaleImageView buildBigImageView(Context context) {
+            SubsamplingScaleImageView ssiv = new SubsamplingScaleImageView(context);
+            ssiv.setOnImageEventListener(new DisplayOptimizeListener(ssiv));
+//            ssiv.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
+//            final SubsamplingScaleImageView sv = (SubsamplingScaleImageView) snapshotView;
+//            if(sv!=null && sv.getResources().;!=null && ((int)snapshotView.getTag()) ==position){
+//                photoView.setImageDrawable(sv.getDrawable()); //try to use memory cache
+//            }
+            if (imageLoader != null) {
+                imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), ssiv);
+            }
+            ssiv.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+            if (longPressListener != null) {
+                ssiv.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        longPressListener.onLongPressed(ImageViewerPopupView.this, position);
+                        return false;
+                    }
+                });
+            }
+            return ssiv;
+        }
+
+        private PhotoView buildPhotoView(Context context) {
+            final PhotoView photoView = new PhotoView(context);
             // call LoadImageListener
-            if(snapshotView!=null && snapshotView.getDrawable()!=null && ((int)snapshotView.getTag()) ==position){
-                photoView.setImageDrawable(snapshotView.getDrawable()); //try to use memory cache
-            }else {
-                if (imageLoader != null){
-                    imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView, progressBar);
+
+            if (snapshotView != null && ((int) snapshotView.getTag()) == position && ((PhotoView) snapshotView).getDrawable()!=null) {
+                photoView.setImageDrawable(((PhotoView) snapshotView).getDrawable()); //try to use memory cache
+            } else {
+                if (imageLoader != null) {
+                    imageLoader.loadImage(position, urls.get(isInfinite ? position % urls.size() : position), photoView);
                 }
             }
-
             photoView.setOnMatrixChangeListener(new OnMatrixChangedListener() {
                 @Override
                 public void onMatrixChanged(RectF rect) {
-                    if(snapshotView!=null){
+                    if (snapshotView != null) {
                         Matrix matrix = new Matrix();
                         photoView.getSuppMatrix(matrix);
-                        snapshotView.setSuppMatrix(matrix);
+                        ((PhotoView) snapshotView).setSuppMatrix(matrix);
                     }
                 }
             });
@@ -501,7 +582,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                     dismiss();
                 }
             });
-            if(longPressListener!=null){
+            if (longPressListener != null) {
                 photoView.setOnLongClickListener(new OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
@@ -510,18 +591,16 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                     }
                 });
             }
-
-            container.addView(fl);
-            return fl;
+            return photoView;
         }
 
-        private FrameLayout buildContainer(Context context){
+        private FrameLayout buildContainer(Context context) {
             FrameLayout fl = new FrameLayout(context);
             fl.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             return fl;
         }
 
-        private ProgressBar buildProgressBar(Context context){
+        private ProgressBar buildProgressBar(Context context) {
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.setIndeterminate(true);
             int size = XPopupUtils.dp2px(container.getContext(), 36f);

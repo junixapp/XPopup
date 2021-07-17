@@ -657,4 +657,12 @@ public class XPopupUtils {
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 
+    public static int[] getBitmapSize(File file) {
+        if (file == null) return new int[]{0, 0};
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getAbsolutePath(), opts);
+        return new int[]{opts.outWidth, opts.outHeight};
+    }
+
 }
