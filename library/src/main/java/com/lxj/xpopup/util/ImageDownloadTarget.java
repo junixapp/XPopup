@@ -37,10 +37,6 @@ import com.bumptech.glide.util.Util;
 
 import java.io.File;
 
-/**
- * Created by Piasy{github.com/Piasy} on 12/11/2016.
- */
-
 public abstract class ImageDownloadTarget implements Target<File> {
 
     private Request request;
