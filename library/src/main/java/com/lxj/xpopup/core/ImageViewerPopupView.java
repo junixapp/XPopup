@@ -41,7 +41,9 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.photoview.OnMatrixChangedListener;
 import com.lxj.xpopup.photoview.PhotoView;
+import com.lxj.xpopup.util.PermissionConstants;
 import com.lxj.xpopup.util.SSIVListener;
+import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
@@ -459,7 +461,16 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
      * 保存图片到相册，会自动检查是否有保存权限
      */
     protected void save() {
-        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(getRealPosition()));
+        XPermission.create(getContext(), PermissionConstants.STORAGE)
+                .callback(new XPermission.SimpleCallback() {
+                    @Override
+                    public void onGranted() {
+                        XPopupUtils.saveBmpToAlbum(getContext(), imageLoader, urls.get(getRealPosition()));
+                    }
+                    @Override
+                    public void onDenied() { }
+                })
+                .request();
     }
 
     public class PhotoViewAdapter extends PagerAdapter {

@@ -30,8 +30,6 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +38,7 @@ import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.FloatRange;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -54,9 +50,7 @@ import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
-
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -233,9 +227,6 @@ public class XPopupUtils {
 
     public static void moveUpToKeyboard(final int keyboardHeight, final BasePopupView pv) {
         correctKeyboardHeight = keyboardHeight;
-//        if (correctKeyboardHeight == 0) correctKeyboardHeight = keyboardHeight;
-//        else if (keyboardHeight != 0)
-//            correctKeyboardHeight = Math.min(correctKeyboardHeight, keyboardHeight);
         pv.post(new Runnable() {
             @Override
             public void run() {
@@ -399,72 +390,6 @@ public class XPopupUtils {
         }
     }
 
-//    public static void saveBmpToAlbum(final Context context, final XPopupImageLoader imageLoader, final Object uri) {
-//        final Handler mainHandler = new Handler(Looper.getMainLooper());
-//        final ExecutorService executor = Executors.newSingleThreadExecutor();
-//        executor.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                File source = imageLoader.getImageFile(context, uri);
-//                if (source == null) {
-//                    mainHandler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(context, context.getString(R.string.xpopup_image_not_exist), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    return;
-//                }
-//                try {
-//                    if (Build.VERSION.SDK_INT < 29) {
-//                        //android10以下直接insertImage
-//                        MediaStore.Images.Media.insertImage(context.getContentResolver(), source.getAbsolutePath(), source.getName(), null);
-//                    } else {
-//                        //android10以上，增加了新字段，自己insert，因为RELATIVE_PATH，DATE_EXPIRES，IS_PENDING是29新增字段
-//                        Long mImageTime = System.currentTimeMillis();
-//                        final ContentValues values = new ContentValues();
-//                        values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-//                        values.put(MediaStore.MediaColumns.DISPLAY_NAME, source.getName());
-//                        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/*");
-//                        values.put(MediaStore.MediaColumns.DATE_ADDED, mImageTime / 1000);
-//                        values.put(MediaStore.MediaColumns.DATE_MODIFIED, mImageTime / 1000);
-//                        values.put(MediaStore.MediaColumns.DATE_EXPIRES, (mImageTime + DateUtils.DAY_IN_MILLIS) / 1000);
-//                        values.put(MediaStore.MediaColumns.IS_PENDING, 1);
-//
-//                        ContentResolver resolver = context.getContentResolver();
-//                        final Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-//                        try (OutputStream out = resolver.openOutputStream(uri)) {
-//                            writeFileFromIS(out, new FileInputStream(source));
-//                        }
-//                        // Everything went well above, publish it!
-//                        values.clear();
-//                        values.put(MediaStore.MediaColumns.IS_PENDING, 0);
-//                        values.putNull(MediaStore.MediaColumns.DATE_EXPIRES);
-//                        resolver.update(uri, values, null, null);
-//                    }
-//                    mainHandler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (context != null) {
-//                                Toast.makeText(context, context.getString(R.string.xpopup_saved_to_gallery), Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    mainHandler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (context != null) {
-//                                Toast.makeText(context, context.getString(R.string.xpopup_saved_fail), Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
-//    }
-
     public static void saveBmpToAlbum(final Context context, final XPopupImageLoader imageLoader, final Object uri) {
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
@@ -521,7 +446,6 @@ public class XPopupUtils {
                     showToast(context, context.getString(R.string.xpopup_saved_to_gallery));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e("tag", e.getMessage());
                     showToast(context, context.getString(R.string.xpopup_saved_fail));
                 }
             }
