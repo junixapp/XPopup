@@ -132,6 +132,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.isViewMode) {
             //view实现
             ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+            if(getParent()!=null) ((ViewGroup)getParent()).removeView(this);
             decorView.addView(this);
         } else {
             //dialog实现
@@ -728,6 +729,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             if (popupInfo.customAnimator != null && popupInfo.customAnimator.targetView != null) {
                 popupInfo.customAnimator.targetView.animate().cancel();
             }
+            if (popupInfo.isViewMode) tryRemoveFragments();
             if (popupInfo.isDestroyOnDismiss) popupInfo = null;
         }
         if (dialog != null) {
@@ -758,7 +760,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 getHostWindow().setSoftInputMode(preSoftMode);
                 hasModifySoftMode = false;
             }
-            if (popupInfo.isViewMode) tryRemoveFragments();
             if (popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
         }
         if (getContext() != null && getContext() instanceof FragmentActivity) {

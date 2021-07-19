@@ -358,23 +358,20 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowDrawerRight:
                 new XPopup.Builder(getContext())
-                        .dismissOnTouchOutside(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .autoOpenSoftInput(true)
                         .popupPosition(PopupPosition.Right)//右边
                         .hasStatusBarShadow(true) //启用状态栏阴影
                         .asCustom(new ListDrawerPopupView(getContext()))
                         .show();
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
-                if(popupView==null){
-                    popupView = new CustomFullScreenPopup(getContext());
-                }
                 new XPopup.Builder(getContext())
 //                        .hasStatusBar(false)
                         .hasStatusBarShadow(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
-                        .asCustom(popupView)
+                        .asCustom(new CustomFullScreenPopup(getContext()))
                         .show();
                 break;
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗

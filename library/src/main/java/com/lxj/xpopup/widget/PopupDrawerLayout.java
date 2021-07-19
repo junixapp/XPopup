@@ -282,10 +282,10 @@ public class PopupDrawerLayout extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        status = null;
-        hasLayout = false;
-        fraction = 0f;
-        setTranslationY(ty);
+//        status = null;
+//        hasLayout = false;
+//        fraction = 0f;
+//        setTranslationY(ty);
     }
 
     /**
