@@ -61,7 +61,13 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             imageView.setVisibility(View.GONE);
                             snapshot.setVisibility(View.VISIBLE);
                             bigImageView.setVisibility(View.VISIBLE);
-                            bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
+                            if(size[0] >= size[1]){
+                                //如果是横图就居中显示
+                                bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
+                            }else {
+                                //竖图
+                                bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
+                            }
 //                                bigImageView.setScaleAndCenter(1f, new PointF(size[0]/2f, size[1]/));
                             if(snapshot.getDrawable()!=null && snapshot.getDrawable() instanceof BitmapDrawable){
                                 BitmapDrawable preview = (BitmapDrawable)snapshot.getDrawable();
