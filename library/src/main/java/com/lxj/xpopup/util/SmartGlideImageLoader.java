@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
@@ -14,25 +13,21 @@ import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+import com.lxj.xpopup.photoview.PhotoView;
 import java.io.File;
 
 /**
  * 支持加载超长，超大的图片，你能OOM就算我输！！！
  */
 public class SmartGlideImageLoader implements XPopupImageLoader {
-    int errorImg = 0;
-    public SmartGlideImageLoader(){ }
-
-    /**
-     * @param errorImgRes 失败图片占位
-     */
-    public SmartGlideImageLoader(int errorImgRes){
-        errorImg = errorImgRes;
+    private int errImg;
+    public SmartGlideImageLoader(){}
+    public SmartGlideImageLoader(int errImgRes){
+        errImg = errImgRes;
     }
-
     @Override
-    public void loadImage(final int position, @NonNull final Object url, @NonNull final ImageView imageView,
-                          @NonNull final ImageView snapshot,
+    public void loadImage(final int position, @NonNull final Object url, @NonNull final PhotoView imageView,
+                          @NonNull final PhotoView snapshot,
                           @NonNull final SubsamplingScaleImageView bigImageView,
                           @NonNull final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
@@ -46,65 +41,66 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                         progressBar.setVisibility(View.GONE);
                         bigImageView.setVisibility(View.GONE);
                         imageView.setVisibility(View.VISIBLE);
-                        imageView.setImageResource(errorImg);
+                        imageView.setImageResource(errImg);
+                        imageView.setZoomable(false);
                     }
 
                     @Override
                     public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
                         super.onResourceReady(resource, transition);
-                        int maxW = (XPopupUtils.getWindowWidth(context)*2);
-                        int maxH = (XPopupUtils.getScreenHeight(context)*2);
+                        int maxW = XPopupUtils.getWindowWidth(context) * 2;
+                        int maxH = XPopupUtils.getScreenHeight(context) * 2;
 
                         int[] size = XPopupUtils.getImageSize(resource);
-                        if(size[0] > maxW || size[1] > maxH){
+                        if (size[0] > maxW || size[1] > maxH) {
                             //认为是大图，大图则使用SubsamplingScaleImageView加载
                             imageView.setVisibility(View.GONE);
                             snapshot.setVisibility(View.VISIBLE);
                             bigImageView.setVisibility(View.VISIBLE);
-                            if(size[0] >= size[1]){
-                                //如果是横图就居中显示
+                            if (size[0] >= size[1]) {
+                                //横图就居中显示
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
-                            }else {
+                            } else {
                                 //竖图
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
                             }
 //                                bigImageView.setScaleAndCenter(1f, new PointF(size[0]/2f, size[1]/));
-                            if(snapshot.getDrawable()!=null && snapshot.getDrawable() instanceof BitmapDrawable){
-                                BitmapDrawable preview = (BitmapDrawable)snapshot.getDrawable();
+                            if (snapshot.getDrawable() != null && snapshot.getDrawable() instanceof BitmapDrawable) {
+                                BitmapDrawable preview = (BitmapDrawable) snapshot.getDrawable();
                                 bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)).dimensions(size[0], size[1]),
                                         ImageSource.cachedBitmap(preview.getBitmap()));
                             }else {
                                 bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)));
                             }
-                        }else {
+                        } else {
                             progressBar.setVisibility(View.GONE);
-                            imageView.setVisibility(View.VISIBLE);
                             bigImageView.setVisibility(View.GONE);
-                            Glide.with(imageView).load(resource).apply(new RequestOptions().override(size[0], size[1])).into(imageView);
+                            imageView.setVisibility(View.VISIBLE);
+                            imageView.setZoomable(true);
+                            Glide.with(imageView).load(resource).apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(imageView);
                         }
                     }
                 });
     }
 
     @Override
-    public void loadSnapshot(@NonNull Object uri, @NonNull final ImageView snapshot) {
+    public void loadSnapshot(@NonNull Object uri, @NonNull final PhotoView snapshot) {
         Glide.with(snapshot).downloadOnly().load(uri)
                 .into(new ImageDownloadTarget() {
                     @Override
                     public void onLoadFailed(Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        snapshot.setImageResource(errorImg);
                     }
                     @Override
                     public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
                         super.onResourceReady(resource, transition);
-                        int maxW = (XPopupUtils.getWindowWidth(snapshot.getContext()));
-                        int maxH = (XPopupUtils.getScreenHeight(snapshot.getContext()));
+                        int maxW = XPopupUtils.getWindowWidth(snapshot.getContext());
+                        int maxH = XPopupUtils.getScreenHeight(snapshot.getContext());
                         int[] size = XPopupUtils.getImageSize(resource);
-                        if(size[0] > maxW || size[1] > maxH){
+                        if (size[0] > maxW || size[1] > maxH) {
                             //缩放加载
                             snapshot.setImageBitmap(XPopupUtils.getBitmap(resource, maxW, maxH));
-                        }else {
+                        } else {
                             Glide.with(snapshot).load(resource).apply(new RequestOptions().override(size[0], size[1])).into(snapshot);
                         }
                     }

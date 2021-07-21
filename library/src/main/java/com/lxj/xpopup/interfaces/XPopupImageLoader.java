@@ -6,15 +6,16 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.lxj.xpopup.photoview.PhotoView;
 
 import java.io.File;
 
 public interface XPopupImageLoader{
 
-    void loadSnapshot(@NonNull Object uri, @NonNull ImageView snapshot);
+    void loadSnapshot(@NonNull Object uri, @NonNull PhotoView snapshot);
 
-    void loadImage(int position, @NonNull Object uri, @NonNull ImageView imageView, @NonNull ImageView snapshot,
-                   @NonNull SubsamplingScaleImageView bigImageView,@NonNull ProgressBar progressBar);
+    void loadImage(int position, @NonNull Object uri, @NonNull PhotoView imageView, @NonNull PhotoView snapshot,
+                   @NonNull SubsamplingScaleImageView bigImageView, @NonNull ProgressBar progressBar);
 
     /**
      * 获取图片对应的文件

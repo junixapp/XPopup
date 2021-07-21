@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -163,6 +164,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (srcView == null) return;
         if (snapshotView == null) {
             snapshotView = new PhotoView(getContext());
+            snapshotView.setEnabled(false);
             photoViewContainer.addView(snapshotView);
             snapshotView.setScaleType(srcView.getScaleType());
             snapshotView.setTranslationX(rect.left);
@@ -171,6 +173,9 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         }
         int realPosition = getRealPosition();
         snapshotView.setTag(realPosition);
+        if(srcView.getDrawable()!=null){
+            snapshotView.setImageDrawable(srcView.getDrawable());
+        }
         setupPlaceholder();
         if(imageLoader!=null) imageLoader.loadSnapshot(urls.get(realPosition), snapshotView);
     }
@@ -497,14 +502,20 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             fl.addView(ssiv);
 
             final PhotoView photoView = buildPhotoView(container.getContext(), realPosition);
+            photoView.setZoomable(false);
+//            if(snapshotView!=null && snapshotView.getDrawable()!=null && ((int)snapshotView.getTag()) == (realPosition)){
+//                photoView.setImageDrawable(snapshotView.getDrawable()); //try to use memory cache
+//            }else {
+//
+//            }
             if(snapshotView!=null && snapshotView.getDrawable()!=null && ((int)snapshotView.getTag()) == (realPosition)){
-                photoView.setImageDrawable(snapshotView.getDrawable()); //try to use memory cache
-            }else {
-                if (imageLoader != null){
-                    imageLoader.loadImage(realPosition, urls.get(realPosition), photoView, snapshotView
-                            ,ssiv, progressBar);
-                }
+                photoView.setImageDrawable(snapshotView.getDrawable());
             }
+            if (imageLoader != null){
+                imageLoader.loadImage(realPosition, urls.get(realPosition), photoView, snapshotView
+                        ,ssiv, progressBar);
+            }
+
             //3. add PhotoView
             fl.addView(photoView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 

@@ -106,7 +106,7 @@ public class ImageViewerDemo extends BaseFragment {
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
-                                , false, Color.BLACK, new SmartGlideImageLoader(), new OnImageViewerLongPressListener() {
+                                , false, Color.BLACK, new SmartGlideImageLoader(R.mipmap.ic_launcher), new OnImageViewerLongPressListener() {
                                     @Override
                                     public void onLongPressed(BasePopupView popupView, int position) {
                                         ToastUtils.showShort("长按了第" + position +"个图片");
@@ -175,7 +175,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                             popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                         }
-                                    }, new SmartGlideImageLoader(R.mipmap.ic_launcher), null)
+                                    }, new SmartGlideImageLoader(), null)
                             .show();
                 }
             });
