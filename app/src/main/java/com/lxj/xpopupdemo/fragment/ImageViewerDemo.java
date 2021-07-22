@@ -50,13 +50,15 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://image.flaticon.com/icons/png/512/910/910277.png");
         list.add("https://user-gold-cdn.xitu.io/2019/1/25/168839e977414cc1?imageView2/2/w/800/q/100");
         list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551692956639&di=8ee41e070c6a42addfc07522fda3b6c8&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160413%2F75659e9b05b04eb8adf5b52669394897.jpg");
-        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.love.tv%2F2017%2F10%2F15%2F23%2F3dc47bd3b80d4dfc89cfc8d74a0c44fe.gif&refer=http%3A%2F%2Fimg.love.tv&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1629129562&t=a4d5372a3e19d4d4ca851c7fe2864b44");
+        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.love.tv%2F2017%2F10%2F15%2F23%2F3dc47bd3b80d4dfc89cfc8d74a0c44fe.gif&refer=http%3A%2F%2Fimg.love.tv&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/B40CF2CA54715E64CF4AA3632FD4F70E.jpg");
-        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.huabanimg.com%2F3fee54d0b2e0b7a132319a8e104f5fdc2edd3d35d03ee-93Jmdq_fw658&refer=http%3A%2F%2Fhbimg.huabanimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1629129562&t=2698f0e9276e50a9c1e3770c63be3222");
+        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.huabanimg.com%2F3fee54d0b2e0b7a132319a8e104f5fdc2edd3d35d03ee-93Jmdq_fw658&refer=http%3A%2F%2Fhbimg.huabanimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/3F8B1BFDCBA2559EB69BA1670915E912.jpg");
         list.add("https://word.7english.cn/user/publicNoteImage/4e44a8706ee94016a4d40ad0693e9f41/5C50B56D6FC9C30562FE15716B02AA3E.jpg");
-        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F9f569629c4dec5ed1b603982058c6853607b1f0af685e-PcenmQ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1629129562&t=b367c5af94169dd839192775081c6868");
+        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F9f569629c4dec5ed1b603982058c6853607b1f0af685e-PcenmQ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg");
         list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
+        list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F94o3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8c1001e93901213f1820a0d956e736d12f2e95a0.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg");
+        list.add("https://lxj-markdown.oss-cn-zhangjiakou.aliyuncs.com/image/tt.jpg");
     }
 
     RecyclerView recyclerView;
@@ -175,7 +177,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                             popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                         }
-                                    }, new SmartGlideImageLoader(), null)
+                                    }, new SmartGlideImageLoader(R.mipmap.ic_launcher), null)
                             .show();
                 }
             });

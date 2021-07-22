@@ -1,17 +1,19 @@
 package com.lxj.xpopup.util;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 public class SSIVListener implements SubsamplingScaleImageView.OnImageEventListener {
 
-    private final ImageView snapshot;
+    private final SubsamplingScaleImageView ssiv;
     private final ProgressBar progressBar;
-    public SSIVListener(ImageView snapshot, ProgressBar progressBar) {
-        this.snapshot = snapshot;
+    private final int errorImage;
+    public SSIVListener(SubsamplingScaleImageView ssiv, ProgressBar progressBar, int errorImage) {
+        this.ssiv = ssiv;
         this.progressBar = progressBar;
+        this.errorImage = errorImage;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class SSIVListener implements SubsamplingScaleImageView.OnImageEventListe
 
     @Override
     public void onImageLoaded() {
-        snapshot.setVisibility(View.INVISIBLE);
+//        ssiv.animate().alpha(1f).setDuration(500).start();
         progressBar.setVisibility(View.INVISIBLE);
     }
     @Override
@@ -27,7 +29,8 @@ public class SSIVListener implements SubsamplingScaleImageView.OnImageEventListe
 
     @Override
     public void onImageLoadError(Exception e) {
-        snapshot.setVisibility(View.INVISIBLE);
+//        ssiv.animate().alpha(1f).setDuration(500).start();
+        ssiv.setImage(ImageSource.resource(errorImage));
         progressBar.setVisibility(View.INVISIBLE);
     }
 
