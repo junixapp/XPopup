@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -18,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -708,6 +710,41 @@ public class XPopupUtils {
             ret[j++] = hexDigits[bytes[i] & 0x0f];
         }
         return new String(ret);
+    }
+
+
+    public static int getRotateDegree(final String filePath) {
+        try {
+            ExifInterface exifInterface = new ExifInterface(filePath);
+            int orientation = exifInterface.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL
+            );
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    return 90;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    return 180;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    return 270;
+                default:
+                    return 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public static Bitmap rotate(final Bitmap src,
+                                final int degrees,
+                                final float px,
+                                final float py) {
+        if (degrees == 0) return src;
+        Matrix matrix = new Matrix();
+        matrix.setRotate(degrees, px, py);
+        Bitmap ret = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+        return ret;
     }
 
 }

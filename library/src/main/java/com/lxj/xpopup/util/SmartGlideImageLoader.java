@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.Rotate;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -81,24 +82,30 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                         int maxH = XPopupUtils.getScreenHeight(context) * 2;
 
                         int[] size = XPopupUtils.getImageSize(resource);
+                        int degree = XPopupUtils.getRotateDegree(resource.getAbsolutePath());
                         //photo view加载
                         if (imageView instanceof PhotoView) {
                             progressBar.setVisibility(View.GONE);
                             ((PhotoView) imageView).setZoomable(true);
                             if (size[0] > maxW || size[1] > maxH) {
                                 //TODO: 可能导致大图GIF展示不出来
-                                ((PhotoView) imageView).setImageBitmap(XPopupUtils.getBitmap(resource, maxW, maxH));
+                                Bitmap rawBmp = XPopupUtils.getBitmap(resource, maxW, maxH);
+                                ((PhotoView) imageView).setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
                             } else {
-                                Glide.with(imageView).load(resource).apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(((PhotoView) imageView));
+                                Glide.with(imageView).load(resource)
+                                        .transform(new Rotate(degree))
+                                        .apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(((PhotoView) imageView));
                             }
                         } else {
                             //大图加载
                             SubsamplingScaleImageView bigImageView = (SubsamplingScaleImageView) imageView;
+//                            bigImageView.setOrientation(degree);
                             if (size[1] * 1f / size[0] > XPopupUtils.getScreenHeight(context) * 1f / XPopupUtils.getWindowWidth(context)) {
-//                                bigImageView.setScaleAndCenter(0.1f, new PointF(size[0]/2f, 0));
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
+//                                bigImageView.setScaleAndCenter(0.1f, new PointF(size[0]/2f, 0));
                             } else {
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
+//
                             }
                             bigImageView.setMaxScale(10f);
                             bigImageView.setDoubleTapZoomScale(3f);
@@ -106,6 +113,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             Bitmap preview = XPopupUtils.getBitmap(resource, XPopupUtils.getWindowWidth(context), XPopupUtils.getScreenHeight(context));
                             bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)).dimensions(size[0], size[1]),
                                     ImageSource.cachedBitmap(preview));
+                            bigImageView.setScaleAndCenter(0f, new PointF(size[0]/2f, 0));
                         }
                     }
                 });
@@ -114,6 +122,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
 
     private SubsamplingScaleImageView buildBigImageView(final ImageViewerPopupView popupView, ProgressBar progressBar, final int realPosition) {
         final SubsamplingScaleImageView ssiv = new SubsamplingScaleImageView(popupView.getContext());
+        ssiv.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
         ssiv.setOnStateChangedListener(new SubsamplingScaleImageView.DefaultOnStateChangedListener() {
             @Override
             public void onCenterChanged(PointF newCenter, int origin) {
@@ -184,12 +193,14 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                     @Override
                     public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
                         super.onResourceReady(resource, transition);
+                        int degree = XPopupUtils.getRotateDegree(resource.getAbsolutePath());
                         int maxW = XPopupUtils.getWindowWidth(snapshot.getContext());
                         int maxH = XPopupUtils.getScreenHeight(snapshot.getContext());
                         int[] size = XPopupUtils.getImageSize(resource);
                         if (size[0] > maxW || size[1] > maxH) {
                             //缩放加载
-                            snapshot.setImageBitmap(XPopupUtils.getBitmap(resource, maxW, maxH));
+                            Bitmap rawBmp = XPopupUtils.getBitmap(resource, maxW, maxH);
+                            snapshot.setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
                         } else {
                             Glide.with(snapshot).load(resource).apply(new RequestOptions().override(size[0], size[1])).into(snapshot);
                         }
