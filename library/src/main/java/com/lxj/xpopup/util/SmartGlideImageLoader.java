@@ -99,13 +99,11 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                         } else {
                             //大图加载
                             SubsamplingScaleImageView bigImageView = (SubsamplingScaleImageView) imageView;
-//                            bigImageView.setOrientation(degree);
                             if (size[1] * 1f / size[0] > XPopupUtils.getScreenHeight(context) * 1f / XPopupUtils.getWindowWidth(context)) {
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
 //                                bigImageView.setScaleAndCenter(0.1f, new PointF(size[0]/2f, 0));
                             } else {
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
-//
                             }
                             bigImageView.setMaxScale(10f);
                             bigImageView.setDoubleTapZoomScale(3f);
@@ -113,7 +111,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             Bitmap preview = XPopupUtils.getBitmap(resource, XPopupUtils.getWindowWidth(context), XPopupUtils.getScreenHeight(context));
                             bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)).dimensions(size[0], size[1]),
                                     ImageSource.cachedBitmap(preview));
-                            bigImageView.setScaleAndCenter(0f, new PointF(size[0]/2f, 0));
+                            bigImageView.setScaleAndCenter(0f, new PointF(0, 0));
                         }
                     }
                 });
@@ -219,12 +217,4 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
         return null;
     }
 
-    @Override
-    public void destroy(int position, @NonNull Object object) {
-        if (object instanceof SubsamplingScaleImageView) {
-            SubsamplingScaleImageView ssiv = (SubsamplingScaleImageView) object;
-//            ssiv.recycle();
-        }
-
-    }
 }

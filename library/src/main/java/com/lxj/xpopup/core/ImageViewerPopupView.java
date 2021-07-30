@@ -99,12 +99,13 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         photoViewContainer = findViewById(R.id.photoViewContainer);
         photoViewContainer.setOnDragChangeListener(this);
         pager = findViewById(R.id.pager);
-        pager.setAdapter(new PhotoViewAdapter());
+        PhotoViewAdapter photoViewAdapter = new PhotoViewAdapter();
+        pager.setAdapter(photoViewAdapter);
         pager.setCurrentItem(position);
         pager.setVisibility(INVISIBLE);
         addOrUpdateSnapshot();
-//        pager.setOffscreenPageLimit(2);
-        pager.addOnPageChangeListener(onPageChangeListener);
+        pager.setOffscreenPageLimit(2);
+        pager.addOnPageChangeListener(photoViewAdapter);
         if (!isShowIndicator) tv_pager_indicator.setVisibility(GONE);
         if (!isShowSaveBtn) {
             tv_save.setVisibility(GONE);
@@ -112,18 +113,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             tv_save.setOnClickListener(this);
         }
     }
-
-    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-        @Override
-        public void onPageSelected(int i) {
-            position = i;
-            showPagerIndicator();
-            //更新srcView
-            if (srcViewUpdateListener != null) {
-                srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, getRealPosition());
-            }
-        }
-    };
 
     private void setupPlaceholder() {
         placeholderView.setVisibility(isShowPlaceholder ? VISIBLE : INVISIBLE);
@@ -446,7 +435,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     @Override
     public void destroy() {
         super.destroy();
-        pager.removeOnPageChangeListener(onPageChangeListener);
+        pager.removeOnPageChangeListener((PhotoViewAdapter) pager.getAdapter());
         imageLoader = null;
     }
 
@@ -470,7 +459,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                 .request();
     }
 
-    public class PhotoViewAdapter extends PagerAdapter {
+    public class PhotoViewAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
         @Override
         public int getCount() {
             return isInfinite ? 100000 : urls.size();
@@ -489,11 +478,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             FrameLayout fl = buildContainer(container.getContext());
             ProgressBar progressBar = buildProgressBar(container.getContext());
 
-            //2. add ImageView，maybe PhoeView or SubsamplingScaleImageView
+            //2. add ImageView，maybe PhotoView or SubsamplingScaleImageView
             View view = imageLoader.loadImage(realPosition, urls.get(realPosition), ImageViewerPopupView.this, snapshotView
                     , progressBar);
 
-            //3. add PhotoView
+            //3. add View
             fl.addView(view, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
             //4. add ProgressBar
@@ -522,9 +511,27 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            imageLoader.destroy(position, object);
             container.removeView((View) object);
         }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+        @Override
+        public void onPageSelected(int i) {
+            position = i;
+            showPagerIndicator();
+            //更新srcView
+            if (srcViewUpdateListener != null) {
+                srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, getRealPosition());
+            }
+
+//            final int realPosition = isInfinite? position % urls.size() : position;
+            //2. add ImageView，maybe PhotoView or SubsamplingScaleImageView
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) { }
     }
 
 }

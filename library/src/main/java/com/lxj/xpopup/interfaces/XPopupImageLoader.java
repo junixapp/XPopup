@@ -17,6 +17,7 @@ public interface XPopupImageLoader{
 
     void loadSnapshot(@NonNull Object uri, @NonNull PhotoView snapshot);
 
+
     View loadImage(int position, @NonNull Object uri, @NonNull ImageViewerPopupView popupView, @NonNull PhotoView snapshot, @NonNull ProgressBar progressBar);
 
     /**
@@ -26,5 +27,4 @@ public interface XPopupImageLoader{
      * @return
      */
     File getImageFile(@NonNull Context context, @NonNull Object uri);
-    void  destroy( int position, @NonNull Object object);
 }

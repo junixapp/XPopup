@@ -60,6 +60,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F94o3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8c1001e93901213f1820a0d956e736d12f2e95a0.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg");
         list.add("https://lxj-markdown.oss-cn-zhangjiakou.aliyuncs.com/image/tt.jpg");
         list.add("https://img.live.qiqushiting.com/Pimg/img/squ/img/107821622429832886.jpg");
+        list.add("https://lxj-markdown.oss-cn-zhangjiakou.aliyuncs.com/image/BC5851D7D4BF35BB27FFB0AFA9B2819E.jpg");
     }
 
     RecyclerView recyclerView;
