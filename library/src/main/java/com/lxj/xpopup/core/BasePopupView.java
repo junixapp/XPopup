@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -65,6 +66,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             throw new IllegalArgumentException("XPopup的Context必须是Activity类型！");
         }
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        setId(View.generateViewId());
         View contentView = LayoutInflater.from(context).inflate(getInnerLayoutId(), this, false);
         // 事先隐藏，等测量完毕恢复，避免影子跳动现象。
         contentView.setAlpha(0);
@@ -99,7 +101,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     if (popupInfo != null && popupInfo.xPopupCallback != null) {
                         popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this, height);
                     }
-                    if (height == 0) { // 说明对话框隐藏
+                    if (height == 0) { // 说明输入法隐藏
                         XPopupUtils.moveDown(BasePopupView.this);
                         hasMoveUp = false;
                     } else {
@@ -760,7 +762,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         handler.removeCallbacksAndMessages(null);
         if (popupInfo != null) {
             if (getWindowDecorView() != null)
-                KeyboardUtils.removeLayoutChangeListener(getWindowDecorView(), BasePopupView.this);
+                KeyboardUtils.removeLayoutChangeListener(getHostWindow(), BasePopupView.this);
             if (popupInfo.isViewMode && hasModifySoftMode) {
                 //还原WindowSoftMode
                 getHostWindow().setSoftInputMode(preSoftMode);

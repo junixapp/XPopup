@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.RomUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.tabs.TabLayout;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
+        KeyboardUtils.clickBlankArea2HideSoftInput();
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
         XPopup.setAnimationDuration(500);
