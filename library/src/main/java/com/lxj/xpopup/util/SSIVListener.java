@@ -21,7 +21,6 @@ public class SSIVListener implements SubsamplingScaleImageView.OnImageEventListe
 
     @Override
     public void onImageLoaded() {
-//        ssiv.animate().alpha(1f).setDuration(500).start();
         progressBar.setVisibility(View.INVISIBLE);
     }
     @Override

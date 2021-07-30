@@ -524,10 +524,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             if (srcViewUpdateListener != null) {
                 srcViewUpdateListener.onSrcViewUpdate(ImageViewerPopupView.this, getRealPosition());
             }
-
-//            final int realPosition = isInfinite? position % urls.size() : position;
-            //2. add ImageView，maybe PhotoView or SubsamplingScaleImageView
-
         }
 
         @Override

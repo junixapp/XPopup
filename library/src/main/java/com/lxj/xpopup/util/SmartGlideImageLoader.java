@@ -50,7 +50,6 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
         progressBar.setVisibility(View.VISIBLE);
         final View imageView = mBigImage ? buildBigImageView(popupView, progressBar, position)
                 : buildPhotoView(popupView, snapshot, position);
-        //支持超大图片，超长图片的加载
         final Context context = imageView.getContext();
         if (snapshot.getDrawable() != null && ((int)snapshot.getTag())==position ) {
             if (imageView instanceof PhotoView) {
@@ -100,8 +99,8 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             //大图加载
                             SubsamplingScaleImageView bigImageView = (SubsamplingScaleImageView) imageView;
                             if (size[1] * 1f / size[0] > XPopupUtils.getScreenHeight(context) * 1f / XPopupUtils.getWindowWidth(context)) {
+//                                bigImageView.animateScaleAndCenter(1f, new PointF(size[0]/2f,0));
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
-//                                bigImageView.setScaleAndCenter(0.1f, new PointF(size[0]/2f, 0));
                             } else {
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
                             }
