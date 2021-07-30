@@ -553,7 +553,7 @@ public class XPopup {
          * 1. Dialog实现，独立Window渲染，性能是View实现的2倍以上，但部分与输入法交互效果无法做到，
          *    比如根据输入进行联想搜索的场景，因为输入法也是一个Dialog，Android中无法实现2个Dialog同时获取焦点，
          *    而设置为View模式即可轻松实现；
-         *    Dialog实现还有个缺陷是弹窗内部无法使用Fragment，这是Android的限制；
+         *    但是Dialog实现有个缺陷是弹窗内部无法使用Fragment，这是Android的限制；
          * 2. View实现本质是把弹窗挂载到Activity的decorView上面，由于还是View，所以很多与输入法的交互都能实现；
          *    View实现内部完全可以使用Fragment；
          *    缺点是和Activity相同渲染线程，性能比Dialog低

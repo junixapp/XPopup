@@ -126,14 +126,23 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     public FullScreenDialog dialog;
 
     private void attachToHost() {
+        if (popupInfo == null) {
+            throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
+        }
         if (getContext() instanceof FragmentActivity) {
             ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
         }
         if (popupInfo.isViewMode) {
             //view实现
             ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+            int navHeight = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
+                if(navBarView!=null) navHeight = navBarView.getMeasuredHeight();
+            }
             if(getParent()!=null) ((ViewGroup)getParent()).removeView(this);
-            decorView.addView(this);
+            decorView.addView(this, new LayoutParams(LayoutParams.MATCH_PARENT,
+                    decorView.getMeasuredHeight() - navHeight));
         } else {
             //dialog实现
             if (dialog == null) {
@@ -141,9 +150,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                         .setContent(this);
             }
             dialog.show();
-        }
-        if (popupInfo == null) {
-            throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
         }
     }
 
