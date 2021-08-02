@@ -2,16 +2,24 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopupdemo.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Description: 自定义带列表的Drawer弹窗
@@ -28,6 +36,7 @@ public class ListDrawerPopupView extends DrawerPopupView {
         return R.layout.custom_list_drawer;
     }
     final ArrayList<String> data = new ArrayList<>();
+    MutableLiveData<String> liveData = new MutableLiveData<>();
     @Override
     protected void onCreate() {
         recyclerView = findViewById(R.id.recyclerView);
@@ -37,21 +46,36 @@ public class ListDrawerPopupView extends DrawerPopupView {
             data.add(""+i);
         }
 
+        final Button button = findViewById(R.id.btn);
         final EasyAdapter<String> commonAdapter = new EasyAdapter<String>(data, android.R.layout.simple_list_item_1) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(android.R.id.text1, s);
             }
         };
-
+        liveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                button.setText(s);
+                ToastUtils.showShort("弹窗onResume时才收到数据更新： " +s);
+                Log.e("tag", "liveData onChange: "+ s);
+            }
+        });
         recyclerView.setAdapter(commonAdapter);
-        findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
+        button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 //                if(data.size()==0)return;
 //                data.remove(0);
 //                commonAdapter.notifyDataSetChanged();
                 dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        liveData.postValue(new Random().nextInt(10000)+"");
+                    }
+                },1000);
+
             }
         });
 
