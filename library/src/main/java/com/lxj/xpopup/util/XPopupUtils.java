@@ -225,14 +225,14 @@ public class XPopupUtils {
 
     //监听到的keyboardHeight有一定几率是错误的，比如在同时显示导航栏和弹出输入法的时候，有一定几率会算上导航栏的高度，
     //这个不是必现的，暂时无解
-    private static int correctKeyboardHeight = 0;
+    private static int preKeyboardHeight = 0;
 
     public static void moveUpToKeyboard(final int keyboardHeight, final BasePopupView pv) {
-        correctKeyboardHeight = keyboardHeight;
+        preKeyboardHeight = keyboardHeight;
         pv.post(new Runnable() {
             @Override
             public void run() {
-                moveUpToKeyboardInternal(correctKeyboardHeight, pv);
+                moveUpToKeyboardInternal(preKeyboardHeight, pv);
             }
         });
     }
@@ -271,18 +271,11 @@ public class XPopupUtils {
             focusEtTop = locations[1];
             focusBottom = focusEtTop + focusEt.getMeasuredHeight();
         }
-        //执行上移
-        if (pv instanceof FullScreenPopupView ||
-                (popupWidth == XPopupUtils.getWindowWidth(pv.getContext()) &&
-                        popupHeight == screenHeight)
-        ) {
-            // 如果是全屏弹窗，特殊处理，只要输入框没被盖住，就不移动
-            if (focusBottom + keyboardHeight < screenHeight) {
-                return;
-            }
-        }
-        if (pv instanceof FullScreenPopupView) {
-            int overflowHeight = focusBottom + keyboardHeight - screenHeight;
+        int animDuration = 100;
+        //执行上移的逻辑
+        if (pv instanceof FullScreenPopupView || pv instanceof DrawerPopupView) {
+            int overflowHeight = (int) ((focusBottom + keyboardHeight) - screenHeight
+                    - pv.getPopupContentView().getTranslationY());
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
@@ -290,46 +283,22 @@ public class XPopupUtils {
             int popupBottom = (screenHeight + popupHeight) / 2;
             int targetY = popupBottom + keyboardHeight - screenHeight;
             if (focusEt != null && focusEtTop - targetY < 0) {
-                targetY += focusEtTop - targetY - getStatusBarHeight();//限制不能被状态栏遮住
+//                targetY += focusEtTop - targetY /*- getStatusBarHeight()*/;//限制不能被状态栏遮住
             }
             dy = Math.max(0, targetY);
         } else if (pv instanceof BottomPopupView) {
             dy = keyboardHeight;
-            if (focusEt != null && focusEtTop - dy < 0) {
-                dy += focusEtTop - dy - getStatusBarHeight();//限制不能被状态栏遮住
-            }
-        } else if (isBottomPartShadow(pv) || pv instanceof DrawerPopupView) {
-            int overflowHeight = (focusBottom + keyboardHeight) - screenHeight;
+        } else if (pv instanceof PartShadowPopupView) {
+            int overflowHeight = (int) ((focusBottom + keyboardHeight) - screenHeight
+                    - pv.getPopupContentView().getTranslationY());
             if (focusEt != null && overflowHeight > 0) {
                 dy = overflowHeight;
             }
-        } else if (isTopPartShadow(pv)) {
-            int overflowHeight = (focusBottom + keyboardHeight) - screenHeight;
-            if (focusEt != null && overflowHeight > 0) {
-                dy = overflowHeight;
-            }
-            if (dy != 0) {
-                pv.getPopupImplView().animate().translationY(-dy)
-                        .setDuration(200)
-                        .setInterpolator(new OvershootInterpolator(0))
-                        .start();
-            }
-            return;
         }
-        //dy=0说明没有触发移动，有些弹窗有translationY，不能影响它们
-        if (dy == 0 && pv.getPopupContentView().getTranslationY() != 0) return;
         pv.getPopupContentView().animate().translationY(-dy)
-                .setDuration(200)
+                .setDuration(animDuration)
                 .setInterpolator(new OvershootInterpolator(0))
                 .start();
-    }
-
-    private static boolean isBottomPartShadow(BasePopupView pv) {
-        return pv instanceof PartShadowPopupView && ((PartShadowPopupView) pv).isShowUp;
-    }
-
-    private static boolean isTopPartShadow(BasePopupView pv) {
-        return pv instanceof PartShadowPopupView && !((PartShadowPopupView) pv).isShowUp;
     }
 
     //    public static HashMap
@@ -337,13 +306,8 @@ public class XPopupUtils {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView || pv instanceof AttachPopupView || pv instanceof BubbleAttachPopupView)
             return;
-        if (pv instanceof PartShadowPopupView && !isBottomPartShadow(pv)) {
-            pv.getPopupImplView().animate().translationY(0)
-                    .setDuration(100).start();
-        } else {
-            pv.getPopupContentView().animate().translationY(0)
-                    .setDuration(100).start();
-        }
+        pv.getPopupContentView().animate().translationY(0)
+                .setDuration(100).start();
     }
 
     public static boolean isNavBarVisible(Window window) {
@@ -404,10 +368,10 @@ public class XPopupUtils {
                 }
                 try {
                     File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), context.getPackageName());
-                    if(!dir.exists()) dir.mkdirs();
+                    if (!dir.exists()) dir.mkdirs();
                     File destFile = new File(dir, System.currentTimeMillis() + "." + getImageType(source));
                     if (Build.VERSION.SDK_INT < 29) {
-                        if(destFile.exists())destFile.delete();
+                        if (destFile.exists()) destFile.delete();
                         destFile.createNewFile();
                         //android10以下直接insertImage
                         try (OutputStream out = new FileOutputStream(destFile)) {
@@ -663,7 +627,7 @@ public class XPopupUtils {
         try {
             is = new FileInputStream(file);
             byte[] bytes = new byte[12];
-            if(is.read(bytes)!=-1){
+            if (is.read(bytes) != -1) {
                 String type = bytes2HexString(bytes, true).toUpperCase();
                 if (type.contains("FFD8FF")) {
                     return "jpg";
@@ -699,6 +663,7 @@ public class XPopupUtils {
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     private static final char[] HEX_DIGITS_LOWER =
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
     public static String bytes2HexString(final byte[] bytes, boolean isUpperCase) {
         if (bytes == null) return "";
         char[] hexDigits = isUpperCase ? HEX_DIGITS_UPPER : HEX_DIGITS_LOWER;

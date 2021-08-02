@@ -28,10 +28,8 @@ public class PopupDrawerLayout extends FrameLayout {
     ViewDragHelper dragHelper;
     View placeHolder, mChild;
     public PopupPosition position = PopupPosition.Left;
-    ShadowBgAnimator bgAnimator;
     public boolean isDrawStatusBarShadow = false;
     float fraction = 0f;
-    public boolean enableShadow = true;
     public boolean enableDrag = true;
 
     public PopupDrawerLayout(Context context) {
@@ -215,7 +213,6 @@ public class PopupDrawerLayout extends FrameLayout {
                     listener.onClose();
                 }
             }
-            if (enableShadow) setBackgroundColor(bgAnimator.calculateBgColor(fraction));
             if (listener != null) {
                 listener.onDrag(left, fraction, dx<0);
                 if (fraction == 1f && status != LayoutStatus.Open) {
@@ -318,10 +315,6 @@ public class PopupDrawerLayout extends FrameLayout {
     }
 
     private OnCloseListener listener;
-
-    public void setBgAnimator(ShadowBgAnimator animator){
-        this.bgAnimator = animator;
-    }
     public void setOnCloseListener(OnCloseListener listener) {
         this.listener = listener;
     }

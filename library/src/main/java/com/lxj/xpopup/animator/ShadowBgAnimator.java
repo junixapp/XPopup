@@ -53,6 +53,10 @@ public class ShadowBgAnimator extends PopupAnimator {
         animator.setDuration(isZeroDuration ? 0: animationDuration).start();
     }
 
+    public void applyColorValue(float val){
+        targetView.setBackgroundColor((Integer) calculateBgColor(val));
+    }
+
     public int calculateBgColor(float fraction){
         return (int) argbEvaluator.evaluate(fraction, startColor, shadowColor);
     }

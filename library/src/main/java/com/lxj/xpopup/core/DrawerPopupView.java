@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.enums.PopupStatus;
@@ -49,8 +48,6 @@ public abstract class DrawerPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        drawerLayout.setBgAnimator(shadowBgAnimator);
-        drawerLayout.enableShadow = popupInfo.hasShadowBg;
         drawerLayout.isDismissOnTouchOutside = popupInfo.isDismissOnTouchOutside;
         drawerLayout.setOnCloseListener(new PopupDrawerLayout.OnCloseListener() {
             @Override
@@ -67,6 +64,7 @@ public abstract class DrawerPopupView extends BasePopupView {
                 if(popupInfo!=null && popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
                         x, fraction,isToLeft);
                 mFraction = fraction;
+                shadowBgAnimator.applyColorValue(fraction);
                 postInvalidate();
             }
         });
