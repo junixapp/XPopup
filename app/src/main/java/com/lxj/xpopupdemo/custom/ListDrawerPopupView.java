@@ -2,8 +2,11 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +20,7 @@ import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.DrawerPopupView;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.vm.DemoVM;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -36,9 +40,11 @@ public class ListDrawerPopupView extends DrawerPopupView {
         return R.layout.custom_list_drawer;
     }
     final ArrayList<String> data = new ArrayList<>();
-    MutableLiveData<String> liveData = new MutableLiveData<>();
+
+    DemoVM demoVM;
     @Override
     protected void onCreate() {
+        demoVM = new ViewModelProvider(((FragmentActivity)getContext())).get(DemoVM.class);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -53,7 +59,7 @@ public class ListDrawerPopupView extends DrawerPopupView {
                 holder.setText(android.R.id.text1, s);
             }
         };
-        liveData.observe(this, new Observer<String>() {
+        demoVM.liveData.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 button.setText(s);
@@ -72,7 +78,7 @@ public class ListDrawerPopupView extends DrawerPopupView {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        liveData.postValue(new Random().nextInt(10000)+"");
+                        demoVM.liveData.postValue(new Random().nextInt(10000)+"");
                     }
                 },1000);
 
@@ -80,4 +86,6 @@ public class ListDrawerPopupView extends DrawerPopupView {
         });
 
     }
+
+
 }
