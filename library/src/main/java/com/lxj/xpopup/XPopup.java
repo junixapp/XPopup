@@ -389,6 +389,17 @@ public class XPopup {
         }
 
         /**
+         * 设置导航栏是否是亮色，默认false
+         *
+         * @param isLightNavigationBar
+         * @return
+         */
+        public Builder isLightNavigationBar(boolean isLightNavigationBar) {
+            this.popupInfo.isLightNavigationBar = isLightNavigationBar;
+            return this;
+        }
+
+        /**
          * 设置状态栏栏的颜色，目前只对全屏弹窗和Drawer弹窗有效，其他弹窗
          * XPopup强制将状态栏设置为透明了
          * @param statusBarBgColor

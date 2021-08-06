@@ -204,6 +204,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 if(loadingPopup==null){
                     loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
                             .dismissOnBackPressed(false)
+                            .isLightNavigationBar(true)
                             .asLoading("加载中")
                             .show();
                 }else {

@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 //        BarUtils.setStatusBarLightMode(this, true);
 //        BarUtils.setNavBarColor(this, Color.RED);
 //        BarUtils.setStatusBarVisibility();
+//        BarUtils.setNavBarColor(this, Color.parseColor("#333333"));
+        BarUtils.setNavBarLightMode(this, true);
 
 //        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 //        //最大分配内存

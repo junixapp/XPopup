@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
@@ -85,6 +86,7 @@ public class FullScreenDialog extends Dialog {
 
         //自动设置状态色调，亮色还是暗色
         autoSetStatusBarMode();
+        setNavBarLightMode();
         setContentView(contentView);
     }
 
@@ -175,8 +177,20 @@ public class FullScreenDialog extends Dialog {
         }
     }
 
-    BasePopupView contentView;
+    public void setNavBarLightMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            int vis = decorView.getSystemUiVisibility();
+            if (contentView.popupInfo.isLightNavigationBar) {
+                vis |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            } else {
+                vis &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            }
+            decorView.setSystemUiVisibility(vis);
+        }
+    }
 
+    BasePopupView contentView;
     public FullScreenDialog setContent(BasePopupView view) {
         if(view.getParent()!=null){
             ((ViewGroup)view.getParent()).removeView(view);
