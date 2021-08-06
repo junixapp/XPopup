@@ -114,6 +114,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 /*if(popupView==null)*/popupView = new XPopup.Builder(getContext())
 //                        .hasNavigationBar(false)
                         .isDestroyOnDismiss(true)
+                    .isViewMode(true)
 //                        .navigationBarColor(Color.BLUE)
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
@@ -358,7 +359,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowDrawerRight:
-                if(popupView==null)
                     popupView = new XPopup.Builder(getContext())
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)

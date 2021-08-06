@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         KeyboardUtils.clickBlankArea2HideSoftInput();
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
-        XPopup.setAnimationDuration(500);
+//        XPopup.setAnimationDuration(500);
 //        XPopup.setPrimaryColor(Color.RED);
 //        XPopup.setNavigationBarColor(Color.RED);
 //        ScreenUtils.setLandscape(this);
