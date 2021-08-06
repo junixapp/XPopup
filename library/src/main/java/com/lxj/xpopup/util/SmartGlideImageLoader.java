@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.Rotate;
 import com.bumptech.glide.request.RequestOptions;
@@ -46,12 +48,12 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
 
     @Override
     public View loadImage(final int position, @NonNull final Object url, @NonNull ImageViewerPopupView popupView,
-                          @NonNull final PhotoView snapshot, @NonNull final ProgressBar progressBar) {
+                          @Nullable final PhotoView snapshot, @NonNull final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
         final View imageView = mBigImage ? buildBigImageView(popupView, progressBar, position)
                 : buildPhotoView(popupView, snapshot, position);
         final Context context = imageView.getContext();
-        if (snapshot.getDrawable() != null && ((int)snapshot.getTag())==position ) {
+        if (snapshot!=null && snapshot.getDrawable() != null && ((int)snapshot.getTag())==position ) {
             if (imageView instanceof PhotoView) {
                 try {
                     ((PhotoView) imageView).setImageDrawable(snapshot.getDrawable().getConstantState().newDrawable());

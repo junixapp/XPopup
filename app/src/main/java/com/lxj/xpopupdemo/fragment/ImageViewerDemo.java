@@ -123,7 +123,7 @@ public class ImageViewerDemo extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
-                        .asImageViewer(image2, url2, new SmartGlideImageLoader())
+                        .asImageViewer(null, url2, new SmartGlideImageLoader())
                         .show();
             }
         });
