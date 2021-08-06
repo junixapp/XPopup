@@ -49,9 +49,9 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or watchView() must be called for BubbleAttachPopupView before show()！");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            bubbleContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
+            bubbleContainer.setElevation(XPopupUtils.dp2px(getContext(), 10));
         }
-        bubbleContainer.setShadowRadius(XPopupUtils.dp2px(getContext(), 3f));
+        bubbleContainer.setShadowRadius(XPopupUtils.dp2px(getContext(), 2f));
         defaultOffsetY = popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;
         bubbleContainer.setTranslationX(popupInfo.offsetX);
