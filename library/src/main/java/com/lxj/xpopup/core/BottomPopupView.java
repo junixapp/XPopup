@@ -56,7 +56,7 @@ public class BottomPopupView extends BasePopupView {
             @Override
             public void onClose() {
                 beforeDismiss();
-                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(BottomPopupView.this);
+                if(popupInfo!=null && popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.beforeDismiss(BottomPopupView.this);
                 doAfterDismiss();
             }
 

@@ -60,8 +60,9 @@ public abstract class DrawerPopupView extends BasePopupView {
             public void onOpen() {}
             @Override
             public void onDrag(int x, float fraction, boolean isToLeft) {
+                if(popupInfo==null)return;
                 drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
-                if(popupInfo!=null && popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
+                if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
                         x, fraction,isToLeft);
                 mFraction = fraction;
                 shadowBgAnimator.applyColorValue(fraction);
