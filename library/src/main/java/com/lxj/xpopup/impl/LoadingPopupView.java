@@ -55,16 +55,18 @@ public class LoadingPopupView extends CenterPopupView {
         }
         setup();
     }
-
+    private boolean first = true;
     protected void setup() {
         if (tv_title == null) return;
         post(new Runnable() {
             @Override
             public void run() {
-                TransitionManager.beginDelayedTransition(centerPopupContainer, new TransitionSet()
+                TransitionSet set = new TransitionSet()
                         .setDuration(getAnimationDuration())
-                        .addTransition(new Fade())
-                        .addTransition(new ChangeBounds()));
+                        .addTransition(new Fade());
+                if(!first) set.addTransition(new ChangeBounds());
+                TransitionManager.beginDelayedTransition(centerPopupContainer, set);
+                first = false;
                 if (title == null || title.length() == 0) {
                     tv_title.setVisibility(GONE);
                 } else {

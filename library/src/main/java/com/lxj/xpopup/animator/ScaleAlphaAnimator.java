@@ -3,7 +3,6 @@ package com.lxj.xpopup.animator;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -15,7 +14,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         super(target, animationDuration, popupAnimation);
     }
 
-    float startScale = .75f;
+    float startScale = .85f;
     @Override
     public void initAnimator() {
         targetView.setScaleX(startScale);
@@ -37,8 +36,8 @@ public class ScaleAlphaAnimator extends PopupAnimator {
     private void applyPivot() {
         switch (popupAnimation) {
             case ScaleAlphaFromCenter:
-                targetView.setPivotX(targetView.getMeasuredWidth() / 2);
-                targetView.setPivotY(targetView.getMeasuredHeight() / 2);
+                targetView.setPivotX(targetView.getMeasuredWidth() / 2f);
+                targetView.setPivotY(targetView.getMeasuredHeight() / 2f);
                 break;
             case ScaleAlphaFromLeftTop:
                 targetView.setPivotX(0);

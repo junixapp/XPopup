@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //        ScreenUtils.setLandscape(this);
         final LoadingPopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)
-                .asLoading("嘻嘻嘻嘻嘻");
+                .asLoading();
         tabLayout.post(new Runnable() {
             @Override
             public void run() {

@@ -524,16 +524,13 @@ public class XPopupUtils {
     }
 
     public static boolean isLayoutRtl(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Locale primaryLocale;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                primaryLocale = context.getResources().getConfiguration().getLocales().get(0);
-            } else {
-                primaryLocale = context.getResources().getConfiguration().locale;
-            }
-            return TextUtils.getLayoutDirectionFromLocale(primaryLocale) == View.LAYOUT_DIRECTION_RTL;
+        Locale primaryLocale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            primaryLocale = context.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            primaryLocale = context.getResources().getConfiguration().locale;
         }
-        return false;
+        return TextUtils.getLayoutDirectionFromLocale(primaryLocale) == View.LAYOUT_DIRECTION_RTL;
     }
 
     public static Activity context2Activity(View view) {
