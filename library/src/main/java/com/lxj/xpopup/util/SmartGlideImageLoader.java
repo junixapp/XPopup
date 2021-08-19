@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
@@ -100,19 +102,19 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                         } else {
                             //大图加载
                             SubsamplingScaleImageView bigImageView = (SubsamplingScaleImageView) imageView;
+                            boolean longImage = false;
                             if (size[1] * 1f / size[0] > XPopupUtils.getScreenHeight(context) * 1f / XPopupUtils.getWindowWidth(context)) {
-//                                bigImageView.animateScaleAndCenter(1f, new PointF(size[0]/2f,0));
+                                longImage = true;
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
                             } else {
+                                longImage = false;
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
                             }
-                            bigImageView.setMaxScale(10f);
-                            bigImageView.setDoubleTapZoomScale(3f);
-                            bigImageView.setOnImageEventListener(new SSIVListener(bigImageView, progressBar, errImg));
+                            bigImageView.setOrientation(degree);
+                            bigImageView.setOnImageEventListener(new SSIVListener(bigImageView, progressBar, errImg, longImage));
                             Bitmap preview = XPopupUtils.getBitmap(resource, XPopupUtils.getWindowWidth(context), XPopupUtils.getScreenHeight(context));
                             bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)).dimensions(size[0], size[1]),
                                     ImageSource.cachedBitmap(preview));
-                            bigImageView.setScaleAndCenter(0f, new PointF(0, 0));
                         }
                     }
                 });
@@ -121,7 +123,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
 
     private SubsamplingScaleImageView buildBigImageView(final ImageViewerPopupView popupView, ProgressBar progressBar, final int realPosition) {
         final SubsamplingScaleImageView ssiv = new SubsamplingScaleImageView(popupView.getContext());
-        ssiv.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+//        ssiv.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
         ssiv.setOnStateChangedListener(new SubsamplingScaleImageView.DefaultOnStateChangedListener() {
             @Override
             public void onCenterChanged(PointF newCenter, int origin) {

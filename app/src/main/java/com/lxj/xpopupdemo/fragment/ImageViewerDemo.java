@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
@@ -61,6 +62,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://lxj-markdown.oss-cn-zhangjiakou.aliyuncs.com/image/tt.jpg");
         list.add("https://img.live.qiqushiting.com/Pimg/img/squ/img/107821622429832886.jpg");
         list.add("https://lxj-markdown.oss-cn-zhangjiakou.aliyuncs.com/image/BC5851D7D4BF35BB27FFB0AFA9B2819E.jpg");
+        list.add("http://moimg0.mwim.store/image/5BE8A5CF4893D9197D6D6D66BE294488.jpg");
     }
 
     RecyclerView recyclerView;
@@ -179,7 +181,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                             popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                         }
-                                    }, new SmartGlideImageLoader( R.mipmap.ic_launcher), null)
+                                    }, new SmartGlideImageLoader( true, R.mipmap.ic_launcher), null)
                             .show();
                 }
             });
