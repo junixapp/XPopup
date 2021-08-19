@@ -33,6 +33,7 @@ import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
 import com.lxj.xpopupdemo.custom.CustomHorizontalBubbleAttachPopup;
 import com.lxj.xpopupdemo.custom.ListDrawerPopupView;
 import com.lxj.xpopupdemo.custom.LoginPopup;
+import com.lxj.xpopupdemo.custom.NotificationMsgPopup;
 import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
@@ -54,6 +55,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnBindLayout).setOnClickListener(this);
         view.findViewById(R.id.btnShowPosition1).setOnClickListener(this);
         view.findViewById(R.id.btnShowPosition2).setOnClickListener(this);
+        view.findViewById(R.id.btnShowPosition3).setOnClickListener(this);
         view.findViewById(R.id.btnShowInputConfirm).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterList).setOnClickListener(this);
         view.findViewById(R.id.btnShowCenterListWithCheck).setOnClickListener(this);
@@ -399,6 +401,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isCenterHorizontal(true)
                         .offsetY(200)
                         .asCustom(new QQMsgPopup(getContext()))
+                        .show();
+                break;
+            case R.id.btnShowPosition3:
+                new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .popupAnimation(PopupAnimation.TranslateFromTop)
+                        .asCustom(new NotificationMsgPopup(getContext()))
                         .show();
                 break;
             case R.id.btnMultiPopup:

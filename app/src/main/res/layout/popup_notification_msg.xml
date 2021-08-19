@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:text="我是从顶部向下弹窗的自由定位弹窗，可以做一些通知的UI交互。\n这里只是用自由定位Position弹窗来演示，\n其他弹窗如Attach弹窗，PartShadow弹窗都能实现这个效果，感兴趣的朋友可以试试！！！"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvClose"
+        android:text="我知道了!"
+        android:textColor="#222"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_round2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

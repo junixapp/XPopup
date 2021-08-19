@@ -235,18 +235,32 @@
             android:text="自定义贴在输入法之上的弹窗"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/btnShowPosition1"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="显示自由定位Position弹窗"
-            android:textAllCaps="false" />
+            android:layout_height="wrap_content">
 
+            <Button
+                android:id="@+id/btnShowPosition1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="自由定位Position弹窗"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnShowPosition2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="水平居中的Position弹窗"
+                android:textAllCaps="false" />
+        </LinearLayout>
         <Button
-            android:id="@+id/btnShowPosition2"
+            android:id="@+id/btnShowPosition3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="水平居中的自由定位Position弹窗"
+            android:text="从顶部弹出的Position弹窗"
             android:textAllCaps="false" />
 
         <Button
