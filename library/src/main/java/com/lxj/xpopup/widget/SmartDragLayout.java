@@ -73,16 +73,17 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if(enableDrag && scroller.computeScrollOffset()) return true;
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
         isUserClose = true;
-        return super.dispatchTouchEvent(ev);
+        if(status == LayoutStatus.Closing || status==LayoutStatus.Opening) return false;
+        return super.onInterceptTouchEvent(ev);
     }
 
     float touchX, touchY;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(status == LayoutStatus.Closing || status==LayoutStatus.Opening) return false;
         if ((enableDrag && scroller.computeScrollOffset()) || status==LayoutStatus.Close) {
             touchX = 0;
             touchY = 0;

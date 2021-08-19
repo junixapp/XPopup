@@ -212,7 +212,10 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 指南帮
 - FateU（https://fateu.com.cn/download/fateuApp.apk)
 - 皮皮有料（嘉兴市字符律动互联网科技有限责任公司 下载地址：https://www.pgyer.com/wakagaoxiao）
-
+- 海信爱家
+- 广州蓝勃生物。产品：ML300医疗检测在使用。还在开发阶段！
+- 轻纺易购（https://fzapp.com/）
+- 洋葱变声器 (http://onionapp.cn)
 
 
 ## 打个赏
