@@ -1,9 +1,6 @@
 package com.lxj.xpopupdemo;
 
-import android.app.ActivityManager;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -12,11 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.RomUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -52,22 +47,6 @@ public class MainActivity extends AppCompatActivity {
 //        BarUtils.setNavBarColor(this, Color.parseColor("#333333"));
         BarUtils.setNavBarLightMode(this, true);
 
-//        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-//        //最大分配内存
-//        int memory = activityManager.getMemoryClass();
-//        System.out.println("memory: "+memory);
-//        //最大分配内存获取方法2
-//        float maxMemory = (float) (Runtime.getRuntime().maxMemory() * 1.0/ (1024 * 1024));
-//        //当前分配的总内存
-//        float totalMemory = (float) (Runtime.getRuntime().totalMemory() * 1.0/ (1024 * 1024));
-//        //剩余内存
-//        float freeMemory = (float) (Runtime.getRuntime().freeMemory() * 1.0/ (1024 * 1024));
-//        System.out.println("maxMemory: "+maxMemory);
-//        System.out.println("totalMemory: "+totalMemory);
-//        System.out.println("freeMemory: "+freeMemory);
-//        System.out.println("avaiMemory: "+(Runtime.getRuntime().maxMemory()-Runtime.getRuntime().totalMemory()) * 1.0/ (1024 * 1024));
-
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
 
@@ -79,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         KeyboardUtils.clickBlankArea2HideSoftInput();
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
+
 //        XPopup.setAnimationDuration(500);
 //        XPopup.setPrimaryColor(Color.RED);
 //        XPopup.setNavigationBarColor(Color.RED);
@@ -96,18 +76,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
-                        + "  getAppHeight: "+ XPopupUtils.getAppHeight(MainActivity.this)
-                        + "  statusHeight: "+ XPopupUtils.getStatusBarHeight()
-                        + "  navHeight: "+ XPopupUtils.getNavBarHeight()
-                        + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
+        String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
+                + "  getAppHeight: " + XPopupUtils.getAppHeight(MainActivity.this)
+                + "  statusHeight: " + XPopupUtils.getStatusBarHeight()
+                + "  navHeight: " + XPopupUtils.getNavBarHeight()
+                + "  hasNav: " + XPopupUtils.isNavBarVisible(getWindow());
 //        ToastUtils.showLong(str);
-                Log.e("tag", str);
-            }
-        });
+        Log.e("tag", str);
     }
 
     class MainAdapter extends FragmentPagerAdapter {

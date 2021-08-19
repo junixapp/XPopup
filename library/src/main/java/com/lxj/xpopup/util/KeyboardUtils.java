@@ -16,8 +16,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
+
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
-import java.util.HashMap;
 
 /**
  * Description:
@@ -25,9 +26,7 @@ import java.util.HashMap;
  */
 public final class KeyboardUtils {
     public static int sDecorViewInvisibleHeightPre;
-    private static ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
-    private static SparseArray<ViewTreeObserver.OnGlobalLayoutListener> listenerArray = new SparseArray<>();
-    private static HashMap<View,OnSoftInputChangedListener> listenerMap = new HashMap<>();
+    private static final SparseArray<ViewTreeObserver.OnGlobalLayoutListener> listenerArray = new SparseArray<>();
     private KeyboardUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
@@ -81,6 +80,8 @@ public final class KeyboardUtils {
         ViewTreeObserver.OnGlobalLayoutListener tag = listenerArray.get(popupView.getId());
         if (tag != null) {
             contentView.getViewTreeObserver().removeOnGlobalLayoutListener(tag);
+            tag = null;
+            listenerArray.remove(popupView.getId());
         }
     }
 
@@ -90,16 +91,26 @@ public final class KeyboardUtils {
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
-        imm.showSoftInput(view, 0, new ResultReceiver(new Handler()) {
-            @Override
-            protected void onReceiveResult(int resultCode, Bundle resultData) {
-                if (resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN
-                        || resultCode == InputMethodManager.RESULT_HIDDEN) {
-                    toggleSoftInput(view.getContext());
-                }
-            }
-        });
+        imm.showSoftInput(view, 0 ,new SoftInputReceiver(view.getContext()));
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    private static class SoftInputReceiver extends ResultReceiver{
+        private Context context;
+        public SoftInputReceiver(Context context) {
+            super(new Handler());
+            this.context = context;
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            super.onReceiveResult(resultCode, resultData);
+            if (resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN
+                        || resultCode == InputMethodManager.RESULT_HIDDEN) {
+                    toggleSoftInput(context);
+                }
+            context = null;
+        }
     }
 
     public static void toggleSoftInput(Context context) {

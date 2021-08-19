@@ -285,7 +285,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             requestFocus();
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
             if (Build.VERSION.SDK_INT >= 28) {
-//                removeOnUnhandledKeyEventListener(backPressListener);
                 addOnUnhandledKeyEventListener(new OnUnhandledKeyEventListener() {
                     @Override
                     public boolean onUnhandledKeyEvent(View v, KeyEvent event) {

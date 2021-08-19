@@ -24,6 +24,5 @@ public class XPopupApp extends Application {
         ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0 , 0);
         ToastUtils.getDefaultMaker().setBgResource(R.drawable.bg_toast);
         ToastUtils.getDefaultMaker().setTextColor(Color.WHITE);
-//        CrashReport.initCrashReport(getApplicationContext(), "e494d36dcc", false);
     }
 }
