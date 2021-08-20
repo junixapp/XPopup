@@ -90,11 +90,7 @@ public class XPopupUtils {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (wm == null) return -1;
         Point point = new Point();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            wm.getDefaultDisplay().getRealSize(point);
-        } else {
-            wm.getDefaultDisplay().getSize(point);
-        }
+        wm.getDefaultDisplay().getRealSize(point);
         return point.y;
     }
 
@@ -301,11 +297,14 @@ public class XPopupUtils {
                 .start();
     }
 
-    //    public static HashMap
     public static void moveDown(BasePopupView pv) {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView || pv instanceof AttachPopupView || pv instanceof BubbleAttachPopupView)
             return;
+        if(pv instanceof FullScreenPopupView && pv.getPopupContentView().hasTransientState()){
+            //如果正在执行动画，则不下移
+            return;
+        }
         pv.getPopupContentView().animate().translationY(0)
                 .setDuration(100).start();
     }

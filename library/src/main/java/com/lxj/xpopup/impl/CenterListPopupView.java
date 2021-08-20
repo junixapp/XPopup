@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lxj.easyadapter.EasyAdapter;
@@ -70,11 +71,14 @@ public class CenterListPopupView extends CenterPopupView {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
+                ImageView imageView = holder.getViewOrNull(R.id.iv_image);
                 if (iconIds != null && iconIds.length > position) {
-                    holder.getView(R.id.iv_image).setVisibility(VISIBLE);
-                    holder.getView(R.id.iv_image).setBackgroundResource(iconIds[position]);
+                    if(imageView!=null){
+                        imageView.setVisibility(VISIBLE);
+                        imageView.setBackgroundResource(iconIds[position]);
+                    }
                 } else {
-                    holder.getView(R.id.iv_image).setVisibility(GONE);
+                    if(imageView!=null) imageView.setVisibility(GONE);
                 }
 
                 // 对勾View
