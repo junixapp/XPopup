@@ -33,7 +33,7 @@ public class AttachListPopupView extends AttachPopupView {
      *
      * @param context
      * @param bindLayoutId layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView
-     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中有id为iv_image的ImageView（非必须），和id为tv_text的TextView
      */
     public AttachListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId) {
         super(context);

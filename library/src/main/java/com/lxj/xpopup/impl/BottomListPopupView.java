@@ -41,7 +41,7 @@ public class BottomListPopupView extends BottomPopupView {
      *
      * @param context
      * @param bindLayoutId layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
-     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中有id为iv_image的ImageView（非必须），和id为tv_text的TextView
      */
     public BottomListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId ) {
         super(context);
