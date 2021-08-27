@@ -45,7 +45,7 @@ public class XPopup {
      * 全局弹窗的设置
      **/
     private static int primaryColor = Color.parseColor("#121212");
-    private static int animationDuration = 300;
+    private static int animationDuration = 250;
     private static int statusBarBgColor = Color.parseColor("#55000000");
     private static int navigationBarColor = 0;
     private static int shadowBgColor = Color.parseColor("#7F000000");
@@ -353,8 +353,7 @@ public class XPopup {
         }
 
         /**
-         * 设置是否显示状态栏，默认是显示的。如果你的APP主动隐藏状态栏，你可能需要设置为false，不然看起来
-         * 会有点不和谐
+         * 设置是否显示状态栏，默认是显示的。如果你希望弹窗隐藏状态栏，就设置为true
          *
          * @param hasStatusBar
          * @return
@@ -365,8 +364,7 @@ public class XPopup {
         }
 
         /**
-         * 设置是否显示导航栏，默认是显示的。如果你的APP主动隐藏了导航栏，你需要设置为false，不然看起来
-         * 会有点不和谐；默认情况下不需要调用
+         * 设置是否显示导航栏，默认是显示的。如果你希望弹窗隐藏导航栏，就设置为true
          *
          * @param hasNavigationBar
          * @return
@@ -377,8 +375,7 @@ public class XPopup {
         }
 
         /**
-         * 设置导航栏的颜色，如果你的APP修改了导航栏的颜色，你可能需要调用这个方法设置为相同的颜色；
-         * 否则弹窗的导航栏颜色会和App的导航颜色不一致；默认情况下不需要调用
+         * 设置导航栏的颜色，如果你希望弹窗修改导航栏的颜色的时候用；
          *
          * @param navigationBarColor
          * @return
@@ -400,8 +397,19 @@ public class XPopup {
         }
 
         /**
-         * 设置状态栏栏的颜色，目前只对全屏弹窗和Drawer弹窗有效，其他弹窗
-         * XPopup强制将状态栏设置为透明了
+         * 设置状态栏是否是亮色，默认false
+         *
+         * @param isLightStatusBar
+         * @return
+         */
+        public Builder isLightStatusBar(boolean isLightStatusBar) {
+            this.popupInfo.isLightStatusBar = isLightStatusBar;
+            return this;
+        }
+
+        /**
+         * 设置状态栏的背景颜色，目前只对全屏弹窗和Drawer弹窗有效，其他弹窗
+         * XPopup强制将状态栏设置为透明
          * @param statusBarBgColor
          * @return
          */

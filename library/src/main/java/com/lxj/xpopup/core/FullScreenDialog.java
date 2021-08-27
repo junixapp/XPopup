@@ -1,15 +1,14 @@
 package com.lxj.xpopup.core;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
@@ -78,14 +77,13 @@ public class FullScreenDialog extends Dialog {
         if (!contentView.popupInfo.hasNavigationBar) {
             hideNavigationBar();
         }
-        if(!contentView.popupInfo.isRequestFocus){
-            //不获取焦点
+        if(!contentView.popupInfo.isRequestFocus){//不获取焦点
             int flag = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
             getWindow().setFlags(flag,flag);
         }
 
-        //自动设置状态色调，亮色还是暗色
-        autoSetStatusBarMode();
+        //设置状态色调，亮色还是暗色
+        setStatusBarMode();
         setNavBarLightMode();
         setContentView(contentView);
     }
@@ -101,15 +99,6 @@ public class FullScreenDialog extends Dialog {
         return FuckRomUtils.isVivo() && (Build.VERSION.SDK_INT == 26 || Build.VERSION.SDK_INT == 27) && isYModel;
     }
 
-    public boolean isActivityStatusBarLightMode() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = ((Activity) contentView.getContext()).getWindow().getDecorView();
-            int vis = decorView.getSystemUiVisibility();
-            return (vis & View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR) != 0;
-        }
-        return false;
-    }
-
     public void setWindowFlag(final int bits, boolean on) {
         WindowManager.LayoutParams winParams = getWindow().getAttributes();
         if (on) {
@@ -120,24 +109,22 @@ public class FullScreenDialog extends Dialog {
         getWindow().setAttributes(winParams);
     }
 
-    /**
-     * 是否是亮色调状态栏
-     *
-     * @return
-     */
-    public void autoSetStatusBarMode() {
+    public void setStatusBarMode() {
         //隐藏状态栏
         if (!contentView.popupInfo.hasStatusBar) {
             final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
             final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|
                         View.SYSTEM_UI_FLAG_FULLSCREEN;
             getWindow().getDecorView().setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
+            return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().setStatusBarColor(contentView.popupInfo.statusBarBgColor);
             int vis = decorView.getSystemUiVisibility();
-            boolean isLightMode = isActivityStatusBarLightMode();
-            if (isLightMode) {
+            if (contentView.popupInfo.isLightStatusBar) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             } else {
                 vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;

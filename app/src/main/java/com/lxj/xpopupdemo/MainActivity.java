@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        BarUtils.setStatusBarLightMode(this, true);
+        BarUtils.setStatusBarLightMode(this, false);
 //        BarUtils.setNavBarColor(this, Color.RED);
 //        BarUtils.setStatusBarVisibility();
 //        BarUtils.setNavBarColor(this, Color.parseColor("#333333"));

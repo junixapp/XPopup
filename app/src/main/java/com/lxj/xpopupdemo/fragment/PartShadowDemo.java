@@ -90,7 +90,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         if(popupView==null){
             popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                     .atView(v)
-//                    .isClickThrough(true)
+                    .isClickThrough(true)
 //                    .dismissOnTouchOutside(false)
 //                    .isCenterHorizontal(true)
                     .autoOpenSoftInput(true)

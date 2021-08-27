@@ -110,9 +110,9 @@ public abstract class AttachPopupView extends BasePopupView {
     float centerY = 0;
 
     public void doAttach() {
+        if(popupInfo==null)return;
         maxY = XPopupUtils.getAppHeight(getContext()) - overflow;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
-        if(popupInfo==null)return;
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
@@ -143,6 +143,7 @@ public abstract class AttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
+                    if(popupInfo==null)return;
                     if (isRTL) {
                         translationX = isShowLeft ? -(XPopupUtils.getWindowWidth(getContext()) - popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth() - defaultOffsetX)
                                 : -(XPopupUtils.getWindowWidth(getContext()) - popupInfo.touchPoint.x + defaultOffsetX);
@@ -224,6 +225,7 @@ public abstract class AttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
+                    if(popupInfo==null)return;
                     if (isRTL) {
                         translationX = isShowLeft ? -(XPopupUtils.getWindowWidth(getContext()) - rect.left - getPopupContentView().getMeasuredWidth() - defaultOffsetX)
                                 : -(XPopupUtils.getWindowWidth(getContext()) - rect.right + defaultOffsetX);

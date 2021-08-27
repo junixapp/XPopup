@@ -171,6 +171,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             showPagerIndicator();
             photoViewContainer.isReleasing = false;
             doAfterShow();
+            if (customView != null) {
+                customView.setAlpha(1f);
+                customView.setVisibility(VISIBLE);
+            }
             return;
         }
         photoViewContainer.isReleasing = true;
@@ -231,6 +235,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             doAfterDismiss();
             pager.setVisibility(INVISIBLE);
             placeholderView.setVisibility(INVISIBLE);
+            if (customView != null) {
+                customView.setAlpha(0f);
+                customView.setVisibility(INVISIBLE);
+            }
             return;
         }
         tv_pager_indicator.setVisibility(INVISIBLE);
