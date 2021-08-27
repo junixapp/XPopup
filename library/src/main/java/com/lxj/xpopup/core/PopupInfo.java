@@ -1,12 +1,15 @@
 package com.lxj.xpopup.core;
 
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.view.View;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.interfaces.XPopupCallback;
+
+import java.util.ArrayList;
 
 /**
  * Description: Popup的属性封装
@@ -56,6 +59,7 @@ public class PopupInfo {
     public int shadowBgColor = 0; //阴影背景的颜色
     public int animationDuration = -1; //动画的时长
     public int statusBarBgColor = 0; //状态栏阴影颜色，对Drawer弹窗和全屏弹窗有效
+    public ArrayList<Rect> notDismissWhenTouchInArea; //当触摸在这个区域时，不消失
     public View getAtView() {
         return atView;
     }

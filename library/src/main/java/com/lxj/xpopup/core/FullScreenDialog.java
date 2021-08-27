@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,8 +119,6 @@ public class FullScreenDialog extends Dialog {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().setStatusBarColor(contentView.popupInfo.statusBarBgColor);
             int vis = decorView.getSystemUiVisibility();
             if (contentView.popupInfo.isLightStatusBar) {

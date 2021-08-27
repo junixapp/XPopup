@@ -116,13 +116,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 /*if(popupView==null)*/popupView = new XPopup.Builder(getContext())
 //                        .hasNavigationBar(false)
                         .isDestroyOnDismiss(true)
-                        .isLightStatusBar(true)
-//                        .navigationBarColor(Color.BLUE)
+                        .isLightStatusBar(false)
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
-//                        .isLightStatusBar(true)
 //                        .setPopupCallback(new DemoXPopupListener())
 //                        .asCustom(new LoginPopup(getContext()));
                         .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",

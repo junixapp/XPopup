@@ -708,4 +708,10 @@ public class XPopupUtils {
         return ret;
     }
 
+    public static Rect getViewRect(View view){
+        Rect rect = new Rect();
+        view.getGlobalVisibleRect(rect);
+        return rect;
+    }
+
 }

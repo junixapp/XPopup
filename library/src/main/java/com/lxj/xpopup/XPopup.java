@@ -3,6 +3,7 @@ package com.lxj.xpopup;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -35,6 +36,9 @@ import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.util.XPermission;
+import com.lxj.xpopup.util.XPopupUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,7 +49,7 @@ public class XPopup {
      * 全局弹窗的设置
      **/
     private static int primaryColor = Color.parseColor("#121212");
-    private static int animationDuration = 250;
+    private static int animationDuration = 280;
     private static int statusBarBgColor = Color.parseColor("#55000000");
     private static int navigationBarColor = 0;
     private static int shadowBgColor = Color.parseColor("#7F000000");
@@ -612,6 +616,20 @@ public class XPopup {
          */
         public Builder keepScreenOn(boolean keepScreenOn) {
             this.popupInfo.keepScreenOn = keepScreenOn;
+            return this;
+        }
+
+        /**
+         * dismissOnTouchOutside(true)时，即使触摸在指定View时也不消失；
+         * 改方法可调用多次，每次可添加一个Rect区域
+         * @param view 触摸View
+         * @return
+         */
+        public Builder notDismissWhenTouchInView(View view) {
+            if(this.popupInfo.notDismissWhenTouchInArea==null){
+                this.popupInfo.notDismissWhenTouchInArea = new ArrayList<>();
+            }
+            this.popupInfo.notDismissWhenTouchInArea.add(XPopupUtils.getViewRect(view));
             return this;
         }
 

@@ -806,8 +806,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     public boolean onTouchEvent(MotionEvent event) {
         // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件,如果是，则dismiss
         Rect rect = new Rect();
-        Rect rect2 = new Rect();
-        getPopupContentView().getGlobalVisibleRect(rect);
+//        Rect rect2 = new Rect();
+        getPopupImplView().getGlobalVisibleRect(rect);
         if (!XPopupUtils.isInRect(event.getX(), event.getY(), rect)) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -821,12 +821,25 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                    if (!XPopupUtils.isInRect(event.getX(), event.getY(), rect2)) {
-                        passClickThrough(event);
-                    }
+                    passClickThrough(event);
                     if (distance < touchSlop && popupInfo != null && popupInfo.isDismissOnTouchOutside) {
-                        dismiss();
-                        getPopupImplView().getGlobalVisibleRect(rect2);
+                        //查看是否在排除区域外
+                        ArrayList<Rect> rects = popupInfo.notDismissWhenTouchInArea;
+                        if(rects!=null && rects.size()>0){
+                            boolean inRect = false;
+                            for (Rect r : rects) {
+                                if(XPopupUtils.isInRect(event.getX(), event.getY(), r)){
+                                    inRect = true;
+                                    break;
+                                }
+                            }
+                            if(!inRect){
+                                dismiss();
+                            }
+                        }else {
+                            dismiss();
+                        }
+//                        getPopupImplView().getGlobalVisibleRect(rect2);
                     }
                     x = 0;
                     y = 0;
