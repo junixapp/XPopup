@@ -149,7 +149,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 }
                 new XPopup.Builder(getContext())
                         .atView(v)
-                        .popupPosition(PopupPosition.Top)
+                        .popupPosition(PopupPosition.Bottom)
                         .asCustom(popupView2)
                         .show();
                 break;

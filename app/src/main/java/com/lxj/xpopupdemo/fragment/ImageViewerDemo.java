@@ -140,7 +140,7 @@ public class ImageViewerDemo extends BaseFragment {
                 //自定义的弹窗需要用asCustom来显示，之前的asImageViewer这些方法当然不能用了。
                 CustomImageViewerPopup viewerPopup = new CustomImageViewerPopup(getContext());
                 //自定义的ImageViewer弹窗需要自己手动设置相应的属性，必须设置的有srcView，url和imageLoader。
-                viewerPopup.setSingleSrcView(null, url2);
+                viewerPopup.setSingleSrcView(image2, url2);
 //                viewerPopup.isInfinite(true);
                 viewerPopup.setXPopupImageLoader(new SmartGlideImageLoader());
 //                viewerPopup.isShowIndicator(false);//是否显示页码指示器

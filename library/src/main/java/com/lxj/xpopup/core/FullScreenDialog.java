@@ -50,9 +50,10 @@ public class FullScreenDialog extends Dialog {
         getWindow().getDecorView().setSystemUiVisibility(option);
 
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
-                XPopupUtils.getScreenHeight(getContext())));
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         if(isFuckVIVORoom()){
+            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
+                    XPopupUtils.getScreenHeight(getContext())));
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
         }
 
@@ -83,6 +84,12 @@ public class FullScreenDialog extends Dialog {
         setContentView(contentView);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        setStatusBarMode();
+    }
+
     private int getNavigationBarColor(){
         return contentView.popupInfo.navigationBarColor==0 ? XPopup.getNavigationBarColor()
                 : contentView.popupInfo.navigationBarColor;
@@ -104,6 +111,12 @@ public class FullScreenDialog extends Dialog {
         getWindow().setAttributes(winParams);
     }
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        setStatusBarMode();
+    }
+
     public void setStatusBarMode() {
         //隐藏状态栏
         if (!contentView.popupInfo.hasStatusBar) {
@@ -115,7 +128,6 @@ public class FullScreenDialog extends Dialog {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
-            getWindow().setStatusBarColor(contentView.popupInfo.statusBarBgColor);
             int vis = decorView.getSystemUiVisibility();
             if (contentView.popupInfo.isLightStatusBar) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
@@ -123,6 +135,7 @@ public class FullScreenDialog extends Dialog {
                 vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             }
             decorView.setSystemUiVisibility(vis);
+            getWindow().setStatusBarColor(contentView.popupInfo.statusBarBgColor);
         }
     }
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import androidx.annotation.RequiresApi;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
@@ -116,7 +117,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 /*if(popupView==null)*/popupView = new XPopup.Builder(getContext())
 //                        .hasNavigationBar(false)
                         .isDestroyOnDismiss(true)
-                        .isLightStatusBar(true)
 //                        .hasBlurBg(true)
 //                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
@@ -371,8 +371,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
                 new XPopup.Builder(getContext())
 //                        .hasStatusBar(false)
-                        .hasStatusBarShadow(true)
+//                        .hasStatusBarShadow(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .isLightStatusBar(true)
                         .autoOpenSoftInput(true)
                         .asCustom(new CustomFullScreenPopup(getContext()))
                         .show();
