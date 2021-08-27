@@ -57,19 +57,16 @@ public class FullScreenDialog extends Dialog {
         }
 
         //remove status bar shadow
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+        if(Build.VERSION.SDK_INT == 19){  //解决4.4上状态栏闪烁的问题
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }else if (Build.VERSION.SDK_INT == 20) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, true);
-        }
-
-        if (Build.VERSION.SDK_INT >= 21) {
+        }else if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
             int navigationBarColor = getNavigationBarColor();
             if(navigationBarColor!=0)getWindow().setNavigationBarColor(navigationBarColor);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); //尝试兼容部分手机上的状态栏空白问题
-        }
-        if(Build.VERSION.SDK_INT == 19){ //解决4.4上状态栏闪烁的问题
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
         //隐藏导航栏
@@ -81,7 +78,6 @@ public class FullScreenDialog extends Dialog {
             getWindow().setFlags(flag,flag);
         }
 
-        //设置状态色调，亮色还是暗色
         setStatusBarMode();
         setNavBarLightMode();
         setContentView(contentView);

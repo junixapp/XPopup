@@ -111,7 +111,8 @@ public abstract class AttachPopupView extends BasePopupView {
 
     public void doAttach() {
         if(popupInfo==null)return;
-        maxY = XPopupUtils.getAppHeight(getContext()) - overflow;
+        int realNavHeight = (XPopupUtils.isNavBarVisible(getHostWindow()) ? XPopupUtils.getNavBarHeight() : 0 );
+        maxY = XPopupUtils.getAppHeight(getContext()) - overflow - realNavHeight;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
@@ -130,7 +131,7 @@ public abstract class AttachPopupView extends BasePopupView {
             //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
             int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
-                    : (XPopupUtils.getScreenHeight(getContext()) - popupInfo.touchPoint.y - overflow));
+                    : (XPopupUtils.getScreenHeight(getContext()) - popupInfo.touchPoint.y - overflow- realNavHeight));
             int maxWidth = (int) (isShowLeft ? (XPopupUtils.getWindowWidth(getContext()) - popupInfo.touchPoint.x - overflow) : (popupInfo.touchPoint.x - overflow));
             if (getPopupContentView().getMeasuredHeight() > maxHeight) {
                 params.height = maxHeight;
@@ -211,7 +212,7 @@ public abstract class AttachPopupView extends BasePopupView {
 //            if (!isCreated) {
                 ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
                 int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
-                        : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow);
+                        : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow - realNavHeight);
                 int maxWidth = isShowLeft ? (XPopupUtils.getWindowWidth(getContext()) - rect.left - overflow) : (rect.right - overflow);
                 if (getPopupContentView().getMeasuredHeight() > maxHeight) {
                     params.height = maxHeight;
