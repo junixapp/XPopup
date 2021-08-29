@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -282,17 +283,14 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     private ShowSoftInputTask showSoftInputTask;
     public void focusAndProcessBackPress() {
         if (popupInfo != null && popupInfo.isRequestFocus) {
-            setFocusableInTouchMode(true);
-            setFocusable(true);
-            requestFocus();
+            if(popupInfo.isViewMode){
+                setFocusableInTouchMode(true);
+                setFocusable(true);
+                requestFocus();
+            }
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
             if (Build.VERSION.SDK_INT >= 28) {
-                addOnUnhandledKeyEventListener(new OnUnhandledKeyEventListener() {
-                    @Override
-                    public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
-                        return processKeyEvent(event.getKeyCode(), event);
-                    }
-                });
+                addOnUnhandledKeyListener(this);
             } else {
                 setOnKeyListener(new BackPressListener());
             }
@@ -309,12 +307,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 for (int i = 0; i < list.size(); i++) {
                     final EditText et = list.get(i);
                     if (Build.VERSION.SDK_INT >= 28) {
-                        et.addOnUnhandledKeyEventListener(new OnUnhandledKeyEventListener() {
-                            @Override
-                            public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
-                                return processKeyEvent(event.getKeyCode(), event);
-                            }
-                        });
+                        addOnUnhandledKeyListener(et);
                     }else {
                         boolean hasSetKeyListener = XPopupUtils.hasSetKeyListener(et);
                         if(!hasSetKeyListener) et.setOnKeyListener(new BackPressListener());
@@ -334,6 +327,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 if (popupInfo.autoOpenSoftInput) showSoftInput(this);
             }
         }
+
+    }
+
+    protected void addOnUnhandledKeyListener(View view){
+        ViewCompat.addOnUnhandledKeyEventListener(view, new ViewCompat.OnUnhandledKeyEventListenerCompat() {
+            @Override
+            public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
+                return processKeyEvent(event.getKeyCode(), event);
+            }
+        });
     }
 
     protected void showSoftInput(View focusView) {
