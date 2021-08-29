@@ -64,7 +64,7 @@ public class BubbleLayout extends FrameLayout {
     private int mBubbleBorderSize = 0;
     // 气泡边框画笔
     private Paint mBubbleBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-
+    public int arrowOffset = 0;
     /**
      * 箭头指向
      */
@@ -203,7 +203,9 @@ public class BubbleLayout extends FrameLayout {
         if(isLookPositionCenter){
             mLookPosition = (mLook==Look.LEFT || mLook==Look.RIGHT) ?
                     (mHeight/2 - mLookLength/2) : (mWidth/2 - mLookWidth/2);
+
         }
+        mLookPosition += arrowOffset;
 //        mPaint.setPathEffect(new CornerPathEffect(mBubbleRadius));
         mPaint.setShadowLayer(mShadowRadius, mShadowX, mShadowY, mShadowColor);
         mBubbleBorderPaint.setColor(mBubbleBorderColor);

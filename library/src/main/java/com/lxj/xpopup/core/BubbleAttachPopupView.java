@@ -252,6 +252,8 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 }
             });
         }
+
+
     }
 
     protected void initAndStartAnimation(){
@@ -269,6 +271,17 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         //默认是根据Material规范定位，优先显示在目标下方，下方距离不足才显示在上方
         return (isShowUp || popupInfo.popupPosition == PopupPosition.Top)
                 && popupInfo.popupPosition != PopupPosition.Bottom;
+    }
+
+    /**
+     * 设置气泡箭头的偏移位置
+     * @param offset
+     * @return
+     */
+    public BubbleAttachPopupView setArrowOffset(int offset){
+        bubbleContainer.arrowOffset = offset;
+        bubbleContainer.invalidate();
+        return this;
     }
 
     /**

@@ -341,7 +341,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .atView(v)
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomBubbleAttachPopup(getContext())
-//                                .setBubbleBgColor(Color.RED)
+//                                .setArrowOffset(100)  //气泡箭头偏移
+//                                .setBubbleBgColor(Color.RED)  //气泡背景
 //                                .setArrowWidth(XPopupUtils.dp2px(getContext(), 20))
 //                                .setArrowHeight(XPopupUtils.dp2px(getContext(), 20))
 //                                .setBubbleRadius(100)
