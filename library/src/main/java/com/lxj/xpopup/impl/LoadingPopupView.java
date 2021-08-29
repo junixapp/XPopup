@@ -3,23 +3,15 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.transition.ChangeBounds;
 import androidx.transition.Fade;
 import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
-import androidx.transition.Visibility;
-
-import com.google.android.material.transition.MaterialFade;
 import com.lxj.xpopup.R;
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.lxj.xpopup.widget.LoadingView;
 
 /**
  * Description: 加载对话框
@@ -61,11 +53,12 @@ public class LoadingPopupView extends CenterPopupView {
         post(new Runnable() {
             @Override
             public void run() {
-                TransitionSet set = new TransitionSet()
-                        .setDuration(getAnimationDuration())
-                        .addTransition(new Fade());
-                if(!first) set.addTransition(new ChangeBounds());
-                TransitionManager.beginDelayedTransition(centerPopupContainer, set);
+                if(!first) {
+                    TransitionSet set = new TransitionSet()
+                            .setDuration(getAnimationDuration())
+                            .addTransition(new Fade()).addTransition(new ChangeBounds());
+                    TransitionManager.beginDelayedTransition(centerPopupContainer, set);
+                }
                 first = false;
                 if (title == null || title.length() == 0) {
                     tv_title.setVisibility(GONE);

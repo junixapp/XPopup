@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -312,6 +315,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetY(10)  //往下偏移10
 //                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
                         .hasShadowBg(false) // 去掉半透明背景
+                        .isViewMode(true)
                         .atView(v)
                         .asCustom(new CustomAttachPopup(getContext()))
                         .show();
@@ -417,8 +421,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 XPopup.requestOverlayPermission(getContext(), new XPermission.SimpleCallback() {
                     @Override
                     public void onGranted() {
-//                        ToastUtils.showShort("等待2秒后弹出XPopup！！！");
-//                        ActivityUtils.startHomeActivity();
+                        ToastUtils.showShort("等待2秒后弹出XPopup！！！");
+                        ActivityUtils.startHomeActivity();
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
