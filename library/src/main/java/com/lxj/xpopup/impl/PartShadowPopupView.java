@@ -54,7 +54,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
             @Override
             public void run() {
                 doAttach();
-//                initAndStartAnimation();
             }
         });
     }
@@ -64,17 +63,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
         doShowAnimation();
         doAfterShow();
     }
-
-//    @Override
-//    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-//        super.onSizeChanged(w, h, oldw, oldh);
-//        post(new Runnable() {
-//            @Override
-//            public void run() {
-//                doAttach();
-//            }
-//        });
-//    }
 
     public boolean isShowUp;
     public void doAttach() {
@@ -93,15 +81,15 @@ public abstract class PartShadowPopupView extends BasePopupView {
 
         //水平居中
         if (popupInfo.isCenterHorizontal && getPopupImplView() != null) {
-//            getPopupImplView().setTranslationX(XPopupUtils.getWindowWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
+//            getPopupImplView().setTranslationX(XPopupUtils.getAppWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
             //参考目标View居中，而不是屏幕居中
             int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
             getPopupImplView().setTranslationX(tx);
         }else {
             int tx = rect.left + popupInfo.offsetX;
-            if(tx + getPopupImplView().getMeasuredWidth() > XPopupUtils.getWindowWidth(getContext())){
-                //右边超出屏幕了，往左移动
-                tx -= (tx + getPopupImplView().getMeasuredWidth()-XPopupUtils.getWindowWidth(getContext()));
+            int realWidth = XPopupUtils.getScreenWidth(getContext());
+            if(tx + getPopupImplView().getMeasuredWidth() > realWidth){
+                tx -= (tx + getPopupImplView().getMeasuredWidth() - realWidth);
             }
             getPopupImplView().setTranslationX(tx);
         }
@@ -155,4 +143,8 @@ public abstract class PartShadowPopupView extends BasePopupView {
                 PopupAnimation.TranslateFromBottom : PopupAnimation.TranslateFromTop);
     }
 
+    @Override
+    protected int getMaxWidth() {
+        return XPopupUtils.getAppWidth(getContext());
+    }
 }

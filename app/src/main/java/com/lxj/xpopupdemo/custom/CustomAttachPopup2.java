@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.core.AttachPopupView;
-import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -41,12 +39,11 @@ public class CustomAttachPopup2 extends AttachPopupView {
     @Override
     public void doAttach() {
         super.doAttach();
-        ToastUtils.showShort(isShowUpToTarget() ? "显示在上" : "显示在下");
     }
 
 //    @Override
 //    protected int getPopupWidth() {
-//        return XPopupUtils.getWindowWidth(getContext());
+//        return XPopupUtils.getAppWidth(getContext());
 //    }
 
 }

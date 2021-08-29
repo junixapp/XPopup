@@ -78,7 +78,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                     @Override
                     public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
                         super.onResourceReady(resource, transition);
-                        int maxW = XPopupUtils.getWindowWidth(context) * 2;
+                        int maxW = XPopupUtils.getAppWidth(context) * 2;
                         int maxH = XPopupUtils.getScreenHeight(context) * 2;
 
                         int[] size = XPopupUtils.getImageSize(resource);
@@ -100,7 +100,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             //大图加载
                             SubsamplingScaleImageView bigImageView = (SubsamplingScaleImageView) imageView;
                             boolean longImage = false;
-                            if (size[1] * 1f / size[0] > XPopupUtils.getScreenHeight(context) * 1f / XPopupUtils.getWindowWidth(context)) {
+                            if (size[1] * 1f / size[0] > XPopupUtils.getScreenHeight(context) * 1f / XPopupUtils.getAppWidth(context)) {
                                 longImage = true;
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START);
                             } else {
@@ -109,7 +109,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             }
                             bigImageView.setOrientation(degree);
                             bigImageView.setOnImageEventListener(new SSIVListener(bigImageView, progressBar, errImg, longImage));
-                            Bitmap preview = XPopupUtils.getBitmap(resource, XPopupUtils.getWindowWidth(context), XPopupUtils.getScreenHeight(context));
+                            Bitmap preview = XPopupUtils.getBitmap(resource, XPopupUtils.getAppWidth(context), XPopupUtils.getScreenHeight(context));
                             bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)).dimensions(size[0], size[1]),
                                     ImageSource.cachedBitmap(preview));
                         }
@@ -192,7 +192,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                     public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
                         super.onResourceReady(resource, transition);
                         int degree = XPopupUtils.getRotateDegree(resource.getAbsolutePath());
-                        int maxW = XPopupUtils.getWindowWidth(snapshot.getContext());
+                        int maxW = XPopupUtils.getAppWidth(snapshot.getContext());
                         int maxH = XPopupUtils.getScreenHeight(snapshot.getContext());
                         int[] size = XPopupUtils.getImageSize(resource);
                         if (size[0] > maxW || size[1] > maxH) {

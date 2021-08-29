@@ -3,6 +3,7 @@ package com.lxj.xpopup.core;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -35,6 +36,7 @@ import com.lxj.xpopup.animator.ScrollScaleAnimator;
 import com.lxj.xpopup.animator.ShadowBgAnimator;
 import com.lxj.xpopup.animator.TranslateAlphaAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
@@ -718,15 +720,23 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * onCreated之后，onShow之前执行
      */
-    protected void beforeShow() { }
+    protected void beforeShow() {
+        boolean isLandscape = getContext().getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+        if(isLandscape && ( this instanceof BottomPopupView || this instanceof FullScreenPopupView
+                || (
+                this instanceof DrawerPopupView && popupInfo.popupPosition!= PopupPosition.Right
+                ))){
+            setPadding(XPopupUtils.getStatusBarHeight(),0,0,0);
+        }
+    }
 
     /**
      * 显示动画执行完毕后执行
      */
     protected void onShow() { }
 
-    protected void onKeyboardHeightChange(int height) {
-    }
+    protected void onKeyboardHeightChange(int height) { }
 
     @OnLifecycleEvent(value = Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {

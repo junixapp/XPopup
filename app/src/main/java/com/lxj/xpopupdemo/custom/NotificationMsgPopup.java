@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopupdemo.R;
@@ -27,7 +25,6 @@ public class NotificationMsgPopup extends PositionPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        LogUtils.e("NotificationMsgPopup onCreate");
         findViewById(R.id.tvClose).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

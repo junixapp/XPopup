@@ -6,10 +6,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -128,7 +127,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 new OnConfirmListener() {
                                     @Override
                                     public void onConfirm() {
-                                        ToastUtils.showShort("click confirm");
                                     }
                                 }, null, false);
                 popupView.show();
@@ -235,6 +233,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                             .isDarkTheme(true)
                             .hasShadowBg(true)
+                            .isViewMode(true)
 //                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                             .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5", "条目6", "条目7"},
@@ -417,8 +416,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 XPopup.requestOverlayPermission(getContext(), new XPermission.SimpleCallback() {
                     @Override
                     public void onGranted() {
-                        ToastUtils.showShort("等待2秒后弹出XPopup！！！");
-                        ActivityUtils.startHomeActivity();
+//                        ToastUtils.showShort("等待2秒后弹出XPopup！！！");
+//                        ActivityUtils.startHomeActivity();
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -437,7 +436,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onDenied() {
-                        ToastUtils.showShort("权限拒绝需要申请悬浮窗权限！");
+//                        ToastUtils.showShort("权限拒绝需要申请悬浮窗权限！");
                     }
                 });
                 break;
@@ -470,7 +469,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         @Override
         public boolean onBackPressed(BasePopupView popupView) {
             Log.e("tag", "拦截的返回按键，按返回键XPopup不会关闭了");
-            ToastUtils.showShort("onBackPressed返回true，拦截了返回按键，按返回键XPopup不会关闭了");
+            Toast.makeText(popupView.getContext(), "onBackPressed返回true，拦截了返回按键，按返回键XPopup不会关闭了", Toast.LENGTH_SHORT).show();
             return true;
         }
 

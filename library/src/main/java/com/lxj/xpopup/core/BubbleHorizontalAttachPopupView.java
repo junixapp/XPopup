@@ -41,12 +41,12 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
             // 依附于指定点
-            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getWindowWidth(getContext()) / 2;
+            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2;
 
             // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
             if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x+defaultOffsetX)
-                        : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
+                translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x+defaultOffsetX)
+                        : -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
             }else {
                 translationX = isShowLeftToTarget() ? (popupInfo.touchPoint.x - w - defaultOffsetX) : (popupInfo.touchPoint.x + defaultOffsetX);
             }
@@ -61,10 +61,10 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
 
             int centerX = (rect.left + rect.right) / 2;
 
-            isShowLeft = centerX > XPopupUtils.getWindowWidth(getContext()) / 2;
+            isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
             if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left + defaultOffsetX)
-                        : -(XPopupUtils.getWindowWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
+                translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-rect.left + defaultOffsetX)
+                        : -(XPopupUtils.getAppWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
             }else {
                 translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
             }

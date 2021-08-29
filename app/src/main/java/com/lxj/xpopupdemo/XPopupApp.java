@@ -14,7 +14,7 @@ import com.umeng.commonsdk.UMConfigure;
  */
 public class XPopupApp extends Application {
     public static Context context;
-    //
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -132,7 +132,7 @@ public class BottomPopupView extends BasePopupView {
     }
 
     protected int getMaxWidth() {
-        return popupInfo.maxWidth == 0 ? XPopupUtils.getWindowWidth(getContext())
+        return popupInfo.maxWidth == 0 ? XPopupUtils.getAppWidth(getContext())
                 : popupInfo.maxWidth;
     }
 

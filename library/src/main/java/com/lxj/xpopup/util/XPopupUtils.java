@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -72,9 +73,6 @@ import java.util.concurrent.Executors;
  * Create by lxj, at 2018/12/7
  */
 public class XPopupUtils {
-    public static int getWindowWidth(Context context) {
-        return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
-    }
 
     //应用界面可见高度，可能不包含导航和状态栏，看Rom实现
     public static int getAppHeight(Context context) {
@@ -84,6 +82,13 @@ public class XPopupUtils {
         wm.getDefaultDisplay().getSize(point);
         return point.y;
     }
+    public static int getAppWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) return -1;
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point.x;
+    }
 
     //屏幕的高度，包含状态栏，导航栏，看Rom实现
     public static int getScreenHeight(Context context) {
@@ -92,6 +97,13 @@ public class XPopupUtils {
         Point point = new Point();
         wm.getDefaultDisplay().getRealSize(point);
         return point.y;
+    }
+    public static int getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) return -1;
+        Point point = new Point();
+        wm.getDefaultDisplay().getRealSize(point);
+        return point.x;
     }
 
     public static int dp2px(Context context, float dipValue) {
@@ -142,6 +154,9 @@ public class XPopupUtils {
                 if (maxWidth > 0) {
                     //指定了最大宽度，就限制最大宽度
                     params.width = Math.min(w, maxWidth);
+                    if (implParams.width==ViewGroup.LayoutParams.MATCH_PARENT){
+                        implParams.width = Math.min(w, maxWidth);
+                    }
                     if (popupWidth > 0) {
                         params.width = Math.min(popupWidth, maxWidth);
                         implParams.width = Math.min(popupWidth, maxWidth);
@@ -316,10 +331,14 @@ public class XPopupUtils {
             final View child = decorView.getChildAt(i);
             final int id = child.getId();
             if (id != View.NO_ID) {
-                String resourceEntryName = window.getContext().getResources().getResourceEntryName(id);
-                if ("navigationBarBackground".equals(resourceEntryName)
-                        && child.getVisibility() == View.VISIBLE) {
-                    isVisible = true;
+                try {
+                    String resourceEntryName = window.getContext().getResources().getResourceEntryName(id);
+                    if ("navigationBarBackground".equals(resourceEntryName)
+                            && child.getVisibility() == View.VISIBLE) {
+                        isVisible = true;
+                        break;
+                    }
+                }catch (Resources.NotFoundException e){
                     break;
                 }
             }
@@ -714,4 +733,8 @@ public class XPopupUtils {
         return rect;
     }
 
+    public static boolean isLandscape(Context context){
+        return context.getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+    }
 }

@@ -1,7 +1,9 @@
 package com.lxj.xpopupdemo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.RomUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 //        BarUtils.setNavBarColor(this, Color.RED);
 //        BarUtils.setStatusBarVisibility();
 //        BarUtils.setNavBarColor(this, Color.parseColor("#333333"));
-        BarUtils.setNavBarLightMode(this, true);
+//        BarUtils.setNavBarLightMode(this, true);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
@@ -55,33 +58,26 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
-        KeyboardUtils.clickBlankArea2HideSoftInput();
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 
-//        XPopup.setAnimationDuration(500);
-//        XPopup.setPrimaryColor(Color.RED);
-//        XPopup.setNavigationBarColor(Color.RED);
-//        ScreenUtils.setLandscape(this);
+        XPopup.setAnimationDuration(500);
+        XPopup.setPrimaryColor(Color.RED);
+        XPopup.setNavigationBarColor(Color.RED);
         final LoadingPopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)
                 .asLoading();
-        tabLayout.post(new Runnable() {
-            @Override
-            public void run() {
 
-                loadingPopupView.show();
-//        loadingPopupView.dismiss();
-                loadingPopupView.delayDismiss(1200);
-            }
-        });
+        loadingPopupView.show();
+        loadingPopupView.delayDismiss(1200);
 
         String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
                 + "  getAppHeight: " + XPopupUtils.getAppHeight(MainActivity.this)
+                + " deviceWidth: " + XPopupUtils.getScreenWidth(MainActivity.this)
+                + " getAppWidth: " + XPopupUtils.getAppWidth(MainActivity.this)
                 + "  statusHeight: " + XPopupUtils.getStatusBarHeight()
                 + "  navHeight: " + XPopupUtils.getNavBarHeight()
                 + "  hasNav: " + XPopupUtils.isNavBarVisible(getWindow());
-//        ToastUtils.showLong(str);
         Log.e("tag", str);
     }
 
@@ -106,14 +102,6 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return pageInfos[position].title;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        viewPager.removeAllViews();
-        viewPager = null;
-        pageInfos = null;
     }
 
 }

@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class FullScreenDialog extends Dialog {
                 getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             }
         }
+
         if(contentView.popupInfo.keepScreenOn){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -50,8 +52,10 @@ public class FullScreenDialog extends Dialog {
         getWindow().getDecorView().setSystemUiVisibility(option);
 
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
+        boolean isPortrait = getContext().getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
         getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        if(isFuckVIVORoom()){
+        if(isFuckVIVORoom() && isPortrait){
             getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
                     XPopupUtils.getScreenHeight(getContext())));
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
@@ -84,12 +88,6 @@ public class FullScreenDialog extends Dialog {
         setContentView(contentView);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        setStatusBarMode();
-    }
-
     private int getNavigationBarColor(){
         return contentView.popupInfo.navigationBarColor==0 ? XPopup.getNavigationBarColor()
                 : contentView.popupInfo.navigationBarColor;
@@ -109,12 +107,6 @@ public class FullScreenDialog extends Dialog {
             winParams.flags &= ~bits;
         }
         getWindow().setAttributes(winParams);
-    }
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        setStatusBarMode();
     }
 
     public void setStatusBarMode() {

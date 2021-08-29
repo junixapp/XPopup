@@ -14,8 +14,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.DrawerPopupView;
@@ -63,7 +63,7 @@ public class ListDrawerPopupView extends DrawerPopupView {
             @Override
             public void onChanged(String s) {
                 button.setText(s);
-                ToastUtils.showShort("弹窗onResume时才收到数据更新： " +s);
+                Toast.makeText(getContext(), "弹窗onResume时才收到数据更新", Toast.LENGTH_SHORT).show();
                 Log.e("tag", "liveData onChange: "+ s);
             }
         });

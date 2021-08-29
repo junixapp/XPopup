@@ -6,16 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
-import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
@@ -76,22 +75,13 @@ public class ImageViewerDemo extends BaseFragment {
         view.findViewById(R.id.btnClear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ThreadUtils.executeByCached(new ThreadUtils.Task<Object>() {
+                new Thread(new Runnable() {
                     @Override
-                    public Object doInBackground() throws Throwable {
+                    public void run() {
                         Glide.get(requireContext()).clearDiskCache();
                         Glide.get(requireContext()).clearMemory();
-                        return true;
                     }
-                    @Override
-                    public void onSuccess(Object result) {
-                        ToastUtils.showShort("清理完毕");
-                    }
-                    @Override
-                    public void onCancel() { }
-                    @Override
-                    public void onFail(Throwable t) { }
-                });
+                }).start();
             }
         });
         image1 = view.findViewById(R.id.image1);
@@ -115,7 +105,7 @@ public class ImageViewerDemo extends BaseFragment {
                                 , false, Color.BLACK, new SmartGlideImageLoader(R.mipmap.ic_launcher), new OnImageViewerLongPressListener() {
                                     @Override
                                     public void onLongPressed(BasePopupView popupView, int position) {
-                                        ToastUtils.showShort("长按了第" + position +"个图片");
+                                        Toast.makeText(requireContext(), "长按了第" + position +"个图片", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                         .show();

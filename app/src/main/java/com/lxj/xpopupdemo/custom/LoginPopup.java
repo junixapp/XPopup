@@ -5,10 +5,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
-
-import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -48,7 +46,7 @@ public class LoginPopup extends CenterPopupView {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode==KeyEvent.KEYCODE_DEL){
-                    ToastUtils.showShort("按了删除键");
+                    Toast.makeText(getContext(), "按了删除键", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
