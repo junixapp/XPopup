@@ -87,7 +87,7 @@ Gif录制的有些卡顿，真机预览效果更佳。扫描二维码下载Demo�
 如果二维码图片不可见，[点我下载Demo体验](http://d.7short.com/2q63)
 
 ## Gradle
-**由于jcenter跑路，从2.2.24版本开始，转为jitpack了。**
+
 [![](https://jitpack.io/v/li-xiaojun/XPopup.svg)](https://jitpack.io/#li-xiaojun/XPopup)
 ```
 implementation 'com.github.li-xiaojun:XPopup:版本号看上面'
@@ -100,12 +100,6 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
-```
-
-**2.2.23之前的地址请暂时使用下面的地址，但是jcenter只保证能用到2022年初**：
-![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)
-```groovy
-implementation 'com.lxj:xpopup:最新版本'  //jcenter跑路，预计到2022年初就无法访问
 ```
 
 其中编译版本必须 >= 29：
