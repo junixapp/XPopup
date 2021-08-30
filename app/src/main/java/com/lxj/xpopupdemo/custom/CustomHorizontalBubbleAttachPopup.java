@@ -27,6 +27,7 @@ public class CustomHorizontalBubbleAttachPopup extends BubbleHorizontalAttachPop
     @Override
     protected void onCreate() {
         super.onCreate();
+        getPopupImplView().setBackgroundResource(0);
         findViewById(R.id.tv_zan).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
