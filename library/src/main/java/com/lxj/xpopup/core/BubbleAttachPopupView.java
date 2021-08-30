@@ -328,6 +328,28 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         return this;
     }
 
+    /**
+     * 设置气泡阴影大小
+     * @param size
+     * @return
+     */
+    public BubbleAttachPopupView setBubbleShadowSize(int size){
+        bubbleContainer.setShadowRadius(size);
+        bubbleContainer.invalidate();
+        return this;
+    }
+
+    /**
+     * 设置气泡阴影颜色
+     * @param color
+     * @return
+     */
+    public BubbleAttachPopupView setBubbleShadowColor(int color){
+        bubbleContainer.setShadowColor(color);
+        bubbleContainer.invalidate();
+        return this;
+    }
+
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(),PopupAnimation.ScaleAlphaFromCenter);
