@@ -1,6 +1,7 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import android.graphics.Color;
@@ -32,10 +33,9 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     EditText et_input;
     View divider1, divider2;
     public boolean isHideCancel = false;
-    public int et_input_type = InputType.TYPE_NULL;
+    public int et_input_type = -500;
 
     /**
-     *
      * @param context
      * @param bindLayoutId layoutId 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
      */
@@ -44,6 +44,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         this.bindLayoutId = bindLayoutId;
         addInnerContent();
     }
+
     /**
      * @param context
      * @param bindLayoutId layoutId 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
@@ -75,8 +76,9 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         /**
          *输入类型
          */
-        et_input.setInputType(et_input_type);
-
+        if (et_input_type != -500) {
+            et_input.setInputType(et_input_type);
+        }
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
@@ -88,7 +90,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
 
         if (!TextUtils.isEmpty(content)) {
             tv_content.setText(content);
-        }else {
+        } else {
             tv_content.setVisibility(GONE);
         }
         if (!TextUtils.isEmpty(cancelText)) {
@@ -99,7 +101,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         }
         if (isHideCancel) {
             tv_cancel.setVisibility(GONE);
-            if(divider2!=null) divider2.setVisibility(GONE);
+            if (divider2 != null) divider2.setVisibility(GONE);
         }
         applyTheme();
     }
@@ -110,25 +112,28 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_content.setTextColor(getResources().getColor(R.color._xpopup_content_color));
         tv_cancel.setTextColor(Color.parseColor("#666666"));
         tv_confirm.setTextColor(XPopup.getPrimaryColor());
-        if(divider1!=null)divider1.setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
-        if(divider2!=null)divider2.setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
+        if (divider1 != null)
+            divider1.setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
+        if (divider2 != null)
+            divider2.setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
     }
 
-    public TextView getTitleTextView(){
+    public TextView getTitleTextView() {
         return findViewById(R.id.tv_title);
     }
 
-    public TextView getContentTextView(){
+    public TextView getContentTextView() {
         return findViewById(R.id.tv_content);
     }
 
-    public TextView getCancelTextView(){
+    public TextView getCancelTextView() {
         return findViewById(R.id.tv_cancel);
     }
 
-    public TextView getConfirmTextView(){
+    public TextView getConfirmTextView() {
         return findViewById(R.id.tv_confirm);
     }
+
     @Override
     protected void applyDarkTheme() {
         super.applyDarkTheme();
@@ -136,8 +141,10 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         tv_content.setTextColor(getResources().getColor(R.color._xpopup_white_color));
         tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_white_color));
         tv_confirm.setTextColor(getResources().getColor(R.color._xpopup_white_color));
-        if(divider1!=null)divider1.setBackgroundColor(getResources().getColor(R.color._xpopup_list_dark_divider));
-        if(divider2!=null)divider2.setBackgroundColor(getResources().getColor(R.color._xpopup_list_dark_divider));
+        if (divider1 != null)
+            divider1.setBackgroundColor(getResources().getColor(R.color._xpopup_list_dark_divider));
+        if (divider2 != null)
+            divider2.setBackgroundColor(getResources().getColor(R.color._xpopup_list_dark_divider));
     }
 
     public ConfirmPopupView setListener(OnConfirmListener confirmListener, OnCancelListener cancelListener) {
