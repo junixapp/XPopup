@@ -33,7 +33,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
     EditText et_input;
     View divider1, divider2;
     public boolean isHideCancel = false;
-    public int et_input_type = -500;
+    public int et_input_type = InputType.TYPE_CLASS_TEXT;
 
     /**
      * @param context
@@ -76,9 +76,7 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         /**
          *输入类型
          */
-        if (et_input_type != -500) {
-            et_input.setInputType(et_input_type);
-        }
+        et_input.setInputType(et_input_type);
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
