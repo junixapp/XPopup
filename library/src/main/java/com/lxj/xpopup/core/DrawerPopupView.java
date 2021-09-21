@@ -41,7 +41,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getInnerLayoutId() {
+    final protected int getInnerLayoutId() {
         return R.layout._xpopup_drawer_popup_view;
     }
 

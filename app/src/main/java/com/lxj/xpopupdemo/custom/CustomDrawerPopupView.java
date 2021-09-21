@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,12 +51,12 @@ public class CustomDrawerPopupView extends DrawerPopupView {
 //        });
 
         //通过设置topMargin，可以让Drawer弹窗进行局部阴影展示
-//        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
-//        params.topMargin = 450;
+        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
+        params.topMargin = 450;
 
         VerticalRecyclerView rv = findViewById(R.id.rv);
         ArrayList<String> list = new ArrayList();
-        for (int i = 0; i < 599; i++) {
+        for (int i = 0; i < 200; i++) {
             list.add(i + "");
         }
         rv.setAdapter(new EasyAdapter(list, R.layout.temp) {

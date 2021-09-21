@@ -126,7 +126,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .popupPosition(PopupPosition.Right)//右边
-                        .hasStatusBarShadow(true) //启用状态栏阴影
+//                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .asCustom(drawerPopupView)
                         .show();
                 break;

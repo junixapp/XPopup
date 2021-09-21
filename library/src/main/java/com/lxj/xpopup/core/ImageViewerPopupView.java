@@ -86,7 +86,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     }
 
     @Override
-    protected int getInnerLayoutId() {
+    final protected int getInnerLayoutId() {
         return R.layout._xpopup_image_viewer_popup_view;
     }
 

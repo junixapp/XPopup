@@ -292,13 +292,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
 //                        .popupWidth(500)
                         .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑","分享", "编辑", "分享", "编辑", "分享", "编辑", "分享", "编辑",  "不带icon不带icon", "分享分享分享",
-//                                        "分享", "编辑", "不带icon", "分享",
-//                                        "分享", "编辑", "不带icon", "分享",
-//                                        "分享", "编辑", "不带icon", "分享"
+                        .asAttachList(new String[]{"分享", "编辑","不带icon", "分享分享分享",
                                 },
-                                null,
-//                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
+                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
                                 new OnSelectListener() {
                                     @Override
                                     public void onSelect(int position, String text) {

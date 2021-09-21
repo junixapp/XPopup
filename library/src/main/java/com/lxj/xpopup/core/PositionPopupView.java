@@ -27,7 +27,7 @@ public class PositionPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getInnerLayoutId() {
+    final protected int getInnerLayoutId() {
         return R.layout._xpopup_position_popup_view;
     }
 

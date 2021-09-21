@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
 
-//        XPopup.setAnimationDuration(500);
+        XPopup.setAnimationDuration(400);
 //        XPopup.setPrimaryColor(Color.RED);
 //        XPopup.setNavigationBarColor(Color.RED);
         final LoadingPopupView loadingPopupView = new XPopup.Builder(this)

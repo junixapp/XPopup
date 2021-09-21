@@ -56,6 +56,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
     int lastHeight;
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        if(child==null) return;
         maxY = child.getMeasuredHeight();
         minY = 0;
         int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;

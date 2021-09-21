@@ -42,7 +42,7 @@ public class PopupInfo {
     public Boolean hasNavigationBar = true; //是否显示导航栏
     public int navigationBarColor = 0; //是否显示导航栏
     public Boolean isLightNavigationBar = false; //是否是亮色导航栏
-    public Boolean isLightStatusBar = false; //是否是亮色状态栏
+    public Boolean isLightStatusBar = true; //是否是亮色状态栏
     public int offsetX, offsetY;//x，y方向的偏移量
     public Boolean enableDrag = true;//是否启用拖拽
     public boolean isCenterHorizontal = false;//是否水平居中
