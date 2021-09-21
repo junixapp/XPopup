@@ -121,7 +121,8 @@ public class FullScreenDialog extends Dialog {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = getWindow().getDecorView();
             int vis = decorView.getSystemUiVisibility();
-            if (contentView.popupInfo.isLightStatusBar) {
+            int light = contentView.popupInfo.isLightStatusBar==0 ? XPopup.isLightStatusBar : contentView.popupInfo.isLightStatusBar;
+            if (light >=0 ) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             } else {
                 vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;

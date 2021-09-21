@@ -156,10 +156,10 @@ public class BubbleLayout extends FrameLayout {
         mRDR = -1;
         mLDR = -1;
         
-        mArrowTopLeftRadius   = XPopupUtils.dp2px(getContext(),3f);
-        mArrowTopRightRadius  = XPopupUtils.dp2px(getContext(),3f);
-        mArrowDownLeftRadius  = XPopupUtils.dp2px(getContext(),3f);
-        mArrowDownRightRadius = XPopupUtils.dp2px(getContext(),3f);
+        mArrowTopLeftRadius   = XPopupUtils.dp2px(getContext(),1f);
+        mArrowTopRightRadius  = XPopupUtils.dp2px(getContext(),1f);
+        mArrowDownLeftRadius  = XPopupUtils.dp2px(getContext(),1f);
+        mArrowDownRightRadius = XPopupUtils.dp2px(getContext(),1f);
 
         mBubblePadding = XPopupUtils.dp2px(getContext(),0f);
         mShadowColor = Color.DKGRAY;
@@ -547,6 +547,13 @@ public class BubbleLayout extends FrameLayout {
 
     public void setArrowDownRightRadius(int mArrowDownRightRadius) {
         this.mArrowDownRightRadius = mArrowDownRightRadius;
+    }
+
+    public void setArrowRadius(int radius){
+        setArrowDownLeftRadius(radius);
+        setArrowDownRightRadius(radius);
+        setArrowTopLeftRadius(radius);
+        setArrowTopRightRadius(radius);
     }
 
     public void setBubblePadding(int bubblePadding) {

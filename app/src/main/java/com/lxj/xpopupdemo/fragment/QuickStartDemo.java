@@ -346,6 +346,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                                .setArrowWidth(XPopupUtils.dp2px(getContext(), 20))
 //                                .setArrowHeight(XPopupUtils.dp2px(getContext(), 20))
 //                                .setBubbleRadius(100)
+                                .setArrowRadius(XPopupUtils.dp2px(getContext(), 3))
                         )
                         .show();
                 break;

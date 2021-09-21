@@ -53,6 +53,7 @@ public class XPopup {
     private static int statusBarBgColor = Color.parseColor("#55000000");
     private static int navigationBarColor = 0;
     private static int shadowBgColor = Color.parseColor("#7F000000");
+    public static int isLightStatusBar = 0; //大于0为true，小于0为false
 
     /**
      * 设置全局的背景阴影颜色
@@ -102,6 +103,14 @@ public class XPopup {
 
     public static int getPrimaryColor() {
         return primaryColor;
+    }
+
+    /**
+     * 统一设置是否是亮色状态栏
+     * @param lightStatusBar
+     */
+    public static void setIsLightStatusBar(boolean lightStatusBar) {
+        isLightStatusBar = lightStatusBar ? 1 : -1;
     }
 
     /**
@@ -407,7 +416,7 @@ public class XPopup {
          * @return
          */
         public Builder isLightStatusBar(boolean isLightStatusBar) {
-            this.popupInfo.isLightStatusBar = isLightStatusBar;
+            this.popupInfo.isLightStatusBar = isLightStatusBar ? 1 : -1;
             return this;
         }
 

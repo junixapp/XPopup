@@ -350,6 +350,17 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         return this;
     }
 
+    /**
+     * 设置气泡箭头的圆角，默认是1dp
+     * @param radius
+     * @return
+     */
+    public BubbleAttachPopupView setArrowRadius(int radius){
+        bubbleContainer.setArrowRadius(radius);
+        bubbleContainer.invalidate();
+        return this;
+    }
+
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(),PopupAnimation.ScaleAlphaFromCenter);

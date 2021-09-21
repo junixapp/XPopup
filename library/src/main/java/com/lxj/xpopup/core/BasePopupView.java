@@ -532,7 +532,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         return popupInfo != null && popupInfo.statusBarBgColor != 0 ? popupInfo.statusBarBgColor : XPopup.getStatusBarBgColor();
     }
 
-
     /**
      * 弹窗的最大宽度，用来限制弹窗的最大宽度
      * 返回0表示不限制，默认为0
