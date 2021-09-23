@@ -2,9 +2,15 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -25,6 +31,17 @@ public class CustomImageViewerPopup extends ImageViewerPopupView {
     protected void onCreate() {
         super.onCreate();
 //        tv_pager_indicator.setVisibility(GONE);
+        findViewById(R.id.tvClickMe).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new XPopup.Builder(getContext()).asBottomList("提示", new String[]{"保存照片"}, new OnSelectListener() {
+                    @Override
+                    public void onSelect(int position, String text) {
+                        ToastUtils.showLong("你自己实现保存照片");
+                    }
+                }).show();
+            }
+        });
     }
 
     @Override

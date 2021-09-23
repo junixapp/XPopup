@@ -14,12 +14,13 @@
 
 
         <TextView
+            android:id="@+id/tvClickMe"
             android:background="#495ED2"
             android:textSize="20sp"
             android:textColor="#fff"
             android:padding="30dp"
             android:layout_gravity="bottom"
-            android:text="下面也可以自定义哦。"
+            android:text="点我试试哦"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 </FrameLayout>

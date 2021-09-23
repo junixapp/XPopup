@@ -1,15 +1,12 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
-
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
@@ -138,15 +135,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .asConfirm("复用项目已有布局", "您可以复用项目已有布局，来使用XPopup强大的交互能力和逻辑封装，弹窗的布局完全由你自己控制。\n" +
-                                        "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。",
-                                "关闭", "XPopup牛逼",
-                                new OnConfirmListener() {
+                        .asInputConfirm("复用项目已有布局", null, "您可以复用项目已有布局，来使用XPopup强大的交互能力和逻辑封装，弹窗的布局完全由你自己控制。\n" +
+                                        "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。", null,
+                                new OnInputConfirmListener() {
                                     @Override
-                                    public void onConfirm() {
-                                        toast("click confirm");
+                                    public void onConfirm(String text) {
+
                                     }
-                                }, null, false, R.layout.my_confim_popup) //最后一个参数绑定已有布局
+                                }, null, R.layout.my_confim_popup) //最后一个参数绑定已有布局
                         .show();
                 break;
             case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗
