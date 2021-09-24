@@ -164,10 +164,10 @@ public class FullScreenDialog extends Dialog {
     }
 
     public void setNavBarLightMode() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && contentView.popupInfo.isLightNavigationBar!=0) {
             View decorView = getWindow().getDecorView();
             int vis = decorView.getSystemUiVisibility();
-            if (contentView.popupInfo.isLightNavigationBar) {
+            if (contentView.popupInfo.isLightNavigationBar > 0) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
             } else {
                 vis &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;

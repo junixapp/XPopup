@@ -405,7 +405,7 @@ public class XPopup {
          * @return
          */
         public Builder isLightNavigationBar(boolean isLightNavigationBar) {
-            this.popupInfo.isLightNavigationBar = isLightNavigationBar;
+            this.popupInfo.isLightNavigationBar = isLightNavigationBar ? 1 : -1;
             return this;
         }
 
