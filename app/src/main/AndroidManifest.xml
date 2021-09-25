@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4" />
         <meta-data android:name="android.notch_support" android:value="true" />
-        <activity android:name="com.lxj.xpopupdemo.MainActivity" android:screenOrientation="portrait">
+        <activity android:name="com.lxj.xpopupdemo.MainActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -88,11 +88,6 @@ public class CenterPopupView extends BasePopupView {
         return 0;
     }
 
-    protected int getMaxWidth() {
-        return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getAppWidth(getContext()) * 0.8f)
-                : popupInfo.maxWidth;
-    }
-
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);

@@ -18,6 +18,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.CheckView;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 
@@ -167,9 +168,8 @@ public class CenterListPopupView extends CenterPopupView {
         return this;
     }
 
-    @Override
     protected int getMaxWidth() {
-        return popupInfo.maxWidth == 0 ? (int) (super.getMaxWidth() * .8f)
+        return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getAppWidth(getContext()) * 0.7f)
                 : popupInfo.maxWidth;
     }
 }

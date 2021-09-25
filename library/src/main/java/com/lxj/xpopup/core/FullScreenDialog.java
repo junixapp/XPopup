@@ -83,7 +83,7 @@ public class FullScreenDialog extends Dialog {
             getWindow().setFlags(flag,flag);
         }
 
-        setStatusBarMode();
+        setStatusBarLightMode();
         setNavBarLightMode();
         setContentView(contentView);
     }
@@ -109,7 +109,7 @@ public class FullScreenDialog extends Dialog {
         getWindow().setAttributes(winParams);
     }
 
-    public void setStatusBarMode() {
+    private void setStatusBarLightMode() {
         //隐藏状态栏
         if (!contentView.popupInfo.hasStatusBar) {
             final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();

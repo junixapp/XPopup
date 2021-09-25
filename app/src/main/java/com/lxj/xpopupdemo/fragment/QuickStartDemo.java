@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -202,6 +203,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
                             .dismissOnBackPressed(false)
                             .isLightNavigationBar(true)
+                            .isViewMode(true)
                             .asLoading("加载中")
                             .show();
                 }else {
@@ -278,6 +280,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 AttachPopupView attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
+                        .isViewMode(true)
                         .isClickThrough(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)

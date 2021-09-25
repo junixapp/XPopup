@@ -92,11 +92,10 @@ public class CustomPopupDemo extends BaseFragment {
 //            return 200;
 //        }
 //
-        //返回0表示让宽度撑满window，或者你可以返回一个任意宽度
-//        @Override
-//        protected int getMaxWidth() {
-//            return 1200;
-//        }
+        @Override
+        protected int getMaxWidth() {
+            return 1200;
+        }
     }
 
     static class CustomPopup2 extends BottomPopupView {
