@@ -150,7 +150,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             View decorView = ((Activity) getContext()).getWindow().getDecorView();
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
-                if(navBarView!=null) navHeight = XPopupUtils.isLandscape(getContext()) ?
+                if(navBarView!=null) navHeight = XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet()  ?
                         navBarView.getMeasuredWidth() : navBarView.getMeasuredHeight();
             }else {
                 navHeight = XPopupUtils.isNavBarVisible(((Activity) getContext()).getWindow()) ?
@@ -159,7 +159,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
             View activityContent = getActivityContentView();
             ViewGroup.MarginLayoutParams params = new MarginLayoutParams(activityContent.getMeasuredWidth(),
-                    decorView.getMeasuredHeight() - (XPopupUtils.isLandscape(getContext()) ? 0 : navHeight));
+                    decorView.getMeasuredHeight() -
+                            ( XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet() ? 0 : navHeight));
             if(XPopupUtils.isLandscape(getContext())) params.leftMargin = getActivityContentLeft();
             setLayoutParams(params);
         }
