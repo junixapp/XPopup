@@ -49,7 +49,7 @@ public class XPopup {
      * 全局弹窗的设置
      **/
     private static int primaryColor = Color.parseColor("#121212");
-    private static int animationDuration = 280;
+    private static int animationDuration = 300;
     private static int statusBarBgColor = Color.parseColor("#55000000");
     private static int navigationBarColor = 0;
     private static int shadowBgColor = Color.parseColor("#7F000000");

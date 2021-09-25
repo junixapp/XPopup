@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +53,18 @@ public class FullScreenDialog extends Dialog {
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         getWindow().getDecorView().setSystemUiVisibility(option);
 
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        if(XPopupUtils.isLandscape(getContext())){
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+//            params.gravity = Gravity.START;
+//            params.x = ((BasePopupView)contentView).getActivityContentLeft();
+        }
+
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
         boolean isPortrait = getContext().getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_PORTRAIT;
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         if(isFuckVIVORoom() && isPortrait){
-            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, Math.max(XPopupUtils.getAppHeight(getContext()),
+            getWindow().setLayout(XPopupUtils.getAppWidth(getContext()), Math.max(XPopupUtils.getAppHeight(getContext()),
                     XPopupUtils.getScreenHeight(getContext())));
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
         }
@@ -70,7 +78,7 @@ public class FullScreenDialog extends Dialog {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
             int navigationBarColor = getNavigationBarColor();
-            if(navigationBarColor!=0)getWindow().setNavigationBarColor(navigationBarColor);
+            if(navigationBarColor!=0) getWindow().setNavigationBarColor(navigationBarColor);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); //尝试兼容部分手机上的状态栏空白问题
         }
 
@@ -85,7 +93,7 @@ public class FullScreenDialog extends Dialog {
 
         setStatusBarLightMode();
         setNavBarLightMode();
-        setContentView(contentView);
+        setContentView(contentView, contentView.getLayoutParams());
     }
 
     private int getNavigationBarColor(){
@@ -118,11 +126,11 @@ public class FullScreenDialog extends Dialog {
             getWindow().getDecorView().setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        int light = contentView.popupInfo.isLightStatusBar == 0 ? XPopup.isLightStatusBar : contentView.popupInfo.isLightStatusBar;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && light!=0) {
             View decorView = getWindow().getDecorView();
             int vis = decorView.getSystemUiVisibility();
-            int light = contentView.popupInfo.isLightStatusBar==0 ? XPopup.isLightStatusBar : contentView.popupInfo.isLightStatusBar;
-            if (light >=0 ) {
+            if (light > 0 ) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             } else {
                 vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
@@ -191,5 +199,4 @@ public class FullScreenDialog extends Dialog {
         }
         return super.dispatchTouchEvent(event);
     }
-
 }

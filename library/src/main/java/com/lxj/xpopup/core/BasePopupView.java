@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -96,7 +97,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
             return BasePopupView.this;
-        handler.post(attachTask);
+        getActivityContentView().post(attachTask);
         return this;
     }
 
@@ -142,17 +143,32 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (getContext() instanceof FragmentActivity) {
             ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
         }
+
+        if(getLayoutParams()==null){
+            //设置自己的大小，和Activity的contentView保持一致
+            int navHeight = 0;
+            View decorView = ((Activity) getContext()).getWindow().getDecorView();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
+                if(navBarView!=null) navHeight = XPopupUtils.isLandscape(getContext()) ?
+                        navBarView.getMeasuredWidth() : navBarView.getMeasuredHeight();
+            }else {
+                navHeight = XPopupUtils.isNavBarVisible(((Activity) getContext()).getWindow()) ?
+                        XPopupUtils.getNavBarHeight() : 0;
+            }
+
+            View activityContent = getActivityContentView();
+            ViewGroup.MarginLayoutParams params = new MarginLayoutParams(activityContent.getMeasuredWidth(),
+                    decorView.getMeasuredHeight() - (XPopupUtils.isLandscape(getContext()) ? 0 : navHeight));
+            if(XPopupUtils.isLandscape(getContext())) params.leftMargin = getActivityContentLeft();
+            setLayoutParams(params);
+        }
+
         if (popupInfo.isViewMode) {
             //view实现
             ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
-            int navHeight = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
-                if(navBarView!=null) navHeight = navBarView.getMeasuredHeight();
-            }
             if(getParent()!=null) ((ViewGroup)getParent()).removeView(this);
-            decorView.addView(this, new LayoutParams(LayoutParams.MATCH_PARENT,
-                    decorView.getMeasuredHeight() - navHeight));
+            decorView.addView(this);
         } else {
             //dialog实现
             if (dialog == null) {
@@ -166,6 +182,19 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     protected View getWindowDecorView() {
         if (getHostWindow() == null) return null;
         return (ViewGroup) getHostWindow().getDecorView();
+    }
+
+    protected View getActivityContentView() {
+        return ((Activity) getContext()).getWindow().getDecorView().findViewById(android.R.id.content);
+    }
+
+    protected int getActivityContentLeft(){
+        if(!XPopupUtils.isLandscape(getContext())) return 0;
+        //以Activity的content的left为准
+        View decorView = ((Activity) getContext()).getWindow().getDecorView().findViewById(android.R.id.content);
+        int[] loc = new int[2];
+        decorView.getLocationInWindow(loc);
+        return loc[0];
     }
 
     /**
@@ -458,20 +487,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 请使用onCreate，主要给弹窗内部用，不要去重写。
      */
-    protected void initPopupContent() {
-    }
+    protected void initPopupContent() { }
 
     /**
      * do init.
      */
-    protected void onCreate() {
-    }
+    protected void onCreate() { }
 
-    protected void applyDarkTheme() {
-    }
+    protected void applyDarkTheme() { }
 
-    protected void applyLightTheme() {
-    }
+    protected void applyLightTheme() { }
 
     /**
      * 执行显示动画：动画由2部分组成，一个是背景渐变动画，一个是Content的动画；
@@ -726,16 +751,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * onCreated之后，onShow之前执行
      */
-    protected void beforeShow() {
-        boolean isLandscape = getContext().getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE;
-        if(isLandscape && ( this instanceof BottomPopupView || this instanceof FullScreenPopupView
-                || (
-                this instanceof DrawerPopupView && popupInfo.popupPosition!= PopupPosition.Right
-                ))){
-            setPadding(XPopupUtils.getStatusBarHeight(),0,0,0);
-        }
-    }
+    protected void beforeShow() {}
 
     /**
      * 显示动画执行完毕后执行
@@ -764,6 +780,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             if (popupInfo.isDestroyOnDismiss) popupInfo = null;
         }
         if (dialog != null) {
+            if(dialog.isShowing()) dialog.dismiss();
             dialog.contentView = null;
             dialog = null;
         }

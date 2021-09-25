@@ -33,6 +33,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,53 +143,47 @@ public class XPopupUtils {
 
     public static void applyPopupSize(final ViewGroup content, final int maxWidth, final int maxHeight,
                                       final int popupWidth, final int popupHeight, final Runnable afterApplySize) {
-        content.post(new Runnable() {
-            @Override
-            public void run() {
-                ViewGroup.LayoutParams params = content.getLayoutParams();
-                View implView = content.getChildAt(0);
-                ViewGroup.LayoutParams implParams = implView.getLayoutParams();
-                // 假设默认Content宽是match，高是wrap
-                int w = content.getMeasuredWidth();
-                // response impl view wrap_content params.
-                if (maxWidth > 0) {
-                    //指定了最大宽度，就限制最大宽度
-                    params.width = Math.min(w, maxWidth);
-                    if (implParams.width==ViewGroup.LayoutParams.MATCH_PARENT){
-                        implParams.width = Math.min(w, maxWidth);
-                    }
-                    if (popupWidth > 0) {
-                        params.width = Math.min(popupWidth, maxWidth);
-                        implParams.width = Math.min(popupWidth, maxWidth);
-                    }
-                } else if (popupWidth > 0) {
-                    params.width = popupWidth;
-                    implParams.width = popupWidth;
+        content.post(() -> {
+            ViewGroup.LayoutParams params = content.getLayoutParams();
+            View implView = content.getChildAt(0);
+            ViewGroup.LayoutParams implParams = implView.getLayoutParams();
+            // 假设默认Content宽是match，高是wrap
+            int w = content.getMeasuredWidth();
+            // response impl view wrap_content params.
+            if (maxWidth > 0) {
+                //指定了最大宽度，就限制最大宽度
+                params.width = Math.min(w, maxWidth);
+                if (implParams.width==ViewGroup.LayoutParams.MATCH_PARENT){
+                    implParams.width = Math.min(w, maxWidth);
                 }
-
-                int h = content.getMeasuredHeight();
-                if (maxHeight > 0) {
-                    params.height = Math.min(h, maxHeight);
-                    if (popupHeight > 0) {
-                        params.height = Math.min(popupHeight, maxHeight);
-                        implParams.height = Math.min(popupHeight, maxHeight);
-                    }
-                } else if (popupHeight > 0) {
-                    params.height = popupHeight;
-                    implParams.height = popupHeight;
+                if (popupWidth > 0) {
+                    params.width = Math.min(popupWidth, maxWidth);
+                    implParams.width = Math.min(popupWidth, maxWidth);
                 }
-                implView.setLayoutParams(implParams);
-                content.setLayoutParams(params);
-                content.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (afterApplySize != null) {
-                            afterApplySize.run();
-                        }
-                    }
-                });
-
+            } else if (popupWidth > 0) {
+                params.width = popupWidth;
+                implParams.width = popupWidth;
             }
+
+            int h = content.getMeasuredHeight();
+            if (maxHeight > 0) {
+                params.height = Math.min(h, maxHeight);
+                if (popupHeight > 0) {
+                    params.height = Math.min(popupHeight, maxHeight);
+                    implParams.height = Math.min(popupHeight, maxHeight);
+                }
+            } else if (popupHeight > 0) {
+                params.height = popupHeight;
+                implParams.height = popupHeight;
+            }
+            implView.setLayoutParams(implParams);
+            content.setLayoutParams(params);
+            content.post(() -> {
+                if (afterApplySize != null) {
+                    afterApplySize.run();
+                }
+            });
+
         });
     }
 

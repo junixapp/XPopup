@@ -92,10 +92,10 @@ public class CustomPopupDemo extends BaseFragment {
 //            return 200;
 //        }
 //
-        @Override
-        protected int getMaxWidth() {
-            return 1200;
-        }
+//        @Override
+//        protected int getMaxWidth() {
+//            return 1000;
+//        }
     }
 
     static class CustomPopup2 extends BottomPopupView {

@@ -79,6 +79,7 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
         bubbleContainer.setLookPositionCenter(true);
         bubbleContainer.invalidate();
 
+        translationX -= getActivityContentLeft();
         getPopupContentView().setTranslationX(translationX);
         getPopupContentView().setTranslationY(translationY);
         initAndStartAnimation();

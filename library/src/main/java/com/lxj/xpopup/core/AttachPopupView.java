@@ -52,7 +52,7 @@ public abstract class AttachPopupView extends BasePopupView {
         if (popupInfo.getAtView() == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or watchView() must be called for AttachPopupView before show()！");
 
-        defaultOffsetY = popupInfo.offsetY == 0 ? XPopupUtils.dp2px(getContext(), 2) : popupInfo.offsetY;
+        defaultOffsetY = popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;
 
         attachPopupContainer.setTranslationX(popupInfo.offsetX);
@@ -174,6 +174,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     } else {
                         translationY = popupInfo.touchPoint.y + defaultOffsetY;
                     }
+                    translationX -= getActivityContentLeft();
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
@@ -256,6 +257,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     } else {
                         translationY = rect.bottom + defaultOffsetY;
                     }
+                    translationX -= getActivityContentLeft();
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();

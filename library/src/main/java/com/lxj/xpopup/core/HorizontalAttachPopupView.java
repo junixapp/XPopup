@@ -69,6 +69,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             }
             translationY = rect.top + (rect.height()-h)/2 + defaultOffsetY;
         }
+        translationX -= getActivityContentLeft();
         getPopupContentView().setTranslationX(translationX);
         getPopupContentView().setTranslationY(translationY);
         initAndStartAnimation();

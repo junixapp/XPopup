@@ -156,8 +156,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
             if (popupInfo.autoDismiss) dismiss();
         }
     }
+
     protected int getMaxWidth() {
-        return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getAppWidth(getContext()) * 0.8f)
-                : popupInfo.maxWidth;
+        return popupInfo.maxWidth==0 ? super.getMaxWidth() : popupInfo.maxWidth;
     }
 }

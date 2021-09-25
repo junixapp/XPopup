@@ -2,6 +2,7 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,10 +74,12 @@ public abstract class PartShadowPopupView extends BasePopupView {
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
         params.width = getMeasuredWidth();
 
+
         //1. 获取atView在屏幕上的位置
         int[] locations = new int[2];
         popupInfo.getAtView().getLocationOnScreen(locations);
-        Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
+        Rect rect = new Rect(locations[0] - getActivityContentLeft(), locations[1],
+                locations[0] + popupInfo.getAtView().getMeasuredWidth() - getActivityContentLeft(),
                 locations[1] + popupInfo.getAtView().getMeasuredHeight());
 
         //水平居中
@@ -87,7 +90,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
             getPopupImplView().setTranslationX(tx);
         }else {
             int tx = rect.left + popupInfo.offsetX;
-            int realWidth = XPopupUtils.getScreenWidth(getContext());
+            int realWidth = getActivityContentView().getMeasuredWidth();
             if(tx + getPopupImplView().getMeasuredWidth() > realWidth){
                 tx -= (tx + getPopupImplView().getMeasuredWidth() - realWidth);
             }
@@ -95,7 +98,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
         }
 
         int centerY = rect.top + rect.height() / 2;
-        View implView = ((ViewGroup) getPopupContentView()).getChildAt(0);
+        View implView = getPopupImplView();
         FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
         if ((centerY > getMeasuredHeight() / 2 || popupInfo.popupPosition == PopupPosition.Top) && popupInfo.popupPosition != PopupPosition.Bottom) {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
@@ -112,7 +115,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
             implParams.gravity = Gravity.TOP;
             if (getMaxHeight() != 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
-            implView.setLayoutParams(implParams);
         }
         getPopupContentView().setLayoutParams(params);
         implView.setLayoutParams(implParams);

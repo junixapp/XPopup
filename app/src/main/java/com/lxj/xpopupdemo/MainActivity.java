@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,7 +12,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.RomUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.impl.LoadingPopupView;
@@ -57,9 +60,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
-        XPopup.setAnimationDuration(400);
-        XPopup.setIsLightStatusBar(false);
+//        XPopup.setAnimationDuration(400);
+//        XPopup.setIsLightStatusBar(false);
 //        XPopup.setPrimaryColor(Color.RED);
+//        XPopup.setIsLightStatusBar(true);
 //        XPopup.setNavigationBarColor(Color.RED);
         final LoadingPopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)

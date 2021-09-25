@@ -13,7 +13,6 @@
                 android:id="@+id/tvEditText"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:focusedByDefault="true"
                 android:textColorHint="#111"
                 android:textSize="14sp"
                 android:hint="测试输入框交互"

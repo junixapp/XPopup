@@ -155,7 +155,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         }
                     }
                     bubbleContainer.invalidate();
-
+                    translationX -= getActivityContentLeft();
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
@@ -245,7 +245,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         bubbleContainer.setLookPosition(rect.left + rect.width()/2 - (int)translationX);
                     }
                     bubbleContainer.invalidate();
-
+                    translationX -= getActivityContentLeft();
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
