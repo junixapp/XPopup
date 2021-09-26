@@ -52,7 +52,8 @@ import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
  * Description: 弹窗基类
  * Create by lxj, at 2018/12/7
  */
-public abstract class BasePopupView extends FrameLayout implements LifecycleObserver, LifecycleOwner {
+public abstract class BasePopupView extends FrameLayout implements LifecycleObserver, LifecycleOwner,
+        ViewCompat.OnUnhandledKeyEventListenerCompat{
     public PopupInfo popupInfo;
     protected PopupAnimator popupContentAnimator;
     protected ShadowBgAnimator shadowBgAnimator;
@@ -316,32 +317,34 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             if(popupInfo.isViewMode){
                 setFocusableInTouchMode(true);
                 setFocusable(true);
-                requestFocus();
+//                requestFocus();
             }
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
-            if (Build.VERSION.SDK_INT >= 28) {
-                addOnUnhandledKeyListener(this);
-            } else {
-                setOnKeyListener(new BackPressListener());
-            }
+//            if (Build.VERSION.SDK_INT >= 28) {
+//                addOnUnhandledKeyListener(this);
+//            } else {
+//                setOnKeyListener(new BackPressListener());
+//            }
+            addOnUnhandledKeyListener(this);
 
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
             XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
             if (list.size() > 0) {
-                if (popupInfo.isViewMode) {
-                    preSoftMode = getHostWindow().getAttributes().softInputMode;
+                preSoftMode = getHostWindow().getAttributes().softInputMode;
+                if (popupInfo.isViewMode && preSoftMode!=WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE) {
                     getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     hasModifySoftMode = true;
                 }
                 for (int i = 0; i < list.size(); i++) {
                     final EditText et = list.get(i);
-                    if (Build.VERSION.SDK_INT >= 28) {
-                        addOnUnhandledKeyListener(et);
-                    }else {
-                        boolean hasSetKeyListener = XPopupUtils.hasSetKeyListener(et);
-                        if(!hasSetKeyListener) et.setOnKeyListener(new BackPressListener());
-                    }
+                    addOnUnhandledKeyListener(et);
+//                    if (Build.VERSION.SDK_INT >= 28) {
+//                        addOnUnhandledKeyListener(et);
+//                    }else {
+//                        boolean hasSetKeyListener = XPopupUtils.hasSetKeyListener(et);
+//                        if(!hasSetKeyListener) et.setOnKeyListener(new BackPressListener());
+//                    }
                     if (i == 0) {
                         if (popupInfo.autoFocusEditText) {
                             et.setFocusable(true);
@@ -357,16 +360,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 if (popupInfo.autoOpenSoftInput) showSoftInput(this);
             }
         }
+    }
 
+    @Override
+    public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
+        return processKeyEvent(event.getKeyCode(), event);
     }
 
     protected void addOnUnhandledKeyListener(View view){
-        ViewCompat.addOnUnhandledKeyEventListener(view, new ViewCompat.OnUnhandledKeyEventListenerCompat() {
-            @Override
-            public boolean onUnhandledKeyEvent(View v, KeyEvent event) {
-                return processKeyEvent(event.getKeyCode(), event);
-            }
-        });
+        ViewCompat.removeOnUnhandledKeyEventListener(view, this);
+        ViewCompat.addOnUnhandledKeyEventListener(view, this);
     }
 
     protected void showSoftInput(View focusView) {
@@ -820,14 +823,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     private void passClickThrough(MotionEvent event) {
-        if (popupInfo != null && popupInfo.isClickThrough) {
+        if (popupInfo != null && popupInfo.isClickThrough ) {
             if (popupInfo.isViewMode) {
                 //需要从DecorView分发，并且要排除自己，否则死循环
-                ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
-                for (int i = 0; i < decorView.getChildCount(); i++) {
-                    View view = decorView.getChildAt(i);
-                    if (view != this) view.dispatchTouchEvent(event);
-                }
+//                ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+//                for (int i = 0; i < decorView.getChildCount(); i++) {
+//                    View view = decorView.getChildAt(i);
+//                    if (view != this) view.dispatchTouchEvent(event);
+//                }
+                //从content分发即可
+                getActivityContentView().dispatchTouchEvent(event);
             } else {
                 ((Activity) getContext()).dispatchTouchEvent(event);
             }

@@ -158,6 +158,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
                         .isDarkTheme(true)
+                        .isViewMode(true)
 //                        .setPopupCallback(new DemoXPopupListener())
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
@@ -267,7 +268,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                         .enableDrag(true)
-                        .isViewMode(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
                         .asCustom(new ZhihuCommentPopup(getContext())/*.enableDrag(false)*/)
@@ -285,7 +285,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 AttachPopupView attachPopupView = new XPopup.Builder(getContext())
                         .hasShadowBg(false)
-                        .isViewMode(true)
+//                        .isViewMode(true)
                         .isClickThrough(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isDarkTheme(true)
@@ -387,7 +387,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnCustomEditPopup: //自定义依附在输入法之上的Bottom弹窗
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
-                        //.isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .isViewMode(true)
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .asCustom(new CustomEditTextBottomPopup(getContext()))
                         .show();
                 break;

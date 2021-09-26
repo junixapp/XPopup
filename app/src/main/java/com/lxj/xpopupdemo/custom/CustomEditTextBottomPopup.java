@@ -2,9 +2,12 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
@@ -28,17 +31,28 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-    }
-
-    @Override
-    protected void onShow() {
-        super.onShow();
         findViewById(R.id.btn_finish).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+
+        setOnKeyListener(new OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==KeyEvent.KEYCODE_BACK){
+                    ToastUtils.showShort("自定义弹窗设置了KeyListener");
+                    return true;
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    protected void onShow() {
+        super.onShow();
     }
 
     @Override
