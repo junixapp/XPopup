@@ -35,8 +35,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
     private int errImg;
     private boolean mBigImage;
 
-    public SmartGlideImageLoader() {
-    }
+    public SmartGlideImageLoader() { }
 
     public SmartGlideImageLoader(int errImgRes) {
         errImg = errImgRes;

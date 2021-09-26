@@ -332,7 +332,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
             if (list.size() > 0) {
                 preSoftMode = getHostWindow().getAttributes().softInputMode;
-                if (popupInfo.isViewMode && preSoftMode!=WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE) {
+                if (popupInfo.isViewMode) {
                     getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     hasModifySoftMode = true;
                 }
@@ -839,7 +839,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     private float x, y;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // 如果自己接触到了点击，并且不在PopupContentView范围内点击，则进行判断是否是点击事件,如果是，则dismiss
@@ -853,6 +852,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     passClickThrough(event);
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    dismiss();
+                    break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     float dx = event.getX() - x;
