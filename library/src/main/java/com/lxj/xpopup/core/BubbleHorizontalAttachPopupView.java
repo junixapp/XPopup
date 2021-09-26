@@ -54,10 +54,7 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
         } else {
             // 依附于指定View
             //1. 获取atView在屏幕上的位置
-            int[] locations = new int[2];
-            popupInfo.getAtView().getLocationOnScreen(locations);
-            Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
-                    locations[1] + popupInfo.getAtView().getMeasuredHeight());
+            Rect rect = popupInfo.atViewRect;
 
             int centerX = (rect.left + rect.right) / 2;
 

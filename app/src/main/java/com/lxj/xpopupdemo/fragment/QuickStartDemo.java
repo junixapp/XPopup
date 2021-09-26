@@ -321,8 +321,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnAttachPopup2:
-                /*if(customAttach2==null)*/
-                customAttach2 = new CustomAttachPopup2(getContext());
+                if(customAttach2==null) customAttach2 = new CustomAttachPopup2(getContext());
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)

@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopupdemo.R;
 
+import java.util.Random;
+
 /**
  * Description: 自定义背景的Attach弹窗
  * Create by lxj, at 2019/3/13
@@ -32,13 +34,6 @@ public class CustomAttachPopup2 extends AttachPopupView {
 //                tv.setText("\n 啊哈哈哈啊哈");
             }
         });
-
-
-    }
-
-    @Override
-    public void doAttach() {
-        super.doAttach();
     }
 
 //    @Override

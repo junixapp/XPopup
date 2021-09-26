@@ -67,7 +67,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
 
     public boolean isShowUp;
     public void doAttach() {
-        if (popupInfo.getAtView() == null)
+        if (popupInfo.atViewRect == null)
             throw new IllegalArgumentException("atView must not be null for PartShadowPopupView！");
 
         //1. apply width and height
@@ -76,11 +76,9 @@ public abstract class PartShadowPopupView extends BasePopupView {
 
 
         //1. 获取atView在屏幕上的位置
-        int[] locations = new int[2];
-        popupInfo.getAtView().getLocationOnScreen(locations);
-        Rect rect = new Rect(locations[0] - getActivityContentLeft(), locations[1],
-                locations[0] + popupInfo.getAtView().getMeasuredWidth() - getActivityContentLeft(),
-                locations[1] + popupInfo.getAtView().getMeasuredHeight());
+        Rect rect = popupInfo.atViewRect;
+        rect.left -= getActivityContentLeft();
+        rect.right -= getActivityContentLeft();
 
         //水平居中
         if (popupInfo.isCenterHorizontal && getPopupImplView() != null) {

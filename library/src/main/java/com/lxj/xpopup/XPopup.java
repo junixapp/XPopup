@@ -229,7 +229,11 @@ public class XPopup {
          * @return
          */
         public Builder atView(View atView) {
-            this.popupInfo.atView = atView;
+            int[] locations = new int[2];
+            atView.getLocationOnScreen(locations);
+            final Rect rect = new Rect(locations[0], locations[1], locations[0] + atView.getMeasuredWidth(),
+                    locations[1] + atView.getMeasuredHeight());
+            this.popupInfo.atViewRect = rect;
             return this;
         }
 
@@ -240,8 +244,8 @@ public class XPopup {
          * @return
          */
         public Builder watchView(View watchView) {
-            this.popupInfo.watchView = watchView;
-            this.popupInfo.watchView.setOnTouchListener(new View.OnTouchListener() {
+//            this.popupInfo.watchView = watchView;
+            watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN){
