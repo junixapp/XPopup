@@ -8,12 +8,14 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.Rotate;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -180,30 +182,39 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
     }
 
     @Override
-    public void loadSnapshot(@NonNull Object uri, @NonNull final PhotoView snapshot) {
-        Glide.with(snapshot).downloadOnly().load(uri)
-                .into(new ImageDownloadTarget() {
-                    @Override
-                    public void onLoadFailed(Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                    }
-
-                    @Override
-                    public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
-                        super.onResourceReady(resource, transition);
-                        int degree = XPopupUtils.getRotateDegree(resource.getAbsolutePath());
-                        int maxW = XPopupUtils.getAppWidth(snapshot.getContext());
-                        int maxH = XPopupUtils.getScreenHeight(snapshot.getContext());
-                        int[] size = XPopupUtils.getImageSize(resource);
-                        if (size[0] > maxW || size[1] > maxH) {
-                            //缩放加载
-                            Bitmap rawBmp = XPopupUtils.getBitmap(resource, maxW, maxH);
-                            snapshot.setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
-                        } else {
-                            Glide.with(snapshot).load(resource).apply(new RequestOptions().override(size[0], size[1])).into(snapshot);
+    public void loadSnapshot(@NonNull Object uri, @NonNull final PhotoView snapshot, @Nullable final ImageView srcView) {
+        if(mBigImage){
+            if(srcView!=null && srcView.getDrawable()!=null){
+                try {
+                    snapshot.setImageDrawable(srcView.getDrawable().getConstantState().newDrawable());
+                }catch (Exception e){ }
+            }
+            Glide.with(snapshot).downloadOnly().load(uri)
+                    .into(new ImageDownloadTarget() {
+                        @Override
+                        public void onLoadFailed(Drawable errorDrawable) {
+                            super.onLoadFailed(errorDrawable);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onResourceReady(@NonNull File resource, Transition<? super File> transition) {
+                            super.onResourceReady(resource, transition);
+                            int degree = XPopupUtils.getRotateDegree(resource.getAbsolutePath());
+                            int maxW = XPopupUtils.getAppWidth(snapshot.getContext());
+                            int maxH = XPopupUtils.getScreenHeight(snapshot.getContext());
+                            int[] size = XPopupUtils.getImageSize(resource);
+                            if (size[0] > maxW || size[1] > maxH) {
+                                //缩放加载
+                                Bitmap rawBmp = XPopupUtils.getBitmap(resource, maxW, maxH);
+                                snapshot.setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
+                            } else {
+                                Glide.with(snapshot).load(resource).apply(new RequestOptions().override(size[0], size[1])).into(snapshot);
+                            }
+                        }
+                    });
+        }else {
+            Glide.with(snapshot).load(uri).override(Target.SIZE_ORIGINAL).into(snapshot);
+        }
     }
 
 

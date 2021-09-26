@@ -154,13 +154,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         }
         int realPosition = getRealPosition();
         snapshotView.setTag(realPosition);
-        if(srcView!=null && srcView.getDrawable()!=null){
-            try {
-                snapshotView.setImageDrawable(srcView.getDrawable().getConstantState().newDrawable());
-            }catch (Exception e){ }
-        }
         setupPlaceholder();
-        if(imageLoader!=null) imageLoader.loadSnapshot(urls.get(realPosition), snapshotView);
+        if(imageLoader!=null) imageLoader.loadSnapshot(urls.get(realPosition), snapshotView, srcView);
     }
 
     @Override

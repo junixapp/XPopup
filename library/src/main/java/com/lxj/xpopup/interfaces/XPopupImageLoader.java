@@ -2,6 +2,7 @@ package com.lxj.xpopup.interfaces;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +16,7 @@ import java.io.File;
 
 public interface XPopupImageLoader{
 
-    void loadSnapshot(@NonNull Object uri, @NonNull PhotoView snapshot);
+    void loadSnapshot(@NonNull Object uri, @NonNull PhotoView snapshot, @Nullable ImageView srcView);
 
 
     View loadImage(int position, @NonNull Object uri, @NonNull ImageViewerPopupView popupView, @NonNull PhotoView snapshot, @NonNull ProgressBar progressBar);
