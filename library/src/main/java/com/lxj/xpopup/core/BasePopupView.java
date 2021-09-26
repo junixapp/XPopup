@@ -774,7 +774,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     public void destroy() {
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         if (popupInfo != null) {
-//            popupInfo.atView = null;
+            popupInfo.atView = null;
             popupInfo.xPopupCallback = null;
             if (popupInfo.customAnimator != null && popupInfo.customAnimator.targetView != null) {
                 popupInfo.customAnimator.targetView.animate().cancel();

@@ -22,8 +22,7 @@ public class PopupInfo {
     public Boolean autoDismiss = true; //操作完毕后是否自动关闭
     public Boolean hasShadowBg = true; // 是否有半透明的背景
     public Boolean hasBlurBg = false; // 是否有高斯模糊背景
-    public Rect atViewRect = null; // 依附于那个View的坐标
-//    public View watchView = null; // 依附于那个View显示
+    public View atView = null; // 依附于那个View
     // 动画执行器，如果不指定，则会根据窗体类型popupType字段生成默认合适的动画执行器
     public PopupAnimation popupAnimation = null;
     public PopupAnimator customAnimator = null;
@@ -61,4 +60,10 @@ public class PopupInfo {
     public int statusBarBgColor = 0; //状态栏阴影颜色，对Drawer弹窗和全屏弹窗有效
     public ArrayList<Rect> notDismissWhenTouchInArea; //当触摸在这个区域时，不消失
 
+    public Rect getAtViewRect(){
+        int[] locations = new int[2];
+        atView.getLocationOnScreen(locations);
+        return new Rect(locations[0], locations[1], locations[0] + atView.getMeasuredWidth(),
+                locations[1] + atView.getMeasuredHeight());
+    }
 }

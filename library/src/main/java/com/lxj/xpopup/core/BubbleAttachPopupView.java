@@ -46,7 +46,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         if (bubbleContainer.getChildCount() == 0) addInnerContent();
-        if (popupInfo.atViewRect == null && popupInfo.touchPoint == null)
+        if (popupInfo.atView == null && popupInfo.touchPoint == null)
             throw new IllegalArgumentException("atView() or watchView() must be called for BubbleAttachPopupView before show()！");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             bubbleContainer.setElevation(XPopupUtils.dp2px(getContext(), 10));
@@ -165,7 +165,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         } else {
             // 依附于指定View
             //1. 获取atView在屏幕上的位置
-            final Rect rect = popupInfo.atViewRect;
+            final Rect rect = popupInfo.getAtViewRect();
             final int centerX = (rect.left + rect.right) / 2;
 
             // 尽量优先放在下方，当不够的时候在显示在上方

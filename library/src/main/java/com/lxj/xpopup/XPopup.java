@@ -54,6 +54,7 @@ public class XPopup {
     private static int navigationBarColor = 0;
     private static int shadowBgColor = Color.parseColor("#7F000000");
     public static int isLightStatusBar = 0; //大于0为true，小于0为false
+    public static int isLightNavigationBar = 0; //大于0为true，小于0为false
 
     /**
      * 设置全局的背景阴影颜色
@@ -107,10 +108,18 @@ public class XPopup {
 
     /**
      * 统一设置是否是亮色状态栏
-     * @param lightStatusBar
+     * @param isLight
      */
-    public static void setIsLightStatusBar(boolean lightStatusBar) {
-        isLightStatusBar = lightStatusBar ? 1 : -1;
+    public static void setIsLightStatusBar(boolean isLight) {
+        isLightStatusBar = isLight ? 1 : -1;
+    }
+
+    /**
+     * 统一设置是否是亮色导航栏
+     * @param isLight
+     */
+    public static void setIsLightNavigationBar(boolean isLight) {
+        isLightNavigationBar = isLight ? 1 : -1;
     }
 
     /**
@@ -229,11 +238,7 @@ public class XPopup {
          * @return
          */
         public Builder atView(View atView) {
-            int[] locations = new int[2];
-            atView.getLocationOnScreen(locations);
-            final Rect rect = new Rect(locations[0], locations[1], locations[0] + atView.getMeasuredWidth(),
-                    locations[1] + atView.getMeasuredHeight());
-            this.popupInfo.atViewRect = rect;
+            popupInfo.atView = atView;
             return this;
         }
 
@@ -244,7 +249,6 @@ public class XPopup {
          * @return
          */
         public Builder watchView(View watchView) {
-//            this.popupInfo.watchView = watchView;
             watchView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

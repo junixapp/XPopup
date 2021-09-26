@@ -266,8 +266,8 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
                 snapshotView.setScaleX(1f);
                 snapshotView.setScaleY(1f);
-                snapshotView.setTranslationY(rect.top);
                 snapshotView.setTranslationX(rect.left);
+                snapshotView.setTranslationY(rect.top);
                 snapshotView.setScaleType(srcView.getScaleType());
                 XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
 
@@ -395,12 +395,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (srcView != null) {
             int[] locations = new int[2];
             this.srcView.getLocationInWindow(locations);
-            int left = locations[0];
+            int left = locations[0] - getActivityContentLeft();
             if(XPopupUtils.isLayoutRtl(getContext())){
                 left = -(XPopupUtils.getAppWidth(getContext()) - locations[0] - srcView.getWidth());
                 rect = new Rect(left, locations[1], left + srcView.getWidth(), locations[1] + srcView.getHeight());
             }else {
-                left -= getActivityContentLeft();
                 rect = new Rect(left, locations[1], left + srcView.getWidth(), locations[1] + srcView.getHeight());
             }
         }

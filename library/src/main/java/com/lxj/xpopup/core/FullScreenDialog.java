@@ -54,12 +54,6 @@ public class FullScreenDialog extends Dialog {
         getWindow().getDecorView().setSystemUiVisibility(option);
 
         getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        if(XPopupUtils.isLandscape(getContext())){
-            WindowManager.LayoutParams params = getWindow().getAttributes();
-//            params.gravity = Gravity.START;
-//            params.x = ((BasePopupView)contentView).getActivityContentLeft();
-        }
-
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
         boolean isPortrait = getContext().getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_PORTRAIT;
@@ -172,10 +166,11 @@ public class FullScreenDialog extends Dialog {
     }
 
     public void setNavBarLightMode() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && contentView.popupInfo.isLightNavigationBar!=0) {
+        int light = contentView.popupInfo.isLightNavigationBar == 0 ? XPopup.isLightNavigationBar : contentView.popupInfo.isLightNavigationBar;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && light!=0) {
             View decorView = getWindow().getDecorView();
             int vis = decorView.getSystemUiVisibility();
-            if (contentView.popupInfo.isLightNavigationBar > 0) {
+            if (light > 0) {
                 vis |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
             } else {
                 vis &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
