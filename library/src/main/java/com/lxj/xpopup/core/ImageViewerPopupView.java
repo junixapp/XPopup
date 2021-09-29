@@ -254,12 +254,10 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         .addListener(new TransitionListenerAdapter() {
                             @Override
                             public void onTransitionEnd(@NonNull Transition transition) {
-                                pager.setVisibility(INVISIBLE);
-                                snapshotView.setVisibility(VISIBLE);
                                 pager.setScaleX(1f);
                                 pager.setScaleY(1f);
-                                snapshotView.setScaleX(1f);
-                                snapshotView.setScaleY(1f);
+//                                snapshotView.setScaleX(1f);
+//                                snapshotView.setScaleY(1f);
                                 placeholderView.setVisibility(INVISIBLE);
                             }
                         }));

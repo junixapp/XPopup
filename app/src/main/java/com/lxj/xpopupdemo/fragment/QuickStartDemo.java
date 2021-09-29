@@ -123,7 +123,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isViewMode(true)
                         .isDestroyOnDismiss(true)
 //                        .hasBlurBg(true)
-//                         .dismissOnTouchOutside(false)
+                         .dismissOnTouchOutside(false)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
 //                        .setPopupCallback(new DemoXPopupListener())

@@ -852,7 +852,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     passClickThrough(event);
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    dismiss();
+                    if(popupInfo != null && popupInfo.isDismissOnTouchOutside) dismiss();
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
