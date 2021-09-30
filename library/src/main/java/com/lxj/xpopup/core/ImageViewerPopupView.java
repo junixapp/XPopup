@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -241,7 +242,6 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         pager.setVisibility(INVISIBLE);
         photoViewContainer.isReleasing = true;
         snapshotView.setVisibility(VISIBLE);
-        doAfterDismiss();
         snapshotView.post(new Runnable() {
             @Override
             public void run() {
@@ -253,12 +253,20 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
                         .setInterpolator(new FastOutSlowInInterpolator())
                         .addListener(new TransitionListenerAdapter() {
                             @Override
+                            public void onTransitionStart(@NonNull Transition transition) {
+                                super.onTransitionStart(transition);
+                                doAfterDismiss();
+                            }
+                            @Override
                             public void onTransitionEnd(@NonNull Transition transition) {
                                 pager.setScaleX(1f);
                                 pager.setScaleY(1f);
-//                                snapshotView.setScaleX(1f);
-//                                snapshotView.setScaleY(1f);
+                                snapshotView.setScaleX(1f);
+                                snapshotView.setScaleY(1f);
                                 placeholderView.setVisibility(INVISIBLE);
+                                snapshotView.setTranslationX(rect.left);
+                                snapshotView.setTranslationY(rect.top);
+                                XPopupUtils.setWidthHeight(snapshotView, rect.width(), rect.height());
                             }
                         }));
 

@@ -163,6 +163,7 @@ public class ImageViewerDemo extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     new XPopup.Builder(holder.itemView.getContext())
+//                            .animationDuration(1000)
                             .asImageViewer(imageView, position, list,
                                     false, true, -1, -1, -1, true,
                                     Color.rgb(32, 36, 46),
