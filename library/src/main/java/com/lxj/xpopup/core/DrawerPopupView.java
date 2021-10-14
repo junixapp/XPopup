@@ -61,11 +61,10 @@ public abstract class DrawerPopupView extends BasePopupView {
             @Override
             public void onDrag(int x, float fraction, boolean isToLeft) {
                 if(popupInfo==null)return;
-                drawerLayout.isDrawStatusBarShadow = popupInfo.hasStatusBarShadow;
                 if(popupInfo.xPopupCallback!=null) popupInfo.xPopupCallback.onDrag(DrawerPopupView.this,
                         x, fraction,isToLeft);
                 mFraction = fraction;
-                shadowBgAnimator.applyColorValue(fraction);
+                if(popupInfo.hasShadowBg) shadowBgAnimator.applyColorValue(fraction);
                 postInvalidate();
             }
         });

@@ -28,7 +28,6 @@ public class PopupDrawerLayout extends FrameLayout {
     ViewDragHelper dragHelper;
     View placeHolder, mChild;
     public PopupPosition position = PopupPosition.Left;
-    public boolean isDrawStatusBarShadow = false;
     float fraction = 0f;
     public boolean enableDrag = true;
 

@@ -121,6 +121,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 popupView = new XPopup.Builder(getContext())
 //                        .hasNavigationBar(false)
                         .isViewMode(true)
+                        .dismissOnBackPressed(false)
                         .isDestroyOnDismiss(true)
 //                        .hasBlurBg(true)
 //                         .autoDismiss(false)
@@ -355,6 +356,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
                 new XPopup.Builder(getContext())
+                        .hasShadowBg(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .asCustom(new CustomDrawerPopupView(getContext()))
 //                        .hasShadowBg(false)

@@ -58,9 +58,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F9f569629c4dec5ed1b603982058c6853607b1f0af685e-PcenmQ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg");
         list.add("https://test.yujoy.com.cn:59010/file/postImage/2021/03/03/7c9114bb-bc4a-40c4-94ab-01833228f26f.png");
         list.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F94o3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8c1001e93901213f1820a0d956e736d12f2e95a0.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg");
-        list.add("https://lxj-markdown.oss-cn-zhangjiakou.aliyuncs.com/image/tt.jpg");
         list.add("https://img.live.qiqushiting.com/Pimg/img/squ/img/107821622429832886.jpg");
-        list.add("https://lxj-markdown.oss-cn-zhangjiakou.aliyuncs.com/image/BC5851D7D4BF35BB27FFB0AFA9B2819E.jpg");
         list.add("http://moimg0.mwim.store/image/5BE8A5CF4893D9197D6D6D66BE294488.jpg");
         list.add("http://cfile.frees.fun/picwall/796804C4A25DE27342A2A0987283AB03.jpg");
     }
@@ -173,7 +171,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                             popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                         }
-                                    }, new SmartGlideImageLoader( R.mipmap.ic_launcher), null)
+                                    }, new SmartGlideImageLoader(true, R.mipmap.ic_launcher), null)
                             .show();
                 }
             });

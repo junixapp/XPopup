@@ -82,9 +82,9 @@
 ## 快速体验
 
 Gif录制的有些卡顿，真机预览效果更佳。扫描二维码下载Demo：
-![](screenshot/download.jpeg)
+![](screenshot/download.png)
 
-如果二维码图片不可见，[点我下载Demo体验](http://d.7short.com/2q63)
+如果二维码图片不可见，[点我下载Demo体验](https://www.pgyer.com/pIWo)
 
 ## Gradle
 

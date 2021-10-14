@@ -3,7 +3,6 @@ package com.lxj.xpopup;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -574,10 +573,10 @@ public class XPopup {
         }
 
         /**
-         * 是否已屏幕中心进行定位，默认是false，为false时根据Material范式进行定位，主要影响Attach系列弹窗
+         * 是否以屏幕中心进行定位，默认是false，为false时根据Material范式进行定位，主要影响Attach系列弹窗
          * Material范式下是：
          *      弹窗优先显示在目标下方，下方距离不够才显示在上方
-         * 已屏幕中心进行定位：
+         * 以屏幕中心进行定位：
          *      目标在屏幕上半方弹窗显示在目标下面，目标在屏幕下半方则弹窗显示在目标上面
          *
          * @param positionByWindowCenter
@@ -639,7 +638,7 @@ public class XPopup {
 
         /**
          * dismissOnTouchOutside(true)时，即使触摸在指定View时也不消失；
-         * 改方法可调用多次，每次可添加一个Rect区域
+         * 该方法可调用多次，每次可添加一个Rect区域
          * @param view 触摸View
          * @return
          */
