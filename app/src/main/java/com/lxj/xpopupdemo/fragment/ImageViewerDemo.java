@@ -14,7 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.blankj.utilcode.util.ConvertUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
@@ -74,11 +79,11 @@ public class ImageViewerDemo extends BaseFragment {
         view.findViewById(R.id.btnClear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Glide.get(requireContext()).clearMemory();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Glide.get(requireContext()).clearDiskCache();
-                        Glide.get(requireContext()).clearMemory();
                     }
                 }).start();
             }
@@ -154,7 +159,9 @@ public class ImageViewerDemo extends BaseFragment {
         protected void bind(@NonNull final ViewHolder holder, @NonNull final Object s, final int position) {
             final ImageView imageView = holder.<ImageView>getView(R.id.image);
             //1. 加载图片
-            Glide.with(imageView).load(s).error(R.mipmap.ic_launcher).into(imageView);
+            Glide.with(imageView).load(s).apply(new RequestOptions()
+                    .transform(new CenterCrop(), new RoundedCorners(ConvertUtils.dp2px(10))))
+                    .error(R.mipmap.ic_launcher).into(imageView);
 
             //2. 设置点击
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +170,7 @@ public class ImageViewerDemo extends BaseFragment {
                     new XPopup.Builder(holder.itemView.getContext())
 //                            .animationDuration(1000)
                             .asImageViewer(imageView, position, list,
-                                    false, true, -1, -1, -1, true,
+                                    false, true, -1, -1, ConvertUtils.dp2px(10), true,
                                     Color.rgb(32, 36, 46),
                                     new OnSrcViewUpdateListener() {
                                         @Override
@@ -171,7 +178,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                             popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                         }
-                                    }, new SmartGlideImageLoader(true, R.mipmap.ic_launcher), null)
+                                    }, new SmartGlideImageLoader(R.mipmap.ic_launcher), null)
                             .show();
                 }
             });
