@@ -1,6 +1,7 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class BottomPopupView extends BasePopupView {
         }
         bottomPopupContainer.setDuration(getAnimationDuration());
         bottomPopupContainer.enableDrag(popupInfo.enableDrag);
+        if(popupInfo.enableDrag) popupInfo.popupAnimation = null;
         bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
         bottomPopupContainer.isThreeDrag(popupInfo.isThreeDrag);
 
@@ -78,33 +80,42 @@ public class BottomPopupView extends BasePopupView {
         });
     }
 
-//    @Override
-//    protected void doAfterShow() {
-//        handler.removeCallbacks(doAfterShowTask);
-//        handler.postDelayed(doAfterShowTask, 0);
-//    }
-
     @Override
     public void doShowAnimation() {
-        if (popupInfo.hasBlurBg && blurAnimator!=null) {
-            blurAnimator.animateShow();
+        if(popupInfo==null) return;
+        if(popupInfo.enableDrag){
+            if (popupInfo.hasBlurBg && blurAnimator!=null) {
+                blurAnimator.animateShow();
+            }
+            bottomPopupContainer.open();
+        }else {
+            super.doShowAnimation();
         }
-        bottomPopupContainer.open();
     }
 
     @Override
     public void doDismissAnimation() {
-        if(popupInfo.hasBlurBg && blurAnimator!=null){
-            blurAnimator.animateDismiss();
+        if(popupInfo==null) return;
+        if(popupInfo.enableDrag){
+            if(popupInfo.hasBlurBg && blurAnimator!=null){
+                blurAnimator.animateDismiss();
+            }
+            bottomPopupContainer.close();
+        }else {
+            super.doDismissAnimation();
         }
-        bottomPopupContainer.close();
     }
 
     protected void doAfterDismiss() {
-        if (popupInfo != null && popupInfo.autoOpenSoftInput)
-            KeyboardUtils.hideSoftInput(this);
-        handler.removeCallbacks(doAfterDismissTask);
-        handler.postDelayed(doAfterDismissTask, 0);
+        if(popupInfo==null) return;
+        if(popupInfo.enableDrag){
+            if (popupInfo.autoOpenSoftInput)
+                KeyboardUtils.hideSoftInput(this);
+            handler.removeCallbacks(doAfterDismissTask);
+            handler.postDelayed(doAfterDismissTask, 0);
+        }else {
+            super.doAfterDismiss();
+        }
     }
 
     @Override
@@ -115,11 +126,15 @@ public class BottomPopupView extends BasePopupView {
     @Override
     public void dismiss() {
         if(popupInfo==null) return;
-        if (popupStatus == PopupStatus.Dismissing) return;
-        popupStatus = PopupStatus.Dismissing;
-        if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
-        clearFocus();
-        bottomPopupContainer.close();
+        if(popupInfo.enableDrag){
+            if (popupStatus == PopupStatus.Dismissing) return;
+            popupStatus = PopupStatus.Dismissing;
+            if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+            clearFocus();
+            bottomPopupContainer.close();
+        }else {
+            super.dismiss();
+        }
     }
 
     /**

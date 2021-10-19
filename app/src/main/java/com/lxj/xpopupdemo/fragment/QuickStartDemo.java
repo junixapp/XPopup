@@ -241,6 +241,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDarkTheme(true)
                         .hasShadowBg(true)
                         .isViewMode(true)
+                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
 //                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5", "条目6", "条目7"},
