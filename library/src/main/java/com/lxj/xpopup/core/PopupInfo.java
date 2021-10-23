@@ -62,7 +62,7 @@ public class PopupInfo {
 
     public Rect getAtViewRect(){
         int[] locations = new int[2];
-        atView.getLocationOnScreen(locations);
+        atView.getLocationInWindow(locations);
         return new Rect(locations[0], locations[1], locations[0] + atView.getMeasuredWidth(),
                 locations[1] + atView.getMeasuredHeight());
     }
