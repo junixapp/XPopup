@@ -184,10 +184,6 @@ public abstract class AttachPopupView extends BasePopupView {
         } else {
             // 依附于指定View
             //1. 获取atView在屏幕上的位置
-//            int[] locations = new int[2];
-//            popupInfo.getAtView().getLocationOnScreen(locations);
-//            final Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
-//                    locations[1] + popupInfo.getAtView().getMeasuredHeight());
             Rect rect = popupInfo.getAtViewRect();
             final int centerX = (rect.left + rect.right) / 2;
 

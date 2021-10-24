@@ -4,15 +4,12 @@
 
 国内Gitee镜像地址：https://gitee.com/lxj_gitee/XPopup
 
-### 承接软件外包服务
-本公司提供全行业（即时通讯，直播，商城等）的软件外包服务，网站和系统定制，APP开发，微信小程序和公众号开发等，价格美丽。公司官网：https://lixiaojun.xin/
-
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
 - 内置几种了常用的弹窗，十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果。
   内置弹窗允许你使用项目已有的布局，同时还能用上XPopup提供的动画，交互和逻辑封装。
 - UI动画简洁，遵循Material Design，在设计动画的时候考虑了很多细节，过渡，层级的变化
 - 交互优雅，实现了优雅的手势交互，智能的嵌套滚动，智能的输入法交互，具体看Demo
-- 适配全面屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
+- 适配全面屏和各种挖孔屏，目前适配了小米，华为，谷歌，OPPO，VIVO，三星，魅族，一加全系全面屏手机
 - 自动监听Activity生命周期，自动释放资源。在Activity直接finish的场景也避免了内存泄漏
 - XPopup实现了LifecycleOwner，可以直接被LiveData监视生命周期，弹窗可见时才更新数据，不可见不更新
 - 很好的易用性，自定义弹窗只需继承对应的类，实现你的布局，然后像Activity那样，在`onCreate`方法写逻辑即可
@@ -20,6 +17,7 @@
 - 能在应用后台弹出（需要申请悬浮窗权限，一行代码即可）
 - 支持androidx
 - 完美支持RTL布局
+- 支持小窗模式
 - **如果你想要时间选择器和城市选择器，可以使用XPopup扩展功能库XPopupExt： https://github.com/li-xiaojun/XPopupExt**
 
 **设计思路**：
@@ -140,7 +138,7 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
 我本人很希望您能[点击这里附上](https://github.com/li-xiaojun/XPopup/issues/93)使用这个库的App名或者公司名，这样会给我更大的动力和热情去维护这个类库。
 
-根据热心朋友提供的信息，目前使用XPopup的产品和公司有：
+根据热心朋友提供的信息，目前使用XPopup的产品和公司有（70+）：
 - 海鸥地图（https://cn.gullmap.com/）
 - 马自达汽车检测（主要是一个汽车厂商工作人员使用的汽车检测APP）
 - 变福侠App
@@ -211,6 +209,8 @@ implementation 'androidx.recyclerview:recyclerview:1.1.0'
 - 轻纺易购（https://fzapp.com/）
 - 洋葱变声器 (http://onionapp.cn)
 - SPAX （https://www.onespax.com/）
+- 译录宝 （https://www.aivox.com.cn/）
+- SealLive （https://www.seallive.app/#/）
 
 
 ## 打个赏
