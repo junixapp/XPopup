@@ -107,9 +107,9 @@ compileSdkVersion 29
 
 必须添加的依赖库，版本不用和我一致：
 ```groovy
-implementation 'androidx.appcompat:appcompat:1.1.0'
-implementation 'com.google.android.material:material:1.3.0-alpha01'
-implementation 'androidx.recyclerview:recyclerview:1.1.0'
+implementation 'androidx.appcompat:appcompat:1.3.1'
+implementation 'com.google.android.material:material:1.4.0'
+implementation 'androidx.recyclerview:recyclerview:1.2.1'
 ```
 
 ## 使用文档
