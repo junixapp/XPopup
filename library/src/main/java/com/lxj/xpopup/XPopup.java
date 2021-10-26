@@ -653,8 +653,8 @@ public class XPopup {
         }
 
         /**
-         * 默认情况下XPopup监视Activity的生命周期，对于Fragment实现的UI，可以传入Fragment
-         * 的Lifecycle，从而实现在Fragment销毁时弹窗也自动销毁，省去了手动调用destroy()
+         * 默认情况下XPopup监视Activity的生命周期，对于Fragment(或其他任意拥有Lifecycle的组件)实现的UI，可以传入Fragment
+         * 的Lifecycle，从而实现在Fragment销毁时弹窗也自动销毁，无需手动调用dismiss()和destroy()
          * @param lifecycle 自定义UI的生命周期
          * @return
          */
