@@ -3,6 +3,9 @@ package com.lxj.xpopup.core;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.View;
+
+import androidx.lifecycle.Lifecycle;
+
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
@@ -59,6 +62,7 @@ public class PopupInfo {
     public int animationDuration = -1; //动画的时长
     public int statusBarBgColor = 0; //状态栏阴影颜色，对Drawer弹窗和全屏弹窗有效
     public ArrayList<Rect> notDismissWhenTouchInArea; //当触摸在这个区域时，不消失
+    public Lifecycle hostLifecycle; //自定义的宿主生命周期
 
     public Rect getAtViewRect(){
         int[] locations = new int[2];

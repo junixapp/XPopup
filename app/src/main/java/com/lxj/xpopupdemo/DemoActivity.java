@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopupdemo.fragment.FragmentLifecycleDemo;
 import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 
 /**
@@ -32,6 +35,12 @@ public class DemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_demo);
         editText = findViewById(R.id.et);
         recyclerView = findViewById(R.id.recyclerView);
+        findViewById(R.id.btnShowFragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment();
+            }
+        });
         findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +86,7 @@ public class DemoActivity extends AppCompatActivity {
     private void initData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ImageViewerDemo.ImageAdapter());
+        showFragment();
     }
 
     public void showMultiPopup(){
@@ -97,5 +107,22 @@ public class DemoActivity extends AppCompatActivity {
                 }).show();
 
 
+    }
+
+    FragmentLifecycleDemo fragmentLifecycleDemo;
+    public void showFragment(){
+        fragmentLifecycleDemo = new FragmentLifecycleDemo();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,fragmentLifecycleDemo)
+        .commitNow();
+    }
+    public void delayDestroy(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager().beginTransaction().remove(fragmentLifecycleDemo)
+                        .commitNow();
+                fragmentLifecycleDemo = null;
+            }
+        }, 3000);
     }
 }

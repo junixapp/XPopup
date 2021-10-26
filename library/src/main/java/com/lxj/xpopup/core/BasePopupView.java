@@ -138,8 +138,12 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo == null) {
             throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
         }
-        if (getContext() instanceof FragmentActivity) {
-            ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
+        if(popupInfo.hostLifecycle!=null){
+            popupInfo.hostLifecycle.addObserver(this);
+        }else {
+            if (getContext() instanceof FragmentActivity) {
+                ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
+            }
         }
 
         if(getLayoutParams()==null){
@@ -773,6 +777,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo != null) {
             popupInfo.atView = null;
             popupInfo.xPopupCallback = null;
+            popupInfo.hostLifecycle = null;
             if (popupInfo.customAnimator != null && popupInfo.customAnimator.targetView != null) {
                 popupInfo.customAnimator.targetView.animate().cancel();
             }
@@ -810,8 +815,12 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             }
             if (popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
         }
-        if (getContext() != null && getContext() instanceof FragmentActivity) {
-            ((FragmentActivity) getContext()).getLifecycle().removeObserver(this);
+        if(popupInfo!=null && popupInfo.hostLifecycle!=null){
+            popupInfo.hostLifecycle.removeObserver(this);
+        }else {
+            if (getContext() != null && getContext() instanceof FragmentActivity) {
+                ((FragmentActivity) getContext()).getLifecycle().removeObserver(this);
+            }
         }
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;

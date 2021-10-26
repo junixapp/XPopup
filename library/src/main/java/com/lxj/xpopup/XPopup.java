@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.Lifecycle;
+
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -637,7 +639,7 @@ public class XPopup {
         }
 
         /**
-         * dismissOnTouchOutside(true)时，即使触摸在指定View时也不消失；
+         * 开启dismissOnTouchOutside(true)时，即使触摸在指定View时也不消失；
          * 该方法可调用多次，每次可添加一个Rect区域
          * @param view 触摸View
          * @return
@@ -647,6 +649,17 @@ public class XPopup {
                 this.popupInfo.notDismissWhenTouchInArea = new ArrayList<>();
             }
             this.popupInfo.notDismissWhenTouchInArea.add(XPopupUtils.getViewRect(view));
+            return this;
+        }
+
+        /**
+         * 默认情况下XPopup监视Activity的生命周期，对于Fragment实现的UI，可以传入Fragment
+         * 的Lifecycle，从而实现在Fragment销毁时弹窗也自动销毁，省去了手动调用destroy()
+         * @param lifecycle 自定义UI的生命周期
+         * @return
+         */
+        public Builder customHostLifecycle(Lifecycle lifecycle) {
+            this.popupInfo.hostLifecycle = lifecycle;
             return this;
         }
 
