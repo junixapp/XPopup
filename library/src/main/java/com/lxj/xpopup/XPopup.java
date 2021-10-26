@@ -373,8 +373,8 @@ public class XPopup {
         }
 
         /**
-         * 设置是否显示状态栏，默认是显示的。如果你希望弹窗隐藏状态栏，就设置为true
-         *
+         * 设置是否显示状态栏，默认是显示的。如果你希望弹窗隐藏状态栏，就设置为true;
+         * 只在dialog模式下有效
          * @param hasStatusBar
          * @return
          */
@@ -385,7 +385,7 @@ public class XPopup {
 
         /**
          * 设置是否显示导航栏，默认是显示的。如果你希望弹窗隐藏导航栏，就设置为true
-         *
+         * 只在dialog模式下有效
          * @param hasNavigationBar
          * @return
          */
@@ -396,7 +396,7 @@ public class XPopup {
 
         /**
          * 设置导航栏的颜色，如果你希望弹窗修改导航栏的颜色的时候用；
-         *
+         * 只在dialog模式下有效
          * @param navigationBarColor
          * @return
          */
@@ -407,7 +407,7 @@ public class XPopup {
 
         /**
          * 设置导航栏是否是亮色，默认false
-         *
+         * 只在dialog模式下有效
          * @param isLightNavigationBar
          * @return
          */
@@ -418,7 +418,7 @@ public class XPopup {
 
         /**
          * 设置状态栏是否是亮色，默认false
-         *
+         * 只在dialog模式下有效
          * @param isLightStatusBar
          * @return
          */

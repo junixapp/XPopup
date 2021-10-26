@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.RomUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //        BarUtils.setStatusBarVisibility();
 //        BarUtils.setNavBarColor(this, Color.parseColor("#333333"));
 //        BarUtils.setNavBarLightMode(this, true);
+//        BarUtils.setNavBarVisibility(MainActivity.this, false);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);

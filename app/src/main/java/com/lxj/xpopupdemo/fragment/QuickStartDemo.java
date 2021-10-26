@@ -120,7 +120,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 /*if(popupView==null)*/
                 popupView = new XPopup.Builder(getContext())
                         .hasNavigationBar(false)
-                        .isViewMode(true)
+//                        .hasStatusBar(false)
                         .isDestroyOnDismiss(true)
 //                        .hasBlurBg(true)
 //                         .autoDismiss(false)

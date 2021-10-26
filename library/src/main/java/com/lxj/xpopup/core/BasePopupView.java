@@ -196,8 +196,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         View decorView = ((Activity) getContext()).getWindow().getDecorView().findViewById(android.R.id.content);
         int[] loc = new int[2];
         decorView.getLocationInWindow(loc);
-        int sw = XPopupUtils.getScreenWidth(getContext());
-        int appw = XPopupUtils.getAppWidth(getContext());
         return loc[0];
     }
 

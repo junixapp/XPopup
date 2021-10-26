@@ -6,13 +6,13 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
 import androidx.annotation.NonNull;
+
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.util.FuckRomUtils;
@@ -53,16 +53,6 @@ public class FullScreenDialog extends Dialog {
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         getWindow().getDecorView().setSystemUiVisibility(option);
 
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
-        boolean isPortrait = getContext().getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_PORTRAIT;
-        if(isFuckVIVORoom() && isPortrait){
-            getWindow().setLayout(XPopupUtils.getAppWidth(getContext()), Math.max(XPopupUtils.getAppHeight(getContext()),
-                    XPopupUtils.getScreenHeight(getContext())));
-            getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
-        }
-
         //remove status bar shadow
         if(Build.VERSION.SDK_INT == 19){  //解决4.4上状态栏闪烁的问题
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -87,7 +77,19 @@ public class FullScreenDialog extends Dialog {
 
         setStatusBarLightMode();
         setNavBarLightMode();
-        setContentView(contentView, contentView.getLayoutParams());
+
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
+        boolean isPortrait = getContext().getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
+        if(isFuckVIVORoom() && isPortrait){
+            getWindow().setLayout(XPopupUtils.getAppWidth(getContext()), Math.max(XPopupUtils.getAppHeight(getContext()),
+                    XPopupUtils.getScreenHeight(getContext())));
+            getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
+        }
+        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+        layoutParams.height = getWindow().getAttributes().height;
+        setContentView(contentView, layoutParams);
     }
 
     private int getNavigationBarColor(){
@@ -134,6 +136,9 @@ public class FullScreenDialog extends Dialog {
         }
     }
 
+    /**
+     * copy from AndroidUtilCode/BarUtils
+     */
     public void hideNavigationBar() {
         final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
         for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
@@ -146,17 +151,12 @@ public class FullScreenDialog extends Dialog {
                 }
             }
         }
-        final int uiOptions =
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+        final int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
-//                View.SYSTEM_UI_FLAG_IMMERSIVE |
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-//               | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                View.SYSTEM_UI_FLAG_FULLSCREEN |
-                ;
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | uiOptions);
     }
+
     private  String getResNameById(int id) {
         try {
             return getContext().getResources().getResourceEntryName(id);
