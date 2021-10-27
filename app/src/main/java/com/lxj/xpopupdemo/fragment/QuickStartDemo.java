@@ -1,11 +1,15 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.animation.FloatEvaluator;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -370,6 +374,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .autoOpenSoftInput(true)
                         .popupPosition(PopupPosition.Right)//右边
                         .hasStatusBarShadow(true) //启用状态栏阴影
+                        .setPopupCallback(new DemoXPopupListener())
                         .asCustom(new ListDrawerPopupView(getContext()));
                 popupView.show();
                 break;
@@ -452,6 +457,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 
 
     static class DemoXPopupListener extends SimpleCallback {
+        FloatEvaluator fEvaluator = new FloatEvaluator();
+        FloatEvaluator iEvaluator = new FloatEvaluator();
         @Override
         public void onCreated(BasePopupView pv) {
             Log.e("tag", "onCreated");
@@ -478,6 +485,21 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             Log.e("tag", "拦截的返回按键，按返回键XPopup不会关闭了");
             Toast.makeText(popupView.getContext(), "onBackPressed返回true，拦截了返回按键，按返回键XPopup不会关闭了", Toast.LENGTH_SHORT).show();
             return true;
+        }
+
+        @Override
+        public void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft) {
+            super.onDrag(popupView, value, percent, upOrLeft);
+            Log.e("tag", "value: " + value + "  percent: "+percent);
+//            ((Activity) popupView.getContext()).getWindow().getDecorView().setTranslationX(value);
+//            float e = fEvaluator.evaluate(percent, 1.0, 0.8);
+//            View decorView = ((Activity) popupView.getContext()).getWindow().getDecorView();
+//            decorView.setScaleX(e);
+//            decorView.setScaleY(e);
+            FloatEvaluator iEvaluator = new FloatEvaluator();
+            View decorView = ((Activity) popupView.getContext()).getWindow().getDecorView();
+            float t = iEvaluator.evaluate(percent, 0, -popupView.getMeasuredWidth()/2);
+            decorView.setTranslationX(t);
         }
 
         @Override

@@ -187,7 +187,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         return (ViewGroup) getHostWindow().getDecorView();
     }
 
-    protected View getActivityContentView() {
+    public View getActivityContentView() {
         return ((Activity) getContext()).getWindow().getDecorView().findViewById(android.R.id.content);
     }
 

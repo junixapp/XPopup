@@ -92,7 +92,7 @@ public class PhotoViewContainer extends FrameLayout {
         if(view instanceof PhotoView){
             return  (((PhotoView)view).attacher.isTopEnd || ((PhotoView)view).attacher.isBottomEnd);
         }
-        SubsamplingScaleImageView ssiv = (SubsamplingScaleImageView) view;
+//        SubsamplingScaleImageView ssiv = (SubsamplingScaleImageView) view;
         return false;
     }
 
