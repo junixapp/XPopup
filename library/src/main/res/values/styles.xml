@@ -11,5 +11,6 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 </resources>

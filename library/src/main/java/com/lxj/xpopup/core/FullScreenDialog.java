@@ -42,7 +42,6 @@ public class FullScreenDialog extends Dialog {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         getWindow().setBackgroundDrawable(null);
-
         getWindow().getDecorView().setPadding(0, 0, 0, 0);
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
