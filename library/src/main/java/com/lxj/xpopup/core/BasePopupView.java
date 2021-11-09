@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -855,6 +856,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();
                     y = event.getY();
+                    if(popupInfo!=null && popupInfo.xPopupCallback!=null){
+                        popupInfo.xPopupCallback.onClickOutside(this);
+                    }
                     passClickThrough(event);
                     break;
                 case MotionEvent.ACTION_MOVE:

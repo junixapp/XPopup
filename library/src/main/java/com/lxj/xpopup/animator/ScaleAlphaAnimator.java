@@ -14,7 +14,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         super(target, animationDuration, popupAnimation);
     }
 
-    float startScale = .85f;
+    float startScale = .9f;
     @Override
     public void initAnimator() {
         targetView.setScaleX(startScale);

@@ -41,4 +41,9 @@ public class SimpleCallback implements XPopupCallback {
     @Override
     public void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft) {
     }
+
+    @Override
+    public void onClickOutside(BasePopupView popupView) {
+
+    }
 }

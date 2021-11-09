@@ -55,4 +55,10 @@ public interface XPopupCallback {
      *                 水平拖拽时，true表示向左，false表示向右
      */
     void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft);
+
+    /**
+     * 当点击到弹窗外部的时候调用
+     * @return
+     */
+    void onClickOutside(BasePopupView popupView);
 }

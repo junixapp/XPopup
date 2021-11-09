@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
@@ -72,6 +73,19 @@ public abstract class DrawerPopupView extends BasePopupView {
         getPopupImplView().setTranslationY(popupInfo.offsetY);
         drawerLayout.setDrawerPosition(popupInfo.popupPosition == null ? PopupPosition.Left : popupInfo.popupPosition);
         drawerLayout.enableDrag = popupInfo.enableDrag;
+        drawerLayout.getChildAt(0).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(popupInfo!=null){
+                    if(popupInfo.xPopupCallback!=null){
+                        popupInfo.xPopupCallback.onClickOutside(DrawerPopupView.this);
+                    }
+                    if(popupInfo.isDismissOnTouchOutside!=null){
+                        dismiss();
+                    }
+                }
+            }
+        });
     }
 
     Paint paint = new Paint();

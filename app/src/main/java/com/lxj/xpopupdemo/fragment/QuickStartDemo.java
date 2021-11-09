@@ -126,11 +126,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasNavigationBar(false)
 //                        .hasStatusBar(false)
                         .isDestroyOnDismiss(true)
+                        .dismissOnBackPressed(false)
 //                        .hasBlurBg(true)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
-//                        .setPopupCallback(new DemoXPopupListener())
-//                        .asCustom(new LoginPopup(getContext()));
                         .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
                                 "取消", "确定",
                                 new OnConfirmListener() {
@@ -213,6 +212,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             .dismissOnBackPressed(false)
                             .isLightNavigationBar(true)
                             .isViewMode(true)
+//                            .asLoading(null, R.layout.custom_loading_popup)
                             .asLoading("加载中")
                             .show();
                 } else {
@@ -244,7 +244,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDarkTheme(true)
                         .hasShadowBg(true)
                         .isViewMode(true)
-                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
+//                        .enableDrag(false)
 //                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .asBottomList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5", "条目6", "条目7"},
@@ -496,16 +496,22 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //            View decorView = ((Activity) popupView.getContext()).getWindow().getDecorView();
 //            decorView.setScaleX(e);
 //            decorView.setScaleY(e);
-            FloatEvaluator iEvaluator = new FloatEvaluator();
-            View decorView = ((Activity) popupView.getContext()).getWindow().getDecorView();
-            float t = iEvaluator.evaluate(percent, 0, -popupView.getMeasuredWidth()/2);
-            decorView.setTranslationX(t);
+//            FloatEvaluator iEvaluator = new FloatEvaluator();
+//            View decorView = ((Activity) popupView.getContext()).getWindow().getDecorView();
+//            float t = iEvaluator.evaluate(percent, 0, -popupView.getMeasuredWidth()/2);
+//            decorView.setTranslationX(t);
         }
 
         @Override
         public void onKeyBoardStateChanged(BasePopupView popupView, int height) {
             super.onKeyBoardStateChanged(popupView, height);
             Log.e("tag", "onKeyBoardStateChanged height: " + height);
+        }
+
+        @Override
+        public void onClickOutside(BasePopupView popupView) {
+            super.onClickOutside(popupView);
+            Log.e("tag", "onClickOutside");
         }
     }
 }

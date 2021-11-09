@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.core.DrawerPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.vm.DemoVM;
 
@@ -87,5 +88,8 @@ public class ListDrawerPopupView extends DrawerPopupView {
 
     }
 
-
+    @Override
+    protected int getMaxWidth() {
+        return XPopupUtils.getScreenWidth(getContext()) - 100;
+    }
 }

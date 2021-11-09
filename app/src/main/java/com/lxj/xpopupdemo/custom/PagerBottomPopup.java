@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,5 @@ public class PagerBottomPopup extends BottomPopupView {
     protected int getMaxHeight() {
         return (int) (XPopupUtils.getScreenHeight(getContext())*.85f);
     }
-
 
 }

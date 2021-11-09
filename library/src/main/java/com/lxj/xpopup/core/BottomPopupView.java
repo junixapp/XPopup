@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
+import com.lxj.xpopup.animator.TranslateAnimator;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -75,7 +77,14 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                if(popupInfo!=null){
+                    if(popupInfo.xPopupCallback!=null){
+                        popupInfo.xPopupCallback.onClickOutside(BottomPopupView.this);
+                    }
+                    if(popupInfo.isDismissOnTouchOutside!=null){
+                        dismiss();
+                    }
+                }
             }
         });
     }
@@ -120,7 +129,8 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return null;
+        if(popupInfo==null) return null;
+        return popupInfo.enableDrag ? null : new TranslateAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.TranslateFromBottom);
     }
 
     @Override
