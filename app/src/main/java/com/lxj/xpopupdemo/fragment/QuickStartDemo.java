@@ -127,6 +127,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasStatusBar(false)
                         .isDestroyOnDismiss(true)
                         .dismissOnBackPressed(false)
+//                        .isViewMode(true)
 //                        .hasBlurBg(true)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)

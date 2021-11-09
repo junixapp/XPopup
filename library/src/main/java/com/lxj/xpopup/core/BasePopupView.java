@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -316,18 +317,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     private ShowSoftInputTask showSoftInputTask;
     public void focusAndProcessBackPress() {
         if (popupInfo != null && popupInfo.isRequestFocus) {
-            if(popupInfo.isViewMode){
-                setFocusableInTouchMode(true);
-                setFocusable(true);
-//                requestFocus();
-            }
+            setFocusableInTouchMode(true);
+            setFocusable(true);
+//            requestFocus();
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
-//            if (Build.VERSION.SDK_INT >= 28) {
-//                addOnUnhandledKeyListener(this);
-//            } else {
-//                setOnKeyListener(new BackPressListener());
-//            }
-            addOnUnhandledKeyListener(this);
+            if (Build.VERSION.SDK_INT >= 28) {
+                addOnUnhandledKeyListener(this);
+            } else {
+                setOnKeyListener(new BackPressListener());
+            }
+//            addOnUnhandledKeyListener(this);
 
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
@@ -340,13 +339,13 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 }
                 for (int i = 0; i < list.size(); i++) {
                     final EditText et = list.get(i);
-                    addOnUnhandledKeyListener(et);
-//                    if (Build.VERSION.SDK_INT >= 28) {
-//                        addOnUnhandledKeyListener(et);
-//                    }else {
-//                        boolean hasSetKeyListener = XPopupUtils.hasSetKeyListener(et);
-//                        if(!hasSetKeyListener) et.setOnKeyListener(new BackPressListener());
-//                    }
+//                    addOnUnhandledKeyListener(et);
+                    if (Build.VERSION.SDK_INT >= 28) {
+                        addOnUnhandledKeyListener(et);
+                    }else {
+                        boolean hasSetKeyListener = XPopupUtils.hasSetKeyListener(et);
+                        if(!hasSetKeyListener) et.setOnKeyListener(new BackPressListener());
+                    }
                     if (i == 0) {
                         if (popupInfo.autoFocusEditText) {
                             et.setFocusable(true);
