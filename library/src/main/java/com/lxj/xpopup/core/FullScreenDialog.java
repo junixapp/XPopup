@@ -193,4 +193,5 @@ public class FullScreenDialog extends Dialog {
         }
         return super.dispatchTouchEvent(event);
     }
+
 }

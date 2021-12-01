@@ -177,10 +177,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         } else {
             //dialog实现
             if (dialog == null) {
-                dialog = new FullScreenDialog(getContext())
-                        .setContent(this);
+                dialog = new FullScreenDialog(getContext()).setContent(this);
             }
-            dialog.show();
+            if(!dialog.isShowing()) dialog.show(); 
         }
     }
 
@@ -827,17 +826,15 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         hasMoveUp = false;
     }
 
-    private void passClickThrough(MotionEvent event) {
-        if (popupInfo != null && popupInfo.isClickThrough ) {
+    private void passTouchThrough(MotionEvent event) {
+        if (popupInfo != null && (popupInfo.isClickThrough || popupInfo.isTouchThrough) ) {
             if (popupInfo.isViewMode) {
                 //需要从DecorView分发，并且要排除自己，否则死循环
-//                ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
-//                for (int i = 0; i < decorView.getChildCount(); i++) {
-//                    View view = decorView.getChildAt(i);
-//                    if (view != this) view.dispatchTouchEvent(event);
-//                }
-                //从content分发即可
-                getActivityContentView().dispatchTouchEvent(event);
+                ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+                for (int i = 0; i < decorView.getChildCount(); i++) {
+                    View view = decorView.getChildAt(i);
+                    if (view != this) view.dispatchTouchEvent(event);
+                }
             } else {
                 ((Activity) getContext()).dispatchTouchEvent(event);
             }
@@ -858,17 +855,20 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     if(popupInfo!=null && popupInfo.xPopupCallback!=null){
                         popupInfo.xPopupCallback.onClickOutside(this);
                     }
-                    passClickThrough(event);
+                    passTouchThrough(event);
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if(popupInfo != null && popupInfo.isDismissOnTouchOutside) dismiss();
+                    if(popupInfo != null){
+                        if(popupInfo.isDismissOnTouchOutside) dismiss();
+                        if(popupInfo.isTouchThrough)passTouchThrough(event);
+                    }
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                    passClickThrough(event);
+                    passTouchThrough(event);
                     if (distance < touchSlop && popupInfo != null && popupInfo.isDismissOnTouchOutside) {
                         //查看是否在排除区域外
                         ArrayList<Rect> rects = popupInfo.notDismissWhenTouchInArea;

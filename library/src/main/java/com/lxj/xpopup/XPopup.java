@@ -530,6 +530,18 @@ public class XPopup {
         }
 
         /**
+         * 是否触摸弹窗背景时将触摸事件透传到Activity下，默认是false。目前对Center弹窗，Attach弹窗，
+         * Position弹窗，PartShadow弹窗生效；对Drawer弹窗，FullScreen弹窗，Bottom弹窗不生效（未开放功能）
+         *
+         * @param isTouchThrough
+         * @return
+         */
+        public Builder isTouchThrough(boolean isTouchThrough) {
+            this.popupInfo.isTouchThrough = isTouchThrough;
+            return this;
+        }
+
+        /**
          * 是否允许应用在后台的时候也能弹出弹窗，默认是false。注意如果开启这个开关，需要申请悬浮窗权限才能生效。
          * 直接使用 XPopup.requestOverlayPermission()即可申请
          * @param enableShowWhenAppBackground

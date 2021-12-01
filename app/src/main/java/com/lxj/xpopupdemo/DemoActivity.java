@@ -18,6 +18,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopupdemo.custom.QQMsgPopup;
 import com.lxj.xpopupdemo.fragment.FragmentLifecycleDemo;
 import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 
@@ -51,9 +52,11 @@ public class DemoActivity extends AppCompatActivity {
 
         attachPopup = new XPopup.Builder(this)
                 .atView(editText)
+                .dismissOnTouchOutside(false)
                 .isViewMode(true)      //开启View实现
                 .isRequestFocus(false) //不强制焦点
-                .isClickThrough(true)  //点击透传
+//                .isClickThrough(true)  //点击透传
+                .isTouchThrough(true)
                 .hasShadowBg(false)
                 .positionByWindowCenter(true)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)

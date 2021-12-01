@@ -211,6 +211,7 @@ implementation 'androidx.recyclerview:recyclerview:1.2.1'
 - SPAX （https://www.onespax.com/）
 - 译录宝 （https://www.aivox.com.cn/）
 - SealLive （https://www.seallive.app/#/）
+- 猫久夕
 
 
 ## 打个赏
