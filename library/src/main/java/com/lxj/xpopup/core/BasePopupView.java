@@ -97,7 +97,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
             return BasePopupView.this;
-        getActivityContentView().post(attachTask);
+        handler.post(attachTask);
         return this;
     }
 
@@ -114,11 +114,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     if (popupInfo != null && popupInfo.xPopupCallback != null) {
                         popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this, height);
                     }
-                    if (height == 0) { // 说明输入法隐藏
+                    if (height == 0 && hasMoveUp) { // 说明输入法隐藏
                         XPopupUtils.moveDown(BasePopupView.this);
                         hasMoveUp = false;
                     } else {
-//                        if (hasMoveUp) return;
                         //when show keyboard, move up
                         if (BasePopupView.this instanceof PartShadowPopupView && popupStatus == PopupStatus.Showing) {
                             return;
