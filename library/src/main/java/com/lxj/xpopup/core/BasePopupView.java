@@ -832,7 +832,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 ViewGroup decorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
                 for (int i = 0; i < decorView.getChildCount(); i++) {
                     View view = decorView.getChildAt(i);
-                    if (view != this) view.dispatchTouchEvent(event);
+                    //自己和兄弟弹窗都不互相分发，否则死循环
+                    if (!(view instanceof BasePopupView)) view.dispatchTouchEvent(event);
                 }
             } else {
                 ((Activity) getContext()).dispatchTouchEvent(event);
