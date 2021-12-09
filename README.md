@@ -212,6 +212,9 @@ implementation 'androidx.recyclerview:recyclerview:1.2.1'
 - 译录宝 （https://www.aivox.com.cn/）
 - SealLive （https://www.seallive.app/#/）
 - 猫久夕
+- CAD看图王（app名） https://yun.gstarcad.com/mobile/
+- CAD手机看图（app名） https://yun.gstarcad.com/mobile/
+- 我奥篮球 (北京我奥科技有限公司)
 
 
 ## 打个赏
