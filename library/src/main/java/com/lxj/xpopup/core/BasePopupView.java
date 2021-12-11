@@ -106,6 +106,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         public void run() {
             // 1. add PopupView to its host.
             attachToHost();
+
             //2. 注册对话框监听器
             KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
                 @Override
@@ -225,7 +226,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
         }
-        handler.postDelayed(initTask, 10);
+        handler.post(initTask);
     }
 
     private final Runnable initTask = new Runnable() {

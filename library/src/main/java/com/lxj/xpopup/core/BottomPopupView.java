@@ -45,12 +45,17 @@ public class BottomPopupView extends BasePopupView {
         }
         bottomPopupContainer.setDuration(getAnimationDuration());
         bottomPopupContainer.enableDrag(popupInfo.enableDrag);
-        if(popupInfo.enableDrag) popupInfo.popupAnimation = null;
+        if(popupInfo.enableDrag) {
+            popupInfo.popupAnimation = null;
+            getPopupImplView().setTranslationX(popupInfo.offsetX);
+            getPopupImplView().setTranslationY(popupInfo.offsetY);
+        }else {
+            getPopupContentView().setTranslationX(popupInfo.offsetX);
+            getPopupContentView().setTranslationY(popupInfo.offsetY);
+        }
         bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
         bottomPopupContainer.isThreeDrag(popupInfo.isThreeDrag);
 
-        getPopupImplView().setTranslationX(popupInfo.offsetX);
-        getPopupImplView().setTranslationY(popupInfo.offsetY);
 
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight()
                 , getPopupWidth(), getPopupHeight(), null);
@@ -127,10 +132,13 @@ public class BottomPopupView extends BasePopupView {
         }
     }
 
+    private TranslateAnimator translateAnimator ;
     @Override
     protected PopupAnimator getPopupAnimator() {
         if(popupInfo==null) return null;
-        return popupInfo.enableDrag ? null : new TranslateAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.TranslateFromBottom);
+        if(translateAnimator==null) translateAnimator = new TranslateAnimator(getPopupContentView(), getAnimationDuration(),
+                PopupAnimation.TranslateFromBottom);
+        return popupInfo.enableDrag ? null : translateAnimator;
     }
 
     @Override
@@ -161,4 +169,13 @@ public class BottomPopupView extends BasePopupView {
                 : popupInfo.maxWidth;
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        if(popupInfo!=null && !popupInfo.enableDrag && translateAnimator!=null){
+            getPopupContentView().setTranslationX(translateAnimator.startTranslationX);
+            getPopupContentView().setTranslationY(translateAnimator.startTranslationY);
+            translateAnimator.hasInit = true;
+        }
+        super.onDetachedFromWindow();
+    }
 }

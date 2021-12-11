@@ -1,9 +1,12 @@
 package com.lxj.xpopup.animator;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
+
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -11,21 +14,23 @@ import com.lxj.xpopup.enums.PopupAnimation;
  * Create by dance, at 2018/12/9
  */
 public class TranslateAnimator extends PopupAnimator {
-    private float startTranslationX, startTranslationY;
-    private float endTranslationX, endTranslationY;
-
+    public float startTranslationX, startTranslationY;
+    public float endTranslationX, endTranslationY;
+    public boolean hasInit = false;
     public TranslateAnimator(View target, int animationDuration, PopupAnimation popupAnimation) {
         super(target, animationDuration, popupAnimation);
     }
 
     @Override
     public void initAnimator() {
-        endTranslationX = targetView.getTranslationX();
-        endTranslationY = targetView.getTranslationY();
-        // 设置起始坐标
-        applyTranslation();
-        startTranslationX = targetView.getTranslationX();
-        startTranslationY = targetView.getTranslationY();
+        if(!hasInit){
+            endTranslationX = targetView.getTranslationX();
+            endTranslationY = targetView.getTranslationY();
+            // 设置起始坐标
+            applyTranslation();
+            startTranslationX = targetView.getTranslationX();
+            startTranslationY = targetView.getTranslationY();
+        }
     }
 
     private void applyTranslation() {
@@ -58,7 +63,7 @@ public class TranslateAnimator extends PopupAnimator {
                 animator = targetView.animate().translationY(endTranslationY);
                 break;
         }
-        if(animator!=null)animator.setInterpolator(new FastOutSlowInInterpolator())
+        if (animator != null) animator.setInterpolator(new FastOutSlowInInterpolator())
                 .setDuration(animationDuration)
                 .withLayer()
                 .start();
@@ -66,7 +71,7 @@ public class TranslateAnimator extends PopupAnimator {
 
     @Override
     public void animateDismiss() {
-        if(animating)return;
+        if (animating) return;
         ViewPropertyAnimator animator = null;
         switch (popupAnimation) {
             case TranslateFromLeft:
@@ -86,9 +91,10 @@ public class TranslateAnimator extends PopupAnimator {
                 animator = targetView.animate().translationY(startTranslationY);
                 break;
         }
-        if(animator!=null)observerAnimator(animator.setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration((long) (animationDuration*.8))
-                .withLayer())
-                .start();
+        if (animator != null)
+            observerAnimator(animator.setInterpolator(new FastOutSlowInInterpolator())
+                    .setDuration((long) (animationDuration * .8))
+                    .withLayer())
+                    .start();
     }
 }

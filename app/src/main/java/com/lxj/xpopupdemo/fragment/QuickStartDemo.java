@@ -269,12 +269,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnCustomBottomPopup: //自定义的底部弹窗
+                if(popupView==null) popupView = new ZhihuCommentPopup(getContext());
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
-                        .enableDrag(true)
+//                        .enableDrag(false)
+                        .animationDuration(1000)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
-                        .asCustom(new ZhihuCommentPopup(getContext())/*.enableDrag(false)*/)
+                        .asCustom(popupView)
                         .show();
                 break;
             case R.id.btnPagerBottomPopup: //自定义的底部弹窗
