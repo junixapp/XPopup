@@ -66,6 +66,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://img.live.qiqushiting.com/Pimg/img/squ/img/107821622429832886.jpg");
         list.add("http://moimg0.mwim.store/image/5BE8A5CF4893D9197D6D6D66BE294488.jpg");
         list.add("http://cfile.frees.fun/picwall/796804C4A25DE27342A2A0987283AB03.jpg");
+        list.add("http://test-yjk.oss-cn-chengdu.aliyuncs.com/APP/dynamic/picture/1637229940713.jpeg");
     }
 
     RecyclerView recyclerView;

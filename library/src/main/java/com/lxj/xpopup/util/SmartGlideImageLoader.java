@@ -91,10 +91,11 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             if (size[0] > maxW || size[1] > maxH) {
                                 //TODO: 可能导致大图GIF展示不出来
                                 Bitmap rawBmp = XPopupUtils.getBitmap(resource, maxW, maxH);
-                                ((PhotoView) imageView).setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
+//                                ((PhotoView) imageView).setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
+                                Glide.with(imageView).load(rawBmp)
+                                        .apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(((PhotoView) imageView));
                             } else {
                                 Glide.with(imageView).load(resource)
-                                        .transform(new Rotate(degree))
                                         .apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(((PhotoView) imageView));
                             }
                         } else {
