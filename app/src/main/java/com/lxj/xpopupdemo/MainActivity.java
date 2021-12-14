@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1200);
 
+//        new XPopup.Builder(this).asConfirm("asda", "dasdadas", null).show();
+
         String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
                 + "  getAppHeight: " + XPopupUtils.getAppHeight(MainActivity.this)
                 + " deviceWidth: " + XPopupUtils.getScreenWidth(MainActivity.this)

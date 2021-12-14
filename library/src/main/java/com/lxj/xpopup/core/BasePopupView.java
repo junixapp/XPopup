@@ -97,7 +97,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
             return BasePopupView.this;
-        handler.post(attachTask);
+        getActivityContentView().post(attachTask);
         return this;
     }
 
@@ -226,7 +226,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
         }
-        handler.post(initTask);
+        handler.postDelayed(initTask, 10);
     }
 
     private final Runnable initTask = new Runnable() {
