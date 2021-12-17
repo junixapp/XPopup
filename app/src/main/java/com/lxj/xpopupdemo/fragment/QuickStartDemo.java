@@ -385,7 +385,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasStatusBar(false)
 //                        .hasStatusBarShadow(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .animationDuration(1000)
                         .isLightStatusBar(true)
                         .autoOpenSoftInput(true)
                         .asCustom(popupView)
