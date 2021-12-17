@@ -30,6 +30,8 @@ public class TranslateAnimator extends PopupAnimator {
             applyTranslation();
             startTranslationX = targetView.getTranslationX();
             startTranslationY = targetView.getTranslationY();
+            Log.e("tag", "endTranslationY: " + endTranslationY  + "  startTranslationY: "+startTranslationY
+            + "   duration: " + animationDuration);
         }
     }
 

@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,9 @@ public abstract class DrawerPopupView extends BasePopupView {
         super(context);
         drawerLayout = findViewById(R.id.drawerLayout);
         drawerContentContainer = findViewById(R.id.drawerContentContainer);
+    }
+
+    protected void addInnerContent(){
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), drawerContentContainer, false);
         drawerContentContainer.addView(contentView);
     }
@@ -49,6 +53,7 @@ public abstract class DrawerPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
+        if(drawerContentContainer.getChildCount()==0)addInnerContent();
         drawerLayout.isDismissOnTouchOutside = popupInfo.isDismissOnTouchOutside;
         drawerLayout.setOnCloseListener(new PopupDrawerLayout.OnCloseListener() {
             @Override

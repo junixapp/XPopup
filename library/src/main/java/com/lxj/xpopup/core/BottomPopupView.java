@@ -36,7 +36,6 @@ public class BottomPopupView extends BasePopupView {
         return R.layout._xpopup_bottom_popup_view;
     }
 
-
     @Override
     protected void initPopupContent() {
         super.initPopupContent();

@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -34,21 +35,21 @@ public class FullScreenPopupView extends BasePopupView {
     protected int getInnerLayoutId() {
         return R.layout._xpopup_fullscreen_popup_view;
     }
-    final protected void addInnerContent(){
+
+    protected void addInnerContent(){
         contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), fullPopupContainer, false);
         fullPopupContainer.addView(contentView);
     }
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
-        if(fullPopupContainer.getChildCount()==0)addInnerContent();
+        if(fullPopupContainer.getChildCount()==0) addInnerContent();
         getPopupContentView().setTranslationX(popupInfo.offsetX);
         getPopupContentView().setTranslationY(popupInfo.offsetY);
     }
 
-    Paint paint = new Paint();
-    Rect shadowRect;
-
+    private Paint paint = new Paint();
+    protected Rect shadowRect;
     int currColor = Color.TRANSPARENT;
     @Override
     protected void dispatchDraw(Canvas canvas) {
@@ -72,7 +73,7 @@ public class FullScreenPopupView extends BasePopupView {
         doStatusBarColorTransform(false);
     }
 
-    public void doStatusBarColorTransform(boolean isShow){
+    private void doStatusBarColorTransform(boolean isShow){
         if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             //状态栏渐变动画
             ValueAnimator animator = ValueAnimator.ofObject(argbEvaluator,
@@ -89,15 +90,23 @@ public class FullScreenPopupView extends BasePopupView {
         }
     }
 
+    private TranslateAnimator translateAnimator;
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return new TranslateAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.TranslateFromBottom);
+        if(translateAnimator==null){
+            translateAnimator = new TranslateAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.TranslateFromBottom);
+        }
+        return translateAnimator;
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        if(popupInfo!=null)getPopupContentView().setTranslationX(popupInfo.offsetX);
-        if(popupInfo!=null)getPopupContentView().setTranslationY(popupInfo.offsetY);
+        if(popupInfo!=null && translateAnimator!=null){
+            getPopupContentView().setTranslationX(translateAnimator.startTranslationX);
+            getPopupContentView().setTranslationY(translateAnimator.startTranslationY);
+            translateAnimator.hasInit = true;
+        }
         super.onDetachedFromWindow();
     }
+
 }
