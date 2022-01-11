@@ -179,7 +179,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                             popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                         }
-                                    }, new SmartGlideImageLoader(R.mipmap.ic_launcher), null)
+                                    }, new SmartGlideImageLoader(true, R.mipmap.ic_launcher), null)
                             .show();
                 }
             });

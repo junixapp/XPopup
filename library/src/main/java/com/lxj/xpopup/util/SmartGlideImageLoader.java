@@ -7,6 +7,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -88,12 +89,13 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                         if (imageView instanceof PhotoView) {
                             progressBar.setVisibility(View.GONE);
                             ((PhotoView) imageView).setZoomable(true);
+                            Log.e("tag", "degree: "+ degree);
                             if (size[0] > maxW || size[1] > maxH) {
                                 //TODO: 可能导致大图GIF展示不出来
                                 Bitmap rawBmp = XPopupUtils.getBitmap(resource, maxW, maxH);
-//                                ((PhotoView) imageView).setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
-                                Glide.with(imageView).load(rawBmp)
-                                        .apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(((PhotoView) imageView));
+                                ((PhotoView) imageView).setImageBitmap(XPopupUtils.rotate(rawBmp, degree, size[0]/2f, size[1]/2f));
+//                                Glide.with(imageView).load(rawBmp)
+//                                        .apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(((PhotoView) imageView));
                             } else {
                                 Glide.with(imageView).load(resource)
                                         .apply(new RequestOptions().error(errImg).override(size[0], size[1])).into(((PhotoView) imageView));
