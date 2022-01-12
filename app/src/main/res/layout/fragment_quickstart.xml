@@ -171,6 +171,7 @@
                 android:textAllCaps="false" />
         </LinearLayout>
         <LinearLayout
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -184,7 +185,11 @@
                 android:layout_height="wrap_content"
                 android:text="横向带气泡Attach弹窗"
                 android:textAllCaps="false" />
-
+            <View
+                android:id="@+id/vv"
+                android:background="#f00"
+                android:layout_width="35dp"
+                android:layout_height="35dp"/>
             <Button
                 android:id="@+id/btnBubbleAttachPopup2"
                 android:layout_marginTop="10dp"

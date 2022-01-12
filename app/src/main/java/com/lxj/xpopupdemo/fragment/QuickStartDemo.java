@@ -347,13 +347,15 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
 //                        .isCenterHorizontal(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .atView(v)
+                        .atView(view.findViewById(R.id.vv))
                         .hasShadowBg(false) // 去掉半透明背景
+//                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
+                        .offsetY(XPopupUtils.dp2px(getContext(), 6))
                         .asCustom(new CustomBubbleAttachPopup(getContext())
-//                                .setArrowOffset(100)  //气泡箭头偏移
+//                                .setArrowOffset(-XPopupUtils.dp2px(getContext(), 40))  //气泡箭头偏移
 //                                .setBubbleBgColor(Color.RED)  //气泡背景
-//                                .setArrowWidth(XPopupUtils.dp2px(getContext(), 20))
-//                                .setArrowHeight(XPopupUtils.dp2px(getContext(), 20))
+                                .setArrowWidth(XPopupUtils.dp2px(getContext(), 5))
+                                .setArrowHeight(XPopupUtils.dp2px(getContext(), 6))
 //                                .setBubbleRadius(100)
                                         .setArrowRadius(XPopupUtils.dp2px(getContext(), 3))
                         )

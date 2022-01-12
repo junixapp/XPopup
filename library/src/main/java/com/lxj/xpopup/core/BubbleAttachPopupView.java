@@ -54,8 +54,8 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         bubbleContainer.setShadowRadius(XPopupUtils.dp2px(getContext(), 0f));
         defaultOffsetY = popupInfo.offsetY;
         defaultOffsetX = popupInfo.offsetX;
-        bubbleContainer.setTranslationX(popupInfo.offsetX);
-        bubbleContainer.setTranslationY(popupInfo.offsetY);
+//        bubbleContainer.setTranslationX(popupInfo.offsetX);
+//        bubbleContainer.setTranslationY(popupInfo.offsetY);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(),getPopupHeight(), new Runnable() {
             @Override
@@ -203,7 +203,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         translationX = isShowLeft ? -(XPopupUtils.getAppWidth(getContext()) - rect.left - getPopupContentView().getMeasuredWidth() - defaultOffsetX)
                                 : -(XPopupUtils.getAppWidth(getContext()) - rect.right + defaultOffsetX);
                     } else {
-                        translationX = isShowLeft ? (rect.left + defaultOffsetX) : (rect.right - getPopupContentView().getMeasuredWidth() - defaultOffsetX);
+                        translationX = isShowLeft ? (rect.left + defaultOffsetX) : (rect.right - getPopupContentView().getMeasuredWidth()+ defaultOffsetX);
                     }
                     if (popupInfo.isCenterHorizontal) {
                         //水平居中
@@ -239,7 +239,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     if(popupInfo.isCenterHorizontal){
                         bubbleContainer.setLookPositionCenter(true);
                     }else {
-                        bubbleContainer.setLookPosition(rect.left + rect.width()/2 - (int)translationX);
+                        bubbleContainer.setLookPosition((int) (rect.left + rect.width()/2 - bubbleContainer.mLookWidth/2 - translationX));
                     }
                     bubbleContainer.invalidate();
                     translationX -= getActivityContentLeft();
@@ -270,16 +270,16 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 && popupInfo.popupPosition != PopupPosition.Bottom;
     }
 
-    /**
-     * 设置气泡箭头的偏移位置
-     * @param offset
-     * @return
-     */
-    public BubbleAttachPopupView setArrowOffset(int offset){
-        bubbleContainer.arrowOffset = offset;
-        bubbleContainer.invalidate();
-        return this;
-    }
+//    /**
+//     * 设置气泡箭头的偏移位置
+//     * @param offset
+//     * @return
+//     */
+//    public BubbleAttachPopupView setArrowOffset(int offset){
+//        bubbleContainer.arrowOffset = offset;
+//        bubbleContainer.invalidate();
+//        return this;
+//    }
 
     /**
      * 设置气泡背景颜色

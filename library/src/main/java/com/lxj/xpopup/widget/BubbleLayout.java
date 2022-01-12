@@ -35,7 +35,7 @@ public class BubbleLayout extends FrameLayout {
     private int mBubblePadding;
     private int mWidth, mHeight;
     private int mLeft, mTop, mRight, mBottom;
-    private int mLookPosition, mLookWidth, mLookLength;
+    public int mLookPosition, mLookWidth, mLookLength;
     private int mShadowColor, mShadowRadius, mShadowX, mShadowY;
     private int mBubbleRadius, mBubbleColor;
     // 坐上弧度，右上弧度，右下弧度，左下弧度
