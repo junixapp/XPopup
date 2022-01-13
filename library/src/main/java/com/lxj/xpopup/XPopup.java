@@ -21,7 +21,6 @@ import com.lxj.xpopup.core.PopupInfo;
 import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
-import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.impl.AttachListPopupView;
 import com.lxj.xpopup.impl.BottomListPopupView;
 import com.lxj.xpopup.impl.CenterListPopupView;
@@ -170,11 +169,6 @@ public class XPopup {
 
         public Builder(Context context) {
             this.context = context;
-        }
-
-        public Builder popupType(PopupType popupType) {
-            this.popupInfo.popupType = popupType;
-            return this;
         }
 
         /**
@@ -702,7 +696,6 @@ public class XPopup {
          */
         public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel,
                                           int bindLayoutId) {
-            popupType(PopupType.Center);
             ConfirmPopupView popupView = new ConfirmPopupView(this.context, bindLayoutId);
             popupView.setTitleContent(title, content, null);
             popupView.setCancelText(cancelBtnText);
@@ -738,7 +731,6 @@ public class XPopup {
          * @return
          */
         public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener, int bindLayoutId) {
-            popupType(PopupType.Center);
             InputConfirmPopupView popupView = new InputConfirmPopupView(this.context, bindLayoutId);
             popupView.setTitleContent(title, content, hint);
             popupView.inputContent = inputContent;
@@ -772,7 +764,6 @@ public class XPopup {
          */
         public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId) {
-            popupType(PopupType.Center);
             CenterListPopupView popupView = new CenterListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
@@ -801,7 +792,6 @@ public class XPopup {
          * @return
          */
         public LoadingPopupView asLoading(CharSequence title, int bindLayoutId) {
-            popupType(PopupType.Center);
             LoadingPopupView popupView = new LoadingPopupView(this.context, bindLayoutId)
                     .setTitle(title);
             popupView.popupInfo = this.popupInfo;
@@ -830,7 +820,6 @@ public class XPopup {
          */
         public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId) {
-            popupType(PopupType.Bottom);
             BottomListPopupView popupView = new BottomListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
@@ -873,7 +862,6 @@ public class XPopup {
          */
         public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId, int contentGravity) {
-            popupType(PopupType.AttachView);
             AttachListPopupView popupView = new AttachListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(data, iconIds)
                     .setContentGravity(contentGravity)
@@ -898,7 +886,6 @@ public class XPopup {
          * @return
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, XPopupImageLoader imageLoader) {
-            popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSingleSrcView(srcView, url)
                     .setXPopupImageLoader(imageLoader);
@@ -922,7 +909,6 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, boolean isInfinite, int placeholderColor, int placeholderStroke, int placeholderRadius,
                                                   boolean isShowSaveBtn, int bgColor, XPopupImageLoader imageLoader, OnImageViewerLongPressListener longPressListener) {
-            popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSingleSrcView(srcView, url)
                     .isInfinite(isInfinite)
@@ -973,7 +959,6 @@ public class XPopup {
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius, boolean isShowSaveBtn,
                                                   int bgColor,OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader,
                                                   OnImageViewerLongPressListener longPressListener) {
-            popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSrcView(srcView, currentPosition)
                     .setImageUrls(urls)
@@ -992,17 +977,6 @@ public class XPopup {
         }
 
         public BasePopupView asCustom(BasePopupView popupView) {
-            if (popupView instanceof CenterPopupView) {
-                popupType(PopupType.Center);
-            } else if (popupView instanceof BottomPopupView) {
-                popupType(PopupType.Bottom);
-            } else if (popupView instanceof AttachPopupView) {
-                popupType(PopupType.AttachView);
-            } else if (popupView instanceof ImageViewerPopupView) {
-                popupType(PopupType.ImageViewer);
-            } else if (popupView instanceof PositionPopupView) {
-                popupType(PopupType.Position);
-            }
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }

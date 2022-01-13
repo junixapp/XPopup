@@ -9,7 +9,6 @@ import androidx.lifecycle.Lifecycle;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
-import com.lxj.xpopup.enums.PopupType;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
  * Create by dance, at 2018/12/8
  */
 public class PopupInfo {
-    public PopupType popupType = null; //窗体的类型
     public Boolean isDismissOnBackPressed = true;  //按返回键是否消失
     public Boolean isDismissOnTouchOutside = true; //点击外部消失
     public Boolean autoDismiss = true; //操作完毕后是否自动关闭
