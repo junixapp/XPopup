@@ -164,8 +164,8 @@ public class XPopupUtils {
                 implParams.width = popupWidth;
             }
 
-            int h = content.getMeasuredHeight();
             if (maxHeight > 0) {
+                int h = content.getMeasuredHeight();
                 params.height = Math.min(h, maxHeight);
                 if (popupHeight > 0) {
                     params.height = Math.min(popupHeight, maxHeight);

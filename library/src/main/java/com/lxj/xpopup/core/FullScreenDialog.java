@@ -86,9 +86,10 @@ public class FullScreenDialog extends Dialog {
                     XPopupUtils.getScreenHeight(getContext())));
             getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
         }
-        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-        layoutParams.height = getWindow().getAttributes().height;
-        setContentView(contentView, layoutParams);
+//        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+//        layoutParams.height = getWindow().getAttributes().height;
+//        setContentView(contentView, layoutParams);
+        setContentView(contentView);
     }
 
     private int getNavigationBarColor(){

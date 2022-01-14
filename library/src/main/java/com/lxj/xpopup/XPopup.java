@@ -10,15 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Lifecycle;
-
 import com.lxj.xpopup.animator.PopupAnimator;
-import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
-import com.lxj.xpopup.core.BottomPopupView;
-import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.core.ImageViewerPopupView;
 import com.lxj.xpopup.core.PopupInfo;
-import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.impl.AttachListPopupView;
@@ -37,7 +32,6 @@ import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopup.util.XPopupUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 

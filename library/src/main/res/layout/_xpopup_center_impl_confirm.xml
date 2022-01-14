@@ -36,7 +36,6 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:singleLine="true"
         android:textColorHint="#999999"
         android:textColor="@color/_xpopup_content_color"
         android:layout_width="match_parent"

@@ -257,7 +257,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         // 优先使用自定义的动画器
         if (popupInfo.customAnimator != null) {
             popupContentAnimator = popupInfo.customAnimator;
-            popupContentAnimator.targetView = getPopupContentView();
+            if(popupContentAnimator.targetView==null) popupContentAnimator.targetView = getPopupContentView();
         } else {
             // 根据PopupInfo的popupAnimation字段来生成对应的动画执行器，如果popupAnimation字段为null，则返回null
             popupContentAnimator = genAnimatorByPopupType();
@@ -407,6 +407,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
     protected boolean processKeyEvent(int keyCode, KeyEvent event){
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP && popupInfo != null) {
+            if(onBackPressed()) return true;
             if (popupInfo.isDismissOnBackPressed &&
                     (popupInfo.xPopupCallback == null || !popupInfo.xPopupCallback.onBackPressed(BasePopupView.this))) {
                 dismissOrHideSoftInput();
@@ -744,8 +745,12 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 消失动画执行完毕后执行
      */
-    protected void onDismiss() {
-    }
+    protected void onDismiss() { }
+
+    /**
+     * 执行返回监听
+     */
+    protected boolean onBackPressed() { return false; }
 
     /**
      * onDismiss之前执行一次

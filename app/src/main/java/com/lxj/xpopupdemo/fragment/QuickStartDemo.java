@@ -269,7 +269,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnCustomBottomPopup: //自定义的底部弹窗
-                if(popupView==null) popupView = new ZhihuCommentPopup(getContext());
+                popupView = new ZhihuCommentPopup(getContext());
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
 //                        .enableDrag(false)
@@ -326,7 +326,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnAttachPopup2:
-                if(customAttach2==null) customAttach2 = new CustomAttachPopup2(getContext());
+                customAttach2 = new CustomAttachPopup2(getContext());
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
@@ -382,7 +382,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 popupView.show();
                 break;
             case R.id.btnFullScreenPopup: //全屏弹窗，看起来像Activity
-                if(popupView==null) popupView = new CustomFullScreenPopup(getContext());
+                popupView = new CustomFullScreenPopup(getContext());
                 new XPopup.Builder(getContext())
 //                        .hasStatusBar(false)
 //                        .hasStatusBarShadow(true)
