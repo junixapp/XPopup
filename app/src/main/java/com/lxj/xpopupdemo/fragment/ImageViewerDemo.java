@@ -170,6 +170,7 @@ public class ImageViewerDemo extends BaseFragment {
                 public void onClick(View v) {
                     new XPopup.Builder(holder.itemView.getContext())
 //                            .animationDuration(1000)
+                            .isTouchThrough(true)
                             .asImageViewer(imageView, position, list,
                                     false, true, -1, -1, ConvertUtils.dp2px(10), true,
                                     Color.rgb(32, 36, 46),

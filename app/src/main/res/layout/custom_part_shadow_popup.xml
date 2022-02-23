@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:scrollbars="vertical"
     android:background="#fff"
-    android:layout_height="wrap_content">
+    android:layout_height="400dp">
 
     <LinearLayout
         android:layout_width="match_parent"
