@@ -10,6 +10,7 @@
 1. 星客微商城，价格低至900/年，保证全网最低价；
 2. 支持卖任意商品和视频教程；
 3. 支持优惠券，积分抵现，分销功能，客户回访提醒等；
+4. 支持在线客服功能
 
 星客微商城官网：https://www.xingke.vip
 
@@ -224,6 +225,7 @@ implementation 'androidx.recyclerview:recyclerview:1.2.1'
 - CAD看图王（app名） https://yun.gstarcad.com/mobile/
 - CAD手机看图（app名） https://yun.gstarcad.com/mobile/
 - 我奥篮球 (北京我奥科技有限公司)
+- 禹人筑造(APP名，后期改名：禹人电力)
 
 
 ## 打个赏
