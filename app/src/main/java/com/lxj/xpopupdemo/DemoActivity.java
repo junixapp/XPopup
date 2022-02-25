@@ -118,8 +118,9 @@ public class DemoActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,fragmentLifecycleDemo)
         .commitNow();
     }
+    private Handler handler = new Handler();
     public void delayDestroy(){
-        new Handler().postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 getSupportFragmentManager().beginTransaction().remove(fragmentLifecycleDemo)
@@ -127,5 +128,11 @@ public class DemoActivity extends AppCompatActivity {
                 fragmentLifecycleDemo = null;
             }
         }, 3000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 }
