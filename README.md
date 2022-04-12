@@ -225,6 +225,7 @@ implementation 'androidx.recyclerview:recyclerview:1.2.1'
 - CAD手机看图（app名） https://yun.gstarcad.com/mobile/
 - 我奥篮球 (北京我奥科技有限公司)
 - 禹人筑造(APP名，后期改名：禹人电力)
+- 奇游电竞加速器、奇游联机宝 (成都俊云科技https://www.qiyou.cn/)
 
 
 ## 打个赏
