@@ -91,6 +91,10 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                     .atView(v)
                     .isClickThrough(true)
+                    .isViewMode(true)
+                    .isRequestFocus(false)
+                    .dismissOnTouchOutside(false)
+//                    .notDismissWhenTouchInView(view.findViewById(R.id.tv_filter))
 //                    .dismissOnTouchOutside(false)
 //                    .isCenterHorizontal(true)
                     .autoOpenSoftInput(true)
@@ -109,9 +113,10 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                     .asCustom(new CustomPartShadowPopupView(getContext()));
         }
 
-        popupView.toggle();
+        popupView.show();
     }
 
+    CustomPartShadowPopupView2 popupView2;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -124,7 +129,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .popupPosition(PopupPosition.Right)//右边
-                        .hasStatusBarShadow(true) //启用状态栏阴影
+//                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .asCustom(drawerPopupView)
                         .show();
                 break;
@@ -142,10 +147,13 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.tvCenter2:
+                if(popupView2==null){
+                    popupView2 = new CustomPartShadowPopupView2(getContext());
+                }
                 new XPopup.Builder(getContext())
                         .atView(v)
                         .popupPosition(PopupPosition.Bottom)
-                        .asCustom(new CustomPartShadowPopupView2(getContext()))
+                        .asCustom(popupView2)
                         .show();
                 break;
         }

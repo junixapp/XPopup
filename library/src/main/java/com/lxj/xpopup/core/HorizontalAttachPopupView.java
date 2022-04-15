@@ -25,7 +25,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
     protected void initPopupContent() {
         super.initPopupContent();
         defaultOffsetY = popupInfo.offsetY;
-        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 4) : popupInfo.offsetX;
+        defaultOffsetX = popupInfo.offsetX == 0 ? XPopupUtils.dp2px(getContext(), 2) : popupInfo.offsetX;
     }
 
     /**
@@ -40,12 +40,12 @@ public class HorizontalAttachPopupView extends AttachPopupView {
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
             // 依附于指定点
-            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getWindowWidth(getContext()) / 2;
+            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2;
 
             // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
             if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x+defaultOffsetX)
-                        : -(XPopupUtils.getWindowWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
+                translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x+defaultOffsetX)
+                        : -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
             }else {
                 translationX = isShowLeftToTarget() ? (popupInfo.touchPoint.x - w - defaultOffsetX) : (popupInfo.touchPoint.x + defaultOffsetX);
             }
@@ -53,22 +53,19 @@ public class HorizontalAttachPopupView extends AttachPopupView {
         } else {
             // 依附于指定View
             //1. 获取atView在屏幕上的位置
-            int[] locations = new int[2];
-            popupInfo.getAtView().getLocationOnScreen(locations);
-            Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
-                    locations[1] + popupInfo.getAtView().getMeasuredHeight());
-
+            Rect rect = popupInfo.getAtViewRect();
             int centerX = (rect.left + rect.right) / 2;
 
-            isShowLeft = centerX > XPopupUtils.getWindowWidth(getContext()) / 2;
+            isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
             if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getWindowWidth(getContext())-rect.left + defaultOffsetX)
-                        : -(XPopupUtils.getWindowWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
+                translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-rect.left + defaultOffsetX)
+                        : -(XPopupUtils.getAppWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
             }else {
                 translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
             }
             translationY = rect.top + (rect.height()-h)/2 + defaultOffsetY;
         }
+        translationX -= getActivityContentLeft();
         getPopupContentView().setTranslationX(translationX);
         getPopupContentView().setTranslationY(translationY);
         initAndStartAnimation();
@@ -83,9 +80,9 @@ public class HorizontalAttachPopupView extends AttachPopupView {
     protected PopupAnimator getPopupAnimator() {
         ScrollScaleAnimator animator;
         if (isShowLeftToTarget()) {
-            animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromRight);
+            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromRight);
         } else {
-            animator = new ScrollScaleAnimator(getPopupContentView(), PopupAnimation.ScrollAlphaFromLeft);
+            animator = new ScrollScaleAnimator(getPopupContentView(), getAnimationDuration(), PopupAnimation.ScrollAlphaFromLeft);
         }
         animator.isOnlyScaleX = true;
         return animator;

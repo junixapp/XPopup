@@ -1,11 +1,12 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.EditText;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
-
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
@@ -38,6 +39,17 @@ public class LoginPopup extends CenterPopupView {
 
                     }
                 }).show();
+            }
+        });
+        EditText etName = findViewById(R.id.etName);
+        etName.setOnKeyListener(new OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode==KeyEvent.KEYCODE_DEL){
+                    Toast.makeText(getContext(), "按了删除键", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
             }
         });
     }

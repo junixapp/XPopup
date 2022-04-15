@@ -36,7 +36,7 @@ public class CenterPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getPopupLayoutId() {
+    final protected int getInnerLayoutId() {
         return R.layout._xpopup_center_popup_view;
     }
 
@@ -89,12 +89,12 @@ public class CenterPopupView extends BasePopupView {
     }
 
     protected int getMaxWidth() {
-        return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getWindowWidth(getContext()) * 0.8f)
+        return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getAppWidth(getContext()) * 0.8f)
                 : popupInfo.maxWidth;
     }
 
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return new ScaleAlphaAnimator(getPopupContentView(), ScaleAlphaFromCenter);
+        return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
     }
 }

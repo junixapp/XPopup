@@ -1,15 +1,14 @@
 package com.lxj.xpopup.animator;
 
 import android.view.View;
-import com.lxj.xpopup.XPopup;
 
 /**
  * Description: 没有动画效果的动画器
  * Create by dance, at 2019/6/6
  */
 public class EmptyAnimator extends PopupAnimator {
-    public EmptyAnimator(View target){
-        super(target, null);
+    public EmptyAnimator(View target, int animationDuration){
+        super(target, animationDuration);
     }
     @Override
     public void initAnimator() {
@@ -18,11 +17,14 @@ public class EmptyAnimator extends PopupAnimator {
 
     @Override
     public void animateShow() {
-        targetView.animate().alpha(1f).setDuration(XPopup.getAnimationDuration()).withLayer().start();
+        targetView.animate().alpha(1f).setDuration(animationDuration).withLayer()
+                .start();
     }
 
     @Override
     public void animateDismiss() {
-        targetView.animate().alpha(0f).setDuration(XPopup.getAnimationDuration()).withLayer().start();
+        if(animating)return;
+        observerAnimator(targetView.animate().alpha(0f).setDuration(animationDuration).withLayer())
+                .start();
     }
 }

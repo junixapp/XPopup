@@ -13,8 +13,8 @@ public class TranslateAlphaAnimator extends PopupAnimator {
     //动画起始坐标
     private float startTranslationX, startTranslationY;
     private float defTranslationX, defTranslationY;
-    public TranslateAlphaAnimator(View target, PopupAnimation popupAnimation) {
-        super(target, popupAnimation);
+    public TranslateAlphaAnimator(View target, int animationDuration, PopupAnimation popupAnimation) {
+        super(target, animationDuration, popupAnimation);
     }
 
     @Override
@@ -50,17 +50,18 @@ public class TranslateAlphaAnimator extends PopupAnimator {
     public void animateShow() {
         targetView.animate().translationX(defTranslationX).translationY(defTranslationY).alpha(1f)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(XPopup.getAnimationDuration())
+                .setDuration(animationDuration)
                 .withLayer()
                 .start();
     }
 
     @Override
     public void animateDismiss() {
-        targetView.animate().translationX(startTranslationX).translationY(startTranslationY).alpha(0f)
+        if(animating)return;
+        observerAnimator(targetView.animate().translationX(startTranslationX).translationY(startTranslationY).alpha(0f)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(XPopup.getAnimationDuration())
-                .withLayer()
+                .setDuration(animationDuration)
+                .withLayer())
                 .start();
     }
 }

@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lxj.easyadapter.EasyAdapter;
@@ -40,7 +41,7 @@ public class BottomListPopupView extends BottomPopupView {
      *
      * @param context
      * @param bindLayoutId layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
-     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中有id为iv_image的ImageView（非必须），和id为tv_text的TextView
      */
     public BottomListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId ) {
         super(context);
@@ -55,8 +56,8 @@ public class BottomListPopupView extends BottomPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         recyclerView = findViewById(R.id.recyclerView);
         if(bindLayoutId!=0){
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -86,11 +87,14 @@ public class BottomListPopupView extends BottomPopupView {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
+                ImageView imageView = holder.getViewOrNull(R.id.iv_image);
                 if (iconIds != null && iconIds.length > position) {
-                    holder.getView(R.id.iv_image).setVisibility(VISIBLE);
-                    holder.getView(R.id.iv_image).setBackgroundResource(iconIds[position]);
+                    if(imageView!=null){
+                        imageView.setVisibility(VISIBLE);
+                        imageView.setBackgroundResource(iconIds[position]);
+                    }
                 } else {
-                    holder.getView(R.id.iv_image).setVisibility(GONE);
+                    if(imageView!=null) imageView.setVisibility(GONE);
                 }
 
                 // 对勾View

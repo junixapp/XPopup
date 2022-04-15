@@ -3,4 +3,7 @@
     <string name="xpopup_cancel">cancel</string>
     <string name="xpopup_ok">ok</string>
     <string name="xpopup_save">save</string>
+    <string name="xpopup_saved_to_gallery">Saved to album</string>
+    <string name="xpopup_image_not_exist">Image not exist</string>
+    <string name="xpopup_saved_fail">Image save failed</string>
 </resources>

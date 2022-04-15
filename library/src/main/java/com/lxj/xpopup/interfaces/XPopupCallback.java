@@ -47,11 +47,18 @@ public interface XPopupCallback {
     void onKeyBoardStateChanged(BasePopupView popupView, int height);
 
     /**
-     * 弹窗被拖拽时执行，适用于能拖拽的弹窗
+     * 弹窗被拖拽时执行，适用于能拖拽的弹窗，比如Bottom弹窗和Drawer弹窗
      * @param popupView
      * @param value  拖拽的距离
      * @param percent  拖拽的百分比
-     * @param upOrLeft 是否是向上或者向左
+     * @param upOrLeft 是否是向上或者向左；垂直拖拽时，true表示向上，false表现向下；
+     *                 水平拖拽时，true表示向左，false表示向右
      */
     void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft);
+
+    /**
+     * 当点击到弹窗外部的时候调用
+     * @return
+     */
+    void onClickOutside(BasePopupView popupView);
 }

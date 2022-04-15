@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lxj.easyadapter.EasyAdapter;
@@ -17,6 +18,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.CheckView;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 
@@ -34,7 +36,7 @@ public class CenterListPopupView extends CenterPopupView {
      *
      * @param context
      * @param bindLayoutId  要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
-     * @param bindItemLayoutId  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     * @param bindItemLayoutId  条目的布局id，要求布局中有id为iv_image的ImageView（非必须），和id为tv_text的TextView
      */
     public CenterListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId) {
         super(context);
@@ -49,8 +51,8 @@ public class CenterListPopupView extends CenterPopupView {
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         recyclerView = findViewById(R.id.recyclerView);
         if(bindLayoutId!=0){
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -70,11 +72,14 @@ public class CenterListPopupView extends CenterPopupView {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
+                ImageView imageView = holder.getViewOrNull(R.id.iv_image);
                 if (iconIds != null && iconIds.length > position) {
-                    holder.getView(R.id.iv_image).setVisibility(VISIBLE);
-                    holder.getView(R.id.iv_image).setBackgroundResource(iconIds[position]);
+                    if(imageView!=null){
+                        imageView.setVisibility(VISIBLE);
+                        imageView.setBackgroundResource(iconIds[position]);
+                    }
                 } else {
-                    holder.getView(R.id.iv_image).setVisibility(GONE);
+                    if(imageView!=null) imageView.setVisibility(GONE);
                 }
 
                 // 对勾View
@@ -163,9 +168,7 @@ public class CenterListPopupView extends CenterPopupView {
         return this;
     }
 
-    @Override
     protected int getMaxWidth() {
-        return popupInfo.maxWidth == 0 ? (int) (super.getMaxWidth() * .8f)
-                : popupInfo.maxWidth;
+        return popupInfo.maxWidth==0 ? super.getMaxWidth() : popupInfo.maxWidth;
     }
 }

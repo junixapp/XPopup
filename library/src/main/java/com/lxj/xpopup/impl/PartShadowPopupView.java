@@ -2,6 +2,7 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
     }
 
     @Override
-    protected int getPopupLayoutId() {
+    final protected int getInnerLayoutId() {
         return R.layout._xpopup_partshadow_popup_view;
     }
     protected void addInnerContent() {
@@ -45,13 +46,15 @@ public abstract class PartShadowPopupView extends BasePopupView {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();
         }
-        getPopupImplView().setTranslationY(popupInfo.offsetY);
+        getPopupContentView().setTranslationY(popupInfo.offsetY);
+        getPopupImplView().setTranslationX(popupInfo.offsetX);
+        getPopupImplView().setTranslationY(0f);
+        getPopupImplView().setVisibility(INVISIBLE);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(), getPopupHeight(), new Runnable() {
             @Override
             public void run() {
                 doAttach();
-                initAndStartAnimation();
             }
         });
     }
@@ -62,49 +65,38 @@ public abstract class PartShadowPopupView extends BasePopupView {
         doAfterShow();
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        post(new Runnable() {
-            @Override
-            public void run() {
-                doAttach();
-            }
-        });
-    }
-
     public boolean isShowUp;
     public void doAttach() {
-        if (popupInfo.getAtView() == null)
+        if (popupInfo.atView == null)
             throw new IllegalArgumentException("atView must not be null for PartShadowPopupView！");
 
         //1. apply width and height
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
         params.width = getMeasuredWidth();
 
+
         //1. 获取atView在屏幕上的位置
-        int[] locations = new int[2];
-        popupInfo.getAtView().getLocationOnScreen(locations);
-        Rect rect = new Rect(locations[0], locations[1], locations[0] + popupInfo.getAtView().getMeasuredWidth(),
-                locations[1] + popupInfo.getAtView().getMeasuredHeight());
+        Rect rect = popupInfo.getAtViewRect();
+        rect.left -= getActivityContentLeft();
+        rect.right -= getActivityContentLeft();
 
         //水平居中
         if (popupInfo.isCenterHorizontal && getPopupImplView() != null) {
-//            getPopupImplView().setTranslationX(XPopupUtils.getWindowWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
+//            getPopupImplView().setTranslationX(XPopupUtils.getAppWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
             //参考目标View居中，而不是屏幕居中
             int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
             getPopupImplView().setTranslationX(tx);
         }else {
             int tx = rect.left + popupInfo.offsetX;
-            if(tx + getPopupImplView().getMeasuredWidth() > XPopupUtils.getWindowWidth(getContext())){
-                //右边超出屏幕了，往左移动
-                tx -= (tx + getPopupImplView().getMeasuredWidth()-XPopupUtils.getWindowWidth(getContext()));
+            int realWidth = getActivityContentView().getMeasuredWidth();
+            if(tx + getPopupImplView().getMeasuredWidth() > realWidth){
+                tx -= (tx + getPopupImplView().getMeasuredWidth() - realWidth);
             }
             getPopupImplView().setTranslationX(tx);
         }
 
         int centerY = rect.top + rect.height() / 2;
-        View implView = ((ViewGroup) getPopupContentView()).getChildAt(0);
+        View implView = getPopupImplView();
         FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
         if ((centerY > getMeasuredHeight() / 2 || popupInfo.popupPosition == PopupPosition.Top) && popupInfo.popupPosition != PopupPosition.Bottom) {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
@@ -121,10 +113,16 @@ public abstract class PartShadowPopupView extends BasePopupView {
             implParams.gravity = Gravity.TOP;
             if (getMaxHeight() != 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
-            implView.setLayoutParams(implParams);
         }
         getPopupContentView().setLayoutParams(params);
         implView.setLayoutParams(implParams);
+        getPopupContentView().post(new Runnable() {
+            @Override
+            public void run() {
+                initAndStartAnimation();
+                getPopupImplView().setVisibility(VISIBLE);
+            }
+        });
         attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -141,8 +139,12 @@ public abstract class PartShadowPopupView extends BasePopupView {
     }
     @Override
     protected PopupAnimator getPopupAnimator() {
-        return new TranslateAnimator(getPopupImplView(), isShowUp ?
+        return new TranslateAnimator(getPopupImplView(), getAnimationDuration(), isShowUp ?
                 PopupAnimation.TranslateFromBottom : PopupAnimation.TranslateFromTop);
     }
 
+    @Override
+    protected int getMaxWidth() {
+        return XPopupUtils.getAppWidth(getContext());
+    }
 }

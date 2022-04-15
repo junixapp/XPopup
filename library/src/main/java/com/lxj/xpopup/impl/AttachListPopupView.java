@@ -3,6 +3,7 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 import java.util.Arrays;
 
@@ -31,7 +33,7 @@ public class AttachListPopupView extends AttachPopupView {
      *
      * @param context
      * @param bindLayoutId layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView
-     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
+     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中有id为iv_image的ImageView（非必须），和id为tv_text的TextView
      */
     public AttachListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId) {
         super(context);
@@ -56,11 +58,14 @@ public class AttachListPopupView extends AttachPopupView {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
+                ImageView imageView = holder.getViewOrNull(R.id.iv_image);
                 if (iconIds != null && iconIds.length > position) {
-                    holder.getView(R.id.iv_image).setVisibility(VISIBLE);
-                    holder.getView(R.id.iv_image).setBackgroundResource(iconIds[position]);
+                    if(imageView!=null){
+                        imageView.setVisibility(VISIBLE);
+                        imageView.setBackgroundResource(iconIds[position]);
+                    }
                 } else {
-                    holder.getView(R.id.iv_image).setVisibility(GONE);
+                    if(imageView!=null) imageView.setVisibility(GONE);
                 }
 
                 if(bindItemLayoutId==0 ){
@@ -94,6 +99,8 @@ public class AttachListPopupView extends AttachPopupView {
             }else {
                 applyLightTheme();
             }
+            attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
+                            : R.color._xpopup_light_color), popupInfo.borderRadius));
         }
     }
 

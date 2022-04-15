@@ -38,7 +38,6 @@ public class AllAnimatorDemo extends BaseFragment {
                                 .show();
                     }
                 },200); //确保spinner的消失动画不影响XPopup动画，可以看得更清晰
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

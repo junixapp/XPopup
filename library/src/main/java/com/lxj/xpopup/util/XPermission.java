@@ -176,9 +176,14 @@ public final class XPermission {
      * @param permissions The permissions.
      * @return the single {@link XPermission} instance
      */
-    public static XPermission create(Context context, @PermissionConstants.Permission final String... permissions) {
+    public static XPermission create(Context context, @PermissionConstants.PermissionGroup final String... permissions) {
         if(sInstance == null) return new XPermission(context, permissions);
+        sInstance.context = context;
         sInstance.prepare(permissions);
+        return sInstance;
+    }
+
+    public static XPermission getInstance(){
         return sInstance;
     }
 
@@ -212,7 +217,6 @@ public final class XPermission {
      * Set rationale listener.
      *
      * @param listener The rationale listener.
-     * @return the single {@link com.lxj.xpermission.XPermission} instance
      */
     public XPermission rationale(final OnRationaleListener listener) {
         mOnRationaleListener = listener;
@@ -262,6 +266,10 @@ public final class XPermission {
                 startPermissionActivity();
             }
         }
+    }
+
+    public void releaseContext(){
+        context = null;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

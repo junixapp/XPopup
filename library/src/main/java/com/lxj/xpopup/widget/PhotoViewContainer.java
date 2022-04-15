@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
 import com.lxj.xpopup.photoview.PhotoView;
 
@@ -86,12 +88,18 @@ public class PhotoViewContainer extends FrameLayout {
     }
 
     private boolean isTopOrBottomEnd(){
-        PhotoView photoView = getCurrentPhotoView();
-        return photoView!=null && (photoView.attacher.isTopEnd || photoView.attacher.isBottomEnd);
+        View view = getCurrentImageView();
+        if(view instanceof PhotoView){
+            return  (((PhotoView)view).attacher.isTopEnd || ((PhotoView)view).attacher.isBottomEnd);
+        }
+//        SubsamplingScaleImageView ssiv = (SubsamplingScaleImageView) view;
+        return false;
     }
 
-    private PhotoView getCurrentPhotoView(){
-        return  (PhotoView) viewPager.getChildAt(viewPager.getCurrentItem());
+    private View getCurrentImageView(){
+        FrameLayout fl = (FrameLayout) viewPager.getChildAt(viewPager.getCurrentItem());
+        if(fl==null) return null;
+        return  fl.getChildAt(0);
     }
 
     @Override

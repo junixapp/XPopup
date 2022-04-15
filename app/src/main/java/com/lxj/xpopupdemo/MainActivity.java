@@ -1,14 +1,10 @@
 package com.lxj.xpopupdemo;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.WindowManager;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -46,9 +42,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        BarUtils.setStatusBarLightMode(this, true);
+//        BarUtils.setStatusBarLightMode(this, false);
 //        BarUtils.setNavBarColor(this, Color.RED);
+//        BarUtils.setStatusBarVisibility();
+//        BarUtils.setNavBarColor(this, Color.parseColor("#333333"));
+//        BarUtils.setNavBarLightMode(this, true);
+//        BarUtils.setNavBarVisibility(MainActivity.this, false);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
@@ -60,39 +59,28 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
-//        XPopup.setAnimationDuration(1000);
+//        XPopup.setAnimationDuration(400);
+//        XPopup.setIsLightStatusBar(false);
 //        XPopup.setPrimaryColor(Color.RED);
-//        ScreenUtils.setLandscape(this);
-        LoadingPopupView loadingPopupView = new XPopup.Builder(this)
+//        XPopup.setIsLightStatusBar(true);
+//        XPopup.setNavigationBarColor(Color.RED);
+        final LoadingPopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)
-                .asLoading("嘻嘻嘻嘻嘻");
+                .asLoading();
+
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1200);
 
-//        BarUtils.setStatusBarVisibility(this, false);
-//        BarUtils.setNavBarVisibility(this, false);
+//        new XPopup.Builder(this).asConfirm("asda", "dasdadas", null).show();
 
-//        ToastUtils.showLong(FuckRomUtils.getRomInfo().getName() + FuckRomUtils.getRomInfo().getVersion());
-//        ToastUtils.showLong(android.os.Build.MODEL);
-//        String str = RomUtils.getRomInfo().toString() + " " + "nav可见：" + XPopupUtils.isNavBarVisible(getWindow()) + "  navHeight: "+ XPopupUtils.getNavBarHeight();
-        int windowHeight = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
-                        + "  getAppHeight: "+ XPopupUtils.getAppHeight(MainActivity.this)
-                        + "  statusHeight: "+ XPopupUtils.getStatusBarHeight()
-                        + "  navHeight: "+ XPopupUtils.getNavBarHeight()
-                        + "  hasNav: "+ XPopupUtils.isNavBarVisible(getWindow());
-//        ToastUtils.showLong(str);
-                Log.e("tag", str);
-            }
-        });
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
+        String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
+                + "  getAppHeight: " + XPopupUtils.getAppHeight(MainActivity.this)
+                + " deviceWidth: " + XPopupUtils.getScreenWidth(MainActivity.this)
+                + " getAppWidth: " + XPopupUtils.getAppWidth(MainActivity.this)
+                + "  statusHeight: " + XPopupUtils.getStatusBarHeight()
+                + "  navHeight: " + XPopupUtils.getNavBarHeight()
+                + "  hasNav: " + XPopupUtils.isNavBarVisible(getWindow());
+        Log.e("tag", str);
     }
 
     class MainAdapter extends FragmentPagerAdapter {
@@ -116,14 +104,6 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return pageInfos[position].title;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        viewPager.removeAllViews();
-        viewPager = null;
-        pageInfos = null;
     }
 
 }

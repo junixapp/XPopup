@@ -1,14 +1,13 @@
 package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopupdemo.R;
+
+import java.util.Random;
 
 /**
  * Description: 自定义背景的Attach弹窗
@@ -36,4 +35,10 @@ public class CustomAttachPopup2 extends AttachPopupView {
             }
         });
     }
+
+//    @Override
+//    protected int getPopupWidth() {
+//        return XPopupUtils.getAppWidth(getContext());
+//    }
+
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +52,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
                 final CustomEditTextBottomPopup textBottomPopup = new CustomEditTextBottomPopup(getContext());
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
-//                        .hasShadowBg(false)
+                        .autoFocusEditText(true)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
                             public void onShow(BasePopupView popupView) {
@@ -126,4 +127,10 @@ public class ZhihuCommentPopup extends BottomPopupView {
     protected int getMaxHeight() {
         return (int) (XPopupUtils.getScreenHeight(getContext()) * .7f);
     }
+
+//    @Override
+//    protected boolean onBackPressed() {
+//        Toast.makeText(getContext(), "拦截返回", Toast.LENGTH_SHORT).show();
+//        return true;
+//    }
 }

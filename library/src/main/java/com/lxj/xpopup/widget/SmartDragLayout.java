@@ -3,6 +3,8 @@ package com.lxj.xpopup.widget;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -11,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.OverScroller;
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.ViewCompat;
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.LayoutStatus;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -28,6 +29,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
     boolean isUserClose = false;
     boolean isThreeDrag = false;  //是否开启三段拖拽
     LayoutStatus status = LayoutStatus.Close;
+    int duration = 400;
 
     public SmartDragLayout(Context context) {
         this(context, null);
@@ -54,36 +56,43 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
     }
 
     int lastHeight;
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        maxY = child.getMeasuredHeight();
-        minY = 0;
-        int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
-        child.layout(l, getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight() + maxY);
-        if (status == LayoutStatus.Open) {
-            if (isThreeDrag) {
-                //通过scroll上移
-                scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
-            } else {
-                //通过scroll上移
-                scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
+        if(enableDrag){
+            if(child==null) return;
+            maxY = child.getMeasuredHeight();
+            minY = 0;
+            int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
+            child.layout(l, getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight() + maxY);
+            if (status == LayoutStatus.Open) {
+                if (isThreeDrag) {
+                    //通过scroll上移
+                    scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
+                } else {
+                    //通过scroll上移
+                    scrollTo(getScrollX(), getScrollY() - (lastHeight - maxY));
+                }
             }
+            lastHeight = maxY;
+        }else {
+            int l = getMeasuredWidth() / 2 - child.getMeasuredWidth() / 2;
+            child.layout(l, getMeasuredHeight()-child.getMeasuredHeight(), l + child.getMeasuredWidth(), getMeasuredHeight());
         }
-        lastHeight = maxY;
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
         isUserClose = true;
-        return super.dispatchTouchEvent(ev);
+        if(status == LayoutStatus.Closing || status==LayoutStatus.Opening) return false;
+        return super.onInterceptTouchEvent(ev);
     }
 
     float touchX, touchY;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (enableDrag && scroller.computeScrollOffset()) {
+        if(status == LayoutStatus.Closing || status==LayoutStatus.Opening) return false;
+        if (enableDrag && ( scroller.computeScrollOffset() || status==LayoutStatus.Close)){
             touchX = 0;
             touchY = 0;
             return true;
@@ -132,7 +141,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
 
                 break;
         }
-        return true;
+        return enableDrag;
     }
 
     private void finishScroll() {
@@ -151,7 +160,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
                     dy = minY - getScrollY();
                 }
             }
-            scroller.startScroll(getScrollX(), getScrollY(), 0, dy, XPopup.getAnimationDuration());
+            scroller.startScroll(getScrollX(), getScrollY(), 0, dy, duration);
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -221,7 +230,7 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
         post(new Runnable() {
             @Override
             public void run() {
-                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, (int) (isOpen ? XPopup.getAnimationDuration() : XPopup.getAnimationDuration() * 0.8f));
+                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, (int) (isOpen ? duration : duration * 0.8f));
                 ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
             }
         });
@@ -285,6 +294,10 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
 
     public void enableDrag(boolean enableDrag) {
         this.enableDrag = enableDrag;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public void dismissOnTouchOutside(boolean dismissOnTouchOutside) {
