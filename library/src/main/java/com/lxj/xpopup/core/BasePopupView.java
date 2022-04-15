@@ -97,42 +97,15 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
             return BasePopupView.this;
-        getActivityContentView().post(attachTask);
+
+        // 1. add PopupView to its host.
+        attachToHost();
+
+        // 2. do init，game start.
+        init();
+
         return this;
     }
-
-    private final Runnable attachTask = new Runnable() {
-        @Override
-        public void run() {
-            // 1. add PopupView to its host.
-            attachToHost();
-
-            //2. 注册对话框监听器
-            KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
-                @Override
-                public void onSoftInputChanged(int height) {
-                    onKeyboardHeightChange(height);
-                    if (popupInfo != null && popupInfo.xPopupCallback != null) {
-                        popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this, height);
-                    }
-                    if (height == 0) { // 说明输入法隐藏
-                        XPopupUtils.moveDown(BasePopupView.this);
-                        hasMoveUp = false;
-                    } else {
-                        //when show keyboard, move up
-                        if (BasePopupView.this instanceof PartShadowPopupView && popupStatus == PopupStatus.Showing) {
-                            return;
-                        }
-                        XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
-                        hasMoveUp = true;
-                    }
-                }
-            });
-
-            // 3. do init，game start.
-            init();
-        }
-    };
 
     public FullScreenDialog dialog;
 
@@ -181,6 +154,28 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             }
             if(!dialog.isShowing()) dialog.show(); 
         }
+
+        //2. 注册对话框监听器
+        KeyboardUtils.registerSoftInputChangedListener(getHostWindow(), BasePopupView.this, new KeyboardUtils.OnSoftInputChangedListener() {
+            @Override
+            public void onSoftInputChanged(int height) {
+                onKeyboardHeightChange(height);
+                if (popupInfo != null && popupInfo.xPopupCallback != null) {
+                    popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this, height);
+                }
+                if (height == 0) { // 说明输入法隐藏
+                    XPopupUtils.moveDown(BasePopupView.this);
+                    hasMoveUp = false;
+                } else {
+                    //when show keyboard, move up
+                    if (BasePopupView.this instanceof PartShadowPopupView && popupStatus == PopupStatus.Showing) {
+                        return;
+                    }
+                    XPopupUtils.moveUpToKeyboard(height, BasePopupView.this);
+                    hasMoveUp = true;
+                }
+            }
+        });
     }
 
     protected View getWindowDecorView() {
@@ -606,7 +601,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * 消失
      */
     public void dismiss() {
-        handler.removeCallbacks(attachTask);
         handler.removeCallbacks(initTask);
         if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
         popupStatus = PopupStatus.Dismissing;
