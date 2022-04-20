@@ -115,7 +115,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                             bigImageView.setOnImageEventListener(new SSIVListener(bigImageView, progressBar, errImg, longImage));
                             Bitmap preview = XPopupUtils.getBitmap(resource, XPopupUtils.getAppWidth(context), XPopupUtils.getScreenHeight(context));
                             bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)).dimensions(size[0], size[1]),
-                                    ImageSource.cachedBitmap(preview));
+                                    preview!=null ? ImageSource.cachedBitmap(preview):null);
                         }
                     }
                 });
