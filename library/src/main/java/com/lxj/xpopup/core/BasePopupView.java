@@ -688,7 +688,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public boolean isShow() {
-        return popupStatus == PopupStatus.Show;
+        return popupStatus != PopupStatus.Dismiss;
     }
 
     public boolean isDismiss() {
