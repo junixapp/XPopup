@@ -35,6 +35,7 @@ public abstract class PopupAnimator {
     }
 
     protected ValueAnimator observerAnimator(ValueAnimator animator){
+        animator.removeAllListeners();
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
