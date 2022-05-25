@@ -704,7 +704,7 @@ public class XPopupUtils {
                 default:
                     return 0;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return -1;
         }
