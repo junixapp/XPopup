@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,10 @@ import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.util.FuckRomUtils;
+import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
+
+import java.security.Key;
 
 /**
  * 所有弹窗的宿主
@@ -90,6 +95,7 @@ public class FullScreenDialog extends Dialog {
 //        layoutParams.height = getWindow().getAttributes().height;
 //        setContentView(contentView, layoutParams);
         setContentView(contentView);
+
     }
 
     private int getNavigationBarColor(){
@@ -189,6 +195,16 @@ public class FullScreenDialog extends Dialog {
         this.contentView = view;
         return this;
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus && contentView!=null && contentView.hasMoveUp){
+            contentView.focusAndProcessBackPress();
+            KeyboardUtils.showSoftInput(contentView);
+        }
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if(isFuckVIVORoom()){ //VIVO的部分机型需要做特殊处理，Fuck

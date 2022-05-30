@@ -62,7 +62,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     protected boolean isCreated = false;
     private boolean hasModifySoftMode = false;
     private int preSoftMode = -1;
-    private boolean hasMoveUp = false;
+    public boolean hasMoveUp = false;
     protected Handler handler = new Handler(Looper.getMainLooper());
     protected LifecycleRegistry lifecycleRegistry;
 
@@ -382,7 +382,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public void dismissOrHideSoftInput() {
-        if (KeyboardUtils.sDecorViewInvisibleHeightPre == 0) {
+        if (KeyboardUtils.keyboardHeight == 0) {
             dismiss();
         } else
             KeyboardUtils.hideSoftInput(BasePopupView.this);
