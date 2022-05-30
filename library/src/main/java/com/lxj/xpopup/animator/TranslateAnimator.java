@@ -32,16 +32,16 @@ public class TranslateAnimator extends PopupAnimator {
     private void applyTranslation() {
         switch (popupAnimation) {
             case TranslateFromLeft:
-                targetView.setTranslationX(-targetView.getRight());
+                targetView.setTranslationX(-targetView.getRight() + targetView.getTranslationX());
                 break;
             case TranslateFromTop:
-                targetView.setTranslationY(-targetView.getBottom());
+                targetView.setTranslationY(-targetView.getBottom() + targetView.getTranslationY());
                 break;
             case TranslateFromRight:
-                targetView.setTranslationX(((View) targetView.getParent()).getMeasuredWidth() - targetView.getLeft());
+                targetView.setTranslationX(((View) targetView.getParent()).getMeasuredWidth() - targetView.getLeft() + targetView.getTranslationX());
                 break;
             case TranslateFromBottom:
-                targetView.setTranslationY(((View) targetView.getParent()).getMeasuredHeight() - targetView.getTop());
+                targetView.setTranslationY(((View) targetView.getParent()).getMeasuredHeight() - targetView.getTop() + targetView.getTranslationY());
                 break;
         }
     }

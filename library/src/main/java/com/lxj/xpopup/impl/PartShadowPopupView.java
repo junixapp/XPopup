@@ -2,6 +2,7 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +47,9 @@ public abstract class PartShadowPopupView extends BasePopupView {
         if (popupInfo.hasShadowBg) {
             shadowBgAnimator.targetView = getPopupContentView();
         }
-        getPopupContentView().setTranslationY(popupInfo.offsetY);
+
         getPopupImplView().setTranslationX(popupInfo.offsetX);
-        getPopupImplView().setTranslationY(0f);
+        getPopupImplView().setTranslationY(popupInfo.offsetY);
         getPopupImplView().setVisibility(INVISIBLE);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(), getPopupHeight(), new Runnable() {
@@ -74,7 +75,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
         params.width = getMeasuredWidth();
 
-
         //1. 获取atView在屏幕上的位置
         Rect rect = popupInfo.getAtViewRect();
         rect.left -= getActivityContentLeft();
@@ -85,14 +85,14 @@ public abstract class PartShadowPopupView extends BasePopupView {
 //            getPopupImplView().setTranslationX(XPopupUtils.getAppWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
             //参考目标View居中，而不是屏幕居中
             int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
-            getPopupImplView().setTranslationX(tx);
+            getPopupImplView().setTranslationX(tx + popupInfo.offsetX);
         }else {
             int tx = rect.left + popupInfo.offsetX;
             int realWidth = getActivityContentView().getMeasuredWidth();
             if(tx + getPopupImplView().getMeasuredWidth() > realWidth){
                 tx -= (tx + getPopupImplView().getMeasuredWidth() - realWidth);
             }
-            getPopupImplView().setTranslationX(tx);
+            getPopupImplView().setTranslationX(tx + popupInfo.offsetX);
         }
 
         int centerY = rect.top + rect.height() / 2;
