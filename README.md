@@ -226,6 +226,9 @@ implementation 'androidx.recyclerview:recyclerview:1.2.1'
 - 我奥篮球 (北京我奥科技有限公司)
 - 禹人筑造(APP名，后期改名：禹人电力)
 - 奇游电竞加速器、奇游联机宝 (成都俊云科技https://www.qiyou.cn/)
+- 健康管家
+- 柠柚录屏（腾讯应用宝，著作权人：徐鑫）
+- 闲侣
 
 
 ## 打个赏
