@@ -129,12 +129,7 @@ public class BottomListPopupView extends BottomPopupView {
                     checkedPosition = position;
                     adapter.notifyDataSetChanged();
                 }
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (popupInfo.autoDismiss) dismiss();
-                    }
-                }, 100);
+                if (popupInfo.autoDismiss) dismiss();
             }
         });
         recyclerView.setAdapter(adapter);
