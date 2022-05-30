@@ -33,6 +33,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,6 +175,9 @@ public class XPopupUtils {
             } else if (popupHeight > 0) {
                 params.height = popupHeight;
                 implParams.height = popupHeight;
+            }else {
+//                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+//                implParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             }
             implView.setLayoutParams(implParams);
             content.setLayoutParams(params);

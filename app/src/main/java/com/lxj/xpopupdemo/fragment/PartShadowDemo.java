@@ -1,5 +1,6 @@
 package com.lxj.xpopupdemo.fragment;
 
+import android.graphics.Color;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -59,6 +60,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         EasyAdapter<String> adapter = new EasyAdapter<String>(data, android.R.layout.simple_list_item_1) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#fafafa"));
                 holder.setText(android.R.id.text1, "长按我试试 - " + position);
                 //必须要在事件发生之前就watch
                 final XPopup.Builder builder = new XPopup.Builder(getContext())
@@ -83,6 +85,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 toast(data.get(position));
             }
         });
+        recyclerView.setupDivider(false);
         recyclerView.setAdapter(adapter);
     }
 
@@ -93,14 +96,12 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                     .isClickThrough(true)
                     .isViewMode(true)
                     .isRequestFocus(false)
-                    .dismissOnTouchOutside(false)
-//                    .notDismissWhenTouchInView(view.findViewById(R.id.tv_filter))
-//                    .dismissOnTouchOutside(false)
+                    .isTouchThrough(true)
+//                    .notDismissWhenTouchInView(view.findViewById(R.id.tv_select))
 //                    .isCenterHorizontal(true)
                     .autoOpenSoftInput(true)
 //                    .offsetY(-150)
 //                    .offsetX(100)
-//                .dismissOnTouchOutside(false)
                     .setPopupCallback(new SimpleCallback() {
                         @Override
                         public void onShow(BasePopupView popupView) {

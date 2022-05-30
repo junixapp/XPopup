@@ -100,8 +100,8 @@ public class SmartDivider extends RecyclerView.ItemDecoration {
         final int right;
         //noinspection AndroidLintNewApi - NewApi lint fails to handle overrides.
         if (parent.getClipToPadding()) {
-            left = parent.getPaddingLeft();
-            right = parent.getWidth() - parent.getPaddingRight();
+            left = parent.getPaddingStart();
+            right = parent.getWidth() - parent.getPaddingEnd();
             canvas.clipRect(left, parent.getPaddingTop(), right,
                     parent.getHeight() - parent.getPaddingBottom());
         } else {
@@ -130,8 +130,8 @@ public class SmartDivider extends RecyclerView.ItemDecoration {
         if (parent.getClipToPadding()) {
             top = parent.getPaddingTop();
             bottom = parent.getHeight() - parent.getPaddingBottom();
-            canvas.clipRect(parent.getPaddingLeft(), top,
-                    parent.getWidth() - parent.getPaddingRight(), bottom);
+            canvas.clipRect(parent.getPaddingStart(), top,
+                    parent.getWidth() - parent.getPaddingEnd(), bottom);
         } else {
             top = 0;
             bottom = parent.getHeight();

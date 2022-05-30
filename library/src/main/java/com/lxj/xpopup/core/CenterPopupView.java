@@ -76,7 +76,7 @@ public class CenterPopupView extends BasePopupView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        setTranslationY(0);
+//        setTranslationY(0);
     }
 
     /**

@@ -40,7 +40,6 @@
 
         <EditText
             android:id="@+id/et_input"
-            android:inputType="textPassword|textVisiblePassword"
             android:background="@null"
             android:lines="4"
             android:layout_width="match_parent"

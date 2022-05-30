@@ -2,7 +2,6 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +27,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
     public PartShadowPopupView(@NonNull Context context) {
         super(context);
         attachPopupContainer = findViewById(R.id.attachPopupContainer);
+        attachPopupContainer.popupView = this;
     }
 
     @Override
@@ -123,13 +123,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
                 getPopupImplView().setVisibility(VISIBLE);
             }
         });
-        attachPopupContainer.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (popupInfo.isDismissOnTouchOutside) dismiss();
-                return false;
-            }
-        });
+        attachPopupContainer.notDismissArea = popupInfo.notDismissWhenTouchInArea;
         attachPopupContainer.setOnClickOutsideListener(new OnClickOutsideListener() {
             @Override
             public void onClickOutside() {

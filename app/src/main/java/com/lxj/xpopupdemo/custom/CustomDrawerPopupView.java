@@ -51,8 +51,7 @@ public class CustomDrawerPopupView extends DrawerPopupView {
 //        });
 
         //通过设置topMargin，可以让Drawer弹窗进行局部阴影展示
-        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
-        params.topMargin = 450;
+//        setPadding(0, 400, 0, 0);
 
         VerticalRecyclerView rv = findViewById(R.id.rv);
         ArrayList<String> list = new ArrayList();

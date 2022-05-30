@@ -746,7 +746,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     }
 
     private int getImageViewWidth(ImageView imageView) {
-        return imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+        return imageView.getWidth() - imageView.getPaddingStart() - imageView.getPaddingEnd();
     }
 
     private int getImageViewHeight(ImageView imageView) {

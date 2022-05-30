@@ -88,8 +88,11 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
     public BasePopupView show() {
         Activity activity = XPopupUtils.context2Activity(this);
-        if (activity == null || activity.isFinishing() || popupInfo == null) {
+        if (activity == null || activity.isFinishing() ) {
             return this;
+        }
+        if (popupInfo == null) {
+            throw new IllegalArgumentException("popupInfo is null, if your popup object is used once, do not set isDestroyOnDismiss(true) !");
         }
         if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing)
             return this;
@@ -146,7 +149,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             //view实现
             ViewGroup decorView = (ViewGroup) XPopupUtils.context2Activity(this).getWindow().getDecorView();
             if(getParent()!=null) ((ViewGroup)getParent()).removeView(this);
-            decorView.addView(this);
+            decorView.addView(this, getLayoutParams());
         } else {
             //dialog实现
             if (dialog == null) {
@@ -825,7 +828,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         hasMoveUp = false;
     }
 
-    protected void passTouchThrough(MotionEvent event) {
+    public void passTouchThrough(MotionEvent event) {
         if (popupInfo != null && (popupInfo.isClickThrough || popupInfo.isTouchThrough) ) {
             if (popupInfo.isViewMode) {
                 //需要从DecorView分发，并且要排除自己，否则死循环
@@ -859,7 +862,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if(popupInfo != null){
-                        if(popupInfo.isDismissOnTouchOutside) dismiss();
+                        if(popupInfo.isDismissOnTouchOutside){
+                            checkDismissArea(event);
+                        }
                         if(popupInfo.isTouchThrough)passTouchThrough(event);
                     }
                     break;
@@ -870,22 +875,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
                     passTouchThrough(event);
                     if (distance < touchSlop && popupInfo != null && popupInfo.isDismissOnTouchOutside) {
-                        //查看是否在排除区域外
-                        ArrayList<Rect> rects = popupInfo.notDismissWhenTouchInArea;
-                        if(rects!=null && rects.size()>0){
-                            boolean inRect = false;
-                            for (Rect r : rects) {
-                                if(XPopupUtils.isInRect(event.getX(), event.getY(), r)){
-                                    inRect = true;
-                                    break;
-                                }
-                            }
-                            if(!inRect){
-                                dismiss();
-                            }
-                        }else {
-                            dismiss();
-                        }
+                        checkDismissArea(event);
                     }
                     x = 0;
                     y = 0;
@@ -895,4 +885,22 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         return true;
     }
 
+    private void checkDismissArea(MotionEvent event){
+        //查看是否在排除区域外
+        ArrayList<Rect> rects = popupInfo.notDismissWhenTouchInArea;
+        if(rects!=null && rects.size()>0){
+            boolean inRect = false;
+            for (Rect r : rects) {
+                if(XPopupUtils.isInRect(event.getX(), event.getY(), r)){
+                    inRect = true;
+                    break;
+                }
+            }
+            if(!inRect){
+                dismiss();
+            }
+        }else {
+            dismiss();
+        }
+    }
 }

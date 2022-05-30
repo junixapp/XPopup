@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.AttachPopupView;
@@ -126,7 +127,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasNavigationBar(false)
 //                        .hasStatusBar(false)
                         .isDestroyOnDismiss(true)
-                        .isTouchThrough(true)
+//                        .isTouchThrough(true)
 //                        .dismissOnBackPressed(false)
 //                        .isViewMode(true)
 //                        .hasBlurBg(true)
@@ -159,18 +160,18 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .hasStatusBarShadow(false)
                         //.dismissOnBackPressed(false)
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗对象，推荐设置这个
                         .autoOpenSoftInput(true)
                         .isDarkTheme(true)
                         .isViewMode(true)
-//                        .setPopupCallback(new DemoXPopupListener())
+                        .setPopupCallback(new DemoXPopupListener())
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
                         .asInputConfirm("我是标题", null, null, "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override
                                     public void onConfirm(String text) {
-//                                new XPopup.Builder(getContext()).asLoading().show();
+//                                          new XPopup.Builder(getContext()).asLoading().show();
                                     }
                                 })
                         .show();
@@ -356,8 +357,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .asCustom(new CustomBubbleAttachPopup(getContext())
 //                                .setArrowOffset(-XPopupUtils.dp2px(getContext(), 40))  //气泡箭头偏移
 //                                .setBubbleBgColor(Color.RED)  //气泡背景
-                                .setArrowWidth(XPopupUtils.dp2px(getContext(), 5))
-                                .setArrowHeight(XPopupUtils.dp2px(getContext(), 6))
+                                        .setArrowWidth(XPopupUtils.dp2px(getContext(), 5))
+                                        .setArrowHeight(XPopupUtils.dp2px(getContext(), 6))
 //                                .setBubbleRadius(100)
                                         .setArrowRadius(XPopupUtils.dp2px(getContext(), 3))
                         )
@@ -465,6 +466,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     static class DemoXPopupListener extends SimpleCallback {
         FloatEvaluator fEvaluator = new FloatEvaluator();
         FloatEvaluator iEvaluator = new FloatEvaluator();
+
         @Override
         public void onCreated(BasePopupView pv) {
             Log.e("tag", "onCreated");
@@ -496,7 +498,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         @Override
         public void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft) {
             super.onDrag(popupView, value, percent, upOrLeft);
-            Log.e("tag", "value: " + value + "  percent: "+percent);
+            Log.e("tag", "value: " + value + "  percent: " + percent);
 //            ((Activity) popupView.getContext()).getWindow().getDecorView().setTranslationX(value);
 //            float e = fEvaluator.evaluate(percent, 1.0, 0.8);
 //            View decorView = ((Activity) popupView.getContext()).getWindow().getDecorView();
