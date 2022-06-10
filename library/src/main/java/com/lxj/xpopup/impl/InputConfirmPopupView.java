@@ -48,8 +48,8 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
         if(bindLayoutId == 0){
             et_input.post(() -> {
                 if(et_input.getMeasuredWidth()>0){
-                    BitmapDrawable defaultDrawable = XPopupUtils.createBitmapDrawable(getResources(), et_input.getMeasuredWidth(), Color.parseColor("#888888"));
-                    BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getResources(), et_input.getMeasuredWidth(), XPopup.getPrimaryColor());
+                    BitmapDrawable defaultDrawable = XPopupUtils.createBitmapDrawable(getContext(), et_input.getMeasuredWidth(), Color.parseColor("#888888"));
+                    BitmapDrawable focusDrawable = XPopupUtils.createBitmapDrawable(getContext(), et_input.getMeasuredWidth(), XPopup.getPrimaryColor());
                     et_input.setBackgroundDrawable(XPopupUtils.createSelector(defaultDrawable, focusDrawable));
                 }
             });

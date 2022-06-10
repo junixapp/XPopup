@@ -194,15 +194,13 @@ public class XPopupUtils {
         //暂时没有找到有效的方法来动态设置cursor的颜色
     }
 
-    public static BitmapDrawable createBitmapDrawable(Resources resources, int width, int color) {
-        Bitmap bitmap = Bitmap.createBitmap(width, 20, Bitmap.Config.ARGB_4444);
+    public static BitmapDrawable createBitmapDrawable(Context context, int width, int color) {
+        Bitmap bitmap = Bitmap.createBitmap(width, dp2px(context, 1.5f), Bitmap.Config.ARGB_4444);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
         paint.setColor(color);
-        canvas.drawRect(0, 0, bitmap.getWidth(), 4, paint);
-        paint.setColor(Color.TRANSPARENT);
-        canvas.drawRect(0, 4, bitmap.getWidth(), 20, paint);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, bitmap);
+        canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), paint);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(context.getResources(), bitmap);
         bitmapDrawable.setGravity(Gravity.BOTTOM);
         return bitmapDrawable;
     }
