@@ -3,6 +3,7 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.transition.ChangeBounds;
@@ -18,6 +19,12 @@ import com.lxj.xpopup.util.XPopupUtils;
  * Create by dance, at 2018/12/16
  */
 public class LoadingPopupView extends CenterPopupView {
+
+    public enum Style{
+        Spinner, ProgressBar
+    }
+
+    private Style loadingStyle = Style.Spinner;
     private TextView tv_title;
 
     /**
@@ -66,6 +73,16 @@ public class LoadingPopupView extends CenterPopupView {
                     tv_title.setVisibility(VISIBLE);
                     tv_title.setText(title);
                 }
+
+                View progressBar = findViewById(R.id.loadProgress);
+                View spinnerView = findViewById(R.id.loadview);
+                if(loadingStyle==Style.Spinner){
+                    progressBar.setVisibility(GONE);
+                    spinnerView.setVisibility(VISIBLE);
+                }else {
+                    progressBar.setVisibility(VISIBLE);
+                    spinnerView.setVisibility(GONE);
+                }
             }
         });
     }
@@ -74,6 +91,12 @@ public class LoadingPopupView extends CenterPopupView {
 
     public LoadingPopupView setTitle(CharSequence title) {
         this.title = title;
+        setup();
+        return this;
+    }
+
+    public LoadingPopupView setStyle(Style style){
+        this.loadingStyle = style;
         setup();
         return this;
     }

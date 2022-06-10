@@ -216,7 +216,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             .isLightNavigationBar(true)
                             .isViewMode(true)
 //                            .asLoading(null, R.layout.custom_loading_popup)
-                            .asLoading("加载中")
+                            .asLoading("", LoadingPopupView.Style.ProgressBar)
                             .show();
                 } else {
                     loadingPopup.show();
@@ -225,6 +225,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                     @Override
                     public void run() {
                         loadingPopup.setTitle("加载中长度变化啊");
+                        loadingPopup.setStyle(LoadingPopupView.Style.Spinner);
                         loadingPopup.postDelayed(new Runnable() {
                             @Override
                             public void run() {

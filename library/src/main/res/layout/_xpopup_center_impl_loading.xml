@@ -10,6 +10,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <ProgressBar
+        android:id="@+id/loadProgress"
+        android:visibility="gone"
+        android:layout_width="34dp"
+        android:layout_height="34dp"/>
+
     <com.lxj.xpopup.widget.LoadingView
         android:id="@+id/loadview"
         android:layout_width="34dp"

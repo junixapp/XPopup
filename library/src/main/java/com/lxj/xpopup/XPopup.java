@@ -782,18 +782,24 @@ public class XPopup {
          * 显示在中间加载的弹窗
          *
          * @param title        加载中的文字
-         * @param bindLayoutId 自定义布局id 如果要显示标题，则要求必须有id为tv_title的TextView，否则无任何要求
+         * @param bindLayoutId 自定义布局id， 如果要显示标题，则要求必须有id为tv_title的TextView，否则无任何要求；不需要则传0
+         * @param style        进度条样式，Spinner：菊花式   ProgressBar：圆圈
          * @return
          */
-        public LoadingPopupView asLoading(CharSequence title, int bindLayoutId) {
+        public LoadingPopupView asLoading(CharSequence title, int bindLayoutId, LoadingPopupView.Style style) {
             LoadingPopupView popupView = new LoadingPopupView(this.context, bindLayoutId)
-                    .setTitle(title);
+                    .setTitle(title)
+                    .setStyle(style);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
 
         public LoadingPopupView asLoading(CharSequence title) {
-            return asLoading(title, 0);
+            return asLoading(title, 0, LoadingPopupView.Style.Spinner);
+        }
+
+        public LoadingPopupView asLoading(CharSequence title, LoadingPopupView.Style style) {
+            return asLoading(title, 0, style);
         }
 
         public LoadingPopupView asLoading() {
