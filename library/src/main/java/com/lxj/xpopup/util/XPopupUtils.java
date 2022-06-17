@@ -740,4 +740,9 @@ public class XPopupUtils {
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
+    public static void setVisible(View view, boolean isVisible){
+        if(view!=null){
+            view.setVisibility( isVisible ? View.VISIBLE : View.GONE);
+        }
+    }
 }

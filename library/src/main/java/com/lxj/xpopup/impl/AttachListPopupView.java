@@ -61,11 +61,11 @@ public class AttachListPopupView extends AttachPopupView {
                 ImageView imageView = holder.getViewOrNull(R.id.iv_image);
                 if (iconIds != null && iconIds.length > position) {
                     if(imageView!=null){
-                        imageView.setVisibility(VISIBLE);
+                        XPopupUtils.setVisible(imageView, true);
                         imageView.setBackgroundResource(iconIds[position]);
                     }
                 } else {
-                    if(imageView!=null) imageView.setVisibility(GONE);
+                    XPopupUtils.setVisible(imageView, false);
                 }
 
                 if(bindItemLayoutId==0 ){

@@ -26,6 +26,7 @@ public class LoadingPopupView extends CenterPopupView {
 
     private Style loadingStyle = Style.Spinner;
     private TextView tv_title;
+    private View progressBar, spinnerView;
 
     /**
      * @param context
@@ -46,6 +47,9 @@ public class LoadingPopupView extends CenterPopupView {
     protected void onCreate() {
         super.onCreate();
         tv_title = findViewById(R.id.tv_title);
+        progressBar = findViewById(R.id.loadProgress);
+        spinnerView = findViewById(R.id.loadview);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getPopupImplView().setElevation(10f);
         }
@@ -56,7 +60,6 @@ public class LoadingPopupView extends CenterPopupView {
     }
     private boolean first = true;
     protected void setup() {
-        if (tv_title == null) return;
         post(new Runnable() {
             @Override
             public void run() {
@@ -68,20 +71,18 @@ public class LoadingPopupView extends CenterPopupView {
                 }
                 first = false;
                 if (title == null || title.length() == 0) {
-                    tv_title.setVisibility(GONE);
+                    XPopupUtils.setVisible(tv_title, false);
                 } else {
-                    tv_title.setVisibility(VISIBLE);
+                    XPopupUtils.setVisible(tv_title, true);
                     tv_title.setText(title);
                 }
 
-                View progressBar = findViewById(R.id.loadProgress);
-                View spinnerView = findViewById(R.id.loadview);
                 if(loadingStyle==Style.Spinner){
-                    progressBar.setVisibility(GONE);
-                    spinnerView.setVisibility(VISIBLE);
+                    XPopupUtils.setVisible(progressBar, false);
+                    XPopupUtils.setVisible(spinnerView, true);
                 }else {
-                    progressBar.setVisibility(VISIBLE);
-                    spinnerView.setVisibility(GONE);
+                    XPopupUtils.setVisible(progressBar, true);
+                    XPopupUtils.setVisible(spinnerView, false);
                 }
             }
         });

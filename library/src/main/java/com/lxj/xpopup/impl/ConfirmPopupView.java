@@ -66,13 +66,13 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
         if (!TextUtils.isEmpty(title)) {
             tv_title.setText(title);
         } else {
-            tv_title.setVisibility(GONE);
+            XPopupUtils.setVisible(tv_title, false);
         }
 
         if (!TextUtils.isEmpty(content)) {
             tv_content.setText(content);
         }else {
-            tv_content.setVisibility(GONE);
+            XPopupUtils.setVisible(tv_content, false);
         }
         if (!TextUtils.isEmpty(cancelText)) {
             tv_cancel.setText(cancelText);
@@ -81,8 +81,8 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
             tv_confirm.setText(confirmText);
         }
         if (isHideCancel) {
-            tv_cancel.setVisibility(GONE);
-            if(divider2!=null) divider2.setVisibility(GONE);
+            XPopupUtils.setVisible(tv_cancel, false);
+            XPopupUtils.setVisible(divider2, false);
         }
         applyTheme();
     }
