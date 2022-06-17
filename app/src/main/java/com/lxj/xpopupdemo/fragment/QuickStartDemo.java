@@ -221,6 +221,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 } else {
                     loadingPopup.show();
                 }
+                loadingPopup.setStyle(LoadingPopupView.Style.ProgressBar);
                 loadingPopup.postDelayed(new Runnable() {
                     @Override
                     public void run() {
