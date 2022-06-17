@@ -108,6 +108,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
+                    if(popupInfo==null) return;
                     if (isRTL) {
                         translationX = isShowLeft ? -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth() - defaultOffsetX)
                                 : -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x + defaultOffsetX);
@@ -199,6 +200,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
+                    if(popupInfo==null) return;
                     if (isRTL) {
                         translationX = isShowLeft ? -(XPopupUtils.getAppWidth(getContext()) - rect.left - getPopupContentView().getMeasuredWidth() - defaultOffsetX)
                                 : -(XPopupUtils.getAppWidth(getContext()) - rect.right + defaultOffsetX);
