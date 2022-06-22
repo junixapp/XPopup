@@ -74,7 +74,7 @@ public class LoadingPopupView extends CenterPopupView {
                     XPopupUtils.setVisible(tv_title, false);
                 } else {
                     XPopupUtils.setVisible(tv_title, true);
-                    tv_title.setText(title);
+                    if(tv_title!=null)tv_title.setText(title);
                 }
 
                 if(loadingStyle==Style.Spinner){
@@ -105,8 +105,9 @@ public class LoadingPopupView extends CenterPopupView {
     @Override
     protected void onDismiss() {
         super.onDismiss();
-        if (tv_title == null) return;
-        tv_title.setText("");
-        tv_title.setVisibility(GONE);
+        if (tv_title != null){
+            tv_title.setText("");
+            tv_title.setVisibility(GONE);
+        }
     }
 }
