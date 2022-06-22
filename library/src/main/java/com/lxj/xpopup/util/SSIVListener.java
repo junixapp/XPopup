@@ -1,7 +1,5 @@
 package com.lxj.xpopup.util;
 
-import android.graphics.PointF;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import com.davemorrissey.labs.subscaleview.ImageSource;

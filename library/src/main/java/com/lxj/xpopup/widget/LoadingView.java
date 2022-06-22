@@ -46,11 +46,11 @@ public class LoadingView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        radius = getMeasuredWidth() / 2;
+        radius = getMeasuredWidth() / 2f;
         radiusOffset = radius / 2.5f;
 
-        centerX = getMeasuredWidth() / 2;
-        centerY = getMeasuredHeight() / 2;
+        centerX = getMeasuredWidth() / 2f;
+        centerY = getMeasuredHeight() / 2f;
 
         stokeWidth = XPopupUtils.dp2px(getContext(), 2);
 //        stokeWidth *= getMeasuredWidth() * 1f / XPopupUtils.dp2px(getContext(), 40);

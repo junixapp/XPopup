@@ -48,10 +48,10 @@ public class CheckView extends View {
         super.onDraw(canvas);
         if(color==Color.TRANSPARENT)return;
         // first part
-        path.moveTo(getMeasuredWidth()/4, getMeasuredHeight()/2);
-        path.lineTo(getMeasuredWidth()/2 , getMeasuredHeight()*3/4);
+        path.moveTo(getMeasuredWidth()/4f, getMeasuredHeight()/2f);
+        path.lineTo(getMeasuredWidth()/2f , getMeasuredHeight()*3/4f);
         // second part
-        path.lineTo(getMeasuredWidth(), getMeasuredHeight()/4);
+        path.lineTo(getMeasuredWidth(), getMeasuredHeight()/4f);
         canvas.drawPath(path, paint);
     }
 }
