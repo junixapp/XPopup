@@ -155,7 +155,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             if (dialog == null) {
                 dialog = new FullScreenDialog(getContext()).setContent(this);
             }
-            if(!dialog.isShowing()) dialog.show(); 
+            Activity activity = XPopupUtils.context2Activity(this);
+            if(activity!=null && !activity.isFinishing() && !dialog.isShowing()) dialog.show();
         }
 
         //2. 注册对话框监听器
