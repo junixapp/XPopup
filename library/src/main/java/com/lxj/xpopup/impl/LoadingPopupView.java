@@ -102,12 +102,4 @@ public class LoadingPopupView extends CenterPopupView {
         return this;
     }
 
-    @Override
-    protected void onDismiss() {
-        super.onDismiss();
-        if (tv_title != null){
-            tv_title.setText("");
-            tv_title.setVisibility(GONE);
-        }
-    }
 }

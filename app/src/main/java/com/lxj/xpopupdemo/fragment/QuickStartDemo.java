@@ -210,23 +210,18 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
-                new XPopup.Builder(getContext())
-                        .dismissOnBackPressed(false)
-                        .isLightNavigationBar(true)
+                if (loadingPopup == null) {
+                    loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
+                            .dismissOnBackPressed(false)
+                            .isLightNavigationBar(true)
 //                            .asLoading(null, R.layout.custom_loading_popup)
-                        .asLoading("", LoadingPopupView.Style.ProgressBar)
-                        .show();
-//                if (loadingPopup == null) {
-//                    loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
-//                            .dismissOnBackPressed(false)
-//                            .isLightNavigationBar(true)
-//                            .isViewMode(true)
-////                            .asLoading(null, R.layout.custom_loading_popup)
-//                            .asLoading("", LoadingPopupView.Style.ProgressBar)
-//                            .show();
-//                } else {
-//                    loadingPopup.show();
-//                }
+                            .asLoading("少时诵诗书", LoadingPopupView.Style.ProgressBar)
+                            .show();
+                } else {
+                    loadingPopup.setTitle("是大萨达所大所多");
+                    loadingPopup.setStyle(LoadingPopupView.Style.Spinner);
+                    loadingPopup.show();
+                }
 //                loadingPopup.setStyle(LoadingPopupView.Style.ProgressBar);
 //                loadingPopup.postDelayed(new Runnable() {
 //                    @Override
