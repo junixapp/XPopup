@@ -818,7 +818,7 @@ public class XPopup {
          * @param bindItemLayoutId 自定义列表的item布局  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
          * @return
          */
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener, int bindLayoutId,
+        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId) {
             BottomListPopupView popupView = new BottomListPopupView(this.context, bindLayoutId, bindItemLayoutId)
                     .setStringData(title, data, iconIds)
@@ -828,24 +828,16 @@ public class XPopup {
             return popupView;
         }
 
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, boolean enableDrag, OnSelectListener selectListener) {
-            return asBottomList(title, data, iconIds, checkedPosition, enableDrag, selectListener, 0, 0);
+        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
+            return asBottomList(title, data, iconIds, checkedPosition, selectListener, 0, 0);
         }
 
         public BottomListPopupView asBottomList(CharSequence title, String[] data, OnSelectListener selectListener) {
-            return asBottomList(title, data, null, -1, true, selectListener);
+            return asBottomList(title, data, null, -1, selectListener);
         }
 
         public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, OnSelectListener selectListener) {
-            return asBottomList(title, data, iconIds, -1, true, selectListener);
-        }
-
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
-            return asBottomList(title, data, iconIds, checkedPosition, true, selectListener);
-        }
-
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, boolean enableDrag, OnSelectListener selectListener) {
-            return asBottomList(title, data, iconIds, -1, enableDrag, selectListener);
+            return asBottomList(title, data, iconIds, -1, selectListener);
         }
 
 
