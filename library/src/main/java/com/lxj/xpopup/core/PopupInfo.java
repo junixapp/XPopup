@@ -62,6 +62,7 @@ public class PopupInfo {
     public int statusBarBgColor = 0; //状态栏阴影颜色，对Drawer弹窗和全屏弹窗有效
     public ArrayList<Rect> notDismissWhenTouchInArea; //当触摸在这个区域时，不消失
     public Lifecycle hostLifecycle; //自定义的宿主生命周期
+    public Boolean isCoverSoftInput = false; //弹窗是否覆盖/遮挡在输入法之上
 
     public Rect getAtViewRect(){
         int[] locations = new int[2];

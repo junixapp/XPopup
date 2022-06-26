@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -97,7 +96,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing)
             return this;
         popupStatus = PopupStatus.Showing;
-        if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
+//        if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
             return BasePopupView.this;
 
@@ -317,14 +316,12 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo != null && popupInfo.isRequestFocus) {
             setFocusableInTouchMode(true);
             setFocusable(true);
-//            requestFocus();
             // 此处焦点可能被内部的EditText抢走，也需要给EditText也设置返回按下监听
             if (Build.VERSION.SDK_INT >= 28) {
                 addOnUnhandledKeyListener(this);
             } else {
                 setOnKeyListener(new BackPressListener());
             }
-//            addOnUnhandledKeyListener(this);
 
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();

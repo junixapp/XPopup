@@ -338,6 +338,18 @@ public class XPopup {
             this.popupInfo.isMoveUpToKeyboard = isMoveUpToKeyboard;
             return this;
         }
+        /**
+         * 当弹出输入法时，弹窗是否要覆盖/遮挡到输入法之上，默认为false，只在dialog模式下有效。
+         * 注意：覆盖输入法上后，输入法将失去焦点，将无法进行输入。推荐当你想让弹窗阻止输入的
+         * 场景下使用
+         *
+         * @param isCoverSoftInput
+         * @return
+         */
+        public Builder isCoverSoftInput(Boolean isCoverSoftInput) {
+            this.popupInfo.isCoverSoftInput = isCoverSoftInput;
+            return this;
+        }
 
         /**
          * 设置弹窗出现在目标的什么位置，有四种取值：Left，Right，Top，Bottom。这种手动设置位置的行为

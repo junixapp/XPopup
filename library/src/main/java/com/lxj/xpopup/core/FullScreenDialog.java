@@ -6,22 +6,16 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-
 import androidx.annotation.NonNull;
-
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.util.FuckRomUtils;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
-
-import java.security.Key;
 
 /**
  * 所有弹窗的宿主
@@ -74,9 +68,15 @@ public class FullScreenDialog extends Dialog {
         if (!contentView.popupInfo.hasNavigationBar) {
             hideNavigationBar();
         }
+
         if(!contentView.popupInfo.isRequestFocus){//不获取焦点
             int flag = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-            getWindow().setFlags(flag,flag);
+            if(!contentView.popupInfo.isCoverSoftInput){
+                flag |= WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
+            }
+            setWindowFlag(flag, true);
+        }else if(contentView.popupInfo.isCoverSoftInput){
+            setWindowFlag(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM, true);
         }
 
         setStatusBarLightMode();
