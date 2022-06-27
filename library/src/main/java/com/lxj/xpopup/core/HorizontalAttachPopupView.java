@@ -40,7 +40,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
             // 依附于指定点
-            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2;
+            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2f;
 
             // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
             if(isRTL){
@@ -63,7 +63,7 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             }else {
                 translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
             }
-            translationY = rect.top + (rect.height()-h)/2 + defaultOffsetY;
+            translationY = rect.top + (rect.height()-h)/2f + defaultOffsetY;
         }
         translationX -= getActivityContentLeft();
         getPopupContentView().setTranslationX(translationX);

@@ -74,7 +74,6 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
     float maxY = XPopupUtils.getAppHeight(getContext());
     int overflow = XPopupUtils.dp2px(getContext(), 10);
     float centerY = 0;
-
     public void doAttach() {
         maxY = XPopupUtils.getAppHeight(getContext()) - overflow;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
@@ -172,7 +171,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
             // 尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
             boolean isTallerThanWindowHeight = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY;
-            centerY = (rect.top + rect.bottom) / 2;
+            centerY = (rect.top + rect.bottom) / 2f;
             if (isTallerThanWindowHeight) {
                 //超出可用大小就显示在上方
                 isShowUp = true;

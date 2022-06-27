@@ -326,7 +326,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .offsetY(10)  //往下偏移10
 //                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
                         .hasShadowBg(false) // 去掉半透明背景
-                        .isViewMode(true)
                         .atView(v)
                         .asCustom(new CustomAttachPopup(getContext()))
                         .show();
@@ -336,7 +335,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
-                        .isViewMode(true)
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(customAttach2)
                         .show();
