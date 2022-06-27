@@ -380,7 +380,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public void dismissOrHideSoftInput() {
-        if (KeyboardUtils.keyboardHeight == 0) {
+        if (XPopupUtils.getDecorViewInvisibleHeight(getHostWindow()) > 0) {
             dismiss();
         } else
             KeyboardUtils.hideSoftInput(BasePopupView.this);

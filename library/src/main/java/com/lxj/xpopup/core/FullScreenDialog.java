@@ -45,7 +45,11 @@ public class FullScreenDialog extends Dialog {
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+//                |WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         //设置全屏
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -71,7 +75,7 @@ public class FullScreenDialog extends Dialog {
 
         if(!contentView.popupInfo.isRequestFocus){//不获取焦点
             int flag = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-            if(!contentView.popupInfo.isCoverSoftInput){
+            if(contentView.popupInfo.isCoverSoftInput){
                 flag |= WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
             }
             setWindowFlag(flag, true);

@@ -11,7 +11,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -39,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -278,7 +278,7 @@ public class XPopupUtils {
             focusEtTop = locations[1];
             focusBottom = focusEtTop + focusEt.getMeasuredHeight();
         }
-        int animDuration = 100;
+        int animDuration = 150;
         //执行上移的逻辑
         if (pv instanceof FullScreenPopupView || pv instanceof DrawerPopupView) {
             int overflowHeight = (int) ((focusBottom + keyboardHeight) - screenHeight
@@ -304,7 +304,7 @@ public class XPopupUtils {
         }
         pv.getPopupContentView().animate().translationY(-dy)
                 .setDuration(animDuration)
-                .setInterpolator(new OvershootInterpolator(0))
+                .setInterpolator(new LinearInterpolator())
                 .start();
     }
 
@@ -317,6 +317,7 @@ public class XPopupUtils {
             return;
         }
         pv.getPopupContentView().animate().translationY(0)
+                .setInterpolator(new LinearInterpolator())
                 .setDuration(100).start();
     }
 

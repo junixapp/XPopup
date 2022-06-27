@@ -23,7 +23,7 @@ import com.lxj.xpopup.core.BasePopupView;
  * Create by dance, at 2018/12/17
  */
 public final class KeyboardUtils {
-    public static int keyboardHeight;
+    public static int sDecorViewInvisibleHeightPre;
     private static final SparseArray<ViewTreeObserver.OnGlobalLayoutListener> listenerArray = new SparseArray<>();
     private KeyboardUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -35,8 +35,8 @@ public final class KeyboardUtils {
         final View decorView = window.getDecorView();
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
-//        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
-//                + (decorView.getBottom() - outRect.bottom));
+        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
+                + (decorView.getBottom() - outRect.bottom));
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
         if (delta <= XPopupUtils.getNavBarHeight() + XPopupUtils.getStatusBarHeight()) {
             sDecorViewDelta = delta;
@@ -57,14 +57,14 @@ public final class KeyboardUtils {
             window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
         final FrameLayout contentView = window.findViewById(android.R.id.content);
-        keyboardHeight = getDecorViewInvisibleHeight(window);
+        final int[] decorViewInvisibleHeightPre = {getDecorViewInvisibleHeight(window)};
         ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 int height = getDecorViewInvisibleHeight(window);
-                if (keyboardHeight != height) {
+                if (decorViewInvisibleHeightPre[0] != height) {
                     listener.onSoftInputChanged(height);
-                    keyboardHeight = height;
+                    decorViewInvisibleHeightPre[0] = height;
                 }
             }
         };
@@ -104,9 +104,9 @@ public final class KeyboardUtils {
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             super.onReceiveResult(resultCode, resultData);
             if (resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN
-                        || resultCode == InputMethodManager.RESULT_HIDDEN) {
-                    toggleSoftInput(context);
-                }
+                    || resultCode == InputMethodManager.RESULT_HIDDEN) {
+                toggleSoftInput(context);
+            }
             context = null;
         }
     }
