@@ -17,14 +17,14 @@ public class EmptyAnimator extends PopupAnimator {
 
     @Override
     public void animateShow() {
-        targetView.animate().alpha(1f).setDuration(animationDuration).withLayer()
+        if(targetView!=null) targetView.animate().alpha(1f).setDuration(animationDuration).withLayer()
                 .start();
     }
 
     @Override
     public void animateDismiss() {
         if(animating)return;
-        observerAnimator(targetView.animate().alpha(0f).setDuration(animationDuration).withLayer())
+        if(targetView!=null) observerAnimator(targetView.animate().alpha(0f).setDuration(animationDuration).withLayer())
                 .start();
     }
 }

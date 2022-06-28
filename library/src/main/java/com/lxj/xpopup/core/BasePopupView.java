@@ -774,9 +774,11 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public void destroy() {
+        ViewCompat.removeOnUnhandledKeyEventListener(this, this);
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         lifecycleRegistry.removeObserver(this);
         lifecycleRegistry = null;
+        handler = null;
         if (popupInfo != null) {
             popupInfo.atView = null;
             popupInfo.xPopupCallback = null;
@@ -784,13 +786,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 popupInfo.hostLifecycle.removeObserver(this);
                 popupInfo.hostLifecycle = null;
             }
-            if (popupInfo.customAnimator != null && popupInfo.customAnimator.targetView != null) {
-                popupInfo.customAnimator.targetView.animate().cancel();
-                popupInfo.customAnimator.targetView = null;
+            if (popupInfo.customAnimator != null) {
+                if(popupInfo.customAnimator.targetView != null){
+                    popupInfo.customAnimator.targetView.animate().cancel();
+                    popupInfo.customAnimator.targetView = null;
+                }
                 popupInfo.customAnimator = null;
             }
             if (popupInfo.isViewMode) tryRemoveFragments();
-            if (popupInfo.isDestroyOnDismiss) popupInfo = null;
+            popupInfo = null;
+            Log.e("tag", "destroy");
         }
         if (dialog != null) {
             if(dialog.isShowing()) dialog.dismiss();

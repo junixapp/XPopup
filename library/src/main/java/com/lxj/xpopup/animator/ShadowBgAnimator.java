@@ -22,7 +22,7 @@ public class ShadowBgAnimator extends PopupAnimator {
     public ShadowBgAnimator() {}
     @Override
     public void initAnimator() {
-        targetView.setBackgroundColor(startColor);
+        if(targetView!=null) targetView.setBackgroundColor(startColor);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ShadowBgAnimator extends PopupAnimator {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
+                if(targetView!=null) targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
             }
         });
         animator.setInterpolator(new FastOutSlowInInterpolator());
@@ -45,7 +45,7 @@ public class ShadowBgAnimator extends PopupAnimator {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
+                if(targetView!=null) targetView.setBackgroundColor((Integer) animation.getAnimatedValue());
             }
         });
         observerAnimator(animator);
@@ -54,7 +54,7 @@ public class ShadowBgAnimator extends PopupAnimator {
     }
 
     public void applyColorValue(float val){
-        targetView.setBackgroundColor((Integer) calculateBgColor(val));
+        if(targetView!=null) targetView.setBackgroundColor((Integer) calculateBgColor(val));
     }
 
     public int calculateBgColor(float fraction){

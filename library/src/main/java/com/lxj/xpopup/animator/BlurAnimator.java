@@ -30,7 +30,7 @@ public class BlurAnimator extends PopupAnimator {
         Bitmap blurBmp = XPopupUtils.renderScriptBlur(targetView.getContext(), decorBitmap,  25, true);
         BitmapDrawable drawable = new BitmapDrawable(targetView.getResources(), blurBmp);
         if(hasShadowBg) drawable.setColorFilter(shadowColor, PorterDuff.Mode.SRC_OVER);
-        targetView.setBackground(drawable);
+        if(targetView!=null) targetView.setBackground(drawable);
     }
 
     @Override

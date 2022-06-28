@@ -2,6 +2,7 @@ package com.lxj.xpopupdemo.fragment;
 
 import android.animation.FloatEvaluator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -32,6 +33,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.DemoActivity;
 import com.lxj.xpopupdemo.MainActivity;
 import com.lxj.xpopupdemo.R;
+import com.lxj.xpopupdemo.User;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
 import com.lxj.xpopupdemo.custom.CustomBubbleAttachPopup;
@@ -46,6 +48,9 @@ import com.lxj.xpopupdemo.custom.PagerBottomPopup;
 import com.lxj.xpopupdemo.custom.PagerDrawerPopup;
 import com.lxj.xpopupdemo.custom.QQMsgPopup;
 import com.lxj.xpopupdemo.custom.ZhihuCommentPopup;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Description:
@@ -118,18 +123,23 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     LoadingPopupView loadingPopup;
     CustomAttachPopup2 customAttach2;
 
+    private AlertDialog dialog;
     private void loopPopup(){
-        new XPopup.Builder()
-                .isDestroyOnDismiss(true)
-                .asConfirm(getContext(), "哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
-                        "取消", "确定",
-                        new OnConfirmListener() {
-                            @Override
-                            public void onConfirm() {
-                                loopPopup();
-                            }
-                        }, null, false)
-        .show();
+//        new XPopup.Builder()
+//                .isDestroyOnDismiss(true)
+//                .asConfirm(getContext(), "哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+//                        "取消", "确定",
+//                        null, null, false)
+//        .show();
+//
+//        ArrayList<User> list = new ArrayList<>();
+//        for (int i = 0; i < 100; i++) {
+//            list.add(new User(UUID.randomUUID().toString(), "大萨达撒大所大所大所大萨达撒大萨达" + i));
+//        }
+        dialog = null;
+        dialog = new AlertDialog.Builder(getContext()).setTitle("sadas")
+                .setMessage("大萨达所大撒大所")
+                .show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

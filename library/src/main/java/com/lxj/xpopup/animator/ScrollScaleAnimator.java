@@ -30,7 +30,7 @@ public class ScrollScaleAnimator extends PopupAnimator{
             public void run() {
                 // 设置参考点
                 applyPivot();
-                targetView.scrollTo(startScrollX, startScrollY);
+                if(targetView!=null) targetView.scrollTo(startScrollX, startScrollY);
             }
         });
     }
@@ -107,10 +107,12 @@ public class ScrollScaleAnimator extends PopupAnimator{
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         float fraction = animation.getAnimatedFraction();
-                        targetView.setAlpha(fraction);
-                        targetView.scrollTo(intEvaluator.evaluate(fraction, startScrollX, 0),
-                                intEvaluator.evaluate(fraction, startScrollY, 0));
-                        doScaleAnimation(fraction);
+                        if(targetView!=null){
+                            targetView.setAlpha(fraction);
+                            targetView.scrollTo(intEvaluator.evaluate(fraction, startScrollX, 0),
+                                    intEvaluator.evaluate(fraction, startScrollY, 0));
+                            doScaleAnimation(fraction);
+                        }
                     }
                 });
                 animator.setDuration(animationDuration).setInterpolator(new FastOutSlowInInterpolator());
@@ -149,10 +151,12 @@ public class ScrollScaleAnimator extends PopupAnimator{
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float fraction = animation.getAnimatedFraction();
-                targetView.setAlpha(1-fraction);
-                targetView.scrollTo(intEvaluator.evaluate(fraction, 0, startScrollX),
-                        intEvaluator.evaluate(fraction, 0, startScrollY));
-                doScaleAnimation(1-fraction);
+                if(targetView!=null){
+                    targetView.setAlpha(1-fraction);
+                    targetView.scrollTo(intEvaluator.evaluate(fraction, 0, startScrollX),
+                            intEvaluator.evaluate(fraction, 0, startScrollY));
+                    doScaleAnimation(1-fraction);
+                }
             }
         });
         animator.setDuration(animationDuration)

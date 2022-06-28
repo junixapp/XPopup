@@ -64,7 +64,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
         targetView.post(new Runnable() {
             @Override
             public void run() {
-                targetView.animate().scaleX(1f).scaleY(1f).alpha(1f)
+                if(targetView!=null) targetView.animate().scaleX(1f).scaleY(1f).alpha(1f)
                         .setDuration(animationDuration)
                         .setInterpolator(new OvershootInterpolator(1f))
 //                .withLayer() 在部分6.0系统会引起crash
@@ -75,7 +75,7 @@ public class ScaleAlphaAnimator extends PopupAnimator {
 
     @Override
     public void animateDismiss() {
-        if(animating)return;
+        if(animating || targetView==null)return;
         observerAnimator(targetView.animate().scaleX(startScale).scaleY(startScale).alpha(0f).setDuration(animationDuration)
                 .setInterpolator(new FastOutSlowInInterpolator()))
 //                .withLayer() 在部分6.0系统会引起crash
