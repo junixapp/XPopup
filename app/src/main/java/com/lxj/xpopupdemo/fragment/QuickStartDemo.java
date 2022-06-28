@@ -86,6 +86,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.btnShowInBackground).setOnClickListener(this);
         view.findViewById(R.id.btnBubbleAttachPopup1).setOnClickListener(this);
         view.findViewById(R.id.btnBubbleAttachPopup2).setOnClickListener(this);
+        view.findViewById(R.id.test).setOnClickListener(this);
 
         // 必须在事件发生前，调用这个方法来监视View的触摸
         final XPopup.Builder builder = new XPopup.Builder(getContext())
@@ -117,10 +118,27 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     LoadingPopupView loadingPopup;
     CustomAttachPopup2 customAttach2;
 
+    private void loopPopup(){
+        new XPopup.Builder(getContext())
+                .isDestroyOnDismiss(true)
+                .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+                        "取消", "确定",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                loopPopup();
+                            }
+                        }, null, false)
+        .show();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.test:
+                loopPopup();
+                break;
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 /*if(popupView==null)*/
                 popupView = new XPopup.Builder(getContext())
