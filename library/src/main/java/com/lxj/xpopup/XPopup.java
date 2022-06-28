@@ -159,11 +159,8 @@ public class XPopup {
 
     public static class Builder {
         private final PopupInfo popupInfo = new PopupInfo();
-        private Context context;
 
-        public Builder(Context context) {
-            this.context = context;
-        }
+        public Builder() { }
 
         /**
          * 设置按下返回键是否关闭弹窗，默认为true
@@ -700,9 +697,9 @@ public class XPopup {
          * @param bindLayoutId    自定义的布局Id，没有则传0；要求自定义布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
          * @return
          */
-        public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel,
+        public ConfirmPopupView asConfirm(Context context, CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel,
                                           int bindLayoutId) {
-            ConfirmPopupView popupView = new ConfirmPopupView(this.context, bindLayoutId);
+            ConfirmPopupView popupView = new ConfirmPopupView(context, bindLayoutId);
             popupView.setTitleContent(title, content, null);
             popupView.setCancelText(cancelBtnText);
             popupView.setConfirmText(confirmBtnText);
@@ -712,16 +709,16 @@ public class XPopup {
             return popupView;
         }
 
-        public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel) {
-            return asConfirm(title, content, cancelBtnText, confirmBtnText, confirmListener, cancelListener, isHideCancel, 0);
+        public ConfirmPopupView asConfirm(Context context, CharSequence title, CharSequence content, CharSequence cancelBtnText, CharSequence confirmBtnText, OnConfirmListener confirmListener, OnCancelListener cancelListener, boolean isHideCancel) {
+            return asConfirm(context, title, content, cancelBtnText, confirmBtnText, confirmListener, cancelListener, isHideCancel, 0);
         }
 
-        public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
-            return asConfirm(title, content, null, null, confirmListener, cancelListener, false, 0);
+        public ConfirmPopupView asConfirm(Context context, CharSequence title, CharSequence content, OnConfirmListener confirmListener, OnCancelListener cancelListener) {
+            return asConfirm(context, title, content, null, null, confirmListener, cancelListener, false, 0);
         }
 
-        public ConfirmPopupView asConfirm(CharSequence title, CharSequence content, OnConfirmListener confirmListener) {
-            return asConfirm(title, content, null, null, confirmListener, null, false, 0);
+        public ConfirmPopupView asConfirm(Context context, CharSequence title, CharSequence content, OnConfirmListener confirmListener) {
+            return asConfirm(context, title, content, null, null, confirmListener, null, false, 0);
         }
 
         /**
@@ -736,8 +733,8 @@ public class XPopup {
          * @param bindLayoutId   自定义布局的id，没有传0。 要求布局中必须包含的TextView以及id有：tv_title，tv_content，tv_cancel，tv_confirm
          * @return
          */
-        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener, int bindLayoutId) {
-            InputConfirmPopupView popupView = new InputConfirmPopupView(this.context, bindLayoutId);
+        public InputConfirmPopupView asInputConfirm(Context context, CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener, OnCancelListener cancelListener, int bindLayoutId) {
+            InputConfirmPopupView popupView = new InputConfirmPopupView(context, bindLayoutId);
             popupView.setTitleContent(title, content, hint);
             popupView.inputContent = inputContent;
             popupView.setListener(confirmListener, cancelListener);
@@ -745,16 +742,16 @@ public class XPopup {
             return popupView;
         }
 
-        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, inputContent, hint, confirmListener, null, 0);
+        public InputConfirmPopupView asInputConfirm(Context context, CharSequence title, CharSequence content, CharSequence inputContent, CharSequence hint, OnInputConfirmListener confirmListener) {
+            return asInputConfirm(context, title, content, inputContent, hint, confirmListener, null, 0);
         }
 
-        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, CharSequence hint, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, null, hint, confirmListener, null, 0);
+        public InputConfirmPopupView asInputConfirm(Context context, CharSequence title, CharSequence content, CharSequence hint, OnInputConfirmListener confirmListener) {
+            return asInputConfirm(context, title, content, null, hint, confirmListener, null, 0);
         }
 
-        public InputConfirmPopupView asInputConfirm(CharSequence title, CharSequence content, OnInputConfirmListener confirmListener) {
-            return asInputConfirm(title, content, null, null, confirmListener, null, 0);
+        public InputConfirmPopupView asInputConfirm(Context context, CharSequence title, CharSequence content, OnInputConfirmListener confirmListener) {
+            return asInputConfirm(context, title, content, null, null, confirmListener, null, 0);
         }
 
         /**
@@ -768,9 +765,9 @@ public class XPopup {
          * @param bindItemLayoutId 自定义列表的item布局 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
          * @return
          */
-        public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
+        public CenterListPopupView asCenterList(Context context,CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId) {
-            CenterListPopupView popupView = new CenterListPopupView(this.context, bindLayoutId, bindItemLayoutId)
+            CenterListPopupView popupView = new CenterListPopupView(context, bindLayoutId, bindItemLayoutId)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
                     .setOnSelectListener(selectListener);
@@ -778,16 +775,16 @@ public class XPopup {
             return popupView;
         }
 
-        public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
-            return asCenterList(title, data, iconIds, checkedPosition, selectListener, 0, 0);
+        public CenterListPopupView asCenterList(Context context,CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
+            return asCenterList(context,title, data, iconIds, checkedPosition, selectListener, 0, 0);
         }
 
-        public CenterListPopupView asCenterList(CharSequence title, String[] data, OnSelectListener selectListener) {
-            return asCenterList(title, data, null, -1, selectListener);
+        public CenterListPopupView asCenterList(Context context,CharSequence title, String[] data, OnSelectListener selectListener) {
+            return asCenterList(context,title, data, null, -1, selectListener);
         }
 
-        public CenterListPopupView asCenterList(CharSequence title, String[] data, int[] iconIds, OnSelectListener selectListener) {
-            return asCenterList(title, data, iconIds, -1, selectListener);
+        public CenterListPopupView asCenterList(Context context,CharSequence title, String[] data, int[] iconIds, OnSelectListener selectListener) {
+            return asCenterList(context,title, data, iconIds, -1, selectListener);
         }
 
         /**
@@ -798,24 +795,24 @@ public class XPopup {
          * @param style        进度条样式，Spinner：菊花式   ProgressBar：圆圈
          * @return
          */
-        public LoadingPopupView asLoading(CharSequence title, int bindLayoutId, LoadingPopupView.Style style) {
-            LoadingPopupView popupView = new LoadingPopupView(this.context, bindLayoutId)
+        public LoadingPopupView asLoading(Context context,CharSequence title, int bindLayoutId, LoadingPopupView.Style style) {
+            LoadingPopupView popupView = new LoadingPopupView(context, bindLayoutId)
                     .setTitle(title)
                     .setStyle(style);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
 
-        public LoadingPopupView asLoading(CharSequence title) {
-            return asLoading(title, 0, LoadingPopupView.Style.Spinner);
+        public LoadingPopupView asLoading(Context context,CharSequence title) {
+            return asLoading(context,title, 0, LoadingPopupView.Style.Spinner);
         }
 
-        public LoadingPopupView asLoading(CharSequence title, LoadingPopupView.Style style) {
-            return asLoading(title, 0, style);
+        public LoadingPopupView asLoading(Context context,CharSequence title, LoadingPopupView.Style style) {
+            return asLoading(context,title, 0, style);
         }
 
-        public LoadingPopupView asLoading() {
-            return asLoading(null);
+        public LoadingPopupView asLoading(Context context) {
+            return asLoading(context, null);
         }
 
         /**
@@ -830,9 +827,9 @@ public class XPopup {
          * @param bindItemLayoutId 自定义列表的item布局  条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
          * @return
          */
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
+        public BottomListPopupView asBottomList(Context context,CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId) {
-            BottomListPopupView popupView = new BottomListPopupView(this.context, bindLayoutId, bindItemLayoutId)
+            BottomListPopupView popupView = new BottomListPopupView(context, bindLayoutId, bindItemLayoutId)
                     .setStringData(title, data, iconIds)
                     .setCheckedPosition(checkedPosition)
                     .setOnSelectListener(selectListener);
@@ -840,16 +837,16 @@ public class XPopup {
             return popupView;
         }
 
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
-            return asBottomList(title, data, iconIds, checkedPosition, selectListener, 0, 0);
+        public BottomListPopupView asBottomList(Context context,CharSequence title, String[] data, int[] iconIds, int checkedPosition, OnSelectListener selectListener) {
+            return asBottomList(context,title, data, iconIds, checkedPosition, selectListener, 0, 0);
         }
 
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, OnSelectListener selectListener) {
-            return asBottomList(title, data, null, -1, selectListener);
+        public BottomListPopupView asBottomList(Context context,CharSequence title, String[] data, OnSelectListener selectListener) {
+            return asBottomList(context,title, data, null, -1, selectListener);
         }
 
-        public BottomListPopupView asBottomList(CharSequence title, String[] data, int[] iconIds, OnSelectListener selectListener) {
-            return asBottomList(title, data, iconIds, -1, selectListener);
+        public BottomListPopupView asBottomList(Context context,CharSequence title, String[] data, int[] iconIds, OnSelectListener selectListener) {
+            return asBottomList(context,title, data, iconIds, -1, selectListener);
         }
 
 
@@ -864,9 +861,9 @@ public class XPopup {
          * @param contentGravity   列表的居中位置。默认是居中
          * @return
          */
-        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
+        public AttachListPopupView asAttachList(Context context,String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId, int contentGravity) {
-            AttachListPopupView popupView = new AttachListPopupView(this.context, bindLayoutId, bindItemLayoutId)
+            AttachListPopupView popupView = new AttachListPopupView(context, bindLayoutId, bindItemLayoutId)
                     .setStringData(data, iconIds)
                     .setContentGravity(contentGravity)
                     .setOnSelectListener(selectListener);
@@ -874,13 +871,13 @@ public class XPopup {
             return popupView;
         }
 
-        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
+        public AttachListPopupView asAttachList(Context context,String[] data, int[] iconIds, OnSelectListener selectListener, int bindLayoutId,
                                                 int bindItemLayoutId) {
-            return asAttachList(data, iconIds, selectListener, bindLayoutId, bindItemLayoutId, Gravity.CENTER);
+            return asAttachList(context,data, iconIds, selectListener, bindLayoutId, bindItemLayoutId, Gravity.CENTER);
         }
 
-        public AttachListPopupView asAttachList(String[] data, int[] iconIds, OnSelectListener selectListener) {
-            return asAttachList(data, iconIds, selectListener, 0, 0, Gravity.CENTER);
+        public AttachListPopupView asAttachList(Context context,String[] data, int[] iconIds, OnSelectListener selectListener) {
+            return asAttachList(context, data, iconIds, selectListener, 0, 0, Gravity.CENTER);
         }
 
         /**
@@ -889,8 +886,8 @@ public class XPopup {
          * @param srcView 源View，就是你点击的那个ImageView，弹窗消失的时候需回到该位置。如果实在没有这个View，可以传空，但是动画变的非常僵硬，适用于在Webview点击场景
          * @return
          */
-        public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, XPopupImageLoader imageLoader) {
-            ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
+        public ImageViewerPopupView asImageViewer(Context context,ImageView srcView, Object url, XPopupImageLoader imageLoader) {
+            ImageViewerPopupView popupView = new ImageViewerPopupView(context)
                     .setSingleSrcView(srcView, url)
                     .setXPopupImageLoader(imageLoader);
             popupView.popupInfo = this.popupInfo;
@@ -911,9 +908,9 @@ public class XPopup {
          * @param longPressListener 当图片长按的时候执行
          * @return
          */
-        public ImageViewerPopupView asImageViewer(ImageView srcView, Object url, boolean isInfinite, int placeholderColor, int placeholderStroke, int placeholderRadius,
+        public ImageViewerPopupView asImageViewer(Context context,ImageView srcView, Object url, boolean isInfinite, int placeholderColor, int placeholderStroke, int placeholderRadius,
                                                   boolean isShowSaveBtn, int bgColor, XPopupImageLoader imageLoader, OnImageViewerLongPressListener longPressListener) {
-            ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
+            ImageViewerPopupView popupView = new ImageViewerPopupView(context)
                     .setSingleSrcView(srcView, url)
                     .isInfinite(isInfinite)
                     .setPlaceholderColor(placeholderColor)
@@ -936,9 +933,9 @@ public class XPopup {
          * @param srcViewUpdateListener 当滑动ViewPager切换图片后，需要更新srcView，此时会执行该回调，你需要调用updateSrcView方法。
          * @return
          */
-        public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
+        public ImageViewerPopupView asImageViewer(Context context,ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, false, true, -1, -1, -1, true,
+            return asImageViewer(context, srcView, currentPosition, urls, false, true, -1, -1, -1, true,
                     Color.rgb(32, 36, 46),srcViewUpdateListener, imageLoader, null);
         }
 
@@ -958,12 +955,12 @@ public class XPopup {
          * @param longPressListener     当图片长按的时候执行
          * @return
          */
-        public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
+        public ImageViewerPopupView asImageViewer(Context context,ImageView srcView, int currentPosition, List<Object> urls,
                                                   boolean isInfinite, boolean isShowPlaceHolder,
                                                   int placeholderColor, int placeholderStroke, int placeholderRadius, boolean isShowSaveBtn,
                                                   int bgColor,OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader,
                                                   OnImageViewerLongPressListener longPressListener) {
-            ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
+            ImageViewerPopupView popupView = new ImageViewerPopupView(context)
                     .setSrcView(srcView, currentPosition)
                     .setImageUrls(urls)
                     .isInfinite(isInfinite)

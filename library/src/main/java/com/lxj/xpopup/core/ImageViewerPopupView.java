@@ -511,7 +511,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         private ProgressBar buildProgressBar(Context context){
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.setIndeterminate(true);
-            int size = XPopupUtils.dp2px(container.getContext(), 40f);
+            int size = XPopupUtils.dp2px(context, 40f);
             FrameLayout.LayoutParams params = new LayoutParams(size, size);
             params.gravity = Gravity.CENTER;
             progressBar.setLayoutParams(params);

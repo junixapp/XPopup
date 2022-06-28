@@ -34,7 +34,7 @@ public class CustomImageViewerPopup extends ImageViewerPopupView {
         findViewById(R.id.tvClickMe).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new XPopup.Builder(getContext()).asBottomList("提示", new String[]{"保存照片"}, new OnSelectListener() {
+                new XPopup.Builder().asBottomList(getContext(), "提示", new String[]{"保存照片"}, new OnSelectListener() {
                     @Override
                     public void onSelect(int position, String text) {
                         ToastUtils.showLong("你自己实现保存照片");

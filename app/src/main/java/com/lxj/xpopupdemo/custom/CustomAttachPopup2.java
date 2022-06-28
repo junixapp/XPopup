@@ -38,7 +38,7 @@ public class CustomAttachPopup2 extends AttachPopupView {
 
 //    @Override
 //    protected int getPopupWidth() {
-//        return XPopupUtils.getAppWidth(getContext());
+//        return XPopupUtils.getAppWidth(this);
 //    }
 
 }

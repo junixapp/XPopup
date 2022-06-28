@@ -181,7 +181,7 @@ public class PhotoViewContainer extends FrameLayout {
     }
 
     public int dip2px(float dpValue) {
-        float scale = getContext().getResources().getDisplayMetrics().density;
+        float scale = this.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 

@@ -197,7 +197,7 @@ public class FullScreenDialog extends Dialog {
         if(view.getParent()!=null){
             ((ViewGroup)view.getParent()).removeView(view);
         }
-        this.contentView = view;
+        contentView = view;
         return this;
     }
 

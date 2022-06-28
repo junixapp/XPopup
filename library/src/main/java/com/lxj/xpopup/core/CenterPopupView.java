@@ -73,12 +73,6 @@ public class CenterPopupView extends BasePopupView {
                 popupInfo.borderRadius));
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-//        setTranslationY(0);
-    }
-
     /**
      * 具体实现的类的布局
      *

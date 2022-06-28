@@ -53,7 +53,7 @@ public class LoadingView extends View {
         centerY = getMeasuredHeight() / 2f;
 
         stokeWidth = XPopupUtils.dp2px(getContext(), 2);
-//        stokeWidth *= getMeasuredWidth() * 1f / XPopupUtils.dp2px(getContext(), 40);
+//        stokeWidth *= getMeasuredWidth() * 1f / XPopupUtils.dp2px(this, 40);
         paint.setStrokeWidth(stokeWidth);
         startX = centerX + radiusOffset;
         endX = startX + radius / 3f;

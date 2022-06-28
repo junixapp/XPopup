@@ -4,6 +4,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 
 import com.lxj.xpopup.animator.PopupAnimator;
@@ -70,4 +71,5 @@ public class PopupInfo {
         return new Rect(locations[0], locations[1], locations[0] + atView.getMeasuredWidth(),
                 locations[1] + atView.getMeasuredHeight());
     }
+
 }

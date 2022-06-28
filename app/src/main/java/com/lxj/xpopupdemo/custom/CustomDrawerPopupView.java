@@ -75,8 +75,8 @@ public class CustomDrawerPopupView extends DrawerPopupView {
         findViewById(R.id.btnMe).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new XPopup.Builder(getContext()).isDestroyOnDismiss(true)
-                        .asConfirm("提示", "确定要退出吗？", new OnConfirmListener() {
+                new XPopup.Builder().isDestroyOnDismiss(true)
+                        .asConfirm(getContext(), "提示", "确定要退出吗？", new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
                                 ((Activity)getContext()).finish();

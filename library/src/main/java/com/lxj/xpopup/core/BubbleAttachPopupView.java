@@ -279,7 +279,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
 //    public BubbleAttachPopupView setArrowOffset(int offset){
 //        bubbleContainer.arrowOffset = offset;
 //        bubbleContainer.invalidate();
-//        return this;
+//        return getContext();
 //    }
 
     /**

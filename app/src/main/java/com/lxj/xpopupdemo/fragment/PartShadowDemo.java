@@ -63,12 +63,12 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 holder.itemView.setBackgroundColor(Color.parseColor("#fafafa"));
                 holder.setText(android.R.id.text1, "长按我试试 - " + position);
                 //必须要在事件发生之前就watch
-                final XPopup.Builder builder = new XPopup.Builder(getContext())
+                final XPopup.Builder builder = new XPopup.Builder()
                         .hasShadowBg(false).watchView(holder.itemView);
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null, new OnSelectListener() {
+                        builder.asAttachList(getContext(), new String[]{"置顶", "编辑", "删除"}, null, new OnSelectListener() {
                             @Override
                             public void onSelect(int position, String text) {
                                 toast(text);
@@ -91,7 +91,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
 
     private void showPartShadow(final View v){
 //        if(popupView==null){
-            popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
+            popupView = (CustomPartShadowPopupView) new XPopup.Builder()
                     .atView(v)
 //                    .isClickThrough(true)
                     .isViewMode(true)
@@ -127,7 +127,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 showPartShadow(v);
                 break;
             case R.id.tv_filter:
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .isDestroyOnDismiss(true)
                         .popupPosition(PopupPosition.Right)//右边
 //                        .hasStatusBarShadow(true) //启用状态栏阴影
@@ -135,13 +135,13 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.tv_select:
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .atView(v)
                         .asCustom(new CustomPartShadowPopupView(getContext()))
                         .show();
                 break;
             case R.id.tvCenter:
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .atView(v)
                         .popupPosition(PopupPosition.Top)
                         .asCustom(new CustomPartShadowPopupView2(getContext()))
@@ -151,7 +151,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 if(popupView2==null){
                     popupView2 = new CustomPartShadowPopupView2(getContext());
                 }
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .atView(v)
                         .popupPosition(PopupPosition.Bottom)
                         .asCustom(popupView2)

@@ -50,7 +50,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
             public void onClick(View v) {
                 //弹出新的弹窗用来输入
                 final CustomEditTextBottomPopup textBottomPopup = new CustomEditTextBottomPopup(getContext());
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .autoOpenSoftInput(true)
                         .autoFocusEditText(true)
                         .setPopupCallback(new SimpleCallback() {
@@ -96,7 +96,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 //不要直接这样做，会导致消失动画未执行完就跳转界面，不流畅。
 //                dismiss();
-//                getContext().startActivity(new Intent(getContext(), DemoActivity.class))
+//                this.startActivity(new Intent(this, DemoActivity.class))
                 //可以等消失动画执行完毕再开启新界面
                 dismissWith(new Runnable() {
                     @Override
@@ -130,7 +130,7 @@ public class ZhihuCommentPopup extends BottomPopupView {
 
 //    @Override
 //    protected boolean onBackPressed() {
-//        Toast.makeText(getContext(), "拦截返回", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "拦截返回", Toast.LENGTH_SHORT).show();
 //        return true;
 //    }
 }

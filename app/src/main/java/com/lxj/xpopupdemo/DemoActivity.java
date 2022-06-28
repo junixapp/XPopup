@@ -50,7 +50,7 @@ public class DemoActivity extends AppCompatActivity {
         });
         showMultiPopup();
 
-        attachPopup = new XPopup.Builder(this)
+        attachPopup = new XPopup.Builder()
                 .atView(editText)
                 .dismissOnTouchOutside(false)
                 .isViewMode(true)      //开启View实现
@@ -60,7 +60,7 @@ public class DemoActivity extends AppCompatActivity {
                 .hasShadowBg(false)
                 .positionByWindowCenter(true)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
-                .asAttachList(new String[]{"联想到的内容 - 1", "联想到的内容 - 2", "联想到的内容 - 333"}, null, new OnSelectListener() {
+                .asAttachList(this, new String[]{"联想到的内容 - 1", "联想到的内容 - 2", "联想到的内容 - 333"}, null, new OnSelectListener() {
                     @Override
                     public void onSelect(int position, String text) {
                         Toast.makeText(XPopupApp.context, text, Toast.LENGTH_LONG).show();
@@ -93,14 +93,14 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     public void showMultiPopup(){
-        final BasePopupView loadingPopup = new XPopup.Builder(this).asLoading();
+        final BasePopupView loadingPopup = new XPopup.Builder().asLoading(this);
         loadingPopup.show();
-        new XPopup.Builder(DemoActivity.this)
+        new XPopup.Builder()
                 .autoDismiss(false)
-                .asBottomList("haha", new String[]{"点我显示弹窗", "点我显示弹窗", "点我显示弹窗", "点我显示弹窗"}, new OnSelectListener() {
+                .asBottomList(this, "haha", new String[]{"点我显示弹窗", "点我显示弹窗", "点我显示弹窗", "点我显示弹窗"}, new OnSelectListener() {
                     @Override
                     public void onSelect(int position, String text) {
-                        new XPopup.Builder(DemoActivity.this).asConfirm("测试", "aaaa", new OnConfirmListener() {
+                        new XPopup.Builder().asConfirm(DemoActivity.this, "测试", "aaaa", new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
                                 loadingPopup.dismiss();

@@ -22,7 +22,7 @@ public class FragmentLifecycleDemo extends BaseFragment{
         view.findViewById(R.id.btnShow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .customHostLifecycle(getLifecycle())
                         .setPopupCallback(new SimpleCallback(){
                             @Override
@@ -30,7 +30,7 @@ public class FragmentLifecycleDemo extends BaseFragment{
 
                             }
                         })
-                        .asConfirm("演示自定义UI生命周期", "3秒后当前Fragment会被销毁，弹窗也自动销毁，避免内存泄漏", () -> {
+                        .asConfirm(getContext(), "演示自定义UI生命周期", "3秒后当前Fragment会被销毁，弹窗也自动销毁，避免内存泄漏", () -> {
 
                 }).show();
                 ((DemoActivity)getActivity()).delayDestroy();

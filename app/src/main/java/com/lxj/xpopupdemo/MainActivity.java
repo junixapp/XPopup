@@ -63,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setPrimaryColor(Color.RED);
 //        XPopup.setIsLightStatusBar(true);
 //        XPopup.setNavigationBarColor(Color.RED);
-        final LoadingPopupView loadingPopupView = new XPopup.Builder(this)
+        final LoadingPopupView loadingPopupView = new XPopup.Builder()
                 .isDestroyOnDismiss(true)
-                .asLoading();
+                .asLoading(this);
 
         loadingPopupView.show();
         loadingPopupView.delayDismiss(1200);
 
-//        new XPopup.Builder(this).asConfirm("asda", "dasdadas", null).show();
+//        new XPopup.Builder(this).asConfirm(this, "asda", "dasdadas", null).show();
 
         String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
                 + "  getAppHeight: " + XPopupUtils.getAppHeight(MainActivity.this)

@@ -82,7 +82,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
 
         //水平居中
         if (popupInfo.isCenterHorizontal && getPopupImplView() != null) {
-//            getPopupImplView().setTranslationX(XPopupUtils.getAppWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
+//            getPopupImplView().setTranslationX(XPopupUtils.getAppWidth(this) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
             //参考目标View居中，而不是屏幕居中
             int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
             getPopupImplView().setTranslationX(tx + popupInfo.offsetX);

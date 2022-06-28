@@ -104,9 +104,9 @@ public class ImageViewerDemo extends BaseFragment {
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .isDestroyOnDismiss(true)
-                        .asImageViewer(image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
+                        .asImageViewer(getContext(), image1, url1, true, Color.parseColor("#f1f1f1"), -1, 0
                                 , false, Color.BLACK, new SmartGlideImageLoader(R.mipmap.ic_launcher), new OnImageViewerLongPressListener() {
                                     @Override
                                     public void onLongPressed(BasePopupView popupView, int position) {
@@ -119,8 +119,8 @@ public class ImageViewerDemo extends BaseFragment {
         image2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new XPopup.Builder(getContext())
-                        .asImageViewer(image2, url2, new SmartGlideImageLoader())
+                new XPopup.Builder()
+                        .asImageViewer(getContext(), image2, url2, new SmartGlideImageLoader())
                         .show();
             }
         });
@@ -141,7 +141,7 @@ public class ImageViewerDemo extends BaseFragment {
 //                viewerPopup.isShowIndicator(false);//是否显示页码指示器
 //                viewerPopup.isShowPlaceholder(false);//是否显示白色占位块
 //                viewerPopup.isShowSaveButton(false);//是否显示保存按钮
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .isDestroyOnDismiss(true)
                         .asCustom(viewerPopup)
                         .show();
@@ -168,10 +168,10 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new XPopup.Builder(holder.itemView.getContext())
+                    new XPopup.Builder()
 //                            .animationDuration(1000)
                             .isTouchThrough(true)
-                            .asImageViewer(imageView, position, list,
+                            .asImageViewer(holder.itemView.getContext(), imageView, position, list,
                                     false, true, -1, -1, ConvertUtils.dp2px(10), true,
                                     Color.rgb(32, 36, 46),
                                     new OnSrcViewUpdateListener() {
@@ -203,7 +203,7 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new XPopup.Builder(holder.itemView.getContext()).asImageViewer(imageView, position, list,
+                    new XPopup.Builder().asImageViewer(imageView.getContext(), imageView, position, list,
                             new OnSrcViewUpdateListener() {
                                 @Override
                                 public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
@@ -251,8 +251,8 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new XPopup.Builder(getContext())
-                            .asImageViewer(imageView, position, list, true, false, -1, -1, -1, true, Color.BLACK, new OnSrcViewUpdateListener() {
+                    new XPopup.Builder()
+                            .asImageViewer(getContext(), imageView, position, list, true, false, -1, -1, -1, true, Color.BLACK, new OnSrcViewUpdateListener() {
                                 @Override
                                 public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
                                     //1.pager更新当前显示的图片

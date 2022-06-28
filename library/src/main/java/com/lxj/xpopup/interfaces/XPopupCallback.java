@@ -2,12 +2,14 @@ package com.lxj.xpopup.interfaces;
 
 import com.lxj.xpopup.core.BasePopupView;
 
+import java.io.Serializable;
+
 /**
  * Description: XPopup显示和隐藏的回调接口，如果你不想重写3个方法，则可以使用SimpleCallback，
  * 它是一个默认实现类
  * Create by dance, at 2018/12/21
  */
-public interface XPopupCallback {
+public interface XPopupCallback extends Serializable {
     /**
      * 弹窗的onCreate方法执行完调用
      */

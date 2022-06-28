@@ -29,11 +29,11 @@ public class LoginPopup extends CenterPopupView {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new XPopup.Builder(getContext())
+                new XPopup.Builder()
                         .hasShadowBg(false)
                         .isRequestFocus(false)
                         .atView(v)
-                        .asAttachList(new String[]{"1", "2", "3", "4"}, null, new OnSelectListener() {
+                        .asAttachList(getContext(), new String[]{"1", "2", "3", "4"}, null, new OnSelectListener() {
                     @Override
                     public void onSelect(int position, String text) {
 

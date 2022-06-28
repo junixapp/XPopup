@@ -68,6 +68,6 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
 
 //    @Override
 //    protected int getMaxHeight() {
-//        return (int) (XPopupUtils.getWindowHeight(getContext())*0.75);
+//        return (int) (XPopupUtils.getWindowHeight(this)*0.75);
 //    }
 }
