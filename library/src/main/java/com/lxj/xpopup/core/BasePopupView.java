@@ -772,16 +772,27 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public void destroy() {
+        ViewCompat.removeOnUnhandledKeyEventListener(this, this);
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+        lifecycleRegistry.removeObserver(this);
+        lifecycleRegistry = null;
+        handler = null;
         if (popupInfo != null) {
             popupInfo.atView = null;
             popupInfo.xPopupCallback = null;
-            popupInfo.hostLifecycle = null;
-            if (popupInfo.customAnimator != null && popupInfo.customAnimator.targetView != null) {
-                popupInfo.customAnimator.targetView.animate().cancel();
+            if(popupInfo.hostLifecycle!=null){
+                popupInfo.hostLifecycle.removeObserver(this);
+                popupInfo.hostLifecycle = null;
+            }
+            if (popupInfo.customAnimator != null) {
+                if(popupInfo.customAnimator.targetView != null){
+                    popupInfo.customAnimator.targetView.animate().cancel();
+                    popupInfo.customAnimator.targetView = null;
+                }
+                popupInfo.customAnimator = null;
             }
             if (popupInfo.isViewMode) tryRemoveFragments();
-            if (popupInfo.isDestroyOnDismiss) popupInfo = null;
+            popupInfo = null;
         }
         if (dialog != null) {
             if(dialog.isShowing()) dialog.dismiss();
@@ -803,10 +814,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        if (getWindowDecorView() != null)
+            KeyboardUtils.removeLayoutChangeListener(getHostWindow(), BasePopupView.this);
         handler.removeCallbacksAndMessages(null);
         if (popupInfo != null) {
-            if (getWindowDecorView() != null)
-                KeyboardUtils.removeLayoutChangeListener(getHostWindow(), BasePopupView.this);
             if (popupInfo.isViewMode && hasModifySoftMode) {
                 //还原WindowSoftMode
                 getHostWindow().setSoftInputMode(preSoftMode);
