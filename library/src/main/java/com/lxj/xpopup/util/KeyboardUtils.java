@@ -52,6 +52,7 @@ public final class KeyboardUtils {
      * @param listener The soft input changed listener.
      */
     public static void registerSoftInputChangedListener(final Window window, final BasePopupView popupView, final OnSoftInputChangedListener listener) {
+        if(popupView==null) return;
         final int flags = window.getAttributes().flags;
         if ((flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -73,6 +74,7 @@ public final class KeyboardUtils {
     }
 
     public static void removeLayoutChangeListener(Window window, BasePopupView popupView){
+        if(popupView==null) return;
         final View contentView = window.findViewById(android.R.id.content);
         if (contentView == null) return;
         ViewTreeObserver.OnGlobalLayoutListener tag = listenerArray.get(popupView.getId());
@@ -84,6 +86,7 @@ public final class KeyboardUtils {
     }
 
     public static void showSoftInput(final View view) {
+        if(view==null) return;
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm == null) return;
         view.setFocusable(true);
@@ -112,6 +115,7 @@ public final class KeyboardUtils {
     }
 
     public static void toggleSoftInput(Context context) {
+        if(context==null) return;
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm == null) return;
         imm.toggleSoftInput(0, 0);
