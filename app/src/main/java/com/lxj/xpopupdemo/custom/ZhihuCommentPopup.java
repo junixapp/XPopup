@@ -104,7 +104,6 @@ public class ZhihuCommentPopup extends BottomPopupView {
                         getContext().startActivity(new Intent(getContext(), DemoActivity.class));
                     }
                 });
-
             }
         });
         recyclerView.setAdapter(commonAdapter);
@@ -128,9 +127,9 @@ public class ZhihuCommentPopup extends BottomPopupView {
         return (int) (XPopupUtils.getScreenHeight(getContext()) * .7f);
     }
 
-//    @Override
-//    protected boolean onBackPressed() {
-//        Toast.makeText(getContext(), "拦截返回", Toast.LENGTH_SHORT).show();
-//        return true;
-//    }
+    @Override
+    protected boolean onBackPressed() {
+        Toast.makeText(getContext(), "拦截返回", Toast.LENGTH_SHORT).show();
+        return true;
+    }
 }

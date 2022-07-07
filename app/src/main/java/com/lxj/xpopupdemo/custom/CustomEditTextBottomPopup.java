@@ -37,17 +37,17 @@ public class CustomEditTextBottomPopup extends BottomPopupView {
                 dismiss();
             }
         });
-
-        setOnKeyListener(new OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(keyCode==KeyEvent.KEYCODE_BACK){
-                    ToastUtils.showShort("自定义弹窗设置了KeyListener");
-                    return true;
-                }
-                return true;
-            }
-        });
+//
+//        setOnKeyListener(new OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if(keyCode==KeyEvent.KEYCODE_BACK){
+//                    ToastUtils.showShort("自定义弹窗设置了KeyListener");
+//                    return true;
+//                }
+//                return true;
+//            }
+//        });
     }
 
     @Override
