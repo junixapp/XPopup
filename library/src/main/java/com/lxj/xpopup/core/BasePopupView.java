@@ -775,8 +775,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         ViewCompat.removeOnUnhandledKeyEventListener(this, this);
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         lifecycleRegistry.removeObserver(this);
-        lifecycleRegistry = null;
-        handler = null;
         if (popupInfo != null) {
             popupInfo.atView = null;
             popupInfo.xPopupCallback = null;
