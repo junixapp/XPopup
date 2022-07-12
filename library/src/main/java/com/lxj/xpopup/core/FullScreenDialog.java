@@ -201,7 +201,7 @@ public class FullScreenDialog extends Dialog {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus && contentView!=null && contentView.hasMoveUp){
+        if(hasFocus && contentView!=null && contentView.hasMoveUp && contentView.isCreated){
             contentView.focusAndProcessBackPress();
             KeyboardUtils.showSoftInput(contentView);
         }

@@ -180,7 +180,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗对象，推荐设置这个
                         .autoOpenSoftInput(true)
                         .isDarkTheme(true)
-                        .isViewMode(true)
+//                        .isViewMode(true)
                         .setPopupCallback(new DemoXPopupListener())
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
@@ -264,6 +264,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDarkTheme(true)
                         .hasShadowBg(true)
+                        .moveUpToKeyboard(false)
+                        .isCoverSoftInput(true)
 //                        .isViewMode(true)
 //                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个

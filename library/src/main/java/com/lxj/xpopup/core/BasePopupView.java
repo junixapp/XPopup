@@ -231,7 +231,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         @Override
         public void run() {
             if (getHostWindow() == null) return;
-            if (popupInfo.xPopupCallback != null)
+            if (popupInfo!=null && popupInfo.xPopupCallback != null)
                 popupInfo.xPopupCallback.beforeShow(BasePopupView.this);
             beforeShow();
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
@@ -253,7 +253,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     protected void initAnimator() {
         getPopupContentView().setAlpha(1f);
         // 优先使用自定义的动画器
-        if (popupInfo.customAnimator != null) {
+        if (popupInfo!=null && popupInfo.customAnimator != null) {
             popupContentAnimator = popupInfo.customAnimator;
             if(popupContentAnimator.targetView==null) popupContentAnimator.targetView = getPopupContentView();
         } else {
@@ -265,10 +265,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         }
 
         //3. 初始化动画执行器
-        if (popupInfo.hasShadowBg) {
+        if (popupInfo!=null && popupInfo.hasShadowBg) {
             shadowBgAnimator.initAnimator();
         }
-        if (popupInfo.hasBlurBg && blurAnimator != null) {
+        if (popupInfo!=null && popupInfo.hasBlurBg && blurAnimator != null) {
             blurAnimator.initAnimator();
         }
         if (popupContentAnimator != null) {
