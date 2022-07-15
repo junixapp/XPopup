@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.util.FuckRomUtils;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -201,7 +203,7 @@ public class FullScreenDialog extends Dialog {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus && contentView!=null && contentView.hasMoveUp && contentView.isCreated){
+        if(hasFocus && contentView!=null && contentView.hasMoveUp && contentView.popupStatus== PopupStatus.Show){
             contentView.focusAndProcessBackPress();
             KeyboardUtils.showSoftInput(contentView);
         }
