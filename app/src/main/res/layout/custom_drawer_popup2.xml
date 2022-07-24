@@ -12,6 +12,13 @@
         android:text="Logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <com.lxj.xpopup.widget.VerticalRecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
