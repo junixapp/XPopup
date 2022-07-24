@@ -89,7 +89,6 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                         if (imageView instanceof PhotoView) {
                             progressBar.setVisibility(View.GONE);
                             ((PhotoView) imageView).setZoomable(true);
-                            Log.e("tag", "degree: "+ degree);
                             if (size[0] > maxW || size[1] > maxH) {
                                 //TODO: 可能导致大图GIF展示不出来
                                 Bitmap rawBmp = XPopupUtils.getBitmap(resource, maxW, maxH);
