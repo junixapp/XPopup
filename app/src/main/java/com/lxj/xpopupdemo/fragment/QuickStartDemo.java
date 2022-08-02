@@ -142,7 +142,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 /*if(popupView==null)*/
                 popupView = new XPopup.Builder(getContext())
-                        .hasStatusBar(false)
+//                        .hasStatusBar(false)
                         .isDestroyOnDismiss(true)
 //                        .isTouchThrough(true)
 //                        .dismissOnBackPressed(false)
@@ -150,13 +150,25 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasBlurBg(true)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
-                        .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
+                        .asConfirm("哈哈", "床前明月光，疑是地上霜；\n举头望明月，低头思故乡。" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
+                                        "\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。",
                                 "取消", "确定",
                                 new OnConfirmListener() {
                                     @Override
                                     public void onConfirm() {
                                     }
-                                }, null, false);
+                                }, null, true);
                 popupView.show();
                 break;
             case R.id.btnBindLayout:  //复用项目中已有布局，使用XPopup已有的交互能力
@@ -184,7 +196,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .setPopupCallback(new DemoXPopupListener())
 //                        .autoFocusEditText(false) //是否让弹窗内的EditText自动获取焦点，默认是true
                         //.moveUpToKeyboard(false)   //是否移动到软键盘上面，默认为true
-                        .asInputConfirm("我是标题", null, null, "我是默认Hint文字",
+                        .asInputConfirm("我是标题", "大萨达撒大所大所大", null, "我是默认Hint文字",
                                 new OnInputConfirmListener() {
                                     @Override
                                     public void onConfirm(String text) {

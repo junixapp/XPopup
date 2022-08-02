@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="16dp"
@@ -15,34 +16,46 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/tv_content"
-        android:paddingTop="15dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="5dp"
-        android:textColor="@color/_xpopup_content_color"
-        android:textSize="16sp"
-        android:gravity="center"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:paddingBottom="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/et_input"
-        android:visibility="gone"
-        android:textSize="16sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:textColorHint="#999999"
-        android:textColor="@color/_xpopup_content_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/_xpopup_content_color"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/et_input"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColorHint="#999999"
+                android:textColor="@color/_xpopup_content_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 
     <View
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:id="@+id/xpopup_divider1"
         android:background="@color/_xpopup_list_divider"
