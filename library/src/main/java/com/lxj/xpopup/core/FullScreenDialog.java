@@ -67,11 +67,6 @@ public class FullScreenDialog extends Dialog {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); //尝试兼容部分手机上的状态栏空白问题
         }
 
-        //隐藏导航栏
-        if (!contentView.popupInfo.hasNavigationBar) {
-            hideNavigationBar();
-        }
-
         if(!contentView.popupInfo.isRequestFocus){//不获取焦点
             int flag = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
             if(contentView.popupInfo.isCoverSoftInput){
@@ -178,6 +173,10 @@ public class FullScreenDialog extends Dialog {
     }
 
     public void setNavBarLightMode() {
+        //隐藏导航栏
+        if (!contentView.popupInfo.hasNavigationBar) {
+            hideNavigationBar();
+        }
         int light = contentView.popupInfo.isLightNavigationBar == 0 ? XPopup.isLightNavigationBar : contentView.popupInfo.isLightNavigationBar;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && light!=0) {
             View decorView = getWindow().getDecorView();
@@ -203,6 +202,8 @@ public class FullScreenDialog extends Dialog {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        setStatusBarLightMode();
+        setNavBarLightMode();
         if(hasFocus && contentView!=null && contentView.hasMoveUp && contentView.popupStatus== PopupStatus.Show){
             contentView.focusAndProcessBackPress();
             KeyboardUtils.showSoftInput(contentView);

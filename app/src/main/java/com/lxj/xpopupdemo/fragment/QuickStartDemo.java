@@ -142,7 +142,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 /*if(popupView==null)*/
                 popupView = new XPopup.Builder(getContext())
-//                        .hasStatusBar(false)
                         .isDestroyOnDismiss(true)
 //                        .isTouchThrough(true)
 //                        .dismissOnBackPressed(false)
@@ -306,7 +305,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 popupView = new ZhihuCommentPopup(getContext());
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
-                        .isViewMode(true)
+//                        .isViewMode(true)
 //                        .enableDrag(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
