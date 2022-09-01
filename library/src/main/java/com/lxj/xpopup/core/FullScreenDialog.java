@@ -92,6 +92,7 @@ public class FullScreenDialog extends Dialog {
 //        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
 //        layoutParams.height = getWindow().getAttributes().height;
 //        setContentView(contentView, layoutParams);
+        initListener();
         setContentView(contentView);
 
     }
@@ -99,6 +100,23 @@ public class FullScreenDialog extends Dialog {
     private int getNavigationBarColor(){
         return contentView.popupInfo.navigationBarColor==0 ? XPopup.getNavigationBarColor()
                 : contentView.popupInfo.navigationBarColor;
+    }
+
+    private void initListener() {
+        final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (!contentView.popupInfo.hasNavigationBar) {
+                    hideNavigationBar();
+                }
+                if (!contentView.popupInfo.hasStatusBar) {
+                    getWindow().setFlags(
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }
+            }
+        });
     }
 
     public boolean isFuckVIVORoom(){
