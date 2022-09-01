@@ -187,6 +187,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowInputConfirm: //带确认和取消按钮，输入框的弹窗
                 new XPopup.Builder(getContext())
                         .hasStatusBarShadow(false)
+                        .hasNavigationBar(false)
                         //.dismissOnBackPressed(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗对象，推荐设置这个
                         .autoOpenSoftInput(true)

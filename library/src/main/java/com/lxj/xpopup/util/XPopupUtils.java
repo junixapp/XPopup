@@ -179,6 +179,13 @@ public class XPopupUtils {
 //                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 //                implParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             }
+
+            if (implParams instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams mp = ((ViewGroup.MarginLayoutParams) implParams);
+                implParams.width = implParams.width - mp.leftMargin - mp.rightMargin;
+                implParams.height = implParams.height - mp.topMargin - mp.bottomMargin;
+            }
+
             implView.setLayoutParams(implParams);
             content.setLayoutParams(params);
             content.post(() -> {

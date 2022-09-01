@@ -174,7 +174,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     } else {
                         translationY = popupInfo.touchPoint.y + defaultOffsetY;
                     }
-                    translationX -= getActivityContentLeft();
+                   
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
@@ -254,7 +254,7 @@ public abstract class AttachPopupView extends BasePopupView {
                     } else {
                         translationY = rect.bottom + defaultOffsetY;
                     }
-                    translationX -= getActivityContentLeft();
+//                   
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();

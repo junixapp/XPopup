@@ -401,7 +401,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (srcView != null) {
             int[] locations = new int[2];
             this.srcView.getLocationInWindow(locations);
-            int left = locations[0] - getActivityContentLeft();
+            int left = locations[0] /*- getActivityContentLeft()*/;
             if(XPopupUtils.isLayoutRtl(getContext())){
                 left = -(XPopupUtils.getAppWidth(getContext()) - locations[0] - srcView.getWidth());
                 rect = new Rect(left, locations[1], left + srcView.getWidth(), locations[1] + srcView.getHeight());

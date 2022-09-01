@@ -75,6 +75,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
     int overflow = XPopupUtils.dp2px(getContext(), 10);
     float centerY = 0;
     public void doAttach() {
+        if(popupInfo==null) return;
         maxY = XPopupUtils.getAppHeight(getContext()) - overflow;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
         //0. 判断是依附于某个点还是某个View
@@ -155,7 +156,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         }
                     }
                     bubbleContainer.invalidate();
-                    translationX -= getActivityContentLeft();
+                   
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
@@ -243,7 +244,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         bubbleContainer.setLookPosition((int) (rect.left + rect.width()/2 - bubbleContainer.mLookWidth/2 - translationX));
                     }
                     bubbleContainer.invalidate();
-                    translationX -= getActivityContentLeft();
+//                   
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();
