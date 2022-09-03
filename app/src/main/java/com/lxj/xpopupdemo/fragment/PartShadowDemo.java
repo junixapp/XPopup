@@ -143,6 +143,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             case R.id.tvCenter:
                 new XPopup.Builder(getContext())
                         .atView(v)
+                        .isViewMode(true)
                         .popupPosition(PopupPosition.Top)
                         .asCustom(new CustomPartShadowPopupView2(getContext()))
                         .show();
@@ -153,6 +154,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                 }
                 new XPopup.Builder(getContext())
                         .atView(v)
+                        .isViewMode(true)
                         .popupPosition(PopupPosition.Bottom)
                         .asCustom(popupView2)
                         .show();

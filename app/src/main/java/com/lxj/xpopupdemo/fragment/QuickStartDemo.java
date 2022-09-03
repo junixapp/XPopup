@@ -327,7 +327,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .hasShadowBg(false)
 //                        .isRequestFocus(false)
                         .isCoverSoftInput(true)
-//                        .isViewMode(true)
+                        .isViewMode(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop)
 //                        .isClickThrough(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个

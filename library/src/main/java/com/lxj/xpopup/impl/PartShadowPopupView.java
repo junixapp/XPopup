@@ -87,12 +87,26 @@ public abstract class PartShadowPopupView extends BasePopupView {
             int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
             getPopupImplView().setTranslationX(tx + popupInfo.offsetX);
         }else {
-            int tx = rect.left + popupInfo.offsetX;
-            int realWidth = getActivityContentView().getMeasuredWidth();
-            if(tx + getPopupImplView().getMeasuredWidth() > realWidth){
-                tx -= (tx + getPopupImplView().getMeasuredWidth() - realWidth);
+            if(getPopupImplView().getMeasuredWidth() >= getActivityContentView().getMeasuredWidth()){
+                //等宽的时候，从0开始
+                getPopupImplView().setTranslationX(popupInfo.offsetX);
+            }else {
+                int cx = (getActivityContentLeft() + getActivityContentView().getMeasuredWidth()) /2 ;
+                int rx = rect.left + rect.width()/2;
+                if(rx > cx ){
+                    //屏幕右边
+                    getPopupImplView().setTranslationX(rect.right - getPopupImplView().getMeasuredWidth() + popupInfo.offsetX);
+                }else {
+                    getPopupImplView().setTranslationX(rect.left + popupInfo.offsetX);
+                }
             }
-            getPopupImplView().setTranslationX(tx + popupInfo.offsetX);
+
+//            int realWidth = getActivityContentView().getMeasuredWidth() + getActivityContentLeft();
+//            if(tx + getPopupImplView().getMeasuredWidth() > realWidth){
+//                tx -= (tx + getPopupImplView().getMeasuredWidth() - realWidth);
+//                tx = getActivityContentView().getMeasuredWidth() + getActivityContentLeft() - ;
+//            }
+
         }
 
         int centerY = rect.top + rect.height() / 2;

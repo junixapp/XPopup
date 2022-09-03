@@ -41,6 +41,7 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
             // 依附于指定点
+            popupInfo.touchPoint.x -= getActivityContentLeft();
             isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2;
 
             // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
@@ -55,6 +56,8 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
             // 依附于指定View
             //1. 获取atView在屏幕上的位置
             Rect rect = popupInfo.getAtViewRect();
+            rect.left -= getActivityContentLeft();
+            rect.right -= getActivityContentLeft();
 
             int centerX = (rect.left + rect.right) / 2;
 

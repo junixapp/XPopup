@@ -89,10 +89,8 @@ public class FullScreenDialog extends Dialog {
             getWindow().setLayout(XPopupUtils.getAppWidth(getContext()), Math.max(XPopupUtils.getAppHeight(getContext()),
                     XPopupUtils.getScreenHeight(getContext())));
         }
-//        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-//        layoutParams.height = getWindow().getAttributes().height;
-//        setContentView(contentView, layoutParams);
-        setContentView(contentView);
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
+        setContentView(contentView, contentView.getLayoutParams());
 
     }
 

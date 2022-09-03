@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -122,7 +123,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
             }
         }
-
         if(getLayoutParams()==null){
             //设置自己的大小，和Activity的contentView保持一致
             int navHeight = 0;

@@ -81,6 +81,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
+            popupInfo.touchPoint.x -= getActivityContentLeft();
             centerY = popupInfo.touchPoint.y;
             // 依附于指定点,尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
@@ -167,6 +168,8 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
             // 依附于指定View
             //1. 获取atView在屏幕上的位置
             final Rect rect = popupInfo.getAtViewRect();
+            rect.left -= getActivityContentLeft();
+            rect.right -= getActivityContentLeft();
             final int centerX = (rect.left + rect.right) / 2;
 
             // 尽量优先放在下方，当不够的时候在显示在上方
