@@ -155,6 +155,10 @@ public class XPopupUtils {
                 params.width = Math.min(w, maxWidth);
                 if (implParams.width==ViewGroup.LayoutParams.MATCH_PARENT){
                     implParams.width = Math.min(w, maxWidth);
+                    if (implParams instanceof ViewGroup.MarginLayoutParams) {
+                        ViewGroup.MarginLayoutParams mp = ((ViewGroup.MarginLayoutParams) implParams);
+                        implParams.width = implParams.width - mp.leftMargin - mp.rightMargin;
+                    }
                 }
                 if (popupWidth > 0) {
                     params.width = Math.min(popupWidth, maxWidth);
@@ -178,12 +182,6 @@ public class XPopupUtils {
             }else {
 //                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 //                implParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            }
-
-            if (implParams instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams mp = ((ViewGroup.MarginLayoutParams) implParams);
-                implParams.width = implParams.width - mp.leftMargin - mp.rightMargin;
-                implParams.height = implParams.height - mp.topMargin - mp.bottomMargin;
             }
 
             implView.setLayoutParams(implParams);

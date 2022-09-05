@@ -35,6 +35,7 @@ import com.lxj.xpopupdemo.R;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup;
 import com.lxj.xpopupdemo.custom.CustomAttachPopup2;
 import com.lxj.xpopupdemo.custom.CustomBubbleAttachPopup;
+import com.lxj.xpopupdemo.custom.CustomCenter1;
 import com.lxj.xpopupdemo.custom.CustomDrawerPopupView;
 import com.lxj.xpopupdemo.custom.CustomEditTextBottomPopup;
 import com.lxj.xpopupdemo.custom.CustomFullScreenPopup;
@@ -137,7 +138,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.test:
-                loopPopup();
+                new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true)
+                        .asCustom(new CustomCenter1(getContext()))
+                        .show();
                 break;
             case R.id.btnShowConfirm: //带确认和取消按钮的弹窗
                 /*if(popupView==null)*/
