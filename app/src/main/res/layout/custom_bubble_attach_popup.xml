@@ -12,4 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="床前明月光，\n疑是地上霜，\n举头望明月，\n低头思故乡低头思故乡。" />
+
+
+    <ImageView
+        android:id="@+id/image"
+        android:background="#f1f1f1"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"
+        android:layout_width="100dp"
+        android:layout_height="60dp"/>
 </LinearLayout>

@@ -140,6 +140,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.test:
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
+                        .hasStatusBar(false)
                         .asCustom(new CustomCenter1(getContext()))
                         .show();
                 break;
@@ -415,8 +416,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 popupView = new XPopup.Builder(getContext())
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
+                        .hasStatusBar(false)
                         .popupPosition(PopupPosition.Right)//右边
-                        .hasStatusBarShadow(true) //启用状态栏阴影
+//                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .setPopupCallback(new DemoXPopupListener())
                         .asCustom(new ListDrawerPopupView(getContext()));
                 popupView.show();

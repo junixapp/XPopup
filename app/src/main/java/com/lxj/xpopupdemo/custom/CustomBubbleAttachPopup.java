@@ -2,8 +2,11 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
 import com.lxj.xpopup.core.BubbleAttachPopupView;
 import com.lxj.xpopupdemo.R;
 
@@ -25,6 +28,7 @@ public class CustomBubbleAttachPopup extends BubbleAttachPopupView {
     protected void onCreate() {
         super.onCreate();
         final TextView tv = findViewById(R.id.tv);
+        Glide.with(getContext()).load("https://t7.baidu.com/it/u=963301259,1982396977&fm=193&f=GIF").into((ImageView) findViewById(R.id.image));
         tv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
