@@ -87,7 +87,7 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ImageViewerDemo.ImageAdapter());
         showFragment();
     }
