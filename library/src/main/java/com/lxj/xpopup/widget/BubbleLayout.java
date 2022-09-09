@@ -146,7 +146,7 @@ public class BubbleLayout extends FrameLayout {
         mLookPosition = 0;
         mLookWidth = XPopupUtils.dp2px(getContext(),10f);
         mLookLength = XPopupUtils.dp2px(getContext(),9f);
-        mShadowRadius = 0;
+//        mShadowRadius = 0;
         mShadowX = 0;
         mShadowY = 0;
 
@@ -163,6 +163,7 @@ public class BubbleLayout extends FrameLayout {
 
         mBubblePadding = XPopupUtils.dp2px(getContext(),0f);
         mShadowColor = Color.DKGRAY;
+//        mShadowColor = Color.RED;
         mBubbleColor = Color.parseColor("#3b3c3d");
 
 //        mBubbleBgRes = -1;

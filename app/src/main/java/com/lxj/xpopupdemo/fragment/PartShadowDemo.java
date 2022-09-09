@@ -60,12 +60,12 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
         EasyAdapter<String> adapter = new EasyAdapter<String>(data, android.R.layout.simple_list_item_1) {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
-                holder.itemView.setBackgroundColor(Color.parseColor("#fafafa"));
+                holder.getConvertView().setBackgroundColor(Color.parseColor("#fafafa"));
                 holder.setText(android.R.id.text1, "长按我试试 - " + position);
                 //必须要在事件发生之前就watch
                 final XPopup.Builder builder = new XPopup.Builder(getContext())
-                        .hasShadowBg(false).watchView(holder.itemView);
-                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                        .hasShadowBg(false).watchView(holder.getConvertView());
+                holder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
                         builder.asAttachList(new String[]{"置顶", "编辑", "删除"}, null, new OnSelectListener() {
@@ -90,7 +90,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
     }
 
     private void showPartShadow(final View v){
-//        if(popupView==null){
+        if(popupView==null){
             popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                     .atView(v)
 //                    .isClickThrough(true)
@@ -112,7 +112,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         }
                     })
                     .asCustom(new CustomPartShadowPopupView(getContext()));
-//        }
+        }
 
         popupView.show();
     }

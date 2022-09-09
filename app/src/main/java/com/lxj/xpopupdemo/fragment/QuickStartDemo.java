@@ -308,10 +308,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnCustomBottomPopup: //自定义的底部弹窗
-                popupView = new ZhihuCommentPopup(getContext());
+                if(popupView==null)popupView = new ZhihuCommentPopup(getContext());
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
 //                        .isViewMode(true)
+                        .enableDrag(false)
 //                        .enableDrag(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
@@ -391,14 +392,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .hasShadowBg(false) // 去掉半透明背景
 //                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
                         .offsetY(XPopupUtils.dp2px(getContext(), 6))
-                        .asCustom(new CustomBubbleAttachPopup(getContext())
-//                                .setArrowOffset(-XPopupUtils.dp2px(getContext(), 40))  //气泡箭头偏移
-//                                .setBubbleBgColor(Color.RED)  //气泡背景
-                                        .setArrowWidth(XPopupUtils.dp2px(getContext(), 5))
-                                        .setArrowHeight(XPopupUtils.dp2px(getContext(), 6))
-//                                .setBubbleRadius(100)
-                                        .setArrowRadius(XPopupUtils.dp2px(getContext(), 3))
-                        )
+                        .asCustom(new CustomBubbleAttachPopup(getContext()))
                         .show();
                 break;
             case R.id.btnShowDrawerLeft: //像DrawerLayout一样的Drawer弹窗
