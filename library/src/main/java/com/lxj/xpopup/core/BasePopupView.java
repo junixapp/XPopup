@@ -92,7 +92,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             return this;
         }
         if (popupInfo == null) {
-            throw new IllegalArgumentException("popupInfo is null, if your popup object is used once, do not set isDestroyOnDismiss(true) !");
+            throw new IllegalArgumentException("popupInfo is null, if your popup object is reused, do not set isDestroyOnDismiss(true) !");
         }
         if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing)
             return this;
@@ -773,7 +773,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
     public void destroy() {
         ViewCompat.removeOnUnhandledKeyEventListener(this, this);
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+        if(isCreated){
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+        }
         lifecycleRegistry.removeObserver(this);
         if (popupInfo != null) {
             popupInfo.atView = null;

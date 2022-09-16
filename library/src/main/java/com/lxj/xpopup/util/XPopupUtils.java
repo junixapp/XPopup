@@ -540,7 +540,8 @@ public class XPopupUtils {
         view.destroyDrawingCache();
         view.setWillNotCacheDrawing(willNotCacheDrawing);
         view.setDrawingCacheEnabled(drawingCacheEnabled);
-        return bitmap;
+//        return bitmap;
+        return Bitmap.createScaledBitmap(bitmap, view.getMeasuredWidth()/2, view.getMeasuredHeight()/2, true);
     }
 
     public static boolean isLayoutRtl(Context context) {

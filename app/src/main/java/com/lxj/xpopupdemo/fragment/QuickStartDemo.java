@@ -330,7 +330,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv2:
             case R.id.tv3:
                 AttachPopupView attachPopupView = new XPopup.Builder(getContext())
+                        .hasStatusBarShadow(false)
                         .hasShadowBg(false)
+                        .hasBlurBg(true)
 //                        .isRequestFocus(false)
                         .isCoverSoftInput(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop)
