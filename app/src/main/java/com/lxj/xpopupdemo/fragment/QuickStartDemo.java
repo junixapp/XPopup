@@ -331,8 +331,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv3:
                 AttachPopupView attachPopupView = new XPopup.Builder(getContext())
                         .hasStatusBarShadow(false)
-                        .hasShadowBg(false)
-                        .hasBlurBg(true)
 //                        .isRequestFocus(false)
                         .isCoverSoftInput(true)
 //                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop)
@@ -444,12 +442,16 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .offsetY(300)
                         .offsetX(-100)
+                        .hasShadowBg(false)
+                        .hasBlurBg(true)
                         .popupAnimation(PopupAnimation.TranslateFromLeft)
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
                 break;
             case R.id.btnShowPosition2:
                 new XPopup.Builder(getContext())
+                        .hasShadowBg(false)
+                        .hasBlurBg(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .isCenterHorizontal(true)
                         .offsetY(200)
