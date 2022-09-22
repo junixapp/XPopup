@@ -93,7 +93,7 @@ public class FullScreenDialog extends Dialog {
         contentView.post(new Runnable() {
             @Override
             public void run() {
-                contentView.setTranslationX(contentView.getActivityContentLeft());
+                if(contentView!=null) contentView.setTranslationX(contentView.getActivityContentLeft());
             }
         });
     }

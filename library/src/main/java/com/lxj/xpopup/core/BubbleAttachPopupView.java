@@ -118,18 +118,24 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     }
                     if (popupInfo.isCenterHorizontal) {
                         //水平居中
+//                        if (isShowLeft) {
+//                            if (isRTL) {
+//                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
+//                            } else {
+//                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
+//                            }
+//                        } else {
+//                            if (isRTL) {
+//                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
+//                            } else {
+//                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
+//                            }
+//                        }
+                        //水平居中
                         if (isShowLeft) {
-                            if (isRTL) {
-                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
-                            } else {
-                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
-                            }
+                            translationX -= getPopupContentView().getMeasuredWidth() / 2f;
                         } else {
-                            if (isRTL) {
-                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
-                            } else {
-                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
-                            }
+                            translationX += getPopupContentView().getMeasuredWidth() / 2f;
                         }
                     }
                     if (isShowUpToTarget()) {
@@ -212,18 +218,24 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     }
                     if (popupInfo.isCenterHorizontal) {
                         //水平居中
-                        if (isShowLeft)
-                            if (isRTL) {
-                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-                            } else {
-                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-                            }
-                        else {
-                            if (isRTL) {
-                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-                            } else {
-                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-                            }
+//                        if (isShowLeft)
+//                            if (isRTL) {
+//                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+//                            } else {
+//                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+//                            }
+//                        else {
+//                            if (isRTL) {
+//                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+//                            } else {
+//                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+//                            }
+//                        }
+                        //水平居中
+                        if (isShowLeft) {
+                            translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+                        } else {
+                            translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
                         }
                     }
                     if (isShowUpToTarget()) {
