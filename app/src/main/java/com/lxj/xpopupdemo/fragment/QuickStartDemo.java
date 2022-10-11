@@ -98,13 +98,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             public boolean onLongClick(View v) {
                 XPopup.fixLongClick(v);//能保证弹窗弹出后，下层的View无法滑动
                 builder.asAttachList(new String[]{"置顶11", "复制", "删除", "编辑编辑编辑编辑"
-                        }, null,
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                toast("click " + text);
-                            }
-                        })
+                                }, null,
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        toast("click " + text);
+                                    }
+                                })
                         .show();
                 return true;
             }
@@ -119,7 +119,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
     LoadingPopupView loadingPopup;
     CustomAttachPopup2 customAttach2;
 
-    private void loopPopup(){
+    private void loopPopup() {
         new XPopup.Builder(getContext())
                 .isDestroyOnDismiss(true)
                 .asConfirm("哈哈", "床前明月光，疑是地上霜；举头望明月，低头思故乡。",
@@ -130,7 +130,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                 loopPopup();
                             }
                         }, null, false)
-        .show();
+                .show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -278,11 +278,13 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                });
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
-                new XPopup.Builder(getContext())
+                popupView = new XPopup.Builder(getContext())
                         .isDarkTheme(true)
-                        .hasShadowBg(true)
+                        .customHostLifecycle(getLifecycle())
+                        .dismissOnTouchOutside(false)
                         .moveUpToKeyboard(false)
-                        .isCoverSoftInput(true)
+                        .isDestroyOnDismiss(false)
+                        .popupHeight(XPopupUtils.dp2px(getContext(), 397f))
 //                        .isViewMode(true)
 //                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
@@ -292,7 +294,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                     public void onSelect(int position, String text) {
                                         toast("click " + text);
                                     }
-                                }).show();
+                                });
+
+                popupView.show();
                 break;
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())
@@ -308,15 +312,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnCustomBottomPopup: //自定义的底部弹窗
-                if(popupView==null)popupView = new ZhihuCommentPopup(getContext());
                 new XPopup.Builder(getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
 //                        .isViewMode(true)
-                        .enableDrag(false)
-//                        .enableDrag(false)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
-                        .asCustom(popupView)
+                        .asCustom(new ZhihuCommentPopup(getContext()))
                         .show();
                 break;
             case R.id.btnPagerBottomPopup: //自定义的底部弹窗
@@ -411,6 +412,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
 //                        .popupWidth(300)
+                        .isViewMode(true)
                         .hasStatusBar(false)
                         .popupPosition(PopupPosition.Right)//右边
 //                        .hasStatusBarShadow(true) //启用状态栏阴影
@@ -443,7 +445,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .offsetY(300)
                         .offsetX(-100)
                         .hasShadowBg(false)
-                        .hasBlurBg(true)
+//                        .hasBlurBg(true)
                         .popupAnimation(PopupAnimation.TranslateFromLeft)
                         .asCustom(new QQMsgPopup(getContext()))
                         .show();
@@ -451,7 +453,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnShowPosition2:
                 new XPopup.Builder(getContext())
                         .hasShadowBg(false)
-                        .hasBlurBg(true)
+//                        .hasBlurBg(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .isCenterHorizontal(true)
                         .offsetY(200)

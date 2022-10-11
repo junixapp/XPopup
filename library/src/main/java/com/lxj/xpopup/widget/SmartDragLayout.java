@@ -226,14 +226,9 @@ public class SmartDragLayout extends LinearLayout implements NestedScrollingPare
         });
     }
 
-    public void smoothScroll(final int dy, final boolean isOpen) {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                scroller.startScroll(getScrollX(), getScrollY(), 0, dy, (int) (isOpen ? duration : duration * 0.8f));
-                ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
-            }
-        });
+    private void smoothScroll(final int dy, final boolean isOpen) {
+        scroller.startScroll(getScrollX(), getScrollY(), 0, dy, (int) (isOpen ? duration : duration * 0.8f));
+        ViewCompat.postInvalidateOnAnimation(SmartDragLayout.this);
     }
 
     @Override

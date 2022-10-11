@@ -98,12 +98,12 @@ public class ZhihuCommentPopup extends BottomPopupView {
 //                dismiss();
 //                getContext().startActivity(new Intent(getContext(), DemoActivity.class))
                 //可以等消失动画执行完毕再开启新界面
-                dismissWith(new Runnable() {
-                    @Override
-                    public void run() {
-                        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-                    }
-                });
+//                dismissWith(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+//                    }
+//                });
             }
         });
         recyclerView.setAdapter(commonAdapter);
