@@ -167,7 +167,12 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     popupInfo.xPopupCallback.onKeyBoardStateChanged(BasePopupView.this, height);
                 }
                 if (height == 0) { // 说明输入法隐藏
-                    XPopupUtils.moveDown(BasePopupView.this);
+                    post(new Runnable() {
+                        @Override
+                        public void run() {
+                            XPopupUtils.moveDown(BasePopupView.this);
+                        }
+                    });
                     hasMoveUp = false;
                 } else {
                     //when show keyboard, move up
