@@ -3,7 +3,6 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,8 +95,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
             if (getMaxHeight() != 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
         }
-        Log.d("tag", "content width: " + params.width + "  left: "+params.leftMargin + " sw: " + getMeasuredWidth());
-        Log.d("tag", "impl width: " + implParams.width + "  ty: "+implView.getTranslationY());
         getPopupContentView().setLayoutParams(params);
         implView.setLayoutParams(implParams);
         getPopupContentView().post(new Runnable() {

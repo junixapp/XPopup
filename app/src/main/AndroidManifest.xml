@@ -20,6 +20,7 @@
         <meta-data android:name="android.max_aspect" android:value="2.4" />
         <meta-data android:name="android.notch_support" android:value="true" />
         <activity android:name="com.lxj.xpopupdemo.MainActivity" android:resizeableActivity="true"
+            android:screenOrientation="portrait"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.lxj.xpopupdemo.DemoActivity" android:resizeableActivity="true"
+            android:screenOrientation="portrait"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"/>
 
     </application>
