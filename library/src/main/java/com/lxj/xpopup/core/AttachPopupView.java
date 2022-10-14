@@ -1,6 +1,7 @@
 package com.lxj.xpopup.core;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;

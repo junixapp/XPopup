@@ -51,7 +51,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
 
         getPopupImplView().setTranslationX(popupInfo.offsetX);
         getPopupImplView().setTranslationY(popupInfo.offsetY);
-        getPopupImplView().setVisibility(INVISIBLE);
+        getPopupImplView().setAlpha(0);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(), getPopupHeight(), new Runnable() {
             @Override
@@ -70,47 +70,13 @@ public abstract class PartShadowPopupView extends BasePopupView {
     public boolean isShowUp;
     public void doAttach() {
         if (popupInfo.atView == null)
-            throw new IllegalArgumentException("atView must not be null for PartShadowPopupView！");
+            throw new IllegalArgumentException("atView() must be called before show()！");
 
         //1. apply width and height
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
-//        params.width = getMeasuredWidth();
-//        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-
+        params.width = getActivityContentView().getWidth();
         //1. 获取atView在屏幕上的位置
         Rect rect = popupInfo.getAtViewRect();
-        rect.left -= getActivityContentLeft();
-        rect.right -= getActivityContentLeft();
-
-        //水平居中
-        if (popupInfo.isCenterHorizontal && getPopupImplView() != null) {
-//            getPopupImplView().setTranslationX(XPopupUtils.getAppWidth(getContext()) / 2f - getPopupContentView().getMeasuredWidth() / 2f);
-            //参考目标View居中，而不是屏幕居中
-            int tx = (rect.left + rect.right)/2 - getPopupImplView().getMeasuredWidth()/2;
-            getPopupImplView().setTranslationX(tx + popupInfo.offsetX);
-        }else {
-            if(getPopupImplView().getMeasuredWidth() >= getActivityContentView().getMeasuredWidth()){
-                //等宽的时候，从0开始
-                getPopupImplView().setTranslationX(popupInfo.offsetX);
-            }else {
-                int cx = (getActivityContentLeft() + getActivityContentView().getMeasuredWidth()) /2 ;
-                int rx = rect.left + rect.width()/2;
-                if(rx > cx ){
-                    //屏幕右边
-                    getPopupImplView().setTranslationX(rect.right - getPopupImplView().getMeasuredWidth() + popupInfo.offsetX);
-                }else {
-                    getPopupImplView().setTranslationX(rect.left + popupInfo.offsetX);
-                }
-            }
-
-//            int realWidth = getActivityContentView().getMeasuredWidth() + getActivityContentLeft();
-//            if(tx + getPopupImplView().getMeasuredWidth() > realWidth){
-//                tx -= (tx + getPopupImplView().getMeasuredWidth() - realWidth);
-//                tx = getActivityContentView().getMeasuredWidth() + getActivityContentLeft() - ;
-//            }
-
-        }
-
         int centerY = rect.top + rect.height() / 2;
         View implView = getPopupImplView();
         FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
@@ -130,13 +96,15 @@ public abstract class PartShadowPopupView extends BasePopupView {
             if (getMaxHeight() != 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
         }
+        Log.d("tag", "content width: " + params.width + "  left: "+params.leftMargin + " sw: " + getMeasuredWidth());
+        Log.d("tag", "impl width: " + implParams.width + "  ty: "+implView.getTranslationY());
         getPopupContentView().setLayoutParams(params);
         implView.setLayoutParams(implParams);
         getPopupContentView().post(new Runnable() {
             @Override
             public void run() {
                 initAndStartAnimation();
-                getPopupImplView().setVisibility(VISIBLE);
+                getPopupImplView().setAlpha(1);
             }
         });
         attachPopupContainer.notDismissArea = popupInfo.notDismissWhenTouchInArea;
@@ -152,5 +120,4 @@ public abstract class PartShadowPopupView extends BasePopupView {
         return new TranslateAnimator(getPopupImplView(), getAnimationDuration(), isShowUp ?
                 PopupAnimation.TranslateFromBottom : PopupAnimation.TranslateFromTop);
     }
-
 }

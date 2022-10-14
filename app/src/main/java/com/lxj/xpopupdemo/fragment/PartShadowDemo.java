@@ -94,7 +94,7 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             popupView = (CustomPartShadowPopupView) new XPopup.Builder(getContext())
                     .atView(v)
 //                    .isClickThrough(true)
-                    .isViewMode(true)
+//                    .isViewMode(true)
 //                    .isRequestFocus(false)
 //                    .isTouchThrough(true)
 //                    .notDismissWhenTouchInView(view.findViewById(R.id.tv_select))

@@ -124,26 +124,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
             }
         }
-        if(getLayoutParams()==null){
-            //设置自己的大小，和Activity的contentView保持一致
-            int navHeight = 0;
-            View decorView = XPopupUtils.context2Activity(this).getWindow().getDecorView();
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
-                if(navBarView!=null) navHeight = XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet()  ?
-                        navBarView.getMeasuredWidth() : navBarView.getMeasuredHeight();
-            }else {
-                navHeight = XPopupUtils.isNavBarVisible(XPopupUtils.context2Activity(this).getWindow()) ?
-                        XPopupUtils.getNavBarHeight() : 0;
-            }
-
-            View activityContent = getActivityContentView();
-            ViewGroup.MarginLayoutParams params = new MarginLayoutParams(activityContent.getMeasuredWidth(),
-                    decorView.getMeasuredHeight() -
-                            ( XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet() ? 0 : navHeight));
-            if(XPopupUtils.isLandscape(getContext())) params.leftMargin = getActivityContentLeft();
-            setLayoutParams(params);
-        }
+        doMeasure();
 
         if (popupInfo.isViewMode) {
             //view实现
@@ -203,6 +184,44 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         int[] loc = new int[2];
         decorView.getLocationInWindow(loc);
         return loc[0];
+    }
+
+    protected void doMeasure(){
+        //设置自己的大小，和Activity的contentView保持一致
+        int navHeight = 0;
+        View decorView = XPopupUtils.context2Activity(this).getWindow().getDecorView();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
+            if(navBarView!=null) navHeight = XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet()  ?
+                    navBarView.getMeasuredWidth() : navBarView.getMeasuredHeight();
+        }else {
+            navHeight = XPopupUtils.isNavBarVisible(XPopupUtils.context2Activity(this).getWindow()) ?
+                    XPopupUtils.getNavBarHeight() : 0;
+        }
+        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
+        View activityContent = getActivityContentView();
+        if(params==null){
+            params = new MarginLayoutParams(activityContent.getMeasuredWidth(),
+                    decorView.getMeasuredHeight() -
+                            ( XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet() ? 0 : navHeight));
+        }else {
+            params.width = activityContent.getMeasuredWidth();
+            params.height = decorView.getMeasuredHeight() -
+                    ( XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet() ? 0 : navHeight);
+        }
+        params.leftMargin = XPopupUtils.isLandscape(getContext())? getActivityContentLeft():0;
+        setLayoutParams(params);
+    }
+
+    @Override
+    protected void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                doMeasure();
+            }
+        });
     }
 
     /**
