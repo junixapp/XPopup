@@ -1,6 +1,7 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.Gravity;
@@ -73,7 +74,8 @@ public abstract class PartShadowPopupView extends BasePopupView {
 
         //1. apply width and height
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
-        params.width = getMeasuredWidth();
+//        params.width = getMeasuredWidth();
+//        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
 
         //1. 获取atView在屏幕上的位置
         Rect rect = popupInfo.getAtViewRect();
@@ -151,8 +153,4 @@ public abstract class PartShadowPopupView extends BasePopupView {
                 PopupAnimation.TranslateFromBottom : PopupAnimation.TranslateFromTop);
     }
 
-    @Override
-    protected int getMaxWidth() {
-        return XPopupUtils.getAppWidth(getContext());
-    }
 }

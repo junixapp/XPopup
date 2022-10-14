@@ -4,6 +4,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.NoAnimation;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -229,7 +230,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
         }
-        handler.postDelayed(initTask, 10);
+        handler.post(initTask);
     }
 
     private final Runnable initTask = new Runnable() {

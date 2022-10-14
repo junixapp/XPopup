@@ -55,7 +55,6 @@ public class BottomPopupView extends BasePopupView {
         bottomPopupContainer.dismissOnTouchOutside(popupInfo.isDismissOnTouchOutside);
         bottomPopupContainer.isThreeDrag(popupInfo.isThreeDrag);
 
-
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight()
                 , getPopupWidth(), getPopupHeight(), null);
 
@@ -161,11 +160,6 @@ public class BottomPopupView extends BasePopupView {
      */
     protected int getImplLayoutId() {
         return 0;
-    }
-
-    protected int getMaxWidth() {
-        return popupInfo.maxWidth == 0 ? XPopupUtils.getAppWidth(getContext())
-                : popupInfo.maxWidth;
     }
 
     @Override

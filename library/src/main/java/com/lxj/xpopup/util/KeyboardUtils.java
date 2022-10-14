@@ -35,8 +35,8 @@ public final class KeyboardUtils {
         final View decorView = window.getDecorView();
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
-        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
-                + (decorView.getBottom() - outRect.bottom));
+//        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
+//                + (decorView.getBottom() - outRect.bottom));
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
         if (delta <= XPopupUtils.getNavBarHeight() + XPopupUtils.getStatusBarHeight()) {
             sDecorViewDelta = delta;

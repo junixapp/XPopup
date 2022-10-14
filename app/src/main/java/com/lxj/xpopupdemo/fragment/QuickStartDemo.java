@@ -281,10 +281,10 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 popupView = new XPopup.Builder(getContext())
                         .isDarkTheme(true)
                         .customHostLifecycle(getLifecycle())
-                        .dismissOnTouchOutside(false)
                         .moveUpToKeyboard(false)
                         .isDestroyOnDismiss(false)
-                        .popupHeight(XPopupUtils.dp2px(getContext(), 397f))
+                        .borderRadius(XPopupUtils.dp2px(getContext(), 15))
+//                        .popupHeight(XPopupUtils.dp2px(getContext(), 397f))
 //                        .isViewMode(true)
 //                            .hasBlurBg(true)
 //                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
