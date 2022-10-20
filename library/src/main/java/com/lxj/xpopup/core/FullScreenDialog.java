@@ -4,9 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,17 +42,18 @@ public class FullScreenDialog extends Dialog {
         if(contentView.popupInfo.keepScreenOn){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-        getWindow().setBackgroundDrawable(null);
         getWindow().getDecorView().setPadding(0, 0, 0, 0);
+        getWindow().getAttributes().format = PixelFormat.TRANSPARENT;
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        //设置全屏
+        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         getWindow().getDecorView().setSystemUiVisibility(option);
+        getWindow().setBackgroundDrawable(null);
 
         //remove status bar shadow
         if(Build.VERSION.SDK_INT == 19){  //解决4.4上状态栏闪烁的问题
@@ -80,7 +81,6 @@ public class FullScreenDialog extends Dialog {
         setStatusBarLightMode();
         setNavBarLightMode();
 
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
         boolean isPortrait = getContext().getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_PORTRAIT;

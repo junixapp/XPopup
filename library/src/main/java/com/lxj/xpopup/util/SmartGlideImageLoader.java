@@ -71,7 +71,7 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                         progressBar.setVisibility(View.GONE);
                         if (imageView instanceof PhotoView) {
                             ((PhotoView) imageView).setImageResource(errImg);
-                            ((PhotoView) imageView).setZoomable(false);
+                            ((PhotoView) imageView).setZoomable(true);
                         } else {
                             ((SubsamplingScaleImageView) imageView).setImage(ImageSource.resource(errImg));
                         }
