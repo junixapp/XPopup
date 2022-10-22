@@ -58,18 +58,24 @@ public class LoadingPopupView extends CenterPopupView {
         }
         setup();
     }
-    private boolean first = true;
+    private boolean firstShow = true;
+
+    @Override
+    protected void onShow() {
+        super.onShow();
+        firstShow = false;
+    }
+
     protected void setup() {
         post(new Runnable() {
             @Override
             public void run() {
-                if(!first) {
+                if(!firstShow) {
                     TransitionSet set = new TransitionSet()
                             .setDuration(getAnimationDuration())
                             .addTransition(new Fade()).addTransition(new ChangeBounds());
                     TransitionManager.beginDelayedTransition(centerPopupContainer, set);
                 }
-                first = false;
                 if (title == null || title.length() == 0) {
                     XPopupUtils.setVisible(tv_title, false);
                 } else {

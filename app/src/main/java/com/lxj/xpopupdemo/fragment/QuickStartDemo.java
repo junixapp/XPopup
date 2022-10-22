@@ -252,30 +252,28 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                             .asLoading("少时诵诗书", LoadingPopupView.Style.ProgressBar)
                             .show();
                 } else {
-                    loadingPopup.setTitle("是大萨达所大所多");
-                    loadingPopup.setStyle(LoadingPopupView.Style.Spinner);
+                    loadingPopup.setStyle(LoadingPopupView.Style.ProgressBar);
                     loadingPopup.show();
                 }
-//                loadingPopup.setStyle(LoadingPopupView.Style.ProgressBar);
-//                loadingPopup.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        loadingPopup.setTitle("加载中长度变化啊");
-//                        loadingPopup.setStyle(LoadingPopupView.Style.Spinner);
-//                        loadingPopup.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                loadingPopup.setTitle("");
-//                            }
-//                        }, 2000);
-//                    }
-//                }, 2000);
-//                loadingPopup.delayDismissWith(6000, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        toast("我消失了！！！");
-//                    }
-//                });
+                loadingPopup.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingPopup.setTitle("加载中长度变化啊");
+                        loadingPopup.setStyle(LoadingPopupView.Style.Spinner);
+                        loadingPopup.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingPopup.setTitle("");
+                            }
+                        }, 2000);
+                    }
+                }, 2000);
+                loadingPopup.delayDismissWith(6000, new Runnable() {
+                    @Override
+                    public void run() {
+                        toast("我消失了！！！");
+                    }
+                });
                 break;
             case R.id.btnShowBottomList: //从底部弹出，带手势拖拽的列表弹窗
                 popupView = new XPopup.Builder(getContext())
