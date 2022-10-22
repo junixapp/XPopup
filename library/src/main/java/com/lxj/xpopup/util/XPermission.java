@@ -134,9 +134,10 @@ public final class XPermission {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean isGrantedDrawOverlays() {
-        return Settings.canDrawOverlays(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.canDrawOverlays(context);
+        }else return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

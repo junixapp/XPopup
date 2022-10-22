@@ -17,6 +17,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.util.FuckRomUtils;
 import com.lxj.xpopup.util.KeyboardUtils;
+import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**
@@ -31,7 +32,7 @@ public class FullScreenDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getWindow() == null  || contentView==null || contentView.popupInfo==null) return;
-        if (contentView.popupInfo.enableShowWhenAppBackground) {
+        if (contentView.popupInfo.enableShowWhenAppBackground && XPermission.create(getContext()).isGrantedDrawOverlays()) {
             if (Build.VERSION.SDK_INT >= 26) {
                 getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
             } else {

@@ -490,12 +490,12 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                             }
                                         }).show();
                             }
-                        }, 2000);
+                        }, 1000);
                     }
 
                     @Override
                     public void onDenied() {
-//                        ToastUtils.showShort("权限拒绝需要申请悬浮窗权限！");
+                        ToastUtils.showShort("权限拒绝需要申请悬浮窗权限！");
                     }
                 });
                 break;
