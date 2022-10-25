@@ -102,11 +102,12 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             return BasePopupView.this;
 
         // 1. add PopupView to its host.
-        attachToHost();
-
-        // 2. do init，game start.
-        init();
-
+        getActivityContentView().post(new Runnable() {
+            @Override
+            public void run() {
+                attachToHost();
+            }
+        });
         return this;
     }
 
@@ -165,6 +166,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 }
             }
         });
+        // 2. do init，game start.
+        init();
     }
 
     protected View getWindowDecorView() {

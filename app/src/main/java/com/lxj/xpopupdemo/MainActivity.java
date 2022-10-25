@@ -16,6 +16,7 @@ import com.blankj.utilcode.util.RomUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
@@ -64,12 +65,13 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setPrimaryColor(Color.RED);
 //        XPopup.setIsLightStatusBar(true);
 //        XPopup.setNavigationBarColor(Color.RED);
-        final LoadingPopupView loadingPopupView = new XPopup.Builder(this)
+        final BasePopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)
-                .asLoading();
+                .isViewMode(true)
+                .asLoading().show();
 
-        loadingPopupView.show();
         loadingPopupView.delayDismiss(1200);
+
 
 //        new XPopup.Builder(this).asConfirm("asda", "dasdadas", null).show();
 

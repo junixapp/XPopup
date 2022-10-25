@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -154,7 +155,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasBlurBg(true)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
-                        .asConfirm("哈哈", "床前明月光，疑是地上霜；\n举头望明月，低头思故乡。" +
+                        .asConfirm(null, "床前明月光，疑是地上霜；\n举头望明月，低头思故乡。" +
                                         "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
                                         "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
                                         "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
