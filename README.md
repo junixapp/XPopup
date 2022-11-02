@@ -96,8 +96,6 @@ Gif录制的有些卡顿，真机预览效果更佳。扫描二维码下载Demo�
 ## Gradle
 
 [![](https://jitpack.io/v/li-xiaojun/XPopup.svg)](https://jitpack.io/#li-xiaojun/XPopup)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.li-xiaojun/xpopup/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.li-xiaojun/xpopup)
-
 ```
 implementation 'com.github.li-xiaojun:XPopup:版本号看上面'
 ```

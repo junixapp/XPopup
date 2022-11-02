@@ -116,26 +116,20 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     } else {
                         translationX = isShowLeft ? (popupInfo.touchPoint.x + defaultOffsetX) : (popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth() - defaultOffsetX);
                     }
+                    float off = getPopupContentView().getMeasuredWidth() / 5f;
                     if (popupInfo.isCenterHorizontal) {
-                        //水平居中
-//                        if (isShowLeft) {
-//                            if (isRTL) {
-//                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
-//                            } else {
-//                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
-//                            }
-//                        } else {
-//                            if (isRTL) {
-//                                translationX -= getPopupContentView().getMeasuredWidth() / 2f;
-//                            } else {
-//                                translationX += getPopupContentView().getMeasuredWidth() / 2f;
-//                            }
-//                        }
                         //水平居中
                         if (isShowLeft) {
                             translationX -= getPopupContentView().getMeasuredWidth() / 2f;
                         } else {
                             translationX += getPopupContentView().getMeasuredWidth() / 2f;
+                        }
+                    }else {
+                        //不水平居中时也优化偏移量，箭头在边缘时不好看
+                        if (isShowLeft) {
+                            translationX -= off;
+                        } else {
+                            translationX += off;
                         }
                     }
                     if (isShowUpToTarget()) {
@@ -156,10 +150,10 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     }else {
                         if(isShowLeft){
                             //在目标左边，箭头在最右边
-                            bubbleContainer.setLookPosition(XPopupUtils.dp2px(getContext(),1));
+                            bubbleContainer.setLookPosition((int) off);
                         }else {
                             //在目标右边，箭头在最开始
-                            bubbleContainer.setLookPosition(bubbleContainer.getMeasuredWidth()-XPopupUtils.dp2px(getContext(),1));
+                            bubbleContainer.setLookPosition((int) (bubbleContainer.getMeasuredWidth()-off));
                         }
                     }
                     bubbleContainer.invalidate();
@@ -216,26 +210,20 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     } else {
                         translationX = isShowLeft ? (rect.left + defaultOffsetX) : (rect.right - getPopupContentView().getMeasuredWidth()+ defaultOffsetX);
                     }
+                    float off = getPopupContentView().getMeasuredWidth() / 5f + defaultOffsetX;
                     if (popupInfo.isCenterHorizontal) {
-                        //水平居中
-//                        if (isShowLeft)
-//                            if (isRTL) {
-//                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-//                            } else {
-//                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-//                            }
-//                        else {
-//                            if (isRTL) {
-//                                translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-//                            } else {
-//                                translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-//                            }
-//                        }
                         //水平居中
                         if (isShowLeft) {
                             translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
                         } else {
                             translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
+                        }
+                    }else {
+                        //不水平居中时也优化偏移量，箭头在边缘时不好看
+                        if (isShowLeft) {
+                            translationX -= off;
+                        } else {
+                            translationX += off;
                         }
                     }
                     if (isShowUpToTarget()) {
@@ -259,7 +247,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         bubbleContainer.setLookPosition((int) (rect.left + rect.width()/2 - bubbleContainer.mLookWidth/2 - translationX));
                     }
                     bubbleContainer.invalidate();
-//                   
+
                     getPopupContentView().setTranslationX(translationX);
                     getPopupContentView().setTranslationY(translationY);
                     initAndStartAnimation();

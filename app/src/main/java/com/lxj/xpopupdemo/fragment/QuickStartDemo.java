@@ -387,11 +387,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.btnBubbleAttachPopup2: //垂直方向带气泡弹窗
                 new XPopup.Builder(getContext())
 //                        .isCenterHorizontal(true)
+                        .isTouchThrough(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(view.findViewById(R.id.vv))
                         .hasShadowBg(false) // 去掉半透明背景
 //                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
-                        .offsetY(XPopupUtils.dp2px(getContext(), 6))
                         .asCustom(new CustomBubbleAttachPopup(getContext()))
                         .show();
                 break;

@@ -2,6 +2,7 @@ package com.lxj.xpopup;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Build;
 import android.view.Gravity;
@@ -228,6 +229,16 @@ public class XPopup {
          */
         public Builder atView(View atView) {
             popupInfo.atView = atView;
+            return this;
+        }
+
+        /**
+         * 设置弹窗依附的点，Attach弹窗必须设置这个
+         * @param point
+         * @return
+         */
+        public Builder atPoint(PointF point) {
+            popupInfo.touchPoint = point;
             return this;
         }
 

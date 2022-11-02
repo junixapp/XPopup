@@ -190,6 +190,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="55dp"
+                android:background="#ddd"
                 android:layout_height="wrap_content"
                 android:text="横向带气泡Attach弹窗"
                 android:textAllCaps="false" />

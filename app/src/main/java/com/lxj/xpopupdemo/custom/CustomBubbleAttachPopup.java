@@ -31,12 +31,12 @@ public class CustomBubbleAttachPopup extends BubbleAttachPopupView {
     protected void onCreate() {
         super.onCreate();
         setBubbleBgColor(Color.BLUE);
-        setBubbleShadowSize(XPopupUtils.dp2px(getContext(), 10));
+        setBubbleShadowSize(XPopupUtils.dp2px(getContext(), 6));
         setBubbleShadowColor(Color.RED);
-        setArrowWidth(XPopupUtils.dp2px(getContext(), 5));
-        setArrowHeight(XPopupUtils.dp2px(getContext(), 6));
+        setArrowWidth(XPopupUtils.dp2px(getContext(), 8));
+        setArrowHeight(XPopupUtils.dp2px(getContext(), 9));
 //                                .setBubbleRadius(100)
-        setArrowRadius(XPopupUtils.dp2px(getContext(), 3));
+        setArrowRadius(XPopupUtils.dp2px(getContext(), 2));
         final TextView tv = findViewById(R.id.tv);
         Glide.with(getContext()).load("https://t7.baidu.com/it/u=963301259,1982396977&fm=193&f=GIF").into((ImageView) findViewById(R.id.image));
         tv.setOnClickListener(new OnClickListener() {
