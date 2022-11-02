@@ -4,6 +4,7 @@ import android.animation.FloatEvaluator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
@@ -380,16 +381,17 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
+//                        .offsetY(-XPopupUtils.dp2px(getContext(), 30))
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomHorizontalBubbleAttachPopup(getContext()))
                         .show();
                 break;
             case R.id.btnBubbleAttachPopup2: //垂直方向带气泡弹窗
                 new XPopup.Builder(getContext())
-//                        .isCenterHorizontal(true)
                         .isTouchThrough(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(view.findViewById(R.id.vv))
+                        .offsetX(-XPopupUtils.dp2px(getContext(), 30))
                         .hasShadowBg(false) // 去掉半透明背景
 //                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
                         .asCustom(new CustomBubbleAttachPopup(getContext()))

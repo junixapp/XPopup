@@ -28,7 +28,7 @@ public class CustomHorizontalBubbleAttachPopup extends BubbleHorizontalAttachPop
     protected void onCreate() {
         super.onCreate();
         setBubbleBgColor(Color.parseColor("#4D5063"));
-        setBubbleShadowSize(XPopupUtils.dp2px(getContext(), 10));
+        setBubbleShadowSize(XPopupUtils.dp2px(getContext(), 3));
         setBubbleShadowColor(Color.BLACK);
         getPopupImplView().setBackgroundResource(0);
         findViewById(R.id.tv_zan).setOnClickListener(new OnClickListener() {

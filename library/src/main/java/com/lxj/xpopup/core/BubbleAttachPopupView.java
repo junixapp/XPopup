@@ -111,26 +111,9 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 public void run() {
                     if(popupInfo==null) return;
                     if (isRTL) {
-                        translationX = isShowLeft ? -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth() - defaultOffsetX)
-                                : -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x + defaultOffsetX);
+                        translationX = -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f);
                     } else {
-                        translationX = isShowLeft ? (popupInfo.touchPoint.x + defaultOffsetX) : (popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth() - defaultOffsetX);
-                    }
-                    float off = getPopupContentView().getMeasuredWidth() / 5f;
-                    if (popupInfo.isCenterHorizontal) {
-                        //水平居中
-                        if (isShowLeft) {
-                            translationX -= getPopupContentView().getMeasuredWidth() / 2f;
-                        } else {
-                            translationX += getPopupContentView().getMeasuredWidth() / 2f;
-                        }
-                    }else {
-                        //不水平居中时也优化偏移量，箭头在边缘时不好看
-                        if (isShowLeft) {
-                            translationX -= off;
-                        } else {
-                            translationX += off;
-                        }
+                        translationX = popupInfo.touchPoint.x + defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f;
                     }
                     if (isShowUpToTarget()) {
                         // 应显示在point上方
@@ -145,16 +128,10 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     }else {
                         bubbleContainer.setLook(BubbleLayout.Look.TOP);
                     }
-                    if(popupInfo.isCenterHorizontal){
+                    if(defaultOffsetX==0){
                         bubbleContainer.setLookPositionCenter(true);
                     }else {
-                        if(isShowLeft){
-                            //在目标左边，箭头在最右边
-                            bubbleContainer.setLookPosition((int) off);
-                        }else {
-                            //在目标右边，箭头在最开始
-                            bubbleContainer.setLookPosition((int) (bubbleContainer.getMeasuredWidth()-off));
-                        }
+                        bubbleContainer.setLookPosition(Math.max(0, (int) (bubbleContainer.getMeasuredWidth()/2f - defaultOffsetX- bubbleContainer.mLookWidth/2)));
                     }
                     bubbleContainer.invalidate();
                    
@@ -205,26 +182,9 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 public void run() {
                     if(popupInfo==null) return;
                     if (isRTL) {
-                        translationX = isShowLeft ? -(XPopupUtils.getAppWidth(getContext()) - rect.left - getPopupContentView().getMeasuredWidth() - defaultOffsetX)
-                                : -(XPopupUtils.getAppWidth(getContext()) - rect.right + defaultOffsetX);
+                        translationX = -(XPopupUtils.getAppWidth(getContext()) - rect.left - rect.width()/2f - defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f);
                     } else {
-                        translationX = isShowLeft ? (rect.left + defaultOffsetX) : (rect.right - getPopupContentView().getMeasuredWidth()+ defaultOffsetX);
-                    }
-                    float off = getPopupContentView().getMeasuredWidth() / 5f + defaultOffsetX;
-                    if (popupInfo.isCenterHorizontal) {
-                        //水平居中
-                        if (isShowLeft) {
-                            translationX += (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-                        } else {
-                            translationX -= (rect.width() - getPopupContentView().getMeasuredWidth()) / 2f;
-                        }
-                    }else {
-                        //不水平居中时也优化偏移量，箭头在边缘时不好看
-                        if (isShowLeft) {
-                            translationX -= off;
-                        } else {
-                            translationX += off;
-                        }
+                        translationX = rect.left + rect.width()/2f + defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f;
                     }
                     if (isShowUpToTarget()) {
                         //说明上面的空间比较大，应显示在atView上方
@@ -241,10 +201,10 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         bubbleContainer.setLook(BubbleLayout.Look.TOP);
                     }
                     //箭头对着目标View的中心
-                    if(popupInfo.isCenterHorizontal){
+                    if(defaultOffsetX==0){
                         bubbleContainer.setLookPositionCenter(true);
                     }else {
-                        bubbleContainer.setLookPosition((int) (rect.left + rect.width()/2 - bubbleContainer.mLookWidth/2 - translationX));
+                        bubbleContainer.setLookPosition(Math.max(0, (int) (bubbleContainer.getMeasuredWidth()/2f - defaultOffsetX- bubbleContainer.mLookWidth/2)));
                     }
                     bubbleContainer.invalidate();
 
@@ -274,17 +234,6 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         return (isShowUp || popupInfo.popupPosition == PopupPosition.Top)
                 && popupInfo.popupPosition != PopupPosition.Bottom;
     }
-
-//    /**
-//     * 设置气泡箭头的偏移位置
-//     * @param offset
-//     * @return
-//     */
-//    public BubbleAttachPopupView setArrowOffset(int offset){
-//        bubbleContainer.arrowOffset = offset;
-//        bubbleContainer.invalidate();
-//        return this;
-//    }
 
     /**
      * 设置气泡背景颜色

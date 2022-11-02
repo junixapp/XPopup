@@ -43,6 +43,9 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.FloatRange;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
+
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.AttachPopupView;
 import com.lxj.xpopup.core.BasePopupView;
@@ -283,7 +286,6 @@ public class XPopupUtils {
             focusEtTop = locations[1];
             focusBottom = focusEtTop + focusEt.getMeasuredHeight();
         }
-        int animDuration = 150;
         //执行上移的逻辑
         if (pv instanceof FullScreenPopupView || pv instanceof DrawerPopupView) {
             int overflowHeight = (int) ((focusBottom + keyboardHeight) - screenHeight
@@ -307,9 +309,10 @@ public class XPopupUtils {
                 dy = overflowHeight;
             }
         }
+        int animDuration = 180;
         pv.getPopupContentView().animate().translationY(-dy)
                 .setDuration(animDuration)
-                .setInterpolator(new LinearInterpolator())
+                .setInterpolator(new LinearOutSlowInInterpolator())
                 .start();
     }
 

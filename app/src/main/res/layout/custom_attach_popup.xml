@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:gravity="center_vertical"
-    android:background="#444"
+    android:background="#333"
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tv_zan"

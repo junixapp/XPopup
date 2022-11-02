@@ -76,10 +76,13 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
         }else {
             bubbleContainer.setLook(BubbleLayout.Look.LEFT);
         }
-        bubbleContainer.setLookPositionCenter(true);
+        if(defaultOffsetY==0){
+            bubbleContainer.setLookPositionCenter(true);
+        }else {
+            bubbleContainer.setLookPosition(Math.max(0, (int) (bubbleContainer.getMeasuredHeight()/2f- defaultOffsetY- bubbleContainer.mLookLength/2)));
+        }
         bubbleContainer.invalidate();
 
-//       
         getPopupContentView().setTranslationX(translationX);
         getPopupContentView().setTranslationY(translationY);
         initAndStartAnimation();
