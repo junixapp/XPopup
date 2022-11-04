@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.ScaleAlphaAnimator;
+import com.lxj.xpopup.enums.DragOrientation;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.PositionPopupContainer;
+
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 
 /**
@@ -17,7 +19,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
  * Create by dance, at 2019/6/14
  */
 public class PositionPopupView extends BasePopupView {
-    FrameLayout positionPopupContainer;
+    PositionPopupContainer positionPopupContainer;
 
     public PositionPopupView(@NonNull Context context) {
         super(context);
@@ -34,6 +36,10 @@ public class PositionPopupView extends BasePopupView {
     @Override
     protected void initPopupContent() {
         super.initPopupContent();
+        setClipChildren(false);
+        setClipToPadding(false);
+        positionPopupContainer.enableDrag = popupInfo.enableDrag;
+        positionPopupContainer.dragOrientation = getDragOrientation();
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(), getPopupHeight(),new Runnable() {
             @Override
@@ -50,6 +56,12 @@ public class PositionPopupView extends BasePopupView {
                 initAndStartAnimation();
             }
         });
+        positionPopupContainer.setOnPositionDragChangeListener(new PositionPopupContainer.OnPositionDragListener() {
+            @Override
+            public void onDismiss() {
+                dismiss();
+            }
+        });
     }
 
     protected void initAndStartAnimation(){
@@ -60,5 +72,13 @@ public class PositionPopupView extends BasePopupView {
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new ScaleAlphaAnimator(getPopupContentView(), getAnimationDuration(), ScaleAlphaFromCenter);
+    }
+
+    /**
+     * 可以拖拽的方向，开启enableDrag时才生效
+     * @return
+     */
+    protected DragOrientation getDragOrientation(){
+        return DragOrientation.DragToUp;
     }
 }

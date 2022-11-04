@@ -3,14 +3,11 @@ package com.lxj.xpopup.core;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.View;
-
 import androidx.lifecycle.Lifecycle;
-
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.interfaces.XPopupCallback;
-
 import java.util.ArrayList;
 
 /**
@@ -44,7 +41,7 @@ public class PopupInfo {
     public int isLightNavigationBar = 0; //是否是亮色导航栏，>0为true，<0为false
     public int isLightStatusBar = 0; //是否是亮色状态栏，>0为true，<0为false
     public int offsetX, offsetY;//x，y方向的偏移量
-    public Boolean enableDrag = true;//是否启用拖拽
+    public boolean enableDrag = true;//是否启用拖拽
     public boolean isCenterHorizontal = false;//是否水平居中
     public boolean isRequestFocus = true; //弹窗是否强制抢占焦点
     public boolean autoFocusEditText = true; //是否让输入框自动获取焦点

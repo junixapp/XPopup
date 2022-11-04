@@ -202,14 +202,13 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         }
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
         View activityContent = getActivityContentView();
+        int popupHeight = XPopupUtils.getScreenHeight(getContext()) - navHeight;
+//        int popupHeight = XPopupUtils.getAppHeight(getContext()) + (popupInfo.isViewMode?0: XPopupUtils.getStatusBarHeight());
         if(params==null){
-            params = new MarginLayoutParams(activityContent.getMeasuredWidth(),
-                    decorView.getMeasuredHeight() -
-                            ( XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet() ? 0 : navHeight));
+            params = new MarginLayoutParams(activityContent.getMeasuredWidth(), popupHeight);
         }else {
             params.width = activityContent.getMeasuredWidth();
-            params.height = decorView.getMeasuredHeight() -
-                    ( XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet() ? 0 : navHeight);
+            params.height = popupHeight;
         }
         params.leftMargin = XPopupUtils.isLandscape(getContext())? getActivityContentLeft():0;
         setLayoutParams(params);

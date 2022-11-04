@@ -1,6 +1,7 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -145,12 +146,12 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
                         .atView(v)
                         .isViewMode(true)
                         .popupPosition(PopupPosition.Top)
-                        .asCustom(new CustomPartShadowPopupView2(getContext()))
+                        .asCustom(new CustomPartShadowPopupView2(getContext(), Gravity.START))
                         .show();
                 break;
             case R.id.tvCenter2:
                 if(popupView2==null){
-                    popupView2 = new CustomPartShadowPopupView2(getContext());
+                    popupView2 = new CustomPartShadowPopupView2(getContext(), Gravity.END);
                 }
                 new XPopup.Builder(getContext())
                         .atView(v)

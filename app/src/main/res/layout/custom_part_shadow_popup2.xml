@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="250dp"
-    android:layout_gravity="right"
-    android:background="#f0caac"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <TextView
-        android:textSize="20sp"
-        android:padding="25dp"
-        android:text="我是来充数的，不要管我！！！"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="#f0caac"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            android:text="我是来充数的，不要管我！！！"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+</FrameLayout>
