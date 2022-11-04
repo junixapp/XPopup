@@ -67,6 +67,7 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("http://moimg0.mwim.store/image/5BE8A5CF4893D9197D6D6D66BE294488.jpg");
         list.add("http://cfile.frees.fun/picwall/796804C4A25DE27342A2A0987283AB03.jpg");
         list.add("http://test-yjk.oss-cn-chengdu.aliyuncs.com/APP/dynamic/picture/1637229940713.jpeg");
+        list.add("https://gb-small.voopoo.com.cn/voopoo-retail-gb/portrait/202210/OIP-C.jpg");
     }
 
     RecyclerView recyclerView;
@@ -180,7 +181,7 @@ public class ImageViewerDemo extends BaseFragment {
                                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
                                             popupView.updateSrcView((ImageView) rv.getChildAt(position));
                                         }
-                                    }, new SmartGlideImageLoader( R.mipmap.ic_launcher), null)
+                                    }, new SmartGlideImageLoader(true, R.mipmap.ic_launcher), null)
                             .show();
                 }
             });

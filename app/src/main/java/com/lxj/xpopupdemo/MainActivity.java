@@ -67,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
 //        XPopup.setNavigationBarColor(Color.RED);
         final BasePopupView loadingPopupView = new XPopup.Builder(this)
                 .isDestroyOnDismiss(true)
-                .isViewMode(true)
-                .asLoading().show();
+                .asLoading(null, LoadingPopupView.Style.ProgressBar).show();
 
         loadingPopupView.delayDismiss(1200);
 

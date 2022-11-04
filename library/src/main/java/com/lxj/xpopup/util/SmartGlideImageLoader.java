@@ -30,7 +30,7 @@ import java.io.File;
 /**
  * 支持加载超长，超大的图片，你能OOM就算我输！！！
  * 注意：默认不支持超大超长图片加载，如8000x10000，传入bigImage为true时则使用SubsamplingScaleImageView加载大图；
- * SubsamplingScaleImageView虽然能加载超大图，但是不支持GIF
+ * SubsamplingScaleImageView虽然能加载超大图，但是加载Gif的时候不会动
  */
 public class SmartGlideImageLoader implements XPopupImageLoader {
     private int errImg;
@@ -110,8 +110,16 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
                                 longImage = false;
                                 bigImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE);
                             }
+
+                            int s2 = size[0]*size[1];
+                            //优化点击缩放
+                            if(s2!=0){
+                                int i = XPopupUtils.getScreenWidth(context) * XPopupUtils.getAppWidth(context) / s2;
+                                if(i>0) bigImageView.setDoubleTapZoomDpi(320/i);
+                            }
+
                             bigImageView.setOrientation(degree);
-                            bigImageView.setOnImageEventListener(new SSIVListener(bigImageView, progressBar, errImg, longImage));
+                            bigImageView.setOnImageEventListener(new SSIVListener(bigImageView, progressBar, errImg, longImage, resource));
                             Bitmap preview = XPopupUtils.getBitmap(resource, XPopupUtils.getAppWidth(context), XPopupUtils.getScreenHeight(context));
                             bigImageView.setImage(ImageSource.uri(Uri.fromFile(resource)).dimensions(size[0], size[1]),
                                     preview!=null ? ImageSource.cachedBitmap(preview):null);
@@ -123,7 +131,10 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
 
     private SubsamplingScaleImageView buildBigImageView(final ImageViewerPopupView popupView, ProgressBar progressBar, final int realPosition) {
         final SubsamplingScaleImageView ssiv = new SubsamplingScaleImageView(popupView.getContext());
-//        ssiv.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+        ssiv.setMinimumDpi(1);
+        ssiv.setMaximumDpi(320);
+        ssiv.setDoubleTapZoomDuration(250);
+        ssiv.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER);
         ssiv.setOnStateChangedListener(new SubsamplingScaleImageView.DefaultOnStateChangedListener() {
             @Override
             public void onCenterChanged(PointF newCenter, int origin) {
