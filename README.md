@@ -121,6 +121,13 @@ implementation 'com.google.android.material:material:1.4.0'
 implementation 'androidx.recyclerview:recyclerview:1.2.1'
 ```
 
+xpopup依赖了`subsampling-scale-image-view`, 如果你也依赖了这个库并且版本冲突，可以做个exclude即可：
+```groovy
+implementation ('com.github.li-xiaojun:XPopup:版本号看上面'){
+  exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
+}
+```
+
 ## 使用文档
 
 具体使用方法全在WIKI中，请查看下面各个章节：

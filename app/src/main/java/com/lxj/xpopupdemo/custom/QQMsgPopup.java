@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.PositionPopupView;
+import com.lxj.xpopup.enums.DragOrientation;
 import com.lxj.xpopupdemo.R;
 
 /**
@@ -19,5 +20,10 @@ public class QQMsgPopup extends PositionPopupView {
     @Override
     protected int getImplLayoutId() {
         return R.layout.popup_qq_msg;
+    }
+
+    @Override
+    protected DragOrientation getDragOrientation() {
+        return DragOrientation.DragToLeft;
     }
 }
