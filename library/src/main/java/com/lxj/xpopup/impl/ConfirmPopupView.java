@@ -163,6 +163,6 @@ public class ConfirmPopupView extends CenterPopupView implements View.OnClickLis
 
     @Override
     protected int getMaxHeight() {
-        return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getAppHeight(getContext()) * 0.8) : popupInfo.maxWidth;
+        return popupInfo.maxHeight==0 ? (int) (XPopupUtils.getAppHeight(getContext()) * 0.8) : popupInfo.maxHeight;
     }
 }

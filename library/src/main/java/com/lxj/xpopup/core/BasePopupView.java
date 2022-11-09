@@ -191,18 +191,19 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     protected void doMeasure(){
         //设置自己的大小，和Activity的contentView保持一致
         int navHeight = 0;
-        View decorView = XPopupUtils.context2Activity(this).getWindow().getDecorView();
+        Activity act = XPopupUtils.context2Activity(this);
+        if(act==null) return;
+        View decorView = act.getWindow().getDecorView();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
             if(navBarView!=null) navHeight = XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet()  ?
                     navBarView.getMeasuredWidth() : navBarView.getMeasuredHeight();
         }else {
-            navHeight = XPopupUtils.isNavBarVisible(XPopupUtils.context2Activity(this).getWindow()) ?
-                    XPopupUtils.getNavBarHeight() : 0;
+            navHeight = XPopupUtils.isNavBarVisible(act.getWindow()) ? XPopupUtils.getNavBarHeight() : 0;
         }
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
         View activityContent = getActivityContentView();
-        int popupHeight = XPopupUtils.getScreenHeight(getContext()) - navHeight;
+        int popupHeight = popupInfo.isViewMode ? (XPopupUtils.getScreenHeight(getContext()) - navHeight) : ViewGroup.LayoutParams.MATCH_PARENT;
 //        int popupHeight = XPopupUtils.getAppHeight(getContext()) + (popupInfo.isViewMode?0: XPopupUtils.getStatusBarHeight());
         if(params==null){
             params = new MarginLayoutParams(activityContent.getMeasuredWidth(), popupHeight);
@@ -312,7 +313,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public Window getHostWindow() {
-        if (popupInfo != null && popupInfo.isViewMode) return XPopupUtils.context2Activity(this).getWindow();
+        Activity activity = XPopupUtils.context2Activity(this);
+        if (popupInfo != null && popupInfo.isViewMode) return activity==null ? null : activity.getWindow();
         return dialog == null ? null : dialog.getWindow();
     }
 

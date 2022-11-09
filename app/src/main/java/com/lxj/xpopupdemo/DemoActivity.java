@@ -55,7 +55,6 @@ public class DemoActivity extends AppCompatActivity {
                 .dismissOnTouchOutside(false)
                 .isViewMode(true)      //开启View实现
                 .isRequestFocus(false) //不强制焦点
-//                .isClickThrough(true)  //点击透传
                 .isTouchThrough(true)
                 .hasShadowBg(false)
                 .positionByWindowCenter(true)
@@ -123,6 +122,7 @@ public class DemoActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (fragmentLifecycleDemo==null) return;
                 getSupportFragmentManager().beginTransaction().remove(fragmentLifecycleDemo)
                         .commitNow();
                 fragmentLifecycleDemo = null;

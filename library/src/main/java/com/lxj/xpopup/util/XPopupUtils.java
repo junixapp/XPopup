@@ -227,7 +227,9 @@ public class XPopupUtils {
     private static int sDecorViewDelta = 0;
 
     public static int getDecorViewInvisibleHeight(final Window window) {
+        if(window==null) return 0;
         final View decorView = window.getDecorView();
+        if(decorView==null) return 0;
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
@@ -330,8 +332,10 @@ public class XPopupUtils {
     }
 
     public static boolean isNavBarVisible(Window window) {
+        if(window==null) return false;
         boolean isVisible = false;
         ViewGroup decorView = (ViewGroup) window.getDecorView();
+        if(decorView==null) return false;
         for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
             final View child = decorView.getChildAt(i);
             final int id = child.getId();
