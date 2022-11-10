@@ -234,6 +234,7 @@ implementation ('com.github.li-xiaojun:XPopup:版本号看上面'){
 - 健康管家
 - 柠柚录屏（腾讯应用宝，著作权人：徐鑫）
 - 闲侣
+- 合記 - 开源合伙记账账本(https://github.com/RUANHAOANDROID/heji)
 
 
 ## 打个赏
