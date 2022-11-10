@@ -68,6 +68,18 @@ public abstract class AttachPopupView extends BasePopupView {
         });
     }
 
+    @Override
+    protected void doMeasure() {
+        super.doMeasure();
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
+                getPopupWidth(),getPopupHeight(), new Runnable() {
+                    @Override
+                    public void run() {
+                        doAttach();
+                    }
+                });
+    }
+
     protected void applyBg() {
         if (!isCreated) {
             //实现shadow
@@ -86,7 +98,7 @@ public abstract class AttachPopupView extends BasePopupView {
 //                    attachPopupContainer.setBackground(XPopupUtils.createDrawable(getResources().getColor(popupInfo.isDarkTheme ? R.color._xpopup_dark_color
 //                            : R.color._xpopup_light_color), popupInfo.borderRadius));
                 }
-                attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 20));
+                attachPopupContainer.setElevation(XPopupUtils.dp2px(getContext(), 10));
             } else {
                 //优先使用implView的背景
                 if (getPopupImplView().getBackground() != null) {
@@ -112,7 +124,7 @@ public abstract class AttachPopupView extends BasePopupView {
 
     public void doAttach() {
         if(popupInfo==null)return;
-        int realNavHeight = (XPopupUtils.isNavBarVisible(getHostWindow()) ? XPopupUtils.getNavBarHeight() : 0 );
+        int realNavHeight = getNavBarHeight();
         maxY = XPopupUtils.getAppHeight(getContext()) - overflow - realNavHeight;
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
         //0. 判断是依附于某个点还是某个View
@@ -132,7 +144,7 @@ public abstract class AttachPopupView extends BasePopupView {
 
             //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
+            int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - getStatusBarHeight() - overflow)
                     : (XPopupUtils.getScreenHeight(getContext()) - popupInfo.touchPoint.y - overflow- realNavHeight));
             int maxWidth = (int) (isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow) : (popupInfo.touchPoint.x - overflow));
             if (getPopupContentView().getMeasuredHeight() > maxHeight) {
@@ -198,7 +210,7 @@ public abstract class AttachPopupView extends BasePopupView {
             centerY = (rect.top + rect.bottom) / 2;
             if (isTallerThanWindowHeight) {
                 //超出下方可用大小，但未超出上方可用区域就显示在上方
-                int upAvailableSpace = rect.top - XPopupUtils.getStatusBarHeight() - overflow;
+                int upAvailableSpace = rect.top - getStatusBarHeight() - overflow;
                 if(getPopupContentView().getMeasuredHeight() > upAvailableSpace){
                     //如果也超出了上方可用区域则哪里空间大显示在哪个方向
                     isShowUp = upAvailableSpace > (maxY-rect.bottom) ;
@@ -214,7 +226,7 @@ public abstract class AttachPopupView extends BasePopupView {
             //修正高度，弹窗的高有可能超出window区域
 //            if (!isCreated) {
                 ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-                int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
+                int maxHeight = isShowUpToTarget() ? (rect.top - getStatusBarHeight() - overflow)
                         : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow - realNavHeight);
                 int maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (rect.right - overflow);
                 if (getPopupContentView().getMeasuredHeight() > maxHeight) {

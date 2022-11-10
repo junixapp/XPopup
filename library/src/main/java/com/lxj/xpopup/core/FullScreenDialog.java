@@ -86,17 +86,17 @@ public class FullScreenDialog extends Dialog {
         boolean isPortrait = getContext().getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_PORTRAIT;
         if(isFuckVIVORoom() && isPortrait){
-            getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight());
+            getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight(getWindow()));
             getWindow().setLayout(XPopupUtils.getAppWidth(getContext()), Math.max(XPopupUtils.getAppHeight(getContext()),
                     XPopupUtils.getScreenHeight(getContext())));
         }
         setContentView(contentView);
-        contentView.post(new Runnable() {
-            @Override
-            public void run() {
-                if(contentView!=null) contentView.setTranslationX(contentView.getActivityContentLeft());
-            }
-        });
+//        contentView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(contentView!=null) contentView.setTranslationX(contentView.getActivityContentLeft());
+//            }
+//        });
     }
 
     private int getNavigationBarColor(){
@@ -216,7 +216,7 @@ public class FullScreenDialog extends Dialog {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if(isFuckVIVORoom()){ //VIVO的部分机型需要做特殊处理，Fuck
-            event.setLocation(event.getX(), event.getY()+XPopupUtils.getStatusBarHeight());
+            event.setLocation(event.getX(), event.getY()+XPopupUtils.getStatusBarHeight(getWindow()));
         }
         return super.dispatchTouchEvent(event);
     }

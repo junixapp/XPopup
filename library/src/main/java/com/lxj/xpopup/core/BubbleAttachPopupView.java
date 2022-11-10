@@ -65,6 +65,17 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
         });
     }
 
+    @Override
+    protected void doMeasure() {
+        super.doMeasure();
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
+                getPopupWidth(),getPopupHeight(), new Runnable() {
+                    @Override
+                    public void run() {
+                        doAttach();
+                    }
+                });
+    }
 
     /**
      * 执行倚靠逻辑
@@ -95,7 +106,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
 
             //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - XPopupUtils.getStatusBarHeight() - overflow)
+            int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - getStatusBarHeight() - overflow)
                     : (XPopupUtils.getScreenHeight(getContext()) - popupInfo.touchPoint.y - overflow));
             int maxWidth = (int) (isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow) : (popupInfo.touchPoint.x - overflow));
             if (getPopupContentView().getMeasuredHeight() > maxHeight) {
@@ -165,7 +176,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
             //修正高度，弹窗的高有可能超出window区域
 //            if (!isCreated) {
                 ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-                int maxHeight = isShowUpToTarget() ? (rect.top - XPopupUtils.getStatusBarHeight() - overflow)
+                int maxHeight = isShowUpToTarget() ? (rect.top - getStatusBarHeight() - overflow)
                         : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow);
                 int maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (rect.right - overflow);
                 if (getPopupContentView().getMeasuredHeight() > maxHeight) {

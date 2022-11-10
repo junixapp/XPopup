@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
+    android:paddingTop="15dp"
     android:orientation="vertical">
 
     <TextView
@@ -11,6 +11,7 @@
         android:textSize="20sp"
         android:textColor="@color/_xpopup_title_color"
         android:lines="1"
+        android:paddingBottom="5dp"
         android:ellipsize="end"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,12 +19,12 @@
 
     <androidx.core.widget.NestedScrollView
         android:overScrollMode="never"
-        android:minHeight="100dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
         <LinearLayout
-            android:paddingVertical="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -32,7 +33,6 @@
                 android:id="@+id/tv_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:textColor="@color/_xpopup_content_color"
                 android:textSize="16sp"

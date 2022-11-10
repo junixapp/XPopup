@@ -44,16 +44,7 @@ public class PositionPopupView extends BasePopupView {
                 getPopupWidth(), getPopupHeight(),new Runnable() {
             @Override
             public void run() {
-                if(popupInfo==null)return;
-                if (popupInfo.isCenterHorizontal) {
-                    float left = !XPopupUtils.isLayoutRtl(getContext()) ? (XPopupUtils.getAppWidth(getContext())-positionPopupContainer.getMeasuredWidth())/2f
-                    : -( XPopupUtils.getAppWidth(getContext())-positionPopupContainer.getMeasuredWidth())/2f;
-                    positionPopupContainer.setTranslationX(left);
-                }else {
-                    positionPopupContainer.setTranslationX(popupInfo.offsetX);
-                }
-                positionPopupContainer.setTranslationY(popupInfo.offsetY);
-                initAndStartAnimation();
+                doPosition();
             }
         });
         positionPopupContainer.setOnPositionDragChangeListener(new PositionPopupContainer.OnPositionDragListener() {
@@ -62,6 +53,31 @@ public class PositionPopupView extends BasePopupView {
                 dismiss();
             }
         });
+    }
+
+    @Override
+    protected void doMeasure() {
+        super.doMeasure();
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
+                getPopupWidth(), getPopupHeight(),new Runnable() {
+                    @Override
+                    public void run() {
+                        doPosition();
+                    }
+                });
+    }
+
+    private void doPosition(){
+        if(popupInfo==null)return;
+        if (popupInfo.isCenterHorizontal) {
+            float left = !XPopupUtils.isLayoutRtl(getContext()) ? (XPopupUtils.getAppWidth(getContext())-positionPopupContainer.getMeasuredWidth())/2f
+                    : -( XPopupUtils.getAppWidth(getContext())-positionPopupContainer.getMeasuredWidth())/2f;
+            positionPopupContainer.setTranslationX(left);
+        }else {
+            positionPopupContainer.setTranslationX(popupInfo.offsetX);
+        }
+        positionPopupContainer.setTranslationY(popupInfo.offsetY);
+        initAndStartAnimation();
     }
 
     protected void initAndStartAnimation(){

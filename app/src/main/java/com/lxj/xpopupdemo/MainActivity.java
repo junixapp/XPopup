@@ -78,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
                 + "  getAppHeight: " + XPopupUtils.getAppHeight(MainActivity.this)
                 + " deviceWidth: " + XPopupUtils.getScreenWidth(MainActivity.this)
                 + " getAppWidth: " + XPopupUtils.getAppWidth(MainActivity.this)
-                + "  statusHeight: " + XPopupUtils.getStatusBarHeight()
-                + "  navHeight: " + XPopupUtils.getNavBarHeight()
-                + "  hasNav: " + XPopupUtils.isNavBarVisible(getWindow());
+                + "  statusHeight: " + XPopupUtils.getStatusBarHeight(getWindow())
+                + "  navHeight: " + XPopupUtils.getNavBarHeight(getWindow());
+//                + "  hasNav: " + XPopupUtils.isNavBarVisible(getWindow());
         Log.e("tag", str);
     }
 

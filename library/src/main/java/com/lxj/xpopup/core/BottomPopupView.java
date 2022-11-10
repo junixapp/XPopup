@@ -93,6 +93,13 @@ public class BottomPopupView extends BasePopupView {
     }
 
     @Override
+    protected void doMeasure() {
+        super.doMeasure();
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight()
+                , getPopupWidth(), getPopupHeight(), null);
+    }
+
+    @Override
     public void doShowAnimation() {
         if(popupInfo==null) return;
         if(popupInfo.enableDrag){

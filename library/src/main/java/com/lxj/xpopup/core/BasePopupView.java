@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.view.WindowManager;
+import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
@@ -87,7 +90,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public BasePopupView show() {
-        Activity activity = XPopupUtils.context2Activity(this);
+        Activity activity = getActivity();
         if (activity == null || activity.isFinishing() ) {
             return this;
         }
@@ -102,7 +105,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             return BasePopupView.this;
 
         // 1. add PopupView to its host.
-        getActivityContentView().post(new Runnable() {
+        View cv = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        cv.post(new Runnable() {
             @Override
             public void run() {
                 attachToHost();
@@ -128,7 +132,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
         if (popupInfo.isViewMode) {
             //view实现
-            ViewGroup decorView = (ViewGroup) XPopupUtils.context2Activity(this).getWindow().getDecorView();
+            ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
             if(getParent()!=null) ((ViewGroup)getParent()).removeView(this);
             decorView.addView(this, getLayoutParams());
         } else {
@@ -136,7 +140,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             if (dialog == null) {
                 dialog = new FullScreenDialog(getContext()).setContent(this);
             }
-            Activity activity = XPopupUtils.context2Activity(this);
+            Activity activity = getActivity();
             if(activity!=null && !activity.isFinishing() && !dialog.isShowing()) dialog.show();
         }
 
@@ -170,55 +174,69 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         init();
     }
 
+    protected Activity getActivity(){
+        return XPopupUtils.context2Activity(getContext());
+    }
     protected View getWindowDecorView() {
         if (getHostWindow() == null) return null;
         return (ViewGroup) getHostWindow().getDecorView();
     }
 
+    /**
+     * 注意此处的Activity content并不是android.R.id.content，而是decorView的第一个子View，
+     * 是包含了ActionBar/ToolBar在内的
+     * @return
+     */
     public View getActivityContentView() {
-        return XPopupUtils.context2Activity(this).getWindow().getDecorView().findViewById(android.R.id.content);
+        ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
+        return decorView.getChildAt(0);
     }
 
     protected int getActivityContentLeft(){
-        if(!XPopupUtils.isLandscape(getContext())) return 0;
-        //以Activity的content的left为准
-        View decorView = XPopupUtils.context2Activity(this).getWindow().getDecorView().findViewById(android.R.id.content);
-        int[] loc = new int[2];
-        decorView.getLocationInWindow(loc);
-        return loc[0];
+        return 0;
+//        if(!XPopupUtils.isLandscape(getContext())) return 0;
+//        //以Activity的content的left为准
+//        View decorView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+//        int[] loc = new int[2];
+//        decorView.getLocationInWindow(loc);
+//        return loc[0];
     }
 
     protected void doMeasure(){
         //设置自己的大小，和Activity的contentView保持一致
-        int navHeight = 0;
-        Activity act = XPopupUtils.context2Activity(this);
+        Activity act = getActivity();
         if(act==null) return;
-        View decorView = act.getWindow().getDecorView();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            View navBarView = decorView.findViewById(android.R.id.navigationBarBackground);
-            if(navBarView!=null) navHeight = XPopupUtils.isLandscape(getContext()) && !XPopupUtils.isTablet()  ?
-                    navBarView.getMeasuredWidth() : navBarView.getMeasuredHeight();
-        }else {
-            navHeight = XPopupUtils.isNavBarVisible(act.getWindow()) ? XPopupUtils.getNavBarHeight() : 0;
-        }
+        WindowManager wm = (WindowManager) act.getSystemService(Context.WINDOW_SERVICE);
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
         View activityContent = getActivityContentView();
-        int popupHeight = popupInfo.isViewMode ? (XPopupUtils.getScreenHeight(getContext()) - navHeight) : ViewGroup.LayoutParams.MATCH_PARENT;
-//        int popupHeight = XPopupUtils.getAppHeight(getContext()) + (popupInfo.isViewMode?0: XPopupUtils.getStatusBarHeight());
         if(params==null){
-            params = new MarginLayoutParams(activityContent.getMeasuredWidth(), popupHeight);
+            params = new MarginLayoutParams(activityContent.getWidth(), activityContent.getHeight());
         }else {
-            params.width = activityContent.getMeasuredWidth();
-            params.height = popupHeight;
+            params.width = activityContent.getWidth();
+            params.height = activityContent.getHeight();
         }
-        params.leftMargin = XPopupUtils.isLandscape(getContext())? getActivityContentLeft():0;
+        params.leftMargin = popupInfo!=null && popupInfo.isViewMode ?  activityContent.getLeft():0;
+        params.topMargin = activityContent.getTop();
         setLayoutParams(params);
+    }
+
+    @Override
+    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+        getActivityContentView().post(new Runnable() {
+            @Override
+            public void run() {
+                doMeasure();
+            }
+        });
+        return super.onApplyWindowInsets(insets);
     }
 
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        post(new Runnable() {
+        getActivityContentView().post(new Runnable() {
             @Override
             public void run() {
                 doMeasure();
@@ -235,7 +253,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.hasBlurBg) {
             blurAnimator = new BlurAnimator(this, getShadowBgColor());
             blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((XPopupUtils.context2Activity(this)).getWindow().getDecorView());
+            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView());
         }
 
         //1. 初始化Popup
@@ -313,8 +331,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public Window getHostWindow() {
-        Activity activity = XPopupUtils.context2Activity(this);
-        if (popupInfo != null && popupInfo.isViewMode) return activity==null ? null : activity.getWindow();
+        if (popupInfo != null && popupInfo.isViewMode) {
+            Activity activity = getActivity();
+            return activity==null ? null : activity.getWindow();
+        }
         return dialog == null ? null : dialog.getWindow();
     }
 
@@ -839,6 +859,13 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         }
     }
 
+    protected int getStatusBarHeight(){
+        return XPopupUtils.getStatusBarHeight(getHostWindow());
+    }
+    protected int getNavBarHeight(){
+        return XPopupUtils.getNavBarHeight(getHostWindow());
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -869,14 +896,14 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo != null && (popupInfo.isClickThrough || popupInfo.isTouchThrough) ) {
             if (popupInfo.isViewMode) {
                 //需要从DecorView分发，并且要排除自己，否则死循环
-                ViewGroup decorView = (ViewGroup) XPopupUtils.context2Activity(this).getWindow().getDecorView();
+                ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
                 for (int i = 0; i < decorView.getChildCount(); i++) {
                     View view = decorView.getChildAt(i);
                     //自己和兄弟弹窗都不互相分发，否则死循环
                     if (!(view instanceof BasePopupView)) view.dispatchTouchEvent(event);
                 }
             } else {
-                XPopupUtils.context2Activity(this).dispatchTouchEvent(event);
+                getActivity().dispatchTouchEvent(event);
             }
         }
     }

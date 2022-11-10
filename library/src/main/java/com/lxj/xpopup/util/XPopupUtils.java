@@ -1,5 +1,6 @@
 package com.lxj.xpopup.util;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -42,7 +43,9 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.FloatRange;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
@@ -57,6 +60,7 @@ import com.lxj.xpopup.core.PositionPopupView;
 import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -86,6 +90,7 @@ public class XPopupUtils {
         wm.getDefaultDisplay().getSize(point);
         return point.y;
     }
+
     public static int getAppWidth(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (wm == null) return -1;
@@ -102,6 +107,7 @@ public class XPopupUtils {
         wm.getDefaultDisplay().getRealSize(point);
         return point.y;
     }
+
     public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (wm == null) return -1;
@@ -115,10 +121,16 @@ public class XPopupUtils {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    public static int getStatusBarHeight() {
-        Resources resources = Resources.getSystem();
-        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
-        return resources.getDimensionPixelSize(resourceId);
+    public static int getStatusBarHeight(Window window) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && window!=null) {
+            View view = window.findViewById(android.R.id.statusBarBackground);
+            if (view == null) return 0;
+            return view.getVisibility()==View.VISIBLE ? view.getHeight() : 0;
+        } else {
+            Resources resources = Resources.getSystem();
+            int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+            return resources.getDimensionPixelSize(resourceId);
+        }
     }
 
     /**
@@ -126,14 +138,32 @@ public class XPopupUtils {
      *
      * @return the navigation bar's height
      */
-    public static int getNavBarHeight() {
-        Resources res = Resources.getSystem();
-        int resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId != 0) {
-            return res.getDimensionPixelSize(resourceId);
-        } else {
-            return 0;
+    public static int getNavBarHeight(Window window) {
+        if(!isNavBarVisible(window)) return 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && window!=null) {
+            View view = window.findViewById(android.R.id.navigationBarBackground);
+            if (view == null) return 0;
+            return view.getVisibility()==View.VISIBLE ? view.getHeight() : 0;
+        }else {
+            Resources res = Resources.getSystem();
+            int resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android");
+            if (resourceId != 0) {
+                return res.getDimensionPixelSize(resourceId);
+            } else {
+                return 0;
+            }
         }
+    }
+
+    public static int getActionBarHeight(Context context) {
+        Activity activity = context2Activity(context);
+        if(activity==null) return 0;
+        if(activity instanceof AppCompatActivity){
+            androidx.appcompat.app.ActionBar supportActionBar = ((AppCompatActivity) activity).getSupportActionBar();
+            return supportActionBar==null ? 0 : supportActionBar.getHeight();
+        }
+        ActionBar actionBar = activity.getActionBar();
+        return actionBar==null ? 0 : actionBar.getHeight();
     }
 
     public static void setWidthHeight(View target, int width, int height) {
@@ -155,8 +185,8 @@ public class XPopupUtils {
             // response impl view wrap_content params.
             if (maxWidth > 0) {
                 //指定了最大宽度，就限制最大宽度
-                params.width = Math.min(w, maxWidth);
-                if (implParams.width==ViewGroup.LayoutParams.MATCH_PARENT){
+                if(w > maxWidth) params.width = Math.min(w, maxWidth);
+                if (implParams.width == ViewGroup.LayoutParams.MATCH_PARENT) {
                     implParams.width = Math.min(w, maxWidth);
                     if (implParams instanceof ViewGroup.MarginLayoutParams) {
                         ViewGroup.MarginLayoutParams mp = ((ViewGroup.MarginLayoutParams) implParams);
@@ -174,7 +204,7 @@ public class XPopupUtils {
 
             if (maxHeight > 0) {
                 int h = content.getMeasuredHeight();
-                params.height = Math.min(h, maxHeight);
+                if(h > maxHeight) params.height = Math.min(h, maxHeight);
                 if (popupHeight > 0) {
                     params.height = Math.min(popupHeight, maxHeight);
                     implParams.height = Math.min(popupHeight, maxHeight);
@@ -182,7 +212,7 @@ public class XPopupUtils {
             } else if (popupHeight > 0) {
                 params.height = popupHeight;
                 implParams.height = popupHeight;
-            }else {
+            } else {
 //                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 //                implParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             }
@@ -227,13 +257,13 @@ public class XPopupUtils {
     private static int sDecorViewDelta = 0;
 
     public static int getDecorViewInvisibleHeight(final Window window) {
-        if(window==null) return 0;
+        if (window == null) return 0;
         final View decorView = window.getDecorView();
-        if(decorView==null) return 0;
+        if (decorView == null) return 0;
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
-        if (delta <= getNavBarHeight()) {
+        if (delta <= getNavBarHeight(window)) {
             sDecorViewDelta = delta;
             return 0;
         }
@@ -322,7 +352,7 @@ public class XPopupUtils {
         //暂时忽略PartShadow弹窗和AttachPopupView
         if (pv instanceof PositionPopupView || pv instanceof AttachPopupView || pv instanceof BubbleAttachPopupView)
             return;
-        if(pv instanceof FullScreenPopupView && pv.getPopupContentView().hasTransientState()){
+        if (pv instanceof FullScreenPopupView && pv.getPopupContentView().hasTransientState()) {
             //如果正在执行动画，则不下移
             return;
         }
@@ -332,10 +362,10 @@ public class XPopupUtils {
     }
 
     public static boolean isNavBarVisible(Window window) {
-        if(window==null) return false;
+        if (window == null) return false;
         boolean isVisible = false;
         ViewGroup decorView = (ViewGroup) window.getDecorView();
-        if(decorView==null) return false;
+        if (decorView == null) return false;
         for (int i = 0, count = decorView.getChildCount(); i < count; i++) {
             final View child = decorView.getChildAt(i);
             final int id = child.getId();
@@ -347,7 +377,7 @@ public class XPopupUtils {
                         isVisible = true;
                         break;
                     }
-                }catch (Resources.NotFoundException e){
+                } catch (Resources.NotFoundException e) {
                     break;
                 }
             }
@@ -548,7 +578,7 @@ public class XPopupUtils {
         view.setWillNotCacheDrawing(willNotCacheDrawing);
         view.setDrawingCacheEnabled(drawingCacheEnabled);
 //        return bitmap;
-        return Bitmap.createScaledBitmap(bitmap, view.getMeasuredWidth()/2, view.getMeasuredHeight()/2, true);
+        return Bitmap.createScaledBitmap(bitmap, view.getMeasuredWidth() / 2, view.getMeasuredHeight() / 2, true);
     }
 
     public static boolean isLayoutRtl(Context context) {
@@ -561,8 +591,8 @@ public class XPopupUtils {
         return TextUtils.getLayoutDirectionFromLocale(primaryLocale) == View.LAYOUT_DIRECTION_RTL;
     }
 
-    public static Activity context2Activity(View view) {
-        Context context = view.getContext();
+    public static Activity context2Activity(Context ctx) {
+        Context context = ctx;
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
                 return ((Activity) context);
@@ -571,6 +601,9 @@ public class XPopupUtils {
             }
         }
         return null;
+    }
+    public static Activity context2Activity(View view) {
+        return context2Activity(view.getContext());
     }
 
     public static Drawable createDrawable(int color, float radius) {
@@ -737,13 +770,13 @@ public class XPopupUtils {
         return ret;
     }
 
-    public static Rect getViewRect(View view){
+    public static Rect getViewRect(View view) {
         Rect rect = new Rect();
         view.getGlobalVisibleRect(rect);
         return rect;
     }
 
-    public static boolean isLandscape(Context context){
+    public static boolean isLandscape(Context context) {
         return context.getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
@@ -754,9 +787,9 @@ public class XPopupUtils {
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
-    public static void setVisible(View view, boolean isVisible){
-        if(view!=null){
-            view.setVisibility( isVisible ? View.VISIBLE : View.GONE);
+    public static void setVisible(View view, boolean isVisible) {
+        if (view != null) {
+            view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         }
     }
 }

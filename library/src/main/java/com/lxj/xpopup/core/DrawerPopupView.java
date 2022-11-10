@@ -39,6 +39,21 @@ public abstract class DrawerPopupView extends BasePopupView {
         drawerContentContainer.addView(contentView);
         ViewGroup.LayoutParams params = contentView.getLayoutParams();
         if(popupInfo!=null){
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            if(getPopupWidth()>0) params.width = getPopupWidth();
+            if(getMaxWidth() > 0) params.width = Math.min(params.width, getMaxWidth());
+            contentView.setLayoutParams(params);
+        }
+    }
+
+    @Override
+    protected void doMeasure() {
+        super.doMeasure();
+        View contentView = drawerContentContainer.getChildAt(0);
+        if(contentView==null) return;
+        ViewGroup.LayoutParams params = contentView.getLayoutParams();
+        if(popupInfo!=null){
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             if(getPopupWidth()>0) params.width = getPopupWidth();
             if(getMaxWidth() > 0) params.width = Math.min(params.width, getMaxWidth());
             contentView.setLayoutParams(params);
@@ -108,7 +123,7 @@ public abstract class DrawerPopupView extends BasePopupView {
         super.dispatchDraw(canvas);
         if (popupInfo!=null && popupInfo.hasStatusBarShadow) {
             if (shadowRect == null) {
-                shadowRect = new Rect(0, 0, getMeasuredWidth(), XPopupUtils.getStatusBarHeight());
+                shadowRect = new Rect(0, 0, getMeasuredWidth(), getStatusBarHeight());
             }
             paint.setColor((Integer) argbEvaluator.evaluate(mFraction, defaultColor, getStatusBarBgColor()));
             canvas.drawRect(shadowRect, paint);

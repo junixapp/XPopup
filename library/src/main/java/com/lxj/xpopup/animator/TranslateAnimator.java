@@ -1,6 +1,8 @@
 package com.lxj.xpopup.animator;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import com.lxj.xpopup.enums.PopupAnimation;
@@ -12,7 +14,6 @@ import com.lxj.xpopup.enums.PopupAnimation;
 public class TranslateAnimator extends PopupAnimator {
     public float startTranslationX, startTranslationY;
     public float endTranslationX, endTranslationY;
-    public boolean hasInit = false;
     public TranslateAnimator(View target, int animationDuration, PopupAnimation popupAnimation) {
         super(target, animationDuration, popupAnimation);
     }
@@ -63,6 +64,7 @@ public class TranslateAnimator extends PopupAnimator {
                 .setDuration(animationDuration)
                 .withLayer()
                 .start();
+        Log.e("part", "start: " + targetView.getTranslationY() + "  endy: " + endTranslationY);
     }
 
     @Override

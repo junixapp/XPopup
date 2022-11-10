@@ -1,7 +1,6 @@
 package com.lxj.xpopup.impl;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,10 +59,31 @@ public abstract class PartShadowPopupView extends BasePopupView {
         });
     }
 
+    @Override
+    protected void doMeasure() {
+        super.doMeasure();
+        XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
+                getPopupWidth(), getPopupHeight(), new Runnable() {
+                    @Override
+                    public void run() {
+                        doAttach();
+                    }
+                });
+    }
+
+    private boolean hasInit = false;
     private void initAndStartAnimation(){
+        if(hasInit) return;
+        hasInit = true;
         initAnimator();
         doShowAnimation();
         doAfterShow();
+    }
+
+    @Override
+    protected void onDismiss() {
+        super.onDismiss();
+        hasInit = false;
     }
 
     public boolean isShowUp;
@@ -73,7 +93,6 @@ public abstract class PartShadowPopupView extends BasePopupView {
 
         //1. apply width and height
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
-        params.width = getActivityContentView().getWidth();
         //1. 获取atView在屏幕上的位置
         Rect rect = popupInfo.getAtViewRect();
         int centerY = rect.top + rect.height() / 2;
@@ -84,7 +103,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
             params.height = rect.top;
             isShowUp = true;
             implParams.gravity = Gravity.BOTTOM;
-            if (getMaxHeight() != 0)
+            if (getMaxHeight() > 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
         } else {
             // atView在上半部分，PartShadow应该显示在它下方，计算atView之下的高度
@@ -92,9 +111,10 @@ public abstract class PartShadowPopupView extends BasePopupView {
             isShowUp = false;
             params.topMargin = rect.bottom;
             implParams.gravity = Gravity.TOP;
-            if (getMaxHeight() != 0)
+            if (getMaxHeight() > 0)
                 implParams.height = Math.min(implView.getMeasuredHeight(), getMaxHeight());
         }
+
         getPopupContentView().setLayoutParams(params);
         implView.setLayoutParams(implParams);
         getPopupContentView().post(new Runnable() {

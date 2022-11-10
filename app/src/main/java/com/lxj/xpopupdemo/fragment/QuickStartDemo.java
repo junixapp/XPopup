@@ -156,19 +156,8 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .hasBlurBg(true)
 //                         .autoDismiss(false)
 //                        .popupAnimation(PopupAnimation.NoAnimation)
-                        .asConfirm(null, "床前明月光，疑是地上霜；\n举头望明月，低头思故乡。" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；" +
-                                        "\n举头望明月，低头思故乡。\n床前明月光，疑是地上霜；\n举头望明月，低头思故乡。",
+                        .asConfirm("我是标题", "床前明月光，疑是地上霜；举头望明月，低头思故乡。"
+                                + "床前明月光，疑是地上霜；举头望明月，低头思故乡。" ,
                                 "取消", "确定",
                                 new OnConfirmListener() {
                                     @Override
@@ -300,6 +289,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.btnShowBottomListWithCheck: //从底部弹出，带手势拖拽的列表弹窗,带选中效果
                 new XPopup.Builder(getContext())
+                        .isViewMode(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .asBottomList("标题可以没有", new String[]{"条目1", "条目2", "条目3", "条目4", "条目5"},
                                 null, 2,
@@ -381,6 +371,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
+                        .isViewMode(true)
 //                        .offsetY(-XPopupUtils.dp2px(getContext(), 30))
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomHorizontalBubbleAttachPopup(getContext()))
@@ -413,8 +404,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
 //                        .popupWidth(300)
-                        .isViewMode(true)
-                        .hasStatusBar(false)
                         .popupPosition(PopupPosition.Right)//右边
 //                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .setPopupCallback(new DemoXPopupListener())
@@ -539,7 +528,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
         @Override
         public void onDrag(BasePopupView popupView, int value, float percent, boolean upOrLeft) {
             super.onDrag(popupView, value, percent, upOrLeft);
-            Log.e("tag", "value: " + value + "  percent: " + percent);
+//            Log.e("tag", "value: " + value + "  percent: " + percent);
 //            ((Activity) popupView.getContext()).getWindow().getDecorView().setTranslationX(value);
 //            float e = fEvaluator.evaluate(percent, 1.0, 0.8);
 //            View decorView = ((Activity) popupView.getContext()).getWindow().getDecorView();

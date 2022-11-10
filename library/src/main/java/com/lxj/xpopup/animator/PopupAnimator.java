@@ -13,6 +13,7 @@ import com.lxj.xpopup.enums.PopupAnimation;
  */
 public abstract class PopupAnimator {
     protected boolean animating = false;
+    public boolean hasInit = false;
     public View targetView;
     public int animationDuration = 0;
     public PopupAnimation popupAnimation; // 内置的动画
