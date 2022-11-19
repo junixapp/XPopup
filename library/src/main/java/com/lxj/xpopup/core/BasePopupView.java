@@ -613,7 +613,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * @return
      */
     protected int getMaxWidth() {
-        return popupInfo.maxWidth;
+        return popupInfo==null ? 0 : popupInfo.maxWidth;
     }
 
     /**
@@ -623,7 +623,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * @return
      */
     protected int getMaxHeight() {
-        return popupInfo.maxHeight;
+        return popupInfo==null ? 0 : popupInfo.maxHeight;
     }
 
     /**
@@ -633,7 +633,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * @return
      */
     protected int getPopupWidth() {
-        return popupInfo.popupWidth;
+        return popupInfo==null ? 0 : popupInfo.popupWidth;
     }
 
     /**
@@ -643,7 +643,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * @return
      */
     protected int getPopupHeight() {
-        return popupInfo.popupHeight;
+        return popupInfo==null ? 0 : popupInfo.popupHeight;
     }
 
     /**
