@@ -105,7 +105,7 @@ public abstract class DrawerPopupView extends BasePopupView {
                     if(popupInfo.xPopupCallback!=null){
                         popupInfo.xPopupCallback.onClickOutside(DrawerPopupView.this);
                     }
-                    if(popupInfo.isDismissOnTouchOutside!=null){
+                    if(popupInfo.isDismissOnTouchOutside){
                         dismiss();
                     }
                 }

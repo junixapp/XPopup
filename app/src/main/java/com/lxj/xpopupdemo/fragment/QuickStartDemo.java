@@ -394,6 +394,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .asCustom(new CustomDrawerPopupView(getContext()))
 //                        .hasShadowBg(false)
 //                        .maxWidth(100)
+                        .dismissOnTouchOutside(false)
                         .isViewMode(true) //使用了Fragment，必须开启View模式
                         .asCustom(new PagerDrawerPopup(getContext()))
 //                        .asCustom(new ListDrawerPopupView(getContext()))
@@ -404,6 +405,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
 //                        .popupWidth(300)
+                        .dismissOnTouchOutside(false)
                         .popupPosition(PopupPosition.Right)//右边
 //                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .setPopupCallback(new DemoXPopupListener())
