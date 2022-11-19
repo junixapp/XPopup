@@ -189,13 +189,15 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="55dp"
                 android:background="#ddd"
                 android:layout_height="wrap_content"
                 android:text="横向带气泡Attach弹窗"
                 android:textAllCaps="false" />
-            <View
+            <TextView
                 android:id="@+id/vv"
+                android:layout_marginEnd="55dp"
+                android:text="1"
+                android:gravity="center"
                 android:background="#f00"
                 android:layout_width="35dp"
                 android:layout_height="35dp"/>
@@ -207,6 +209,13 @@
                 android:layout_height="wrap_content"
                 android:text="垂直带气泡Attach弹窗"
                 android:textAllCaps="false" />
+            <TextView
+                android:id="@+id/vv2"
+                android:text="1"
+                android:gravity="center"
+                android:background="#f00"
+                android:layout_width="55dp"
+                android:layout_height="35dp"/>
         </LinearLayout>
 
         <LinearLayout

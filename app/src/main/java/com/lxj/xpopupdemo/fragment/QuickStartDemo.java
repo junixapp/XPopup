@@ -376,13 +376,20 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomHorizontalBubbleAttachPopup(getContext()))
                         .show();
+//                new XPopup.Builder(getContext())
+//                        .isTouchThrough(true)
+//                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .atView(view.findViewById(R.id.vv))
+//                        .hasShadowBg(false) // 去掉半透明背景
+////                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
+//                        .asCustom(new CustomBubbleAttachPopup(getContext()))
+//                        .show();
                 break;
             case R.id.btnBubbleAttachPopup2: //垂直方向带气泡弹窗
                 new XPopup.Builder(getContext())
                         .isTouchThrough(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .atView(view.findViewById(R.id.vv))
-                        .offsetX(-XPopupUtils.dp2px(getContext(), 30))
+                        .atView(view.findViewById(R.id.vv2))
                         .hasShadowBg(false) // 去掉半透明背景
 //                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
                         .asCustom(new CustomBubbleAttachPopup(getContext()))
@@ -394,7 +401,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .asCustom(new CustomDrawerPopupView(getContext()))
 //                        .hasShadowBg(false)
 //                        .maxWidth(100)
-                        .dismissOnTouchOutside(false)
                         .isViewMode(true) //使用了Fragment，必须开启View模式
                         .asCustom(new PagerDrawerPopup(getContext()))
 //                        .asCustom(new ListDrawerPopupView(getContext()))
@@ -405,7 +411,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .autoOpenSoftInput(true)
 //                        .popupWidth(300)
-                        .dismissOnTouchOutside(false)
                         .popupPosition(PopupPosition.Right)//右边
 //                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .setPopupCallback(new DemoXPopupListener())

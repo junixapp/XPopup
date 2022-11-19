@@ -3,6 +3,7 @@ package com.lxj.xpopup.core;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,17 +99,17 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
             //假设下方放不下，超出window高度
             boolean isTallerThanWindowHeight = (popupInfo.touchPoint.y + getPopupContentView().getMeasuredHeight()) > maxY;
             if (isTallerThanWindowHeight) {
-                isShowUp = popupInfo.touchPoint.y > XPopupUtils.getScreenHeight(getContext()) / 2;
+                isShowUp = popupInfo.touchPoint.y > XPopupUtils.getScreenHeight(getContext()) / 2f;
             } else {
                 isShowUp = false;
             }
-            isShowLeft = popupInfo.touchPoint.x < XPopupUtils.getAppWidth(getContext()) / 2;
+            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2f;
 
             //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
             int maxHeight = (int) (isShowUpToTarget() ? (popupInfo.touchPoint.y - getStatusBarHeight() - overflow)
                     : (XPopupUtils.getScreenHeight(getContext()) - popupInfo.touchPoint.y - overflow));
-            int maxWidth = (int) (isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow) : (popupInfo.touchPoint.x - overflow));
+            int maxWidth = (int) (isShowLeft ? (popupInfo.touchPoint.x - overflow) : (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow));
             if (getPopupContentView().getMeasuredHeight() > maxHeight) {
                 params.height = maxHeight;
             }
@@ -124,7 +125,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     if (isRTL) {
                         translationX = -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f);
                     } else {
-                        translationX = popupInfo.touchPoint.x + defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f;
+                        translationX = popupInfo.touchPoint.x + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
                     }
                     if (isShowUpToTarget()) {
                         // 应显示在point上方
@@ -139,11 +140,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     }else {
                         bubbleContainer.setLook(BubbleLayout.Look.TOP);
                     }
-                    if(defaultOffsetX==0){
-                        bubbleContainer.setLookPositionCenter(true);
-                    }else {
-                        bubbleContainer.setLookPosition(Math.max(0, (int) (bubbleContainer.getMeasuredWidth()/2f - defaultOffsetX- bubbleContainer.mLookWidth/2)));
-                    }
+                    bubbleContainer.setLookPosition(Math.max(0, (int) (popupInfo.touchPoint.x - defaultOffsetX - translationX - bubbleContainer.mLookWidth/2)));
                     bubbleContainer.invalidate();
                    
                     getPopupContentView().setTranslationX(translationX);
@@ -167,39 +164,44 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
             if (isTallerThanWindowHeight) {
                 //超出可用大小就显示在上方
                 isShowUp = true;
-//                isShowUp = centerY > XPopupUtils.getScreenHeight(getContext()) / 2;
             } else {
                 isShowUp = false;
             }
-            isShowLeft = centerX < XPopupUtils.getAppWidth(getContext()) / 2;
+            isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
 
             //修正高度，弹窗的高有可能超出window区域
-//            if (!isCreated) {
-                ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-                int maxHeight = isShowUpToTarget() ? (rect.top - getStatusBarHeight() - overflow)
-                        : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow);
-                int maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (rect.right - overflow);
-                if (getPopupContentView().getMeasuredHeight() > maxHeight) {
-                    params.height = maxHeight;
-                }
-                if (getPopupContentView().getMeasuredWidth() > maxWidth) {
-                    params.width = maxWidth;
-                }
-                getPopupContentView().setLayoutParams(params);
-//            }
+            ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
+            int maxHeight = isShowUpToTarget() ? (rect.top - getStatusBarHeight() - overflow)
+                    : (XPopupUtils.getScreenHeight(getContext()) - rect.bottom - overflow);
+            int maxWidth = isShowLeft ? (rect.right - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow);
+            if (getPopupContentView().getMeasuredHeight() > maxHeight) {
+                params.height = maxHeight;
+            }
+            if (getPopupContentView().getMeasuredWidth() > maxWidth) {
+                params.width = maxWidth;
+            }
+            getPopupContentView().setLayoutParams(params);
 
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
                     if(popupInfo==null) return;
+                    // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
                     if (isRTL) {
-                        translationX = -(XPopupUtils.getAppWidth(getContext()) - rect.left - rect.width()/2f - defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f);
+                        if(isShowLeft){
+                            translationX = -(XPopupUtils.getAppWidth(getContext()) - rect.right - defaultOffsetX - bubbleContainer.getShadowRadius());
+                        }else {
+                            translationX = - (XPopupUtils.getAppWidth(getContext()) - rect.left + defaultOffsetX + bubbleContainer.getShadowRadius() - getPopupContentView().getMeasuredWidth());
+                        }
                     } else {
-                        translationX = rect.left + rect.width()/2f + defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f;
+                        if(isShowLeft){
+                            translationX = rect.right + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
+                        }else {
+                            translationX = rect.left + defaultOffsetX - bubbleContainer.getShadowRadius();
+                        }
                     }
                     if (isShowUpToTarget()) {
                         //说明上面的空间比较大，应显示在atView上方
-                        // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
                         translationY = rect.top - getPopupContentView().getMeasuredHeight() - defaultOffsetY;
                     } else {
                         translationY = rect.bottom + defaultOffsetY;
@@ -212,10 +214,14 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         bubbleContainer.setLook(BubbleLayout.Look.TOP);
                     }
                     //箭头对着目标View的中心
-                    if(defaultOffsetX==0){
-                        bubbleContainer.setLookPositionCenter(true);
+                    if(isRTL){
+                        if(isShowLeft){
+                            bubbleContainer.setLookPosition(Math.max(0, (int) (-translationX - rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
+                        }else {
+                            bubbleContainer.setLookPosition(Math.max(0, (int) ( rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
+                        }
                     }else {
-                        bubbleContainer.setLookPosition(Math.max(0, (int) (bubbleContainer.getMeasuredWidth()/2f - defaultOffsetX- bubbleContainer.mLookWidth/2)));
+                        bubbleContainer.setLookPosition(Math.max(0, (int) (rect.right - rect.width()/2 - defaultOffsetX - translationX - bubbleContainer.mLookWidth/2)));
                     }
                     bubbleContainer.invalidate();
 
