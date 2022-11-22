@@ -90,7 +90,4 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
             if (popupInfo.autoDismiss) dismiss();
         }
     }
-    protected int getMaxWidth() {
-        return popupInfo.maxWidth==0 ? super.getMaxWidth() : popupInfo.maxWidth;
-    }
 }

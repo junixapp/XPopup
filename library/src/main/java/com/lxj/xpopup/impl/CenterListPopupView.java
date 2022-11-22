@@ -169,6 +169,7 @@ public class CenterListPopupView extends CenterPopupView {
     }
 
     protected int getMaxWidth() {
+        if(popupInfo==null) return 0;
         return popupInfo.maxWidth==0 ? super.getMaxWidth() : popupInfo.maxWidth;
     }
 }

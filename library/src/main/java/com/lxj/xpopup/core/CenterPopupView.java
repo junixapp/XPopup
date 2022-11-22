@@ -91,6 +91,7 @@ public class CenterPopupView extends BasePopupView {
     }
 
     protected int getMaxWidth() {
+        if(popupInfo==null) return 0;
         return popupInfo.maxWidth==0 ? (int) (XPopupUtils.getAppWidth(getContext()) * 0.72f)
                 : popupInfo.maxWidth;
     }

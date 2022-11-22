@@ -207,7 +207,7 @@ public abstract class AttachPopupView extends BasePopupView {
             // 尽量优先放在下方，当不够的时候在显示在上方
             //假设下方放不下，超出window高度
             boolean isTallerThanWindowHeight = (rect.bottom + getPopupContentView().getMeasuredHeight()) > maxY;
-            centerY = (rect.top + rect.bottom) / 2;
+            centerY = (rect.top + rect.bottom) / 2f;
             if (isTallerThanWindowHeight) {
                 //超出下方可用大小，但未超出上方可用区域就显示在上方
                 int upAvailableSpace = rect.top - getStatusBarHeight() - overflow;
