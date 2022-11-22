@@ -2,13 +2,9 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.graphics.Rect;
-
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.animator.PopupAnimator;
-import com.lxj.xpopup.animator.ScrollScaleAnimator;
-import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.enums.PopupPosition;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BubbleLayout;
@@ -32,26 +28,38 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
     /**
      * 执行附着逻辑
      */
+    float translationX = 0, translationY = 0;
     public void doAttach() {
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
-        float translationX = 0, translationY = 0;
-        int w = getPopupContentView().getMeasuredWidth();
-        int h = getPopupContentView().getMeasuredHeight();
+//        int w = getPopupContentView().getMeasuredWidth();
+//        int h = getPopupContentView().getMeasuredHeight();
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
             // 依附于指定点
             popupInfo.touchPoint.x -= getActivityContentLeft();
-            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2;
-
-            // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
-            if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x+defaultOffsetX)
-                        : -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
-            }else {
-                translationX = isShowLeftToTarget() ? (popupInfo.touchPoint.x - w - defaultOffsetX) : (popupInfo.touchPoint.x + defaultOffsetX);
+            isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2f;
+            ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
+            int maxWidth = (int) (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow);
+            if (getPopupContentView().getMeasuredWidth() > maxWidth) {
+                params.width = Math.max(maxWidth, getPopupWidth());
             }
-            translationY = popupInfo.touchPoint.y - h * .5f + defaultOffsetY;
+            getPopupContentView().setLayoutParams(params);
+            getPopupContentView().post(new Runnable() {
+                @Override
+                public void run() {
+                    if(popupInfo==null) return;
+                    // translationX: 在左边就和点左边对齐，在右边就和其右边对齐
+                    if(isRTL){
+                        translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x+defaultOffsetX)
+                                : -(XPopupUtils.getAppWidth(getContext())-popupInfo.touchPoint.x-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
+                    }else {
+                        translationX = isShowLeftToTarget() ? (popupInfo.touchPoint.x - getPopupContentView().getMeasuredWidth() - defaultOffsetX) : (popupInfo.touchPoint.x + defaultOffsetX);
+                    }
+                    translationY = popupInfo.touchPoint.y - getPopupContentView().getMeasuredHeight() * .5f + defaultOffsetY;
+                    doBubble();
+                }
+            });
         } else {
             // 依附于指定View
             //1. 获取atView在屏幕上的位置
@@ -60,16 +68,30 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
             rect.right -= getActivityContentLeft();
 
             int centerX = (rect.left + rect.right) / 2;
-
-            isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
-            if(isRTL){
-                translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-rect.left + defaultOffsetX)
-                        : -(XPopupUtils.getAppWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
-            }else {
-                translationX = isShowLeftToTarget() ? (rect.left - w - defaultOffsetX) : (rect.right + defaultOffsetX);
+            ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
+            int maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.right - overflow);
+            if (getPopupContentView().getMeasuredWidth() > maxWidth) {
+                params.width = Math.max(maxWidth, getPopupWidth());
             }
-            translationY = rect.top + (rect.height()-h)/2f + defaultOffsetY;
+            getPopupContentView().setLayoutParams(params);
+            getPopupContentView().post(new Runnable() {
+                @Override
+                public void run() {
+                    isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
+                    if(isRTL){
+                        translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-rect.left + defaultOffsetX)
+                                : -(XPopupUtils.getAppWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
+                    }else {
+                        translationX = isShowLeftToTarget() ? (rect.left - getPopupContentView().getMeasuredWidth() - defaultOffsetX) : (rect.right + defaultOffsetX);
+                    }
+                    translationY = rect.top + (rect.height()-getPopupContentView().getMeasuredHeight() - bubbleContainer.getShadowRadius()*2)/2f + defaultOffsetY;
+                    doBubble();
+                }
+            });
         }
+    }
+
+    private void doBubble(){
         //设置气泡相关
         if(isShowLeftToTarget()){
             bubbleContainer.setLook(BubbleLayout.Look.RIGHT);

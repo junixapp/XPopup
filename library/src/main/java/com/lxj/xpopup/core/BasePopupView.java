@@ -78,7 +78,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         setId(View.generateViewId());
         View contentView = LayoutInflater.from(context).inflate(getInnerLayoutId(), this, false);
-        // 事先隐藏，等测量完毕恢复，避免影子跳动现象。
         contentView.setAlpha(0);
         addView(contentView);
     }
@@ -218,7 +217,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             params.height = activityContent.getHeight();
         }
         params.leftMargin = popupInfo!=null && popupInfo.isViewMode ?  activityContent.getLeft():0;
-        params.topMargin = activityContent.getTop();
         setLayoutParams(params);
     }
 

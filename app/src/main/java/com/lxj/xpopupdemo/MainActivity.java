@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 + "  statusHeight: " + XPopupUtils.getStatusBarHeight(getWindow())
                 + "  navHeight: " + XPopupUtils.getNavBarHeight(getWindow());
 //                + "  hasNav: " + XPopupUtils.isNavBarVisible(getWindow());
-        Log.e("tag", str);
+        Log.d("tag", str);
     }
 
     class MainAdapter extends FragmentPagerAdapter {
