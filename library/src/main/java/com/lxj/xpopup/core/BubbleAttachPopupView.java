@@ -219,7 +219,7 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                             bubbleContainer.setLookPosition(Math.max(0, (int) ( rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
                         }
                     }else {
-                        bubbleContainer.setLookPosition(Math.max(0, (int) (rect.right - rect.width()/2 - defaultOffsetX - translationX - bubbleContainer.mLookWidth/2)));
+                        bubbleContainer.setLookPosition(Math.max(0, (int) (rect.right - rect.width()/2 - translationX - bubbleContainer.mLookWidth/2)));
                     }
                     bubbleContainer.invalidate();
 

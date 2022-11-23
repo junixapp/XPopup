@@ -378,9 +378,11 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
 //                new XPopup.Builder(getContext())
 //                        .isTouchThrough(true)
+//                        .isViewMode(true)
 //                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
 //                        .atView(view.findViewById(R.id.vv))
 //                        .hasShadowBg(false) // 去掉半透明背景
+//                        .offsetX(-XPopupUtils.dp2px(getContext(), 60))
 ////                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
 //                        .asCustom(new CustomBubbleAttachPopup(getContext()))
 //                        .show();
@@ -391,7 +393,6 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(view.findViewById(R.id.vv2))
                         .hasShadowBg(false) // 去掉半透明背景
-//                        .offsetX(XPopupUtils.dp2px(getContext(), 20))
                         .asCustom(new CustomBubbleAttachPopup(getContext()))
                         .show();
                 break;
