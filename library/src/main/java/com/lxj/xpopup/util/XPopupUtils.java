@@ -122,15 +122,9 @@ public class XPopupUtils {
     }
 
     public static int getStatusBarHeight(Window window) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && window!=null) {
-            View view = window.findViewById(android.R.id.statusBarBackground);
-            if (view == null) return 0;
-            return view.getVisibility()==View.VISIBLE ? view.getHeight() : 0;
-        } else {
-            Resources resources = Resources.getSystem();
-            int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
-            return resources.getDimensionPixelSize(resourceId);
-        }
+        Resources resources = Resources.getSystem();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        return resources.getDimensionPixelSize(resourceId);
     }
 
     /**

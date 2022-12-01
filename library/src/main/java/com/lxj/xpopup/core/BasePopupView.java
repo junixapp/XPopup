@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -86,6 +87,14 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     @Override
     public Lifecycle getLifecycle() {
         return lifecycleRegistry;
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        init();
+        Log.d("tag", "onAttachedToWindow");
     }
 
     public BasePopupView show() {
@@ -170,7 +179,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             }
         });
         // 2. do init，game start.
-        init();
+//        init();
     }
 
     protected Activity getActivity(){
@@ -786,7 +795,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 消失动画执行完毕后执行
      */
-    protected void onDismiss() { }
+    protected void onDismiss() {
+        Log.d("tag", "onDismiss");
+    }
 
     /**
      * 执行返回监听
@@ -796,17 +807,23 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * onDismiss之前执行一次
      */
-    protected void beforeDismiss() { }
+    protected void beforeDismiss() {
+        Log.d("tag", "beforeDismiss");
+    }
 
     /**
      * onCreated之后，onShow之前执行
      */
-    protected void beforeShow() {}
+    protected void beforeShow() {
+        Log.d("tag", "beforeShow");
+    }
 
     /**
      * 显示动画执行完毕后执行
      */
-    protected void onShow() { }
+    protected void onShow() {
+        Log.d("tag", "onShow");
+    }
 
     protected void onKeyboardHeightChange(int height) { }
 

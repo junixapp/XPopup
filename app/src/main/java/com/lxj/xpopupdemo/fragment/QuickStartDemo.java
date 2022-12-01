@@ -413,7 +413,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .autoOpenSoftInput(true)
 //                        .popupWidth(300)
                         .popupPosition(PopupPosition.Right)//右边
-//                        .hasStatusBarShadow(true) //启用状态栏阴影
+                        .hasStatusBarShadow(true) //启用状态栏阴影
                         .setPopupCallback(new DemoXPopupListener())
                         .asCustom(new ListDrawerPopupView(getContext()));
                 popupView.show();

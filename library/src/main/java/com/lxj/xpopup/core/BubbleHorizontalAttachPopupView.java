@@ -2,6 +2,7 @@ package com.lxj.xpopup.core;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import com.lxj.xpopup.XPopup;
@@ -40,7 +41,12 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
             popupInfo.touchPoint.x -= getActivityContentLeft();
             isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2f;
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxWidth = (int) (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow);
+            int maxWidth = 0;
+            if(isRTL){
+                maxWidth = (int) (isShowLeft ? (popupInfo.touchPoint.x - overflow) : (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow));
+            }else {
+                maxWidth = (int) (isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow) : (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow));
+            }
             if (getPopupContentView().getMeasuredWidth() > maxWidth) {
                 params.width = Math.max(maxWidth, getPopupWidth());
             }
@@ -68,8 +74,14 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
             rect.right -= getActivityContentLeft();
 
             int centerX = (rect.left + rect.right) / 2;
+            isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.right - overflow);
+            int maxWidth = 0;
+            if(isRTL){
+                maxWidth = isShowLeft ? (rect.left - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.right - overflow);
+            }else {
+                maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.right - overflow);
+            }
             if (getPopupContentView().getMeasuredWidth() > maxWidth) {
                 params.width = Math.max(maxWidth, getPopupWidth());
             }
@@ -77,7 +89,6 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
-                    isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
                     if(isRTL){
                         translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-rect.left + defaultOffsetX)
                                 : -(XPopupUtils.getAppWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);

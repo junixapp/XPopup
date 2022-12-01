@@ -138,6 +138,8 @@ public class PartShadowDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv_select:
                 new XPopup.Builder(getContext())
                         .atView(v)
+                        .autoOpenSoftInput(true)
+                        .moveUpToKeyboard(false)
                         .asCustom(new CustomPartShadowPopupView(getContext()))
                         .show();
                 break;

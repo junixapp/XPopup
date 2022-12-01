@@ -46,7 +46,12 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2f;
             //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxWidth = (int) (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow);
+            int maxWidth = 0;
+            if(isRTL){
+                maxWidth = (int) (isShowLeft ? (popupInfo.touchPoint.x - overflow) : (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow));
+            }else {
+                maxWidth = (int) (isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow) : (XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - overflow));
+            }
             if (getPopupContentView().getMeasuredWidth() > maxWidth) {
                 params.width = Math.max(maxWidth, getPopupWidth());
             }
@@ -73,9 +78,15 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             rect.left -= getActivityContentLeft();
             rect.right -= getActivityContentLeft();
             int centerX = (rect.left + rect.right) / 2;
+            isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
             //限制最大宽高
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
-            int maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.right - overflow);
+            int maxWidth = 0;
+            if(isRTL){
+                maxWidth = isShowLeft ? (rect.left - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.right - overflow);
+            }else {
+                maxWidth = isShowLeft ? (XPopupUtils.getAppWidth(getContext()) - rect.left - overflow) : (XPopupUtils.getAppWidth(getContext()) - rect.right - overflow);
+            }
             if (getPopupContentView().getMeasuredWidth() > maxWidth) {
                 params.width = Math.max(maxWidth, getPopupWidth());
             }
@@ -83,7 +94,6 @@ public class HorizontalAttachPopupView extends AttachPopupView {
             getPopupContentView().post(new Runnable() {
                 @Override
                 public void run() {
-                    isShowLeft = centerX > XPopupUtils.getAppWidth(getContext()) / 2;
                     if(isRTL){
                         translationX = isShowLeft ?  -(XPopupUtils.getAppWidth(getContext())-rect.left + defaultOffsetX)
                                 : -(XPopupUtils.getAppWidth(getContext())-rect.right-getPopupContentView().getMeasuredWidth()-defaultOffsetX);
