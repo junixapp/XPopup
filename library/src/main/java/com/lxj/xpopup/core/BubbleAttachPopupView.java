@@ -120,11 +120,16 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 @Override
                 public void run() {
                     if(popupInfo==null) return;
-                    if (isRTL) {
-                        translationX = -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f);
-                    } else {
-                        translationX = popupInfo.touchPoint.x + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
+                    if(popupInfo.isCenterHorizontal){
+                        translationX = popupInfo.touchPoint.x + defaultOffsetX - getPopupContentView().getMeasuredWidth()/2f;
+                    }else {
+                        if (isRTL) {
+                            translationX = -(XPopupUtils.getAppWidth(getContext()) - popupInfo.touchPoint.x - defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f);
+                        } else {
+                            translationX = popupInfo.touchPoint.x + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
+                        }
                     }
+
                     if (isShowUpToTarget()) {
                         // 应显示在point上方
                         // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
@@ -133,10 +138,14 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         translationY = popupInfo.touchPoint.y + defaultOffsetY;
                     }
                     //设置气泡相关
-                    if(isShowUpToTarget()){
-                        bubbleContainer.setLook(BubbleLayout.Look.BOTTOM);
+                    if(popupInfo.isCenterHorizontal){
+                        bubbleContainer.setLookPositionCenter(true);
                     }else {
-                        bubbleContainer.setLook(BubbleLayout.Look.TOP);
+                        if(isShowUpToTarget()){
+                            bubbleContainer.setLook(BubbleLayout.Look.BOTTOM);
+                        }else {
+                            bubbleContainer.setLook(BubbleLayout.Look.TOP);
+                        }
                     }
                     bubbleContainer.setLookPosition(Math.max(0, (int) (popupInfo.touchPoint.x - defaultOffsetX - translationX - bubbleContainer.mLookWidth/2)));
                     bubbleContainer.invalidate();
@@ -185,19 +194,24 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 public void run() {
                     if(popupInfo==null) return;
                     // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
-                    if (isRTL) {
-                        if(isShowLeft){
-                            translationX = -(XPopupUtils.getAppWidth(getContext()) - rect.right - defaultOffsetX - bubbleContainer.getShadowRadius());
-                        }else {
-                            translationX = - (XPopupUtils.getAppWidth(getContext()) - rect.left + defaultOffsetX + bubbleContainer.getShadowRadius() - getPopupContentView().getMeasuredWidth());
-                        }
-                    } else {
-                        if(isShowLeft){
-                            translationX = rect.right + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
-                        }else {
-                            translationX = rect.left + defaultOffsetX - bubbleContainer.getShadowRadius();
+                    if(popupInfo.isCenterHorizontal){
+                        translationX = (rect.left + rect.right)/2f + defaultOffsetX - getPopupContentView().getMeasuredWidth()/2f;
+                    }else {
+                        if (isRTL) {
+                            if(isShowLeft){
+                                translationX = -(XPopupUtils.getAppWidth(getContext()) - rect.right - defaultOffsetX - bubbleContainer.getShadowRadius());
+                            }else {
+                                translationX = - (XPopupUtils.getAppWidth(getContext()) - rect.left + defaultOffsetX + bubbleContainer.getShadowRadius() - getPopupContentView().getMeasuredWidth());
+                            }
+                        } else {
+                            if(isShowLeft){
+                                translationX = rect.right + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
+                            }else {
+                                translationX = rect.left + defaultOffsetX - bubbleContainer.getShadowRadius();
+                            }
                         }
                     }
+
                     if (isShowUpToTarget()) {
                         //说明上面的空间比较大，应显示在atView上方
                         translationY = rect.top - getPopupContentView().getMeasuredHeight() - defaultOffsetY;
@@ -212,14 +226,18 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                         bubbleContainer.setLook(BubbleLayout.Look.TOP);
                     }
                     //箭头对着目标View的中心
-                    if(isRTL){
-                        if(isShowLeft){
-                            bubbleContainer.setLookPosition(Math.max(0, (int) (-translationX - rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
-                        }else {
-                            bubbleContainer.setLookPosition(Math.max(0, (int) ( rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
-                        }
+                    if(popupInfo.isCenterHorizontal){
+                        bubbleContainer.setLookPositionCenter(true);
                     }else {
-                        bubbleContainer.setLookPosition(Math.max(0, (int) (rect.right - rect.width()/2 - translationX - bubbleContainer.mLookWidth/2)));
+                        if(isRTL){
+                            if(isShowLeft){
+                                bubbleContainer.setLookPosition(Math.max(0, (int) (-translationX - rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
+                            }else {
+                                bubbleContainer.setLookPosition(Math.max(0, (int) ( rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
+                            }
+                        }else {
+                            bubbleContainer.setLookPosition(Math.max(0, (int) (rect.right - rect.width()/2 - translationX - bubbleContainer.mLookWidth/2)));
+                        }
                     }
                     bubbleContainer.invalidate();
 

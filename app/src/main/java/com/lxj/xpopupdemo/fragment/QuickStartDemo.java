@@ -391,6 +391,14 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isTouchThrough(true)
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .atView(view.findViewById(R.id.vv))
+                        .isCenterHorizontal(true)
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .asCustom(new CustomBubbleAttachPopup(getContext()))
+                        .show();
+                new XPopup.Builder(getContext())
+                        .isTouchThrough(true)
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(view.findViewById(R.id.vv2))
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomBubbleAttachPopup(getContext()))
