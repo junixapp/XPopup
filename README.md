@@ -235,6 +235,13 @@ implementation ('com.github.li-xiaojun:XPopup:版本号看上面'){
 - 柠柚录屏（腾讯应用宝，著作权人：徐鑫）
 - 闲侣
 - 合記 - 开源合伙记账账本(https://github.com/RUANHAOANDROID/heji)
+- 我的管家
+- 关怀送餐(台湾区APP)
+- 惠预叮
+- 湛庐阅读APP
+- ID PhotoX - (GooglePlay上最好用的证件照APP)
+- My Rupee , 贷超APP 
+- Fast Loan, 贷超APP
 
 
 ## 打个赏
