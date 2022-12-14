@@ -106,11 +106,12 @@ public class FullScreenDialog extends Dialog {
 
     public boolean isFuckVIVORoom(){
         //vivo的Y和V开头的8.0和8.1系统特殊(y91 y85 y97)：dialog无法覆盖到状态栏，并且坐标系下移了一个状态栏的距离
-        boolean isFuckModel = android.os.Build.MODEL.startsWith("Y")
-                || android.os.Build.MODEL.startsWith("y")
-                || android.os.Build.MODEL.startsWith("V")
-                || android.os.Build.MODEL.startsWith("v");
-        return FuckRomUtils.isVivo() && (Build.VERSION.SDK_INT == 26 || Build.VERSION.SDK_INT == 27) && isFuckModel;
+//        boolean isFuckModel = android.os.Build.MODEL.startsWith("Y")
+//                || android.os.Build.MODEL.startsWith("y")
+//                || android.os.Build.MODEL.startsWith("V")
+//                || android.os.Build.MODEL.startsWith("v");
+//        return FuckRomUtils.isVivo() && (Build.VERSION.SDK_INT == 26 || Build.VERSION.SDK_INT == 27) && isFuckModel;
+        return false;
     }
 
     public void setWindowFlag(final int bits, boolean on) {
