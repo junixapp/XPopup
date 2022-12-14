@@ -194,22 +194,28 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 public void run() {
                     if(popupInfo==null) return;
                     // translationX: 在左边就和atView左边对齐，在右边就和其右边对齐
-                    if(popupInfo.isCenterHorizontal){
-                        translationX = (rect.left + rect.right)/2f + defaultOffsetX - getPopupContentView().getMeasuredWidth()/2f;
-                    }else {
-                        if (isRTL) {
-                            if(isShowLeft){
-                                translationX = -(XPopupUtils.getAppWidth(getContext()) - rect.right - defaultOffsetX - bubbleContainer.getShadowRadius());
-                            }else {
-                                translationX = - (XPopupUtils.getAppWidth(getContext()) - rect.left + defaultOffsetX + bubbleContainer.getShadowRadius() - getPopupContentView().getMeasuredWidth());
-                            }
+                    boolean isCenterHorizontal = popupInfo.isCenterHorizontal;
+                    boolean isAlignLeft = !isShowLeft;
+                    if (isCenterHorizontal) {
+                        float translateXLeft = (rect.left + rect.right) / 2f + defaultOffsetX - getPopupContentView().getMeasuredWidth() / 2f;
+                        if (translateXLeft < 0) {
+                            //左边已经超出屏幕范围，则修正为左对齐
+                            isCenterHorizontal = false;
+                            isAlignLeft = true;
+                            setTranslateX(isRTL, rect, true);
                         } else {
-                            if(isShowLeft){
-                                translationX = rect.right + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
-                            }else {
-                                translationX = rect.left + defaultOffsetX - bubbleContainer.getShadowRadius();
+                            float translateXRight = (rect.left + rect.right) / 2f + defaultOffsetX + getPopupContentView().getMeasuredWidth() / 2f;
+                            if (translateXRight > XPopupUtils.getAppWidth(getContext())) {
+                                //右边超出了屏幕范围，则修正为右对齐
+                                isCenterHorizontal = false;
+                                isAlignLeft = false;
+                                setTranslateX(isRTL, rect, false);
+                            } else {
+                                translationX = translateXLeft;
                             }
                         }
+                    } else {
+                        setTranslateX(isRTL, rect, isAlignLeft);
                     }
 
                     if (isShowUpToTarget()) {
@@ -220,23 +226,23 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                     }
 
                     //设置气泡相关
-                    if(isShowUpToTarget()){
+                    if (isShowUpToTarget()) {
                         bubbleContainer.setLook(BubbleLayout.Look.BOTTOM);
-                    }else {
+                    } else {
                         bubbleContainer.setLook(BubbleLayout.Look.TOP);
                     }
                     //箭头对着目标View的中心
-                    if(popupInfo.isCenterHorizontal){
+                    if (isCenterHorizontal) {
                         bubbleContainer.setLookPositionCenter(true);
-                    }else {
-                        if(isRTL){
-                            if(isShowLeft){
-                                bubbleContainer.setLookPosition(Math.max(0, (int) (-translationX - rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
-                            }else {
-                                bubbleContainer.setLookPosition(Math.max(0, (int) ( rect.width()/2 - defaultOffsetX + bubbleContainer.mLookWidth/2)));
+                    } else {
+                        if (isRTL) {
+                            if (!isAlignLeft) {
+                                bubbleContainer.setLookPosition(Math.max(0, (int) (-translationX - rect.width() / 2 - defaultOffsetX + bubbleContainer.mLookWidth / 2)));
+                            } else {
+                                bubbleContainer.setLookPosition(Math.max(0, (int) (rect.width() / 2 - defaultOffsetX + bubbleContainer.mLookWidth / 2)));
                             }
-                        }else {
-                            bubbleContainer.setLookPosition(Math.max(0, (int) (rect.right - rect.width()/2 - translationX - bubbleContainer.mLookWidth/2)));
+                        } else {
+                            bubbleContainer.setLookPosition(Math.max(0, (int) (rect.right - rect.width() / 2 - translationX - bubbleContainer.mLookWidth / 2)));
                         }
                     }
                     bubbleContainer.invalidate();
@@ -247,8 +253,27 @@ public abstract class BubbleAttachPopupView extends BasePopupView {
                 }
             });
         }
+    }
 
-
+    /**
+     * @param isRTL
+     * @param atViewRect
+     * @param isAlignLeft 汽泡是否与atView左对齐，相反则右对齐
+     */
+    private void setTranslateX(boolean isRTL, Rect atViewRect, boolean isAlignLeft) {
+        if (isRTL) {
+            if (!isAlignLeft) {
+                translationX = -(XPopupUtils.getAppWidth(getContext()) - atViewRect.right - defaultOffsetX - bubbleContainer.getShadowRadius());
+            } else {
+                translationX = -(XPopupUtils.getAppWidth(getContext()) - atViewRect.left + defaultOffsetX + bubbleContainer.getShadowRadius() - getPopupContentView().getMeasuredWidth());
+            }
+        } else {
+            if (!isAlignLeft) {
+                translationX = atViewRect.right + defaultOffsetX - getPopupContentView().getMeasuredWidth() + bubbleContainer.getShadowRadius();
+            } else {
+                translationX = atViewRect.left + defaultOffsetX - bubbleContainer.getShadowRadius();
+            }
+        }
     }
 
     protected void initAndStartAnimation(){
