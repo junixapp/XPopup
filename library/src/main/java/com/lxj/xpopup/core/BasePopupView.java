@@ -92,9 +92,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
         init();
-        Log.d("tag", "onAttachedToWindow");
     }
 
     public BasePopupView show() {
@@ -226,6 +224,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             params.height = activityContent.getHeight();
         }
         params.leftMargin = popupInfo!=null && popupInfo.isViewMode ?  activityContent.getLeft():0;
+        params.topMargin = activityContent.getTop();
         setLayoutParams(params);
     }
 
