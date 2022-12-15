@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -259,7 +260,8 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.hasBlurBg) {
             blurAnimator = new BlurAnimator(this, getShadowBgColor());
             blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView());
+            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView(),
+                    getActivityContentView().getHeight(), 5);
         }
 
         //1. 初始化Popup

@@ -538,13 +538,17 @@ public class XPopupUtils {
         return ret;
     }
 
+    public static Bitmap view2Bitmap(final View view) {
+        return view2Bitmap(view, -1, 1);
+    }
+
     /**
      * View to bitmap.
      *
      * @param view The view.
      * @return bitmap
      */
-    public static Bitmap view2Bitmap(final View view) {
+    public static Bitmap view2Bitmap(final View view, int clipHeight, int scale) {
         if (view == null) return null;
         boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
         boolean willNotCacheDrawing = view.willNotCacheDrawing();
@@ -559,20 +563,21 @@ public class XPopupUtils {
             view.buildDrawingCache();
             drawingCache = view.getDrawingCache();
             if (drawingCache != null) {
-                bitmap = Bitmap.createBitmap(drawingCache);
+                bitmap = Bitmap.createBitmap(drawingCache, 0,0,drawingCache.getWidth(),clipHeight>0 ?clipHeight: drawingCache.getHeight());
             } else {
-                bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), clipHeight>0 ?clipHeight: view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 view.draw(canvas);
             }
         } else {
-            bitmap = Bitmap.createBitmap(drawingCache);
+            bitmap = Bitmap.createBitmap(drawingCache,0,0,drawingCache.getWidth(),clipHeight>0 ?clipHeight: drawingCache.getHeight());
         }
         view.destroyDrawingCache();
         view.setWillNotCacheDrawing(willNotCacheDrawing);
         view.setDrawingCacheEnabled(drawingCacheEnabled);
-//        return bitmap;
-        return Bitmap.createScaledBitmap(bitmap, view.getMeasuredWidth() / 2, view.getMeasuredHeight() / 2, true);
+        Bitmap small = Bitmap.createScaledBitmap(bitmap, view.getMeasuredWidth() / scale, view.getMeasuredHeight() / scale, true);
+        if (!bitmap.isRecycled() && bitmap!=small ) bitmap.recycle();
+        return small;
     }
 
     public static boolean isLayoutRtl(Context context) {
