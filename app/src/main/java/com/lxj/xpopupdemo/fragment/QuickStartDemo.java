@@ -143,6 +143,7 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true)
                         .hasStatusBar(false)
+                        .isRequestFocus(false)
                         .asCustom(new CustomCenter1(getContext()))
                         .show();
                 break;

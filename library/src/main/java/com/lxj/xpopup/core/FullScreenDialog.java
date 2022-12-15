@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,12 @@ import androidx.annotation.NonNull;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
-import com.lxj.xpopup.util.FuckRomUtils;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPermission;
 import com.lxj.xpopup.util.XPopupUtils;
 
 /**
- * 所有弹窗的宿主
+ * 弹窗的宿主
  */
 public class FullScreenDialog extends Dialog {
     public FullScreenDialog(@NonNull Context context) {
@@ -81,37 +81,12 @@ public class FullScreenDialog extends Dialog {
 
         setStatusBarLightMode();
         setNavBarLightMode();
-
-        //处理VIVO手机8.0以上系统部分机型的状态栏问题和弹窗下移问题
-        boolean isPortrait = getContext().getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_PORTRAIT;
-        if(isFuckVIVORoom() && isPortrait){
-            getWindow().getDecorView().setTranslationY(-XPopupUtils.getStatusBarHeight(getWindow()));
-            getWindow().setLayout(XPopupUtils.getAppWidth(getContext()), Math.max(XPopupUtils.getAppHeight(getContext()),
-                    XPopupUtils.getScreenHeight(getContext())));
-        }
         setContentView(contentView);
-//        contentView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                if(contentView!=null) contentView.setTranslationX(contentView.getActivityContentLeft());
-//            }
-//        });
     }
 
     private int getNavigationBarColor(){
         return contentView.popupInfo.navigationBarColor==0 ? XPopup.getNavigationBarColor()
                 : contentView.popupInfo.navigationBarColor;
-    }
-
-    public boolean isFuckVIVORoom(){
-        //vivo的Y和V开头的8.0和8.1系统特殊(y91 y85 y97)：dialog无法覆盖到状态栏，并且坐标系下移了一个状态栏的距离
-//        boolean isFuckModel = android.os.Build.MODEL.startsWith("Y")
-//                || android.os.Build.MODEL.startsWith("y")
-//                || android.os.Build.MODEL.startsWith("V")
-//                || android.os.Build.MODEL.startsWith("v");
-//        return FuckRomUtils.isVivo() && (Build.VERSION.SDK_INT == 26 || Build.VERSION.SDK_INT == 27) && isFuckModel;
-        return false;
     }
 
     public void setWindowFlag(final int bits, boolean on) {
@@ -212,14 +187,6 @@ public class FullScreenDialog extends Dialog {
             contentView.focusAndProcessBackPress();
             KeyboardUtils.showSoftInput(contentView);
         }
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if(isFuckVIVORoom()){ //VIVO的部分机型需要做特殊处理，Fuck
-            event.setLocation(event.getX(), event.getY()+XPopupUtils.getStatusBarHeight(getWindow()));
-        }
-        return super.dispatchTouchEvent(event);
     }
 
 }
