@@ -172,7 +172,9 @@ public class XPopupUtils {
                                       final int popupWidth, final int popupHeight, final Runnable afterApplySize) {
         content.post(() -> {
             ViewGroup.LayoutParams params = content.getLayoutParams();
+            if(content==null) return;
             View implView = content.getChildAt(0);
+            if(implView==null) return;
             ViewGroup.LayoutParams implParams = implView.getLayoutParams();
             // 假设默认Content宽是match，高是wrap
             int w = content.getMeasuredWidth();
