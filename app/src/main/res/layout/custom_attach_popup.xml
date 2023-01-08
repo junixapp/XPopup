@@ -29,7 +29,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:background="?android:attr/selectableItemBackground"
-        android:text="评论评论评论评论评论评论评论评论评论评论评评论评论评"
+        android:text="评论评论评论评论评论评论评论评论评"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

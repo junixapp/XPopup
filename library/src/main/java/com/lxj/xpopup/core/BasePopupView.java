@@ -213,9 +213,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         //设置自己的大小，和Activity的contentView保持一致
         Activity act = getActivity();
         if(act==null) return;
-        WindowManager wm = (WindowManager) act.getSystemService(Context.WINDOW_SERVICE);
-        Point point = new Point();
-        wm.getDefaultDisplay().getSize(point);
+//        WindowManager wm = (WindowManager) act.getSystemService(Context.WINDOW_SERVICE);
+//        Point point = new Point();
+//        wm.getDefaultDisplay().getSize(point);
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
         View activityContent = getActivityContentView();
         if(params==null){

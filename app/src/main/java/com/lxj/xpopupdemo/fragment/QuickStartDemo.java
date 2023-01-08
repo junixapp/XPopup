@@ -99,14 +99,22 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             @Override
             public boolean onLongClick(View v) {
                 XPopup.fixLongClick(v);//能保证弹窗弹出后，下层的View无法滑动
-                builder.asAttachList(new String[]{"置顶11", "复制", "删除", "编辑编辑编辑编辑"
-                                }, null,
-                                new OnSelectListener() {
-                                    @Override
-                                    public void onSelect(int position, String text) {
-                                        toast("click " + text);
-                                    }
-                                })
+//                builder.asAttachList(new String[]{"置顶11", "复制", "删除", "编辑编辑编辑编辑"
+//                                }, null,
+//                                new OnSelectListener() {
+//                                    @Override
+//                                    public void onSelect(int position, String text) {
+//                                        toast("click " + text);
+//                                    }
+//                                })
+//                        .show();
+
+                builder.isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .atView(v)
+                        .isViewMode(true)
+//                        .offsetY(-XPopupUtils.dp2px(getContext(), 30))
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .asCustom(new CustomHorizontalBubbleAttachPopup(getContext()))
                         .show();
                 return true;
             }
@@ -324,33 +332,31 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
             case R.id.tv1: //依附于某个View的Attach类型弹窗
             case R.id.tv2:
             case R.id.tv3:
-                AttachPopupView attachPopupView = new XPopup.Builder(getContext())
-                        .hasStatusBarShadow(false)
-//                        .isRequestFocus(false)
-                        .isCoverSoftInput(true)
-                        .hasShadowBg(false)
-//                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop)
-//                        .isClickThrough(true)
-//                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-//                        .isDarkTheme(true)
-//                        .popupAnimation(PopupAnimation.ScrollAlphaFromTop) //NoAnimation表示禁用动画
-//                        .isCenterHorizontal(true) //是否与目标水平居中对齐
-//                        .offsetY(60)
-//                        .offsetX(80)
-//                        .popupPosition(PopupPosition.Top) //手动指定弹窗的位置
-//                        .popupWidth(500)
-                        .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
-                        .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享分享分享",
-                                },
-                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
-                                new OnSelectListener() {
-                                    @Override
-                                    public void onSelect(int position, String text) {
-                                        toast("click " + text);
-                                    }
-                                }, 0, 0/*, Gravity.LEFT*/);
-                ;
-                attachPopupView.show();
+//                AttachPopupView attachPopupView = new XPopup.Builder(getContext())
+//                        .hasStatusBarShadow(false)
+////                        .isRequestFocus(false)
+//                        .isCoverSoftInput(true)
+//                        .hasShadowBg(false)
+//                        .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
+//                        .asAttachList(new String[]{"分享", "编辑", "不带icon", "分享分享分享",
+//                                },
+//                                new int[]{R.mipmap.ic_launcher_round, R.mipmap.ic_launcher_round},
+//                                new OnSelectListener() {
+//                                    @Override
+//                                    public void onSelect(int position, String text) {
+//                                        toast("click " + text);
+//                                    }
+//                                }, 0, 0/*, Gravity.LEFT*/);
+//                attachPopupView.show();
+                new XPopup.Builder(getContext())
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .offsetX(50) //偏移10
+//                        .offsetY(10)  //往下偏移10
+//                        .popupPosition(PopupPosition.Right) //手动指定位置，有可能被遮盖
+                        .hasShadowBg(false) // 去掉半透明背景
+                        .atView(v)
+                        .asCustom(new CustomAttachPopup(getContext()))
+                        .show();
                 break;
             case R.id.btnAttachPopup1: //水平方向的Attach弹窗，就像微信朋友圈的点赞弹窗那样
                 new XPopup.Builder(getContext())
