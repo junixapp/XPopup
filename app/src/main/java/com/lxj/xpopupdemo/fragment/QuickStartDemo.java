@@ -370,19 +370,24 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnAttachPopup2:
-                customAttach2 = new CustomAttachPopup2(getContext());
-                new XPopup.Builder(getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .atView(v)
-                        .asCustom(customAttach2)
-                        .show();
+//                customAttach2 = new CustomAttachPopup2(getContext());
+                if(customAttach2==null){
+                    customAttach2 = (CustomAttachPopup2) new XPopup.Builder(getContext())
+                            .isDestroyOnDismiss(false) //对于只使用一次的弹窗，推荐设置这个
+                            .atView(v)
+                            .asCustom(new CustomAttachPopup2(getContext()))
+                            .show();
+                }else{
+                    customAttach2.show();
+                }
+
                 break;
             case R.id.btnBubbleAttachPopup1: //水平方向带气泡弹窗
                 new XPopup.Builder(getContext())
                         .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .atView(v)
                         .isViewMode(true)
-//                        .offsetY(-XPopupUtils.dp2px(getContext(), 30))
+                        .offsetY(XPopupUtils.dp2px(getContext(), 10))
                         .hasShadowBg(false) // 去掉半透明背景
                         .asCustom(new CustomHorizontalBubbleAttachPopup(getContext()))
                         .show();

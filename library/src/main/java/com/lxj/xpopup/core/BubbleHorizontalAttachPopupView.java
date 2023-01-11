@@ -32,12 +32,9 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
     float translationX = 0, translationY = 0;
     public void doAttach() {
         final boolean isRTL = XPopupUtils.isLayoutRtl(getContext());
-//        int w = getPopupContentView().getMeasuredWidth();
-//        int h = getPopupContentView().getMeasuredHeight();
         //0. 判断是依附于某个点还是某个View
         if (popupInfo.touchPoint != null) {
             if(XPopup.longClickPoint!=null) popupInfo.touchPoint = XPopup.longClickPoint;
-            // 依附于指定点
             popupInfo.touchPoint.x -= getActivityContentLeft();
             isShowLeft = popupInfo.touchPoint.x > XPopupUtils.getAppWidth(getContext()) / 2f;
             ViewGroup.LayoutParams params = getPopupContentView().getLayoutParams();
@@ -95,7 +92,7 @@ public class BubbleHorizontalAttachPopupView extends BubbleAttachPopupView {
                     }else {
                         translationX = isShowLeftToTarget() ? (rect.left - getPopupContentView().getMeasuredWidth() - defaultOffsetX) : (rect.right + defaultOffsetX);
                     }
-                    translationY = rect.top + (rect.height()-getPopupContentView().getMeasuredHeight() - bubbleContainer.getShadowRadius()*2)/2f + defaultOffsetY;
+                    translationY = rect.top + (rect.height()-getPopupContentView().getMeasuredHeight() )/2f + defaultOffsetY;
                     doBubble();
                 }
             });
