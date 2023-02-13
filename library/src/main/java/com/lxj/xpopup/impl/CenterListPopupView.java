@@ -165,6 +165,9 @@ public class CenterListPopupView extends CenterPopupView {
      */
     public CenterListPopupView setCheckedPosition(int position) {
         this.checkedPosition = position;
+        if(recyclerView!=null && recyclerView.getAdapter()!=null){
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
         return this;
     }
 

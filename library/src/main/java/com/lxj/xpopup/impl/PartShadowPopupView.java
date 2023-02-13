@@ -98,6 +98,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
         int centerY = rect.top + rect.height() / 2;
         View implView = getPopupImplView();
         FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
+        if(implParams==null) implParams = new FrameLayout.LayoutParams(-2,-2);
         if ((centerY > getMeasuredHeight() / 2 || popupInfo.popupPosition == PopupPosition.Top) && popupInfo.popupPosition != PopupPosition.Bottom) {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
             params.height = rect.top;

@@ -231,17 +231,22 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                         .show();
                 break;
             case R.id.btnShowCenterListWithCheck: //在中间弹出的List列表弹窗，带选中效果
-                new XPopup.Builder(getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-                        .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
-                                null, 1,
-                                new OnSelectListener() {
-                                    @Override
-                                    public void onSelect(int position, String text) {
-                                        toast("click " + text);
-                                    }
-                                })
-                        .show();
+                if(popupView==null){
+                    popupView = new XPopup.Builder(getContext())
+//                            .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                            .asCenterList("请选择一项", new String[]{"条目1", "条目2", "条目3", "条目4"},
+                                    null, 1,
+                                    new OnSelectListener() {
+                                        @Override
+                                        public void onSelect(int position, String text) {
+                                            toast("click " + text);
+                                        }
+                                    })
+                            .show();
+                }else {
+                    popupView.show();
+                }
+
                 break;
             case R.id.btnShowLoading: //在中间弹出的Loading加载框
                 if (loadingPopup == null) {
