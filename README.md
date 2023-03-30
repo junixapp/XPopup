@@ -7,6 +7,7 @@
 ## 给自己打广告
 1. 真正可以免费使用的公众号和小程序微商城。官网：https://www.xingke.vip
 2. 在线处理图片(比tinypng还扭)和视频的图妈妈网站：https://tumama.top/
+![](screenshot/douyin.png)
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
 - 内置几种了常用的弹窗，十几种良好的动画，将弹窗和动画的自定义设计的极其简单；目前还没有出现XPopup实现不了的弹窗效果。

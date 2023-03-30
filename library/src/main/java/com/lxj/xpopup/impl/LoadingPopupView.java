@@ -3,13 +3,17 @@ package com.lxj.xpopup.impl;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.transition.Visibility;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.transition.ChangeBounds;
+import androidx.transition.ChangeTransform;
 import androidx.transition.Fade;
 import androidx.transition.TransitionManager;
 import androidx.transition.TransitionSet;
+
+import com.google.android.material.transition.MaterialFade;
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -71,11 +75,12 @@ public class LoadingPopupView extends CenterPopupView {
             @Override
             public void run() {
                 if(!firstShow) {
-                    TransitionSet set = new TransitionSet()
-                            .setDuration(getAnimationDuration())
-                            .addTransition(new Fade()).addTransition(new ChangeBounds());
-                    TransitionManager.beginDelayedTransition(centerPopupContainer, set);
                 }
+                TransitionSet set = new TransitionSet()
+                        .setDuration(getAnimationDuration())
+                        .addTransition(new MaterialFade())
+                        .addTransition(new ChangeBounds());
+                TransitionManager.beginDelayedTransition(centerPopupContainer, set);
                 if (title == null || title.length() == 0) {
                     XPopupUtils.setVisible(tv_title, false);
                 } else {

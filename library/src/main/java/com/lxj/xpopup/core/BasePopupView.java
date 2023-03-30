@@ -797,7 +797,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * 消失动画执行完毕后执行
      */
     protected void onDismiss() {
-        Log.d("tag", "onDismiss");
     }
 
     /**
@@ -809,21 +808,18 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * onDismiss之前执行一次
      */
     protected void beforeDismiss() {
-        Log.d("tag", "beforeDismiss");
     }
 
     /**
      * onCreated之后，onShow之前执行
      */
     protected void beforeShow() {
-        Log.d("tag", "beforeShow");
     }
 
     /**
      * 显示动画执行完毕后执行
      */
     protected void onShow() {
-        Log.d("tag", "onShow");
     }
 
     protected void onKeyboardHeightChange(int height) { }
