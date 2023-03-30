@@ -5,7 +5,7 @@
 国内Gitee镜像地址：https://gitee.com/lxj_gitee/XPopup
 
 ## 给自己打广告
-1. 真正可以免费使用的公众号和小程序微商城。官网：https://www.xingke.vip
+1. 全网价格最低的公众号和小程序微商城。官网：https://www.xingke.vip
 2. 在线处理图片(比tinypng还扭)和视频的图妈妈网站：https://tumama.top/
 ![](screenshot/douyin.png)
 
