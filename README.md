@@ -6,9 +6,7 @@
 
 ## 好站推荐
 1. 全网价格最低的公众号和小程序微商城。官网：https://www.xingke.vip
-2. 在线处理图片(比tinypng还扭)和视频的图妈妈网站：https://tumama.top/
-3. 稳定唯屁恩上网工具推荐：https://tg803.cc/#/register?code=zCYK1QzU
-![](screenshot/douyin.png)
+2. 稳定唯屁恩上网工具推荐：https://tg803.cc/#/register?code=zCYK1QzU
 
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
