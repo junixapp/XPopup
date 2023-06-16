@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
+
 import com.lxj.xpopup.R;
 import com.lxj.xpopup.animator.PopupAnimator;
 import com.lxj.xpopup.animator.TranslateAnimator;
@@ -24,6 +26,7 @@ import com.lxj.xpopup.widget.PartShadowContainer;
  */
 public abstract class PartShadowPopupView extends BasePopupView {
     protected PartShadowContainer attachPopupContainer;
+
     public PartShadowPopupView(@NonNull Context context) {
         super(context);
         attachPopupContainer = findViewById(R.id.attachPopupContainer);
@@ -34,6 +37,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
     final protected int getInnerLayoutId() {
         return R.layout._xpopup_partshadow_popup_view;
     }
+
     protected void addInnerContent() {
         View contentView = LayoutInflater.from(getContext()).inflate(getImplLayoutId(), attachPopupContainer, false);
         attachPopupContainer.addView(contentView);
@@ -52,11 +56,11 @@ public abstract class PartShadowPopupView extends BasePopupView {
         getPopupImplView().setAlpha(0);
         XPopupUtils.applyPopupSize((ViewGroup) getPopupContentView(), getMaxWidth(), getMaxHeight(),
                 getPopupWidth(), getPopupHeight(), new Runnable() {
-            @Override
-            public void run() {
-                doAttach();
-            }
-        });
+                    @Override
+                    public void run() {
+                        doAttach();
+                    }
+                });
     }
 
     @Override
@@ -72,8 +76,9 @@ public abstract class PartShadowPopupView extends BasePopupView {
     }
 
     private boolean hasInit = false;
-    private void initAndStartAnimation(){
-        if(hasInit) return;
+
+    private void initAndStartAnimation() {
+        if (hasInit) return;
         hasInit = true;
         initAnimator();
         doShowAnimation();
@@ -87,18 +92,27 @@ public abstract class PartShadowPopupView extends BasePopupView {
     }
 
     public boolean isShowUp;
+
     public void doAttach() {
-        if (popupInfo.atView == null)
+        if (popupInfo == null || popupInfo.atView == null)
             throw new IllegalArgumentException("atView() must be called before show()！");
 
         //1. apply width and height
-        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getPopupContentView().getLayoutParams();
+        View popupContentView = getPopupContentView();
+        if (popupContentView == null) {
+            return;
+        }
+
+        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) popupContentView.getLayoutParams();
         //1. 获取atView在屏幕上的位置
         Rect rect = popupInfo.getAtViewRect();
         int centerY = rect.top + rect.height() / 2;
         View implView = getPopupImplView();
+        if (implView == null) {
+            return;
+        }
         FrameLayout.LayoutParams implParams = (LayoutParams) implView.getLayoutParams();
-        if(implParams==null) implParams = new FrameLayout.LayoutParams(-2,-2);
+        if (implParams == null) implParams = new FrameLayout.LayoutParams(-2, -2);
         if ((centerY > getMeasuredHeight() / 2 || popupInfo.popupPosition == PopupPosition.Top) && popupInfo.popupPosition != PopupPosition.Bottom) {
             // 说明atView在Window下半部分，PartShadow应该显示在它上方，计算atView之上的高度
             params.height = rect.top;
@@ -133,6 +147,7 @@ public abstract class PartShadowPopupView extends BasePopupView {
             }
         });
     }
+
     @Override
     protected PopupAnimator getPopupAnimator() {
         return new TranslateAnimator(getPopupImplView(), getAnimationDuration(), isShowUp ?

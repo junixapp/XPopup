@@ -627,7 +627,16 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public View getPopupImplView() {
-        return ((ViewGroup) getPopupContentView()).getChildAt(0);
+        try {
+            if (getPopupContentView() == null) {
+                return null;
+            }
+            //有可能索引越界
+            return ((ViewGroup) getPopupContentView()).getChildAt(0);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     public int getAnimationDuration() {
