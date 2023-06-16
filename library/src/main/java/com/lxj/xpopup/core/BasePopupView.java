@@ -116,7 +116,15 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             return BasePopupView.this;
 
         // 1. add PopupView to its host.
-        View cv = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        View decorView = activity.getWindow().getDecorView();
+        if (decorView == null) {
+            return this;
+        }
+
+        View cv = decorView.findViewById(android.R.id.content);
+        if (cv == null) {
+            return this;
+        }
         cv.post(new Runnable() {
             @Override
             public void run() {
@@ -578,6 +586,14 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * do init.
      */
     protected void onCreate() {
+    }
+
+    /***
+     * pre init
+     */
+    public BasePopupView proCreate() {
+        init();
+        return this;
     }
 
     protected void applyDarkTheme() {
