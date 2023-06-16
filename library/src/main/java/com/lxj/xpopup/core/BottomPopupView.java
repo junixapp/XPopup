@@ -148,16 +148,19 @@ public class BottomPopupView extends BasePopupView {
 
     @Override
     public void dismiss() {
-        if(popupInfo==null) return;
-        if(popupInfo.enableDrag){
-            if (popupStatus == PopupStatus.Dismissing) return;
-            popupStatus = PopupStatus.Dismissing;
-            if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
-            clearFocus();
-            bottomPopupContainer.close();
-        }else {
-            super.dismiss();
+        if (isShow()){
+            if(popupInfo==null) return;
+            if(popupInfo.enableDrag){
+                if (popupStatus == PopupStatus.Dismissing) return;
+                popupStatus = PopupStatus.Dismissing;
+                if (popupInfo.autoOpenSoftInput) KeyboardUtils.hideSoftInput(this);
+                clearFocus();
+                bottomPopupContainer.close();
+            }else {
+                super.dismiss();
+            }
         }
+
     }
 
     /**

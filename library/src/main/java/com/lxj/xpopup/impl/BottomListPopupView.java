@@ -124,14 +124,17 @@ public class BottomListPopupView extends BottomPopupView {
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                if (selectListener != null) {
-                    selectListener.onSelect(position, adapter.getData().get(position));
+                if (position!=-1){
+                    if (selectListener != null) {
+                        selectListener.onSelect(position, adapter.getData().get(position));
+                    }
+                    if (checkedPosition != -1) {
+                        checkedPosition = position;
+                        adapter.notifyDataSetChanged();
+                    }
+                    if (popupInfo.autoDismiss) dismiss();
                 }
-                if (checkedPosition != -1) {
-                    checkedPosition = position;
-                    adapter.notifyDataSetChanged();
-                }
-                if (popupInfo.autoDismiss) dismiss();
+
             }
         });
         recyclerView.setAdapter(adapter);
