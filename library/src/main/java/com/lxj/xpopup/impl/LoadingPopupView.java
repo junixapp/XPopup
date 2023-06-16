@@ -6,6 +6,7 @@ import android.os.Build;
 import android.transition.Visibility;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeTransform;
@@ -24,7 +25,7 @@ import com.lxj.xpopup.util.XPopupUtils;
  */
 public class LoadingPopupView extends CenterPopupView {
 
-    public enum Style{
+    public enum Style {
         Spinner, ProgressBar
     }
 
@@ -62,6 +63,7 @@ public class LoadingPopupView extends CenterPopupView {
         }
         setup();
     }
+
     private boolean firstShow = true;
 
     @Override
@@ -74,24 +76,25 @@ public class LoadingPopupView extends CenterPopupView {
         post(new Runnable() {
             @Override
             public void run() {
-                if(!firstShow) {
+                if (firstShow && centerPopupContainer != null) {
+                    TransitionSet set = new TransitionSet()
+                            .setDuration(getAnimationDuration())
+                            .addTransition(new MaterialFade())
+                            .addTransition(new ChangeBounds());
+                    TransitionManager.beginDelayedTransition(centerPopupContainer, set);
                 }
-                TransitionSet set = new TransitionSet()
-                        .setDuration(getAnimationDuration())
-                        .addTransition(new MaterialFade())
-                        .addTransition(new ChangeBounds());
-                TransitionManager.beginDelayedTransition(centerPopupContainer, set);
+
                 if (title == null || title.length() == 0) {
                     XPopupUtils.setVisible(tv_title, false);
                 } else {
                     XPopupUtils.setVisible(tv_title, true);
-                    if(tv_title!=null)tv_title.setText(title);
+                    if (tv_title != null) tv_title.setText(title);
                 }
 
-                if(loadingStyle==Style.Spinner){
+                if (loadingStyle == Style.Spinner) {
                     XPopupUtils.setVisible(progressBar, false);
                     XPopupUtils.setVisible(spinnerView, true);
-                }else {
+                } else {
                     XPopupUtils.setVisible(progressBar, true);
                     XPopupUtils.setVisible(spinnerView, false);
                 }
@@ -107,7 +110,7 @@ public class LoadingPopupView extends CenterPopupView {
         return this;
     }
 
-    public LoadingPopupView setStyle(Style style){
+    public LoadingPopupView setStyle(Style style) {
         this.loadingStyle = style;
         setup();
         return this;
