@@ -101,7 +101,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
     public BasePopupView show() {
         Activity activity = getActivity();
-        if (activity == null || activity.isFinishing()) {
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
             return this;
         }
         if (popupInfo == null) {
@@ -130,6 +130,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     private void attachToHost() {
         if (popupInfo == null) {
             throw new IllegalArgumentException("如果弹窗对象是复用的，则不要设置isDestroyOnDismiss(true)");
+        }
+        if (getContext() == null) {
+            return;
         }
         if (popupInfo.hostLifecycle != null) {
             popupInfo.hostLifecycle.addObserver(this);
@@ -685,16 +688,18 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * 消失
      */
     public void dismiss() {
-        handler.removeCallbacks(initTask);
-        if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
-        popupStatus = PopupStatus.Dismissing;
-        clearFocus();
-        if (popupInfo != null && popupInfo.xPopupCallback != null)
-            popupInfo.xPopupCallback.beforeDismiss(this);
-        beforeDismiss();
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-        doDismissAnimation();
-        doAfterDismiss();
+        if (isShow()) {
+            handler.removeCallbacks(initTask);
+            if (popupStatus == PopupStatus.Dismissing || popupStatus == PopupStatus.Dismiss) return;
+            popupStatus = PopupStatus.Dismissing;
+            clearFocus();
+            if (popupInfo != null && popupInfo.xPopupCallback != null)
+                popupInfo.xPopupCallback.beforeDismiss(this);
+            beforeDismiss();
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
+            doDismissAnimation();
+            doAfterDismiss();
+        }
     }
 
     /**
