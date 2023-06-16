@@ -445,7 +445,9 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     @Override
     public void destroy() {
         super.destroy();
-        pager.removeOnPageChangeListener((PhotoViewAdapter) pager.getAdapter());
+        if (pager!=null&&pager.getAdapter()!=null){
+            pager.removeOnPageChangeListener((PhotoViewAdapter) pager.getAdapter());
+        }
         imageLoader = null;
     }
 
