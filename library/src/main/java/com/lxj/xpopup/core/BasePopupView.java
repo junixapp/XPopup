@@ -107,8 +107,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo == null) {
             throw new IllegalArgumentException("popupInfo is null, if your popup object is reused, do not set isDestroyOnDismiss(true) !");
         }
-        if (popupStatus == PopupStatus.Showing || popupStatus == PopupStatus.Dismissing)
+        if (popupStatus == PopupStatus.Showing) {
             return this;
+        }
         popupStatus = PopupStatus.Showing;
 //        if (popupInfo.isRequestFocus) KeyboardUtils.hideSoftInput(activity.getWindow());
         if (!popupInfo.isViewMode && dialog != null && dialog.isShowing())
