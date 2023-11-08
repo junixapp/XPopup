@@ -2,7 +2,6 @@ package com.lxj.xpopup;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Build;
 import android.view.Gravity;

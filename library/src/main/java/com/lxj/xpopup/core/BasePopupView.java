@@ -276,6 +276,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * 执行初始化
      */
     protected void init() {
+        if (popupInfo == null) {
+            return;
+        }
         if (shadowBgAnimator == null)
             shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
         if (popupInfo.hasBlurBg) {
@@ -956,7 +959,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public void passTouchThrough(MotionEvent event) {
-        if (popupInfo != null && (popupInfo.isClickThrough || popupInfo.isTouchThrough)&&getActivity()!=null) {
+        if (popupInfo != null && (popupInfo.isClickThrough || popupInfo.isTouchThrough) && getActivity() != null) {
             if (popupInfo.isViewMode) {
                 //需要从DecorView分发，并且要排除自己，否则死循环
                 ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
