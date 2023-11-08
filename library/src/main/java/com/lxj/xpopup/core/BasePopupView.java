@@ -151,16 +151,12 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             }
         }
         doMeasure();
-
+        Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
         if (popupInfo.isViewMode) {
             //view实现
-            Activity activity = getActivity();
-            if (activity == null) {
-                return;
-            }
-            if (activity.isFinishing() || activity.isDestroyed()) {
-                return;
-            }
             ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
             if (getParent() != null) ((ViewGroup) getParent()).removeView(this);
             decorView.addView(this, getLayoutParams());
@@ -168,13 +164,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             //dialog实现
             if (dialog == null) {
                 dialog = new FullScreenDialog(getContext()).setContent(this);
-            }
-            Activity activity = getActivity();
-            if (activity == null) {
-                return;
-            }
-            if (activity.isFinishing() || activity.isDestroyed()) {
-                return;
             }
             if (!dialog.isShowing()) {
                 dialog.show();
@@ -967,7 +956,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public void passTouchThrough(MotionEvent event) {
-        if (popupInfo != null && (popupInfo.isClickThrough || popupInfo.isTouchThrough)) {
+        if (popupInfo != null && (popupInfo.isClickThrough || popupInfo.isTouchThrough)&&getActivity()!=null) {
             if (popupInfo.isViewMode) {
                 //需要从DecorView分发，并且要排除自己，否则死循环
                 ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
