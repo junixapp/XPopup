@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+
+import com.lxj.xpopup.XPopup;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -377,7 +380,9 @@ public final class XPermission {
             if (byteExtra == TYPE_RUNTIME) {
                 if (sInstance == null) {
                     super.onCreate(savedInstanceState);
-                    Log.e("XPermission", "request permissions failed");
+                    if (XPopup.getPrintLogEnable()) {
+                        Log.e("XPermission", "request permissions failed");
+                    }
                     finish();
                     return;
                 }

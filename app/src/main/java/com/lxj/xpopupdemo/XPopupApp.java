@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import com.blankj.utilcode.util.ToastUtils;
+import com.lxj.xpopup.XPopup;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -24,5 +25,6 @@ public class XPopupApp extends Application {
         ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0 , 0);
         ToastUtils.getDefaultMaker().setBgResource(R.drawable.bg_toast);
         ToastUtils.getDefaultMaker().setTextColor(Color.WHITE);
+        XPopup.setPrintLogEnable(false);
     }
 }

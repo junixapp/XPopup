@@ -15,7 +15,7 @@ import com.lxj.xpopup.util.XPopupUtils;
  */
 public class BlurAnimator extends PopupAnimator {
 
-    private FloatEvaluator evaluate = new FloatEvaluator();
+    //private FloatEvaluator evaluate = new FloatEvaluator();
     public int shadowColor;
     public BlurAnimator(View target,  int shadowColor) {
         super(target, 0);

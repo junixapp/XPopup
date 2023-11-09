@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lxj.xpopup.XPopup;
+
 public class SmartDivider extends RecyclerView.ItemDecoration {
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
     public static final int VERTICAL = LinearLayout.VERTICAL;
@@ -41,8 +43,10 @@ public class SmartDivider extends RecyclerView.ItemDecoration {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         if (mDivider == null) {
-            Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this "
-                    + "DividerItemDecoration. Please set that attribute all call setDrawable()");
+            if (XPopup.getPrintLogEnable()) {
+                Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this "
+                        + "DividerItemDecoration. Please set that attribute all call setDrawable()");
+            }
         }
         a.recycle();
         setOrientation(orientation);

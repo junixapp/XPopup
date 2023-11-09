@@ -104,10 +104,10 @@ public class CenterListPopupView extends CenterPopupView {
                 }
             }
         };
-        adapter.setOnItemClickListener(new MultiItemTypeAdapter.SimpleOnItemClickListener() {
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                if (position!=-1){
+            public void onItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
+                if (position!=-1&&adapter.getData()!=null&&adapter.getData().size()>position){
                     if (selectListener != null) {
                         if (position >= 0 && position < adapter.getData().size())
                             selectListener.onSelect(position, adapter.getData().get(position));
@@ -116,7 +116,11 @@ public class CenterListPopupView extends CenterPopupView {
                     adapter.notifyDataSetChanged();
                     if (popupInfo.autoDismiss) dismiss();
                 }
+            }
 
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder viewHolder, int i) {
+                return false;
             }
         });
         recyclerView.setAdapter(adapter);

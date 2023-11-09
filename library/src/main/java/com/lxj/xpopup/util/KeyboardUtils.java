@@ -16,6 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
+
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 
 /**
@@ -35,8 +37,10 @@ public final class KeyboardUtils {
         final View decorView = window.getDecorView();
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
-        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
-                + (decorView.getBottom() - outRect.bottom));
+        if (XPopup.getPrintLogEnable()) {
+            Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
+                    + (decorView.getBottom() - outRect.bottom));
+        }
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
         if (delta <= XPopupUtils.getNavBarHeight(window) + XPopupUtils.getStatusBarHeight(window)) {
             sDecorViewDelta = delta;

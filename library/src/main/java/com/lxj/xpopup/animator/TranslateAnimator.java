@@ -5,6 +5,8 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+
+import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
@@ -64,7 +66,9 @@ public class TranslateAnimator extends PopupAnimator {
                 .setDuration(animationDuration)
                 .withLayer()
                 .start();
-        Log.e("part", "start: " + targetView.getTranslationY() + "  endy: " + endTranslationY);
+        if (XPopup.getPrintLogEnable()) {
+            Log.e("part", "start: " + targetView.getTranslationY() + "  endy: " + endTranslationY);
+        }
     }
 
     @Override

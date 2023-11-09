@@ -49,6 +49,8 @@ public class XPopup {
     private static int shadowBgColor = Color.parseColor("#7F000000");
     public static int isLightStatusBar = 0; //大于0为true，小于0为false
     public static int isLightNavigationBar = 0; //大于0为true，小于0为false
+    //是否打印Log
+    private static boolean isPrintLog = false;
 
     /**
      * 设置全局的背景阴影颜色
@@ -129,6 +131,18 @@ public class XPopup {
     public static int getAnimationDuration() {
         return animationDuration;
     }
+
+    /***
+     * 设置日志打印
+     */
+    public static void setPrintLogEnable(boolean enable) {
+        isPrintLog = enable;
+    }
+
+    public static boolean getPrintLogEnable() {
+        return isPrintLog;
+    }
+
 
     /**
      * 在长按弹出弹窗后，能保证下层View不能滑动
