@@ -152,7 +152,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         }
         doMeasure();
         Activity activity = getActivity();
-        if (activity == null) {
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
             return;
         }
         if (popupInfo.isViewMode) {
