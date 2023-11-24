@@ -1,11 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdk 30
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {
@@ -14,7 +16,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    namespace 'com.lxj.xpopup'
 }
 
 dependencies {

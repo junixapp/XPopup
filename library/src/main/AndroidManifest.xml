@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.lxj.xpopup" >
     <application >
     <meta-data android:name="android.notch_support" android:value="true"/>
     <!--PermissonActivity-->
