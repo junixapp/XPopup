@@ -344,6 +344,8 @@ public class BubbleLayout extends FrameLayout {
                     mPath.quadTo(mLeft, mBottom, leftOffset + mLookWidth / 2F, mBottom + mLookLength);
                 }
                 break;
+            default:
+                break;
         }
 
         mPath.close();
