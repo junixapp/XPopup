@@ -101,7 +101,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
     public BasePopupView show() {
         Activity activity = getActivity();
-        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+        if (!isActivityAlive(activity)) {
             return this;
         }
         if (popupInfo == null) {
@@ -116,7 +116,11 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             return BasePopupView.this;
 
         // 1. add PopupView to its host.
-        View decorView = activity.getWindow().getDecorView();
+        Window window = activity.getWindow();
+        if (window == null) {
+            return this;
+        }
+        View decorView = window.getDecorView();
         if (decorView == null) {
             return this;
         }
@@ -151,8 +155,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             }
         }
         doMeasure();
-        Activity activity = getActivity();
-        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+        if (!isActivityAlive(getActivity())) {
             return;
         }
         if (popupInfo.isViewMode) {
@@ -204,6 +207,13 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         return XPopupUtils.context2Activity(getContext());
     }
 
+    /***
+     * 当前activity是否还存活
+     */
+    protected boolean isActivityAlive(Activity mActivity) {
+        return XPopupUtils.isActivityAlive(mActivity);
+    }
+
     protected View getWindowDecorView() {
         if (getHostWindow() == null) return null;
         return (ViewGroup) getHostWindow().getDecorView();
@@ -237,7 +247,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 //        WindowManager wm = (WindowManager) act.getSystemService(Context.WINDOW_SERVICE);
 //        Point point = new Point();
 //        wm.getDefaultDisplay().getSize(point);
-        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
+        MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
         View activityContent = getActivityContentView();
         if (params == null) {
             params = new MarginLayoutParams(activityContent.getWidth(), activityContent.getHeight());

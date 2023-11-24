@@ -33,20 +33,18 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.FloatRange;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
 import com.lxj.xpopup.R;
@@ -68,9 +66,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -133,12 +133,12 @@ public class XPopupUtils {
      * @return the navigation bar's height
      */
     public static int getNavBarHeight(Window window) {
-        if(!isNavBarVisible(window)) return 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && window!=null) {
+        if (!isNavBarVisible(window)) return 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && window != null) {
             View view = window.findViewById(android.R.id.navigationBarBackground);
             if (view == null) return 0;
-            return view.getVisibility()==View.VISIBLE ? view.getHeight() : 0;
-        }else {
+            return view.getVisibility() == View.VISIBLE ? view.getHeight() : 0;
+        } else {
             Resources res = Resources.getSystem();
             int resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android");
             if (resourceId != 0) {
@@ -151,13 +151,13 @@ public class XPopupUtils {
 
     public static int getActionBarHeight(Context context) {
         Activity activity = context2Activity(context);
-        if(activity==null) return 0;
-        if(activity instanceof AppCompatActivity){
+        if (activity == null) return 0;
+        if (activity instanceof AppCompatActivity) {
             androidx.appcompat.app.ActionBar supportActionBar = ((AppCompatActivity) activity).getSupportActionBar();
-            return supportActionBar==null ? 0 : supportActionBar.getHeight();
+            return supportActionBar == null ? 0 : supportActionBar.getHeight();
         }
         ActionBar actionBar = activity.getActionBar();
-        return actionBar==null ? 0 : actionBar.getHeight();
+        return actionBar == null ? 0 : actionBar.getHeight();
     }
 
     public static void setWidthHeight(View target, int width, int height) {
@@ -172,16 +172,16 @@ public class XPopupUtils {
                                       final int popupWidth, final int popupHeight, final Runnable afterApplySize) {
         content.post(() -> {
             ViewGroup.LayoutParams params = content.getLayoutParams();
-            if(content==null) return;
+            if (content == null) return;
             View implView = content.getChildAt(0);
-            if(implView==null) return;
+            if (implView == null) return;
             ViewGroup.LayoutParams implParams = implView.getLayoutParams();
             // 假设默认Content宽是match，高是wrap
             int w = content.getMeasuredWidth();
             // response impl view wrap_content params.
             if (maxWidth > 0) {
                 //指定了最大宽度，就限制最大宽度
-                if(w > maxWidth) params.width = Math.min(w, maxWidth);
+                if (w > maxWidth) params.width = Math.min(w, maxWidth);
                 if (implParams.width == ViewGroup.LayoutParams.MATCH_PARENT) {
                     implParams.width = Math.min(w, maxWidth);
                     if (implParams instanceof ViewGroup.MarginLayoutParams) {
@@ -200,7 +200,7 @@ public class XPopupUtils {
 
             if (maxHeight > 0) {
                 int h = content.getMeasuredHeight();
-                if(h > maxHeight) params.height = Math.min(h, maxHeight);
+                if (h > maxHeight) params.height = Math.min(h, maxHeight);
                 if (popupHeight > 0) {
                     params.height = Math.min(popupHeight, maxHeight);
                     implParams.height = Math.min(popupHeight, maxHeight);
@@ -565,20 +565,20 @@ public class XPopupUtils {
             view.buildDrawingCache();
             drawingCache = view.getDrawingCache();
             if (drawingCache != null) {
-                bitmap = Bitmap.createBitmap(drawingCache, 0,0,drawingCache.getWidth(),clipHeight>0 ?clipHeight: drawingCache.getHeight());
+                bitmap = Bitmap.createBitmap(drawingCache, 0, 0, drawingCache.getWidth(), clipHeight > 0 ? clipHeight : drawingCache.getHeight());
             } else {
-                bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), clipHeight>0 ?clipHeight: view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), clipHeight > 0 ? clipHeight : view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 view.draw(canvas);
             }
         } else {
-            bitmap = Bitmap.createBitmap(drawingCache,0,0,drawingCache.getWidth(),clipHeight>0 ?clipHeight: drawingCache.getHeight());
+            bitmap = Bitmap.createBitmap(drawingCache, 0, 0, drawingCache.getWidth(), clipHeight > 0 ? clipHeight : drawingCache.getHeight());
         }
         view.destroyDrawingCache();
         view.setWillNotCacheDrawing(willNotCacheDrawing);
         view.setDrawingCacheEnabled(drawingCacheEnabled);
         Bitmap small = Bitmap.createScaledBitmap(bitmap, view.getMeasuredWidth() / scale, view.getMeasuredHeight() / scale, true);
-        if (!bitmap.isRecycled() && bitmap!=small ) bitmap.recycle();
+        if (!bitmap.isRecycled() && bitmap != small) bitmap.recycle();
         return small;
     }
 
@@ -593,17 +593,98 @@ public class XPopupUtils {
     }
 
     public static Activity context2Activity(Context ctx) {
-        Context context = ctx;
+        return getActivityByContext(ctx);
+    }
+
+    /***
+     *
+     *Return whether the activity is alive.
+     * 形参:
+     * context – The Context.
+     * 返回值:
+     * true: yes false: no
+     */
+
+    public static boolean isActivityAlive(final Context context) {
+        return isActivityAlive(getActivityByContext(context));
+    }
+
+    /***
+     *
+     *Return whether the activity is alive.
+     * 形参:
+     * activity – The activity.
+     * 返回值:
+     * true: yes false: no
+     */
+    public static boolean isActivityAlive(final Activity activity) {
+        return activity != null && !activity.isFinishing()
+                && (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 || !activity.isDestroyed());
+    }
+
+    /**
+     * Return the activity by context.
+     *
+     * @param context The context.
+     * @return the activity by context.
+     */
+    @Nullable
+    public static Activity getActivityByContext(@Nullable Context context) {
+        if (context == null) {
+            return null;
+        }
+        Activity activity = getActivityByContextInner(context);
+        if (!isActivityAlive(activity)) {
+            return null;
+        }
+        return activity;
+    }
+
+    @Nullable
+    private static Activity getActivityByContextInner(@Nullable Context context) {
+        if (context == null) {
+            return null;
+        }
+        List<Context> list = new ArrayList<>();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
-                return ((Activity) context);
-            } else {
-                context = ((ContextWrapper) context).getBaseContext();
+                return (Activity) context;
+            }
+            Activity activity = getActivityFromDecorContext(context);
+            if (activity != null) return activity;
+            list.add(context);
+            context = ((ContextWrapper) context).getBaseContext();
+            if (context == null) {
+                return null;
+            }
+            if (list.contains(context)) {
+                // loop context
+                return null;
             }
         }
         return null;
     }
+
+    @Nullable
+    private static Activity getActivityFromDecorContext(@Nullable Context context) {
+        if (context == null) return null;
+        if (context.getClass().getName().equals("com.android.internal.policy.DecorContext")) {
+            try {
+                Field mActivityContextField = context.getClass().getDeclaredField("mActivityContext");
+                mActivityContextField.setAccessible(true);
+                //noinspection ConstantConditions,unchecked
+                return ((WeakReference<Activity>) mActivityContextField.get(context)).get();
+            } catch (Exception ignore) {
+            }
+        }
+        return null;
+    }
+
+
     public static Activity context2Activity(View view) {
+        if (view == null) {
+            return null;
+        }
         return context2Activity(view.getContext());
     }
 
