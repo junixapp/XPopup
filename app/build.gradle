@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.lxj.xpopupdemo"
+        applicationId "com.lxj.xpopupde"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 6
@@ -43,6 +43,7 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+    namespace 'com.lxj.xpopupdemo'
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
