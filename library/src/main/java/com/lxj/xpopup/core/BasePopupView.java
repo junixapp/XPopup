@@ -280,23 +280,21 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo == null) {
             return;
         }
-        if (!isOnlyOncreate) {
-            if (shadowBgAnimator == null)
-                shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
-            if (popupInfo.hasBlurBg) {
-                blurAnimator = new BlurAnimator(this, getShadowBgColor());
-                blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView(),
-                        getActivityContentView().getHeight(), 5);
-            }
+        if (shadowBgAnimator == null)
+            shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
+        if (popupInfo.hasBlurBg) {
+            blurAnimator = new BlurAnimator(this, getShadowBgColor());
+            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
+            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView(),
+                    getActivityContentView().getHeight(), 5);
+        }
 
-            //1. 初始化Popup
-            if (this instanceof AttachPopupView || this instanceof BubbleAttachPopupView
-                    || this instanceof PartShadowPopupView || this instanceof PositionPopupView) {
-                initPopupContent();
-            } else if (!isCreated) {
-                initPopupContent();
-            }
+        //1. 初始化Popup
+        if (this instanceof AttachPopupView || this instanceof BubbleAttachPopupView
+                || this instanceof PartShadowPopupView || this instanceof PositionPopupView) {
+            initPopupContent();
+        } else if (!isCreated) {
+            initPopupContent();
         }
 
         if (!isCreated) {
