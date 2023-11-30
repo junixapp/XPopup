@@ -1,4 +1,8 @@
 ## XPopup
+[](https://jitpack.io/v/billdizl/XPopup.svg)
+
+
+
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-28-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-19-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
