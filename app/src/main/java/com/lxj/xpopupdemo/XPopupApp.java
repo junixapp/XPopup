@@ -25,6 +25,6 @@ public class XPopupApp extends Application {
         ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0 , 0);
         ToastUtils.getDefaultMaker().setBgResource(R.drawable.bg_toast);
         ToastUtils.getDefaultMaker().setTextColor(Color.WHITE);
-        XPopup.setPrintLogEnable(false);
+        XPopup.setPrintLogEnable(true);
     }
 }

@@ -6,8 +6,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -22,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
-import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -147,13 +144,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (getContext() == null) {
             return;
         }
-        if (popupInfo.hostLifecycle != null) {
-            popupInfo.hostLifecycle.addObserver(this);
-        } else {
-            if (getContext() instanceof FragmentActivity) {
-                ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
-            }
-        }
+
         doMeasure();
         if (!isActivityAlive(getActivity())) {
             return;
@@ -309,7 +300,15 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             isCreated = true;
             onCreate();
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+            //增加Lifecycle监听
             if (popupInfo.xPopupCallback != null) popupInfo.xPopupCallback.onCreated(this);
+            if (popupInfo.hostLifecycle != null) {
+                popupInfo.hostLifecycle.addObserver(this);
+            } else {
+                if (getContext() instanceof FragmentActivity) {
+                    ((FragmentActivity) getContext()).getLifecycle().addObserver(this);
+                }
+            }
         }
         handler.post(initTask);
     }
@@ -892,21 +891,33 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         onDetachedFromWindow();
         detachFromHost();
         destroy();
+        if (XPopup.getPrintLogEnable()) {
+            Log.e("BasePopupView", "onDestroy====onDestroy");
+        }
     }
 
     public void destroy() {
+
         ViewCompat.removeOnUnhandledKeyEventListener(this, this);
         if (isCreated) {
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         }
         lifecycleRegistry.removeObserver(this);
+        //解除Lifecycle监听
+        try {
+            if (popupInfo != null && popupInfo.hostLifecycle != null) {
+                popupInfo.hostLifecycle.removeObserver(this);
+            } else {
+                if (getContext() != null && getContext() instanceof FragmentActivity) {
+                    ((FragmentActivity) getContext()).getLifecycle().removeObserver(this);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (popupInfo != null) {
             popupInfo.atView = null;
             popupInfo.xPopupCallback = null;
-            if (popupInfo.hostLifecycle != null) {
-                popupInfo.hostLifecycle.removeObserver(this);
-                popupInfo.hostLifecycle = null;
-            }
             if (popupInfo.customAnimator != null) {
                 if (popupInfo.customAnimator.targetView != null) {
                     popupInfo.customAnimator.targetView.animate().cancel();
@@ -932,6 +943,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 blurAnimator.decorBitmap = null;
             }
         }
+        if (XPopup.getPrintLogEnable()) {
+            Log.e("BasePopupView", "destroy====destroy");
+        }
     }
 
     protected int getStatusBarHeight() {
@@ -955,13 +969,6 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 hasModifySoftMode = false;
             }
             if (popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
-        }
-        if (popupInfo != null && popupInfo.hostLifecycle != null) {
-            popupInfo.hostLifecycle.removeObserver(this);
-        } else {
-            if (getContext() != null && getContext() instanceof FragmentActivity) {
-                ((FragmentActivity) getContext()).getLifecycle().removeObserver(this);
-            }
         }
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
