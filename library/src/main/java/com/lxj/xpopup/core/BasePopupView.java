@@ -93,7 +93,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        init();
+        init(false);
     }
 
     public BasePopupView show() {
@@ -276,26 +276,29 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     /**
      * 执行初始化
      */
-    protected void init() {
+    protected void init(boolean isOnlyOncreate) {
         if (popupInfo == null) {
             return;
         }
-        if (shadowBgAnimator == null)
-            shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
-        if (popupInfo.hasBlurBg) {
-            blurAnimator = new BlurAnimator(this, getShadowBgColor());
-            blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView(),
-                    getActivityContentView().getHeight(), 5);
+        if (!isOnlyOncreate) {
+            if (shadowBgAnimator == null)
+                shadowBgAnimator = new ShadowBgAnimator(this, getAnimationDuration(), getShadowBgColor());
+            if (popupInfo.hasBlurBg) {
+                blurAnimator = new BlurAnimator(this, getShadowBgColor());
+                blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
+                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView(),
+                        getActivityContentView().getHeight(), 5);
+            }
+
+            //1. 初始化Popup
+            if (this instanceof AttachPopupView || this instanceof BubbleAttachPopupView
+                    || this instanceof PartShadowPopupView || this instanceof PositionPopupView) {
+                initPopupContent();
+            } else if (!isCreated) {
+                initPopupContent();
+            }
         }
 
-        //1. 初始化Popup
-        if (this instanceof AttachPopupView || this instanceof BubbleAttachPopupView
-                || this instanceof PartShadowPopupView || this instanceof PositionPopupView) {
-            initPopupContent();
-        } else if (!isCreated) {
-            initPopupContent();
-        }
         if (!isCreated) {
             isCreated = true;
             onCreate();
@@ -310,7 +313,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                 }
             }
         }
-        handler.post(initTask);
+        if (!isOnlyOncreate) {
+            handler.post(initTask);
+        }
     }
 
     private final Runnable initTask = new Runnable() {
@@ -591,9 +596,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 
     /***
      * pre init
+     * 可能用户有这么个需求, 需要先让布局走到oncrete方法中,而不show页面,故增加此方法
      */
-    public BasePopupView proCreate() {
-        init();
+    public BasePopupView preloadCreate() {
+        init(true);
         return this;
     }
 
