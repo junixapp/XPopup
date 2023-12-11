@@ -75,12 +75,12 @@ public class LoadingPopupView extends CenterPopupView {
             @Override
             public void run() {
                 if(!firstShow) {
+                    TransitionSet set = new TransitionSet()
+                            .setDuration(getAnimationDuration())
+                            .addTransition(new MaterialFade())
+                            .addTransition(new ChangeBounds());
+                    TransitionManager.beginDelayedTransition(centerPopupContainer, set);
                 }
-                TransitionSet set = new TransitionSet()
-                        .setDuration(getAnimationDuration())
-                        .addTransition(new MaterialFade())
-                        .addTransition(new ChangeBounds());
-                TransitionManager.beginDelayedTransition(centerPopupContainer, set);
                 if (title == null || title.length() == 0) {
                     XPopupUtils.setVisible(tv_title, false);
                 } else {
@@ -113,4 +113,9 @@ public class LoadingPopupView extends CenterPopupView {
         return this;
     }
 
+    @Override
+    protected void onDismiss() {
+        super.onDismiss();
+        firstShow = true;
+    }
 }
