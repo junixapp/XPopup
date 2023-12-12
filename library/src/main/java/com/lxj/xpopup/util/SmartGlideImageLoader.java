@@ -7,14 +7,14 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.Rotate;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -151,12 +151,27 @@ public class SmartGlideImageLoader implements XPopupImageLoader {
             }
         });
         if (popupView.longPressListener != null) {
-            ssiv.setOnLongClickListener(new View.OnLongClickListener() {
+            GestureDetector mGestureDetector = new GestureDetector(popupView.getContext(), new GestureDetector.SimpleOnGestureListener() {
                 @Override
-                public boolean onLongClick(View v) {
-                    popupView.longPressListener.onLongPressed(popupView, realPosition);
-                    return false;
+                public void onLongPress(MotionEvent e) {
+                    if (popupView.longPressListener != null) {
+                        popupView.longPressListener.onLongPressed(popupView, realPosition);
+                    }
                 }
+            });
+
+            ssiv.setOnTouchListener((v, ev) -> {
+                switch (ev.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (v != null) {
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                        }
+                        break;
+                }
+                if (mGestureDetector != null && mGestureDetector.onTouchEvent(ev)) {
+                    return true;
+                }
+                return false;
             });
         }
         return ssiv;
