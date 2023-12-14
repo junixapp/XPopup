@@ -592,21 +592,17 @@ public class XPopupUtils {
         return TextUtils.getLayoutDirectionFromLocale(primaryLocale) == View.LAYOUT_DIRECTION_RTL;
     }
 
+
     public static Activity context2Activity(Context ctx) {
-        return getActivityByContext(ctx);
-    }
-
-    /***
-     *
-     *Return whether the activity is alive.
-     * 形参:
-     * context – The Context.
-     * 返回值:
-     * true: yes false: no
-     */
-
-    public static boolean isActivityAlive(final Context context) {
-        return isActivityAlive(getActivityByContext(context));
+        Context context = ctx;
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return ((Activity) context);
+            } else {
+                context = ((ContextWrapper) context).getBaseContext();
+            }
+        }
+        return null;
     }
 
     /***
@@ -618,8 +614,7 @@ public class XPopupUtils {
      * true: yes false: no
      */
     public static boolean isActivityAlive(final Activity activity) {
-        return activity != null && !activity.isFinishing()
-                && (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 || !activity.isDestroyed());
+        return activity != null && !activity.isFinishing() && !activity.isDestroyed();
     }
 
     /**
