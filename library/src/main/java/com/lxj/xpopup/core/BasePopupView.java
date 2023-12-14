@@ -48,6 +48,7 @@ import com.lxj.xpopup.impl.FullScreenPopupView;
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.lxj.xpopup.util.KeyboardUtils;
 import com.lxj.xpopup.util.XPopupUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -216,6 +217,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
      * @return
      */
     public View getActivityContentView() {
+        if (getActivity() == null) {
+            return null;
+        }
         ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
         return decorView.getChildAt(0);
     }
@@ -239,37 +243,45 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
 //        wm.getDefaultDisplay().getSize(point);
         MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
         View activityContent = getActivityContentView();
-        if (params == null) {
-            params = new MarginLayoutParams(activityContent.getWidth(), activityContent.getHeight());
-        } else {
-            params.width = activityContent.getWidth();
-            params.height = activityContent.getHeight();
+        if (activityContent != null) {
+            if (params == null) {
+                params = new MarginLayoutParams(activityContent.getWidth(), activityContent.getHeight());
+            } else {
+                params.width = activityContent.getWidth();
+                params.height = activityContent.getHeight();
+            }
+            params.leftMargin = popupInfo != null && popupInfo.isViewMode ? activityContent.getLeft() : 0;
+            params.topMargin = activityContent.getTop();
+            setLayoutParams(params);
         }
-        params.leftMargin = popupInfo != null && popupInfo.isViewMode ? activityContent.getLeft() : 0;
-        params.topMargin = activityContent.getTop();
-        setLayoutParams(params);
     }
 
     @Override
     public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-        getActivityContentView().post(new Runnable() {
-            @Override
-            public void run() {
-                doMeasure();
-            }
-        });
+        View activityContentView = getActivityContentView();
+        if (activityContentView != null) {
+            activityContentView.post(new Runnable() {
+                @Override
+                public void run() {
+                    doMeasure();
+                }
+            });
+        }
         return super.onApplyWindowInsets(insets);
     }
 
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        getActivityContentView().post(new Runnable() {
-            @Override
-            public void run() {
-                doMeasure();
-            }
-        });
+        View activityContentView = getActivityContentView();
+        if (activityContentView != null) {
+            activityContentView.post(new Runnable() {
+                @Override
+                public void run() {
+                    doMeasure();
+                }
+            });
+        }
     }
 
     /**
@@ -284,8 +296,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo.hasBlurBg) {
             blurAnimator = new BlurAnimator(this, getShadowBgColor());
             blurAnimator.hasShadowBg = popupInfo.hasShadowBg;
-            blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView(),
-                    getActivityContentView().getHeight(), 5);
+            if (getActivity() != null) {
+                blurAnimator.decorBitmap = XPopupUtils.view2Bitmap((getActivity()).getWindow().getDecorView(),
+                        getActivityContentView().getHeight(), 5);
+            }
         }
 
         //1. 初始化Popup
@@ -419,7 +433,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
             XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
-            if (list.size() > 0) {
+            if (list.size() > 0&&getHostWindow()!=null) {
                 preSoftMode = getHostWindow().getAttributes().softInputMode;
                 if (popupInfo.isViewMode) {
                     getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -968,7 +982,11 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         if (popupInfo != null) {
             if (popupInfo.isViewMode && hasModifySoftMode) {
                 //还原WindowSoftMode
-                getHostWindow().setSoftInputMode(preSoftMode);
+                Window hostWindow = getHostWindow();
+                if (hostWindow != null) {
+                    hostWindow.setSoftInputMode(preSoftMode);
+                }
+
                 hasModifySoftMode = false;
             }
             if (popupInfo.isDestroyOnDismiss) destroy();//如果开启isDestroyOnDismiss，强制释放资源
@@ -989,7 +1007,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
                     if (!(view instanceof BasePopupView)) view.dispatchTouchEvent(event);
                 }
             } else {
-                getActivity().dispatchTouchEvent(event);
+                if (getActivity() != null) {
+                    getActivity().dispatchTouchEvent(event);
+                }
             }
         }
     }

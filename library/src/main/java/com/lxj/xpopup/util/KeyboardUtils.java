@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.XPopup;
@@ -27,6 +28,7 @@ import com.lxj.xpopup.core.BasePopupView;
 public final class KeyboardUtils {
     public static int sDecorViewInvisibleHeightPre;
     private static final SparseArray<ViewTreeObserver.OnGlobalLayoutListener> listenerArray = new SparseArray<>();
+
     private KeyboardUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
@@ -52,11 +54,16 @@ public final class KeyboardUtils {
     /**
      * Register soft input changed listener.
      *
-     * @param window The activity.
+     * @param window   The activity.
      * @param listener The soft input changed listener.
      */
     public static void registerSoftInputChangedListener(final Window window, final BasePopupView popupView, final OnSoftInputChangedListener listener) {
-        if(popupView==null) return;
+        if (popupView == null) {
+            return;
+        }
+        if (window == null) {
+            return;
+        }
         final int flags = window.getAttributes().flags;
         if ((flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -78,8 +85,13 @@ public final class KeyboardUtils {
         listenerArray.append(popupView.getId(), onGlobalLayoutListener);
     }
 
-    public static void removeLayoutChangeListener(Window window, BasePopupView popupView){
-        if(popupView==null) return;
+    public static void removeLayoutChangeListener(Window window, BasePopupView popupView) {
+        if (popupView == null) {
+            return;
+        }
+        if (window == null) {
+            return;
+        }
         final View contentView = window.findViewById(android.R.id.content);
         if (contentView == null) return;
         ViewTreeObserver.OnGlobalLayoutListener tag = listenerArray.get(popupView.getId());
@@ -91,18 +103,19 @@ public final class KeyboardUtils {
     }
 
     public static void showSoftInput(final View view) {
-        if(view==null) return;
+        if (view == null) return;
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm == null) return;
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
-        imm.showSoftInput(view, 0 ,new SoftInputReceiver(view.getContext()));
+        imm.showSoftInput(view, 0, new SoftInputReceiver(view.getContext()));
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
-    private static class SoftInputReceiver extends ResultReceiver{
+    private static class SoftInputReceiver extends ResultReceiver {
         private Context context;
+
         public SoftInputReceiver(Context context) {
             super(new Handler());
             this.context = context;
@@ -120,7 +133,7 @@ public final class KeyboardUtils {
     }
 
     public static void toggleSoftInput(Context context) {
-        if(context==null) return;
+        if (context == null) return;
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm == null) return;
         imm.toggleSoftInput(0, 0);
@@ -130,6 +143,7 @@ public final class KeyboardUtils {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
     public static void hideSoftInput(@NonNull final Window window) {
         View view = window.getCurrentFocus();
         if (view == null) {
@@ -146,6 +160,7 @@ public final class KeyboardUtils {
         }
         hideSoftInput(view);
     }
+
     public interface OnSoftInputChangedListener {
         void onSoftInputChanged(int height);
     }
