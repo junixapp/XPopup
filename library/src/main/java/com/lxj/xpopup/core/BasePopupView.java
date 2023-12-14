@@ -70,6 +70,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     public boolean hasMoveUp = false;
     protected Handler handler = new Handler(Looper.getMainLooper());
     protected LifecycleRegistry lifecycleRegistry;
+    private boolean isDestoryed = false;
 
     public BasePopupView(@NonNull Context context) {
         super(context);
@@ -384,7 +385,10 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             ViewGroup decorView = (ViewGroup) getParent();
             if (decorView != null) decorView.removeView(this);
         } else {
-            if (dialog != null) dialog.dismiss();
+            if (dialog != null&&dialog.isShowing()) dialog.dismiss();
+        }
+        if (XPopup.getPrintLogEnable()) {
+            Log.e("BasePopupView", "detachFromHost====detachFromHost");
         }
     }
 
@@ -433,7 +437,7 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
             //let all EditText can process back pressed.
             ArrayList<EditText> list = new ArrayList<>();
             XPopupUtils.findAllEditText(list, (ViewGroup) getPopupContentView());
-            if (list.size() > 0&&getHostWindow()!=null) {
+            if (list.size() > 0 && getHostWindow() != null) {
                 preSoftMode = getHostWindow().getAttributes().softInputMode;
                 if (popupInfo.isViewMode) {
                     getHostWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -914,54 +918,56 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
     }
 
     public void destroy() {
-
-        ViewCompat.removeOnUnhandledKeyEventListener(this, this);
-        if (isCreated) {
-            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
-        }
-        lifecycleRegistry.removeObserver(this);
-        //解除Lifecycle监听
-        try {
-            if (popupInfo != null && popupInfo.hostLifecycle != null) {
-                popupInfo.hostLifecycle.removeObserver(this);
-            } else {
-                if (getContext() != null && getContext() instanceof FragmentActivity) {
-                    ((FragmentActivity) getContext()).getLifecycle().removeObserver(this);
+        if (!isDestoryed) {
+            isDestoryed = true;
+            ViewCompat.removeOnUnhandledKeyEventListener(this, this);
+            if (isCreated) {
+                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+            }
+            lifecycleRegistry.removeObserver(this);
+            //解除Lifecycle监听
+            try {
+                if (popupInfo != null && popupInfo.hostLifecycle != null) {
+                    popupInfo.hostLifecycle.removeObserver(this);
+                } else {
+                    if (getContext() != null && getContext() instanceof FragmentActivity) {
+                        ((FragmentActivity) getContext()).getLifecycle().removeObserver(this);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (popupInfo != null) {
+                popupInfo.atView = null;
+                popupInfo.xPopupCallback = null;
+                if (popupInfo.customAnimator != null) {
+                    if (popupInfo.customAnimator.targetView != null) {
+                        popupInfo.customAnimator.targetView.animate().cancel();
+                        popupInfo.customAnimator.targetView = null;
+                    }
+                    popupInfo.customAnimator = null;
+                }
+                if (popupInfo.isViewMode) tryRemoveFragments();
+                popupInfo = null;
+            }
+            if (dialog != null) {
+                if (dialog.isShowing()) dialog.dismiss();
+                dialog.contentView = null;
+                dialog = null;
+            }
+            if (shadowBgAnimator != null && shadowBgAnimator.targetView != null) {
+                shadowBgAnimator.targetView.animate().cancel();
+            }
+            if (blurAnimator != null && blurAnimator.targetView != null) {
+                blurAnimator.targetView.animate().cancel();
+                if (blurAnimator.decorBitmap != null && !blurAnimator.decorBitmap.isRecycled()) {
+                    blurAnimator.decorBitmap.recycle();
+                    blurAnimator.decorBitmap = null;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (popupInfo != null) {
-            popupInfo.atView = null;
-            popupInfo.xPopupCallback = null;
-            if (popupInfo.customAnimator != null) {
-                if (popupInfo.customAnimator.targetView != null) {
-                    popupInfo.customAnimator.targetView.animate().cancel();
-                    popupInfo.customAnimator.targetView = null;
-                }
-                popupInfo.customAnimator = null;
+            if (XPopup.getPrintLogEnable()) {
+                Log.e("BasePopupView", "destroy====destroy");
             }
-            if (popupInfo.isViewMode) tryRemoveFragments();
-            popupInfo = null;
-        }
-        if (dialog != null) {
-            if (dialog.isShowing()) dialog.dismiss();
-            dialog.contentView = null;
-            dialog = null;
-        }
-        if (shadowBgAnimator != null && shadowBgAnimator.targetView != null) {
-            shadowBgAnimator.targetView.animate().cancel();
-        }
-        if (blurAnimator != null && blurAnimator.targetView != null) {
-            blurAnimator.targetView.animate().cancel();
-            if (blurAnimator.decorBitmap != null && !blurAnimator.decorBitmap.isRecycled()) {
-                blurAnimator.decorBitmap.recycle();
-                blurAnimator.decorBitmap = null;
-            }
-        }
-        if (XPopup.getPrintLogEnable()) {
-            Log.e("BasePopupView", "destroy====destroy");
         }
     }
 
@@ -994,6 +1000,9 @@ public abstract class BasePopupView extends FrameLayout implements LifecycleObse
         popupStatus = PopupStatus.Dismiss;
         showSoftInputTask = null;
         hasMoveUp = false;
+        if (XPopup.getPrintLogEnable()) {
+            Log.e("BasePopupView", "onDetachedFromWindow====onDetachedFromWindow");
+        }
     }
 
     public void passTouchThrough(MotionEvent event) {
