@@ -5,7 +5,7 @@
 国内Gitee镜像地址：https://gitee.com/lxj_gitee/XPopup
 
 ## 好站推荐
-1. 全网价格最低的公众号和小程序微商城。官网：https://www.xingke.vip
+1. 国内真正免费使用ChatGPT大模型的网站 https://www.hermchats.com?code=0D27F4D8
 
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
