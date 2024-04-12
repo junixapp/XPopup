@@ -6,6 +6,7 @@
 
 ## 好站推荐
 1. 国内真正免费使用ChatGPT大模型的网站 https://www.hermchats.com?code=0D27F4D8
+2. 稳定科学上网工具：https://panel.dg1.top/#/register?code=59H7dLR3
 
 
 ### 中文 | [English](https://github.com/li-xiaojun/XPopup/blob/master/README-en.md)
