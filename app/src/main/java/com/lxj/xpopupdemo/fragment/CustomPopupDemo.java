@@ -49,7 +49,6 @@ public class CustomPopupDemo extends BaseFragment {
                 spinner.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
                         CustomPopup customPopup = new CustomPopup(getContext());
                         new XPopup.Builder(getContext())
                                 .popupAnimation(data[position])
@@ -88,19 +87,14 @@ public class CustomPopupDemo extends BaseFragment {
                 }
             });
         }
-        protected void onShow() {
-            super.onShow();
-        }
-
 //        @Override
 //        protected int getMaxHeight() {
 //            return 200;
 //        }
 //
-        //返回0表示让宽度撑满window，或者你可以返回一个任意宽度
 //        @Override
 //        protected int getMaxWidth() {
-//            return 1200;
+//            return 1000;
 //        }
     }
 

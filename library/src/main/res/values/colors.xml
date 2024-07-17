@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="_xpopup_list_divider">#EEEEEE</color>
-    <color name="_xpopup_title_color">#111111</color>
+    <color name="_xpopup_title_color">#444444</color>
     <color name="_xpopup_content_color">#333333</color>
     <color name="_xpopup_white_color">#f1f1f1</color>
     <color name="_xpopup_dark_color">#232323</color>
+    <color name="_xpopup_light_color">#FFFFFF</color>
     <color name="_xpopup_list_dark_divider">#444444</color>
 </resources>

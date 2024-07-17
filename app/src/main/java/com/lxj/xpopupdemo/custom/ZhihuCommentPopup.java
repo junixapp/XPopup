@@ -2,7 +2,9 @@ package com.lxj.xpopupdemo.custom;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,7 @@ import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.MultiItemTypeAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -49,14 +52,14 @@ public class ZhihuCommentPopup extends BottomPopupView {
                 final CustomEditTextBottomPopup textBottomPopup = new CustomEditTextBottomPopup(getContext());
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
-//                        .hasShadowBg(false)
+                        .autoFocusEditText(true)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
-                            public void onShow() {
+                            public void onShow(BasePopupView popupView) {
                             }
 
                             @Override
-                            public void onDismiss() {
+                            public void onDismiss(BasePopupView popupView) {
                                 String comment = textBottomPopup.getComment();
                                 if (!comment.isEmpty()) {
                                     data.add(0, comment);
@@ -95,16 +98,14 @@ public class ZhihuCommentPopup extends BottomPopupView {
 //                dismiss();
 //                getContext().startActivity(new Intent(getContext(), DemoActivity.class))
                 //可以等消失动画执行完毕再开启新界面
-                dismissWith(new Runnable() {
-                    @Override
-                    public void run() {
-                        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
-                    }
-                });
-
+//                dismissWith(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getContext().startActivity(new Intent(getContext(), DemoActivity.class));
+//                    }
+//                });
             }
         });
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(commonAdapter);
     }
 
@@ -112,16 +113,23 @@ public class ZhihuCommentPopup extends BottomPopupView {
     @Override
     protected void onShow() {
         super.onShow();
+        Log.e("tag", "知乎评论 onShow");
     }
 
     //完全消失执行
     @Override
     protected void onDismiss() {
-
+        Log.e("tag", "知乎评论 onDismiss");
     }
 
     @Override
     protected int getMaxHeight() {
-        return (int) (XPopupUtils.getWindowHeight(getContext()) * .85f);
+        return (int) (XPopupUtils.getScreenHeight(getContext()) * .7f);
+    }
+
+    @Override
+    protected boolean onBackPressed() {
+        Toast.makeText(getContext(), "拦截返回", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }

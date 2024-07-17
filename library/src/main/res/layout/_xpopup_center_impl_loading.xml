@@ -2,24 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
     android:gravity="center"
-    android:padding="15dp"
-    android:background="@drawable/_xpopup_round3_dark_bg"
-    android:orientation="horizontal"
+    android:padding="22dp"
+    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <ProgressBar
+        android:id="@+id/loadProgress"
+        android:visibility="gone"
+        android:layout_width="28dp"
+        android:layout_height="28dp"/>
+
     <com.lxj.xpopup.widget.LoadingView
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
+        android:id="@+id/loadview"
+        android:layout_width="28dp"
+        android:layout_height="28dp" />
     <TextView
         android:id="@+id/tv_title"
         android:maxLines="1"
+        android:text="  "
         android:visibility="gone"
         android:ellipsize="end"
-        android:textSize="15sp"
-        android:textColor="#DDDDDD"
-        android:paddingLeft="8dp"
-        android:paddingRight="18dp"
+        android:textSize="14sp"
+        android:textColor="#EEEEEE"
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

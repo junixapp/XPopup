@@ -2,20 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/_xpopup_round3_bg"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
+        android:textStyle="bold"
         android:textColor="@color/_xpopup_title_color"
         android:paddingTop="14dp"
-        android:paddingLeft="18dp"
+        android:paddingStart="18dp"
         android:gravity="center"
         android:paddingBottom="14dp"
-        android:paddingRight="18dp"
+        android:paddingEnd="18dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -24,8 +24,8 @@
     <com.lxj.xpopup.widget.VerticalRecyclerView
         android:orientation="vertical"
         android:id="@+id/recyclerView"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never" />

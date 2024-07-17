@@ -1,42 +1,44 @@
 package com.lxj.xpopup.util;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-
+import androidx.annotation.NonNull;
 import com.lxj.xpopup.core.BasePopupView;
-
-import java.util.HashMap;
 
 /**
  * Description:
  * Create by dance, at 2018/12/17
  */
 public final class KeyboardUtils {
-
     public static int sDecorViewInvisibleHeightPre;
-    private static ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
-    private static HashMap<View,OnSoftInputChangedListener> listenerMap = new HashMap<>();
+    private static final SparseArray<ViewTreeObserver.OnGlobalLayoutListener> listenerArray = new SparseArray<>();
     private KeyboardUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
     private static int sDecorViewDelta = 0;
 
-    private static int getDecorViewInvisibleHeight(final Activity activity) {
-        final View decorView = activity.getWindow().getDecorView();
-        if (decorView == null) return sDecorViewInvisibleHeightPre;
+    private static int getDecorViewInvisibleHeight(final Window window) {
+        final View decorView = window.getDecorView();
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
+        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
+                + (decorView.getBottom() - outRect.bottom));
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
-        if (delta <= getNavBarHeight()) {
+        if (delta <= XPopupUtils.getNavBarHeight(window) + XPopupUtils.getStatusBarHeight(window)) {
             sDecorViewDelta = delta;
             return 0;
         }
@@ -46,63 +48,100 @@ public final class KeyboardUtils {
     /**
      * Register soft input changed listener.
      *
-     * @param activity The activity.
+     * @param window The activity.
      * @param listener The soft input changed listener.
      */
-    public static void registerSoftInputChangedListener(final Activity activity, final BasePopupView popupView, final OnSoftInputChangedListener listener) {
-        final int flags = activity.getWindow().getAttributes().flags;
+    public static void registerSoftInputChangedListener(final Window window, final BasePopupView popupView, final OnSoftInputChangedListener listener) {
+        if(popupView==null) return;
+        final int flags = window.getAttributes().flags;
         if ((flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0) {
-            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
-        final FrameLayout contentView = activity.findViewById(android.R.id.content);
-        sDecorViewInvisibleHeightPre = getDecorViewInvisibleHeight(activity);
-        listenerMap.put(popupView, listener);
+        final FrameLayout contentView = window.findViewById(android.R.id.content);
+        final int[] decorViewInvisibleHeightPre = {getDecorViewInvisibleHeight(window)};
         ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                    int height = getDecorViewInvisibleHeight(activity);
-                    if (sDecorViewInvisibleHeightPre != height) {
-                        //通知所有弹窗的监听器输入法高度变化了
-                        for (OnSoftInputChangedListener  changedListener: listenerMap.values()) {
-                            changedListener.onSoftInputChanged(height);
-                        }
-                        sDecorViewInvisibleHeightPre = height;
-                    }
+                int height = getDecorViewInvisibleHeight(window);
+                if (decorViewInvisibleHeightPre[0] != height) {
+                    listener.onSoftInputChanged(height);
+                    decorViewInvisibleHeightPre[0] = height;
+                }
             }
         };
-        contentView.getViewTreeObserver()
-                .addOnGlobalLayoutListener(onGlobalLayoutListener);
+        contentView.getViewTreeObserver().removeOnGlobalLayoutListener(onGlobalLayoutListener);
+        contentView.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
+        listenerArray.append(popupView.getId(), onGlobalLayoutListener);
     }
 
-    public static void removeLayoutChangeListener(View decorView, BasePopupView popupView){
-        onGlobalLayoutListener = null;
-        if(decorView==null)return;
-        View contentView = decorView.findViewById(android.R.id.content);
-        if(contentView==null)return;
-        contentView.getViewTreeObserver().removeGlobalOnLayoutListener(onGlobalLayoutListener);
-        listenerMap.remove(popupView);
-    }
-
-    private static int getNavBarHeight() {
-        Resources res = Resources.getSystem();
-        int resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId != 0) {
-            return res.getDimensionPixelSize(resourceId);
-        } else {
-            return 0;
+    public static void removeLayoutChangeListener(Window window, BasePopupView popupView){
+        if(popupView==null) return;
+        final View contentView = window.findViewById(android.R.id.content);
+        if (contentView == null) return;
+        ViewTreeObserver.OnGlobalLayoutListener tag = listenerArray.get(popupView.getId());
+        if (tag != null) {
+            contentView.getViewTreeObserver().removeOnGlobalLayoutListener(tag);
+            tag = null;
+            listenerArray.remove(popupView.getId());
         }
     }
 
-    public static void showSoftInput(View view) {
+    public static void showSoftInput(final View view) {
+        if(view==null) return;
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+        if (imm == null) return;
+        view.setFocusable(true);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        imm.showSoftInput(view, 0 ,new SoftInputReceiver(view.getContext()));
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    private static class SoftInputReceiver extends ResultReceiver{
+        private Context context;
+        public SoftInputReceiver(Context context) {
+            super(new Handler());
+            this.context = context;
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            super.onReceiveResult(resultCode, resultData);
+            if (resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN
+                    || resultCode == InputMethodManager.RESULT_HIDDEN) {
+                toggleSoftInput(context);
+            }
+            context = null;
+        }
+    }
+
+    public static void toggleSoftInput(Context context) {
+        if(context==null) return;
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null) return;
+        imm.toggleSoftInput(0, 0);
     }
 
     public static void hideSoftInput(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
+    public static void hideSoftInput(@NonNull final Window window) {
+        View view = window.getCurrentFocus();
+        if (view == null) {
+            View decorView = window.getDecorView();
+            View focusView = decorView.findViewWithTag("keyboardTagView");
+            if (focusView == null) {
+                view = new EditText(window.getContext());
+                view.setTag("keyboardTagView");
+                ((ViewGroup) decorView).addView(view, 0, 0);
+            } else {
+                view = focusView;
+            }
+            view.requestFocus();
+        }
+        hideSoftInput(view);
+    }
     public interface OnSoftInputChangedListener {
         void onSoftInputChanged(int height);
     }

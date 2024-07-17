@@ -2,10 +2,16 @@ package com.lxj.xpopup.impl;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lxj.easyadapter.EasyAdapter;
@@ -15,6 +21,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.CheckView;
 import com.lxj.xpopup.widget.VerticalRecyclerView;
 
@@ -25,53 +32,53 @@ import java.util.Arrays;
  * Create by dance, at 2018/12/16
  */
 public class BottomListPopupView extends BottomPopupView {
-    VerticalRecyclerView recyclerView;
-    TextView tv_title;
+    RecyclerView recyclerView;
+    TextView tv_title, tv_cancel;
+    View vv_divider;
     protected int bindLayoutId;
     protected int bindItemLayoutId;
 
-    public BottomListPopupView(@NonNull Context context) {
+    /**
+     *
+     * @param context
+     * @param bindLayoutId layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
+     * @param bindItemLayoutId itemLayoutId 条目的布局id，要求布局中有id为iv_image的ImageView（非必须），和id为tv_text的TextView
+     */
+    public BottomListPopupView(@NonNull Context context, int bindLayoutId, int bindItemLayoutId ) {
         super(context);
-    }
-
-    /**
-     * 传入自定义的布局，对布局中的id有要求
-     *
-     * @param layoutId 要求layoutId中必须有一个id为recyclerView的RecyclerView，如果你需要显示标题，则必须有一个id为tv_title的TextView
-     * @return
-     */
-    public BottomListPopupView bindLayout(int layoutId) {
-        this.bindLayoutId = layoutId;
-        return this;
-    }
-
-    /**
-     * 传入自定义的 item布局
-     *
-     * @param itemLayoutId 条目的布局id，要求布局中必须有id为iv_image的ImageView，和id为tv_text的TextView
-     * @return
-     */
-    public BottomListPopupView bindItemLayout(int itemLayoutId) {
-        this.bindItemLayoutId = itemLayoutId;
-        return this;
+        this.bindLayoutId = bindLayoutId;
+        this.bindItemLayoutId = bindItemLayoutId;
+        addInnerContent();
     }
 
     @Override
     protected int getImplLayoutId() {
-        return bindLayoutId == 0 ? R.layout._xpopup_center_impl_list : bindLayoutId;
+        return bindLayoutId == 0 ? R.layout._xpopup_bottom_impl_list : bindLayoutId;
     }
 
     @Override
-    protected void initPopupContent() {
-        super.initPopupContent();
+    protected void onCreate() {
+        super.onCreate();
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setupDivider(popupInfo.isDarkTheme);
+        if(bindLayoutId!=0){
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
         tv_title = findViewById(R.id.tv_title);
+        tv_cancel = findViewById(R.id.tv_cancel);
+        vv_divider = findViewById(R.id.vv_divider);
+        if(tv_cancel!=null){
+            tv_cancel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
 
         if(tv_title!=null){
             if (TextUtils.isEmpty(title)) {
                 tv_title.setVisibility(GONE);
-                findViewById(R.id.xpopup_divider).setVisibility(GONE);
+                if(findViewById(R.id.xpopup_divider)!=null)findViewById(R.id.xpopup_divider).setVisibility(GONE);
             } else {
                 tv_title.setText(title);
             }
@@ -81,24 +88,36 @@ public class BottomListPopupView extends BottomPopupView {
             @Override
             protected void bind(@NonNull ViewHolder holder, @NonNull String s, int position) {
                 holder.setText(R.id.tv_text, s);
+                ImageView imageView = holder.getViewOrNull(R.id.iv_image);
                 if (iconIds != null && iconIds.length > position) {
-                    holder.getView(R.id.iv_image).setVisibility(VISIBLE);
-                    holder.getView(R.id.iv_image).setBackgroundResource(iconIds[position]);
+                    if(imageView!=null){
+                        imageView.setVisibility(VISIBLE);
+                        imageView.setBackgroundResource(iconIds[position]);
+                    }
                 } else {
-                    holder.getView(R.id.iv_image).setVisibility(GONE);
+                    if(imageView!=null) imageView.setVisibility(GONE);
+                }
+
+                if(bindItemLayoutId==0){
+                    if(popupInfo.isDarkTheme){
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                    }else {
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+                    }
                 }
 
                 // 对勾View
                 if (checkedPosition != -1) {
-                    if(holder.getView(R.id.check_view)!=null){
+                    if(holder.getViewOrNull(R.id.check_view)!=null){
                         holder.getView(R.id.check_view).setVisibility(position == checkedPosition ? VISIBLE : GONE);
                         holder.<CheckView>getView(R.id.check_view).setColor(XPopup.getPrimaryColor());
                     }
                     holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
                             XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
-                }
-                if(bindItemLayoutId==0 && popupInfo.isDarkTheme){
-                    holder.<TextView>getView(R.id.tv_text).setTextColor(getResources().getColor(R.color._xpopup_white_color));
+                    holder.<TextView>getView(R.id.tv_text).setGravity(XPopupUtils.isLayoutRtl(getContext()) ? Gravity.END : Gravity.START);
+                }else {
+                    if(holder.getViewOrNull(R.id.check_view)!=null)holder.getView(R.id.check_view).setVisibility(GONE);
+                    holder.<TextView>getView(R.id.tv_text).setGravity(Gravity.CENTER);
                 }
             }
         };
@@ -112,27 +131,11 @@ public class BottomListPopupView extends BottomPopupView {
                     checkedPosition = position;
                     adapter.notifyDataSetChanged();
                 }
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (popupInfo.autoDismiss) dismiss();
-                    }
-                }, 100);
+                if (popupInfo.autoDismiss) dismiss();
             }
         });
         recyclerView.setAdapter(adapter);
-        if (bindLayoutId==0 && popupInfo.isDarkTheme){
-            applyDarkTheme();
-        }
-    }
-    @Override
-    protected void applyDarkTheme() {
-        super.applyDarkTheme();
-        tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
-        ((ViewGroup)tv_title.getParent()).setBackgroundResource(R.drawable._xpopup_round3_dark_bg);
-        findViewById(R.id.xpopup_divider).setBackgroundColor(
-                getResources().getColor(R.color._xpopup_list_dark_divider)
-        );
+        applyTheme();
     }
 
     CharSequence title;
@@ -165,6 +168,40 @@ public class BottomListPopupView extends BottomPopupView {
         this.checkedPosition = position;
         return this;
     }
+    protected void applyTheme(){
+        if(bindLayoutId==0) {
+            if(popupInfo.isDarkTheme){
+                applyDarkTheme();
+            }else {
+                applyLightTheme();
+            }
+        }
+    }
 
+    @Override
+    protected void applyDarkTheme() {
+        super.applyDarkTheme();
+        ((VerticalRecyclerView)recyclerView).setupDivider(true);
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        if(tv_cancel!=null)tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_white_color));
+        findViewById(R.id.xpopup_divider).setBackgroundColor(
+                getResources().getColor(R.color._xpopup_list_dark_divider)
+        );
+        if(vv_divider!=null)vv_divider.setBackgroundColor(Color.parseColor("#1B1B1B"));
+        getPopupImplView().setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_dark_color),
+                popupInfo.borderRadius, popupInfo.borderRadius, 0,0));
+    }
+
+    @Override
+    protected void applyLightTheme() {
+        super.applyLightTheme();
+        ((VerticalRecyclerView)recyclerView).setupDivider(false);
+        tv_title.setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+        if(tv_cancel!=null)tv_cancel.setTextColor(getResources().getColor(R.color._xpopup_dark_color));
+        findViewById(R.id.xpopup_divider).setBackgroundColor(getResources().getColor(R.color._xpopup_list_divider));
+        if(vv_divider!=null)vv_divider.setBackgroundColor(getResources().getColor(R.color._xpopup_white_color));
+        getPopupImplView().setBackground(XPopupUtils.createDrawable(getResources().getColor(R.color._xpopup_light_color),
+                popupInfo.borderRadius, popupInfo.borderRadius, 0,0));
+    }
 
 }

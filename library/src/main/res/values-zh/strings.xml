@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xpopup_cancel">取消</string>
+    <string name="xpopup_ok">确定</string>
+    <string name="xpopup_save">保存</string>
+    <string name="xpopup_saved_to_gallery">已保存到相册</string>
+    <string name="xpopup_image_not_exist">图片不存在</string>
+    <string name="xpopup_saved_fail">图片保存失败</string>
+</resources>

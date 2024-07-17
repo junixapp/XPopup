@@ -6,16 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.enums.PopupAnimation;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopupdemo.custom.QQMsgPopup;
+import com.lxj.xpopupdemo.fragment.FragmentLifecycleDemo;
 import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 
 /**
@@ -25,12 +29,19 @@ import com.lxj.xpopupdemo.fragment.ImageViewerDemo;
 public class DemoActivity extends AppCompatActivity {
     EditText editText;
     RecyclerView recyclerView;
+    BasePopupView attachPopup;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
         editText = findViewById(R.id.et);
         recyclerView = findViewById(R.id.recyclerView);
+        findViewById(R.id.btnShowFragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment();
+            }
+        });
         findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,10 +50,14 @@ public class DemoActivity extends AppCompatActivity {
         });
         showMultiPopup();
 
-        final BasePopupView popupView = new XPopup.Builder(this)
+        attachPopup = new XPopup.Builder(this)
                 .atView(editText)
-                .isRequestFocus(false) //要设置这个，否则Activity内的输入框会无法获取焦点
+                .dismissOnTouchOutside(false)
+                .isViewMode(true)      //开启View实现
+                .isRequestFocus(false) //不强制焦点
+                .isTouchThrough(true)
                 .hasShadowBg(false)
+                .positionByWindowCenter(true)
                 .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
                 .asAttachList(new String[]{"联想到的内容 - 1", "联想到的内容 - 2", "联想到的内容 - 333"}, null, new OnSelectListener() {
                     @Override
@@ -58,11 +73,11 @@ public class DemoActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if(s.toString().isEmpty()){
-                    popupView.dismiss();
+                    attachPopup.dismiss();
                     return;
                 }
-                if(popupView.isDismiss()){
-                    popupView.show();
+                if(attachPopup.isDismiss()){
+                    attachPopup.show();
                 }
             }
         });
@@ -71,8 +86,9 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ImageViewerDemo.ImageAdapter());
+        showFragment();
     }
 
     public void showMultiPopup(){
@@ -93,5 +109,30 @@ public class DemoActivity extends AppCompatActivity {
                 }).show();
 
 
+    }
+
+    FragmentLifecycleDemo fragmentLifecycleDemo;
+    public void showFragment(){
+        fragmentLifecycleDemo = new FragmentLifecycleDemo();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,fragmentLifecycleDemo)
+        .commitNow();
+    }
+    private Handler handler = new Handler();
+    public void delayDestroy(){
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (fragmentLifecycleDemo==null) return;
+                getSupportFragmentManager().beginTransaction().remove(fragmentLifecycleDemo)
+                        .commitNow();
+                fragmentLifecycleDemo = null;
+            }
+        }, 3000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 }

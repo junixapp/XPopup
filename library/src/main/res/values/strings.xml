@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">取消</string>
-    <string name="ok">确定</string>
-    <string name="save">保存</string>
+    <string name="xpopup_cancel">Cancel</string>
+    <string name="xpopup_ok">OK</string>
+    <string name="xpopup_save">save</string>
+    <string name="xpopup_saved_to_gallery">Saved to album</string>
+    <string name="xpopup_image_not_exist">Image not exist</string>
+    <string name="xpopup_saved_fail">Image save failed</string>
 </resources>

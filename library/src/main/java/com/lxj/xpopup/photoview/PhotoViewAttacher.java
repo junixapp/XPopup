@@ -20,6 +20,7 @@ import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -139,7 +140,10 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                 if (mHorizontalScrollEdge == HORIZONTAL_EDGE_BOTH && isLongImage && isHorizontal) {
                     //长图左右滑动
                     parent.requestDisallowInterceptTouchEvent(false);
-                }else{
+                }else if((mHorizontalScrollEdge == HORIZONTAL_EDGE_RIGHT ||
+                        mHorizontalScrollEdge == HORIZONTAL_EDGE_LEFT) && !isLongImage && !isHorizontal){
+                    parent.requestDisallowInterceptTouchEvent(false);
+                }else {
                     parent.requestDisallowInterceptTouchEvent(true);
                 }
             }
@@ -650,10 +654,12 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             if ((int) mBaseRotation % 180 != 0) {
                 mTempSrc = new RectF(0, 0, drawableHeight, drawableWidth);
             }
+//            Log.e("tag", "mScaleType: "+mScaleType + "   drawableHeight: "+drawableHeight
+//            + " viewHeight: "+ viewHeight + "  drawableWidth: "+drawableWidth + "  viewWidth: "+viewWidth) ;
             switch (mScaleType) {
                 case FIT_CENTER:
                     // for long image, 图片高>view高，比例也大于view的高/宽，则认为是长图
-                    if (drawableHeight > viewHeight && drawableHeight * 1f / drawableWidth > viewHeight * 1f / viewWidth) {
+                    if (/*drawableHeight > viewHeight &&*/ drawableHeight * 1f / drawableWidth > viewHeight * 1f / viewWidth) {
 //                        mBaseMatrix.postScale(widthScale, widthScale);
 //                        setScale(widthScale);
                         //长图特殊处理，宽度撑满屏幕，并且顶部对齐
@@ -740,7 +746,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     }
 
     private int getImageViewWidth(ImageView imageView) {
-        return imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+        return imageView.getWidth() - imageView.getPaddingStart() - imageView.getPaddingEnd();
     }
 
     private int getImageViewHeight(ImageView imageView) {

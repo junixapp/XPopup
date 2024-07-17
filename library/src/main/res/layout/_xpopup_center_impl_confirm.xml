@@ -1,59 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/_xpopup_round3_bg"
+    android:paddingTop="15dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
-        android:paddingTop="16dp"
         android:textSize="20sp"
         android:textColor="@color/_xpopup_title_color"
         android:lines="1"
+        android:paddingBottom="5dp"
         android:ellipsize="end"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="22dp" />
+        android:gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/tv_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:textColor="@color/_xpopup_content_color"
-        android:textSize="16sp"
-        android:gravity="center"
+    <androidx.core.widget.NestedScrollView
+        android:overScrollMode="never"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/et_input"
-        android:visibility="gone"
-        android:textSize="16sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:singleLine="true"
-        android:textColor="@color/_xpopup_content_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/_xpopup_content_color"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/et_input"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColorHint="#999999"
+                android:textColor="@color/_xpopup_content_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 
     <View
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
-        android:id="@+id/xpopup_divider"
+        android:id="@+id/xpopup_divider1"
         android:background="@color/_xpopup_list_divider"
         android:layout_height=".5dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="right"
+        android:gravity="end"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_cancel"
             android:textSize="16sp"
-            android:text="@string/cancel"
+            android:text="@string/xpopup_cancel"
+            android:textColor="#666666"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:paddingTop="10dp"
@@ -64,14 +81,14 @@
 
         <View
             android:layout_width=".5dp"
-            android:id="@+id/xpopup_divider_h"
+            android:id="@+id/xpopup_divider2"
             android:background="@color/_xpopup_list_divider"
             android:layout_height="match_parent"/>
 
         <TextView
             android:textSize="16sp"
             android:id="@+id/tv_confirm"
-            android:text="@string/ok"
+            android:text="@string/xpopup_ok"
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"

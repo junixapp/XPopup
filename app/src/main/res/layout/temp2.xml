@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#f1f1f1"
+    app:cardCornerRadius="12dp"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/ivBackGroud"
+        android:layout_width="match_parent"
+        android:layout_height="90dp" />
+
+    <ImageView
+        android:id="@+id/ivCloseDialog"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher_background" />
+
+</androidx.cardview.widget.CardView>

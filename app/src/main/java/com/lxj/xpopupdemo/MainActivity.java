@@ -1,22 +1,24 @@
 package com.lxj.xpopupdemo;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.ViewGroup;
-
+import android.os.Handler;
+import android.util.Log;
 import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import com.blankj.utilcode.util.ToastUtils;
+
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.RomUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.util.navbar.NavigationBarObserver;
-import com.lxj.xpopup.util.navbar.OnNavigationBarListener;
+import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.impl.LoadingPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopupdemo.fragment.AllAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomAnimatorDemo;
 import com.lxj.xpopupdemo.fragment.CustomPopupDemo;
@@ -42,24 +44,44 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        BarUtils.setStatusBarLightMode(this, false);
+//        BarUtils.setNavBarColor(this, Color.RED);
+//        BarUtils.setStatusBarVisibility();
+//        BarUtils.setNavBarColor(this, Color.parseColor("#333333"));
+//        BarUtils.setNavBarLightMode(this, true);
+//        BarUtils.setNavBarVisibility(MainActivity.this, false);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(actionBar.getTitle() + BuildConfig.VERSION_NAME);
+        actionBar.setTitle(actionBar.getTitle() + "-" + BuildConfig.VERSION_NAME);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
         viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
-
         XPopup.setPrimaryColor(getResources().getColor(R.color.colorPrimary));
-//        XPopup.setAnimationDuration(1000);
+//        XPopup.setAnimationDuration(400);
+//        XPopup.setIsLightStatusBar(false);
 //        XPopup.setPrimaryColor(Color.RED);
-    }
+//        XPopup.setIsLightStatusBar(true);
+//        XPopup.setNavigationBarColor(Color.RED);
+        final BasePopupView loadingPopupView = new XPopup.Builder(this)
+                .isDestroyOnDismiss(true)
+                .asLoading(null, LoadingPopupView.Style.ProgressBar).show();
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+        loadingPopupView.delayDismiss(1200);
+
+
+//        new XPopup.Builder(this).asConfirm("asda", "dasdadas", null).show();
+
+        String str = RomUtils.getRomInfo().toString() + " " + "deviceHeight：" + XPopupUtils.getScreenHeight(MainActivity.this)
+                + "  getAppHeight: " + XPopupUtils.getAppHeight(MainActivity.this)
+                + " deviceWidth: " + XPopupUtils.getScreenWidth(MainActivity.this)
+                + " getAppWidth: " + XPopupUtils.getAppWidth(MainActivity.this)
+                + "  statusHeight: " + XPopupUtils.getStatusBarHeight(getWindow())
+                + "  navHeight: " + XPopupUtils.getNavBarHeight(getWindow());
+//                + "  hasNav: " + XPopupUtils.isNavBarVisible(getWindow());
+        Log.d("tag", str);
     }
 
     class MainAdapter extends FragmentPagerAdapter {
@@ -85,11 +107,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        viewPager.removeAllViews();
-        viewPager = null;
-        pageInfos = null;
-    }
 }

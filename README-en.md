@@ -2,10 +2,19 @@
 ![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  ![](https://img.shields.io/badge/platform-android-blue.svg)  ![](https://img.shields.io/badge/author-li--xiaojun-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-26-blue.svg) ![](https://img.shields.io/badge/minSdkVersion-15-blue.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 ![](screenshot/logo.png)
 
+<a href="https://tracking.gitads.io/?repo=XPopup"><img src="https://images.gitads.io/XPopup" style="width: 80%;height:auto"/></a>
+
+### You can click the Ad Image to buy me a coffee!!!
+
 ### English | [中文]()
 
 Powerful，material UI，elegant interaction general popup！can absolutely replace Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout，Spinner. With built-in many beautiful animation，you can custom your UI and logic！
 
+## Feature
+- support Androidx
+- support RTL layout
+- beautiful animation and strong customization
+- you will love it !
 
 ## ScreenShot
 
@@ -32,7 +41,7 @@ Powerful，material UI，elegant interaction general popup！can absolutely repl
 Scan qrcode to download Demo.apk：
 ![](screenshot/download.png)
 
-If the qrcode is invisible，[click me to download Demo.apk](https://fir.im/2q63)
+如果二维码图片不可见，[click to download demo app](https://www.pgyer.com/pIWo)
 
 
 
@@ -98,6 +107,57 @@ Base on information provided by some friends，they are using Xpopup:
 - 采蘑菇（https://a.app.qq.com/o/simple.jsp?pkgname=com.lx.cmg）
 - 蜂鸟屋APP，蜂鸟屋SAAS 平板
 - 茶臻选（https://android.myapp.com/myapp/detail.htm?apkName=com.aiso.tea&ADTAG=mobile）
+- 风扇屏客户端app
+- EdifierConnect 漫步者耳机产品APP
+- 斑猪(广州汇数创联科技有限公司)
+- 夜探(成都波斯猫)
+- 极光影院(个人开发者，可到公众号极光终点站下载)
+- 万码（深圳市靠谱软件有限公司）
+- 爱多路（常州玺拓软件有限公司 https://a.app.qq.com/o/simple.jsp?pkgname=com.hitotech.idoru）
+- 有播（公司：浙江有播科技有限公司 https://android.myapp.com/myapp/detail.htm?apkName=com.haibaoshow.youbo）
+- 微寻互助（app）
+- 米袋出行(上海米袋投资集团有限公司（米袋集团）)
+- 米袋汽车(上海米袋投资集团有限公司（米袋集团）)
+- 悦动圈(下载地址：https://www.51yund.com/down?from=default&type=android)
+- 路马帮App
+- 椰子姐姐App(学习英语的App)
+- 橙杏健康App，橙杏守护App（北京橙杏有道有限公司）
+- 红星直播（红星美凯龙旗下的直播App）
+- 花生代理App (http://www.appchina.com/app/com.qi.earthnutproxy)
+- 小鹅通商家助手APP
+- 小鹅通课堂助手APP
+- 小鹅通助手APP
+- 豌豆掌管
+- 干货集中营(下载地址：https://juejin.im/post/5ef7fdbaf265da22be0d6ab3)
+- 运动指南针(http://app.mi.com/details?id=com.lx.yundong&ref=search)
+- 我惠省钱(http://app.mi.com/details?id=com.lx.whsq&ref=search)
+- 中航人商城(http://app.mi.com/details?id=com.lx.zhrshop&ref=search)
+- 求职墙(https://www.pgyer.com/zhaopin 密码 000000)
+- 多问律师（广州多问科技公司）
+- 薪公章-公章柜(类似丰巢的一款硬件设备) 博纳德科技
+- 消防云：消防物联网（应用宝搜索就可以下载）- 消防云（上海）科技有限公司
+- 《标学教育》 一款给大学生提供优质教育服务的平台型APP  https://www.tongkao100.com/
+- 慧孕育，啵咿呀(中联信息产业公司)
+- 领财猫(湖南中纵联联信息科技有限公司)一款领取周边红包的APP，https://android.myapp.com/myapp/detail.htm?apkName=com.zwcs.cat
+- NewsClapper（下载地址：https://play.google.com/store/apps/details?id=com.newsclapper.video）
+- 情侣签App-千万级用户情侣恋爱记录产品 （下载地址：http://app.mi.com/details?id=com.ymstudio.loversign&ref=search）
+- 我爱赚钱(下载地址: https://sj.qq.com/myapp/detail.htm?apkName=me.tx.taskhunter&info=532BB35B65D9FFA7F497DEFA6E27F663)
+- 海信智学平台
+- 饭友视频聊天交友(下载地址：https://android.myapp.com/myapp/detail.htm?apkName=com.quanmai.findu&info=519DFF1F69A45EAF33B4D2C51A7AC2D3)
+- 皮皮陪玩 游戏陪玩语音直播app https://app.apeiwan.com/
+- 你我有谱（app名）
+- Bookista(https://play.google.com/store/apps/details?id=com.latinoriente.bookista)
+- 伊的家商城项目
+- 点点日记（常州市宏域网络有限公司）
+- 职小新
+- 指南帮
+- FateU（https://fateu.com.cn/download/fateuApp.apk)
+- 皮皮有料（嘉兴市字符律动互联网科技有限责任公司 下载地址：https://www.pgyer.com/wakagaoxiao）
+- 海信爱家
+- 广州蓝勃生物。产品：ML300医疗检测在使用。还在开发阶段！
+- 轻纺易购（https://fzapp.com/）
+- 洋葱变声器 (http://onionapp.cn)
+- SPAX （https://www.onespax.com/）
 
 
 

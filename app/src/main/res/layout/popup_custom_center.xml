@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="500dp"
+    android:background="@drawable/bg_round"
+    android:layout_height="wrap_content">
+    <TextView
+        android:padding="20dp"
+        android:textSize="20sp"
+        android:textColor="#222"
+        android:text="大萨达所大撒大所大所敖德萨所大撒大所大所安达市大所大所大萨达所大撒大所大所敖德萨所大撒大所大所安达市大所大所大萨达所大撒大所大所敖德萨所大撒大所大所安达市大所大所"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

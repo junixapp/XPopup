@@ -5,10 +5,11 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.PositionPopupView;
+import com.lxj.xpopup.enums.DragOrientation;
 import com.lxj.xpopupdemo.R;
 
 /**
- * Description:
+ * Description: 自定义自由定位Position弹窗
  * Create by dance, at 2019/6/14
  */
 public class QQMsgPopup extends PositionPopupView {
@@ -19,5 +20,10 @@ public class QQMsgPopup extends PositionPopupView {
     @Override
     protected int getImplLayoutId() {
         return R.layout.popup_qq_msg;
+    }
+
+    @Override
+    protected DragOrientation getDragOrientation() {
+        return DragOrientation.DragToLeft;
     }
 }

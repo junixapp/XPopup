@@ -10,15 +10,19 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.interfaces.OnClickOutsideListener;
 import com.lxj.xpopup.util.XPopupUtils;
+
+import java.util.ArrayList;
 
 /**
  * Description:
  * Create by dance, at 2019/1/10
  */
 public class PartShadowContainer extends FrameLayout {
-    public boolean isDismissOnTouchOutside = true;
+    public ArrayList<Rect> notDismissArea;
+    public BasePopupView popupView;
 
     public PartShadowContainer(@NonNull Context context) {
         super(context);
@@ -33,6 +37,7 @@ public class PartShadowContainer extends FrameLayout {
     }
 
     private float x, y;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // 计算implView的Rect
@@ -46,13 +51,33 @@ public class PartShadowContainer extends FrameLayout {
                 case MotionEvent.ACTION_DOWN:
                     x = event.getX();
                     y = event.getY();
+                    //TODO: PartShadowContainer需要实现自己的isClickThrough和isTouchThrough
+//                    if(popupView!=null ){
+//                        popupView.passTouchThrough(event);
+//                    }
                     break;
+                case MotionEvent.ACTION_MOVE:
+//                    if(popupView!=null && popupView.popupInfo != null && popupView.popupInfo.isTouchThrough){
+//                        popupView.passTouchThrough(event);
+//                    }
                 case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
                     float dx = event.getX() - x;
                     float dy = event.getY() - y;
                     float distance = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
                     if (distance < ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
-                        if (isDismissOnTouchOutside) {
+                        if (notDismissArea != null && !notDismissArea.isEmpty()) {
+                            boolean inRect = false;
+                            for (Rect r : notDismissArea) {
+                                if (XPopupUtils.isInRect(event.getRawX(), event.getRawY(), r)) {
+                                    inRect = true;
+                                    break;
+                                }
+                            }
+                            if (!inRect && listener != null) {
+                                listener.onClickOutside();
+                            }
+                        } else {
                             if (listener != null) listener.onClickOutside();
                         }
                     }
