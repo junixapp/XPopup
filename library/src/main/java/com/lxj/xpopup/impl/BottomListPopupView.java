@@ -112,8 +112,9 @@ public class BottomListPopupView extends BottomPopupView {
                         holder.getView(R.id.check_view).setVisibility(position == checkedPosition ? VISIBLE : GONE);
                         holder.<CheckView>getView(R.id.check_view).setColor(XPopup.getPrimaryColor());
                     }
-                    holder.<TextView>getView(R.id.tv_text).setTextColor(position == checkedPosition ?
-                            XPopup.getPrimaryColor() : getResources().getColor(R.color._xpopup_title_color));
+                    if (position == checkedPosition){
+                        holder.<TextView>getView(R.id.tv_text).setTextColor(XPopup.getPrimaryColor());
+                    }
                     holder.<TextView>getView(R.id.tv_text).setGravity(XPopupUtils.isLayoutRtl(getContext()) ? Gravity.END : Gravity.START);
                 }else {
                     if(holder.getViewOrNull(R.id.check_view)!=null)holder.getView(R.id.check_view).setVisibility(GONE);
