@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -183,8 +184,9 @@ public class QuickStartDemo extends BaseFragment implements View.OnClickListener
                                         "注意：你自己的布局必须提供一些控件Id，否则XPopup找不到View。\n具体需要提供哪些Id，请查看文档[内置弹窗]一章。", null,
                                 new OnInputConfirmListener() {
                                     @Override
-                                    public void onConfirm(String text) {
-
+                                    public void onNewConfirm(BasePopupView view) {
+                                        EditText et2 = view.findViewById(R.id.et_input2);
+                                        ToastUtils.showShort(et2.getText());
                                     }
                                 }, null, R.layout.my_confim_popup) //最后一个参数绑定已有布局
                         .show();

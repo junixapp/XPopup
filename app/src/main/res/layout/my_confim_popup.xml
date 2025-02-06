@@ -44,6 +44,14 @@
             android:lines="4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/et_input2"
+            android:background="@android:color/holo_blue_light"
+            android:lines="2"
+            android:text="我是复用布局的其他控件"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <View
             android:background="#ff0"
             android:layout_width="match_parent"

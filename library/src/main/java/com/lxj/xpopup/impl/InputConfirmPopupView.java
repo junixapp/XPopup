@@ -85,8 +85,12 @@ public class InputConfirmPopupView extends ConfirmPopupView implements View.OnCl
             if (cancelListener != null) cancelListener.onCancel();
             dismiss();
         } else if (v == tv_confirm) {
-            if (inputConfirmListener != null)
-                inputConfirmListener.onConfirm(et_input.getText().toString().trim());
+            if (inputConfirmListener != null) {
+                if (null != et_input) {
+                    inputConfirmListener.onConfirm(et_input.getText().toString().trim());
+                }
+                inputConfirmListener.onNewConfirm(this);
+            }
             if (popupInfo.autoDismiss) dismiss();
         }
     }
