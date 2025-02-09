@@ -19,10 +19,8 @@
         android:layout_height="28dp" />
     <TextView
         android:id="@+id/tv_title"
-        android:maxLines="1"
         android:text="  "
         android:visibility="gone"
-        android:ellipsize="end"
         android:textSize="14sp"
         android:textColor="#EEEEEE"
         android:layout_marginTop="8dp"
